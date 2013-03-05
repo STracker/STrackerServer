@@ -10,7 +10,7 @@ namespace STrackerServer.Controllers
     {
         public string Index()
         {
-            return "Hello World!";
+            return "Hello World!!!";
         }
     }
 }
