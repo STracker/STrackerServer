@@ -1,14 +1,14 @@
-﻿using System;
+﻿using STrackerServer.Controllers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using STrackerServer.Controllers;
+using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
-namespace STrackerServer.Tests
+namespace STrackerServer.Tests.Tests
 {
     [TestClass]
-    public class HomeController_Test
+    public class HomeControllerTest
     {
 
-        private HomeController _homeController = new HomeController();
+        private readonly HomeController _homeController = new HomeController();
 
         [TestMethod]
         public void TestIndex()
