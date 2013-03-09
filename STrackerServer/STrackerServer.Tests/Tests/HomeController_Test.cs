@@ -1,16 +1,14 @@
 ﻿using STrackerServer.Controllers;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
-
+using NUnit.Framework;
 namespace STrackerServer.Tests.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class HomeControllerTest
     {
 
         private readonly HomeController _homeController = new HomeController();
 
-        [TestMethod]
+        [Test]
         public void TestIndex()
         {   
             Assert.AreEqual(_homeController.Index(), "Hello World");
