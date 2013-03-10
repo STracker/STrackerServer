@@ -30,5 +30,5 @@
   <Target Name="RunUnitTests" DependsOnTargets="Compile">
     <Exec Command='"@(NUnitConsole)" @(UnitTestsDLL) /xml=@(TestResultsPath)' />
   </Target>
-  
+
 </Project>

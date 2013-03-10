@@ -11,7 +11,7 @@ namespace STrackerServer.Tests.Tests
         [Test]
         public void TestIndex()
         {   
-            Assert.AreEqual(_homeController.Index(), "Hello World!!!");
+            Assert.AreEqual(_homeController.Index(), "Hello World!!");
         }
     }
 }
