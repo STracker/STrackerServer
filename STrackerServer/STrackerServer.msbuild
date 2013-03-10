@@ -1,8 +1,11 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
-         DefaultTargets="Compile">
+         DefaultTargets="RunUnitTests">
   <ItemGroup>
     <BuildArtifactsDir Include="BuildArtifacts\" />
     <SolutionFile Include="STrackerServer.sln" />
+    <NUnitConsole Include="C:\Program Files (x86)\NUnit 2.6.2\bin\nunit-console.exe" />
+    <UnitTestsDLL Include="BuildArtifacts\STrackerServer.Tests.dll" />
+    <TestResultsPath Include="BuildArtifacts\TestResults.xml" />
   </ItemGroup>
 
   <PropertyGroup>
@@ -23,4 +26,9 @@
              Targets="Rebuild"
              Properties="OutDir=%(BuildArtifactsDir.FullPath);Configuration=$(Configuration);Platform=$(BuildPlatform)" />
   </Target>
+
+  <Target Name="RunUnitTests" DependsOnTargets="Compile">
+    <Exec Command='"@(NUnitConsole)" @(UnitTestsDLL) /xml=@(TestResultsPath)' />
+  </Target>
+  
 </Project>
