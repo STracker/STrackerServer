@@ -1,5 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
          DefaultTargets="Compile">
+
   <ItemGroup>
     <BuildArtifactsDir Include="BuildArtifacts\" />
     <SolutionFile Include="STrackerServer.sln" />
@@ -23,4 +24,5 @@
              Targets="Rebuild"
              Properties="OutDir=%(BuildArtifactsDir.FullPath);Configuration=$(Configuration);Platform=$(BuildPlatform)" />
   </Target>
+  
 </Project>
