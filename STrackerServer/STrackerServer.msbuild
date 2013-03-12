@@ -1,11 +1,13 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
-         DefaultTargets="RunUnitTests">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="CodeCoverage">
+  
   <ItemGroup>
     <BuildArtifactsDir Include="BuildArtifacts\" />
     <SolutionFile Include="STrackerServer.sln" />
-    <NUnitConsole Include="C:\Program Files (x86)\NUnit 2.6.2\bin\nunit-console.exe" />
+    <NUnitConsole Include="C:\codemetrics\NUnit2.6.2\bin\nunit-console.exe" />
     <UnitTestsDLL Include="BuildArtifacts\STrackerServer.Tests.dll" />
-    <TestResultsPath Include="BuildArtifacts\TestResults.xml" />
+    <OpenCoverConsole Include="C:\codemetrics\OpenCover\OpenCover.Console.exe" />
+    <ReportGeneratorConsole Include="C:\codemetrics\ReportGenerator\bin\ReportGenerator.exe" />
+    <NUnitArgs Include="%22BuildArtifacts\STrackerServer.Tests.dll /xml=BuildArtifacts/NUnitResults.xml /noshadow%22" />
   </ItemGroup>
 
   <PropertyGroup>
@@ -27,8 +29,10 @@
              Properties="OutDir=%(BuildArtifactsDir.FullPath);Configuration=$(Configuration);Platform=$(BuildPlatform)" />
   </Target>
 
-  <Target Name="RunUnitTests" DependsOnTargets="Compile">
-    <Exec Command='"@(NUnitConsole)" @(UnitTestsDLL) /xml=@(TestResultsPath)' />
+  <Target Name="CodeCoverage" DependsOnTargets="Compile">
+    <Exec Command="@(OpenCoverConsole) -register:user -target:@(NUnitConsole) -targetargs:@(NUnitArgs) -output:BuildArtifacts/OpenCoverReport.xml"></Exec>
+
+    <Exec Command="@(ReportGeneratorConsole) BuildArtifacts/OpenCoverReport.xml BuildArtifacts/OpenCoverReport"></Exec>
   </Target>
 
 </Project>
