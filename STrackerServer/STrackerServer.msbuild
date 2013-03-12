@@ -30,7 +30,7 @@
   </Target>
 
   <Target Name="CodeCoverage" DependsOnTargets="Compile">
-    <Exec Command="@(OpenCoverConsole) -register:user -target:@(NUnitConsole) -targetargs:@(NUnitArgs) -output:BuildArtifacts/OpenCoverReport.xml"></Exec>
+    <Exec Command="@(OpenCoverConsole) -target:@(NUnitConsole) -targetargs:@(NUnitArgs) -output:BuildArtifacts/OpenCoverReport.xml"></Exec>
 
     <Exec Command="@(ReportGeneratorConsole) BuildArtifacts/OpenCoverReport.xml BuildArtifacts/OpenCoverReport"></Exec>
   </Target>
