@@ -142,7 +142,7 @@
       <ModuleName>nunit.core.interfaces</ModuleName>
       <Classes />
     </Module>
-    <Module hash="A2-0B-57-63-89-3F-89-50-8E-D5-AB-0A-04-AB-FD-1D-87-CE-3C-B8">
+    <Module hash="FF-AB-FD-29-40-DF-52-B8-B6-36-B3-9A-08-23-95-0F-A7-8A-33-BC">
       <Summary numSequencePoints="3" visitedSequencePoints="2" numBranchPoints="2" visitedBranchPoints="2" sequenceCoverage="66.67" branchCoverage="100" maxCyclomaticComplexity="1" minCyclomaticComplexity="1" />
       <FullName>C:\Users\Ricardo\Desktop\Repos\STrackerServer\STrackerServer\BuildArtifacts\STrackerServer.Tests.dll</FullName>
       <ModuleName>STrackerServer.Tests</ModuleName>
@@ -211,7 +211,7 @@
       <ModuleName>System.Xml</ModuleName>
       <Classes />
     </Module>
-    <Module hash="94-38-0F-99-F7-DE-53-CD-2C-92-07-61-3B-4A-AB-DD-6C-B1-12-FC">
+    <Module hash="6F-6A-0A-8B-66-98-32-42-27-DC-15-27-82-0C-E0-1C-B8-16-2D-FD">
       <Summary numSequencePoints="13" visitedSequencePoints="1" numBranchPoints="13" visitedBranchPoints="1" sequenceCoverage="7.69" branchCoverage="7.69" maxCyclomaticComplexity="4" minCyclomaticComplexity="1" />
       <FullName>C:\Users\Ricardo\Desktop\Repos\STrackerServer\STrackerServer\BuildArtifacts\STrackerServer.dll</FullName>
       <ModuleName>STrackerServer</ModuleName>
