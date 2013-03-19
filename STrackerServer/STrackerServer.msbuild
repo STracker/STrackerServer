@@ -5,9 +5,6 @@
     <SolutionFile Include="STrackerServer.sln" />
     <NUnitConsole Include="C:\codemetrics\NUnit2.6.2\bin\nunit-console.exe" />
     <UnitTestsDLL Include="BuildArtifacts\STrackerServer.Tests.dll" />
-    <OpenCoverConsole Include="C:\codemetrics\OpenCover\OpenCover.Console.exe" />
-    <ReportGeneratorConsole Include="C:\codemetrics\ReportGenerator\bin\ReportGenerator.exe" />
-    <NUnitArgs Include="%22BuildArtifacts\STrackerServer.Tests.dll /xml=BuildArtifacts/NUnitResults.xml /noshadow%22" />
   </ItemGroup>
 
   <PropertyGroup>
@@ -29,10 +26,8 @@
              Properties="OutDir=%(BuildArtifactsDir.FullPath);Configuration=$(Configuration);Platform=$(BuildPlatform)" />
   </Target>
 
-  <Target Name="CodeCoverage" DependsOnTargets="Compile">
-    <Exec Command="@(OpenCoverConsole) -target:@(NUnitConsole) -targetargs:@(NUnitArgs) -filter:%22+[STrackerServer]*%22 -output:BuildArtifacts/OpenCoverReport.xml"></Exec>
-
-    <Exec Command="@(ReportGeneratorConsole) BuildArtifacts/OpenCoverReport.xml BuildArtifacts/OpenCoverReport"></Exec>
+  <Target Name="RunUnitTests" DependsOnTargets="Compile">
+    <Exec Command="@(NUnitConsole) @(UnitTestsDLL) /xml=BuildArtifacts/NUnitResults.xml"></Exec>
   </Target>
 
 </Project>

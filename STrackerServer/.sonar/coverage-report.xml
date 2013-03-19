@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CoverageSession xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Modules>
+    <Module skippedDueTo="Filter" hash="30-4D-DF-CA-FA-87-89-48-F5-43-E7-06-A5-AC-42-A1-FC-B6-62-6E">
+      <FullName>C:\Windows\Microsoft.Net\assembly\GAC_64\mscorlib\v4.0_4.0.0.0__b77a5c561934e089\mscorlib.dll</FullName>
+      <ModuleName>mscorlib</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="08-BF-92-14-93-00-2A-42-CE-32-37-59-01-59-E7-49-28-41-00-61">
+      <FullName>C:\Program Files\Gallio\bin\Gallio.Echo.exe</FullName>
+      <ModuleName>Gallio.Echo</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="5B-F0-65-D3-3F-C4-30-AC-0A-55-5B-36-F5-D4-10-C5-B2-DE-3A-36">
+      <FullName>C:\Program Files\Gallio\bin\Gallio.dll</FullName>
+      <ModuleName>Gallio</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="4B-C6-12-DA-61-6B-39-09-CD-DF-A1-00-79-12-63-F9-8E-72-76-27">
+      <FullName>C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Xml\v4.0_4.0.0.0__b77a5c561934e089\System.Xml.dll</FullName>
+      <ModuleName>System.Xml</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="02-F0-25-E3-FB-94-05-50-52-2D-56-93-FF-B4-9B-8C-50-E0-A1-41">
+      <FullName>C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System\v4.0_4.0.0.0__b77a5c561934e089\System.dll</FullName>
+      <ModuleName>System</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="80-32-3B-47-08-F0-74-C4-64-F6-98-9B-54-B3-69-B5-B9-29-D3-E9">
+      <FullName>C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Configuration\v4.0_4.0.0.0__b03f5f7f11d50a3a\System.Configuration.dll</FullName>
+      <ModuleName>System.Configuration</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="EF-21-2C-4C-EC-3A-25-B6-C6-29-0E-24-F0-F9-81-50-B6-01-83-DD">
+      <FullName>C:\Program Files\Gallio\bin\Gallio.XmlSerializers.dll</FullName>
+      <ModuleName>Gallio.XmlSerializers</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="35-27-76-A3-CB-E8-1A-AF-35-13-5E-F7-4C-D5-DD-B4-72-6B-54-DF">
+      <FullName>C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Drawing\v4.0_4.0.0.0__b03f5f7f11d50a3a\System.Drawing.dll</FullName>
+      <ModuleName>System.Drawing</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="9C-33-53-FC-AC-72-7B-4C-17-35-66-4F-2B-A0-73-64-9A-EC-01-AF">
+      <FullName>C:\Program Files\Gallio\bin\Gallio.Reports.dll</FullName>
+      <ModuleName>Gallio.Reports</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="EA-4C-40-75-F3-24-C7-F4-8B-F0-F8-96-F1-BD-11-14-33-B1-A7-08">
+      <FullName>C:\Program Files\Gallio\bin\NUnit\Latest\Gallio.NUnitAdapterLatest.dll</FullName>
+      <ModuleName>Gallio.NUnitAdapterLatest</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="C6-A4-C6-84-EB-84-41-C4-A9-30-69-92-57-02-1A-EE-1A-09-C1-61">
+      <FullName>C:\Program Files\Gallio\bin\NUnit\Latest\nunit.util.dll</FullName>
+      <ModuleName>nunit.util</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="72-C7-03-3D-46-8A-09-61-49-D7-41-77-D2-AB-3C-B0-58-18-E6-A9">
+      <FullName>C:\Program Files\Gallio\bin\NUnit\Latest\nunit.core.interfaces.dll</FullName>
+      <ModuleName>nunit.core.interfaces</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="7A-99-4B-0E-30-AA-4A-64-F6-D0-5F-F1-41-D9-04-6D-56-99-A6-79">
+      <FullName>C:\Program Files\Gallio\bin\NUnit\Latest\nunit.core.dll</FullName>
+      <ModuleName>nunit.core</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="84-64-E1-D2-0A-E2-91-23-AD-BD-B9-7A-3C-89-7B-66-65-58-46-1C">
+      <FullName>C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Runtime.Remoting\v4.0_4.0.0.0__b77a5c561934e089\System.Runtime.Remoting.dll</FullName>
+      <ModuleName>System.Runtime.Remoting</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="08-D9-60-7D-B7-C7-9F-C5-C4-10-95-B7-7B-40-AB-B9-8C-E8-C5-09">
+      <FullName>C:\Users\ricardosousa\Desktop\Projecto e Seminário\Repositórios\STrackerServer\STrackerServer\STrackerServer.Tests\bin\Debug\STrackerServer.Tests.dll</FullName>
+      <ModuleName>STrackerServer.Tests</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="13-4C-94-D1-A1-A5-D9-8F-F1-E4-CE-A7-87-EF-CC-42-FC-6B-CA-BC">
+      <FullName>C:\Users\ricardosousa\Desktop\Projecto e Seminário\Repositórios\STrackerServer\STrackerServer\STrackerServer.Tests\bin\Debug\nunit.framework.dll</FullName>
+      <ModuleName>nunit.framework</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="57-D2-DC-C0-23-83-CF-75-F1-74-25-D0-75-A0-65-8E-49-58-E2-31">
+      <FullName>C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Windows.Forms\v4.0_4.0.0.0__b77a5c561934e089\System.Windows.Forms.dll</FullName>
+      <ModuleName>System.Windows.Forms</ModuleName>
+      <Classes />
+    </Module>
+    <Module hash="75-02-C4-90-96-11-F4-3D-C5-4A-B4-FD-05-A5-60-28-00-8B-9B-53">
+      <FullName>C:\Users\ricardosousa\Desktop\Projecto e Seminário\Repositórios\STrackerServer\STrackerServer\STrackerServer.Tests\bin\Debug\STrackerServer.dll</FullName>
+      <ModuleName>STrackerServer</ModuleName>
+      <Files>
+        <File uid="1" fullPath="c:\Users\ricardosousa\Desktop\Projecto e Seminário\Repositórios\STrackerServer\STrackerServer\STrackerServer\Controllers\HomeController.cs" />
+        <File uid="2" fullPath="c:\Users\ricardosousa\Desktop\Projecto e Seminário\Repositórios\STrackerServer\STrackerServer\STrackerServer\Global.asax.cs" />
+        <File uid="3" fullPath="c:\Users\ricardosousa\Desktop\Projecto e Seminário\Repositórios\STrackerServer\STrackerServer\STrackerServer\App_Start\FilterConfig.cs" />
+        <File uid="4" fullPath="c:\Users\ricardosousa\Desktop\Projecto e Seminário\Repositórios\STrackerServer\STrackerServer\STrackerServer\App_Start\RouteConfig.cs" />
+        <File uid="5" fullPath="c:\Users\ricardosousa\Desktop\Projecto e Seminário\Repositórios\STrackerServer\STrackerServer\STrackerServer\App_Start\WebApiConfig.cs" />
+      </Files>
+      <Classes>
+        <Class>
+          <FullName>&lt;Module&gt;</FullName>
+          <Methods />
+        </Class>
+        <Class>
+          <FullName>STrackerServer.Controllers.HomeController</FullName>
+          <Methods>
+            <Method visited="true" cyclomaticComplexity="1" sequenceCoverage="100" branchCoverage="100" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <MetadataToken>100663297</MetadataToken>
+              <Name>System.String STrackerServer.Controllers.HomeController::Index()</Name>
+              <FileRef uid="1" />
+              <SequencePoints>
+                <SequencePoint vc="1" uspid="1" ordinal="0" offset="0" sl="12" sc="9" el="12" ec="10" />
+                <SequencePoint vc="1" uspid="2" ordinal="1" offset="1" sl="13" sc="13" el="13" ec="37" />
+                <SequencePoint vc="1" uspid="3" ordinal="2" offset="9" sl="14" sc="9" el="14" ec="10" />
+              </SequencePoints>
+              <BranchPoints />
+              <MethodPoint xsi:type="SequencePoint" vc="1" uspid="1" ordinal="0" offset="0" sl="12" sc="9" el="12" ec="10" />
+            </Method>
+            <Method visited="true" cyclomaticComplexity="1" sequenceCoverage="0" branchCoverage="0" isConstructor="true" isStatic="false" isGetter="false" isSetter="false">
+              <MetadataToken>100663298</MetadataToken>
+              <Name>System.Void STrackerServer.Controllers.HomeController::.ctor()</Name>
+              <SequencePoints />
+              <BranchPoints />
+              <MethodPoint vc="1" uspid="4" ordinal="0" offset="0" />
+            </Method>
+          </Methods>
+        </Class>
+        <Class>
+          <FullName>STrackerServer.MvcApplication</FullName>
+          <Methods>
+            <Method visited="false" cyclomaticComplexity="1" sequenceCoverage="0" branchCoverage="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <MetadataToken>100663299</MetadataToken>
+              <Name>System.Void STrackerServer.MvcApplication::Application_Start()</Name>
+              <FileRef uid="2" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="5" ordinal="0" offset="0" sl="16" sc="9" el="16" ec="10" />
+                <SequencePoint vc="0" uspid="6" ordinal="1" offset="1" sl="17" sc="13" el="17" ec="49" />
+                <SequencePoint vc="0" uspid="7" ordinal="2" offset="7" sl="19" sc="13" el="19" ec="70" />
+                <SequencePoint vc="0" uspid="8" ordinal="3" offset="18" sl="20" sc="13" el="20" ec="71" />
+                <SequencePoint vc="0" uspid="9" ordinal="4" offset="29" sl="21" sc="13" el="21" ec="59" />
+                <SequencePoint vc="0" uspid="10" ordinal="5" offset="40" sl="22" sc="9" el="22" ec="10" />
+              </SequencePoints>
+              <BranchPoints />
+              <MethodPoint xsi:type="SequencePoint" vc="0" uspid="5" ordinal="0" offset="0" sl="16" sc="9" el="16" ec="10" />
+            </Method>
+            <Method visited="false" cyclomaticComplexity="1" sequenceCoverage="0" branchCoverage="0" isConstructor="true" isStatic="false" isGetter="false" isSetter="false">
+              <MetadataToken>100663300</MetadataToken>
+              <Name>System.Void STrackerServer.MvcApplication::.ctor()</Name>
+              <SequencePoints />
+              <BranchPoints />
+              <MethodPoint vc="0" uspid="11" ordinal="0" offset="0" />
+            </Method>
+          </Methods>
+        </Class>
+        <Class>
+          <FullName>STrackerServer.FilterConfig</FullName>
+          <Methods>
+            <Method visited="false" cyclomaticComplexity="1" sequenceCoverage="0" branchCoverage="0" isConstructor="false" isStatic="true" isGetter="false" isSetter="false">
+              <MetadataToken>100663301</MetadataToken>
+              <Name>System.Void STrackerServer.FilterConfig::RegisterGlobalFilters(System.Web.Mvc.GlobalFilterCollection)</Name>
+              <FileRef uid="3" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="12" ordinal="0" offset="0" sl="9" sc="9" el="9" ec="10" />
+                <SequencePoint vc="0" uspid="13" ordinal="1" offset="1" sl="10" sc="13" el="10" ec="53" />
+                <SequencePoint vc="0" uspid="14" ordinal="2" offset="13" sl="11" sc="9" el="11" ec="10" />
+              </SequencePoints>
+              <BranchPoints />
+              <MethodPoint xsi:type="SequencePoint" vc="0" uspid="12" ordinal="0" offset="0" sl="9" sc="9" el="9" ec="10" />
+            </Method>
+            <Method visited="false" cyclomaticComplexity="1" sequenceCoverage="0" branchCoverage="0" isConstructor="true" isStatic="false" isGetter="false" isSetter="false">
+              <MetadataToken>100663302</MetadataToken>
+              <Name>System.Void STrackerServer.FilterConfig::.ctor()</Name>
+              <SequencePoints />
+              <BranchPoints />
+              <MethodPoint vc="0" uspid="15" ordinal="0" offset="0" />
+            </Method>
+          </Methods>
+        </Class>
+        <Class>
+          <FullName>STrackerServer.RouteConfig</FullName>
+          <Methods>
+            <Method visited="false" cyclomaticComplexity="1" sequenceCoverage="0" branchCoverage="0" isConstructor="false" isStatic="true" isGetter="false" isSetter="false">
+              <MetadataToken>100663303</MetadataToken>
+              <Name>System.Void STrackerServer.RouteConfig::RegisterRoutes(System.Web.Routing.RouteCollection)</Name>
+              <FileRef uid="4" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="16" ordinal="0" offset="0" sl="13" sc="9" el="13" ec="10" />
+                <SequencePoint vc="0" uspid="17" ordinal="1" offset="1" sl="14" sc="13" el="14" ec="62" />
+                <SequencePoint vc="0" uspid="18" ordinal="2" offset="13" sl="16" sc="13" el="20" ec="15" />
+                <SequencePoint vc="0" uspid="19" ordinal="3" offset="50" sl="21" sc="9" el="21" ec="10" />
+              </SequencePoints>
+              <BranchPoints />
+              <MethodPoint xsi:type="SequencePoint" vc="0" uspid="16" ordinal="0" offset="0" sl="13" sc="9" el="13" ec="10" />
+            </Method>
+            <Method visited="false" cyclomaticComplexity="1" sequenceCoverage="0" branchCoverage="0" isConstructor="true" isStatic="false" isGetter="false" isSetter="false">
+              <MetadataToken>100663304</MetadataToken>
+              <Name>System.Void STrackerServer.RouteConfig::.ctor()</Name>
+              <SequencePoints />
+              <BranchPoints />
+              <MethodPoint vc="0" uspid="20" ordinal="0" offset="0" />
+            </Method>
+          </Methods>
+        </Class>
+        <Class>
+          <FullName>STrackerServer.WebApiConfig</FullName>
+          <Methods>
+            <Method visited="false" cyclomaticComplexity="1" sequenceCoverage="0" branchCoverage="0" isConstructor="false" isStatic="true" isGetter="false" isSetter="false">
+              <MetadataToken>100663305</MetadataToken>
+              <Name>System.Void STrackerServer.WebApiConfig::Register(System.Web.Http.HttpConfiguration)</Name>
+              <FileRef uid="5" />
+              <SequencePoints>
+                <SequencePoint vc="0" uspid="21" ordinal="0" offset="0" sl="11" sc="9" el="11" ec="10" />
+                <SequencePoint vc="0" uspid="22" ordinal="1" offset="1" sl="12" sc="13" el="16" ec="15" />
+                <SequencePoint vc="0" uspid="23" ordinal="2" offset="33" sl="17" sc="9" el="17" ec="10" />
+              </SequencePoints>
+              <BranchPoints />
+              <MethodPoint xsi:type="SequencePoint" vc="0" uspid="21" ordinal="0" offset="0" sl="11" sc="9" el="11" ec="10" />
+            </Method>
+          </Methods>
+        </Class>
+        <Class>
+          <FullName>&lt;&gt;f__AnonymousType0`3</FullName>
+          <Methods>
+            <Method visited="false" cyclomaticComplexity="1" sequenceCoverage="0" branchCoverage="0" isConstructor="false" isStatic="false" isGetter="true" isSetter="false">
+              <MetadataToken>100663307</MetadataToken>
+              <Name>&lt;controller&gt;j__TPar &lt;&gt;f__AnonymousType0`3::get_controller()</Name>
+              <SequencePoints />
+              <BranchPoints />
+              <MethodPoint vc="0" uspid="24" ordinal="0" offset="0" />
+            </Method>
+            <Method visited="false" cyclomaticComplexity="1" sequenceCoverage="0" branchCoverage="0" isConstructor="false" isStatic="false" isGetter="true" isSetter="false">
+              <MetadataToken>100663308</MetadataToken>
+              <Name>&lt;action&gt;j__TPar &lt;&gt;f__AnonymousType0`3::get_action()</Name>
+              <SequencePoints />
+              <BranchPoints />
+              <MethodPoint vc="0" uspid="25" ordinal="0" offset="0" />
+            </Method>
+            <Method visited="false" cyclomaticComplexity="1" sequenceCoverage="0" branchCoverage="0" isConstructor="false" isStatic="false" isGetter="true" isSetter="false">
+              <MetadataToken>100663309</MetadataToken>
+              <Name>&lt;id&gt;j__TPar &lt;&gt;f__AnonymousType0`3::get_id()</Name>
+              <SequencePoints />
+              <BranchPoints />
+              <MethodPoint vc="0" uspid="26" ordinal="0" offset="0" />
+            </Method>
+            <Method visited="false" cyclomaticComplexity="1" sequenceCoverage="0" branchCoverage="0" isConstructor="true" isStatic="false" isGetter="false" isSetter="false">
+              <MetadataToken>100663306</MetadataToken>
+              <Name>System.Void &lt;&gt;f__AnonymousType0`3::.ctor(&lt;controller&gt;j__TPar,&lt;action&gt;j__TPar,&lt;id&gt;j__TPar)</Name>
+              <SequencePoints />
+              <BranchPoints />
+              <MethodPoint vc="0" uspid="27" ordinal="0" offset="0" />
+            </Method>
+            <Method visited="false" cyclomaticComplexity="1" sequenceCoverage="0" branchCoverage="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <MetadataToken>100663310</MetadataToken>
+              <Name>System.String &lt;&gt;f__AnonymousType0`3::ToString()</Name>
+              <SequencePoints />
+              <BranchPoints />
+              <MethodPoint vc="0" uspid="28" ordinal="0" offset="0" />
+            </Method>
+            <Method visited="false" cyclomaticComplexity="4" sequenceCoverage="0" branchCoverage="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <MetadataToken>100663311</MetadataToken>
+              <Name>System.Boolean &lt;&gt;f__AnonymousType0`3::Equals(System.Object)</Name>
+              <SequencePoints />
+              <BranchPoints>
+                <BranchPoint vc="0" uspid="30" ordinal="0" offset="8" path="0" />
+                <BranchPoint vc="0" uspid="31" ordinal="1" offset="8" path="1" />
+                <BranchPoint vc="0" uspid="32" ordinal="2" offset="32" path="0" />
+                <BranchPoint vc="0" uspid="33" ordinal="3" offset="32" path="1" />
+                <BranchPoint vc="0" uspid="34" ordinal="4" offset="56" path="0" />
+                <BranchPoint vc="0" uspid="35" ordinal="5" offset="56" path="1" />
+              </BranchPoints>
+              <MethodPoint vc="0" uspid="29" ordinal="0" offset="0" />
+            </Method>
+            <Method visited="false" cyclomaticComplexity="1" sequenceCoverage="0" branchCoverage="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <MetadataToken>100663312</MetadataToken>
+              <Name>System.Int32 &lt;&gt;f__AnonymousType0`3::GetHashCode()</Name>
+              <SequencePoints />
+              <BranchPoints />
+              <MethodPoint vc="0" uspid="36" ordinal="0" offset="0" />
+            </Method>
+          </Methods>
+        </Class>
+        <Class>
+          <FullName>&lt;&gt;f__AnonymousType1`1</FullName>
+          <Methods>
+            <Method visited="false" cyclomaticComplexity="1" sequenceCoverage="0" branchCoverage="0" isConstructor="false" isStatic="false" isGetter="true" isSetter="false">
+              <MetadataToken>100663314</MetadataToken>
+              <Name>&lt;id&gt;j__TPar &lt;&gt;f__AnonymousType1`1::get_id()</Name>
+              <SequencePoints />
+              <BranchPoints />
+              <MethodPoint vc="0" uspid="37" ordinal="0" offset="0" />
+            </Method>
+            <Method visited="false" cyclomaticComplexity="1" sequenceCoverage="0" branchCoverage="0" isConstructor="true" isStatic="false" isGetter="false" isSetter="false">
+              <MetadataToken>100663313</MetadataToken>
+              <Name>System.Void &lt;&gt;f__AnonymousType1`1::.ctor(&lt;id&gt;j__TPar)</Name>
+              <SequencePoints />
+              <BranchPoints />
+              <MethodPoint vc="0" uspid="38" ordinal="0" offset="0" />
+            </Method>
+            <Method visited="false" cyclomaticComplexity="1" sequenceCoverage="0" branchCoverage="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <MetadataToken>100663315</MetadataToken>
+              <Name>System.String &lt;&gt;f__AnonymousType1`1::ToString()</Name>
+              <SequencePoints />
+              <BranchPoints />
+              <MethodPoint vc="0" uspid="39" ordinal="0" offset="0" />
+            </Method>
+            <Method visited="false" cyclomaticComplexity="2" sequenceCoverage="0" branchCoverage="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <MetadataToken>100663316</MetadataToken>
+              <Name>System.Boolean &lt;&gt;f__AnonymousType1`1::Equals(System.Object)</Name>
+              <SequencePoints />
+              <BranchPoints>
+                <BranchPoint vc="0" uspid="41" ordinal="0" offset="8" path="0" />
+                <BranchPoint vc="0" uspid="42" ordinal="1" offset="8" path="1" />
+              </BranchPoints>
+              <MethodPoint vc="0" uspid="40" ordinal="0" offset="0" />
+            </Method>
+            <Method visited="false" cyclomaticComplexity="1" sequenceCoverage="0" branchCoverage="0" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <MetadataToken>100663317</MetadataToken>
+              <Name>System.Int32 &lt;&gt;f__AnonymousType1`1::GetHashCode()</Name>
+              <SequencePoints />
+              <BranchPoints />
+              <MethodPoint vc="0" uspid="43" ordinal="0" offset="0" />
+            </Method>
+          </Methods>
+        </Class>
+      </Classes>
+    </Module>
+    <Module skippedDueTo="Filter" hash="83-6E-C3-4E-3E-98-6E-A7-A1-43-6F-5E-C1-40-24-62-C8-DF-CF-7E">
+      <FullName>C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Web.Mvc\v4.0_4.0.0.0__31bf3856ad364e35\System.Web.Mvc.dll</FullName>
+      <ModuleName>System.Web.Mvc</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="">
+      <FullName>RefEmit_InMemoryManifestModule</FullName>
+      <ModuleName>Microsoft.GeneratedCode</ModuleName>
+      <Classes />
+    </Module>
+  </Modules>
+</CoverageSession>
