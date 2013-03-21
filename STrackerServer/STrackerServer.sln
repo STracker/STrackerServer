@@ -3,7 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STrackerServer", "STrackerServer\STrackerServer.csproj", "{12275273-7251-40DE-BB59-F889996A0172}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STrackerServer.Tests", "STrackerServer.Tests\STrackerServer.Tests.csproj", "{F52FB402-A11D-4BF3-AC51-6A7642A29EC2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STrackerServer.Tests", "STrackerServer.Tests\STrackerServer.Tests.csproj", "{BF1F8935-EEDB-43A8-9F50-3285623BBF7F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{12275273-7251-40DE-BB59-F889996A0172} = {12275273-7251-40DE-BB59-F889996A0172}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +18,10 @@ Global
 		{12275273-7251-40DE-BB59-F889996A0172}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12275273-7251-40DE-BB59-F889996A0172}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12275273-7251-40DE-BB59-F889996A0172}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F52FB402-A11D-4BF3-AC51-6A7642A29EC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F52FB402-A11D-4BF3-AC51-6A7642A29EC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F52FB402-A11D-4BF3-AC51-6A7642A29EC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F52FB402-A11D-4BF3-AC51-6A7642A29EC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF1F8935-EEDB-43A8-9F50-3285623BBF7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF1F8935-EEDB-43A8-9F50-3285623BBF7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF1F8935-EEDB-43A8-9F50-3285623BBF7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF1F8935-EEDB-43A8-9F50-3285623BBF7F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

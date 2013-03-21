@@ -1,6 +1,12 @@
-﻿using STrackerServer.Controllers;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using NUnit.Framework;
-namespace STrackerServer.Tests.Tests
+using STrackerServer.Controllers;
+
+namespace STrackerServer.Tests
 {
     [TestFixture]
     public class HomeControllerTest
@@ -10,7 +16,7 @@ namespace STrackerServer.Tests.Tests
 
         [Test]
         public void TestIndex()
-        {   
+        {
             Assert.AreEqual(_homeController.Index(), "Hello World!!");
         }
     }
