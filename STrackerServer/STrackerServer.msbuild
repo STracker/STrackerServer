@@ -27,7 +27,7 @@
   </Target>
 
   <Target Name="RunUnitTests" DependsOnTargets="Compile">
-    <Exec Command="@(NUnitConsole) @(UnitTestsDLL) /xml=BuildArtifacts/NUnitResults.xml"></Exec>
+    <Exec Command="@(NUnitConsole) @(UnitTestsDLL) /xml=BuildArtifacts\NUnitResults.xml"></Exec>
   </Target>
 
 </Project>
