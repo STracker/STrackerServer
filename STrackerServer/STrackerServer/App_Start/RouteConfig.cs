@@ -1,10 +1,24 @@
-﻿using System.Web.Mvc;
-using System.Web.Routing;
-
-namespace STrackerServer
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="RouteConfig.cs" company="STracker">
+//  Copyright (c) STracker Developers. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+namespace STrackerServer.App_Start
 {
+    using System.Web.Mvc;
+    using System.Web.Routing;
+
+    /// <summary>
+    /// The route config.
+    /// </summary>
     public class RouteConfig
     {
+        /// <summary>
+        /// The register routes.
+        /// </summary>
+        /// <param name="routes">
+        /// The routes.
+        /// </param>
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
@@ -16,8 +30,9 @@ namespace STrackerServer
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
             */
-
-            routes.MapRoute("tvshow get", "tvshow/{id}", new { controller = "TvShow", action = "Show" });
+            routes.MapRoute("home", "", new { controller = "Home", action = "Index" });
+            routes.MapRoute("tvshow get json", "tvshow/{id}/json", new { controller = "TvShow", action = "ShowJson" });
+            routes.MapRoute("tvshow get", "tvshow/{id}/html", new { controller = "TvShow", action = "Show" });
         }
     }
 }

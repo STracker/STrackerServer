@@ -1,26 +1,25 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="HomeController.cs" company="STracker">
+// <copyright file="Person.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-namespace STrackerServer.Controllers
+namespace STrackerServer.Models.Person
 {
-    using System.Web.Mvc;
+    using STrackerServer.Models.Utils;
 
     /// <summary>
-    /// The home controller.
+    /// The person.
     /// </summary>
-    public class HomeController : Controller
+    public class Person
     {
         /// <summary>
-        /// The index.
+        /// Gets or sets the name.
         /// </summary>
-        /// <returns>
-        /// The <see cref="string"/>.
-        /// </returns>
-        public ActionResult Index()
-        {
-            return this.View("Index");
-        }
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the photo.
+        /// </summary>
+        public Artwork Photo { get; set; }
     }
 }

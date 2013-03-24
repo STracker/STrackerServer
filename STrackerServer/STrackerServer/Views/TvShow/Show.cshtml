@@ -1,0 +1,23 @@
+﻿@model STrackerServer.Models.Media.TvShow
+
+@{
+    ViewBag.Title = "TvShow Information";
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+<h2>TvShow Information</h2>
+<fieldset>
+    <legend>Info</legend>
+    <span><b>@Html.LabelFor(tv => tv.Title)</b></span><span>:&nbsp;@Model.Title</span>
+    <br/>
+    <span><b>@Html.LabelFor(tv => tv.Description)</b></span><span>:&nbsp;@Model.Description</span>
+    <br/>
+    <span><b>@Html.LabelFor(tv => tv.Creator)</b></span><span>:&nbsp;@Model.Creator.Name</span>
+    <br/>
+    <span><b>@Html.LabelFor(tv => tv.Genres)</b></span><span>:&nbsp;@foreach (var g in Model.Genres) { <b>@g &nbsp;</b> }</span>
+    <br/>
+    <span><b>@Html.LabelFor(tv => tv.Runtime)</b></span><span>:&nbsp;@Model.Runtime min</span>
+    <br/>
+    <span><b>@Html.LabelFor(tv => tv.FirstAired)</b></span><span>:&nbsp;@Model.FirstAired.ToShortDateString()</span>
+    <br/>
+</fieldset>

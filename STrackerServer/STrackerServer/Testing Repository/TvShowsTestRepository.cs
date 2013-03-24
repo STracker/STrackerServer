@@ -1,35 +1,70 @@
-﻿using System.Collections.Generic;
-using STrackerServer.Models;
-
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TvShowsTestRepository.cs" company="STracker">
+//  Copyright (c) STracker Developers. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
 namespace STrackerServer.Testing_Repository
 {
-    public class TvShowsTestRepository
-    {  
-        private readonly IDictionary<int, TvShow> _dictionary = new Dictionary<int, TvShow>();
+    using System;
+    using System.Collections.Generic;
+    using STrackerServer.Models.Media;
+    using STrackerServer.Models.Person;
+    using STrackerServer.Models.Utils;
 
+    /// <summary>
+    /// The television shows test repository.
+    /// </summary>
+    public class TvShowsTestRepository
+    {
+        /// <summary>
+        /// The dictionary.
+        /// </summary>
+        private readonly IDictionary<int, TvShow> dictionary = new Dictionary<int, TvShow>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TvShowsTestRepository"/> class.
+        /// </summary>
         public TvShowsTestRepository()
         {
             var tvshow = new TvShow
                 {
-                    ImdbId = 1,
+                    Id = 1,
                     Title = "The Walking Dead",
-                    Description = "zombies apocalypse!!!",
+                    Description = "Police officer Rick Grimes leads a group of survivors in a world overrun by zombies.",
                     Runtime = 45,
-                    Rating = 4
+                    Rating = 4,
+                    FirstAired = new DateTime(2010, 10, 31),
+                    Creator = new Person { Name = "Frank Darabont" },
+                    Genres = new List<Genre> { Genre.Drama, Genre.Horror, Genre.Thriller }
                 };
 
-            _dictionary.Add(1, tvshow);
+            this.dictionary.Add(1, tvshow);
         }
 
-        public void Add(TvShow tvShow)
+        /// <summary>
+        /// The add.
+        /// </summary>
+        /// <param name="show">
+        /// The television show.
+        /// </param>
+        public void Add(TvShow show)
         {
-            _dictionary.Add(tvShow.ImdbId, tvShow);
+            this.dictionary.Add(show.Id, show);
         }
 
+        /// <summary>
+        /// The get.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TvShow"/>.
+        /// </returns>
         public TvShow Get(int id)
         {
             TvShow tvshow;
-            _dictionary.TryGetValue(id, out tvshow);
+            this.dictionary.TryGetValue(id, out tvshow);
             return tvshow;
         }
     }

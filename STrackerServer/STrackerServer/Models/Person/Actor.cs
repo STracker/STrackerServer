@@ -1,26 +1,25 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="HomeController.cs" company="STracker">
+// <copyright file="Actor.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-namespace STrackerServer.Controllers
+namespace STrackerServer.Models.Person
 {
-    using System.Web.Mvc;
+    using STrackerServer.Models.Utils;
 
     /// <summary>
-    /// The home controller.
+    /// The actor.
     /// </summary>
-    public class HomeController : Controller
+    public class Actor : Person
     {
         /// <summary>
-        /// The index.
+        /// Gets or sets the role.
         /// </summary>
-        /// <returns>
-        /// The <see cref="string"/>.
-        /// </returns>
-        public ActionResult Index()
-        {
-            return this.View("Index");
-        }
+        public CharacterRoles Role { get; set; }
+
+        /// <summary>
+        /// Gets or sets the character name.
+        /// </summary>
+        public string CharacterName { get; set; }
     }
 }

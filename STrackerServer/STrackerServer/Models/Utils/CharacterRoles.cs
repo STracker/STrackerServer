@@ -1,26 +1,23 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="HomeController.cs" company="STracker">
+// <copyright file="CharacterRoles.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-namespace STrackerServer.Controllers
+namespace STrackerServer.Models.Utils
 {
-    using System.Web.Mvc;
-
     /// <summary>
-    /// The home controller.
+    /// The character roles enum.
     /// </summary>
-    public class HomeController : Controller
+    public enum CharacterRoles
     {
         /// <summary>
-        /// The index.
+        /// Role for a Main Character.
         /// </summary>
-        /// <returns>
-        /// The <see cref="string"/>.
-        /// </returns>
-        public ActionResult Index()
-        {
-            return this.View("Index");
-        }
+        Main,
+
+        /// <summary>
+        /// Role for a Secondary Character.
+        /// </summary>
+        Secondary
     }
 }

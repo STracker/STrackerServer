@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "STracker Home";
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+<h2>STracker Home</h2>
+
+<div>
+    @Html.ActionLink("See example in HTML","Show","TvShow", new {id = 1}, null)
+    <br/>
+    @Html.ActionLink("See example in JSON","ShowJson","TvShow", new {id = 1}, null)
+</div>
+
