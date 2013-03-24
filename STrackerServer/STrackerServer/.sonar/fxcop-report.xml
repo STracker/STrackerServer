@@ -4,14 +4,22 @@
  <Namespaces>
   <Namespace Name="STrackerServer">
    <Messages>
+<<<<<<< HEAD
     <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Status="Active" Created="2013-03-23 16:11:41Z" FixCategory="Breaking">
+=======
+    <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Status="Active" Created="2013-03-22 20:11:01Z" FixCategory="Breaking">
+>>>>>>> 9e31171d91c78cad55b21353cf734e348b611a01
      <Issue Certainty="50" Level="Warning">Consider merging the types defined in 'STrackerServer' with another namespace.</Issue>
     </Message>
    </Messages>
   </Namespace>
   <Namespace Name="STrackerServer.Controllers">
    <Messages>
+<<<<<<< HEAD
     <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Status="Active" Created="2013-03-23 16:11:41Z" FixCategory="Breaking">
+=======
+    <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Status="Active" Created="2013-03-22 20:11:01Z" FixCategory="Breaking">
+>>>>>>> 9e31171d91c78cad55b21353cf734e348b611a01
      <Issue Certainty="50" Level="Warning">Consider merging the types defined in 'STrackerServer.Controllers' with another namespace.</Issue>
     </Message>
    </Messages>
@@ -22,7 +30,11 @@
    <Modules>
     <Module Name="strackerserver.dll">
      <Messages>
+<<<<<<< HEAD
       <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Status="Active" Created="2013-03-23 16:11:41Z" FixCategory="NonBreaking">
+=======
+      <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Status="Active" Created="2013-03-22 20:11:01Z" FixCategory="NonBreaking">
+>>>>>>> 9e31171d91c78cad55b21353cf734e348b611a01
        <Issue Name="NoStrongName" Certainty="95" Level="CriticalError">Sign 'STrackerServer.dll' with a strong name key.</Issue>
       </Message>
      </Messages>
@@ -31,14 +43,22 @@
        <Types>
         <Type Name="FilterConfig" Kind="Class" Accessibility="Public" ExternallyVisible="True">
          <Messages>
+<<<<<<< HEAD
           <Message TypeName="StaticHolderTypesShouldNotHaveConstructors" Category="Microsoft.Design" CheckId="CA1053" Status="Active" Created="2013-03-23 16:11:41Z" FixCategory="Breaking">
+=======
+          <Message TypeName="StaticHolderTypesShouldNotHaveConstructors" Category="Microsoft.Design" CheckId="CA1053" Status="Active" Created="2013-03-22 20:11:01Z" FixCategory="Breaking">
+>>>>>>> 9e31171d91c78cad55b21353cf734e348b611a01
            <Issue Name="CSharp2_0" Certainty="90" Level="Error">Because type 'FilterConfig' contains only 'static' members, mark it as 'static' to prevent the compiler from adding a default public constructor.</Issue>
           </Message>
          </Messages>
         </Type>
         <Type Name="RouteConfig" Kind="Class" Accessibility="Public" ExternallyVisible="True">
          <Messages>
+<<<<<<< HEAD
           <Message TypeName="StaticHolderTypesShouldNotHaveConstructors" Category="Microsoft.Design" CheckId="CA1053" Status="Active" Created="2013-03-23 16:11:41Z" FixCategory="Breaking">
+=======
+          <Message TypeName="StaticHolderTypesShouldNotHaveConstructors" Category="Microsoft.Design" CheckId="CA1053" Status="Active" Created="2013-03-22 20:11:01Z" FixCategory="Breaking">
+>>>>>>> 9e31171d91c78cad55b21353cf734e348b611a01
            <Issue Name="CSharp2_0" Certainty="90" Level="Error">Because type 'RouteConfig' contains only 'static' members, mark it as 'static' to prevent the compiler from adding a default public constructor.</Issue>
           </Message>
          </Messages>

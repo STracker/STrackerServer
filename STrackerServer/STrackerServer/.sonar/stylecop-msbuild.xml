@@ -1,21 +1,37 @@
 <?xml version="1.0" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="StyleCopLaunch" ToolsVersion="3.5">
     <PropertyGroup>
+<<<<<<< HEAD
         <ProjectRoot>C:\@ps-projecto\STrackerServer\STrackerServer</ProjectRoot>
+=======
+        <ProjectRoot>C:\Users\ricardosousa\Documents\Projecto e Semin&#225;rio\Reposit&#243;rios\STrackerServer\STrackerServer</ProjectRoot>
+>>>>>>> 9e31171d91c78cad55b21353cf734e348b611a01
         <StyleCopRoot>C:\Program Files (x86)\StyleCop 4.7</StyleCopRoot>
     </PropertyGroup>
     <UsingTask TaskName="StyleCopTask" AssemblyFile="$(StyleCopRoot)\StyleCop.dll"></UsingTask>
     <ItemGroup>
+<<<<<<< HEAD
         <Project Include="C:\@ps-projecto\STrackerServer\STrackerServer\STrackerServer\STrackerServer.csproj"></Project>
+=======
+        <Project Include="C:\Users\ricardosousa\Documents\Projecto e Semin&#225;rio\Reposit&#243;rios\STrackerServer\STrackerServer\STrackerServer\STrackerServer.csproj"></Project>
+>>>>>>> 9e31171d91c78cad55b21353cf734e348b611a01
     </ItemGroup>
     <Target Name="StyleCopLaunch">
         <CreateItem Include="%(Project.RootDir)%(Project.Directory)**\*.cs">
             <Output ItemName="SourceAnalysisFiles" TaskParameter="Include"></Output>
         </CreateItem>
+<<<<<<< HEAD
         <StyleCopTask MaxViolationCount="-1" OverrideSettingsFile="C:\@ps-projecto\STrackerServer\STrackerServer\STrackerServer\.sonar\sonar.StyleCop"
             OutputFile="C:\@ps-projecto\STrackerServer\STrackerServer\STrackerServer\.sonar\stylecop-report.xml"
             TreatErrorsAsWarnings="true" ForceFullAnalysis="true"
             SourceFiles="@(SourceAnalysisFiles);@(CSFile)"
             ProjectFullPath="C:\@ps-projecto\STrackerServer\STrackerServer\STrackerServer.sln"></StyleCopTask>
+=======
+        <StyleCopTask MaxViolationCount="-1" OverrideSettingsFile="C:\Users\ricardosousa\Documents\Projecto e Semin&#225;rio\Reposit&#243;rios\STrackerServer\STrackerServer\STrackerServer\.sonar\sonar.StyleCop"
+            OutputFile="C:\Users\ricardosousa\Documents\Projecto e Semin&#225;rio\Reposit&#243;rios\STrackerServer\STrackerServer\STrackerServer\.sonar\stylecop-report.xml"
+            TreatErrorsAsWarnings="true" ForceFullAnalysis="true"
+            SourceFiles="@(SourceAnalysisFiles);@(CSFile)"
+            ProjectFullPath="C:\Users\ricardosousa\Documents\Projecto e Semin&#225;rio\Reposit&#243;rios\STrackerServer\STrackerServer\STrackerServer.sln"></StyleCopTask>
+>>>>>>> 9e31171d91c78cad55b21353cf734e348b611a01
     </Target>
 </Project>

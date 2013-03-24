@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <PartCoverReport version="4.0" date="2013-03-23T16:11:38.0012697+00:00">
  <File id="1" url="c:\@ps-projecto\STrackerServer\STrackerServer\STrackerServer\Controllers\HomeController.cs" />
  <File id="2" url="c:\@ps-projecto\STrackerServer\STrackerServer\STrackerServer\Global.asax.cs" />
@@ -5,6 +6,15 @@
  <File id="4" url="c:\@ps-projecto\STrackerServer\STrackerServer\STrackerServer\App_Start\RouteConfig.cs" />
  <File id="5" url="c:\@ps-projecto\STrackerServer\STrackerServer\STrackerServer\App_Start\WebApiConfig.cs" />
  <Assembly id="1" name="STrackerServer" module="C:\@ps-projecto\STrackerServer\STrackerServer\STrackerServer.Tests\bin\Debug\STrackerServer.dll" domain="IsolatedAppDomainHost" domainIdx="1" />
+=======
+<PartCoverReport version="4.0" date="2013-03-22T20:10:57.2069061+00:00">
+ <File id="1" url="c:\Users\ricardosousa\Documents\Projecto e Seminário\Repositórios\STrackerServer\STrackerServer\STrackerServer\Controllers\HomeController.cs" />
+ <File id="2" url="c:\Users\ricardosousa\Documents\Projecto e Seminário\Repositórios\STrackerServer\STrackerServer\STrackerServer\Global.asax.cs" />
+ <File id="3" url="c:\Users\ricardosousa\Documents\Projecto e Seminário\Repositórios\STrackerServer\STrackerServer\STrackerServer\App_Start\FilterConfig.cs" />
+ <File id="4" url="c:\Users\ricardosousa\Documents\Projecto e Seminário\Repositórios\STrackerServer\STrackerServer\STrackerServer\App_Start\RouteConfig.cs" />
+ <File id="5" url="c:\Users\ricardosousa\Documents\Projecto e Seminário\Repositórios\STrackerServer\STrackerServer\STrackerServer\App_Start\WebApiConfig.cs" />
+ <Assembly id="1" name="STrackerServer" module="C:\Users\ricardosousa\Documents\Projecto e Seminário\Repositórios\STrackerServer\STrackerServer\STrackerServer.Tests\bin\Debug\STrackerServer.dll" domain="IsolatedAppDomainHost" domainIdx="1" />
+>>>>>>> 9e31171d91c78cad55b21353cf734e348b611a01
  <Type asmref="1" name="STrackerServer.Controllers.HomeController" flags="0">
   <Method methoddef="100663297" name="Index" sig="string  ()" bodysize="23" flags="0" iflags="0">
    <pt visit="1" pos="0" len="1" fid="1" sl="12" sc="9" el="12" ec="10" />
