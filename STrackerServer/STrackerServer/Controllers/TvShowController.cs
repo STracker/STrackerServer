@@ -8,58 +8,96 @@ namespace STrackerServer.Controllers
 {
     using System.Net;
     using System.Web.Mvc;
+
+    using STrackerServer.Filters;
     using STrackerServer.Testing_Repository;
 
     /// <summary>
-    /// The television show controller.
+    /// Television show controller.
     /// </summary>
     public class TvShowController : Controller
     {
         /// <summary>
-        /// The Data Repository.
+        /// Television shows repository.
         /// </summary>
         private readonly TvShowsTestRepository repository = TestRepositoryLocator.TvShowsTestRepo;
 
-        /// <summary>
-        /// This method is used to show information about a television show.
+        /// <summary>s
+        /// This method is used to show basic information about a television show in JSON format.
         /// </summary>
-        /// <param name="id">
+        /// <param name="tvshowId">
         /// The id is the unique identifier of a television show.
         /// </param>
         /// <returns>
         /// The <see cref="JsonResult"/>.
         /// </returns>
-        public JsonResult ShowJson(int id)
+        [TvShowActionFilter]
+        public JsonResult JsonGet(int tvshowId)
         {
-            var tvshow = this.repository.Get(id);
-            if (tvshow == null)
-            {
-                Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return this.Json(null, JsonRequestBehavior.AllowGet);
-            }
-
-            return this.Json(tvshow, JsonRequestBehavior.AllowGet);
+            return (Response.StatusCode != (int)HttpStatusCode.OK)
+                       ? Json(null, JsonRequestBehavior.AllowGet)
+                       : Json(repository.Get(tvshowId), JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
-        /// This method is used to show information about a television show.
+        /// This method is used to show basic information about a television show in HTML format.
         /// </summary>
-        /// <param name="id">
+        /// <param name="tvshowId">
         /// The id is the unique identifier of a television show.
         /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
-        public ActionResult Show(int id)
+        [TvShowActionFilter]
+        public ActionResult Get(int tvshowId)
         {
-            var tvshow = this.repository.Get(id);
-            if (tvshow == null)
-            {
-                Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return this.View("Error", Response.StatusCode);
-            }
+            return (Response.StatusCode != (int)HttpStatusCode.OK)
+                       ? View("Error", Response.StatusCode)
+                       : View("Get", repository.Get(tvshowId));
+        }
 
-            return this.View("Show", tvshow);
+        /// <summary>
+        /// This method is used to show basic information about a season of one television show in JSON format.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The id is the unique identifier of a television show.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// The season number.
+        /// </param>
+        /// <returns>
+        /// The <see cref="JsonResult"/>.
+        /// </returns>
+        [SeasonActionFilter]
+        public JsonResult JsonGetSeason(int tvshowId, int seasonNumber)
+        {
+            object season;
+            TempData.TryGetValue("season", out season);
+            return (Response.StatusCode != (int)HttpStatusCode.OK)
+                       ? Json(null, JsonRequestBehavior.AllowGet)
+                       : Json(season, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// This method is used to show basic information about a season of one television show in HTML format.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The id is the unique identifier of a television show.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// The season number.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [SeasonActionFilter]
+        public ActionResult GetSeason(int tvshowId, int seasonNumber)
+        {
+            object season;
+            TempData.TryGetValue("season", out season);
+            return (Response.StatusCode != (int)HttpStatusCode.OK)
+                       ? this.View("Error", Response.StatusCode)
+                       : this.View("GetSeason", season);
         }
     }
 }

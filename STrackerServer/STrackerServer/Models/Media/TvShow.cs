@@ -33,6 +33,11 @@ namespace STrackerServer.Models.Media
         /// <summary>
         /// Gets or sets the genres.
         /// </summary>
-        public List<Genre> Genres { get; set; } 
+        public List<Genre> Genres { get; set; }
+
+        /// <summary>
+        /// Gets or sets the seasons.
+        /// </summary>
+        public IDictionary<int, Season> Seasons { get; set; } 
     }
 }

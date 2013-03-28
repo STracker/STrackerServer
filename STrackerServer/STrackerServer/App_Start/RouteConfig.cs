@@ -30,9 +30,11 @@ namespace STrackerServer.App_Start
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
             */
-            routes.MapRoute("home", "", new { controller = "Home", action = "Index" });
-            routes.MapRoute("tvshow get json", "tvshow/{id}/json", new { controller = "TvShow", action = "ShowJson" });
-            routes.MapRoute("tvshow get", "tvshow/{id}/html", new { controller = "TvShow", action = "Show" });
+            routes.MapRoute("home", string.Empty, new { controller = "Home", action = "Index" });
+            routes.MapRoute("tvshow get json", "tvshow/{tvshowId}/json", new { controller = "TvShow", action = "JsonGet" });
+            routes.MapRoute("tvshow get", "tvshow/{tvshowId}/html", new { controller = "TvShow", action = "Get" });
+
+            routes.MapRoute("season get json", "tvshow/{tvshowId}/season/{seasonNumber}/json", new { controller = "TvShow", action = "JsonGetSeason" });
         }
     }
 }

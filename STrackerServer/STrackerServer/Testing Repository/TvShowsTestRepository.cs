@@ -26,6 +26,16 @@ namespace STrackerServer.Testing_Repository
         /// </summary>
         public TvShowsTestRepository()
         {
+            var season1 = new Season
+                {
+                    Number = 1
+                };
+
+            var season2 = new Season
+            {
+                Number = 2
+            };
+
             var tvshow = new TvShow
                 {
                     Id = 1,
@@ -35,7 +45,8 @@ namespace STrackerServer.Testing_Repository
                     Rating = 4,
                     FirstAired = new DateTime(2010, 10, 31),
                     Creator = new Person { Name = "Frank Darabont" },
-                    Genres = new List<Genre> { Genre.Drama, Genre.Horror, Genre.Thriller }
+                    Genres = new List<Genre> { Genre.Drama, Genre.Horror, Genre.Thriller },
+                    Seasons = new Dictionary<int, Season>(){ { season1.Number, season1 }, { season2.Number, season2 } }
                 };
 
             this.dictionary.Add(1, tvshow);
@@ -66,6 +77,20 @@ namespace STrackerServer.Testing_Repository
             TvShow tvshow;
             this.dictionary.TryGetValue(id, out tvshow);
             return tvshow;
+        }
+
+        /// <summary>
+        /// The contains.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool Contains(int id)
+        {
+            return dictionary.ContainsKey(id);
         }
     }
 }
