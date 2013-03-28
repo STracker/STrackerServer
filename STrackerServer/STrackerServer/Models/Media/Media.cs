@@ -17,7 +17,7 @@ namespace STrackerServer.Models.Media
         /// <summary>
         /// Gets or sets the id.
         /// </summary>
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// Gets or sets the title.

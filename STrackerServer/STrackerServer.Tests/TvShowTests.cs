@@ -7,6 +7,7 @@
 namespace STrackerServer.Tests
 {
     using System.Web;
+    using System.Web.Mvc;
 
     using NUnit.Framework;
     using STrackerServer.Controllers;
@@ -29,8 +30,8 @@ namespace STrackerServer.Tests
         [Test]
         public void Get()
         {
-            var result = controller.JsonGet(1);
-            var tvshow = (TvShow)result.Data;
+            var result = controller.Get("tt1520211");
+            var tvshow = (TvShow)((JsonResult)result).Data;
 
             /*
             Assert.AreEqual(tvshow.Id, 1);
@@ -38,14 +39,6 @@ namespace STrackerServer.Tests
             Assert.AreEqual(tvshow.Description, "Police officer Rick Grimes leads a group of survivors in a world overrun by zombies.");
             Assert.AreEqual(tvshow.Creator, "Frank Darabont");
             */
-        }
-
-        [Test]
-        public void GetSeason()
-        {
-            var result = controller.JsonGetSeason(1, 1);
-            var season = (Season)result.Data;
-            //Assert.AreEqual(season.Number, 1);
         }
     }
 }

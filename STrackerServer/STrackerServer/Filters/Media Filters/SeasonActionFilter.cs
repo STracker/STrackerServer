@@ -11,7 +11,7 @@ namespace STrackerServer.Filters
     using STrackerServer.Models.Media;
 
     /// <summary>
-    /// Action filter attribute for using on actions methods for seasons in television shows controller.
+    /// Action filter attribute for using on actions methods in seasons controller.
     /// </summary>
     public class SeasonActionFilter : TvShowActionFilter
     {
@@ -35,7 +35,7 @@ namespace STrackerServer.Filters
                 return;
             }
 
-            var number = ParameterValidation(filterContext, "seasonNumber", 0);
+            var number = filterContext.ActionParameters["seasonNumber"];
 
             if (number == null)
             {
@@ -43,16 +43,12 @@ namespace STrackerServer.Filters
                 return;
             }
 
-            Season season;
-            TvShow.Seasons.TryGetValue((int)number, out season);
-            
-            if (season == null)
+            if ((Season = TvShow.Seasons.ToArray()[(int)number]) == null)
             {
                 filterContext.HttpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
                 return;
             }
 
-            Season = season;
             filterContext.Controller.TempData.Add("season", Season);
         }
     }

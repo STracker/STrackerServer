@@ -6,8 +6,12 @@
 <h2>STracker Home</h2>
 
 <div>
-    @Html.ActionLink("See example in HTML","Get","TvShow", new {tvshowId = 1}, null)
+    @Html.ActionLink("See tv show example in HTML","Get","TvShow", new {tvshowId = "tt1520211", format = "html"}, null)
     <br/>
-    @Html.ActionLink("See example in JSON","JsonGet","TvShow", new {tvshowId = 1}, null)
+    @Html.ActionLink("See tv show example in JSON","Get","TvShow", new {tvshowId = "tt1520211", format = "json"}, null)
+    <br/>
+    @Html.ActionLink("See season example in HTML","Get","Season", new {tvshowId = "tt1520211", seasonNumber = 1, format = "html"}, null)
+    <br/>
+    @Html.ActionLink("See season example in JSON","Get","Season", new {tvshowId = "tt1520211", seasonNumber = 1, format = "json"}, null)
 </div>
 

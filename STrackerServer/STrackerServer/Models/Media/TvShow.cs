@@ -38,6 +38,6 @@ namespace STrackerServer.Models.Media
         /// <summary>
         /// Gets or sets the seasons.
         /// </summary>
-        public IDictionary<int, Season> Seasons { get; set; } 
+        public List<Season> Seasons { get; set; } 
     }
 }

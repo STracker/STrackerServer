@@ -1,0 +1,13 @@
+﻿@model STrackerServer.Models.Media.Season
+
+@{
+    ViewBag.Title = "Season Information";
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+<h2>Season Information</h2>
+<fieldset>
+    <legend>Info</legend>
+    <span><b>@Html.LabelFor(season => season.Number)</b></span><span>:&nbsp;@Model.Number</span>
+    <br/>
+</fieldset>

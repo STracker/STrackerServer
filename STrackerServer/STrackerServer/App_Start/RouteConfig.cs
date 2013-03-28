@@ -23,18 +23,13 @@ namespace STrackerServer.App_Start
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            /*
-            routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-            );
-            */
             routes.MapRoute("home", string.Empty, new { controller = "Home", action = "Index" });
-            routes.MapRoute("tvshow get json", "tvshow/{tvshowId}/json", new { controller = "TvShow", action = "JsonGet" });
-            routes.MapRoute("tvshow get", "tvshow/{tvshowId}/html", new { controller = "TvShow", action = "Get" });
 
-            routes.MapRoute("season get json", "tvshow/{tvshowId}/season/{seasonNumber}/json", new { controller = "TvShow", action = "JsonGetSeason" });
+            routes.MapRoute("tvshow_get", "tvshow/{tvshowId}", new { controller = "TvShow", action = "Get", format = "html" });
+            routes.MapRoute("tvshow_get_api", "tvshow/{tvshowId}/api", new { controller = "TvShow", action = "Get", format = "json" });
+
+            routes.MapRoute("season_get", "tvshow/{tvshowId}/season/{seasonNumber}", new { controller = "Season", action = "Get", format = "html" });
+            routes.MapRoute("season_get_api", "tvshow/{tvshowId}/season/{seasonNumber}/api", new { controller = "Season", action = "Get", format = "json" });
         }
     }
 }

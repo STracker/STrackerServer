@@ -3,7 +3,6 @@
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace STrackerServer.Filters
 {
     using System.Net;
@@ -13,7 +12,7 @@ namespace STrackerServer.Filters
     using STrackerServer.Testing_Repository;
 
     /// <summary>
-    /// Action filter attribute for using on actions methods for television shows in television shows controller.
+    /// Action filter attribute for using on actions methods in television shows controller.
     /// </summary>
     public class TvShowActionFilter : ActionFilterAttribute
     {
@@ -37,7 +36,7 @@ namespace STrackerServer.Filters
         {
             base.OnActionExecuting(filterContext);
 
-            var id = ParameterValidation(filterContext, "tvshowId", 0);
+            var id = filterContext.ActionParameters["tvshowId"];
 
             if (id == null)
             {
@@ -45,41 +44,13 @@ namespace STrackerServer.Filters
                 return;
             }
 
-            if ((TvShow = repository.Get((int)id)) != null)
+            if ((TvShow = repository.Get((string)id)) == null)
             {
+                filterContext.HttpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
                 return;
             }
 
-            filterContext.HttpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
-        }
-
-        /// <summary>
-        /// Checks if the action parameter is correct.
-        /// </summary>
-        /// <param name="filterContext">
-        /// The filter context.
-        /// </param>
-        /// <param name="parameterName">
-        /// The action parameter name.
-        /// </param>
-        /// <param name="defaultValue">
-        /// The default value of the action parameter type.
-        /// </param>
-        /// <returns>
-        /// The <see cref="object"/>.
-        /// </returns>
-        protected object ParameterValidation(ActionExecutingContext filterContext, string parameterName, object defaultValue)
-        {
-            object param;
-            filterContext.ActionParameters.TryGetValue(parameterName, out param);
-
-            if (param == null)
-            {
-                filterContext.ActionParameters.Remove(parameterName);
-                filterContext.ActionParameters.Add(parameterName, defaultValue);
-            }
-
-            return param;
+            filterContext.Controller.TempData.Add("tvshow", TvShow);
         }
     }
 }

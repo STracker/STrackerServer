@@ -1,33 +1,35 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TvShowController.cs" company="STracker">
+// <copyright file="SeasonController.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 namespace STrackerServer.Controllers
 {
-    using System.Net;
     using System.Web.Mvc;
 
     using STrackerServer.Filters;
 
     /// <summary>
-    /// Television show controller.
+    /// Season controller.
     /// </summary>
-    public class TvShowController : BaseController
+    public class SeasonController : BaseController
     {
         /// <summary>
-        /// Get basic information about a television show.
+        /// Get basic information about one season from one television show.
         /// </summary>
         /// <param name="tvshowId">
-        /// The id is the unique identifier of a television show.
+        /// Television show id.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// Season number.
         /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
-        [TvShowActionFilter]
-        public ActionResult Get(string tvshowId)
+        [SeasonActionFilter]
+        public ActionResult Get(string tvshowId, int? seasonNumber)
         {
-            return BaseGet("tvshow");
+            return BaseGet("season");
         }
     }
 }

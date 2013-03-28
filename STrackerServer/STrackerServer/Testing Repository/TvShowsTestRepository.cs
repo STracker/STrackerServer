@@ -19,7 +19,7 @@ namespace STrackerServer.Testing_Repository
         /// <summary>
         /// The dictionary.
         /// </summary>
-        private readonly IDictionary<int, TvShow> dictionary = new Dictionary<int, TvShow>();
+        private readonly IDictionary<string, TvShow> dictionary = new Dictionary<string, TvShow>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TvShowsTestRepository"/> class.
@@ -38,7 +38,7 @@ namespace STrackerServer.Testing_Repository
 
             var tvshow = new TvShow
                 {
-                    Id = 1,
+                    Id = "tt1520211",
                     Title = "The Walking Dead",
                     Description = "Police officer Rick Grimes leads a group of survivors in a world overrun by zombies.",
                     Runtime = 45,
@@ -46,10 +46,10 @@ namespace STrackerServer.Testing_Repository
                     FirstAired = new DateTime(2010, 10, 31),
                     Creator = new Person { Name = "Frank Darabont" },
                     Genres = new List<Genre> { Genre.Drama, Genre.Horror, Genre.Thriller },
-                    Seasons = new Dictionary<int, Season>(){ { season1.Number, season1 }, { season2.Number, season2 } }
+                    Seasons = new List<Season> { season1, season2 }
                 };
 
-            this.dictionary.Add(1, tvshow);
+            this.dictionary.Add(tvshow.Id, tvshow);
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace STrackerServer.Testing_Repository
         /// <returns>
         /// The <see cref="TvShow"/>.
         /// </returns>
-        public TvShow Get(int id)
+        public TvShow Get(string id)
         {
             TvShow tvshow;
             this.dictionary.TryGetValue(id, out tvshow);
@@ -88,7 +88,7 @@ namespace STrackerServer.Testing_Repository
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public bool Contains(int id)
+        public bool Contains(string id)
         {
             return dictionary.ContainsKey(id);
         }

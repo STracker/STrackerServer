@@ -104,11 +104,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SeasonController.cs" />
     <Compile Include="Controllers\TvShowController.cs" />
-    <Compile Include="Filters\EpisodeActionFilter.cs" />
-    <Compile Include="Filters\SeasonActionFilter.cs" />
-    <Compile Include="Filters\TvShowActionFilter.cs" />
+    <Compile Include="Factories\ActionResultFactory\HtmlResultFactory.cs" />
+    <Compile Include="Factories\ActionResultFactory\IActionResultFactory.cs" />
+    <Compile Include="Factories\ActionResultFactory\JsonResultFactory.cs" />
+    <Compile Include="Filters\ActionResultFilter.cs" />
+    <Compile Include="Filters\Media Filters\EpisodeActionFilter.cs" />
+    <Compile Include="Filters\Media Filters\SeasonActionFilter.cs" />
+    <Compile Include="Filters\Media Filters\TvShowActionFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -161,6 +167,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\TvShow\GetSeason.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Season\Get.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

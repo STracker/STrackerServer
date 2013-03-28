@@ -26,6 +26,6 @@ namespace STrackerServer.Models.Media
         /// <summary>
         /// Gets or sets the episodes.
         /// </summary>
-        public IDictionary<int, Episode> Episodes { get; set; } 
+        public List<Episode> Episodes { get; set; } 
     }
 }
