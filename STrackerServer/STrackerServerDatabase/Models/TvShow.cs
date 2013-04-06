@@ -6,10 +6,7 @@
 
 namespace STrackerServerDatabase.Models
 {
-    using System;
     using System.Collections.Generic;
-
-    using STrackerServerDatabase.Core;
 
     /// <summary>
     /// The television show domain entity.
@@ -19,7 +16,7 @@ namespace STrackerServerDatabase.Models
         /// <summary>
         /// Gets or sets the air day.
         /// </summary>
-        public DateTime AirDay { get; set; }
+        public string AirDay { get; set; }
 
         /// <summary>
         /// Gets or sets the runtime.

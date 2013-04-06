@@ -6,6 +6,8 @@
 
 namespace STrackerServerDatabase.Repositories
 {
+    using MongoDB.Driver.Builders;
+
     using STrackerServerDatabase.Models;
 
     /// <summary>
@@ -32,8 +34,7 @@ namespace STrackerServerDatabase.Repositories
         /// </returns>
         public override bool Create(TvShow entity)
         {
-            // TODO
-            return false;
+            return Collection.Insert(entity).Ok;
         }
 
         /// <summary>
@@ -47,8 +48,9 @@ namespace STrackerServerDatabase.Repositories
         /// </returns>
         public override TvShow Read(string id)
         {
-            // TODO
-            return null;
+            var query = Query<TvShow>.EQ(tv => tv.Id, id);
+
+            return Collection.FindOneAs<TvShow>(query);
         }
 
         /// <summary>

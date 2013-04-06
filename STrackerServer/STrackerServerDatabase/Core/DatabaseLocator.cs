@@ -41,11 +41,9 @@ namespace STrackerServerDatabase.Core
             /// </summary>
             static MongoDbInstance()
             {
-                var client = ConfigurationManager.AppSettings["MongoDBClient"];
+                var url = new MongoUrl(ConfigurationManager.AppSettings["MongoDBURL"]);
 
-                var database = ConfigurationManager.AppSettings["MongoDBName"];
-                 
-                Value = new MongoClient(client).GetServer().GetDatabase(database);
+                Value = new MongoClient(url).GetServer().GetDatabase(url.DatabaseName);
             }
 
             /// <summary>
