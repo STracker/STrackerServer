@@ -3,31 +3,41 @@
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace STrackerServer.Controllers
 {
     using System.Net;
     using System.Web.Mvc;
 
-    using STrackerServer.Filters;
+    using STrackerServer.Core;
 
     /// <summary>
-    /// Television show controller.
+    /// The television shows controller.
     /// </summary>
     public class TvShowController : BaseController
     {
         /// <summary>
-        /// Get basic information about a television show.
+        /// The get.
         /// </summary>
-        /// <param name="tvshowId">
-        /// The id is the unique identifier of a television show.
+        /// <param name="id">
+        /// The id.
         /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
-        [TvShowActionFilter]
-        public ActionResult Get(string tvshowId)
+        public ActionResult Get(string id)
         {
-            return BaseGet("tvshow");
+            var representation = Representations[(string)RouteData.Values["format"]];
+
+            var tvshow = RepositoryLocator.TelevisionShowsRepository.Read(id);
+
+            if (tvshow == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return representation.Make(Response.StatusCode, "Error");
+            }
+
+            return representation.Make(tvshow, "Get");
         }
     }
 }

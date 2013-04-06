@@ -3,6 +3,7 @@
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace STrackerServer.Models.Utils
 {
     /// <summary>

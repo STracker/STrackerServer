@@ -3,9 +3,12 @@
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace STrackerServer.Factories.ActionResultFactory
 {
     using System.Web.Mvc;
+
+    using STrackerServer.Core;
 
     /// <summary>
     /// Factory for HTML result.
@@ -13,14 +16,14 @@ namespace STrackerServer.Factories.ActionResultFactory
     public class HtmlResultFactory : IActionResultFactory
     {
         /// <summary>
-        /// Gets Singleton object.
+        /// Method for eager initialization.
         /// </summary>
-        public static HtmlResultFactory Singleton
+        /// <returns>
+        /// The <see cref="IActionResultFactory"/>.
+        /// </returns>
+        public static IActionResultFactory GetFactory()
         {
-            get
-            {
-                return new HtmlResultFactory();
-            }
+            return HtmlResultFactoryHolder.Resource;
         }
 
         /// <summary>
@@ -35,6 +38,28 @@ namespace STrackerServer.Factories.ActionResultFactory
         public ActionResult Make(params object[] parameters)
         {
             return new ViewResult { ViewName = (string)parameters[1], ViewData = new ViewDataDictionary(parameters[0]) };
+        }
+
+        /// <summary>
+        /// Lazy initialization holder class.
+        /// </summary>
+        private static class HtmlResultFactoryHolder
+        {
+            /// <summary>
+            /// The value.
+            /// </summary>
+            private static readonly HtmlResultFactory Value = new HtmlResultFactory();
+
+            /// <summary>
+            /// Gets the resource.
+            /// </summary>
+            public static HtmlResultFactory Resource
+            {
+                get
+                {
+                    return Value;
+                }
+            }
         }
     }
 }

@@ -40,6 +40,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MongoDB.Bson">
+      <HintPath>..\packages\mongocsharpdriver.1.8.0\lib\net35\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver">
+      <HintPath>..\packages\mongocsharpdriver.1.8.0\lib\net35\MongoDB.Driver.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -106,30 +112,29 @@
   <ItemGroup>
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\SeasonController.cs" />
+    <Compile Include="Controllers\DevelopersController.cs" />
     <Compile Include="Controllers\TvShowController.cs" />
+    <Compile Include="Core\DatabaseLocator.cs" />
+    <Compile Include="Core\IEntity.cs" />
+    <Compile Include="Core\IRepository.cs" />
+    <Compile Include="Core\RepositoryLocator.cs" />
     <Compile Include="Factories\ActionResultFactory\HtmlResultFactory.cs" />
-    <Compile Include="Factories\ActionResultFactory\IActionResultFactory.cs" />
+    <Compile Include="Core\IActionResultFactory.cs" />
     <Compile Include="Factories\ActionResultFactory\JsonResultFactory.cs" />
-    <Compile Include="Filters\ActionResultFilter.cs" />
-    <Compile Include="Filters\Media Filters\EpisodeActionFilter.cs" />
-    <Compile Include="Filters\Media Filters\SeasonActionFilter.cs" />
-    <Compile Include="Filters\Media Filters\TvShowActionFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Person\Actor.cs" />
+    <Compile Include="Models\Domain\Actor.cs" />
+    <Compile Include="Models\Domain\Episode.cs" />
+    <Compile Include="Models\Domain\Media.cs" />
+    <Compile Include="Models\Domain\Person.cs" />
+    <Compile Include="Models\Domain\Season.cs" />
+    <Compile Include="Models\Domain\TvShow.cs" />
     <Compile Include="Models\Utils\Artwork.cs" />
-    <Compile Include="Models\Utils\CharacterRoles.cs" />
-    <Compile Include="Models\Media\Episode.cs" />
     <Compile Include="Models\Utils\Genre.cs" />
-    <Compile Include="Models\Media\Media.cs" />
-    <Compile Include="Models\Person\Person.cs" />
-    <Compile Include="Models\Media\Season.cs" />
-    <Compile Include="Models\Media\TvShow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Testing Repository\TestRepositoryLocator.cs" />
-    <Compile Include="Testing Repository\TvShowsTestRepository.cs" />
+    <Compile Include="Repositories\Repository.cs" />
+    <Compile Include="Repositories\TvShowRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -160,16 +165,10 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\TvShow\Get.cshtml" />
+    <Content Include="Views\Home\Get.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Home\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\TvShow\GetSeason.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Season\Get.cshtml" />
+    <Content Include="Views\Developers\Get.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

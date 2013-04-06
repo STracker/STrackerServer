@@ -1,25 +1,22 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Person.cs" company="STracker">
+// <copyright file="IEntity.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-namespace STrackerServer.Models.Person
-{
-    using STrackerServer.Models.Utils;
 
+namespace STrackerServer.Core
+{
     /// <summary>
-    /// The person.
+    /// Entity interface.
     /// </summary>
-    public class Person
+    /// <typeparam name="TK">
+    /// Type of the entity id.
+    /// </typeparam>
+    public interface IEntity<TK>
     {
         /// <summary>
-        /// Gets or sets the name.
+        /// Gets or sets the id.
         /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Gets or sets the photo.
-        /// </summary>
-        public Artwork Photo { get; set; }
+        TK Id { get; set; }
     }
 }

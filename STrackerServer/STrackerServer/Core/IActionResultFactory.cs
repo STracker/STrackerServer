@@ -1,28 +1,27 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="HomeController.cs" company="STracker">
+// <copyright file="IActionResultFactory.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Controllers
+namespace STrackerServer.Core
 {
     using System.Web.Mvc;
 
     /// <summary>
-    /// The home controller.
+    /// ActionResultFactory interface.
     /// </summary>
-    public class HomeController : Controller
+    public interface IActionResultFactory
     {
         /// <summary>
-        /// Get the HTML view for the home page.
+        /// Make method.
         /// </summary>
+        /// <param name="parameters">
+        /// The necessary parameters for each factory.
+        /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
-        public ActionResult Get()
-        {
-            return View();
-        }
-
+        ActionResult Make(params object[] parameters);
     }
 }

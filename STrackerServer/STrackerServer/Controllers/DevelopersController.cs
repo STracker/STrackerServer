@@ -1,26 +1,28 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IActionResultFactory.cs" company="STracker">
+// <copyright file="DevelopersController.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-namespace STrackerServer.Factories.ActionResultFactory
+
+namespace STrackerServer.Controllers
 {
     using System.Web.Mvc;
 
     /// <summary>
-    /// The ActionResultFactory interface.
+    /// For testing.
     /// </summary>
-    public interface IActionResultFactory
+    public class DevelopersController : Controller
     {
         /// <summary>
-        /// Make method.
+        /// Get the HTML view for the testing page.
         /// </summary>
-        /// <param name="parameters">
-        /// The necessary parameters for each factory.
-        /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
-        ActionResult Make(params object[] parameters);
+        public ActionResult Get()
+        {
+            return View();
+        }
+
     }
 }

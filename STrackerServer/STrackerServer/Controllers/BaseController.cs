@@ -3,57 +3,45 @@
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace STrackerServer.Controllers
 {
     using System.Collections.Generic;
-    using System.Net;
     using System.Web.Mvc;
 
+    using STrackerServer.Core;
     using STrackerServer.Factories.ActionResultFactory;
-    using STrackerServer.Filters;
 
     /// <summary>
-    /// Base controller.
+    /// The base controller.
     /// </summary>
-    [ActionResultFilter]
     public class BaseController : Controller
     {
         /// <summary>
-        /// Action results factories.
+        /// The representations.
         /// </summary>
-        protected readonly IDictionary<string, IActionResultFactory> Factories;
+        private readonly IDictionary<string, IActionResultFactory> representations;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseController"/> class.
         /// </summary>
         public BaseController()
         {
-            Factories = new Dictionary<string, IActionResultFactory>
+            representations = new Dictionary<string, IActionResultFactory>
                 {
-                    { "json", JsonResultFactory.Singleton },
-                    { "html", HtmlResultFactory.Singleton } 
+                    { "html", HtmlResultFactory.GetFactory() }, { "json", JsonResultFactory.GetFactory() } 
                 };
         }
 
         /// <summary>
-        /// Base method for get actions.
+        /// Gets the representations.
         /// </summary>
-        /// <param name="objectType">
-        /// The object type.
-        /// </param>
-        /// <returns>
-        /// The <see cref="ActionResult"/>.
-        /// </returns>
-        protected ActionResult BaseGet(string objectType)
+        protected IDictionary<string, IActionResultFactory> Representations
         {
-            var factory = Factories[(string)TempData["formatType"]];
-            var model = TempData[objectType];
-
-            TempData.Clear();
-
-            return (Response.StatusCode != (int)HttpStatusCode.OK)
-                       ? factory.Make(Response.StatusCode, "Error")
-                       : factory.Make(model, "Get");
-        }
+            get
+            {
+                return representations;
+            }
+        } 
     }
 }

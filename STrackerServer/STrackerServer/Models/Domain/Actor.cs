@@ -1,23 +1,19 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CharacterRoles.cs" company="STracker">
+// <copyright file="Actor.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-namespace STrackerServer.Models.Utils
+
+namespace STrackerServer.Models.Domain
 {
     /// <summary>
-    /// The character roles enum.
+    /// The actor domain entity.
     /// </summary>
-    public enum CharacterRoles
+    public class Actor : Person
     {
         /// <summary>
-        /// Role for a Main Character.
+        /// Gets or sets the character name.
         /// </summary>
-        Main,
-
-        /// <summary>
-        /// Role for a Secondary Character.
-        /// </summary>
-        Secondary
+        public string CharacterName { get; set; }
     }
 }

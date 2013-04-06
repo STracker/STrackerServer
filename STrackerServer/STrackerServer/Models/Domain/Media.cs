@@ -3,16 +3,18 @@
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-namespace STrackerServer.Models.Media
+
+namespace STrackerServer.Models.Domain
 {
     using System.Collections.Generic;
-    using STrackerServer.Models.Person;
+
+    using STrackerServer.Core;
     using STrackerServer.Models.Utils;
 
     /// <summary>
-    /// The media.
+    /// The media domain entity.
     /// </summary>
-    public class Media
+    public class Media : IEntity<string>
     {
         /// <summary>
         /// Gets or sets the id.
@@ -20,14 +22,19 @@ namespace STrackerServer.Models.Media
         public string Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the title.
+        /// Gets or sets the name.
         /// </summary>
-        public string Title { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the description.
         /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// Gets or sets the genres.
+        /// </summary>
+        public List<Genre> Genres { get; set; }
 
         /// <summary>
         /// Gets or sets the rating.
@@ -42,6 +49,6 @@ namespace STrackerServer.Models.Media
         /// <summary>
         /// Gets or sets the actors.
         /// </summary>
-        public List<Actor> Actors { get; set; } 
+        public List<Actor> Actors { get; set; }
     }
 }

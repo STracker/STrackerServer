@@ -3,10 +3,12 @@
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace STrackerServer.Factories.ActionResultFactory
 {
-    using System;
     using System.Web.Mvc;
+
+    using STrackerServer.Core;
 
     /// <summary>
     /// Factory for JSON result.
@@ -14,14 +16,14 @@ namespace STrackerServer.Factories.ActionResultFactory
     public class JsonResultFactory : IActionResultFactory
     {
         /// <summary>
-        /// Gets Singleton object.
+        /// Method for eager initialization.
         /// </summary>
-        public static JsonResultFactory Singleton
+        /// <returns>
+        /// The <see cref="IActionResultFactory"/>.
+        /// </returns>
+        public static IActionResultFactory GetFactory()
         {
-            get
-            {
-                return new JsonResultFactory();  
-            }
+            return JsonResultFactoryHolder.Resource;
         }
 
         /// <summary>
@@ -36,6 +38,28 @@ namespace STrackerServer.Factories.ActionResultFactory
         public ActionResult Make(params object[] parameters)
         {
             return new JsonResult { Data = parameters[0], JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+
+        /// <summary>
+        /// Lazy initialization holder class.
+        /// </summary>
+        private static class JsonResultFactoryHolder
+        {
+            /// <summary>
+            /// The value.
+            /// </summary>
+            private static readonly JsonResultFactory Value = new JsonResultFactory();
+
+            /// <summary>
+            /// Gets the resource.
+            /// </summary>
+            public static JsonResultFactory Resource
+            {
+                get
+                {
+                    return Value;
+                }
+            }
         }
     }
 }

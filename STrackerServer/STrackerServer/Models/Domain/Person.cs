@@ -1,32 +1,32 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Episode.cs" company="STracker">
+// <copyright file="Person.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-namespace STrackerServer.Models.Media
-{
-    using System.Collections.Generic;
 
-    using STrackerServer.Models.Person;
+namespace STrackerServer.Models.Domain
+{
+    using STrackerServer.Core;
+    using STrackerServer.Models.Utils;
 
     /// <summary>
-    /// The episode.
+    /// The person domain entity.
     /// </summary>
-    public class Episode : Media
+    public class Person : IEntity<string>
     {
         /// <summary>
-        /// Gets or sets the number.
+        /// Gets or sets the id.
         /// </summary>
-        public int Number { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the directors.
+        /// Gets or sets the name.
         /// </summary>
-        public List<Person> Directors { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the guest actors.
+        /// Gets or sets the photo.
         /// </summary>
-        public List<Actor> GuestActors { get; set; } 
+        public Artwork Photo { get; set; }  
     }
 }

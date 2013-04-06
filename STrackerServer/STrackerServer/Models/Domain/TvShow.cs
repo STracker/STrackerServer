@@ -3,22 +3,27 @@
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-namespace STrackerServer.Models.Media
+namespace STrackerServer.Models.Domain
 {
     using System;
     using System.Collections.Generic;
-    using STrackerServer.Models.Person;
-    using STrackerServer.Models.Utils;
+
+    using STrackerServer.Core;
 
     /// <summary>
-    /// The television show.
+    /// The television show domain entity.
     /// </summary>
-    public class TvShow : Media
+    public class TvShow : IEntity<string>
     {
         /// <summary>
-        /// Gets or sets the first aired.
+        /// Gets or sets the id.
         /// </summary>
-        public DateTime FirstAired { get; set; }
+        public string Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the air day.
+        /// </summary>
+        public DateTime AirDay { get; set; }
 
         /// <summary>
         /// Gets or sets the runtime.
@@ -31,13 +36,8 @@ namespace STrackerServer.Models.Media
         public Person Creator { get; set; }
 
         /// <summary>
-        /// Gets or sets the genres.
+        /// Gets or sets the season synopses.
         /// </summary>
-        public List<Genre> Genres { get; set; }
-
-        /// <summary>
-        /// Gets or sets the seasons.
-        /// </summary>
-        public List<Season> Seasons { get; set; } 
+        public List<Season.SeasonSynopsis> SeassonSynopses { get; set; } 
     }
 }
