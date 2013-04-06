@@ -29,7 +29,7 @@ namespace STrackerServer.App_Start
 
             routes.MapRoute("testing", "developers", new { controller = "Developers", action = "Get" });
 
-            routes.MapRoute("tvshow_get", "tvshow/{tvshowId}", new { controller = "TvShow", action = "Get" });
+            routes.MapRoute("tvshow_get", "tvshows/{tvshowId}", new { controller = "TvShow", action = "Get" });
         }
     }
 }
