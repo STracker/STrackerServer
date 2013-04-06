@@ -6,6 +6,7 @@
 
 namespace STrackerServer.App_Start
 {
+    using System.Linq;
     using System.Web.Http;
 
     /// <summary>
@@ -21,7 +22,11 @@ namespace STrackerServer.App_Start
         /// </param>
         public static void Register(HttpConfiguration config)
         {
-            config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new { id = RouteParameter.Optional });
+            var appJsonFormatter = config.Formatters.JsonFormatter;
+            config.Formatters.Clear();
+            config.Formatters.Add(appJsonFormatter);
+
+            config.Routes.MapHttpRoute("tvshow_get_api", "api/tvshow/{id}", new { controller = "apitvshow", action = "get" });
         }
     }
 }

@@ -14,10 +14,10 @@ namespace STrackerServer.Controllers
     /// <summary>
     /// The television shows controller.
     /// </summary>
-    public class TvShowController : BaseController
+    public class TvShowController : Controller 
     {
         /// <summary>
-        /// The get.
+        /// Get HTML page with information from the television show with id.
         /// </summary>
         /// <param name="id">
         /// The id.
@@ -27,17 +27,15 @@ namespace STrackerServer.Controllers
         /// </returns>
         public ActionResult Get(string id)
         {
-            var representation = Representations[(string)RouteData.Values["format"]];
-
             var tvshow = RepositoryLocator.TelevisionShowsRepository.Read(id);
 
             if (tvshow == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return representation.Make(Response.StatusCode, "Error");
+                return View("Error", Response.StatusCode);
             }
 
-            return representation.Make(tvshow, "Get");
+            return View("Get", tvshow);
         }
     }
 }

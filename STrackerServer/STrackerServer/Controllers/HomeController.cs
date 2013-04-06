@@ -23,6 +23,5 @@ namespace STrackerServer.Controllers
         {
             return View();
         }
-
     }
 }

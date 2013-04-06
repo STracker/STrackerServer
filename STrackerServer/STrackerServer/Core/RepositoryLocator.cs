@@ -6,7 +6,7 @@
 
 namespace STrackerServer.Core
 {
-    using STrackerServer.Repositories;
+    using STrackerServerDatabase.Repositories;
 
     /// <summary>
     /// The repository locator.

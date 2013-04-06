@@ -6,6 +6,7 @@
 
 namespace STrackerServer.App_Start
 {
+    using System.Web.Http;
     using System.Web.Mvc;
     using System.Web.Routing;
 
@@ -28,8 +29,7 @@ namespace STrackerServer.App_Start
 
             routes.MapRoute("testing", "developers", new { controller = "Developers", action = "Get" });
 
-            routes.MapRoute("tvshow_get", "tvshow/{tvshowId}", new { controller = "TvShow", action = "Get", format = "html" });
-            routes.MapRoute("tvshow_get_api", "tvshow/{tvshowId}/api", new { controller = "TvShow", action = "Get", format = "json" });
+            routes.MapRoute("tvshow_get", "tvshow/{tvshowId}", new { controller = "TvShow", action = "Get" });
         }
     }
 }
