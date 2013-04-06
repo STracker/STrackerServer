@@ -28,7 +28,7 @@ namespace STrackerServer.Core
         }
 
         /// <summary>
-        /// The mongo database instance.
+        /// Lazy initialization holder class for MongoDB database.
         /// </summary>
         private static class MongoDbInstance
         {

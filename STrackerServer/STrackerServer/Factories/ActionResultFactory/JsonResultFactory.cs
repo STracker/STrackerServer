@@ -16,14 +16,19 @@ namespace STrackerServer.Factories.ActionResultFactory
     public class JsonResultFactory : IActionResultFactory
     {
         /// <summary>
-        /// Method for eager initialization.
+        /// The value.
         /// </summary>
-        /// <returns>
-        /// The <see cref="IActionResultFactory"/>.
-        /// </returns>
-        public static IActionResultFactory GetFactory()
+        private static readonly JsonResultFactory Value = new JsonResultFactory();
+
+        /// <summary>
+        /// Gets the singleton.
+        /// </summary>
+        public static JsonResultFactory Singleton
         {
-            return JsonResultFactoryHolder.Resource;
+            get
+            {
+                return Value;
+            }
         }
 
         /// <summary>
@@ -38,28 +43,6 @@ namespace STrackerServer.Factories.ActionResultFactory
         public ActionResult Make(params object[] parameters)
         {
             return new JsonResult { Data = parameters[0], JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-        }
-
-        /// <summary>
-        /// Lazy initialization holder class.
-        /// </summary>
-        private static class JsonResultFactoryHolder
-        {
-            /// <summary>
-            /// The value.
-            /// </summary>
-            private static readonly JsonResultFactory Value = new JsonResultFactory();
-
-            /// <summary>
-            /// Gets the resource.
-            /// </summary>
-            public static JsonResultFactory Resource
-            {
-                get
-                {
-                    return Value;
-                }
-            }
         }
     }
 }

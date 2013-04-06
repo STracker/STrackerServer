@@ -16,14 +16,19 @@ namespace STrackerServer.Factories.ActionResultFactory
     public class HtmlResultFactory : IActionResultFactory
     {
         /// <summary>
-        /// Method for eager initialization.
+        /// The value.
         /// </summary>
-        /// <returns>
-        /// The <see cref="IActionResultFactory"/>.
-        /// </returns>
-        public static IActionResultFactory GetFactory()
+        private static readonly HtmlResultFactory Value = new HtmlResultFactory();
+
+        /// <summary>
+        /// Gets the singleton.
+        /// </summary>
+        public static HtmlResultFactory Singleton
         {
-            return HtmlResultFactoryHolder.Resource;
+            get
+            {
+                return Value;
+            }
         }
 
         /// <summary>
@@ -38,28 +43,6 @@ namespace STrackerServer.Factories.ActionResultFactory
         public ActionResult Make(params object[] parameters)
         {
             return new ViewResult { ViewName = (string)parameters[1], ViewData = new ViewDataDictionary(parameters[0]) };
-        }
-
-        /// <summary>
-        /// Lazy initialization holder class.
-        /// </summary>
-        private static class HtmlResultFactoryHolder
-        {
-            /// <summary>
-            /// The value.
-            /// </summary>
-            private static readonly HtmlResultFactory Value = new HtmlResultFactory();
-
-            /// <summary>
-            /// Gets the resource.
-            /// </summary>
-            public static HtmlResultFactory Resource
-            {
-                get
-                {
-                    return Value;
-                }
-            }
         }
     }
 }

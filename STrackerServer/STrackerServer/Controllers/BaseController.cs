@@ -29,7 +29,7 @@ namespace STrackerServer.Controllers
         {
             representations = new Dictionary<string, IActionResultFactory>
                 {
-                    { "html", HtmlResultFactory.GetFactory() }, { "json", JsonResultFactory.GetFactory() } 
+                    { "html", HtmlResultFactory.Singleton }, { "json", JsonResultFactory.Singleton } 
                 };
         }
 
