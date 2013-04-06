@@ -51,6 +51,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\STrackerServerDatabase\STrackerServerDatabase.csproj">
+      <Project>{364a07c1-978d-4343-b422-e81b99889c7d}</Project>
+      <Name>STrackerServerDatabase</Name>
+    </ProjectReference>
     <ProjectReference Include="..\STrackerServer\STrackerServer.csproj">
       <Project>{12275273-7251-40de-bb59-f889996a0172}</Project>
       <Name>STrackerServer</Name>
