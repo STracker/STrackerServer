@@ -14,12 +14,33 @@ namespace STrackerServerDatabase.Models
     /// <summary>
     /// The episode domain entity.
     /// </summary>
-    public class Episode : IEntity<Tuple<string, int, int>>
+    public class Episode : IEntity<string>
     {
         /// <summary>
         /// Gets or sets the id.
         /// </summary>
-        public Tuple<string, int, int> Id { get; set; }
+        public string Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the typeof.
+        /// </summary>
+        /// Usefull for querying in documents for all episodes of one specific television show.
+        public Type Typeof { get; set; }
+
+        /// <summary>
+        /// Gets or sets the television show id.
+        /// </summary>
+        public string TvShowId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the season number.
+        /// </summary>
+        public int SeasonNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets the episode number.
+        /// </summary>
+        public int Number { get; set; }
 
         /// <summary>
         /// Gets or sets the name.
@@ -59,7 +80,7 @@ namespace STrackerServerDatabase.Models
         /// </returns>
         public EpisodeSynopsis GetSynopsis()
         {
-            return new EpisodeSynopsis { Number = this.Id.Item3, Name = this.Name };
+            return new EpisodeSynopsis { Number = this.Number, Name = this.Name };
         }
 
         /// <summary>

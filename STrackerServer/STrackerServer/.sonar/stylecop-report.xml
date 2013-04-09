@@ -1,4 +1,1 @@
-<StyleCopViolations>
-  <Violation Section="Root.STrackerServer.App_Start.RouteConfig.RegisterRoutes%RouteCollection" LineNumber="33" Source="C:\Users\ricardosousa\Desktop\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer\App_Start\RouteConfig.cs" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="UseStringEmptyForEmptyStrings" RuleId="SA1122">Use string.Empty rather than "".</Violation>
-  <Violation Section="Root.STrackerServer.Testing_Repository.TestRepositoryLocator.TvShowsTestRepo" LineNumber="16" Source="C:\Users\ricardosousa\Desktop\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer\Testing Repository\TestRepositoryLocator.cs" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="FieldsMustBePrivate" RuleId="SA1401">Fields must be declared with private access. Use properties to expose fields.</Violation>
-</StyleCopViolations>
+<StyleCopViolations />

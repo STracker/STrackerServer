@@ -10,7 +10,7 @@ namespace STrackerServerDatabase.Core
     /// Entity interface.
     /// </summary>
     /// <typeparam name="TK">
-    /// Type of the entity id.
+    /// Type of the entity document id.
     /// </typeparam>
     public interface IEntity<TK>
     {

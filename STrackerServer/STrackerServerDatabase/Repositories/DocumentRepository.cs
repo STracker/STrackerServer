@@ -1,30 +1,41 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TvShowRepository.cs" company="STracker">
+// <copyright file="DocumentRepository.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace STrackerServerDatabase.Repositories
 {
-    using MongoDB.Driver.Builders;
+    using MongoDB.Driver;
 
-    using STrackerServerDatabase.Models;
+    using STrackerServerDatabase.Core;
 
     /// <summary>
-    /// Repository of television shows.
+    /// The base repository. Contains the MongoDB collection that have the entities associated to repository.
     /// </summary>
-    public class TvShowRepository : Repository<string, TvShow>
+    /// <typeparam name="T">
+    /// Type of entity.
+    /// </typeparam>
+    /// <typeparam name="TE">
+    /// Type of id of entity.
+    /// </typeparam>
+    public abstract class DocumentRepository<T, TE> : IRepository<string, T, TE> where T : IEntity<string>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TvShowRepository"/> class.
+        /// The database.
         /// </summary>
-        public TvShowRepository()
-            : base("tvShows")
+        protected readonly MongoDatabase Database;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DocumentRepository{T,TE}"/> class.
+        /// </summary>
+        protected DocumentRepository()
         {
+            this.Database = DatabaseLocator.GetMongoDbDatabaseInstance();
         }
 
         /// <summary>
-        /// Create a new television show.
+        /// The create.
         /// </summary>
         /// <param name="entity">
         /// The entity.
@@ -32,29 +43,21 @@ namespace STrackerServerDatabase.Repositories
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public override bool Create(TvShow entity)
-        {
-            return Collection.Insert(entity).Ok;
-        }
+        public abstract bool Create(T entity);
 
         /// <summary>
-        /// Get a television show.
+        /// The read.
         /// </summary>
         /// <param name="id">
         /// The id.
         /// </param>
         /// <returns>
-        /// The <see cref="TvShow"/>.
+        /// The <see cref="T"/>.
         /// </returns>
-        public override TvShow Read(string id)
-        {
-            var query = Query<TvShow>.EQ(tv => tv.Id, id);
-
-            return Collection.FindOneAs<TvShow>(query);
-        }
+        public abstract T Read(TE id);
 
         /// <summary>
-        /// Update the desire television show.
+        /// The update.
         /// </summary>
         /// <param name="entity">
         /// The entity.
@@ -62,14 +65,10 @@ namespace STrackerServerDatabase.Repositories
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public override bool Update(TvShow entity)
-        {
-            // TODO
-            return false;
-        }
+        public abstract bool Update(T entity);
 
         /// <summary>
-        /// Delete a television show.
+        /// The delete.
         /// </summary>
         /// <param name="id">
         /// The id.
@@ -77,10 +76,6 @@ namespace STrackerServerDatabase.Repositories
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public override bool Delete(string id)
-        {
-            // TODO
-            return false;
-        }
+        public abstract bool Delete(TE id);
     }
 }

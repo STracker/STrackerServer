@@ -2,7 +2,7 @@
 <report xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.gallio.org/">
   <testPackage shadowCopy="false" debug="false">
     <files>
-      <file>C:\Users\ricardosousa\Desktop\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer.Tests\bin\Debug\STrackerServer.Tests.dll</file>
+      <file>C:\Users\ricardosousa\Documents\Isel\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer.Tests\bin\Debug\STrackerServer.Tests.dll</file>
     </files>
     <hintDirectories />
     <excludedFrameworkIds />
@@ -20,13 +20,13 @@
       <children>
         <test id="f7f1282c83231e7e" name="STrackerServer.Tests" fullName="STrackerServer.Tests" isTestCase="false">
           <codeReference assembly="STrackerServer.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
-          <codeLocation path="C:\Users\ricardosousa\Desktop\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer.Tests\bin\Debug\STrackerServer.Tests.DLL" />
+          <codeLocation path="C:\Users\ricardosousa\Documents\Isel\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer.Tests\bin\Debug\STrackerServer.Tests.DLL" />
           <metadata>
             <entry key="TestKind">
               <value>NUnit v2.5.6+ Assembly</value>
             </entry>
             <entry key="CodeBase">
-              <value>C:\Users\ricardosousa\Desktop\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer.Tests\bin\Debug\STrackerServer.Tests.DLL</value>
+              <value>C:\Users\ricardosousa\Documents\Isel\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer.Tests\bin\Debug\STrackerServer.Tests.DLL</value>
             </entry>
             <entry key="Copyright">
               <value>Copyright ©  2013</value>
@@ -47,13 +47,13 @@
               <value>NUnit v2.6.2.12296</value>
             </entry>
             <entry key="File">
-              <value>C:\Users\ricardosousa\Desktop\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer.Tests\bin\Debug\STrackerServer.Tests.DLL</value>
+              <value>C:\Users\ricardosousa\Documents\Isel\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer.Tests\bin\Debug\STrackerServer.Tests.DLL</value>
             </entry>
           </metadata>
           <children>
             <test id="226671d785186cdb" name="STrackerServer" fullName="STrackerServer.Tests/STrackerServer" isTestCase="false">
               <codeReference assembly="STrackerServer.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
-              <codeLocation path="C:\Users\ricardosousa\Desktop\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer.Tests\bin\Debug\STrackerServer.Tests.DLL" />
+              <codeLocation path="C:\Users\ricardosousa\Documents\Isel\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer.Tests\bin\Debug\STrackerServer.Tests.DLL" />
               <metadata>
                 <entry key="TestKind">
                   <value>Namespace</value>
@@ -62,7 +62,7 @@
               <children>
                 <test id="6c043c3c11d41892" name="Tests" fullName="STrackerServer.Tests/STrackerServer/Tests" isTestCase="false">
                   <codeReference assembly="STrackerServer.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
-                  <codeLocation path="C:\Users\ricardosousa\Desktop\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer.Tests\bin\Debug\STrackerServer.Tests.DLL" />
+                  <codeLocation path="C:\Users\ricardosousa\Documents\Isel\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer.Tests\bin\Debug\STrackerServer.Tests.DLL" />
                   <metadata>
                     <entry key="TestKind">
                       <value>Namespace</value>
@@ -71,7 +71,7 @@
                   <children>
                     <test id="f52915b4e4913831" name="TvShowTests" fullName="STrackerServer.Tests/STrackerServer/Tests/TvShowTests" isTestCase="false">
                       <codeReference assembly="STrackerServer.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" namespace="STrackerServer.Tests" type="STrackerServer.Tests.TvShowTests" />
-                      <codeLocation path="c:\Users\ricardosousa\Desktop\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer.Tests\TvShowTests.cs" />
+                      <codeLocation path="c:\Users\ricardosousa\Documents\Isel\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer.Tests\TvShowTests.cs" />
                       <metadata>
                         <entry key="TestKind">
                           <value>Fixture</value>
@@ -80,7 +80,7 @@
                       <children>
                         <test id="9240f8fe13d9e8d9" name="Get" fullName="STrackerServer.Tests/STrackerServer/Tests/TvShowTests/Get" isTestCase="true">
                           <codeReference assembly="STrackerServer.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" namespace="STrackerServer.Tests" type="STrackerServer.Tests.TvShowTests" member="Get" />
-                          <codeLocation path="c:\Users\ricardosousa\Desktop\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer.Tests\TvShowTests.cs" line="29" />
+                          <codeLocation path="c:\Users\ricardosousa\Documents\Isel\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer.Tests\TvShowTests.cs" line="29" />
                           <metadata>
                             <entry key="TestKind">
                               <value>Test</value>
@@ -106,9 +106,9 @@
     </test>
     <annotations />
   </testModel>
-  <testPackageRun startTime="2013-03-25T02:35:07.0029981+00:00" endTime="2013-03-25T02:35:08.7310161+00:00">
-    <testStepRun startTime="2013-03-25T02:35:08.5137108+00:00" endTime="2013-03-25T02:35:08.7430284+00:00">
-      <testStep id="3815740525028756" name="Root" fullName="" testId="c2722843734a7a54" isPrimary="true" isTestCase="false" isDynamic="false">
+  <testPackageRun startTime="2013-04-06T23:14:58.8382948+01:00" endTime="2013-04-06T23:15:00.2332565+01:00">
+    <testStepRun startTime="2013-04-06T23:15:00.140602+01:00" endTime="2013-04-06T23:15:00.234258+01:00">
+      <testStep id="1c7c97adb4e3ab4c" name="Root" fullName="" testId="c2722843734a7a54" isPrimary="true" isTestCase="false" isDynamic="false">
         <codeReference />
         <codeLocation />
         <metadata>
@@ -118,16 +118,16 @@
         </metadata>
       </testStep>
       <children>
-        <testStepRun startTime="2013-03-25T02:35:08.5397264+00:00" endTime="2013-03-25T02:35:08.6364322+00:00">
-          <testStep id="9fdefa531a38d1cb" name="STrackerServer.Tests" fullName="STrackerServer.Tests" testId="f7f1282c83231e7e" isPrimary="true" isTestCase="false" isDynamic="false">
+        <testStepRun startTime="2013-04-06T23:15:00.162615+01:00" endTime="2013-04-06T23:15:00.2026433+01:00">
+          <testStep id="3ed407224593e8f5" name="STrackerServer.Tests" fullName="STrackerServer.Tests" testId="f7f1282c83231e7e" isPrimary="true" isTestCase="false" isDynamic="false">
             <codeReference assembly="STrackerServer.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
-            <codeLocation path="C:\Users\ricardosousa\Desktop\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer.Tests\bin\Debug\STrackerServer.Tests.DLL" />
+            <codeLocation path="C:\Users\ricardosousa\Documents\Isel\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer.Tests\bin\Debug\STrackerServer.Tests.DLL" />
             <metadata>
               <entry key="TestKind">
                 <value>NUnit v2.5.6+ Assembly</value>
               </entry>
               <entry key="CodeBase">
-                <value>C:\Users\ricardosousa\Desktop\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer.Tests\bin\Debug\STrackerServer.Tests.DLL</value>
+                <value>C:\Users\ricardosousa\Documents\Isel\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer.Tests\bin\Debug\STrackerServer.Tests.DLL</value>
               </entry>
               <entry key="Copyright">
                 <value>Copyright ©  2013</value>
@@ -148,15 +148,15 @@
                 <value>NUnit v2.6.2.12296</value>
               </entry>
               <entry key="File">
-                <value>C:\Users\ricardosousa\Desktop\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer.Tests\bin\Debug\STrackerServer.Tests.DLL</value>
+                <value>C:\Users\ricardosousa\Documents\Isel\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer.Tests\bin\Debug\STrackerServer.Tests.DLL</value>
               </entry>
             </metadata>
           </testStep>
           <children>
-            <testStepRun startTime="2013-03-25T02:35:08.5602593+00:00" endTime="2013-03-25T02:35:08.635432+00:00">
-              <testStep id="a5582a6fced188be" name="STrackerServer" fullName="STrackerServer.Tests/STrackerServer" testId="226671d785186cdb" isPrimary="true" isTestCase="false" isDynamic="false">
+            <testStepRun startTime="2013-04-06T23:15:00.1656191+01:00" endTime="2013-04-06T23:15:00.200642+01:00">
+              <testStep id="e8c23f7383854c83" name="STrackerServer" fullName="STrackerServer.Tests/STrackerServer" testId="226671d785186cdb" isPrimary="true" isTestCase="false" isDynamic="false">
                 <codeReference assembly="STrackerServer.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
-                <codeLocation path="C:\Users\ricardosousa\Desktop\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer.Tests\bin\Debug\STrackerServer.Tests.DLL" />
+                <codeLocation path="C:\Users\ricardosousa\Documents\Isel\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer.Tests\bin\Debug\STrackerServer.Tests.DLL" />
                 <metadata>
                   <entry key="TestKind">
                     <value>Namespace</value>
@@ -164,10 +164,10 @@
                 </metadata>
               </testStep>
               <children>
-                <testStepRun startTime="2013-03-25T02:35:08.5622619+00:00" endTime="2013-03-25T02:35:08.6344309+00:00">
-                  <testStep id="db6476babbdfb501" name="Tests" fullName="STrackerServer.Tests/STrackerServer/Tests" testId="6c043c3c11d41892" isPrimary="true" isTestCase="false" isDynamic="false">
+                <testStepRun startTime="2013-04-06T23:15:00.1696218+01:00" endTime="2013-04-06T23:15:00.1986407+01:00">
+                  <testStep id="a51cd916f07384cf" name="Tests" fullName="STrackerServer.Tests/STrackerServer/Tests" testId="6c043c3c11d41892" isPrimary="true" isTestCase="false" isDynamic="false">
                     <codeReference assembly="STrackerServer.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
-                    <codeLocation path="C:\Users\ricardosousa\Desktop\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer.Tests\bin\Debug\STrackerServer.Tests.DLL" />
+                    <codeLocation path="C:\Users\ricardosousa\Documents\Isel\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer.Tests\bin\Debug\STrackerServer.Tests.DLL" />
                     <metadata>
                       <entry key="TestKind">
                         <value>Namespace</value>
@@ -175,10 +175,10 @@
                     </metadata>
                   </testStep>
                   <children>
-                    <testStepRun startTime="2013-03-25T02:35:08.5642632+00:00" endTime="2013-03-25T02:35:08.6314289+00:00">
-                      <testStep id="a0964a634ab3a14c" name="TvShowTests" fullName="STrackerServer.Tests/STrackerServer/Tests/TvShowTests" testId="f52915b4e4913831" isPrimary="true" isTestCase="false" isDynamic="false">
+                    <testStepRun startTime="2013-04-06T23:15:00.1716227+01:00" endTime="2013-04-06T23:15:00.19764+01:00">
+                      <testStep id="8e2556f20fe31c71" name="TvShowTests" fullName="STrackerServer.Tests/STrackerServer/Tests/TvShowTests" testId="f52915b4e4913831" isPrimary="true" isTestCase="false" isDynamic="false">
                         <codeReference assembly="STrackerServer.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" namespace="STrackerServer.Tests" type="STrackerServer.Tests.TvShowTests" />
-                        <codeLocation path="c:\Users\ricardosousa\Desktop\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer.Tests\TvShowTests.cs" />
+                        <codeLocation path="c:\Users\ricardosousa\Documents\Isel\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer.Tests\TvShowTests.cs" />
                         <metadata>
                           <entry key="TestKind">
                             <value>Fixture</value>
@@ -186,10 +186,10 @@
                         </metadata>
                       </testStep>
                       <children>
-                        <testStepRun startTime="2013-03-25T02:35:08.5904016+00:00" endTime="2013-03-25T02:35:08.6174195+00:00">
-                          <testStep id="877e9289b838b314" name="Get" fullName="STrackerServer.Tests/STrackerServer/Tests/TvShowTests/Get" testId="9240f8fe13d9e8d9" isPrimary="true" isTestCase="true" isDynamic="false">
+                        <testStepRun startTime="2013-04-06T23:15:00.1736244+01:00" endTime="2013-04-06T23:15:00.1856303+01:00">
+                          <testStep id="e517cd6f7ff16ab5" name="Get" fullName="STrackerServer.Tests/STrackerServer/Tests/TvShowTests/Get" testId="9240f8fe13d9e8d9" isPrimary="true" isTestCase="true" isDynamic="false">
                             <codeReference assembly="STrackerServer.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" namespace="STrackerServer.Tests" type="STrackerServer.Tests.TvShowTests" member="Get" />
-                            <codeLocation path="c:\Users\ricardosousa\Desktop\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer.Tests\TvShowTests.cs" line="29" />
+                            <codeLocation path="c:\Users\ricardosousa\Documents\Isel\Final Project - LEIC\Repositories\STrackerServer\STrackerServer\STrackerServer.Tests\TvShowTests.cs" line="29" />
                             <metadata>
                               <entry key="TestKind">
                                 <value>Test</value>
@@ -197,7 +197,7 @@
                             </metadata>
                           </testStep>
                           <children />
-                          <result assertCount="2" duration="0.0242169">
+                          <result assertCount="0" duration="0.0145455">
                             <outcome status="passed" />
                           </result>
                           <testLog>
@@ -206,7 +206,7 @@
                           </testLog>
                         </testStepRun>
                       </children>
-                      <result assertCount="2" duration="0.0744243">
+                      <result assertCount="0" duration="0.0200539">
                         <outcome status="passed" />
                       </result>
                       <testLog>
@@ -215,7 +215,7 @@
                       </testLog>
                     </testStepRun>
                   </children>
-                  <result assertCount="2" duration="0.0771316">
+                  <result assertCount="0" duration="0.0220086">
                     <outcome status="passed" />
                   </result>
                   <testLog>
@@ -224,7 +224,7 @@
                   </testLog>
                 </testStepRun>
               </children>
-              <result assertCount="2" duration="0.0792985">
+              <result assertCount="0" duration="0.0234185">
                 <outcome status="passed" />
               </result>
               <testLog>
@@ -233,7 +233,7 @@
               </testLog>
             </testStepRun>
           </children>
-          <result assertCount="2" duration="0.08559159999999999">
+          <result assertCount="0" duration="0.024932799999999998">
             <outcome status="passed" />
           </result>
           <testLog>
@@ -242,7 +242,7 @@
           </testLog>
         </testStepRun>
       </children>
-      <result assertCount="2" duration="1.7379434">
+      <result assertCount="0" duration="1.3932480999999999">
         <outcome status="passed" />
       </result>
       <testLog>
@@ -250,7 +250,7 @@
         <attachments />
       </testLog>
     </testStepRun>
-    <statistics assertCount="2" duration="1.7457985999999999" runCount="1" passedCount="1" failedCount="0" inconclusiveCount="0" skippedCount="0" testCount="1" stepCount="6">
+    <statistics assertCount="0" duration="1.401794" runCount="1" passedCount="1" failedCount="0" inconclusiveCount="0" skippedCount="0" testCount="1" stepCount="6">
       <outcomeSummaries>
         <outcomeSummary count="1">
           <outcome status="passed" />

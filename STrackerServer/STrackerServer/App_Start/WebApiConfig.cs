@@ -6,7 +6,6 @@
 
 namespace STrackerServer.App_Start
 {
-    using System.Linq;
     using System.Web.Http;
 
     /// <summary>

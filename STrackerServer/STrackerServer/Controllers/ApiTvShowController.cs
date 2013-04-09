@@ -10,8 +10,7 @@ namespace STrackerServer.Controllers
     using System.Net.Http;
     using System.Web.Http;
 
-    using STrackerServer.Core;
-
+    using STrackerServerDatabase.Core;
     using STrackerServerDatabase.Models;
 
     /// <summary>
@@ -30,7 +29,7 @@ namespace STrackerServer.Controllers
         /// </returns>
         public TvShow Get(string id)
         {
-            var tvshow = RepositoryLocator.TelevisionShowsRepository.Read(id);
+            var tvshow = RepositoryLocator.TelevisionShowsDocumentRepository.Read(id);
 
             if (tvshow == null)
             {

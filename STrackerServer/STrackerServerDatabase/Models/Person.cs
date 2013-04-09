@@ -26,6 +26,6 @@ namespace STrackerServerDatabase.Models
         /// <summary>
         /// Gets or sets the photo.
         /// </summary>
-        public Artwork Photo { get; set; }  
+        public Artwork Photo { get; set; }
     }
 }

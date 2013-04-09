@@ -7,15 +7,18 @@
 namespace STrackerServerDatabase.Core
 {
     /// <summary>
-    /// The Repository interface. CRUD operations.
+    /// The DocumentRepository interface. CRUD operations.
     /// </summary>
     /// <typeparam name="TK">
-    /// Type of id of entity.
+    /// Type of id of document entity.
     /// </typeparam>
     /// <typeparam name="T">
     /// Type of entity.
     /// </typeparam>
-    public interface IRepository<in TK, T> where T : IEntity<TK>
+    /// <typeparam name="TE">
+    /// Type of id of entity.
+    /// </typeparam>
+    public interface IRepository<in TK, T, in TE> where T : IEntity<TK>
     {
         /// <summary>
         /// The create.
@@ -37,7 +40,7 @@ namespace STrackerServerDatabase.Core
         /// <returns>
         /// The <see cref="T"/>.
         /// </returns>
-        T Read(TK id);
+        T Read(TE id);
 
         /// <summary>
         /// The update.
@@ -59,6 +62,6 @@ namespace STrackerServerDatabase.Core
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool Delete(TK id);
+        bool Delete(TE id);
     }
 }
