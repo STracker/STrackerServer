@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SeasonsDocumentRepository.cs" company="STracker">
+// <copyright file="EpisodesDocumentRespository.cs" company="STracker">
 //   Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
@@ -7,95 +7,90 @@
 namespace STrackerServerDatabase.Repositories
 {
     using System;
-
+    using Core;
+    using Models;
     using MongoDB.Driver.Builders;
 
-    using STrackerServerDatabase.Core;
-    using STrackerServerDatabase.Models;
-
     /// <summary>
-    /// DocumentRepository of the television shows seasons.
+    /// The episodes document repository.
     /// </summary>
-    public class SeasonsDocumentRepository : DocumentRepository<Season, Tuple<string, int>>
+    public class EpisodesDocumentRepository : DocumentRepository<Episode,Tuple<string,int,int>>
     {
         /// <summary>
-        /// Create a new season.
+        /// The create.
         /// </summary>
         /// <param name="entity">
-        /// The season.
+        /// The entity.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public override bool Create(Season entity)
+        public override bool Create(Episode entity)
         {
-            // Get the collection associated to the television show of the season.
             var collection = Database.GetCollection(entity.TvShowId);
 
-            var tvshow = RepositoryLocator.TelevisionShowsDocumentRepository.Read(entity.TvShowId);
+            var season = RepositoryLocator.SeasonsDocumentRepository.Read(new Tuple<string, int>(entity.TvShowId,entity.SeasonNumber));
 
-            if (tvshow == null)
+            if (season == null)
             {
                 return false;
             }
 
-            tvshow.SeassonSynopses.Add(entity.GetSynopsis());
+            season.EpisodeSynopses.Add(entity.GetSynopsis());
 
             collection.Insert(entity);
 
-            return RepositoryLocator.TelevisionShowsDocumentRepository.Update(tvshow);
+            return RepositoryLocator.SeasonsDocumentRepository.Update(season);
         }
 
         /// <summary>
-        /// Get the season.
+        /// The read.
         /// </summary>
         /// <param name="id">
-        /// The id. Composed with television show id plus season number.
+        /// The id.
         /// </param>
         /// <returns>
-        /// The <see cref="Season"/>.
+        /// The <see cref="Episode"/>.
         /// </returns>
-        public override Season Read(Tuple<string, int> id)
+        public override Episode Read(Tuple<string, int, int> id)
         {
-            // Get the collection associated to the television show of the season.
             var collection = Database.GetCollection(id.Item1);
 
-            return collection.FindOneByIdAs<Season>(string.Format("{0}_{1}", id.Item1, id.Item2));
+            return collection.FindOneByIdAs<Episode>(string.Format("{0}_{1}_{2}", id.Item1, id.Item2, id.Item3));
         }
 
         /// <summary>
-        /// Update the desire season.
+        /// The update.
         /// </summary>
         /// <param name="entity">
-        /// The season.
+        /// The entity.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public override bool Update(Season entity)
+        public override bool Update(Episode entity)
         {
-            // Get the collection associated to the television show of the season.
             var collection = Database.GetCollection(entity.TvShowId);
 
             return collection.Save(entity).Ok;
         }
 
         /// <summary>
-        /// Delete the season.
+        /// The delete.
         /// </summary>
         /// <param name="id">
-        /// The id. Composed with television show id plus season number.
+        /// The id.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public override bool Delete(Tuple<string, int> id)
+        public override bool Delete(Tuple<string, int, int> id)
         {
-            // Get the collection associated to the television show of the season.
             var collection = Database.GetCollection(id.Item1);
 
-            var query = Query<Season>.EQ(s => s.Id, string.Format("{0}_{1}", id.Item1, id.Item2));
+            var query = Query<Episode>.EQ(s => s.Id, string.Format("{0}_{1}_{2}", id.Item1, id.Item2, id.Item3));
 
+            // Encontra o primeiro e remove, o outro procurava em todos os documentos mesmo depois de ter encontrado um.
             return collection.FindAndRemove(query, SortBy.Null).Ok;
         }
     }
