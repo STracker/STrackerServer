@@ -135,7 +135,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Core\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
@@ -164,6 +163,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Season\Get.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Episode\Get.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

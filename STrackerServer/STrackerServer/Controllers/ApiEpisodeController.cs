@@ -1,20 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ApiEpisodeController.cs" company="STracker">
+//  Copyright (c) STracker Developers. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace STrackerServer.Controllers
 {
-    public class ApiEpisodeController : Controller
+    using System;
+    using System.Net;
+    using System.Net.Http;
+    using System.Web.Http;
+
+    using STrackerServerDatabase.Core;
+    using STrackerServerDatabase.Models;
+
+    /// <summary>
+    /// Episodes API controller.
+    /// </summary>
+    public class ApiEpisodeController : ApiController
     {
-        //
-        // GET: /ApiEpisode/
-
-        public ActionResult Index()
+        /// <summary>
+        /// Get information from the season from one season form one television show.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// The season number.
+        /// </param>
+        /// <param name="number">
+        /// The number.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Episode"/>.
+        /// </returns>
+        public Episode Get(string tvshowId, int seasonNumber, int number)
         {
-            return View();
-        }
+            var episode =
+                RepositoryLocator.EpisodesDocumentRepository.Read(
+                    new Tuple<string, int, int>(tvshowId, seasonNumber, number));
 
+            if (episode == null)
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
+            }
+
+            return episode;
+        }
     }
 }

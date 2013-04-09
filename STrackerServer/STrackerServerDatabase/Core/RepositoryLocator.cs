@@ -24,6 +24,11 @@ namespace STrackerServerDatabase.Core
         private static readonly SeasonsDocumentRepository SeasonsDocumentRepositoryValue = new SeasonsDocumentRepository();
 
         /// <summary>
+        /// The episodes document repository value.
+        /// </summary>
+        private static readonly EpisodesDocumentRepository EpisodesDocumentRepositoryValue = new EpisodesDocumentRepository();
+
+        /// <summary>
         /// Gets the television shows repository.
         /// </summary>
         public static TvShowsDocumentRepository TelevisionShowsDocumentRepository
@@ -42,6 +47,17 @@ namespace STrackerServerDatabase.Core
             get
             {
                 return SeasonsDocumentRepositoryValue;
+            }
+        }
+
+        /// <summary>
+        /// Gets the episodes document repository.
+        /// </summary>
+        public static EpisodesDocumentRepository EpisodesDocumentRepository
+        {
+            get
+            {
+                return EpisodesDocumentRepositoryValue;
             }
         }
     }

@@ -19,7 +19,7 @@ namespace STrackerServer.Controllers
     public class SeasonController : Controller
     {
         /// <summary>
-        /// Get information from the season from one television show.
+        /// Get HTML page with information from the season from one television show.
         /// </summary>
         /// <param name="tvshowId">
         /// The television show id.
