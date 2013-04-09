@@ -17,30 +17,54 @@ namespace STrackerServerDatabase.Models
     public class Episode : IEntity<string>
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="Episode"/> class.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="seasonnumber">
+        /// The season number.
+        /// </param>
+        /// <param name="number">
+        /// The number.
+        /// </param>
+        public Episode(string tvshowId, int seasonnumber, int number)
+        {
+            this.Id = string.Format("{0}_{1}_{2}", tvshowId, seasonnumber, number);
+            this.TvShowId = tvshowId;
+            this.SeasonNumber = seasonnumber;
+            this.Number = number;
+            this.Directors = new List<Person>();
+            this.Artworks = new List<Artwork>();
+            this.GuestActors = new List<Actor>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Episode"/> class.
+        /// </summary>
+        public Episode()
+        {    
+        }
+
+        /// <summary>
         /// Gets or sets the id.
         /// </summary>
         public string Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the typeof.
+        /// Gets the television show id.
         /// </summary>
-        /// Usefull for querying in documents for all episodes of one specific television show.
-        public Type Typeof { get; set; }
+        public string TvShowId { get; private set; }
 
         /// <summary>
-        /// Gets or sets the television show id.
+        /// Gets the season number.
         /// </summary>
-        public string TvShowId { get; set; }
+        public int SeasonNumber { get; private set; }
 
         /// <summary>
-        /// Gets or sets the season number.
+        /// Gets the episode number.
         /// </summary>
-        public int SeasonNumber { get; set; }
-
-        /// <summary>
-        /// Gets or sets the episode number.
-        /// </summary>
-        public int Number { get; set; }
+        public int Number { get; private set; }
 
         /// <summary>
         /// Gets or sets the name.

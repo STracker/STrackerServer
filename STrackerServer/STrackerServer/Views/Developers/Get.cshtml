@@ -6,3 +6,45 @@
 }
 
 <h2>Developers Page</h2>
+
+<h3>Links:</h3>
+
+<h4>Tv Show</h4>
+
+<ul>
+    <li>
+        <p>
+            Walking Dead    : @Html.ActionLink("Link","Get","TvShow", new { id = "tt1520211"})
+        </p>  
+    </li>
+    <li>
+        <p>
+            Walking Dead API: <a href="/api/tvshows/tt1520211">Link</a>
+        </p>
+    </li>
+</ul> 
+
+<h4>Seasons</h4>
+
+<ul>
+    <li>
+        <p>
+            Season 1        : @Html.ActionLink("Link","Get","TvShow", new { tvshowId = "tt1520211", number = 1})
+        </p>  
+    </li>
+    <li>
+        <p>
+            Season 1     API: <a href="/api/tvshows/tt1520211/seasons/1"> Link </a> 
+        </p>
+    </li>
+    <li>
+        <p>
+            Season 2        : @Html.ActionLink("Link","Get","TvShow", new { tvshowId = "tt1520211", number = 2})
+        </p>  
+    </li>
+    <li>
+        <p>
+            Season 2     API: <a href="/api/tvshows/tt1520211/seasons/2"> Link </a>
+        </p> 
+    </li>
+</ul> 

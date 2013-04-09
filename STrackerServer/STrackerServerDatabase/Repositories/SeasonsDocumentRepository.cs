@@ -7,11 +7,9 @@
 namespace STrackerServerDatabase.Repositories
 {
     using System;
-
+    using Core;
+    using Models;
     using MongoDB.Driver.Builders;
-
-    using STrackerServerDatabase.Core;
-    using STrackerServerDatabase.Models;
 
     /// <summary>
     /// DocumentRepository of the television shows seasons.
@@ -39,7 +37,7 @@ namespace STrackerServerDatabase.Repositories
                 return false;
             }
 
-            tvshow.SeassonSynopses.Add(entity.GetSynopsis());
+            tvshow.SeasonSynopses.Add(entity.GetSynopsis());
 
             collection.Insert(entity);
 

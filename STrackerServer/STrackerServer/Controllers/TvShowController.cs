@@ -32,10 +32,10 @@ namespace STrackerServer.Controllers
             if (tvshow == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return View("Error", Response.StatusCode);
+                return this.View("Error", Response.StatusCode);
             }
 
-            return View("Get", tvshow);
+            return this.View("Get", tvshow);
         }
     }
 }

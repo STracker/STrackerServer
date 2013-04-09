@@ -31,7 +31,7 @@ namespace STrackerServerDatabase.Models
         /// <summary>
         /// Gets or sets the season synopses.
         /// </summary>
-        public List<Season.SeasonSynopsis> SeassonSynopses { get; set; }
+        public List<Season.SeasonSynopsis> SeasonSynopses { get; set; }
 
         /// <summary>
         /// Get the television show synopsis.
