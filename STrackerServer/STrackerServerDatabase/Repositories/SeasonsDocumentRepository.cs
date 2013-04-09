@@ -77,9 +77,7 @@ namespace STrackerServerDatabase.Repositories
             // Get the collection associated to the television show of the season.
             var collection = Database.GetCollection(entity.TvShowId);
 
-            var query = Query<Season>.EQ(s => s.Id, entity.Id);
-            
-            return collection.Remove(query).Ok;
+            return collection.Save(entity).Ok;
         }
 
         /// <summary>
