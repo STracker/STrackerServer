@@ -6,8 +6,6 @@
 
 namespace STrackerServerDatabase.Repositories
 {
-    using System;
-
     using STrackerServerDatabase.Models;
 
     /// <summary>

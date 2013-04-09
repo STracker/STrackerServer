@@ -31,6 +31,33 @@ namespace STrackerServerDatabase.Models
         /// <summary>
         /// Gets or sets the season synopses.
         /// </summary>
-        public List<Season.SeasonSynopsis> SeassonSynopses { get; set; } 
+        public List<Season.SeasonSynopsis> SeassonSynopses { get; set; }
+
+        /// <summary>
+        /// Get the television show synopsis.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="TvShowSynopsis"/>.
+        /// </returns>
+        public TvShowSynopsis GetSynopsis()
+        {
+            return new TvShowSynopsis { Id = this.Id, Name = this.Name };
+        }
+
+        /// <summary>
+        /// The television show synopsis.
+        /// </summary>
+        public class TvShowSynopsis
+        {
+            /// <summary>
+            /// Gets or sets the id.
+            /// </summary>
+            public string Id { get; set; }
+
+            /// <summary>
+            /// Gets or sets the name.
+            /// </summary>
+            public string Name { get; set; }
+        }
     }
 }
