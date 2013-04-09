@@ -26,6 +26,10 @@ namespace STrackerServer.App_Start
             config.Formatters.Add(appJsonFormatter);
 
             config.Routes.MapHttpRoute("tvshow_get_api", "api/tvshows/{id}", new { controller = "apitvshow", action = "get" });
+
+            config.Routes.MapHttpRoute("season_get_api", "api/tvshows/{tvshowId}/seasons/{number}", new { controller = "apiseason", action = "get" });
+
+            config.Routes.MapHttpRoute("episode_get_api", "api/tvshows/{tvshowId}/seasons/{seasonNumber}/episodes/{number}", new { controller = "apiepisode", action = "get" });
         }
     }
 }
