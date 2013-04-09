@@ -1,8 +1,10 @@
 ﻿@model STrackerServerDatabase.Models.TvShow
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = Model.Name;
     Layout = "../Shared/_Layout.cshtml";
 }
 
-<h2>title</h2>
+<h2>@Model.Name</h2>
+
+@Html.DisplayForModel(Model)

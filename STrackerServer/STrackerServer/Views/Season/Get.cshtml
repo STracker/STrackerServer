@@ -1,8 +1,10 @@
 ﻿@model STrackerServerDatabase.Models.Season
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Season " + Model.Number;
     Layout = "../Shared/_Layout.cshtml";
 }
 
-<h2>title</h2>
+<h2>Season @Model.Number</h2>
+
+@Html.DisplayForModel(Model)

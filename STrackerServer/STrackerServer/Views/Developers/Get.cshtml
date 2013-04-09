@@ -14,7 +14,7 @@
 <ul>
     <li>
         <p>
-            Walking Dead    : @Html.ActionLink("Link","Get","TvShow", new { id = "tt1520211"})
+            Walking Dead    : <a href="@Url.Action("Get","TvShow", new { id = "tt1520211"})"> Link </a> 
         </p>  
     </li>
     <li>
@@ -27,24 +27,44 @@
 <h4>Seasons</h4>
 
 <ul>
-    <li>
-        <p>
-            Season 1        : @Html.ActionLink("Link","Get","TvShow", new { tvshowId = "tt1520211", number = 1})
-        </p>  
-    </li>
-    <li>
-        <p>
-            Season 1     API: <a href="/api/tvshows/tt1520211/seasons/1"> Link </a> 
-        </p>
-    </li>
-    <li>
-        <p>
-            Season 2        : @Html.ActionLink("Link","Get","TvShow", new { tvshowId = "tt1520211", number = 2})
-        </p>  
-    </li>
-    <li>
-        <p>
-            Season 2     API: <a href="/api/tvshows/tt1520211/seasons/2"> Link </a>
-        </p> 
-    </li>
+    
+    @for (var i = 1; i < 3; i++)
+    {
+             
+            <li>
+                 <p>
+                     Season @i       : <a href="@Url.Action("Get","Season", new { tvshowId = "tt1520211", number = i})"> Link </a> 
+                 </p>  
+             </li>
+            
+            <li>
+                 <p>
+                     Season @i     API: <a href="/api/tvshows/tt1520211/seasons/@i"> Link </a> 
+                 </p>  
+             </li>
+     }
+</ul> 
+
+<h4>Episodes</h4>
+
+<ul>
+    
+    @for (var i = 1; i < 3; i++ )
+    {
+        for (var j = 1; j < 3; j++)
+         {
+             
+            <li>
+                 <p>
+                     Episode @j S-@i    : <a href="@Url.Action("Get","Episode", new { tvshowId = "tt1520211", seasonnumber = i, number = j})"> Link </a> 
+                 </p>  
+             </li>
+            
+            <li>
+                 <p>
+                     Episode @j S-@i API: <a href="/api/tvshows/tt1520211/seasons/@i/episodes/@j"> Link </a> 
+                 </p>  
+             </li>
+         }
+    }
 </ul> 
