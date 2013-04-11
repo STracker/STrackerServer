@@ -33,14 +33,7 @@ namespace STrackerServer.Controllers
         /// </returns>
         public Season Get(string tvshowId, int number)
         {
-            var season = RepositoryLocator.SeasonsDocumentRepository.Read(new Tuple<string, int>(tvshowId, number));
-
-            if (season == null)
-            {
-                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
-            }
-
-            return season;
+            return null;
         }
     }
 }

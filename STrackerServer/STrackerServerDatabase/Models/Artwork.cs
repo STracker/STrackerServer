@@ -2,6 +2,9 @@
 // <copyright file="Artwork.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
+// <summary>
+//  Implementation of artwork object. Its a wrapper for one image, the image its expressed in byte[].
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace STrackerServerDatabase.Models

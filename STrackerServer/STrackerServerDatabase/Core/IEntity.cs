@@ -2,15 +2,18 @@
 // <copyright file="IEntity.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
+// <summary>
+//  Interface that defines the contract of domain entities.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace STrackerServerDatabase.Core
 {
     /// <summary>
-    /// Entity interface.
+    /// Entities interface.
     /// </summary>
     /// <typeparam name="TK">
-    /// Type of the entity document id.
+    /// Type of entity's Id.
     /// </typeparam>
     public interface IEntity<TK>
     {

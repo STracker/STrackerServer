@@ -1,23 +1,27 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TvShowsDocumentRepository.cs" company="STracker">
+// <copyright file="TvShowsRepository.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
+// <summary>
+//  Implementation of ITvShowsRepository interface. This repository connects with MongoDB 
+// database.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServerDatabase.Repositories
+namespace STrackerServerDatabase.Repositories.Implementations
 {
     using STrackerServerDatabase.Models;
 
     /// <summary>
-    /// DocumentRepository of television shows.
+    /// Television shows repository for MongoDB database.
     /// </summary>
-    public class TvShowsDocumentRepository : DocumentRepository<TvShow, string>
+    public class TvShowsRepository : BaseRepository<TvShow, string>, ITvShowsRepository
     {
         /// <summary>
-        /// Create a new television show.
+        /// Create one television show. 
         /// </summary>
         /// <param name="entity">
-        /// The television show.
+        /// The entity.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
@@ -25,31 +29,15 @@ namespace STrackerServerDatabase.Repositories
         public override bool Create(TvShow entity)
         {
             var collection = Database.GetCollection(entity.Id);
-            
+
             return collection.Insert(entity).Ok;
         }
 
         /// <summary>
-        /// Get the television show.
-        /// </summary>
-        /// <param name="id">
-        /// The id.
-        /// </param>
-        /// <returns>
-        /// The <see cref="TvShow"/>.
-        /// </returns>
-        public override TvShow Read(string id)
-        {
-            var collection = Database.GetCollection(id);
-
-            return collection.FindOneByIdAs<TvShow>(id);
-        }
-
-        /// <summary>
-        /// Update the desire television show.
+        /// Update one television show.
         /// </summary>
         /// <param name="entity">
-        /// The television show.
+        /// The entity.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
@@ -58,19 +46,20 @@ namespace STrackerServerDatabase.Repositories
         {
             var collection = Database.GetCollection(entity.Id);
 
-            // If dont exists, creates a new one. Its a problem?!
             return collection.Save(entity).Ok;
         }
 
         /// <summary>
-        /// Delete the television show.
+        /// Delete one television show.
         /// </summary>
         /// <param name="id">
-        /// The the television show.
+        /// The id.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
+        /// This method deletes also the information about  seasons and episodes of
+        /// television show.
         public override bool Delete(string id)
         {
             return Database.DropCollection(id).Ok;

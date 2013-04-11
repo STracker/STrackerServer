@@ -2,6 +2,9 @@
 // <copyright file="Actor.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
+// <summary>
+//  Implementation of actor domain entity.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace STrackerServerDatabase.Models

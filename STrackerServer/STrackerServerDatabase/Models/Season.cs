@@ -2,58 +2,36 @@
 // <copyright file="Season.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
+// <summary>
+//  Implementation of season domain entity.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace STrackerServerDatabase.Models
 {
-    using System;
     using System.Collections.Generic;
 
     using STrackerServerDatabase.Core;
 
     /// <summary>
-    /// The season domain entity.
+    /// Season domain entity.
     /// </summary>
     public class Season : IEntity<string>
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Season"/> class.
-        /// </summary>
-        /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <param name="number">
-        /// The number.
-        /// </param>
-        public Season(string tvshowId, int number)
-        {
-            this.Id = string.Format("{0}_{1}", tvshowId, number);
-            this.TvShowId = tvshowId;
-            this.Number = number;
-            this.EpisodeSynopses = new List<Episode.EpisodeSynopsis>();
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Season"/> class.
-        /// </summary>
-        public Season()
-        {    
-        }
-
         /// <summary>
         /// Gets or sets the id.
         /// </summary>
         public string Id { get; set; }
 
         /// <summary>
-        /// Gets the television show id.
+        /// Gets or sets the television show id.
         /// </summary>
-        public string TvShowId { get; private set; }
+        public string TvShowId { get;  set; }
 
         /// <summary>
-        /// Gets the number.
+        /// Gets or sets the number.
         /// </summary>
-        public int Number { get; private set; }
+        public int Number { get;  set; }
 
         /// <summary>
         /// Gets or sets the episode synopses.
@@ -72,7 +50,7 @@ namespace STrackerServerDatabase.Models
         }
 
         /// <summary>
-        /// The season synopsis object.
+        /// Season synopsis object.
         /// </summary>
         public class SeasonSynopsis
         {

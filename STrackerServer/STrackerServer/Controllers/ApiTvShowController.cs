@@ -9,6 +9,9 @@ namespace STrackerServer.Controllers
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
+    using System.Web.Mvc;
+
+    using STrackerServerBusinessLayer.Core;
 
     using STrackerServerDatabase.Core;
     using STrackerServerDatabase.Models;
@@ -16,8 +19,15 @@ namespace STrackerServer.Controllers
     /// <summary>
     /// Television shows API controller.
     /// </summary>
-    public class ApiTvShowController : ApiController
+    public class TvShowController : Controller
     {
+        private readonly ITvShowsFacade tvShowsFacade;
+
+        public TvShowController(ITvShowsFacade tvShowsFacade)
+        {
+            this.tvShowsFacade = tvShowsFacade;
+        }
+
         /// <summary>
         /// Get information from the television show with id.
         /// </summary>
@@ -29,7 +39,7 @@ namespace STrackerServer.Controllers
         /// </returns>
         public TvShow Get(string id)
         {
-            var tvshow = RepositoryLocator.TelevisionShowsDocumentRepository.Read(id);
+            var tvshow = tvShowsFacade.Read(id);
 
             if (tvshow == null)
             {

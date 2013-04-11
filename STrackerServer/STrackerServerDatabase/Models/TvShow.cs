@@ -2,6 +2,9 @@
 // <copyright file="TvShow.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
+// <summary>
+//  Implementation of television show domain entity.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace STrackerServerDatabase.Models
@@ -9,7 +12,7 @@ namespace STrackerServerDatabase.Models
     using System.Collections.Generic;
 
     /// <summary>
-    /// The television show domain entity.
+    /// Television show domain entity.
     /// </summary>
     public class TvShow : Media
     {
@@ -45,7 +48,7 @@ namespace STrackerServerDatabase.Models
         }
 
         /// <summary>
-        /// The television show synopsis.
+        /// Television show synopsis object.
         /// </summary>
         public class TvShowSynopsis
         {

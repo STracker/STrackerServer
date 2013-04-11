@@ -2,6 +2,9 @@
 // <copyright file="Media.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
+// <summary>
+//  Implementation of media domain entity.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace STrackerServerDatabase.Models
@@ -11,7 +14,7 @@ namespace STrackerServerDatabase.Models
     using STrackerServerDatabase.Core;
 
     /// <summary>
-    /// The media domain entity.
+    /// Media domain entity.
     /// </summary>
     public class Media : IEntity<string>
     {

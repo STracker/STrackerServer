@@ -2,6 +2,9 @@
 // <copyright file="Person.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
+// <summary>
+//  Implementation of person domain entity.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace STrackerServerDatabase.Models
@@ -9,7 +12,7 @@ namespace STrackerServerDatabase.Models
     using STrackerServerDatabase.Core;
 
     /// <summary>
-    /// The person domain entity.
+    /// Person domain entity.
     /// </summary>
     public class Person : IEntity<string>
     {

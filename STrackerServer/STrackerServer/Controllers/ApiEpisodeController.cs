@@ -36,16 +36,7 @@ namespace STrackerServer.Controllers
         /// </returns>
         public Episode Get(string tvshowId, int seasonNumber, int number)
         {
-            var episode =
-                RepositoryLocator.EpisodesDocumentRepository.Read(
-                    new Tuple<string, int, int>(tvshowId, seasonNumber, number));
-
-            if (episode == null)
-            {
-                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
-            }
-
-            return episode;
+            return null;
         }
     }
 }

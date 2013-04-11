@@ -2,23 +2,23 @@
 // <copyright file="IRepository.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
+// <summary>
+//  Interface that defines the contract of repositories. Defines basic CRUD operations.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace STrackerServerDatabase.Core
 {
     /// <summary>
-    /// The DocumentRepository interface. CRUD operations.
+    /// Repositories interface.
     /// </summary>
-    /// <typeparam name="TK">
-    /// Type of id of document entity.
-    /// </typeparam>
     /// <typeparam name="T">
     /// Type of entity.
     /// </typeparam>
-    /// <typeparam name="TE">
-    /// Type of id of entity.
+    /// <typeparam name="TK">
+    /// Type of entity's Id.
     /// </typeparam>
-    public interface IRepository<in TK, T, in TE> where T : IEntity<TK>
+    public interface IRepository<T, in TK> where T : IEntity<TK>
     {
         /// <summary>
         /// The create.
@@ -40,7 +40,7 @@ namespace STrackerServerDatabase.Core
         /// <returns>
         /// The <see cref="T"/>.
         /// </returns>
-        T Read(TE id);
+        T Read(TK id);
 
         /// <summary>
         /// The update.
@@ -62,6 +62,6 @@ namespace STrackerServerDatabase.Core
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool Delete(TE id);
+        bool Delete(TK id);
     }
 }

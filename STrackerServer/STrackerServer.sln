@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STrackerServer.Tests", "STr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STrackerServerDatabase", "STrackerServerDatabase\STrackerServerDatabase.csproj", "{364A07C1-978D-4343-B422-E81B99889C7D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STrackerServerBusinessLayer", "STrackerServerBusinessLayer\STrackerServerBusinessLayer.csproj", "{3860B573-6C31-47F4-834D-9471F9494A49}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{364A07C1-978D-4343-B422-E81B99889C7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{364A07C1-978D-4343-B422-E81B99889C7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{364A07C1-978D-4343-B422-E81B99889C7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3860B573-6C31-47F4-834D-9471F9494A49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3860B573-6C31-47F4-834D-9471F9494A49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3860B573-6C31-47F4-834D-9471F9494A49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3860B573-6C31-47F4-834D-9471F9494A49}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
