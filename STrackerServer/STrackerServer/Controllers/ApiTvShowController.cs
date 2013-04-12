@@ -19,11 +19,11 @@ namespace STrackerServer.Controllers
     /// <summary>
     /// Television shows API controller.
     /// </summary>
-    public class TvShowController : Controller
+    public class ApiTvShowController : ApiController
     {
         private readonly ITvShowsFacade tvShowsFacade;
 
-        public TvShowController(ITvShowsFacade tvShowsFacade)
+        public ApiTvShowController(ITvShowsFacade tvShowsFacade)
         {
             this.tvShowsFacade = tvShowsFacade;
         }
