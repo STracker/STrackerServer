@@ -2,6 +2,9 @@
 // <copyright file="DevelopersController.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
+// <summary>
+//  Controller for Developers. For testing...
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace STrackerServer.Controllers
@@ -23,6 +26,5 @@ namespace STrackerServer.Controllers
         {
             return View();
         }
-
     }
 }

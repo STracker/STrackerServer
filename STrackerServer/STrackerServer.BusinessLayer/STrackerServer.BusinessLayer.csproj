@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3860B573-6C31-47F4-834D-9471F9494A49}</ProjectGuid>
+    <ProjectGuid>{A96F93CE-920A-4000-9EE7-662AC236EF11}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>STrackerServerBusinessLayer</RootNamespace>
-    <AssemblyName>STrackerServerBusinessLayer</AssemblyName>
+    <RootNamespace>STrackerServer.BusinessLayer</RootNamespace>
+    <AssemblyName>STrackerServer.BusinessLayer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,15 +40,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\ICrudOperations.cs" />
-    <Compile Include="Core\ITvShowsFacade.cs" />
-    <Compile Include="Facades\BaseCrudFacade.cs" />
-    <Compile Include="Facades\TvShowsFacade.cs" />
+    <Compile Include="Core\IEpisodesOperations.cs" />
+    <Compile Include="Core\ISeasonsOperations.cs" />
+    <Compile Include="Core\ITvShowsOperations.cs" />
+    <Compile Include="Facades\BaseCrudOperations.cs" />
+    <Compile Include="Facades\EpisodesOperations.cs" />
+    <Compile Include="Facades\SeasonsOperations.cs" />
+    <Compile Include="Facades\TvShowsOperations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\STrackerServerDatabase\STrackerServerDatabase.csproj">
-      <Project>{364a07c1-978d-4343-b422-e81b99889c7d}</Project>
-      <Name>STrackerServerDatabase</Name>
+    <ProjectReference Include="..\STrackerServer.DataAccessLayer\STrackerServer.DataAccessLayer.csproj">
+      <Project>{f7946d64-169e-437b-9d4c-69d56f4c32f4}</Project>
+      <Name>STrackerServer.DataAccessLayer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

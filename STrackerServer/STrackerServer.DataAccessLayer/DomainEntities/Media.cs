@@ -21,18 +21,18 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// <summary>
         /// Initializes a new instance of the <see cref="Media"/> class.
         /// </summary>
-        /// <param name="id">
-        /// The id.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        public Media(string id)
+        public Media(string key)
         {
-            this.Id = id;
+            this.Key = key;
         }
 
         /// <summary>
-        /// Gets or sets the id.
+        /// Gets or sets the key.
         /// </summary>
-        public string Id { get; set; }
+        public string Key { get; set; }
 
         /// <summary>
         /// Gets or sets the name.

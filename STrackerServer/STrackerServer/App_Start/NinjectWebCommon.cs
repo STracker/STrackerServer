@@ -24,11 +24,10 @@ namespace STrackerServer.App_Start
     using Ninject.Syntax;
     using Ninject.Web.Common;
 
-    using STrackerServerBusinessLayer.Core;
-    using STrackerServerBusinessLayer.Facades;
-
-    using STrackerServerDatabase.Repositories;
-    using STrackerServerDatabase.Repositories.Implementations;
+    using STrackerServer.BusinessLayer.Core;
+    using STrackerServer.BusinessLayer.Facades;
+    using STrackerServer.DataAccessLayer.Core;
+    using STrackerServer.Repository.MongoDB.Core;
 
     /// <summary>
     /// The NINJECT web common.
@@ -82,8 +81,17 @@ namespace STrackerServer.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            kernel.Bind<ITvShowsFacade>().To<TvShowsFacade>().InRequestScope();
+            // Television shows stuffs dependencies...
+            kernel.Bind<ITvShowsOperations>().To<TvShowsOperations>().InRequestScope();
             kernel.Bind<ITvShowsRepository>().To<TvShowsRepository>().InRequestScope();
+
+            // Seasons stuffs dependencies...
+            kernel.Bind<ISeasonsOperations>().To<SeasonsOperations>().InRequestScope();
+            kernel.Bind<ISeasonsRepository>().To<SeasonsRepository>().InRequestScope();
+
+            // Episodes stuffs dependencies...
+            kernel.Bind<IEpisodesOperations>().To<EpisodesOperations>().InRequestScope();
+            kernel.Bind<IEpisodesRepository>().To<EpisodesRepository>().InRequestScope();
         }
 
         /*

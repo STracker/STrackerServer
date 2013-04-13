@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("STrackerServerBusinessLayer")]
+[assembly: AssemblyTitle("STrackerServer.BusinessLayer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("STrackerServerBusinessLayer")]
+[assembly: AssemblyProduct("STrackerServer.BusinessLayer")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("c3fcff47-1969-4791-a6e2-51f484bd6643")]
+[assembly: Guid("de9d063f-5315-4f40-98c6-3c3587a507b6")]
 
 // Version information for an assembly consists of the following four values:
 //

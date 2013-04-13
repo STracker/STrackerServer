@@ -11,13 +11,8 @@
 namespace STrackerServer.Repository.MongoDB.Core
 {
     using System;
-    using System.Linq;
 
     using global::MongoDB.Bson.Serialization;
-
-    using global::MongoDB.Driver;
-
-    using global::MongoDB.Driver.Builders;
 
     using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities;
@@ -38,7 +33,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         static SeasonsRepository()
         {
             BsonClassMap.RegisterClassMap<Season>(
-                cm => cm.MapIdField(c => c.Id.ToString()));
+                cm => cm.MapIdField(c => c.Key.ToString()));
         }
 
         /// <summary>
@@ -53,91 +48,64 @@ namespace STrackerServer.Repository.MongoDB.Core
         }
 
         /// <summary>
-        /// Implementation of Create hook method.
+        /// Create one season.
         /// </summary>
         /// <param name="entity">
         /// The entity.
         /// </param>
-        /// <param name="collection">
-        /// The collection.
-        /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        protected override bool Create(Season entity, MongoCollection collection)
+        public override bool Create(Season entity)
         {
-            var tvshow = this.tvshowsRepository.Read(entity.TvShowId);
-
-            if (tvshow == null)
-            {
-                return false;
-            }
-
-            collection.Insert(entity);
-
-            // Add the object synopsis to seasons synopses list of the television show document.
-            tvshow.SeasonSynopses.Add(entity.GetSynopsis());
-
-            return this.tvshowsRepository.Update(tvshow);
+            // Needs to create also the object synopse in television show seasons list
+            throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Implementation of Update hook method.
+        /// Update one season.
         /// </summary>
         /// <param name="entity">
         /// The entity.
         /// </param>
-        /// <param name="collection">
-        /// The collection.
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public override bool Update(Season entity)
+        {
+            // Needs to update also the object synopse in television show seasons list
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Delete one season.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        /// Dont needed to update the synopse object in television show document
-        /// because the synopse object only have the season number and his value
-        /// is always the same.
-        protected override bool Update(Season entity, MongoCollection collection)
+        public override bool Delete(Tuple<string, int> key)
         {
-            return collection.Save(entity).Ok;
+            // Needs to delete also the object synopse in television show seasons list
+            throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Implementation of Delete hook method.
+        /// Hook method for Read operation.
         /// </summary>
-        /// <param name="id">
-        /// The id.
-        /// </param>
-        /// <param name="collection">
-        /// The collection.
+        /// <param name="key">
+        /// The key.
         /// </param>
         /// <returns>
-        /// The <see cref="bool"/>.
+        /// The <see cref="Season"/>.
         /// </returns>
-        /// Need to delete the season synopse of television show document before
-        /// removing the season document.
-        protected override bool Delete(Tuple<string, int> id, MongoCollection collection)
+        protected override Season HookRead(Tuple<string, int> key)
         {
-            var tvshow = this.tvshowsRepository.Read(id.Item1);
+            var collection = Database.GetCollection(key.Item1);
 
-            var seasonsynopse = tvshow.SeasonSynopses.FirstOrDefault(season => season.Number == id.Item2);
-
-            tvshow.SeasonSynopses.Remove(seasonsynopse);
-
-            return this.tvshowsRepository.Update(tvshow) && collection.FindAndRemove(Query.EQ("_id", id.ToString()), SortBy.Null).Ok;
-        }
-
-        /// <summary>
-        /// The get document collection.
-        /// </summary>
-        /// <param name="id">
-        /// The id.
-        /// </param>
-        /// <returns>
-        /// The <see cref="MongoCollection"/>.
-        /// </returns>
-        protected override MongoCollection GetDocumentCollection(Tuple<string, int> id)
-        {
-            return this.Database.GetCollection(id.Item1);
+            return collection.FindOneByIdAs<Season>(key.ToString());
         }
     }
 }

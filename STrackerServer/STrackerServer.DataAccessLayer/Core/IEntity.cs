@@ -13,13 +13,13 @@ namespace STrackerServer.DataAccessLayer.Core
     /// Entities interface.
     /// </summary>
     /// <typeparam name="TK">
-    /// Type of entity's Id.
+    /// Type of entity's Key.
     /// </typeparam>
     public interface IEntity<TK>
     {
         /// <summary>
-        /// Gets or sets the id.
+        /// Gets or sets the key.
         /// </summary>
-        TK Id { get; set; }
+        TK Key { get; set; }
     }
 }

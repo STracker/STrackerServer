@@ -19,11 +19,11 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// <summary>
         /// Initializes a new instance of the <see cref="TvShow"/> class.
         /// </summary>
-        /// <param name="id">
-        /// The id.
+        /// <param name="key">
+        /// The key.
         /// </param>
-        public TvShow(string id)
-            : base(id)
+        public TvShow(string key)
+            : base(key)
         {
         }
 
@@ -55,7 +55,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// </returns>
         public TvShowSynopsis GetSynopsis()
         {
-            return new TvShowSynopsis { Id = this.Id, Name = this.Name };
+            return new TvShowSynopsis { Id = this.Key, Name = this.Name };
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         public class TvShowSynopsis
         {
             /// <summary>
-            /// Gets or sets the id.
+            /// Gets or sets the key.
             /// </summary>
             public string Id { get; set; }
 

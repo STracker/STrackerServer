@@ -9,11 +9,12 @@
 
 namespace STrackerServer.Repository.MongoDB.Core
 {
-    using System.Configuration;
+    using global::MongoDB.Bson.Serialization;
 
     using global::MongoDB.Driver;
 
     using STrackerServer.DataAccessLayer.Core;
+    using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
     /// Base repository for MongoDB database.
@@ -22,78 +23,79 @@ namespace STrackerServer.Repository.MongoDB.Core
     /// Type of entity.
     /// </typeparam>
     /// <typeparam name="TK">
-    /// Type of entity's Id.
+    /// Type of entity's Key.
     /// </typeparam>
     public abstract class BaseRepository<T, TK> : IRepository<T, TK> where T : IEntity<TK>
     {
         /// <summary>
         /// MongoDB database object.
         /// </summary>
-        private readonly MongoDatabase database;
+        protected readonly MongoDatabase Database;
+
+        /// <summary>
+        /// Initializes static members of the <see cref="BaseRepository{T,TK}"/> class.
+        /// </summary>
+        static BaseRepository()
+        {
+            /*
+             * Affects some serialization options of MongoDB class mapping like id field. 
+             */
+
+            BsonClassMap.RegisterClassMap<Media>(
+                cm =>
+                    {
+                        cm.AutoMap();
+                        cm.SetIdMember(cm.GetMemberMap(c => c.Key));
+                    });
+
+            BsonClassMap.RegisterClassMap<TvShow>();
+
+            BsonClassMap.RegisterClassMap<Person>(
+                cm =>
+                    {
+                        cm.AutoMap();
+                        cm.SetIdMember(cm.GetMemberMap(c => c.Key));
+                    });
+
+            BsonClassMap.RegisterClassMap<Actor>();
+        } 
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseRepository{T,TK}"/> class.
         /// </summary>
         protected BaseRepository()
         {
-            // Get the URL for MongoClient. The URL it is defined in Application configuration file.
-            var url = new MongoUrl(ConfigurationManager.AppSettings["MongoDBURL"]);
-
-            // Create the database instance object.
-            this.database = new MongoClient(url).GetServer().GetDatabase(url.DatabaseName);
-        }
-
-        /// <summary>
-        /// Gets the MongoDB database object.
-        /// </summary>
-        protected MongoDatabase Database
-        {
-            get
-            {
-                return this.database;
-            }
-        }
-
-        /// <summary>
-        /// Create one entity.
-        /// </summary>
-        /// <param name="entity">
-        /// The entity.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public bool Create(T entity)
-        {
-            var collection = this.GetDocumentCollection(entity.Id);
-            return this.Create(entity, collection);
+            /*
+             * The MongoDatabase class is Thread-Safe, only needs one instance of this class per database
+             * if the settings to acess to it is always the sames. 
+             */
+            this.Database = MongoUtils.Database;
         }
 
         /// <summary>
         /// Get one entity.
         /// </summary>
-        /// <param name="id">
-        /// The id.
+        /// <param name="key">
+        /// The key.
         /// </param>
         /// <returns>
         /// The <see cref="T"/>.
         /// </returns>
-        public T Read(TK id)
+        public T Read(TK key)
         {
-            var collection = this.GetDocumentCollection(id);
+            var entity = this.HookRead(key);
 
-            T entity;
-            if ((entity = collection.FindOneByIdAs<T>(id.ToString())).Equals(default(T)))
+            if (!entity.Equals(default(T)))
             {
-                // TODO, if the entity doesnt exists in MongoDB database, is necessary to call one provider.
-                throw new System.NotImplementedException();
+                return entity;
             }
 
-            return entity;
+            // TODO, if the entity doesnt exists in MongoDB database, is necessary to call one provider.
+            throw new System.NotImplementedException();
         }
 
         /// <summary>
-        /// Update one entity.
+        /// Create method. 
         /// </summary>
         /// <param name="entity">
         /// The entity.
@@ -101,81 +103,42 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public bool Update(T entity)
-        {
-            var collection = this.GetDocumentCollection(entity.Id);
-            return this.Update(entity, collection);
-        }
+        /// Is abstract because his implementation is diferent from repository to repository.
+        public abstract bool Create(T entity);
 
         /// <summary>
-        /// Delete one entity.
-        /// </summary>
-        /// <param name="id">
-        /// The id.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public bool Delete(TK id)
-        {
-            var collection = this.GetDocumentCollection(id);
-            return this.Delete(id, collection);
-        }
-
-        /// <summary>
-        /// Hook method for Create method. 
+        /// Update method.
         /// </summary>
         /// <param name="entity">
         /// The entity.
         /// </param>
-        /// <param name="collection">
-        /// The collection.
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        /// Is abstract because his implementation is diferent from repository to repository.
+        public abstract bool Update(T entity);
+
+        /// <summary>
+        /// Delete method.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
         /// Is abstract because his implementation is diferent from repository to repository.
-        protected abstract bool Create(T entity, MongoCollection collection);
+        public abstract bool Delete(TK key);
 
         /// <summary>
-        /// Hook method for Update method.
+        /// Hook method for Read operation.
         /// </summary>
-        /// <param name="entity">
-        /// The entity.
-        /// </param>
-        /// <param name="collection">
-        /// The collection.
+        /// <param name="key">
+        /// The key.
         /// </param>
         /// <returns>
-        /// The <see cref="bool"/>.
+        /// The <see cref="T"/>.
         /// </returns>
-        /// Is abstract because his implementation is diferent from repository to repository.
-        protected abstract bool Update(T entity, MongoCollection collection);
-
-        /// <summary>
-        /// Hook method for Delete method.
-        /// </summary>
-        /// <param name="id">
-        /// The id.
-        /// </param>
-        /// <param name="collection">
-        /// The collection.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        /// Is abstract because his implementation is diferent from repository to repository.
-        protected abstract bool Delete(TK id, MongoCollection collection);
-
-        /// <summary>
-        /// Hook method for getting collection of the document.
-        /// </summary>
-        /// <param name="id">
-        /// The id.
-        /// </param>
-        /// <returns>
-        /// The <see cref="MongoCollection"/>.
-        /// </returns>
-        protected abstract MongoCollection GetDocumentCollection(TK id);
+        protected abstract T HookRead(TK key);
     }
 }

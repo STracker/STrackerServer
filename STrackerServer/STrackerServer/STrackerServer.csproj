@@ -67,7 +67,6 @@
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -121,15 +120,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\NinjectWebCommon.cs" />
-    <Compile Include="Controllers\ApiEpisodeController.cs" />
-    <Compile Include="Controllers\ApiSeasonController.cs" />
-    <Compile Include="Controllers\ApiTvShowController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\EpisodesController.cs" />
+    <Compile Include="Controllers\SeasonsController.cs" />
+    <Compile Include="Controllers\TvShowsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\DevelopersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\API\Seasons.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -167,23 +167,18 @@
     <Content Include="Views\Developers\Get.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\TvShow\Get.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\STrackerServerBusinessLayer\STrackerServerBusinessLayer.csproj">
-      <Project>{3860b573-6c31-47f4-834d-9471f9494a49}</Project>
-      <Name>STrackerServerBusinessLayer</Name>
+    <ProjectReference Include="..\STrackerServer.BusinessLayer\STrackerServer.BusinessLayer.csproj">
+      <Project>{a96f93ce-920a-4000-9ee7-662ac236ef11}</Project>
+      <Name>STrackerServer.BusinessLayer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\STrackerServerDatabase\STrackerServerDatabase.csproj">
-      <Project>{364a07c1-978d-4343-b422-e81b99889c7d}</Project>
-      <Name>STrackerServerDatabase</Name>
+    <ProjectReference Include="..\STrackerServer.DataAccessLayer\STrackerServer.DataAccessLayer.csproj">
+      <Project>{f7946d64-169e-437b-9d4c-69d56f4c32f4}</Project>
+      <Name>STrackerServer.DataAccessLayer</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Season\Get.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Episode\Get.cshtml" />
+    <ProjectReference Include="..\STrackerServer.Repository.MongoDB\STrackerServer.Repository.MongoDB.csproj">
+      <Project>{a43347c5-0aa1-4712-8451-8b9b91666b76}</Project>
+      <Name>STrackerServer.Repository.MongoDB</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

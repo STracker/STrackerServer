@@ -1,16 +1,18 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IRepository.cs" company="STracker">
+// <copyright file="ICrudOperations.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  Interface that defines the contract of repositories. Defines basic CRUD operations.
+//  Interface that defines the contract of CRUD operations.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.DataAccessLayer.Core
+namespace STrackerServer.BusinessLayer.Core
 {
+    using STrackerServer.DataAccessLayer.Core;
+
     /// <summary>
-    /// Repositories interface.
+    /// Crud operations interface.
     /// </summary>
     /// <typeparam name="T">
     /// Type of entity.
@@ -18,10 +20,10 @@ namespace STrackerServer.DataAccessLayer.Core
     /// <typeparam name="TK">
     /// Type of entity's Key.
     /// </typeparam>
-    public interface IRepository<T, in TK> where T : IEntity<TK>
+    public interface ICrudOperations<T, in TK> where T : IEntity<TK>
     {
         /// <summary>
-        /// The create.
+        /// Create operation.
         /// </summary>
         /// <param name="entity">
         /// The entity.
@@ -32,18 +34,18 @@ namespace STrackerServer.DataAccessLayer.Core
         bool Create(T entity);
 
         /// <summary>
-        /// The read.
+        /// Read operation.
         /// </summary>
-        /// <param name="key">
-        /// The key.
+        /// <param name="id">
+        /// The id.
         /// </param>
         /// <returns>
         /// The <see cref="T"/>.
         /// </returns>
-        T Read(TK key);
+        T Read(TK id);
 
         /// <summary>
-        /// The update.
+        /// Update operation.
         /// </summary>
         /// <param name="entity">
         /// The entity.
@@ -54,14 +56,14 @@ namespace STrackerServer.DataAccessLayer.Core
         bool Update(T entity);
 
         /// <summary>
-        /// The delete.
+        /// Delete operation.
         /// </summary>
-        /// <param name="key">
-        /// The key.
+        /// <param name="id">
+        /// The id.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool Delete(TK key);
+        bool Delete(TK id);
     }
 }

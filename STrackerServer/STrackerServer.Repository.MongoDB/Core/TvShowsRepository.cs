@@ -12,8 +12,6 @@ namespace STrackerServer.Repository.MongoDB.Core
 {
     using System.Collections.Generic;
 
-    using global::MongoDB.Driver;
-
     using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities;
 
@@ -39,70 +37,67 @@ namespace STrackerServer.Repository.MongoDB.Core
         }
 
         /// <summary>
-        /// Implementation of Create hook method.
+        /// Create one television show.
         /// </summary>
         /// <param name="entity">
         /// The entity.
         /// </param>
-        /// <param name="collection">
-        /// The collection.
-        /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        protected override bool Create(TvShow entity, MongoCollection collection)
+        public override bool Create(TvShow entity)
         {
+            var collection = Database.GetCollection(entity.Key);
+
             return collection.Insert(entity).Ok;
         }
 
         /// <summary>
-        /// Implementation of Update hook method.
+        /// Update one television show.
         /// </summary>
         /// <param name="entity">
         /// The entity.
         /// </param>
-        /// <param name="collection">
-        /// The collection.
-        /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        protected override bool Update(TvShow entity, MongoCollection collection)
+        public override bool Update(TvShow entity)
         {
+            var collection = Database.GetCollection(entity.Key);
+
             return collection.Save(entity).Ok;
         }
 
         /// <summary>
-        /// Implementation of Delete hook method.
+        /// Delete one television show.
         /// </summary>
-        /// <param name="id">
-        /// The id.
-        /// </param>
-        /// <param name="collection">
-        /// The collection.
+        /// <param name="key">
+        /// The key.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        /// This method deletes also the information about  seasons and episodes of
+        /// This method also deletes the information about  seasons and episodes of
         /// television show.
-        protected override bool Delete(string id, MongoCollection collection)
+        public override bool Delete(string key)
         {
-            return this.Database.DropCollection(id).Ok;
+            return this.Database.DropCollection(key).Ok;
         }
 
         /// <summary>
-        /// Implementation of get document collection hook method.
+        /// Hook method for Read operation.
         /// </summary>
-        /// <param name="id">
-        /// The id.
+        /// <param name="key">
+        /// The key.
         /// </param>
         /// <returns>
-        /// The <see cref="MongoCollection"/>.
+        /// The <see cref="TvShow"/>.
         /// </returns>
-        protected override MongoCollection GetDocumentCollection(string id)
+        protected override TvShow HookRead(string key)
         {
-            return Database.GetCollection(id);
+            var collection = Database.GetCollection(key);
+
+            return collection.FindOneByIdAs<TvShow>(key);
         }
     }
 }

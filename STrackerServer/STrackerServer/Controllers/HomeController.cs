@@ -2,6 +2,9 @@
 // <copyright file="HomeController.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
+// <summary>
+//  Controller for Home. Entry point of Front web.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace STrackerServer.Controllers

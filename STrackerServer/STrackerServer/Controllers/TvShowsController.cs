@@ -1,31 +1,33 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ApiTvShowController.cs" company="STracker">
+// <copyright file="TvShowsController.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
+// <summary>
+//  Controller for television shows.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace STrackerServer.Controllers
 {
-    using System.Net;
-    using System.Net.Http;
     using System.Web.Http;
-    using System.Web.Mvc;
 
-    using STrackerServerBusinessLayer.Core;
-
-    using STrackerServerDatabase.Core;
-    using STrackerServerDatabase.Models;
+    using STrackerServer.BusinessLayer.Core;
+    using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
     /// Television shows API controller.
     /// </summary>
-    public class ApiTvShowController : ApiController
+    public class TvShowsController : BaseController<TvShow, string>
     {
-        private readonly ITvShowsFacade tvShowsFacade;
-
-        public ApiTvShowController(ITvShowsFacade tvShowsFacade)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TvShowsController"/> class.
+        /// </summary>
+        /// <param name="tvshowsOperations">
+        /// Television shows operations.
+        /// </param>
+        public TvShowsController(ITvShowsOperations tvshowsOperations)
+            : base(tvshowsOperations)
         {
-            this.tvShowsFacade = tvShowsFacade;
         }
 
         /// <summary>
@@ -37,16 +39,10 @@ namespace STrackerServer.Controllers
         /// <returns>
         /// The <see cref="TvShow"/>.
         /// </returns>
+        [HttpGet]
         public TvShow Get(string id)
         {
-            var tvshow = tvShowsFacade.Read(id);
-
-            if (tvshow == null)
-            {
-                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
-            }
-
-            return tvshow;
+            return this.Get(this.Operations.Read(id));
         }
     }
 }

@@ -22,21 +22,21 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// <summary>
         /// Initializes a new instance of the <see cref="Episode"/> class.
         /// </summary>
-        /// <param name="id">
-        /// Compound id. Order: television show id, season number, episode number.
+        /// <param name="key">
+        /// Compound key. Order: television show id, season number, episode number.
         /// </param>
-        public Episode(Tuple<string, int, int> id)
+        public Episode(Tuple<string, int, int> key)
         {
-            this.Id                       = id;
-            this.TvShowId         = id.Item1;
-            this.SeasonNumber = id.Item2;
-            this.Number             = id.Item3;
+            this.Key                    = key;
+            this.TvShowId          = key.Item1;
+            this.SeasonNumber = key.Item2;
+            this.Number             = key.Item3;
         }
 
         /// <summary>
         /// Gets or sets the id.
         /// </summary>
-        public Tuple<string, int, int> Id { get; set; }
+        public Tuple<string, int, int> Key { get; set; }
 
         /// <summary>
         /// Gets or sets the television show id.

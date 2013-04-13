@@ -1,26 +1,38 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ApiEpisodeController.cs" company="STracker">
+// <copyright file="EpisodesController.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
+// <summary>
+//  Controller for episodes.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace STrackerServer.Controllers
 {
     using System;
-    using System.Net;
-    using System.Net.Http;
     using System.Web.Http;
 
-    using STrackerServerDatabase.Core;
-    using STrackerServerDatabase.Models;
+    using STrackerServer.BusinessLayer.Core;
+    using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
     /// Episodes API controller.
     /// </summary>
-    public class ApiEpisodeController : ApiController
+    public class EpisodesController : BaseController<Episode, Tuple<string, int, int>>
     {
         /// <summary>
-        /// Get information from the season from one season form one television show.
+        /// Initializes a new instance of the <see cref="EpisodesController"/> class.
+        /// </summary>
+        /// <param name="episodesOperations">
+        /// The episodes operations.
+        /// </param>
+        public EpisodesController(IEpisodesOperations episodesOperations)
+            : base(episodesOperations)
+        {
+        }
+
+        /// <summary>
+        /// Get information from the episode from one season from one television show.
         /// </summary>
         /// <param name="tvshowId">
         /// The television show id.
@@ -34,9 +46,10 @@ namespace STrackerServer.Controllers
         /// <returns>
         /// The <see cref="Episode"/>.
         /// </returns>
+        [HttpGet]
         public Episode Get(string tvshowId, int seasonNumber, int number)
         {
-            return null;
+            return this.Get(this.Operations.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, number)));
         }
     }
 }

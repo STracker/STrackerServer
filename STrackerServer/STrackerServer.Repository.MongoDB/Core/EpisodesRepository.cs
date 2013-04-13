@@ -11,9 +11,6 @@
 namespace STrackerServer.Repository.MongoDB.Core
 {
     using System;
-    using System.Linq;
-
-    using global::MongoDB.Driver;
 
     using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities;
@@ -40,95 +37,64 @@ namespace STrackerServer.Repository.MongoDB.Core
         }
 
         /// <summary>
-        /// Implementation of Create hook method.
+        /// Create one episode.
         /// </summary>
         /// <param name="entity">
         /// The entity.
         /// </param>
-        /// <param name="collection">
-        /// The collection.
-        /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        protected override bool Create(Episode entity, MongoCollection collection)
+        public override bool Create(Episode entity)
         {
-            var season = seasonsRepository.Read(new Tuple<string, int>(entity.TvShowId, entity.SeasonNumber));
-
-            if (season == null)
-            {
-                return false;
-            }
-
-            collection.Insert(entity);
-            
-            // Add the object synopsis to episodes synopses list of the season document.
-            season.EpisodeSynopses.Add(entity.GetSynopsis());
-
-            return seasonsRepository.Update(season);
-        }
-
-        /// <summary>
-        /// Implementation of Update hook method.
-        /// </summary>
-        /// <param name="entity">
-        /// The entity.
-        /// </param>
-        /// <param name="collection">
-        /// The collection.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        protected override bool Update(Episode entity, MongoCollection collection)
-        {
-            if (!collection.Save(entity).Ok)
-            {
-                return false;
-            }
-            
-            var season = seasonsRepository.Read(new Tuple<string, int>(entity.TvShowId, entity.SeasonNumber));
-
-            var synopse = season.EpisodeSynopses.FirstOrDefault(s => s.Number == entity.Number);
-
-            season.EpisodeSynopses.Remove(synopse);
-
-            synopse = entity.GetSynopsis();
-
-            season.EpisodeSynopses.Add(synopse);
-
-            return seasonsRepository.Update(season);
-        }
-
-        /// <summary>
-        /// Implementation of Delete hook method.
-        /// </summary>
-        /// <param name="id">
-        /// The id.
-        /// </param>
-        /// <param name="collection">
-        /// The collection.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        protected override bool Delete(Tuple<string, int, int> id, MongoCollection collection)
-        {
+            // Needs to create also the object synopse in season episodes list
             throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Implementation of get document collection hook method.
+        /// Update one episode.
         /// </summary>
-        /// <param name="id">
-        /// The id.
+        /// <param name="entity">
+        /// The entity.
         /// </param>
         /// <returns>
-        /// The <see cref="MongoCollection"/>.
+        /// The <see cref="bool"/>.
         /// </returns>
-        protected override MongoCollection GetDocumentCollection(Tuple<string, int, int> id)
+        public override bool Update(Episode entity)
         {
-            return Database.GetCollection(id.Item1);
+            // Needs to update also the object synopse in season episodes list
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Delete one episode.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public override bool Delete(Tuple<string, int, int> key)
+        {
+            // Needs to delete also the object synopse in season episodes list
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Hook method for Read operation.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Episode"/>.
+        /// </returns>
+        protected override Episode HookRead(Tuple<string, int, int> key)
+        {
+            var collection = Database.GetCollection(key.Item1);
+
+            return collection.FindOneByIdAs<Episode>(key.ToString());
         }
     }
 }
