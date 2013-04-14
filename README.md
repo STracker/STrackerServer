@@ -9,6 +9,12 @@ aplicação cliente utilizando o protocolo HTTP.
 
 
 
+### Documentação do projecto
+
+\* Na [Wiki](Home)
+
+
+
 ### Esquema das directorias
 
 -   STrackerServer:
