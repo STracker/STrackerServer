@@ -13,13 +13,13 @@ aplicação cliente utilizando o protocolo HTTP.
 
 -   STrackerServer:
 
-    -   STrackerServer                                 - Projecto ASP.NET MVC 4.
+    -   STrackerServer - Projecto ASP.NET MVC 4.
 
-    -   STrackerServer.BusinessLayer            - Camada de negócios.
+    -   STrackerServer.BusinessLayer - Camada da lógica de negócios.
 
-    -   STrackerServer.DataAccessLayer         - Camada de acesso aos dados.
+    -   STrackerServer.DataAccessLayer - Camada de acesso aos dados.
 
-    -   STrackerServer.Repository.MongoDB   - Repositórios de ligação à base de
+    -   STrackerServer.Repository.MongoDB - Repositórios de ligação à base de
         dados MongoDB.
 
 
