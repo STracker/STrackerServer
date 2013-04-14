@@ -48,7 +48,6 @@
   <ItemGroup>
     <Compile Include="Core\BaseRepository.cs" />
     <Compile Include="Core\EpisodesRepository.cs" />
-    <Compile Include="Core\MongoUtils.cs" />
     <Compile Include="Core\SeasonsRepository.cs" />
     <Compile Include="Core\TvShowsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

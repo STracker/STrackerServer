@@ -11,8 +11,13 @@
 namespace STrackerServer.Repository.MongoDB.Core
 {
     using System;
+    using System.Collections.Generic;
 
     using global::MongoDB.Bson.Serialization;
+
+    using global::MongoDB.Driver;
+
+    using global::MongoDB.Driver.Builders;
 
     using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities;
@@ -37,7 +42,6 @@ namespace STrackerServer.Repository.MongoDB.Core
                {
                    cm.AutoMap();
                    cm.UnmapProperty(c => c.Key);
-                   cm.GetMemberMap(c => c.EpisodeSynopses).SetIgnoreIfNull(true);
                });
         }
 
@@ -47,7 +51,14 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <param name="tvshowsRepository">
         /// Television shows repository.
         /// </param>
-        public SeasonsRepository(ITvShowsRepository tvshowsRepository)
+        /// <param name="client">
+        /// MongoDB client.
+        /// </param>
+        /// <param name="url">
+        /// MongoDB url.
+        /// </param>
+        public SeasonsRepository(ITvShowsRepository tvshowsRepository, MongoClient client, MongoUrl url) 
+            : base(client, url)
         {
             this.tvshowsRepository = tvshowsRepository;
         }
@@ -61,10 +72,23 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
+        /// Needs to create also the object synopse in television show seasons list.
         public override bool Create(Season entity)
         {
-            // Needs to create also the object synopse in television show seasons list
-            throw new NotImplementedException();
+            var collection = Database.GetCollection(entity.TvShowId);
+
+            // Add the synopse of the entity to television show.
+            var tvshow = this.tvshowsRepository.Read(entity.TvShowId);
+            var seasonSynopse = entity.GetSynopsis();
+            
+            if (tvshow.SeasonSynopses == null)
+            {
+                tvshow.SeasonSynopses = new List<Season.SeasonSynopsis>();
+            }
+
+            tvshow.SeasonSynopses.Add(seasonSynopse);
+
+            return collection.Insert(entity).Ok && this.tvshowsRepository.Update(tvshow);
         }
 
         /// <summary>
@@ -76,10 +100,13 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
+        /// Dont need to update the object synopse in television show seasons list because
+        /// the synopse object holds only the season number and this number is never changed.
         public override bool Update(Season entity)
         {
-            // Needs to update also the object synopse in television show seasons list
-            throw new NotImplementedException();
+            var collection = Database.GetCollection(entity.TvShowId);
+
+            return collection.Save(entity).Ok;
         }
 
         /// <summary>
@@ -91,10 +118,33 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
+        /// Needs to delete also the object synopse in television show seasons list.
         public override bool Delete(Tuple<string, int> key)
         {
-            // Needs to delete also the object synopse in television show seasons list
-            throw new NotImplementedException();
+            var collection = Database.GetCollection(key.Item1);
+           
+            var query = Query<Season>.EQ(s => s.Id, key.ToString());
+
+            // Remove  the object synopse.
+            var tvshow = this.tvshowsRepository.Read(key.Item1);
+
+            if (tvshow.SeasonSynopses == null || tvshow.SeasonSynopses.Count == 0)
+            {
+                return collection.FindAndRemove(query, SortBy.Null).Ok;
+            }
+
+            var synopse = tvshow.SeasonSynopses.Find(s => s.Number == key.Item2);
+            
+            if (synopse == null)
+            {
+                return collection.FindAndRemove(query, SortBy.Null).Ok;
+            }
+
+            tvshow.SeasonSynopses.Remove(synopse);
+
+            // In this case first remove the object synopse than remove the season, because can not have
+            // one synopse for one season that not exists.
+            return this.tvshowsRepository.Update(tvshow) && collection.FindAndRemove(query, SortBy.Null).Ok;
         }
 
         /// <summary>

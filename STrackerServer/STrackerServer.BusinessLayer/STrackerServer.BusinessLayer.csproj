@@ -43,10 +43,10 @@
     <Compile Include="Core\IEpisodesOperations.cs" />
     <Compile Include="Core\ISeasonsOperations.cs" />
     <Compile Include="Core\ITvShowsOperations.cs" />
-    <Compile Include="Facades\BaseCrudOperations.cs" />
-    <Compile Include="Facades\EpisodesOperations.cs" />
-    <Compile Include="Facades\SeasonsOperations.cs" />
-    <Compile Include="Facades\TvShowsOperations.cs" />
+    <Compile Include="Operations\BaseCrudOperations.cs" />
+    <Compile Include="Operations\EpisodesOperations.cs" />
+    <Compile Include="Operations\SeasonsOperations.cs" />
+    <Compile Include="Operations\TvShowsOperations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

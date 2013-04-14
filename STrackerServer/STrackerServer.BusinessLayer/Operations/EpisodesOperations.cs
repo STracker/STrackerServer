@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.BusinessLayer.Facades
+namespace STrackerServer.BusinessLayer.Operations
 {
     using System;
 
@@ -42,6 +42,7 @@ namespace STrackerServer.BusinessLayer.Facades
         /// </returns>
         public override bool Create(Episode entity)
         {
+            // TODO validate fields, like tvshowid and season number verify if exists.
             throw new NotImplementedException();
         }
 

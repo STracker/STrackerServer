@@ -32,13 +32,15 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseRepository{T,TK}"/> class.
         /// </summary>
-        protected BaseRepository()
+        /// <param name="client">
+        /// MongoDB client.
+        /// </param>
+        /// <param name="url">
+        /// MongoDB url.
+        /// </param>
+        protected BaseRepository(MongoClient client, MongoUrl url)
         {
-            /*
-             * The MongoDatabase class is Thread-Safe, only needs one instance of this class per database
-             * if the settings to acess to it is always the sames. 
-             */
-            this.Database = MongoUtils.Database;
+            this.Database = client.GetServer().GetDatabase(url.DatabaseName);
         }
 
         /// <summary>

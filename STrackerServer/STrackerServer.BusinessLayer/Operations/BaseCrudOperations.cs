@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.BusinessLayer.Facades
+namespace STrackerServer.BusinessLayer.Operations
 {
     using STrackerServer.BusinessLayer.Core;
     using STrackerServer.DataAccessLayer.Core;

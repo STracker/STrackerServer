@@ -1,38 +1,39 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SeasonsOperations.cs" company="STracker">
+// <copyright file="TvShowsOperations.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  Implementation of ISeasonsOperations interface.
+//  Implementation of ITvShowsOperations interface.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.BusinessLayer.Facades
+namespace STrackerServer.BusinessLayer.Operations
 {
     using System;
+    using System.Collections.Generic;
 
     using STrackerServer.BusinessLayer.Core;
     using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
-    /// Seasons operations.
+    /// Television shows operations.
     /// </summary>
-    public class SeasonsOperations : BaseCrudOperations<Season, Tuple<string, int>>, ISeasonsOperations
+    public class TvShowsOperations : BaseCrudOperations<TvShow, string>, ITvShowsOperations
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SeasonsOperations"/> class.
+        /// Initializes a new instance of the <see cref="TvShowsOperations"/> class.
         /// </summary>
         /// <param name="repository">
         /// The repository.
         /// </param>
-        public SeasonsOperations(ISeasonsRepository repository)
+        public TvShowsOperations(ITvShowsRepository repository)
             : base(repository)
         {
         }
 
         /// <summary>
-        /// Create one season.
+        /// Create one television show.
         /// </summary>
         /// <param name="entity">
         /// The entity.
@@ -40,21 +41,38 @@ namespace STrackerServer.BusinessLayer.Facades
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public override bool Create(Season entity)
+        public override bool Create(TvShow entity)
+        {
+            // TODO validate fields!
+            return this.Repository.Create(entity);
+        }
+
+        /// <summary>
+        /// Update one television show.
+        /// </summary>
+        /// <param name="entity">
+        /// The entity.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public override bool Update(TvShow entity)
         {
             throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Update one season.
+        /// Get television shows by genre.
         /// </summary>
-        /// <param name="entity">
-        /// The entity.
+        /// <param name="genre">
+        /// The genre.
         /// </param>
         /// <returns>
-        /// The <see cref="bool"/>.
+        /// The <see>
+        ///       <cref>List</cref>
+        ///     </see> .
         /// </returns>
-        public override bool Update(Season entity)
+        public List<TvShow> ReadAllByGenre(Genre genre)
         {
             throw new NotImplementedException();
         }

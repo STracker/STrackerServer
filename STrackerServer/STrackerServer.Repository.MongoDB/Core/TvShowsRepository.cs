@@ -14,6 +14,8 @@ namespace STrackerServer.Repository.MongoDB.Core
 
     using global::MongoDB.Bson.Serialization;
 
+    using global::MongoDB.Driver;
+
     using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities;
 
@@ -32,24 +34,30 @@ namespace STrackerServer.Repository.MongoDB.Core
                 {
                     cm.AutoMap();
                     cm.UnmapProperty(c => c.Key);
-                    cm.GetMemberMap(c => c.Actors).SetIgnoreIfNull(true);
-                    cm.GetMemberMap(c => c.Artworks).SetIgnoreIfNull(true);
                 });
-            BsonClassMap.RegisterClassMap<TvShow>(
-                cm =>
-                    {
-                        cm.AutoMap();
-                        cm.GetMemberMap(c => c.SeasonSynopses).SetIgnoreIfNull(true);
-                    });
+            BsonClassMap.RegisterClassMap<TvShow>();
 
             BsonClassMap.RegisterClassMap<Person>(
                 cm =>
                 {
                     cm.AutoMap();
                     cm.UnmapProperty(c => c.Key);
-                    cm.GetMemberMap(c => c.Photo).SetIgnoreIfNull(true);
                 });
             BsonClassMap.RegisterClassMap<Actor>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TvShowsRepository"/> class.
+        /// </summary>
+        /// <param name="client">
+        /// MongoDB client.
+        /// </param>
+        /// <param name="url">
+        /// MongoDB url.
+        /// </param>
+        public TvShowsRepository(MongoClient client, MongoUrl url)
+            : base(client, url)
+        {
         }
 
         /// <summary>
@@ -95,7 +103,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </returns>
         public override bool Update(TvShow entity)
         {
-            var collection = Database.GetCollection(entity.Key);
+            var collection = Database.GetCollection(entity.Id);
 
             return collection.Save(entity).Ok;
         }
