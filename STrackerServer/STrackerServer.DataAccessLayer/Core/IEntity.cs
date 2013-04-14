@@ -21,5 +21,10 @@ namespace STrackerServer.DataAccessLayer.Core
         /// Gets or sets the key.
         /// </summary>
         TK Key { get; set; }
+
+        /// <summary>
+        /// Gets or sets the key in string format.
+        /// </summary>
+        string Id { get; set; }
     }
 }

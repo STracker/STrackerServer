@@ -10,7 +10,6 @@
 namespace STrackerServer.Controllers
 {
     using System.Net;
-    using System.Net.Http;
     using System.Web.Http;
 
     using STrackerServer.BusinessLayer.Core;
@@ -54,9 +53,9 @@ namespace STrackerServer.Controllers
         /// </returns>
         protected T Get(T entity)
         {
-            if (entity.Equals(default(T)))
+            if (Equals(entity, default(T)))
             {
-                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
+                throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
             return entity;

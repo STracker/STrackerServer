@@ -12,6 +12,8 @@ namespace STrackerServer.Repository.MongoDB.Core
 {
     using System;
 
+    using global::MongoDB.Bson.Serialization;
+
     using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities;
 
@@ -24,6 +26,20 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// Seasons repository.
         /// </summary>
         private readonly ISeasonsRepository seasonsRepository;
+
+        /// <summary>
+        /// Initializes static members of the <see cref="EpisodesRepository"/> class.
+        /// </summary>
+        static EpisodesRepository()
+        {
+            BsonClassMap.RegisterClassMap<Episode>(
+                cm =>
+                {
+                    cm.AutoMap();
+                    cm.UnmapProperty(c => c.Key);
+                    cm.GetMemberMap(c => c.GuestActors).SetIgnoreIfNull(true);
+                });
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EpisodesRepository"/> class.

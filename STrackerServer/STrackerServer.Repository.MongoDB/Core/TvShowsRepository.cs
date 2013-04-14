@@ -12,6 +12,8 @@ namespace STrackerServer.Repository.MongoDB.Core
 {
     using System.Collections.Generic;
 
+    using global::MongoDB.Bson.Serialization;
+
     using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities;
 
@@ -20,6 +22,36 @@ namespace STrackerServer.Repository.MongoDB.Core
     /// </summary>
     public class TvShowsRepository : BaseRepository<TvShow, string>, ITvShowsRepository
     {
+        /// <summary>
+        /// Initializes static members of the <see cref="TvShowsRepository"/> class.
+        /// </summary>
+        static TvShowsRepository()
+        {
+            BsonClassMap.RegisterClassMap<Media>(
+                cm =>
+                {
+                    cm.AutoMap();
+                    cm.UnmapProperty(c => c.Key);
+                    cm.GetMemberMap(c => c.Actors).SetIgnoreIfNull(true);
+                    cm.GetMemberMap(c => c.Artworks).SetIgnoreIfNull(true);
+                });
+            BsonClassMap.RegisterClassMap<TvShow>(
+                cm =>
+                    {
+                        cm.AutoMap();
+                        cm.GetMemberMap(c => c.SeasonSynopses).SetIgnoreIfNull(true);
+                    });
+
+            BsonClassMap.RegisterClassMap<Person>(
+                cm =>
+                {
+                    cm.AutoMap();
+                    cm.UnmapProperty(c => c.Key);
+                    cm.GetMemberMap(c => c.Photo).SetIgnoreIfNull(true);
+                });
+            BsonClassMap.RegisterClassMap<Actor>();
+        }
+
         /// <summary>
         /// The get all by genre.
         /// </summary>

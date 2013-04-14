@@ -30,12 +30,18 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
             this.Key           = key;
             this.TvShowId = key.Item1;
             this.Number     = key.Item2;
+            this.Id              = key.ToString();
         }
 
         /// <summary>
         /// Gets or sets the id.
         /// </summary>
-        public Tuple<string, int> Key { get; set; }
+       public Tuple<string, int> Key { get; set; }
+
+        /// <summary>
+        /// Gets or sets the key in string format.
+        /// </summary>
+        public string Id { get; set; }
 
         /// <summary>
         /// Gets or sets the television show id.

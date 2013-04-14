@@ -51,22 +51,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SeasonTests.cs" />
-    <Compile Include="TvShowTests.cs" />
+    <Compile Include="BusinessLayerTests.cs" />
+    <Compile Include="CustomRepositories\CustomTvShowsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\STrackerServerDatabase\STrackerServerDatabase.csproj">
-      <Project>{364a07c1-978d-4343-b422-e81b99889c7d}</Project>
-      <Name>STrackerServerDatabase</Name>
+    <ProjectReference Include="..\STrackerServer.BusinessLayer\STrackerServer.BusinessLayer.csproj">
+      <Project>{a96f93ce-920a-4000-9ee7-662ac236ef11}</Project>
+      <Name>STrackerServer.BusinessLayer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\STrackerServer\STrackerServer.csproj">
-      <Project>{12275273-7251-40de-bb59-f889996a0172}</Project>
-      <Name>STrackerServer</Name>
+    <ProjectReference Include="..\STrackerServer.DataAccessLayer\STrackerServer.DataAccessLayer.csproj">
+      <Project>{f7946d64-169e-437b-9d4c-69d56f4c32f4}</Project>
+      <Name>STrackerServer.DataAccessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\STrackerServer.Repository.MongoDB\STrackerServer.Repository.MongoDB.csproj">
+      <Project>{a43347c5-0aa1-4712-8451-8b9b91666b76}</Project>
+      <Name>STrackerServer.Repository.MongoDB</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

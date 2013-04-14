@@ -43,7 +43,8 @@ namespace STrackerServer.BusinessLayer.Facades
         /// </returns>
         public override bool Create(TvShow entity)
         {
-            throw new NotImplementedException();
+            // TODO validate fields!
+            return Repository.Create(entity);
         }
 
         /// <summary>

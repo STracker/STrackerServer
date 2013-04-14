@@ -33,7 +33,12 @@ namespace STrackerServer.Repository.MongoDB.Core
         static SeasonsRepository()
         {
             BsonClassMap.RegisterClassMap<Season>(
-                cm => cm.MapIdField(c => c.Key.ToString()));
+               cm =>
+               {
+                   cm.AutoMap();
+                   cm.UnmapProperty(c => c.Key);
+                   cm.GetMemberMap(c => c.EpisodeSynopses).SetIgnoreIfNull(true);
+               });
         }
 
         /// <summary>

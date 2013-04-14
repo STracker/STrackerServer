@@ -9,12 +9,9 @@
 
 namespace STrackerServer.Repository.MongoDB.Core
 {
-    using global::MongoDB.Bson.Serialization;
-
     using global::MongoDB.Driver;
 
     using STrackerServer.DataAccessLayer.Core;
-    using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
     /// Base repository for MongoDB database.
@@ -31,34 +28,6 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// MongoDB database object.
         /// </summary>
         protected readonly MongoDatabase Database;
-
-        /// <summary>
-        /// Initializes static members of the <see cref="BaseRepository{T,TK}"/> class.
-        /// </summary>
-        static BaseRepository()
-        {
-            /*
-             * Affects some serialization options of MongoDB class mapping like id field. 
-             */
-
-            BsonClassMap.RegisterClassMap<Media>(
-                cm =>
-                    {
-                        cm.AutoMap();
-                        cm.SetIdMember(cm.GetMemberMap(c => c.Key));
-                    });
-
-            BsonClassMap.RegisterClassMap<TvShow>();
-
-            BsonClassMap.RegisterClassMap<Person>(
-                cm =>
-                    {
-                        cm.AutoMap();
-                        cm.SetIdMember(cm.GetMemberMap(c => c.Key));
-                    });
-
-            BsonClassMap.RegisterClassMap<Actor>();
-        } 
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseRepository{T,TK}"/> class.
@@ -85,7 +54,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         {
             var entity = this.HookRead(key);
 
-            if (!entity.Equals(default(T)))
+            if (!Equals(entity, default(T)))
             {
                 return entity;
             }

@@ -26,13 +26,18 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// </param>
         public Media(string key)
         {
-            this.Key = key;
+            this.Key = this.Id = key;
         }
 
         /// <summary>
         /// Gets or sets the key.
         /// </summary>
         public string Key { get; set; }
+
+        /// <summary>
+        /// Gets or sets the key in string format.
+        /// </summary>
+        public string Id { get; set; }
 
         /// <summary>
         /// Gets or sets the name.
