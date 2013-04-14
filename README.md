@@ -32,8 +32,8 @@ Em construção...
 
 ### Frameworks utilizadas:
 
-1.  Nunit para realização de testes unitários ([http://nunit.net/]).
+1.  Nunit para realização de testes unitários (<http://nunit.net>).
 
-2.  Ninject para injector de dependências ([http://www.ninject.org/]).
+2.  Ninject para injector de dependências (<http://www.ninject.org>).
 
 As frameworks foram instaladas a partir do Nuget no Visual Studio 2012.
