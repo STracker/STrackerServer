@@ -11,7 +11,7 @@ aplicação cliente utilizando o protocolo HTTP.
 
 ### Documentação do projecto
 
-\* Na [Wiki](Home)
+<https://github.com/STracker/STrackerServer/wiki>
 
 
 
