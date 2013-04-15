@@ -32,7 +32,7 @@ aplicação cliente utilizando o protocolo HTTP.
 
 ### URIs da API pública
 
-Em construção...
+<https://github.com/STracker/STrackerServer/wiki/API-p%C3%BAblica>
 
 
 

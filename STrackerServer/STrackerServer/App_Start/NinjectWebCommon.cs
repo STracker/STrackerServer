@@ -88,7 +88,7 @@ namespace STrackerServer.App_Start
             kernel.Bind<MongoUrl>().ToSelf().InSingletonScope().WithConstructorArgument("url", ConfigurationManager.AppSettings["MongoDBURL"]);
 
             // MongoClient class is thread safe.
-            kernel.Bind<MongoClient>().ToSelf().InSingletonScope().WithConstructorArgument("url", kernel.Get<MongoUrl>());
+            kernel.Bind<MongoClient>().ToSelf().InSingletonScope();
 
             // Television shows stuff dependencies...
             kernel.Bind<ITvShowsOperations>().To<TvShowsOperations>().InRequestScope();
