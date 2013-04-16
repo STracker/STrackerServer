@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A43347C5-0AA1-4712-8451-8B9B91666B76}</ProjectGuid>
+    <ProjectGuid>{C2688013-F6C9-443F-887F-B50473970D38}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>STrackerServer.Repository.MongoDB</RootNamespace>
-    <AssemblyName>STrackerServer.Repository.MongoDB</AssemblyName>
+    <RootNamespace>STrackerServer.InformationProviders</RootNamespace>
+    <AssemblyName>STrackerServer.InformationProviders</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,14 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MongoDB.Bson">
-      <HintPath>..\packages\mongocsharpdriver.1.8.1\lib\net35\MongoDB.Bson.dll</HintPath>
-    </Reference>
-    <Reference Include="MongoDB.Driver">
-      <HintPath>..\packages\mongocsharpdriver.1.8.1\lib\net35\MongoDB.Driver.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -46,24 +39,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\BaseRepository.cs" />
-    <Compile Include="Core\EpisodesRepository.cs" />
-    <Compile Include="Core\SeasonsRepository.cs" />
-    <Compile Include="Core\TvShowsRepository.cs" />
+    <Compile Include="Core\IInformationProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
-    <None Include="packages.config" />
+    <Compile Include="Providers\TheTvDbProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\STrackerServer.DataAccessLayer\STrackerServer.DataAccessLayer.csproj">
-      <Project>{F7946D64-169E-437B-9D4C-69D56F4C32F4}</Project>
+      <Project>{f7946d64-169e-437b-9d4c-69d56f4c32f4}</Project>
       <Name>STrackerServer.DataAccessLayer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\STrackerServer.InformationProviders\STrackerServer.InformationProviders.csproj">
-      <Project>{c2688013-f6c9-443f-887f-b50473970d38}</Project>
-      <Name>STrackerServer.InformationProviders</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

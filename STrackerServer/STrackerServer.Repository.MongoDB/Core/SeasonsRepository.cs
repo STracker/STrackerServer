@@ -92,6 +92,22 @@ namespace STrackerServer.Repository.MongoDB.Core
         }
 
         /// <summary>
+        /// Get one season.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Season"/>.
+        /// </returns>
+        public override Season Read(Tuple<string, int> key)
+        {
+            var collection = Database.GetCollection(key.Item1);
+
+            return collection.FindOneByIdAs<Season>(key.ToString());
+        }
+
+        /// <summary>
         /// Update one season.
         /// </summary>
         /// <param name="entity">
@@ -145,22 +161,6 @@ namespace STrackerServer.Repository.MongoDB.Core
             // In this case first remove the object synopse than remove the season, because can not have
             // one synopse for one season that not exists.
             return this.tvshowsRepository.Update(tvshow) && collection.FindAndRemove(query, SortBy.Null).Ok;
-        }
-
-        /// <summary>
-        /// Hook method for Read operation.
-        /// </summary>
-        /// <param name="key">
-        /// The key.
-        /// </param>
-        /// <returns>
-        /// The <see cref="Season"/>.
-        /// </returns>
-        protected override Season HookRead(Tuple<string, int> key)
-        {
-            var collection = Database.GetCollection(key.Item1);
-
-            return collection.FindOneByIdAs<Season>(key.ToString());
         }
     }
 }

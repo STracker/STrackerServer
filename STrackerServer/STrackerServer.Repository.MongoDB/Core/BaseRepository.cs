@@ -9,6 +9,9 @@
 
 namespace STrackerServer.Repository.MongoDB.Core
 {
+    using System;
+    using System.Threading.Tasks;
+
     using global::MongoDB.Driver;
 
     using STrackerServer.DataAccessLayer.Core;
@@ -52,18 +55,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <returns>
         /// The <see cref="T"/>.
         /// </returns>
-        public T Read(TK key)
-        {
-            var entity = this.HookRead(key);
-
-            if (!Equals(entity, default(T)))
-            {
-                return entity;
-            }
-
-            // TODO, if the entity doesnt exists in MongoDB database, is necessary to call one provider.
-            throw new System.NotImplementedException();
-        }
+        public abstract T Read(TK key);
 
         /// <summary>
         /// Create method. 
@@ -102,14 +94,46 @@ namespace STrackerServer.Repository.MongoDB.Core
         public abstract bool Delete(TK key);
 
         /// <summary>
-        /// Hook method for Read operation.
+        /// Try get the information from external provider.
         /// </summary>
+        /// <param name="func">
+        /// The function.
+        /// </param>
         /// <param name="key">
         /// The key.
         /// </param>
         /// <returns>
         /// The <see cref="T"/>.
         /// </returns>
-        protected abstract T HookRead(TK key);
+        /// After get the information from the external provider, inserts into our database.
+        protected T TryGetFromProvider(Func<TK, T> func, TK key)
+        {
+            T entity;
+            try
+            {
+                entity = func(key);
+
+                var createResult = false;
+                
+                var createTask = Task.Factory.StartNew(() => { createResult = this.Create(entity); });
+
+                createTask.ContinueWith(
+                    completed =>
+                        { 
+                            completed.Wait();
+
+                            if (!createResult)
+                            {
+                                // TODO, error occurred in create method. 
+                            }
+                        });
+            }
+            catch (Exception)
+            {
+                return default(T);
+            }
+
+            return entity;
+        }
     }
 }

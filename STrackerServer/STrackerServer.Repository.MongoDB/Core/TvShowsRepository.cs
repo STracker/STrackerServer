@@ -18,6 +18,7 @@ namespace STrackerServer.Repository.MongoDB.Core
 
     using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities;
+    using STrackerServer.InformationProviders.Providers;
 
     /// <summary>
     /// Television shows repository for MongoDB database.
@@ -93,6 +94,31 @@ namespace STrackerServer.Repository.MongoDB.Core
         }
 
         /// <summary>
+        /// Get one television show.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TvShow"/>.
+        /// </returns>
+        public override TvShow Read(string key)
+        {
+            var collection = Database.GetCollection(key);
+
+            var tvshow = collection.FindOneByIdAs<TvShow>(key);
+
+            if (tvshow != null)
+            {
+                return tvshow;
+            }
+
+            var provider = new TheTvDbProvider();
+
+            return this.TryGetFromProvider(provider.GetTvShowInformationByImdbId, key);
+        }
+
+        /// <summary>
         /// Update one television show.
         /// </summary>
         /// <param name="entity">
@@ -122,22 +148,6 @@ namespace STrackerServer.Repository.MongoDB.Core
         public override bool Delete(string key)
         {
             return this.Database.DropCollection(key).Ok;
-        }
-
-        /// <summary>
-        /// Hook method for Read operation.
-        /// </summary>
-        /// <param name="key">
-        /// The key.
-        /// </param>
-        /// <returns>
-        /// The <see cref="TvShow"/>.
-        /// </returns>
-        protected override TvShow HookRead(string key)
-        {
-            var collection = Database.GetCollection(key);
-
-            return collection.FindOneByIdAs<TvShow>(key);
         }
     }
 }
