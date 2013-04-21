@@ -1,13 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using STrackerServer.DataAccessLayer.DomainEntities;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="IUsersOperations.cs" company="STracker">
+//  Copyright (c) STracker Developers. All rights reserved.
+// </copyright>
+// <summary>
+//  Interface that defines the contract of operations over users.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace STrackerServer.BusinessLayer.Core
 {
-    public interface IUsersOperations : ICrudOperations<User,string>
+    using STrackerServer.DataAccessLayer.DomainEntities;
+
+    /// <summary>
+    /// Users operations interface.
+    /// </summary>
+    public interface IUsersOperations : ICrudOperations<User, string>
     {
         // TODO
     }
