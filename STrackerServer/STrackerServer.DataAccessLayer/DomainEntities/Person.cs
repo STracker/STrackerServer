@@ -24,18 +24,13 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// </param>
         public Person(string key)
         {
-            this.Key = this.Id = key;
+            this.Key = key;
         }
 
         /// <summary>
         /// Gets or sets the key.
         /// </summary>
         public string Key { get; set; }
-
-        /// <summary>
-        /// Gets or sets the key in string format.
-        /// </summary>
-        public string Id { get; set; }
 
         /// <summary>
         /// Gets or sets the name.

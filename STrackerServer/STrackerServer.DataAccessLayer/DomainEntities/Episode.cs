@@ -27,37 +27,31 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// </param>
         public Episode(Tuple<string, int, int> key)
         {
-            this.Key                    = key;
-            this.TvShowId          = key.Item1;
+            this.Key = key;
+            this.TvShowId = key.Item1;
             this.SeasonNumber = key.Item2;
-            this.Number             = key.Item3;
-            this.Id                      = key.ToString();
+            this.EpisodeNumber = key.Item3;
         }
 
         /// <summary>
-        /// Gets or sets the id.
+        /// Gets or sets the key.
         /// </summary>
         public Tuple<string, int, int> Key { get; set; }
 
         /// <summary>
-        /// Gets or sets the key in string format.
+        /// Gets the television show id.
         /// </summary>
-        public string Id { get; set; }
+        public string TvShowId { get;  private set; }
 
         /// <summary>
-        /// Gets or sets the television show id.
+        /// Gets the season number.
         /// </summary>
-        public string TvShowId { get;  set; }
+        public int SeasonNumber { get;  private set; }
 
         /// <summary>
-        /// Gets or sets the season number.
+        /// Gets the episode number.
         /// </summary>
-        public int SeasonNumber { get;  set; }
-
-        /// <summary>
-        /// Gets or sets the number.
-        /// </summary>
-        public int Number { get;  set; }
+        public int EpisodeNumber { get;  private set; }
 
         /// <summary>
         /// Gets or sets the name.
@@ -97,7 +91,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// </returns>
         public EpisodeSynopsis GetSynopsis()
         {
-            return new EpisodeSynopsis { Number = this.Number, Name = this.Name };
+            return new EpisodeSynopsis { EpisodeNumber = this.EpisodeNumber, Name = this.Name };
         }
 
         /// <summary>
@@ -106,9 +100,9 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         public class EpisodeSynopsis
         {
             /// <summary>
-            /// Gets or sets the number.
+            /// Gets or sets the episode number.
             /// </summary>
-            public int Number { get; set; }
+            public int EpisodeNumber { get; set; }
 
             /// <summary>
             /// Gets or sets the name.

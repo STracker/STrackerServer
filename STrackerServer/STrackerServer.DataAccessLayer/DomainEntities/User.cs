@@ -19,12 +19,18 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// <summary>
         /// Initializes a new instance of the <see cref="User"/> class.
         /// </summary>
-        /// <param name="key">
-        /// The key.
+        /// <param name="email">
+        /// The email.
         /// </param>
-        public User(string key) : base(key)
+        public User(string email) : base(email)
         {
+            this.Email = email;
         }
+
+        /// <summary>
+        /// Gets the email.
+        /// </summary>
+        public string Email { get; private set; }
 
         /// <summary>
         /// Gets or sets the friends.
@@ -39,7 +45,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// </returns>
         public UserSynopsis GetSynopsis()
         {
-            return new UserSynopsis { Id = this.Id, Name = this.Name };
+            return new UserSynopsis { Email = this.Email, Name = this.Name };
         }
 
         /// <summary>
@@ -50,7 +56,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
             /// <summary>
             /// Gets or sets the id. The id is the email.
             /// </summary>
-            public string Id { get; set; }
+            public string Email { get; set; }
 
             /// <summary>
             /// Gets or sets the name.

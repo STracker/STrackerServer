@@ -27,31 +27,27 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// </param>
         public Season(Tuple<string, int> key)
         {
-            this.Key           = key;
+            this.Key = key;
             this.TvShowId = key.Item1;
-            this.Number     = key.Item2;
-            this.Id              = key.ToString();
+            this.SeasonNumber = key.Item2;
+
+            this.EpisodeSynopses = new List<Episode.EpisodeSynopsis>();
         }
 
         /// <summary>
-        /// Gets or sets the id.
+        /// Gets or sets the key.
         /// </summary>
-       public Tuple<string, int> Key { get; set; }
+        public Tuple<string, int> Key { get; set; }
 
         /// <summary>
-        /// Gets or sets the key in string format.
+        /// Gets the television show id.
         /// </summary>
-        public string Id { get; set; }
+        public string TvShowId { get;  private set; }
 
         /// <summary>
-        /// Gets or sets the television show id.
+        /// Gets the season number.
         /// </summary>
-        public string TvShowId { get;  set; }
-
-        /// <summary>
-        /// Gets or sets the number.
-        /// </summary>
-        public int Number { get;  set; }
+        public int SeasonNumber { get;  private set; }
 
         /// <summary>
         /// Gets or sets the episode synopses.
@@ -66,7 +62,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// </returns>
         public SeasonSynopsis GetSynopsis()
         {
-            return new SeasonSynopsis { Number = this.Number };
+            return new SeasonSynopsis { SeasonNumber = this.SeasonNumber };
         }
 
         /// <summary>
@@ -75,9 +71,9 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         public class SeasonSynopsis
         {
             /// <summary>
-            /// Gets or sets the number.
+            /// Gets or sets the season number.
             /// </summary>
-            public int Number { get; set; }
+            public int SeasonNumber { get; set; }
         }
     }
 }

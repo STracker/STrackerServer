@@ -16,6 +16,8 @@ namespace STrackerServer.Repository.MongoDB.Core
 
     using global::MongoDB.Driver;
 
+    using global::MongoDB.Driver.Builders;
+
     using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.InformationProviders.Providers;
@@ -35,6 +37,10 @@ namespace STrackerServer.Repository.MongoDB.Core
                 {
                     cm.AutoMap();
                     cm.UnmapProperty(c => c.Key);
+
+                    // ignoring _id field when deserialize.
+                    cm.SetIgnoreExtraElementsIsInherited(true);
+                    cm.SetIgnoreExtraElements(true);
                 });
             BsonClassMap.RegisterClassMap<TvShow>();
 
@@ -43,6 +49,10 @@ namespace STrackerServer.Repository.MongoDB.Core
                 {
                     cm.AutoMap();
                     cm.UnmapProperty(c => c.Key);
+
+                    // ignoring _id field when deserialize.
+                    cm.SetIgnoreExtraElementsIsInherited(true);
+                    cm.SetIgnoreExtraElements(true);
                 });
             BsonClassMap.RegisterClassMap<Actor>();
         }
@@ -90,6 +100,11 @@ namespace STrackerServer.Repository.MongoDB.Core
         {
             var collection = Database.GetCollection(entity.Key);
 
+            // Ensure indexes for collection
+            collection.EnsureIndex(new IndexKeysBuilder().Ascending("TvShowId"), IndexOptions.SetUnique(true));
+            collection.EnsureIndex(new IndexKeysBuilder().Ascending("TvShowId", "SeasonNumber"), IndexOptions.SetUnique(true));
+            collection.EnsureIndex(new IndexKeysBuilder().Ascending("TvShowId", "SeasonNumber", "EpisodeNumber"), IndexOptions.SetUnique(true));
+
             return collection.Insert(entity).Ok;
         }
 
@@ -106,10 +121,13 @@ namespace STrackerServer.Repository.MongoDB.Core
         {
             var collection = Database.GetCollection(key);
 
-            var tvshow = collection.FindOneByIdAs<TvShow>(key);
+            var query = Query<TvShow>.EQ(tv => tv.TvShowId, key);
+
+            var tvshow = collection.FindOneAs<TvShow>(query);
 
             if (tvshow != null)
             {
+                tvshow.Key = key;
                 return tvshow;
             }
 
@@ -129,7 +147,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </returns>
         public override bool Update(TvShow entity)
         {
-            var collection = Database.GetCollection(entity.Id);
+            var collection = Database.GetCollection(entity.TvShowId);
 
             return collection.Save(entity).Ok;
         }

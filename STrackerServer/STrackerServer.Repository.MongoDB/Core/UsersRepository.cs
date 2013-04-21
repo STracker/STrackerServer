@@ -14,6 +14,8 @@ namespace STrackerServer.Repository.MongoDB.Core
 
     using global::MongoDB.Driver;
 
+    using global::MongoDB.Driver.Builders;
+
     using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities;
 
@@ -52,6 +54,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </returns>
         public override bool Create(User entity)
         {
+            // TODO, make a index for email field
             return this.collection.Insert(entity).Ok;
         }
 
@@ -66,7 +69,9 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </returns>
         public override User Read(string key)
         {
-            return this.collection.FindOneByIdAs<User>(key);
+            var query = Query<User>.EQ(u => u.Email, key);
+
+            return this.collection.FindOneAs<User>(query);
         }
 
         /// <summary>

@@ -11,7 +11,6 @@
 namespace STrackerServer.Repository.MongoDB.Core
 {
     using System;
-    using System.Collections.Generic;
 
     using global::MongoDB.Bson.Serialization;
 
@@ -42,6 +41,10 @@ namespace STrackerServer.Repository.MongoDB.Core
                {
                    cm.AutoMap();
                    cm.UnmapProperty(c => c.Key);
+
+                   // ignoring _id field when deserialize.
+                   cm.SetIgnoreExtraElementsIsInherited(true);
+                   cm.SetIgnoreExtraElements(true);
                });
         }
 
@@ -79,14 +82,7 @@ namespace STrackerServer.Repository.MongoDB.Core
 
             // Add the synopse of the entity to television show.
             var tvshow = this.tvshowsRepository.Read(entity.TvShowId);
-            var seasonSynopse = entity.GetSynopsis();
-            
-            if (tvshow.SeasonSynopses == null)
-            {
-                tvshow.SeasonSynopses = new List<Season.SeasonSynopsis>();
-            }
-
-            tvshow.SeasonSynopses.Add(seasonSynopse);
+            tvshow.SeasonSynopses.Add(entity.GetSynopsis());
 
             return collection.Insert(entity).Ok && this.tvshowsRepository.Update(tvshow);
         }
@@ -104,7 +100,13 @@ namespace STrackerServer.Repository.MongoDB.Core
         {
             var collection = Database.GetCollection(key.Item1);
 
-            return collection.FindOneByIdAs<Season>(key.ToString());
+            var query = Query.And(Query<Season>.EQ(s => s.TvShowId, key.Item1), Query<Season>.EQ(s => s.SeasonNumber, key.Item2));
+
+            var season = collection.FindOneAs<Season>(query);
+
+            season.Key = key;
+
+            return season;
         }
 
         /// <summary>
@@ -138,19 +140,14 @@ namespace STrackerServer.Repository.MongoDB.Core
         public override bool Delete(Tuple<string, int> key)
         {
             var collection = Database.GetCollection(key.Item1);
-           
-            var query = Query<Season>.EQ(s => s.Id, key.ToString());
 
             // Remove  the object synopse.
             var tvshow = this.tvshowsRepository.Read(key.Item1);
 
-            if (tvshow.SeasonSynopses == null || tvshow.SeasonSynopses.Count == 0)
-            {
-                return collection.FindAndRemove(query, SortBy.Null).Ok;
-            }
+            var synopse = tvshow.SeasonSynopses.Find(s => s.SeasonNumber == key.Item2);
 
-            var synopse = tvshow.SeasonSynopses.Find(s => s.Number == key.Item2);
-            
+            var query = Query.And(Query<Season>.EQ(s => s.TvShowId, key.Item1), Query<Season>.EQ(s => s.SeasonNumber, key.Item2));
+
             if (synopse == null)
             {
                 return collection.FindAndRemove(query, SortBy.Null).Ok;

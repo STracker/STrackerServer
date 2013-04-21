@@ -15,16 +15,11 @@ namespace STrackerServer.DataAccessLayer.Core
     /// <typeparam name="TK">
     /// Type of entity's Key.
     /// </typeparam>
-    public interface IEntity<TK>
+    public interface IEntity<out TK>
     {
         /// <summary>
-        /// Gets or sets the key.
+        /// Gets the key.
         /// </summary>
-        TK Key { get; set; }
-
-        /// <summary>
-        /// Gets or sets the key in string format.
-        /// </summary>
-        string Id { get; set; }
+        TK Key { get; }
     }
 }

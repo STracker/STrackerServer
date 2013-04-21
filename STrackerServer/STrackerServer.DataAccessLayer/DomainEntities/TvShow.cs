@@ -25,7 +25,15 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         public TvShow(string key)
             : base(key)
         {
+            this.TvShowId = key;
+
+            this.SeasonSynopses = new List<Season.SeasonSynopsis>();
         }
+
+        /// <summary>
+        /// Gets the television show IMDB id.
+        /// </summary>
+        public string TvShowId { get; private set; }
 
         /// <summary>
         /// Gets or sets the air day.

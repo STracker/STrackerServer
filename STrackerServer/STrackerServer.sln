@@ -16,6 +16,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STrackerServer.BusinessLaye
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STrackerServer.InformationProviders", "STrackerServer.InformationProviders\STrackerServer.InformationProviders.csproj", "{C2688013-F6C9-443F-887F-B50473970D38}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STrackerServer.NinjectDependencies", "STrackerServer.NinjectDependencies\STrackerServer.NinjectDependencies.csproj", "{8EBC7AE5-4F9C-4C2C-B2FA-6629EA485A92}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F7946D64-169E-437B-9D4C-69D56F4C32F4} = {F7946D64-169E-437B-9D4C-69D56F4C32F4}
+		{A43347C5-0AA1-4712-8451-8B9B91666B76} = {A43347C5-0AA1-4712-8451-8B9B91666B76}
+		{A96F93CE-920A-4000-9EE7-662AC236EF11} = {A96F93CE-920A-4000-9EE7-662AC236EF11}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +53,10 @@ Global
 		{C2688013-F6C9-443F-887F-B50473970D38}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2688013-F6C9-443F-887F-B50473970D38}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2688013-F6C9-443F-887F-B50473970D38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EBC7AE5-4F9C-4C2C-B2FA-6629EA485A92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EBC7AE5-4F9C-4C2C-B2FA-6629EA485A92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EBC7AE5-4F9C-4C2C-B2FA-6629EA485A92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EBC7AE5-4F9C-4C2C-B2FA-6629EA485A92}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

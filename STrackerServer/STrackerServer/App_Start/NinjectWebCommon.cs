@@ -18,21 +18,13 @@ namespace STrackerServer.App_Start
 {
     using System;
     using System.Collections.Generic;
-    using System.Configuration;
     using System.Web;
     using System.Web.Http;
     using System.Web.Http.Dependencies;
 
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 
-    using MongoDB.Driver;
-
-
-
-    using STrackerServer.BusinessLayer.Core;
-    using STrackerServer.BusinessLayer.Operations;
-    using STrackerServer.DataAccessLayer.Core;
-    using STrackerServer.Repository.MongoDB.Core;
+    using STrackerServer.NinjectDependencies;
 
     /// <summary>
     /// The NINJECT web common.
@@ -86,27 +78,7 @@ namespace STrackerServer.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            // MongoDB stuff dependencies...
-            kernel.Bind<MongoUrl>().ToSelf().InSingletonScope().WithConstructorArgument("url", ConfigurationManager.AppSettings["MongoDBURL"]);
-
-            // MongoClient class is thread safe.
-            kernel.Bind<MongoClient>().ToSelf().InSingletonScope();
-
-            // Television shows stuff dependencies...
-            kernel.Bind<ITvShowsOperations>().To<TvShowsOperations>().InRequestScope();
-            kernel.Bind<ITvShowsRepository>().To<TvShowsRepository>().InRequestScope();
-
-            // Seasons stuff dependencies...
-            kernel.Bind<ISeasonsOperations>().To<SeasonsOperations>().InRequestScope();
-            kernel.Bind<ISeasonsRepository>().To<SeasonsRepository>().InRequestScope();
-
-            // Episodes stuff dependencies...
-            kernel.Bind<IEpisodesOperations>().To<EpisodesOperations>().InRequestScope();
-            kernel.Bind<IEpisodesRepository>().To<EpisodesRepository>().InRequestScope();
-
-            // Users stuff dependencies...
-            kernel.Bind<IUsersOperations>().To<UsersOperations>().InRequestScope();
-            kernel.Bind<IUsersRepository>().To<UsersRepository>().InRequestScope();
+            kernel.Load<ModuleForSTracker>();
         }
 
         /*
@@ -226,7 +198,7 @@ namespace STrackerServer.App_Start
             /// </returns>
             public IDependencyScope BeginScope()
             {
-                return new NinjectDependencyScope(kernel.BeginBlock());
+                return new NinjectDependencyScope(this.kernel.BeginBlock());
             }
         }
     }

@@ -43,14 +43,6 @@
       <HintPath>..\packages\Facebook.6.4.0\lib\net45\Facebook.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="MongoDB.Bson, Version=1.8.1.20, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\mongocsharpdriver.1.8.1\lib\net35\MongoDB.Bson.dll</HintPath>
-    </Reference>
-    <Reference Include="MongoDB.Driver, Version=1.8.1.20, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\mongocsharpdriver.1.8.1\lib\net35\MongoDB.Driver.dll</HintPath>
-    </Reference>
     <Reference Include="Ninject, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
@@ -63,7 +55,6 @@
       <HintPath>..\packages\Ninject.MVC3.3.0.0.6\lib\net45-full\Ninject.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
@@ -187,9 +178,9 @@
       <Project>{f7946d64-169e-437b-9d4c-69d56f4c32f4}</Project>
       <Name>STrackerServer.DataAccessLayer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\STrackerServer.Repository.MongoDB\STrackerServer.Repository.MongoDB.csproj">
-      <Project>{a43347c5-0aa1-4712-8451-8b9b91666b76}</Project>
-      <Name>STrackerServer.Repository.MongoDB</Name>
+    <ProjectReference Include="..\STrackerServer.NinjectDependencies\STrackerServer.NinjectDependencies.csproj">
+      <Project>{8ebc7ae5-4f9c-4c2c-b2fa-6629ea485a92}</Project>
+      <Name>STrackerServer.NinjectDependencies</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
