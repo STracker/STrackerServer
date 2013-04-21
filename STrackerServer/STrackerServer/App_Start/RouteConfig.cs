@@ -27,6 +27,10 @@ namespace STrackerServer.App_Start
             routes.MapRoute("home", string.Empty, new { controller = "Home", action = "Get" });
 
             routes.MapRoute("testing", "developers", new { controller = "Developers", action = "Get" });
+
+            routes.MapRoute("users", "user", new { controller = "Users", action = "GetInfo" });
+
+            routes.MapRoute("default", "{controller}/{action}");
         }
     }
 }

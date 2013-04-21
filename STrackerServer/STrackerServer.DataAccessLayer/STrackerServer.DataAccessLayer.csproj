@@ -44,6 +44,7 @@
     <Compile Include="Core\IRepository.cs" />
     <Compile Include="Core\ISeasonsRepository.cs" />
     <Compile Include="Core\ITvShowsRepository.cs" />
+    <Compile Include="Core\IUsersRepository.cs" />
     <Compile Include="DomainEntities\Actor.cs" />
     <Compile Include="DomainEntities\Artwork.cs" />
     <Compile Include="DomainEntities\Episode.cs" />
@@ -52,6 +53,7 @@
     <Compile Include="DomainEntities\Person.cs" />
     <Compile Include="DomainEntities\Season.cs" />
     <Compile Include="DomainEntities\TvShow.cs" />
+    <Compile Include="DomainEntities\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

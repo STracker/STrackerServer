@@ -7,6 +7,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Ninject;
+using Ninject.Syntax;
+using Ninject.Web.Common;
+
 [assembly: WebActivator.PreApplicationStartMethod(typeof(STrackerServer.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivator.ApplicationShutdownMethodAttribute(typeof(STrackerServer.App_Start.NinjectWebCommon), "Stop")]
 
@@ -23,9 +27,7 @@ namespace STrackerServer.App_Start
 
     using MongoDB.Driver;
 
-    using Ninject;
-    using Ninject.Syntax;
-    using Ninject.Web.Common;
+
 
     using STrackerServer.BusinessLayer.Core;
     using STrackerServer.BusinessLayer.Operations;
@@ -101,6 +103,10 @@ namespace STrackerServer.App_Start
             // Episodes stuff dependencies...
             kernel.Bind<IEpisodesOperations>().To<EpisodesOperations>().InRequestScope();
             kernel.Bind<IEpisodesRepository>().To<EpisodesRepository>().InRequestScope();
+
+            // Users stuff dependencies...
+            kernel.Bind<IUsersOperations>().To<UsersOperations>().InRequestScope();
+            kernel.Bind<IUsersRepository>().To<UsersRepository>().InRequestScope();
         }
 
         /*

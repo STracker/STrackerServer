@@ -43,10 +43,12 @@
     <Compile Include="Core\IEpisodesOperations.cs" />
     <Compile Include="Core\ISeasonsOperations.cs" />
     <Compile Include="Core\ITvShowsOperations.cs" />
+    <Compile Include="Core\IUsersOperations.cs" />
     <Compile Include="Operations\BaseCrudOperations.cs" />
     <Compile Include="Operations\EpisodesOperations.cs" />
     <Compile Include="Operations\SeasonsOperations.cs" />
     <Compile Include="Operations\TvShowsOperations.cs" />
+    <Compile Include="Operations\UsersOperations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
