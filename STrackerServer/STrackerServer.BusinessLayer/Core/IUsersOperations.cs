@@ -16,6 +16,15 @@ namespace STrackerServer.BusinessLayer.Core
     /// </summary>
     public interface IUsersOperations : ICrudOperations<User, string>
     {
-        // TODO
+        /// <summary>
+        /// Verify if the user exists, if not create one. Also verify if the properties of the user have changed.
+        /// </summary>
+        /// <param name="user">
+        /// The user.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool VerifyAndSave(User user);
     }
 }

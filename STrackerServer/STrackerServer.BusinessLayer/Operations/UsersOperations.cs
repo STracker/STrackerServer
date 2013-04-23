@@ -55,5 +55,32 @@ namespace STrackerServer.BusinessLayer.Operations
         {
             return Repository.Update(entity);
         }
+
+        /// <summary>
+        /// Verify if the user exists, if not create one. Also verify if the properties of the user have changed.
+        /// </summary>
+        /// <param name="user">
+        /// The user.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool VerifyAndSave(User user)
+        {
+            var domainUser = this.Read(user.Key);
+            if (domainUser == null)
+            {
+                return this.Create(user);
+            }
+
+            if (user.CompareTo(domainUser) == 0)
+            {
+                return true;
+            }
+
+            // For not lose the friends its necessary to "pass" them to new object user for update.
+            user.Friends = domainUser.Friends;
+            return this.Update(user);
+        }
     }
 }
