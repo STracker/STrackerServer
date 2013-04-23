@@ -28,36 +28,6 @@ namespace STrackerServer.Repository.MongoDB.Core
     public class TvShowsRepository : BaseRepository<TvShow, string>, ITvShowsRepository
     {
         /// <summary>
-        /// Initializes static members of the <see cref="TvShowsRepository"/> class.
-        /// </summary>
-        static TvShowsRepository()
-        {
-            BsonClassMap.RegisterClassMap<Media>(
-                cm =>
-                {
-                    cm.AutoMap();
-                    cm.UnmapProperty(c => c.Key);
-
-                    // ignoring _id field when deserialize.
-                    cm.SetIgnoreExtraElementsIsInherited(true);
-                    cm.SetIgnoreExtraElements(true);
-                });
-            BsonClassMap.RegisterClassMap<TvShow>();
-
-            BsonClassMap.RegisterClassMap<Person>(
-                cm =>
-                {
-                    cm.AutoMap();
-                    cm.UnmapProperty(c => c.Key);
-
-                    // ignoring _id field when deserialize.
-                    cm.SetIgnoreExtraElementsIsInherited(true);
-                    cm.SetIgnoreExtraElements(true);
-                });
-            BsonClassMap.RegisterClassMap<Actor>();
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="TvShowsRepository"/> class.
         /// </summary>
         /// <param name="client">

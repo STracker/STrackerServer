@@ -7,6 +7,7 @@ using System.Web.Security;
 using Facebook;
 using STrackerServer.BusinessLayer.Core;
 using STrackerServer.DataAccessLayer.DomainEntities;
+using System.Configuration;
 
 namespace STrackerServer.Controllers
 {
@@ -18,10 +19,16 @@ namespace STrackerServer.Controllers
         {
             get
             {
-                var uriBuilder = new UriBuilder(Request.Url) { Path = Url.Action("Callback") };
+                var uriBuilder = new UriBuilder(Request.Url)
+                                     {
+                                         Path = Url.Action("Callback"),
+                                     };
                 return uriBuilder.Uri;
             }
         }
+
+        private static readonly string FacebookClientId = ConfigurationManager.AppSettings["Client:Id"];
+        private static readonly string FacebookClientSecret = ConfigurationManager.AppSettings["Client:Secret"];
 
         public AccountController(IUsersOperations usersOperations)
         {
@@ -35,47 +42,63 @@ namespace STrackerServer.Controllers
 
             var loginUrl = fb.GetLoginUrl(new
             {
-                client_id = "162158623946329",
-                client_secret = "a6b6d6e32f873889ef5a546ba68a4978",
+                client_id = FacebookClientId,
                 redirect_uri = this.CallbackUri.AbsoluteUri,
                 response_type = "code",
-                scope = "email" 
+                scope = "email,publish_actions,read_stream" 
             });
 
-            return Redirect(loginUrl.AbsoluteUri);
+            return this.Redirect(loginUrl.AbsoluteUri);
         }
 
         public ActionResult Callback(string code)
         {
             var fb = new FacebookClient();
 
-            dynamic result = fb.Post("oauth/access_token", new
-            {
-                client_id = "162158623946329",
-                client_secret = "a6b6d6e32f873889ef5a546ba68a4978",
-                redirect_uri = this.CallbackUri.AbsoluteUri,
-                code = code
-            });
+            dynamic result = fb.Post(
+                                "oauth/access_token", 
+                                new
+                                {
+                                    client_id = FacebookClientId,
+                                    client_secret = FacebookClientSecret,
+                                    redirect_uri = this.CallbackUri.AbsoluteUri,
+                                    code
+                                });
 
             fb.AccessToken = result.access_token;
 
             dynamic me = fb.Get("me?fields=name,email,picture");
 
-            if (this.usersOperations.Read(me.email) == null)
-            {
-                var user = new User(me.email)
-                                {
-                                    Friends = new List<User.UserSynopsis>(),
-                                    Name = me.name,
-                                    Photo = null
-                                };
+            var user = this.usersOperations.Read((string) me.email);
 
-                this.usersOperations.Create(user);
+            var newUser = new User(me.email)
+                              {
+                                  Friends = new List<User.UserSynopsis>(),
+                                  Name = me.name,
+                                  Photo = new Artwork
+                                              {
+                                                  ImageUrl = me.picture.data.url
+                                              }
+                              };
+
+
+            if (user == null)
+            {
+                this.usersOperations.Create(newUser);
             }
+            else
+            {
+                if (user.CompareTo(newUser) == 0)
+                {
+                    newUser.Friends = user.Friends;
+                    this.usersOperations.Update(newUser);
+                }
+            }
+
 
             FormsAuthentication.SetAuthCookie(me.email, false);
 
-            return RedirectToAction("GetInfo", "Users");
+            return this.RedirectToAction("GetInfo", "Users");
         }
     }
 }

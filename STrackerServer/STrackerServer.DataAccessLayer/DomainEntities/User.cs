@@ -3,9 +3,11 @@
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  Implementation of user domain entity.
+//  Implementation of user domain entity. The Key is the email of the user.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
+using System;
 
 namespace STrackerServer.DataAccessLayer.DomainEntities
 {
@@ -14,7 +16,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
     /// <summary>
     /// The user.
     /// </summary>
-    public class User : Person
+    public class User : Person, IComparable<User>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="User"/> class.
@@ -24,13 +26,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// </param>
         public User(string email) : base(email)
         {
-            this.Email = email;
         }
-
-        /// <summary>
-        /// Gets the email.
-        /// </summary>
-        public string Email { get; private set; }
 
         /// <summary>
         /// Gets or sets the friends.
@@ -45,7 +41,21 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// </returns>
         public UserSynopsis GetSynopsis()
         {
-            return new UserSynopsis { Email = this.Email, Name = this.Name };
+            return new UserSynopsis { Email = this.Key, Name = this.Name };
+        }
+
+        /// <summary>
+        /// The compare to.
+        /// </summary>
+        /// <param name="other">
+        /// Other User.
+        /// </param>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
+        public int CompareTo(User other)
+        {
+            return (Name.Equals(other.Name) && Photo.ImageUrl.Equals(other.Photo.ImageUrl)) ? 1 : 0;
         }
 
         /// <summary>

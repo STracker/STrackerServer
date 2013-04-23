@@ -7,6 +7,9 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using MongoDB.Bson.Serialization;
+using STrackerServer.DataAccessLayer.DomainEntities;
+
 namespace STrackerServer.Repository.MongoDB.Core
 {
     using System;
@@ -31,6 +34,57 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// MongoDB database object.
         /// </summary>
         protected readonly MongoDatabase Database;
+
+        /// <summary>
+        /// Initializes static members of the <see cref="BaseRepository{T,TK}"/> class.
+        /// </summary>
+        static BaseRepository()
+        {
+            BsonClassMap.RegisterClassMap<Person>(
+                cm =>
+                {
+                    cm.AutoMap();
+
+                    // map _id field to key property.
+                    cm.SetIdMember(cm.GetMemberMap(p => p.Key));
+                });
+            BsonClassMap.RegisterClassMap<Actor>();
+            BsonClassMap.RegisterClassMap<User>();
+
+            BsonClassMap.RegisterClassMap<Media>(
+                cm =>
+                {
+                    cm.AutoMap();
+                    cm.UnmapProperty(c => c.Key);
+
+                    // ignoring _id field when deserialize.
+                    cm.SetIgnoreExtraElementsIsInherited(true);
+                    cm.SetIgnoreExtraElements(true);
+                });
+            BsonClassMap.RegisterClassMap<TvShow>();
+
+            BsonClassMap.RegisterClassMap<Season>(
+               cm =>
+               {
+                   cm.AutoMap();
+                   cm.UnmapProperty(c => c.Key);
+
+                   // ignoring _id field when deserialize.
+                   cm.SetIgnoreExtraElementsIsInherited(true);
+                   cm.SetIgnoreExtraElements(true);
+               });
+
+            BsonClassMap.RegisterClassMap<Episode>(
+                cm =>
+                {
+                    cm.AutoMap();
+                    cm.UnmapProperty(c => c.Key);
+
+                    // ignoring _id field when deserialize.
+                    cm.SetIgnoreExtraElementsIsInherited(true);
+                    cm.SetIgnoreExtraElements(true);
+                });
+        } 
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseRepository{T,TK}"/> class.

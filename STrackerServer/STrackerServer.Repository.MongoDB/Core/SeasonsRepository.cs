@@ -32,23 +32,6 @@ namespace STrackerServer.Repository.MongoDB.Core
         private readonly ITvShowsRepository tvshowsRepository;
 
         /// <summary>
-        /// Initializes static members of the <see cref="SeasonsRepository"/> class.
-        /// </summary>
-        static SeasonsRepository()
-        {
-            BsonClassMap.RegisterClassMap<Season>(
-               cm =>
-               {
-                   cm.AutoMap();
-                   cm.UnmapProperty(c => c.Key);
-
-                   // ignoring _id field when deserialize.
-                   cm.SetIgnoreExtraElementsIsInherited(true);
-                   cm.SetIgnoreExtraElements(true);
-               });
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="SeasonsRepository"/> class.
         /// </summary>
         /// <param name="tvshowsRepository">

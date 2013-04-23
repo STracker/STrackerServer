@@ -30,7 +30,7 @@ namespace STrackerServer.App_Start
 
             routes.MapRoute("users", "user", new { controller = "Users", action = "GetInfo" });
 
-            routes.MapRoute("default", "{controller}/{action}");
+            routes.MapRoute("AccountActions", "Account/{action}", new { controller = "Account" });
         }
     }
 }

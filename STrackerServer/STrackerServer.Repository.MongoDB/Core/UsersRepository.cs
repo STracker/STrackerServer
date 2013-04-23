@@ -8,6 +8,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using MongoDB.Bson.Serialization;
+
 namespace STrackerServer.Repository.MongoDB.Core
 {
     using System;
@@ -54,7 +56,6 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </returns>
         public override bool Create(User entity)
         {
-            // TODO, make a index for email field
             return this.collection.Insert(entity).Ok;
         }
 
@@ -69,9 +70,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </returns>
         public override User Read(string key)
         {
-            var query = Query<User>.EQ(u => u.Email, key);
-
-            return this.collection.FindOneAs<User>(query);
+            return this.collection.FindOneByIdAs<User>(key);
         }
 
         /// <summary>
@@ -85,7 +84,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </returns>
         public override bool Update(User entity)
         {
-            throw new NotImplementedException();
+            return this.collection.Save(entity).Ok;
         }
 
         /// <summary>

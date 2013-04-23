@@ -24,5 +24,10 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// Gets or sets the image mime type.
         /// </summary>
         public string ImageMimeType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the image url.
+        /// </summary>
+        public string ImageUrl { get; set; }
     }
 }
