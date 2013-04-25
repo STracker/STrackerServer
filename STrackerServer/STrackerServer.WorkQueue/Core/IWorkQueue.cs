@@ -24,5 +24,16 @@ namespace STrackerServer.WorkQueue.Core
         /// The <see cref="WorkResponse"/>.
         /// </returns>
         WorkResponse AddWork(params object[] parameters);
+
+        /// <summary>
+        /// Verify if already exists the work.
+        /// </summary>
+        /// <param name="workId">
+        /// The work id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool ExistsWork(object workId);
     }
 }

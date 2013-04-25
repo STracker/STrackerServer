@@ -40,20 +40,6 @@ namespace STrackerServer.BusinessLayer.Operations
         protected IRepository<T, TK> Repository { get; private set; }
 
         /// <summary>
-        /// Get one entity.
-        /// </summary>
-        /// <param name="id">
-        /// The id.
-        /// </param>
-        /// <returns>
-        /// The <see cref="T"/>.
-        /// </returns>
-        public T Read(TK id)
-        {
-            return this.Repository.Read(id);
-        }
-
-        /// <summary>
         /// Delete one entity.
         /// </summary>
         /// <param name="id">
@@ -77,6 +63,17 @@ namespace STrackerServer.BusinessLayer.Operations
         /// The <see cref="bool"/>.
         /// </returns>
         public abstract bool Create(T entity);
+
+        /// <summary>
+        /// Read method.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="T"/>.
+        /// </returns>
+        public abstract T Read(TK id);
 
         /// <summary>
         /// Update one entity.

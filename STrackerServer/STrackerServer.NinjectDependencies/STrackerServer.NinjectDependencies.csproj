@@ -64,9 +64,17 @@
       <Project>{f7946d64-169e-437b-9d4c-69d56f4c32f4}</Project>
       <Name>STrackerServer.DataAccessLayer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\STrackerServer.InformationProviders\STrackerServer.InformationProviders.csproj">
+      <Project>{c2688013-f6c9-443f-887f-b50473970d38}</Project>
+      <Name>STrackerServer.InformationProviders</Name>
+    </ProjectReference>
     <ProjectReference Include="..\STrackerServer.Repository.MongoDB\STrackerServer.Repository.MongoDB.csproj">
       <Project>{a43347c5-0aa1-4712-8451-8b9b91666b76}</Project>
       <Name>STrackerServer.Repository.MongoDB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\STrackerServer.WorkQueue\STrackerServer.WorkQueue.csproj">
+      <Project>{5c7aaed2-9084-4744-bd36-855653e95b8a}</Project>
+      <Name>STrackerServer.WorkQueue</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

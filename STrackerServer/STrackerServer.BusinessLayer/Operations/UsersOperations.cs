@@ -42,6 +42,11 @@ namespace STrackerServer.BusinessLayer.Operations
             return Repository.Create(entity);
         }
 
+        public override User Read(string id)
+        {
+            throw new System.NotImplementedException();
+        }
+
         /// <summary>
         /// Update one user.
         /// </summary>

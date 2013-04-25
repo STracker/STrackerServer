@@ -44,6 +44,11 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         public string TvShowId { get; private set; }
 
         /// <summary>
+        /// Gets or sets the first aired.
+        /// </summary>
+        public string FirstAired { get; set; }
+
+        /// <summary>
         /// Gets or sets the air day.
         /// </summary>
         public string AirDay { get; set; }

@@ -44,7 +44,7 @@ namespace STrackerServer.WorkQueue
         /// <summary>
         /// The information provider.
         /// </summary>
-        private readonly IInformationProvider infoProvider;
+        private readonly ITvShowsInformationProvider infoProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WorkQueueForTvShows"/> class.
@@ -64,7 +64,7 @@ namespace STrackerServer.WorkQueue
         /// <param name="infoProvider">
         /// The information Provider.
         /// </param>
-        public WorkQueueForTvShows(ITvShowsWorkItemsRepository workItemsRepository, ITvShowsRepository tvshowsRepository, ISeasonsRepository seasonsRepository, IEpisodesRepository episodesRepository, IInformationProvider infoProvider)
+        public WorkQueueForTvShows(ITvShowsWorkItemsRepository workItemsRepository, ITvShowsRepository tvshowsRepository, ISeasonsRepository seasonsRepository, IEpisodesRepository episodesRepository, ITvShowsInformationProvider infoProvider)
         {
             this.workItemsRepository = workItemsRepository;
             this.tvshowsRepository = tvshowsRepository;
@@ -87,15 +87,15 @@ namespace STrackerServer.WorkQueue
             var tvshowId = (string)parameters[0];
             var workItem = new TvShowWorkItem { Key = tvshowId };
 
-            if (!this.workItemsRepository.Create(workItem))
-            {
-                return WorkResponse.InProcess;
-            }
-
             // Verifiy if the television show exists before creating the task.
             if (!this.infoProvider.VerifyIfExists(tvshowId))
             {
                 return WorkResponse.Error;
+            }
+
+            if (!this.workItemsRepository.Create(workItem))
+            {
+                return WorkResponse.InProcess;
             }
 
             var task = Task.Factory.StartNew(() => this.TaskWork(tvshowId));
@@ -113,6 +113,20 @@ namespace STrackerServer.WorkQueue
         }
 
         /// <summary>
+        /// Verify if already exists the work.
+        /// </summary>
+        /// <param name="workId">
+        /// The work id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool ExistsWork(object workId)
+        {
+            return this.workItemsRepository.Read(string.Format("{0}", workId)) != null;
+        }
+
+        /// <summary>
         /// The task work.
         /// </summary>
         /// <param name="tvshowId">
@@ -125,7 +139,7 @@ namespace STrackerServer.WorkQueue
              */
 
             // First try get the television show basic information.
-            var tvshow = this.infoProvider.GetTvShowInformationByImdbId(tvshowId);
+            var tvshow = this.infoProvider.GetTvShowInformation(tvshowId);
             if (!this.tvshowsRepository.Create(tvshow))
             {
                 // TODO, add error to log.
@@ -133,8 +147,9 @@ namespace STrackerServer.WorkQueue
             }
 
             // Then try get seasons from the desire television show.
-            var seasons = this.infoProvider.GetSeasons(tvshowId);
+            var episodes = this.infoProvider.GetEpisodesInformation(tvshowId);
 
+            /*
             if (this.seasonsRepository.CreateAll(seasons))
             {
                 // TODO, add error to log.
@@ -143,6 +158,7 @@ namespace STrackerServer.WorkQueue
 
             // Finaly try get the episodes.
             var episodes = this.infoProvider.GetEpisodes()
+             * */
         }
     }
 }

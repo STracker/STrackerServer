@@ -56,6 +56,11 @@ namespace STrackerServer.BusinessLayer.Operations
             throw new NotImplementedException();
         }
 
+        public override Season Read(Tuple<string, int> id)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Update one season.
         /// </summary>

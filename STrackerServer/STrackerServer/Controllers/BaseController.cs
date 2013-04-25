@@ -56,7 +56,8 @@ namespace STrackerServer.Controllers
         {
             if (Equals(entity, default(T)))
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                //throw new HttpResponseException(HttpStatusCode.NotFound);
+                return default(T);
             }
 
             return entity;

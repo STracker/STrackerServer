@@ -133,7 +133,7 @@ namespace STrackerServer.Repository.MongoDB.Core
 
             var provider = new TheTvDbProvider();
 
-            return this.TryGetFromProvider(provider.GetTvShowInformationByImdbId, key);
+            return null;//this.TryGetFromProvider(provider.GetTvShowInformationByImdbId, key);
         }
 
         /// <summary>

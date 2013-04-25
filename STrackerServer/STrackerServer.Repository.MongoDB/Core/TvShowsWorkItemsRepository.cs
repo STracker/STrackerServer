@@ -12,16 +12,39 @@ namespace STrackerServer.Repository.MongoDB.Core
 {
     using System;
 
+    using global::MongoDB.Bson.Serialization;
     using global::MongoDB.Driver;
 
     using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities;
+
+    using global::MongoDB.Driver.Builders;
 
     /// <summary>
     /// The work for create television shows repository.
     /// </summary>
     public class TvShowsWorkItemsRepository : BaseRepository<TvShowWorkItem, string>, ITvShowsWorkItemsRepository
     {
+        /// <summary>
+        /// The collection.
+        /// </summary>
+        private readonly MongoCollection<TvShowWorkItem> collection;
+
+        /// <summary>
+        /// Initializes static members of the <see cref="TvShowsWorkItemsRepository"/> class.
+        /// </summary>
+        static TvShowsWorkItemsRepository()
+        {
+            BsonClassMap.RegisterClassMap<TvShowWorkItem>(
+                cm =>
+                {
+                    cm.AutoMap();
+
+                    // map _id field to key property.
+                    cm.SetIdMember(cm.GetMemberMap(p => p.Key));
+                });
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TvShowsWorkItemsRepository"/> class.
         /// </summary>
@@ -34,6 +57,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         public TvShowsWorkItemsRepository(MongoClient client, MongoUrl url)
             : base(client, url)
         {
+            this.collection = this.Database.GetCollection<TvShowWorkItem>("WorkItemsQueue");
         }
 
         /// <summary>
@@ -47,7 +71,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </returns>
         public override TvShowWorkItem Read(string key)
         {
-            throw new NotImplementedException();
+            return this.collection.FindOneById(key);
         }
 
         /// <summary>
@@ -89,7 +113,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </returns>
         public override bool Create(TvShowWorkItem entity)
         {
-            throw new NotImplementedException();
+            return this.collection.Insert(entity).Ok;
         }
     }
 }
