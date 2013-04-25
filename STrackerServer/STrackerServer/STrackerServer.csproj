@@ -128,7 +128,6 @@
     <Compile Include="Controllers\SeasonsController.cs" />
     <Compile Include="Controllers\TvShowsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\DevelopersController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Custom_action_results\SeeOtherResult.cs" />
     <Compile Include="Global.asax.cs">
@@ -167,9 +166,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\Get.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Developers\Get.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\STrackerServer.BusinessLayer\STrackerServer.BusinessLayer.csproj">

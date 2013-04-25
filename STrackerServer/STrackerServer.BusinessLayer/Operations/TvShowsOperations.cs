@@ -69,12 +69,26 @@ namespace STrackerServer.BusinessLayer.Operations
         /// </param>
         /// <returns>
         /// The <see>
-        ///       <cref>List</cref>
+        ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        public List<TvShow> ReadAllByGenre(Genre genre)
+        public IEnumerable<TvShow> ReadAllByGenre(Genre genre)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Get one television show by name.
+        /// </summary>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TvShow"/>.
+        /// </returns>
+        public TvShow ReadByName(string name)
+        {
+            return ((ITvShowsRepository)this.Repository).ReadByName(name);
         }
     }
 }

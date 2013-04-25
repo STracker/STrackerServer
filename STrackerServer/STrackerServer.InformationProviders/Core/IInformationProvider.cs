@@ -25,8 +25,6 @@ namespace STrackerServer.InformationProviders.Core
         /// <returns>
         /// The <see cref="TvShow"/>.
         /// </returns>
-        TvShow GetTvShowInformationByImdbId(string imdbId);
-        
-        // TODO, other information like seasons and episodes
+        TvShow GetAllTvShowInformation(string imdbId);
     }
 }

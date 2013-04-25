@@ -26,11 +26,20 @@ namespace STrackerServer.BusinessLayer.Core
         /// </param>
         /// <returns>
         /// The <see>
-        ///       <cref>List</cref>
+        ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        List<TvShow> ReadAllByGenre(Genre genre);
+        IEnumerable<TvShow> ReadAllByGenre(Genre genre);
 
-        // Addictional actions...
+        /// <summary>
+        /// Get one television show by name.
+        /// </summary>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TvShow"/>.
+        /// </returns>
+        TvShow ReadByName(string name);
     }
 }

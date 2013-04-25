@@ -10,6 +10,7 @@
 namespace STrackerServer.DataAccessLayer.Core
 {
     using System;
+    using System.Collections.Generic;
 
     using STrackerServer.DataAccessLayer.DomainEntities;
 
@@ -18,6 +19,17 @@ namespace STrackerServer.DataAccessLayer.Core
     /// </summary>
     public interface ISeasonsRepository : IRepository<Season, Tuple<string, int>>
     {
-        // TODO, add additional stuff...
+        /// <summary>
+        /// Get all seasons synopsis from one television show.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// Television show id.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>IEnumerable</cref>
+        ///     </see> .
+        /// </returns>
+        IEnumerable<Season.SeasonSynopsis> GetAllFromOneTvShow(string tvshowId);
     }
 }

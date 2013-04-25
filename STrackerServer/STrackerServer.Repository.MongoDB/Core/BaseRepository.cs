@@ -7,17 +7,17 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using MongoDB.Bson.Serialization;
-using STrackerServer.DataAccessLayer.DomainEntities;
-
 namespace STrackerServer.Repository.MongoDB.Core
 {
     using System;
     using System.Threading.Tasks;
 
+    using global::MongoDB.Bson.Serialization;
+
     using global::MongoDB.Driver;
 
     using STrackerServer.DataAccessLayer.Core;
+    using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
     /// Base repository for MongoDB database.
@@ -40,7 +40,9 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </summary>
         static BaseRepository()
         {
-            BsonClassMap.RegisterClassMap<Person>(
+            if (!BsonClassMap.IsClassMapRegistered(typeof(Person)))
+            {
+                BsonClassMap.RegisterClassMap<Person>(
                 cm =>
                 {
                     cm.AutoMap();
@@ -48,10 +50,13 @@ namespace STrackerServer.Repository.MongoDB.Core
                     // map _id field to key property.
                     cm.SetIdMember(cm.GetMemberMap(p => p.Key));
                 });
-            BsonClassMap.RegisterClassMap<Actor>();
-            BsonClassMap.RegisterClassMap<User>();
-
-            BsonClassMap.RegisterClassMap<Media>(
+                BsonClassMap.RegisterClassMap<Actor>();
+                BsonClassMap.RegisterClassMap<User>();
+            }
+            
+            if (!BsonClassMap.IsClassMapRegistered(typeof(Media)))
+            {
+                BsonClassMap.RegisterClassMap<Media>(
                 cm =>
                 {
                     cm.AutoMap();
@@ -61,9 +66,12 @@ namespace STrackerServer.Repository.MongoDB.Core
                     cm.SetIgnoreExtraElementsIsInherited(true);
                     cm.SetIgnoreExtraElements(true);
                 });
-            BsonClassMap.RegisterClassMap<TvShow>();
-
-            BsonClassMap.RegisterClassMap<Season>(
+                BsonClassMap.RegisterClassMap<TvShow>();
+            }
+            
+            if (!BsonClassMap.IsClassMapRegistered(typeof(Season)))
+            {
+                BsonClassMap.RegisterClassMap<Season>(
                cm =>
                {
                    cm.AutoMap();
@@ -73,8 +81,11 @@ namespace STrackerServer.Repository.MongoDB.Core
                    cm.SetIgnoreExtraElementsIsInherited(true);
                    cm.SetIgnoreExtraElements(true);
                });
+            }
 
-            BsonClassMap.RegisterClassMap<Episode>(
+            if (!BsonClassMap.IsClassMapRegistered(typeof(Episode)))
+            {
+                BsonClassMap.RegisterClassMap<Episode>(
                 cm =>
                 {
                     cm.AutoMap();
@@ -84,6 +95,7 @@ namespace STrackerServer.Repository.MongoDB.Core
                     cm.SetIgnoreExtraElementsIsInherited(true);
                     cm.SetIgnoreExtraElements(true);
                 });
+            }
         } 
 
         /// <summary>
@@ -166,6 +178,11 @@ namespace STrackerServer.Repository.MongoDB.Core
             try
             {
                 entity = func(key);
+
+                if (entity.Equals(default(T)))
+                {
+                    return default(T);
+                }
 
                 var createResult = false;
                 

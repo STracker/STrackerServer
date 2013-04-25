@@ -12,8 +12,6 @@ namespace STrackerServer.Repository.MongoDB.Core
 {
     using System.Collections.Generic;
 
-    using global::MongoDB.Bson.Serialization;
-
     using global::MongoDB.Driver;
 
     using global::MongoDB.Driver.Builders;
@@ -27,6 +25,11 @@ namespace STrackerServer.Repository.MongoDB.Core
     /// </summary>
     public class TvShowsRepository : BaseRepository<TvShow, string>, ITvShowsRepository
     {
+        /// <summary>
+        /// The database name for television show synopsis documents.
+        /// </summary>
+        private const string DatabaseNameForSynopsis = "Tvshows";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TvShowsRepository"/> class.
         /// </summary>
@@ -49,12 +52,38 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </param>
         /// <returns>
         /// The <see>
-        ///       <cref>List</cref>
+        ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        public List<TvShow> GetAllByGenre(Genre genre)
+        public IEnumerable<TvShow> ReadAllByGenre(Genre genre)
         {
             throw new System.NotImplementedException();
+        }
+
+        /// <summary>
+        /// Get one television show by name.
+        /// </summary>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TvShow"/>.
+        /// </returns>
+        public TvShow ReadByName(string name)
+        {
+            var collection = Database.GetCollection<TvShow.TvShowSynopsis>(DatabaseNameForSynopsis);
+            var query = Query<TvShow.TvShowSynopsis>.EQ(e => e.Name, name);
+            var synopse = collection.FindOneAs<TvShow.TvShowSynopsis>(query);
+
+            if (synopse != null)
+            {
+                var tvshowCollection = Database.GetCollection(synopse.Id);
+                query = Query<TvShow>.EQ(tv => tv.TvShowId, synopse.Id);
+                return tvshowCollection.FindOneAs<TvShow>(query);
+            }
+
+            // TODO Retrieves from external provider.
+            return null;
         }
 
         /// <summary>
@@ -71,11 +100,12 @@ namespace STrackerServer.Repository.MongoDB.Core
             var collection = Database.GetCollection(entity.Key);
 
             // Ensure indexes for collection
-            collection.EnsureIndex(new IndexKeysBuilder().Ascending("TvShowId"), IndexOptions.SetUnique(true));
-            collection.EnsureIndex(new IndexKeysBuilder().Ascending("TvShowId", "SeasonNumber"), IndexOptions.SetUnique(true));
             collection.EnsureIndex(new IndexKeysBuilder().Ascending("TvShowId", "SeasonNumber", "EpisodeNumber"), IndexOptions.SetUnique(true));
-
-            return collection.Insert(entity).Ok;
+            
+            // Get the collection that have all references for all television shows.
+            var collectionAll = Database.GetCollection(DatabaseNameForSynopsis);
+            
+            return collection.Insert(entity).Ok && collectionAll.Insert(entity.GetSynopsis()).Ok;
         }
 
         /// <summary>

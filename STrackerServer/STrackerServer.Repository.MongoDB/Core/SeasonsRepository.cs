@@ -11,8 +11,8 @@
 namespace STrackerServer.Repository.MongoDB.Core
 {
     using System;
-
-    using global::MongoDB.Bson.Serialization;
+    using System.Collections.Generic;
+    using System.Linq;
 
     using global::MongoDB.Driver;
 
@@ -47,6 +47,32 @@ namespace STrackerServer.Repository.MongoDB.Core
             : base(client, url)
         {
             this.tvshowsRepository = tvshowsRepository;
+        }
+
+        /// <summary>
+        /// Get all seasons synopsis from one television show.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// Television show id.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>IEnumerable</cref>
+        ///     </see> .
+        /// </returns>
+        public IEnumerable<Season.SeasonSynopsis> GetAllFromOneTvShow(string tvshowId)
+        {
+            var collection = this.Database.GetCollection(tvshowId);
+
+            var query = Query<Season>.EQ(s => s.TvShowId, tvshowId);
+
+            var cursor = collection.FindAs<Season>(query);
+
+            /*
+             * Because television show document have also the TvShowId it will be returned. Needed to select all except the first document
+             * wich is the television show document.
+             */
+            return cursor.Select(season => season.GetSynopsis()).ToList().Where(season => season.SeasonNumber > 0);
         }
 
         /// <summary>
@@ -86,6 +112,11 @@ namespace STrackerServer.Repository.MongoDB.Core
             var query = Query.And(Query<Season>.EQ(s => s.TvShowId, key.Item1), Query<Season>.EQ(s => s.SeasonNumber, key.Item2));
 
             var season = collection.FindOneAs<Season>(query);
+            
+            if (season == null)
+            {
+                return null;
+            }
 
             season.Key = key;
 

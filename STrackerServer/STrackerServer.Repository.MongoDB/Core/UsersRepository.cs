@@ -8,15 +8,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using MongoDB.Bson.Serialization;
-
 namespace STrackerServer.Repository.MongoDB.Core
 {
     using System;
 
     using global::MongoDB.Driver;
-
-    using global::MongoDB.Driver.Builders;
 
     using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities;

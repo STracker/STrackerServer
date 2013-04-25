@@ -9,6 +9,7 @@
 namespace STrackerServer.BusinessLayer.Core
 {
     using System;
+    using System.Collections.Generic;
 
     using STrackerServer.DataAccessLayer.DomainEntities;
 
@@ -17,6 +18,17 @@ namespace STrackerServer.BusinessLayer.Core
     /// </summary>
     public interface ISeasonsOperations : ICrudOperations<Season, Tuple<string, int>>
     {
-        // Addictional actions...
+        /// <summary>
+        /// Get all seasons synopsis from one television show.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// Television show id.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>IEnumerable</cref>
+        ///     </see> .
+        /// </returns>
+        IEnumerable<Season.SeasonSynopsis> GetAllFromOneTvShow(string tvshowId);
     }
 }

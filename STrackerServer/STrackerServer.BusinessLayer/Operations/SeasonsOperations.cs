@@ -10,6 +10,7 @@
 namespace STrackerServer.BusinessLayer.Operations
 {
     using System;
+    using System.Collections.Generic;
 
     using STrackerServer.BusinessLayer.Core;
     using STrackerServer.DataAccessLayer.Core;
@@ -21,14 +22,23 @@ namespace STrackerServer.BusinessLayer.Operations
     public class SeasonsOperations : BaseCrudOperations<Season, Tuple<string, int>>, ISeasonsOperations
     {
         /// <summary>
+        /// Television shows operations.
+        /// </summary>
+        private readonly ITvShowsOperations tvshowsOperations;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SeasonsOperations"/> class.
         /// </summary>
         /// <param name="repository">
         /// The repository.
         /// </param>
-        public SeasonsOperations(ISeasonsRepository repository)
+        /// <param name="tvshowsOperations">
+        /// Television shows operations.
+        /// </param>
+        public SeasonsOperations(ISeasonsRepository repository, ITvShowsOperations tvshowsOperations)
             : base(repository)
         {
+            this.tvshowsOperations = tvshowsOperations;
         }
 
         /// <summary>
@@ -58,6 +68,22 @@ namespace STrackerServer.BusinessLayer.Operations
         public override bool Update(Season entity)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Get all seasons synopsis from one television show.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// Television show id.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>IEnumerable</cref>
+        ///     </see> .
+        /// </returns>
+        public IEnumerable<Season.SeasonSynopsis> GetAllFromOneTvShow(string tvshowId)
+        {
+            return this.tvshowsOperations.Read(tvshowId) == null ? new List<Season.SeasonSynopsis>() : ((ISeasonsRepository)this.Repository).GetAllFromOneTvShow(tvshowId);
         }
     }
 }

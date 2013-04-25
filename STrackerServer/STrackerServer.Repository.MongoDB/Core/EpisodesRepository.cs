@@ -89,6 +89,11 @@ namespace STrackerServer.Repository.MongoDB.Core
 
             var episode = collection.FindOneAs<Episode>(query);
 
+            if (episode == null)
+            {
+                return null;
+            }
+
             episode.Key = key;
 
             return episode;

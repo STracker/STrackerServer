@@ -44,5 +44,21 @@ namespace STrackerServer.Controllers
         {
             return this.Get(this.Operations.Read(id));
         }
+
+        /// <summary>
+        /// Get one television show by name.
+        /// </summary>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>IEnumerable</cref>
+        ///     </see> .
+        /// </returns>
+        public TvShow GetByName(string name)
+        {
+            return this.Get(((ITvShowsOperations)this.Operations).ReadByName(name));
+        }
     }
 }

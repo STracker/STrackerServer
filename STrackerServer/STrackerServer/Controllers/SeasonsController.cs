@@ -10,6 +10,7 @@
 namespace STrackerServer.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Web.Http;
 
     using STrackerServer.BusinessLayer.Core;
@@ -48,5 +49,22 @@ namespace STrackerServer.Controllers
         {
             return this.Get(this.Operations.Read(new Tuple<string, int>(tvshowId, number)));
         }
+
+        /// <summary>
+        /// Get all seasons synopsis from one television show.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// Television show id.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>IEnumerable</cref>
+        ///     </see> .
+        /// </returns>
+        [HttpGet]
+        public IEnumerable<Season.SeasonSynopsis> GetAll(string tvshowId)
+        {
+            return ((ISeasonsOperations)this.Operations).GetAllFromOneTvShow(tvshowId);
+        }   
     }
 }

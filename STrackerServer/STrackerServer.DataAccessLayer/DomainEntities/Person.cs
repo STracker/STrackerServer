@@ -19,6 +19,13 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// <summary>
         /// Initializes a new instance of the <see cref="Person"/> class.
         /// </summary>
+        public Person()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Person"/> class.
+        /// </summary>
         /// <param name="key">
         /// The key.
         /// </param>

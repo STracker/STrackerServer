@@ -26,7 +26,7 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <param name="repository">
         /// The repository.
         /// </param>
-        public EpisodesOperations(IRepository<Episode, Tuple<string, int, int>> repository)
+        public EpisodesOperations(IEpisodesRepository repository)
             : base(repository)
         {
         }

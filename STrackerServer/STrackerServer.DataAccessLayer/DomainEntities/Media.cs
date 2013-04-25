@@ -21,12 +21,26 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// <summary>
         /// Initializes a new instance of the <see cref="Media"/> class.
         /// </summary>
+        public Media()
+        {
+            this.Genres = new List<Genre>();
+            this.Artworks = new List<Artwork>();
+            this.Actors = new List<Actor>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Media"/> class.
+        /// </summary>
         /// <param name="key">
         /// The key.
         /// </param>
         public Media(string key)
         {
             this.Key = key;
+
+            this.Genres = new List<Genre>();
+            this.Artworks = new List<Artwork>();
+            this.Actors = new List<Actor>();
         }
 
         /// <summary>

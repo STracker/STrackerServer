@@ -22,6 +22,13 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// <summary>
         /// Initializes a new instance of the <see cref="Episode"/> class.
         /// </summary>
+        public Episode()
+        {  
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Episode"/> class.
+        /// </summary>
         /// <param name="key">
         /// Compound key. Order: television show id, season number, episode number.
         /// </param>

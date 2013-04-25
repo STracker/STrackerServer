@@ -1,30 +1,28 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DevelopersController.cs" company="STracker">
+// <copyright file="IWorkQueue.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  Controller for Developers. For testing...
+//  Interfaces for work queue.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Controllers
+namespace STrackerServer.WorkQueue.Core
 {
-    using System.Web.Mvc;
-
     /// <summary>
-    /// For testing.
+    /// The Work queue interface.
     /// </summary>
-    public class DevelopersController : Controller
+    public interface IWorkQueue
     {
         /// <summary>
-        /// Get the HTML view for the testing page.
+        /// Add one work to queue.
         /// </summary>
+        /// <param name="parameters">
+        /// The parameters.
+        /// </param>
         /// <returns>
-        /// The <see cref="ActionResult"/>.
+        /// The <see cref="WorkResponse"/>.
         /// </returns>
-        public ActionResult Get()
-        {
-            return View();
-        }
+        WorkResponse AddWork(params object[] parameters);
     }
 }
