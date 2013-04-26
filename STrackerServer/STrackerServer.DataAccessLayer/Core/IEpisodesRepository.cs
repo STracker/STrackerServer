@@ -10,6 +10,7 @@
 namespace STrackerServer.DataAccessLayer.Core
 {
     using System;
+    using System.Collections.Generic;
 
     using STrackerServer.DataAccessLayer.DomainEntities;
 
@@ -18,6 +19,15 @@ namespace STrackerServer.DataAccessLayer.Core
     /// </summary>
     public interface IEpisodesRepository : IRepository<Episode, Tuple<string, int, int>>
     {
-        // TODO, add additional stuff...
+        /// <summary>
+        /// Create several episodes.
+        /// </summary>
+        /// <param name="episodes">
+        /// The episodes.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool CreateAll(IEnumerable<Episode> episodes);
     }
 }

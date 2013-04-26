@@ -11,6 +11,7 @@
 namespace STrackerServer.Repository.MongoDB.Core
 {
     using System;
+    using System.Collections.Generic;
 
     using global::MongoDB.Bson.Serialization;
 
@@ -159,6 +160,11 @@ namespace STrackerServer.Repository.MongoDB.Core
             // In this case first remove the object synopse than remove the episode, because can not have
             // one synopse for one episode that not exists.
             return this.seasonsRepository.Update(season) && collection.FindAndRemove(query, SortBy.Null).Ok;
+        }
+
+        public bool CreateAll(IEnumerable<Episode> episodes)
+        {
+            throw new NotImplementedException();
         }
     }
 }

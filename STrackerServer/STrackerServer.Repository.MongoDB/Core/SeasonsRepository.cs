@@ -75,6 +75,11 @@ namespace STrackerServer.Repository.MongoDB.Core
             return cursor.Select(season => season.GetSynopsis()).ToList().Where(season => season.SeasonNumber > 0);
         }
 
+        public bool CreateAll(IEnumerable<Season> seasons)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Create one season.
         /// </summary>

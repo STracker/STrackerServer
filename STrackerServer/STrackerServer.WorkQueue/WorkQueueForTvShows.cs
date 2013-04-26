@@ -3,12 +3,14 @@
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  Implementation of IWorkQueueForTvShows interface.
+//  Implementation of IWorkQueueForTvShows interface. Using the TPL  
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace STrackerServer.WorkQueue
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using STrackerServer.DataAccessLayer.Core;
@@ -84,29 +86,32 @@ namespace STrackerServer.WorkQueue
         /// </returns>
         public WorkResponse AddWork(params object[] parameters)
         {
-            var tvshowId = (string)parameters[0];
-            var workItem = new TvShowWorkItem { Key = tvshowId };
+            var imdbId = (string)parameters[0];
 
             // Verifiy if the television show exists before creating the task.
-            if (!this.infoProvider.VerifyIfExists(tvshowId))
+            if (!this.infoProvider.VerifyIfExists(imdbId))
             {
                 return WorkResponse.Error;
             }
 
+            var workItem = new TvShowWorkItem { Key = imdbId };
+
+            // Test for just in case of two or more requests make at same time
+            // the request for creating a work item for same television show.
             if (!this.workItemsRepository.Create(workItem))
             {
                 return WorkResponse.InProcess;
             }
 
-            var task = Task.Factory.StartNew(() => this.TaskWork(tvshowId));
+            // Creating the task.
+            var task = Task.Factory.StartNew(() => this.TaskWork(imdbId));
             task.ContinueWith(
                 completed =>
                     {
                         completed.Wait();
-                        if (!workItemsRepository.Delete(tvshowId))
-                        {
-                            // TODO, error while deleting, necessary to add to log.
-                        }
+
+                        // Delete document of the work from database when the work is completed.
+                        this.workItemsRepository.Delete(imdbId);
                     });
 
             return WorkResponse.InProcess;
@@ -129,36 +134,35 @@ namespace STrackerServer.WorkQueue
         /// <summary>
         /// The task work.
         /// </summary>
-        /// <param name="tvshowId">
+        /// <param name="imdbId">
         /// The id.
         /// </param>
-        private void TaskWork(string tvshowId)
+        private void TaskWork(string imdbId)
         {
             /*
              * Get information from external providers.
              */
 
             // First try get the television show basic information.
-            var tvshow = this.infoProvider.GetTvShowInformation(tvshowId);
+            var tvshow = this.infoProvider.GetTvShowInformation(imdbId);
             if (!this.tvshowsRepository.Create(tvshow))
             {
-                // TODO, add error to log.
                 return;
             }
 
-            // Then try get seasons from the desire television show.
-            var episodes = this.infoProvider.GetEpisodesInformation(tvshowId);
-
-            /*
-            if (this.seasonsRepository.CreateAll(seasons))
+            // Then try get the seasons.
+            var seasons = this.infoProvider.GetSeasonsInformation(imdbId);
+            var enumerable = seasons as List<Season> ?? seasons.ToList();
+            if (!this.seasonsRepository.CreateAll(enumerable))
             {
-                // TODO, add error to log.
                 return;
             }
 
-            // Finaly try get the episodes.
-            var episodes = this.infoProvider.GetEpisodes()
-             * */
+            // Then try get the episodes.
+            foreach (var episodes in enumerable.Select(season => this.infoProvider.GetEpisodesInformation(imdbId, season.SeasonNumber)))
+            {
+                this.episodesRepository.CreateAll(episodes);
+            }
         }
     }
 }

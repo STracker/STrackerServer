@@ -19,20 +19,31 @@ namespace STrackerServer.InformationProviders.Core
     public interface ITvShowsInformationProvider
     {
         /// <summary>
+        /// Verify if the television show exists.
+        /// </summary>
+        /// <param name="imdbId">
+        /// The IMDB id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool VerifyIfExists(string imdbId);
+
+        /// <summary>
         /// Get a television show object with information filled.
         /// </summary>
-        /// <param name="tvshowId">
+        /// <param name="imdbId">
         /// The IMDB id.
         /// </param>
         /// <returns>
         /// The <see cref="TvShow"/>.
         /// </returns>
-        TvShow GetTvShowInformation(string tvshowId);
+        TvShow GetTvShowInformation(string imdbId);
 
         /// <summary>
-        /// Get episodes information.
+        /// Get seasons information.
         /// </summary>
-        /// <param name="tvshowId">
+        /// <param name="imdbId">
         /// The IMDB id.
         /// </param>
         /// <returns>
@@ -40,17 +51,22 @@ namespace STrackerServer.InformationProviders.Core
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        IEnumerable<Episode> GetEpisodesInformation(string tvshowId);
+        IEnumerable<Season> GetSeasonsInformation(string imdbId);
 
         /// <summary>
-        /// Verify if the television show exists.
+        /// Get episodes information.
         /// </summary>
-        /// <param name="tvshowId">
+        /// <param name="imdbId">
         /// The IMDB id.
         /// </param>
+        /// <param name="seasonNumber">
+        /// The season number.
+        ///  </param>
         /// <returns>
-        /// The <see cref="bool"/>.
+        /// The <see>
+        ///       <cref>IEnumerable</cref>
+        ///     </see> .
         /// </returns>
-        bool VerifyIfExists(string tvshowId);
+        IEnumerable<Episode> GetEpisodesInformation(string imdbId, int seasonNumber);
     }
 }

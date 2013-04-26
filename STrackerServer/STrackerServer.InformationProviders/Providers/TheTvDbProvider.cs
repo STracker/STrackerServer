@@ -46,23 +46,23 @@ namespace STrackerServer.InformationProviders.Providers
         /// <summary>
         /// Get a television show object with information filled.
         /// </summary>
-        /// <param name="tvshowId">
+        /// <param name="imdbId">
         /// The IMDB id.
         /// </param>
         /// <returns>
         /// The <see cref="TvShow"/>.
         /// </returns>
-        public TvShow GetTvShowInformation(string tvshowId)
+        public TvShow GetTvShowInformation(string imdbId)
         {
             // Get thetvdb id first.
-            var id = this.GetTheTvDbId(tvshowId);
+            var id = this.GetTheTvDbId(imdbId);
             if (id == null)
             {
                 return null;
             }
 
             var xdoc = CreateXmlDocument(string.Format("{0}/api/{1}/series/{2}", this.mirrorPath, this.apiKey, id));
-            var tvshow = new TvShow(tvshowId);
+            var tvshow = new TvShow(imdbId);
             
             // Get the basic information.
             var nameNode = xdoc.SelectSingleNode("//SeriesName");
@@ -113,9 +113,9 @@ namespace STrackerServer.InformationProviders.Providers
         }
 
         /// <summary>
-        /// Get episodes information.
+        /// Get seasons information.
         /// </summary>
-        /// <param name="tvshowId">
+        /// <param name="imdbId">
         /// The IMDB id.
         /// </param>
         /// <returns>
@@ -123,11 +123,63 @@ namespace STrackerServer.InformationProviders.Providers
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        public IEnumerable<Episode> GetEpisodesInformation(string tvshowId)
+        public IEnumerable<Season> GetSeasonsInformation(string imdbId)
         {
             // Get thetvdb id first.
-            var id = this.GetTheTvDbId(tvshowId);
+            var id = this.GetTheTvDbId(imdbId);
+            if (id == null)
+            {
+                return null;
+            }
 
+            var xdoc = CreateXmlDocument(string.Format("{0}/api/{1}/series/{2}/all", this.mirrorPath, this.apiKey, id));
+
+            var seasonsNodes = xdoc.SelectNodes("//SeasonNumber");
+            if (seasonsNodes == null)
+            {
+                return null;
+            }
+
+            var numbers = new HashSet<int>();
+            for (var i = 0; i < seasonsNodes.Count; i++)
+            {
+                var xmlNode = seasonsNodes.Item(i);
+                if (xmlNode == null)
+                {
+                    continue;
+                }
+
+                numbers.Add(int.Parse(xmlNode.LastChild.Value));
+            }
+
+            var list = new List<Season>();
+            var enumerator = numbers.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                list.Add(new Season(new Tuple<string, int>(imdbId, enumerator.Current)));
+            }
+             
+            return list;
+        }
+
+        /// <summary>
+        /// Get episodes information.
+        /// </summary>
+        /// <param name="imdbId">
+        /// The IMDB id.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// The season number.
+        ///  </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>IEnumerable</cref>
+        ///     </see> .
+        /// </returns>
+        public IEnumerable<Episode> GetEpisodesInformation(string imdbId, int seasonNumber)
+        {
+            // Get thetvdb id first.
+            var id = this.GetTheTvDbId(imdbId);
             if (id == null)
             {
                 return null;
@@ -161,7 +213,7 @@ namespace STrackerServer.InformationProviders.Providers
                     continue;
                 }
 
-                var episode = new Episode(new Tuple<string, int, int>(tvshowId, int.Parse(seasonNumberNode.LastChild.Value), int.Parse(episodeNumberNode.LastChild.Value)));
+                var episode = new Episode(new Tuple<string, int, int>(imdbId, int.Parse(seasonNumberNode.LastChild.Value), int.Parse(episodeNumberNode.LastChild.Value)));
 
                 var nameNode = xmlNode.SelectSingleNode("//EpisodeName");
                 episode.Name = (nameNode != null) ? nameNode.LastChild.Value : null;
@@ -175,15 +227,15 @@ namespace STrackerServer.InformationProviders.Providers
         /// <summary>
         /// The verify if exists.
         /// </summary>
-        /// <param name="tvshowId">
+        /// <param name="imdbId">
         /// The IMDB id.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public bool VerifyIfExists(string tvshowId)
+        public bool VerifyIfExists(string imdbId)
         {
-            return this.GetTheTvDbId(tvshowId) != null;
+            return this.GetTheTvDbId(imdbId) != null;
         }
 
         /// <summary>
