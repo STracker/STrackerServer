@@ -57,8 +57,7 @@ namespace STrackerServer.NinjectDependencies
             this.Bind<IUsersRepository>().To<UsersRepository>();
 
             // Work queues stuff dependencies...
-            this.Bind<ITvShowsWorkItemsRepository>().To<TvShowsWorkItemsRepository>();
-            this.Bind<IWorkQueueForTvShows>().To<WorkQueueForTvShows>();
+            this.Bind<IWorkQueueForTvShows>().To<WorkQueueForTvShows>().InSingletonScope();
 
             // External providers stuff dependencies...
             this.Bind<ITvShowsInformationProvider>().To<TheTvDbProvider>();

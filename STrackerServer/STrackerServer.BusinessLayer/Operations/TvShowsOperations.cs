@@ -25,7 +25,7 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <summary>
         /// The work queue.
         /// </summary>
-        private IWorkQueueForTvShows workQueue;
+        private readonly IWorkQueueForTvShows workQueue;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TvShowsOperations"/> class.
@@ -66,28 +66,53 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <returns>
         /// The <see cref="TvShow"/>.
         /// </returns>
-        /// <exception cref="NotImplementedException">
-        /// </exception>
         public override TvShow Read(string id)
         {
-            if (this.workQueue.ExistsWork(id))
+            var work = this.workQueue.ExistsWork(id);
+            if (work != null)
             {
-                return null;
+                return work.EndExecuteWork();
             }
 
             var tvshow = this.Repository.Read(id);
-
             if (tvshow != null)
             {
                 return tvshow;
             }
 
-            var workResponse = this.workQueue.AddWork(id);
-            if (workResponse == WorkResponse.InProcess || workResponse == WorkResponse.Error)
+            work = this.workQueue.AddWork(id);
+            work.BeginExecuteWork();
+            return work.EndExecuteWork();
+        }
+
+        /// <summary>
+        /// The read async operation.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TvShow"/>.
+        /// </returns>
+        public override TvShow ReadAsync(string id)
+        {
+            var work = this.workQueue.ExistsWork(id);
+            if (work != null)
             {
                 return null;
             }
 
+            var tvshow = this.Repository.Read(id);
+            if (tvshow != null)
+            {
+                return tvshow;
+            }
+
+            work = this.workQueue.AddWork(id);
+            if (work != null)
+            {
+                work.BeginExecuteWork();
+            }
             return null;
         }
 

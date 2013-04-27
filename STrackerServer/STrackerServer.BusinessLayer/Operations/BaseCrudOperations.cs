@@ -76,6 +76,17 @@ namespace STrackerServer.BusinessLayer.Operations
         public abstract T Read(TK id);
 
         /// <summary>
+        /// The read async operation.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="T"/>.
+        /// </returns>
+        public abstract T ReadAsync(TK id);
+
+        /// <summary>
         /// Update one entity.
         /// </summary>
         /// <param name="entity">

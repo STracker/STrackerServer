@@ -47,6 +47,11 @@ namespace STrackerServer.BusinessLayer.Operations
             throw new System.NotImplementedException();
         }
 
+        public override User ReadAsync(string id)
+        {
+            throw new System.NotImplementedException();
+        }
+
         /// <summary>
         /// Update one user.
         /// </summary>

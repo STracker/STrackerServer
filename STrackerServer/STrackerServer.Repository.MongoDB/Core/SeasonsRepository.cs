@@ -75,11 +75,6 @@ namespace STrackerServer.Repository.MongoDB.Core
             return cursor.Select(season => season.GetSynopsis()).ToList().Where(season => season.SeasonNumber > 0);
         }
 
-        public bool CreateAll(IEnumerable<Season> seasons)
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// Create one season.
         /// </summary>
@@ -143,7 +138,11 @@ namespace STrackerServer.Repository.MongoDB.Core
         {
             var collection = Database.GetCollection(entity.TvShowId);
 
-            return collection.Save(entity).Ok;
+            var query = Query.And(Query<Season>.EQ(s => s.TvShowId, entity.TvShowId), Query<Season>.EQ(s => s.SeasonNumber, entity.SeasonNumber));
+
+            var update = Update<Season>.Set(s => s.EpisodeSynopses, entity.EpisodeSynopses);
+
+            return collection.Update(query, update).Ok;
         }
 
         /// <summary>
@@ -177,6 +176,40 @@ namespace STrackerServer.Repository.MongoDB.Core
             // In this case first remove the object synopse than remove the season, because can not have
             // one synopse for one season that not exists.
             return this.tvshowsRepository.Update(tvshow) && collection.FindAndRemove(query, SortBy.Null).Ok;
+        }
+
+        /// <summary>
+        /// Create several seasons.
+        /// </summary>
+        /// <param name="seasons">
+        /// The seasons.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool CreateAll(IEnumerable<Season> seasons)
+        {
+            var enumerable = seasons as List<Season> ?? seasons.ToList();
+            if (!enumerable.Any())
+            {
+                return false;
+            }
+
+            var tvshowId = enumerable.ElementAt(0).TvShowId;
+
+            var collection = this.Database.GetCollection(tvshowId);
+
+            collection.InsertBatch(enumerable);
+
+            // Add the synopsis to television show document.
+            var tvshow = this.tvshowsRepository.Read(tvshowId);
+
+            foreach (var season in enumerable)
+            {
+                tvshow.SeasonSynopses.Add(season.GetSynopsis());
+            }
+
+            return this.tvshowsRepository.Update(tvshow);
         }
     }
 }

@@ -9,9 +9,7 @@
 
 namespace STrackerServer.WorkQueue
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
+    using System.Collections.Concurrent;
 
     using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities;
@@ -23,11 +21,6 @@ namespace STrackerServer.WorkQueue
     /// </summary>
     public class WorkQueueForTvShows : IWorkQueueForTvShows
     {
-        /// <summary>
-        /// The work items repository.
-        /// </summary>
-        private readonly ITvShowsWorkItemsRepository workItemsRepository;
-
         /// <summary>
         /// The television shows repository.
         /// </summary>
@@ -49,11 +42,13 @@ namespace STrackerServer.WorkQueue
         private readonly ITvShowsInformationProvider infoProvider;
 
         /// <summary>
+        /// The work queue.
+        /// </summary>
+        private readonly ConcurrentDictionary<string, CreateTvShowsWork> workQueue;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WorkQueueForTvShows"/> class.
         /// </summary>
-        /// <param name="workItemsRepository">
-        /// The work items repository.
-        /// </param>
         /// <param name="tvshowsRepository">
         /// The television shows repository.
         /// </param>
@@ -66,13 +61,13 @@ namespace STrackerServer.WorkQueue
         /// <param name="infoProvider">
         /// The information Provider.
         /// </param>
-        public WorkQueueForTvShows(ITvShowsWorkItemsRepository workItemsRepository, ITvShowsRepository tvshowsRepository, ISeasonsRepository seasonsRepository, IEpisodesRepository episodesRepository, ITvShowsInformationProvider infoProvider)
+        public WorkQueueForTvShows(ITvShowsRepository tvshowsRepository, ISeasonsRepository seasonsRepository, IEpisodesRepository episodesRepository, ITvShowsInformationProvider infoProvider)
         {
-            this.workItemsRepository = workItemsRepository;
             this.tvshowsRepository = tvshowsRepository;
             this.seasonsRepository = seasonsRepository;
             this.episodesRepository = episodesRepository;
             this.infoProvider = infoProvider;
+            this.workQueue = new ConcurrentDictionary<string, CreateTvShowsWork>();
         }
 
         /// <summary>
@@ -82,87 +77,31 @@ namespace STrackerServer.WorkQueue
         /// The parameters.
         /// </param>
         /// <returns>
-        /// The <see cref="WorkResponse"/>.
+        /// The <see>
+        ///       <cref>IWork</cref>
+        ///     </see> .
         /// </returns>
-        public WorkResponse AddWork(params object[] parameters)
+        public IWork<TvShow> AddWork(params object[] parameters)
         {
             var imdbId = (string)parameters[0];
-
-            // Verifiy if the television show exists before creating the task.
-            if (!this.infoProvider.VerifyIfExists(imdbId))
-            {
-                return WorkResponse.Error;
-            }
-
-            var workItem = new TvShowWorkItem { Key = imdbId };
-
-            // Test for just in case of two or more requests make at same time
-            // the request for creating a work item for same television show.
-            if (!this.workItemsRepository.Create(workItem))
-            {
-                return WorkResponse.InProcess;
-            }
-
-            // Creating the task.
-            var task = Task.Factory.StartNew(() => this.TaskWork(imdbId));
-            task.ContinueWith(
-                completed =>
-                    {
-                        completed.Wait();
-
-                        // Delete document of the work from database when the work is completed.
-                        this.workItemsRepository.Delete(imdbId);
-                    });
-
-            return WorkResponse.InProcess;
+            var work = new CreateTvShowsWork(this.tvshowsRepository, this.seasonsRepository, this.episodesRepository, this.infoProvider, imdbId);
+            return this.workQueue.TryAdd(imdbId, work) ? work : null;
         }
 
         /// <summary>
-        /// Verify if already exists the work.
+        /// Verify if already exists one same work.
         /// </summary>
         /// <param name="workId">
         /// The work id.
         /// </param>
         /// <returns>
-        /// The <see cref="bool"/>.
+        /// The <see>
+        ///       <cref>IWork</cref>
+        ///     </see> .
         /// </returns>
-        public bool ExistsWork(object workId)
+        public IWork<TvShow> ExistsWork(object workId)
         {
-            return this.workItemsRepository.Read(string.Format("{0}", workId)) != null;
-        }
-
-        /// <summary>
-        /// The task work.
-        /// </summary>
-        /// <param name="imdbId">
-        /// The id.
-        /// </param>
-        private void TaskWork(string imdbId)
-        {
-            /*
-             * Get information from external providers.
-             */
-
-            // First try get the television show basic information.
-            var tvshow = this.infoProvider.GetTvShowInformation(imdbId);
-            if (!this.tvshowsRepository.Create(tvshow))
-            {
-                return;
-            }
-
-            // Then try get the seasons.
-            var seasons = this.infoProvider.GetSeasonsInformation(imdbId);
-            var enumerable = seasons as List<Season> ?? seasons.ToList();
-            if (!this.seasonsRepository.CreateAll(enumerable))
-            {
-                return;
-            }
-
-            // Then try get the episodes.
-            foreach (var episodes in enumerable.Select(season => this.infoProvider.GetEpisodesInformation(imdbId, season.SeasonNumber)))
-            {
-                this.episodesRepository.CreateAll(episodes);
-            }
+            return this.workQueue.ContainsKey((string)workId) ? this.workQueue[(string)workId] : null;
         }
     }
 }

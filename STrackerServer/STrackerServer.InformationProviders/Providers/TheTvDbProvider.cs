@@ -100,10 +100,10 @@ namespace STrackerServer.InformationProviders.Providers
                 // In this fase of the project, the actor dont need the key.
                 var actor = new Actor();
 
-                var nodeName = xmlNode.SelectSingleNode("//Name");
+                var nodeName = xmlNode.SelectSingleNode("Name");
                 actor.Name = (nodeName != null) ? nodeName.LastChild.Value : null;
 
-                var characterNameNode = xmlNode.SelectSingleNode("//Role");
+                var characterNameNode = xmlNode.SelectSingleNode("Role");
                 actor.CharacterName = (characterNameNode != null) ? characterNameNode.LastChild.Value : null;
 
                 tvshow.Actors.Add(actor);
@@ -115,18 +115,18 @@ namespace STrackerServer.InformationProviders.Providers
         /// <summary>
         /// Get seasons information.
         /// </summary>
-        /// <param name="imdbId">
-        /// The IMDB id.
+        /// <param name="tvshow">
+        /// The television show.
         /// </param>
         /// <returns>
         /// The <see>
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        public IEnumerable<Season> GetSeasonsInformation(string imdbId)
+        public IEnumerable<Season> GetSeasonsInformation(TvShow tvshow)
         {
             // Get thetvdb id first.
-            var id = this.GetTheTvDbId(imdbId);
+            var id = this.GetTheTvDbId(tvshow.TvShowId);
             if (id == null)
             {
                 return null;
@@ -156,7 +156,7 @@ namespace STrackerServer.InformationProviders.Providers
             var enumerator = numbers.GetEnumerator();
             while (enumerator.MoveNext())
             {
-                list.Add(new Season(new Tuple<string, int>(imdbId, enumerator.Current)));
+                list.Add(new Season(new Tuple<string, int>(tvshow.TvShowId, enumerator.Current)));
             }
              
             return list;
@@ -165,21 +165,18 @@ namespace STrackerServer.InformationProviders.Providers
         /// <summary>
         /// Get episodes information.
         /// </summary>
-        /// <param name="imdbId">
-        /// The IMDB id.
+        /// <param name="tvshow">
+        /// The television show.
         /// </param>
-        /// <param name="seasonNumber">
-        /// The season number.
-        ///  </param>
         /// <returns>
         /// The <see>
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        public IEnumerable<Episode> GetEpisodesInformation(string imdbId, int seasonNumber)
+        public IEnumerable<Episode> GetEpisodesInformation(TvShow tvshow)
         {
             // Get thetvdb id first.
-            var id = this.GetTheTvDbId(imdbId);
+            var id = this.GetTheTvDbId(tvshow.TvShowId);
             if (id == null)
             {
                 return null;
@@ -206,16 +203,16 @@ namespace STrackerServer.InformationProviders.Providers
                     continue;
                 }
 
-                var seasonNumberNode = xmlNode.SelectSingleNode("//SeasonNumber");
-                var episodeNumberNode = xmlNode.SelectSingleNode("//EpisodeNumber");
+                var seasonNumberNode = xmlNode.SelectSingleNode("SeasonNumber");
+                var episodeNumberNode = xmlNode.SelectSingleNode("EpisodeNumber");
                 if (seasonNumberNode == null || episodeNumberNode == null)
                 {
                     continue;
                 }
 
-                var episode = new Episode(new Tuple<string, int, int>(imdbId, int.Parse(seasonNumberNode.LastChild.Value), int.Parse(episodeNumberNode.LastChild.Value)));
+                var episode = new Episode(new Tuple<string, int, int>(tvshow.TvShowId, int.Parse(seasonNumberNode.LastChild.Value), int.Parse(episodeNumberNode.LastChild.Value)));
 
-                var nameNode = xmlNode.SelectSingleNode("//EpisodeName");
+                var nameNode = xmlNode.SelectSingleNode("EpisodeName");
                 episode.Name = (nameNode != null) ? nameNode.LastChild.Value : null;
 
                 list.Add(episode);

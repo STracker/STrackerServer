@@ -51,6 +51,11 @@ namespace STrackerServer.BusinessLayer.Operations
             throw new NotImplementedException();
         }
 
+        public override Episode ReadAsync(Tuple<string, int, int> id)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Update one episode.
         /// </summary>

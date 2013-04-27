@@ -1,27 +1,34 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="WorkResponse.cs" company="STracker">
+// <copyright file="IWork.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  Enum for various responses of method AddWork in work queues.
+//  Interface for Works.
+//  of the work.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace STrackerServer.WorkQueue.Core
 {
     /// <summary>
-    /// The work response.
+    /// The Work interface.
     /// </summary>
-    public enum WorkResponse
+    /// <typeparam name="T">
+    /// Type of the return in End execute work method.
+    /// </typeparam>
+    public interface IWork<out T>
     {
         /// <summary>
-        /// The error.
+        /// The begin execute work.
         /// </summary>
-        Error,
+        void BeginExecuteWork();
 
         /// <summary>
-        /// The in process.
+        /// The end execute work.
         /// </summary>
-        InProcess
+        /// <returns>
+        /// The <see cref="T"/>.
+        /// </returns>
+        T EndExecuteWork();
     }
 }

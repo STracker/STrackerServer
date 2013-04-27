@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\BaseRepository.cs" />
-    <Compile Include="Core\TvShowsWorkItemsRepository.cs" />
     <Compile Include="Core\EpisodesRepository.cs" />
     <Compile Include="Core\SeasonsRepository.cs" />
     <Compile Include="Core\TvShowsRepository.cs" />

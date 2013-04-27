@@ -148,8 +148,10 @@ namespace STrackerServer.Repository.MongoDB.Core
         public override bool Update(TvShow entity)
         {
             var collection = Database.GetCollection(entity.TvShowId);
+            var query = Query<TvShow>.EQ(tv => tv.TvShowId, entity.TvShowId);
+            var update = Update<TvShow>.Set(tv => tv.SeasonSynopses, entity.SeasonSynopses).Set(tv => tv.Rating, entity.Rating).Set(tv => tv.Runtime, entity.Runtime);
 
-            return collection.Save(entity).Ok;
+            return collection.Update(query, update).Ok;
         }
 
         /// <summary>

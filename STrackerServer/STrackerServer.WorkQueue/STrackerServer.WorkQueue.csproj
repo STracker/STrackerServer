@@ -39,9 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\IWork.cs" />
     <Compile Include="Core\IWorkQueue.cs" />
     <Compile Include="Core\IWorkQueueForTvShows.cs" />
-    <Compile Include="Core\WorkResponse.cs" />
+    <Compile Include="CreateTvShowsWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WorkQueueForTvShows.cs" />
   </ItemGroup>

@@ -12,8 +12,7 @@ namespace STrackerServer.Repository.MongoDB.Core
 {
     using System;
     using System.Collections.Generic;
-
-    using global::MongoDB.Bson.Serialization;
+    using System.Linq;
 
     using global::MongoDB.Driver;
 
@@ -162,9 +161,44 @@ namespace STrackerServer.Repository.MongoDB.Core
             return this.seasonsRepository.Update(season) && collection.FindAndRemove(query, SortBy.Null).Ok;
         }
 
+        /// <summary>
+        /// Create several episodes.
+        /// </summary>
+        /// <param name="episodes">
+        /// The episodes.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
         public bool CreateAll(IEnumerable<Episode> episodes)
         {
-            throw new NotImplementedException();
+            var enumerable = episodes as List<Episode> ?? episodes.ToList();
+            if (!enumerable.Any())
+            {
+                return false;
+            }
+
+            var tvshowId = enumerable.ElementAt(0).TvShowId;
+
+            var collection = this.Database.GetCollection(tvshowId);
+
+            collection.InsertBatch(enumerable);
+
+            // Add the synopsis to season.
+            foreach (var episode in enumerable)
+            {
+                var season = this.seasonsRepository.Read(new Tuple<string, int>(tvshowId, episode.SeasonNumber));
+                if (season == null)
+                {
+                    // TODO, add error to log.
+                    continue;
+                }
+
+                season.EpisodeSynopses.Add(episode.GetSynopsis());
+                this.seasonsRepository.Update(season);
+            }
+
+            return true;
         }
     }
 }
