@@ -1,0 +1,74 @@
+﻿@model STrackerServer.Models.TvShow.TvShowWeb
+
+@{
+    ViewBag.Title = @Model.Name;
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3"> 
+            <div class="box" style="padding: 10px 0"> 
+                <ul class="nav nav-list">
+                    <li class="center">
+                        <img class="img-rounded"src="@Model.Artwork.ImageUrl" alt="No Artwork"/>   
+                    </li>
+                    <li class="black-divider"/>
+                    <li><a href="@Url.Action("Index","SeasonWeb", new {tvshowId = Model.TvShowId})">Seasons and Episodes</a></li>
+                    <li><a>Comments</a></li>
+                    <li class="black-divider"/>
+                    @if(User.Identity.IsAuthenticated)
+                    {
+                        <li><a>Subscribe</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="span7">
+            <div class="box">
+                <h2>@Model.Name</h2>
+                <p>@Model.Description</p> 
+                <p><b>IMDB ID: </b> @Model.TvShowId</p>  
+                <p><b>Genre:</b></p>
+                <ul>
+                    @foreach(var genre in Model.Genres)
+                    {
+                        <li>@genre</li>            
+                    }
+                </ul>
+            </div>     
+            <div class="box">
+                 <b> Seasons:</b>
+                <a href="@Url.Action("Show", "SeasonWeb", new { tvshowId = Model.TvShowId, seasonId = Model.SeasonSynopses[0].SeasonNumber })">@Model.SeasonSynopses[0].SeasonNumber</a> 
+                @for (var i = 1; i < Model.SeasonSynopses.Count; i++ )   
+                {
+                    <b>| </b><a href="@Url.Action("Show", "SeasonWeb", new { tvshowId = Model.TvShowId, seasonId = Model.SeasonSynopses[i].SeasonNumber })">@Model.SeasonSynopses[i].SeasonNumber</a>  
+                }
+            </div> 
+            <div class="box">
+                <table class="table">
+                    <tr>
+                        <th>Photo</th>
+                        <th>Name</th>
+                        <th>Character</th>
+                    </tr>
+        
+                    @foreach(var actor in Model.Actors)
+                    {
+                        <tr>
+                            <td>
+                                <img src="@actor.Photo.ImageUrl" alt="No Artwork"/>
+                            </td>
+                            <td>
+                                @actor.Name
+                            </td>
+                            <td>
+                                @actor.CharacterName
+                            </td>
+                        </tr>  
+                    }
+                </table>
+            </div>     
+        </div>
+    </div>
+</div>

@@ -24,13 +24,21 @@ namespace STrackerServer.App_Start
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute("home", string.Empty, new { controller = "Home", action = "Get" });
+            routes.MapRoute("Home", string.Empty, new { controller = "HomeWeb", action = "Index" });
+            routes.MapRoute("Contact", "Contact", new { controller = "HomeWeb", action = "Contact" });
 
-            routes.MapRoute("testing", "developers", new { controller = "Developers", action = "Get" });
+            routes.MapRoute("User", "User/{action}", new { controller = "UsersWeb" });
 
-            routes.MapRoute("users", "user", new { controller = "Users", action = "GetInfo" });
+            routes.MapRoute("Account_Login", "Account/Login", new { controller = "Account", action = "Login", returnUri = UrlParameter.Optional });
+            routes.MapRoute("Account_Callback", "Account/Callback", new { controller = "Account", action = "Callback" });
+            routes.MapRoute("Account_Logout", "Account/Logout", new { controller = "Account", action = "Logout" });
 
-            routes.MapRoute("AccountActions", "Account/{action}", new { controller = "Account" });
+            routes.MapRoute("TvShowsWeb_Index", "TvShows", new { controller = "TvShowsWeb", action = "Index" });
+            routes.MapRoute("TvShowsWeb_Show", "TvShows/{tvshowId}", new { controller = "TvShowsWeb", action = "Show" });
+
+            routes.MapRoute("SeasonWeb_Show", "TvShows/{tvshowId}/Seasons/{seasonId}", new { controller = "SeasonWeb", action = "Show" });
+
+            routes.MapRoute("SeasonWeb_All", "TvShows/{tvshowId}/Seasons", new { controller = "SeasonWeb", action = "Index" });
         }
     }
 }

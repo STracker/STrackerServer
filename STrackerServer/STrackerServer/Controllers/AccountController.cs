@@ -7,19 +7,25 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.IO;
+using System.Security.Cryptography;
+using System.Text;
+using System.Xml;
+using System.Xml.Serialization;
+using Newtonsoft.Json;
+
 namespace STrackerServer.Controllers
 {
     using System;
     using System.Configuration;
     using System.Net;
+    using System.Web;
     using System.Web.Mvc;
     using System.Web.Security;
-
+    using BusinessLayer.Core;
+    using Custom_action_results;
+    using DataAccessLayer.DomainEntities;
     using Facebook;
-
-    using STrackerServer.BusinessLayer.Core;
-    using STrackerServer.Custom_action_results;
-    using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
     /// Account controller.
@@ -37,6 +43,11 @@ namespace STrackerServer.Controllers
         private static readonly string FacebookClientSecret = ConfigurationManager.AppSettings["Client:Secret"];
 
         /// <summary>
+        /// The name of the state cookie.
+        /// </summary>
+        private const string stateCookie = "State";
+
+        /// <summary>
         /// Users operations.
         /// </summary>
         private readonly IUsersOperations usersOperations;
@@ -52,56 +63,74 @@ namespace STrackerServer.Controllers
             this.usersOperations = usersOperations;
         }
 
+
+
         /// <summary>
         /// Gets the callback uri.
         /// </summary>
         /// Attention! This property must be called when exists one http request.
-        private Uri CallbackUri
+        private string CallbackUri
         {
-            get
-            {
-                var url = Request.Url;
-                return (url != null) ? new UriBuilder(url) { Path = Url.Action("Callback") }.Uri : null;
-            }
+            get { return Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Callback"); }
+        }
+
+        [HttpGet]
+        public ActionResult Login(string returnUri)
+        {
+            var fb = new FacebookClient();
+            var encoding = new ASCIIEncoding();
+            var state = Guid.NewGuid().ToString();
+  
+            var loginUrl = fb.GetLoginUrl(new
+                {
+                    client_id = FacebookClientId,
+                    redirect_uri = this.CallbackUri,
+                    response_type = "code",
+                    scope = "email,publish_actions",
+                    state = MD5.Create().ComputeHash(encoding.GetBytes(state))
+                });
+
+            Response.Cookies.Add(new HttpCookie(stateCookie, state));
+            return new SeeOtherResult { Uri = loginUrl.AbsoluteUri };
         }
 
         /// <summary>
-        /// Login action.
+        /// The log out action.
         /// </summary>
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpGet]
-        public ActionResult Login()
+        public ActionResult Logout()
         {
-            var fb = new FacebookClient();
-
-            var loginUrl = fb.GetLoginUrl(new
-                {
-                    client_id = FacebookClientId,
-                    redirect_uri = this.CallbackUri.AbsoluteUri,
-                    response_type = "code",
-                    scope = "email,publish_actions" 
-                });
-
-            return new SeeOtherResult { Uri = loginUrl.AbsoluteUri };
+            FormsAuthentication.SignOut();
+            return new SeeOtherResult { Uri = Url.Action("Index", "HomeWeb") };
         }
 
-        /// <summary>
-        /// Callback method. Called after login.
-        /// </summary>
-        /// <param name="code">
-        /// The code.
-        /// </param>
-        /// <returns>
-        /// The <see cref="ActionResult"/>.
-        /// </returns>
-        public ActionResult Callback(string code)
+        [HttpGet]
+        public ActionResult Callback(string code, string state)
         {
+            var cookie = Request.Cookies[stateCookie];
+
+            if (cookie == null)
+            {
+                this.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return this.View("Error");
+            }
+
+            var encoding = new ASCIIEncoding();
+
+            if (state.Equals(MD5.Create().ComputeHash(encoding.GetBytes(cookie.Value)).ToString())) 
+            {
+                Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return this.View("Error");
+            }
+
             User user;
+
             try
             {
-                var fb = new FacebookClient();
+                var fb = new FacebookClient(); 
 
                 dynamic result = fb.Post(
                     "oauth/access_token",
@@ -109,14 +138,12 @@ namespace STrackerServer.Controllers
                     {
                         client_id = FacebookClientId,
                         client_secret = FacebookClientSecret,
-                        redirect_uri = this.CallbackUri.AbsoluteUri,
+                        redirect_uri = this.CallbackUri,
                         code
                 });
 
-                // Get acess token.
                 fb.AccessToken = result.access_token;
 
-                // Creates a dynamic object with desire fields.
                 dynamic me = fb.Get("me?fields=name,email,picture");
 
                 user = new User(me.email) { Name = me.name, Photo = new Artwork { ImageUrl = me.picture.data.url } };
@@ -129,14 +156,17 @@ namespace STrackerServer.Controllers
                 return this.View("Error");
             }
             
+            // False - Error while trying to update
             if (!this.usersOperations.VerifyAndSave(user))
             {
                 // TODO, create view for this error. 
+                this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return this.View("Error");
             }
 
+            Response.Cookies.Remove(stateCookie);
             FormsAuthentication.SetAuthCookie(user.Key, false);
-            return new SeeOtherResult { Uri = Url.Action("GetInfo", "Users") };
+            return new SeeOtherResult { Uri = Url.Action("Index", "HomeWeb") };
         }
     }
 }

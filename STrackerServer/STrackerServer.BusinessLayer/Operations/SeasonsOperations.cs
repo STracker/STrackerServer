@@ -56,11 +56,29 @@ namespace STrackerServer.BusinessLayer.Operations
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// The read.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Season"/>.
+        /// </returns>
         public override Season Read(Tuple<string, int> id)
         {
-            throw new NotImplementedException();
+            return Repository.Read(id);
         }
 
+        /// <summary>
+        /// The read async.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Season"/>.
+        /// </returns>
         public override Season ReadAsync(Tuple<string, int> id)
         {
             throw new NotImplementedException();

@@ -42,9 +42,18 @@ namespace STrackerServer.BusinessLayer.Operations
             return Repository.Create(entity);
         }
 
+        /// <summary>
+        /// The read.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="User"/>.
+        /// </returns>
         public override User Read(string id)
         {
-            throw new System.NotImplementedException();
+            return Repository.Read(id);
         }
 
         public override User ReadAsync(string id)

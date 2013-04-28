@@ -1,0 +1,32 @@
+﻿@model STrackerServer.Models.TvShow.TvShowEpisodesInfo
+
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3"> 
+            <div class="box" style="padding: 10px 0"> 
+                <ul class="nav nav-list">
+                   
+                </ul>
+            </div>
+        </div>
+        <div class="span7">
+            <div class="box">
+                @for(var i = 1; i < Model.NumberOfSeasons+1;i++)
+                {
+                    <p><b>Season @i</b></p>
+                    <ul>
+                        @foreach(var episode in Model.List[i-1])
+                        {
+                            <li><a>Episode @episode.EpisodeNumber: @episode.Name</a></li>
+                        }
+                    </ul> 
+                }
+            </div>      
+        </div>
+    </div>
+</div>

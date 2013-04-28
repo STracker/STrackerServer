@@ -139,8 +139,6 @@ namespace STrackerServer.WorkQueue
             {
                 this.episodesRepository.CreateAll(episodesInfo);    
             }
-
-            var xpto = 0;
         }
     }
 }
