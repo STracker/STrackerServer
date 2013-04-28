@@ -10,9 +10,10 @@
 
 namespace STrackerServer.Repository.MongoDB.Core
 {
-    using System;
-
+    using global::MongoDB.Bson.Serialization;
     using global::MongoDB.Driver;
+
+    using global::MongoDB.Driver.Builders;
 
     using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities;
@@ -23,9 +24,36 @@ namespace STrackerServer.Repository.MongoDB.Core
     public class UsersRepository : BaseRepository<User, string>, IUsersRepository
     {
         /// <summary>
+        /// The collection name.
+        /// </summary>
+        private const string CollectioneName = "Users";
+
+        /// <summary>
         /// The collection. In this case the collection is always the same (collection with name "Users").
         /// </summary>
         private readonly MongoCollection collection;
+
+        /// <summary>
+        /// Initializes static members of the <see cref="UsersRepository"/> class.
+        /// </summary>
+        static UsersRepository()
+        {
+            if (BsonClassMap.IsClassMapRegistered(typeof(Person)))
+            {
+                return;
+            }
+
+            BsonClassMap.RegisterClassMap<Person>(
+                cm =>
+                    {
+                        cm.AutoMap();
+
+                        // map _id field to key property.
+                        cm.SetIdMember(cm.GetMemberMap(p => p.Key));
+                    });
+            BsonClassMap.RegisterClassMap<Actor>();
+            BsonClassMap.RegisterClassMap<User>();
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UsersRepository"/> class.
@@ -38,7 +66,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </param>
         public UsersRepository(MongoClient client, MongoUrl url) : base(client, url)
         {
-            this.collection = this.Database.GetCollection<User>("Users");
+            this.collection = this.Database.GetCollection<User>(CollectioneName);
         }
 
         /// <summary>
@@ -50,7 +78,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public override bool Create(User entity)
+        public override bool HookCreate(User entity)
         {
             return this.collection.Insert(entity).Ok;
         }
@@ -64,7 +92,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <returns>
         /// The <see cref="User"/>.
         /// </returns>
-        public override User Read(string key)
+        public override User HookRead(string key)
         {
             return this.collection.FindOneByIdAs<User>(key);
         }
@@ -78,7 +106,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public override bool Update(User entity)
+        public override bool HookUpdate(User entity)
         {
             return this.collection.Save(entity).Ok;
         }
@@ -92,9 +120,11 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public override bool Delete(string key)
+        public override bool HookDelete(string key)
         {
-            throw new NotImplementedException();
+            var query = Query<User>.EQ(u => u.Key, key);
+
+            return this.collection.FindAndRemove(query, SortBy.Null).Ok;
         }
     }
 }
