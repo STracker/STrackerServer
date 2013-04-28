@@ -61,10 +61,6 @@
       <Project>{F7946D64-169E-437B-9D4C-69D56F4C32F4}</Project>
       <Name>STrackerServer.DataAccessLayer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\STrackerServer.InformationProviders\STrackerServer.InformationProviders.csproj">
-      <Project>{c2688013-f6c9-443f-887f-b50473970d38}</Project>
-      <Name>STrackerServer.InformationProviders</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

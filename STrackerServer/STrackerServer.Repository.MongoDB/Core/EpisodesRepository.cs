@@ -14,6 +14,7 @@ namespace STrackerServer.Repository.MongoDB.Core
     using System.Collections.Generic;
     using System.Linq;
 
+    using global::MongoDB.Bson.Serialization;
     using global::MongoDB.Driver;
 
     using global::MongoDB.Driver.Builders;
@@ -30,6 +31,28 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// Seasons repository.
         /// </summary>
         private readonly ISeasonsRepository seasonsRepository;
+
+        /// <summary>
+        /// Initializes static members of the <see cref="EpisodesRepository"/> class.
+        /// </summary>
+        static EpisodesRepository()
+        {
+            if (BsonClassMap.IsClassMapRegistered(typeof(Episode)))
+            {
+                return;
+            }
+
+            BsonClassMap.RegisterClassMap<Episode>(
+                cm =>
+                {
+                    cm.AutoMap();
+                    cm.UnmapProperty(c => c.Key);
+
+                    // ignoring _id field when deserialize.
+                    cm.SetIgnoreExtraElementsIsInherited(true);
+                    cm.SetIgnoreExtraElements(true);
+                });
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EpisodesRepository"/> class.
@@ -59,14 +82,13 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// The <see cref="bool"/>.
         /// </returns>
         /// Needs to create also the object synopse in season episodes list.
-        public override bool Create(Episode entity)
+        public override bool HookCreate(Episode entity)
         {
             var collection = Database.GetCollection(entity.TvShowId);
 
             // Add the synopse of the entity to season.
             var season = this.seasonsRepository.Read(new Tuple<string, int>(entity.TvShowId, entity.SeasonNumber));
             var synopse = entity.GetSynopsis();
-
             season.EpisodeSynopses.Add(synopse);
 
             return collection.Insert(entity).Ok && this.seasonsRepository.Update(season);
@@ -81,12 +103,10 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <returns>
         /// The <see cref="Episode"/>.
         /// </returns>
-        public override Episode Read(Tuple<string, int, int> key)
+        public override Episode HookRead(Tuple<string, int, int> key)
         {
             var collection = Database.GetCollection(key.Item1);
-
             var query = Query.And(Query<Episode>.EQ(e => e.TvShowId, key.Item1), Query<Episode>.EQ(e => e.SeasonNumber, key.Item2), Query<Episode>.EQ(e => e.EpisodeNumber, key.Item3));
-
             var episode = collection.FindOneAs<Episode>(query);
 
             if (episode == null)
@@ -95,7 +115,6 @@ namespace STrackerServer.Repository.MongoDB.Core
             }
 
             episode.Key = key;
-
             return episode;
         }
 
@@ -109,22 +128,19 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// The <see cref="bool"/>.
         /// </returns>
         /// Needs to update also the object synopse in season episodes list.
-        public override bool Update(Episode entity)
+        public override bool HookUpdate(Episode entity)
         {
             var collection = Database.GetCollection(entity.TvShowId);
 
             // Update the object synopse.
             var season = this.seasonsRepository.Read(new Tuple<string, int>(entity.TvShowId, entity.EpisodeNumber));
-
-            var synopse = season.EpisodeSynopses.Find(e => e.EpisodeNumber == entity.EpisodeNumber);
-           
+            var synopse = season.EpisodeSynopses.Find(e => e.EpisodeNumber == entity.EpisodeNumber);       
             if (synopse == null)
             {
                 return collection.Save(entity).Ok;
             }
 
             synopse.Name = entity.Name;
-
             return collection.Save(entity).Ok && this.seasonsRepository.Update(season);
         }
 
@@ -138,17 +154,14 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// The <see cref="bool"/>.
         /// </returns>
         /// Needs to delete also the object synopse in season episodes list.
-        public override bool Delete(Tuple<string, int, int> key)
+        public override bool HookDelete(Tuple<string, int, int> key)
         {
             var collection = Database.GetCollection(key.Item1);
+            var query = Query.And(Query<Episode>.EQ(e => e.TvShowId, key.Item1), Query<Episode>.EQ(e => e.SeasonNumber, key.Item2), Query<Episode>.EQ(e => e.EpisodeNumber, key.Item3));
 
             // Remove object synopse.
             var season = this.seasonsRepository.Read(new Tuple<string, int>(key.Item1, key.Item2));
-
             var synopse = season.EpisodeSynopses.Find(s => s.EpisodeNumber == key.Item3);
-
-            var query = Query.And(Query<Episode>.EQ(e => e.TvShowId, key.Item1), Query<Episode>.EQ(e => e.SeasonNumber, key.Item2), Query<Episode>.EQ(e => e.EpisodeNumber, key.Item3));
-
             if (synopse == null)
             {
                 return collection.FindAndRemove(query, SortBy.Null).Ok;
@@ -182,7 +195,15 @@ namespace STrackerServer.Repository.MongoDB.Core
 
             var collection = this.Database.GetCollection(tvshowId);
 
-            collection.InsertBatch(enumerable);
+            try
+            {
+                collection.InsertBatch(enumerable);
+            }
+            catch (Exception)
+            {
+                // TODO, add exception to Log mechanism.
+                return false;
+            }
 
             // Add the synopsis to season.
             foreach (var episode in enumerable)
@@ -190,7 +211,6 @@ namespace STrackerServer.Repository.MongoDB.Core
                 var season = this.seasonsRepository.Read(new Tuple<string, int>(tvshowId, episode.SeasonNumber));
                 if (season == null)
                 {
-                    // TODO, add error to log.
                     continue;
                 }
 
