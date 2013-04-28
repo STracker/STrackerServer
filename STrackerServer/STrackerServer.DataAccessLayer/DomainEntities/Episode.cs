@@ -46,19 +46,19 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         public Tuple<string, int, int> Key { get; set; }
 
         /// <summary>
-        /// Gets the television show id.
+        /// Gets or sets the television show id.
         /// </summary>
-        public string TvShowId { get;  private set; }
+        public string TvShowId { get; set; }
 
         /// <summary>
-        /// Gets the season number.
+        /// Gets or sets the season number.
         /// </summary>
-        public int SeasonNumber { get;  private set; }
+        public int SeasonNumber { get; set; }
 
         /// <summary>
-        /// Gets the episode number.
+        /// Gets or sets the episode number.
         /// </summary>
-        public int EpisodeNumber { get;  private set; }
+        public int EpisodeNumber { get; set; }
 
         /// <summary>
         /// Gets or sets the name.

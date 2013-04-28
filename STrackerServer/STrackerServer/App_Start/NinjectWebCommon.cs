@@ -100,7 +100,7 @@ namespace STrackerServer.App_Start
             /// <summary>
             /// The resolver.
             /// </summary>
-            private IResolutionRoot resolver;
+            private readonly IResolutionRoot resolver;
 
             /// <summary>
             /// Initializes a new instance of the <see cref="NinjectDependencyScope"/> class.
@@ -156,6 +156,7 @@ namespace STrackerServer.App_Start
             /// </summary>
             public void Dispose()
             {
+                /*
                 var disposable = this.resolver as IDisposable;
 
                 if (disposable != null)
@@ -164,6 +165,7 @@ namespace STrackerServer.App_Start
                 }
 
                 this.resolver = null;
+                 */
             }
         }
 
@@ -198,7 +200,7 @@ namespace STrackerServer.App_Start
             /// </returns>
             public IDependencyScope BeginScope()
             {
-                return new NinjectDependencyScope(this.kernel.BeginBlock());
+                return new NinjectDependencyScope(this.kernel);
             }
         }
     }

@@ -39,9 +39,9 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         }
 
         /// <summary>
-        /// Gets the television show IMDB id.
+        /// Gets or sets the television show IMDB id.
         /// </summary>
-        public string TvShowId { get; private set; }
+        public string TvShowId { get; set; }
 
         /// <summary>
         /// Gets or sets the first aired.

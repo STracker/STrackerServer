@@ -48,7 +48,7 @@ namespace STrackerServer.WorkQueue
         /// <summary>
         /// The event.
         /// </summary>
-        private readonly AutoResetEvent myEvent;
+        private readonly ManualResetEvent myEvent;
 
         /// <summary>
         /// The IMDB id.
@@ -80,7 +80,7 @@ namespace STrackerServer.WorkQueue
             this.episodesRepository = episodesRepository;
             this.infoProvider = infoProvider;
             this.imdbId = imdbId;
-            this.myEvent = new AutoResetEvent(false);
+            this.myEvent = new ManualResetEvent(false);
         }
 
         /// <summary>
@@ -139,8 +139,6 @@ namespace STrackerServer.WorkQueue
             {
                 this.episodesRepository.CreateAll(episodesInfo);    
             }
-
-            var xpto = 0;
         }
     }
 }
