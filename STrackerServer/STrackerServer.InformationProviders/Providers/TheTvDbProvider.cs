@@ -35,12 +35,25 @@ namespace STrackerServer.InformationProviders.Providers
         private readonly string apiKey;
 
         /// <summary>
+        /// The XML document.
+        /// </summary>
+        private readonly XmlDocument xdoc;
+
+        /// <summary>
+        /// Verification if the XML document is loaded.
+        /// </summary>
+        private bool xdocLoaded;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TheTvDbProvider"/> class.
         /// </summary>
         public TheTvDbProvider()
         {
             this.apiKey = ConfigurationManager.AppSettings["TvDbAPI"];
             this.mirrorPath = ConfigurationManager.AppSettings["TvDbMirrorPath"];
+
+            this.xdoc = new XmlDocument();
+            this.xdocLoaded = false;
         }
 
         /// <summary>
@@ -61,80 +74,53 @@ namespace STrackerServer.InformationProviders.Providers
                 return null;
             }
 
-            var xdoc = CreateXmlDocument(string.Format("{0}/api/{1}/series/{2}", this.mirrorPath, this.apiKey, id));
+            this.LoadXmlDocument(id);
+
             var tvshow = new TvShow(imdbId);
             
             // Get the basic information.
-            var nameNode = xdoc.SelectSingleNode("//SeriesName");
+            var nameNode = this.xdoc.SelectSingleNode("//SeriesName");
             tvshow.Name = (nameNode != null) ? nameNode.LastChild.Value : null;
 
-            var descrNode = xdoc.SelectSingleNode("//Overview");
+            var descrNode = this.xdoc.SelectSingleNode("//Overview");
             tvshow.Description = (descrNode != null) ? descrNode.LastChild.Value : null;
 
-            var firstAiredNode = xdoc.SelectSingleNode("//FirstAired");
+            var firstAiredNode = this.xdoc.SelectSingleNode("//FirstAired");
             tvshow.FirstAired = (firstAiredNode != null) ? firstAiredNode.LastChild.Value : null;
 
-            var airDayNode = xdoc.SelectSingleNode("//Airs_DayOfWeek");
+            var airDayNode = this.xdoc.SelectSingleNode("//Airs_DayOfWeek");
             tvshow.AirDay = (airDayNode != null) ? airDayNode.LastChild.Value : null;
 
-            var runtimeNode = xdoc.SelectSingleNode("//Runtime");
+            var runtimeNode = this.xdoc.SelectSingleNode("//Runtime");
             tvshow.Runtime = (runtimeNode != null) ? int.Parse(runtimeNode.LastChild.Value) : 0;
-            
-            // Get the actors.
-            xdoc = CreateXmlDocument(string.Format("{0}/api/{1}/series/{2}/actors.xml", this.mirrorPath, this.apiKey, id));
 
-            var actorsNodes = xdoc.SelectNodes("//Actor");
-            if (actorsNodes == null)
-            {
-                return tvshow;
-            }
-
-            for (var i = 0; i < actorsNodes.Count; i++)
-            {
-                var xmlNode = actorsNodes.Item(i);
-                if (xmlNode == null)
-                {
-                    continue;
-                }
-
-                // In this fase of the project, the actor dont need the key.
-                var actor = new Actor();
-
-                var nodeName = xmlNode.SelectSingleNode("Name");
-                actor.Name = (nodeName != null) ? nodeName.LastChild.Value : null;
-
-                var characterNameNode = xmlNode.SelectSingleNode("Role");
-                actor.CharacterName = (characterNameNode != null) ? characterNameNode.LastChild.Value : null;
-
-                tvshow.Actors.Add(actor);
-            }
-
+            this.GetActors(id, ref tvshow);
             return tvshow;
         }
 
         /// <summary>
         /// Get seasons information.
         /// </summary>
-        /// <param name="tvshow">
-        /// The television show.
+        /// <param name="imdbId">
+        /// The IMDB Id.
         /// </param>
         /// <returns>
         /// The <see>
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        public IEnumerable<Season> GetSeasonsInformation(TvShow tvshow)
+        public IEnumerable<Season> GetSeasonsInformation(string imdbId)
         {
             // Get thetvdb id first.
-            var id = this.GetTheTvDbId(tvshow.TvShowId);
+            var id = this.GetTheTvDbId(imdbId);
             if (id == null)
             {
                 return null;
             }
 
-            var xdoc = CreateXmlDocument(string.Format("{0}/api/{1}/series/{2}/all", this.mirrorPath, this.apiKey, id));
+            this.LoadXmlDocument(id);
 
-            var seasonsNodes = xdoc.SelectNodes("//SeasonNumber");
+            var seasonsNodes = this.xdoc.SelectNodes("//SeasonNumber");
             if (seasonsNodes == null)
             {
                 return null;
@@ -156,7 +142,7 @@ namespace STrackerServer.InformationProviders.Providers
             var enumerator = numbers.GetEnumerator();
             while (enumerator.MoveNext())
             {
-                list.Add(new Season(new Tuple<string, int>(tvshow.TvShowId, enumerator.Current)));
+                list.Add(new Season(new Tuple<string, int>(imdbId, enumerator.Current)));
             }
              
             return list;
@@ -165,29 +151,29 @@ namespace STrackerServer.InformationProviders.Providers
         /// <summary>
         /// Get episodes information.
         /// </summary>
-        /// <param name="tvshow">
-        /// The television show.
+        /// <param name="imdbId">
+        /// The IMDB Id.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// The season Number.
         /// </param>
         /// <returns>
         /// The <see>
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        public IEnumerable<Episode> GetEpisodesInformation(TvShow tvshow)
+        public IEnumerable<Episode> GetEpisodesInformation(string imdbId, int seasonNumber)
         {
             // Get thetvdb id first.
-            var id = this.GetTheTvDbId(tvshow.TvShowId);
+            var id = this.GetTheTvDbId(imdbId);
             if (id == null)
             {
                 return null;
             }
 
-            // Get the basic information.
-            var url = string.Format("{0}/api/{1}/series/{2}/all", this.mirrorPath, this.apiKey, id);
-            var xdoc = new XmlDocument();
-            xdoc.Load(new XmlTextReader(url));
+            this.LoadXmlDocument(id);
 
-            var episodesNodes = xdoc.SelectNodes("//Episode");
+            var episodesNodes = this.xdoc.SelectNodes(string.Format("//Episode[SeasonNumber={0}]", seasonNumber));
             if (episodesNodes == null)
             {
                 return null;
@@ -203,14 +189,13 @@ namespace STrackerServer.InformationProviders.Providers
                     continue;
                 }
 
-                var seasonNumberNode = xmlNode.SelectSingleNode("SeasonNumber");
                 var episodeNumberNode = xmlNode.SelectSingleNode("EpisodeNumber");
-                if (seasonNumberNode == null || episodeNumberNode == null)
+                if (episodeNumberNode == null)
                 {
                     continue;
                 }
 
-                var episode = new Episode(new Tuple<string, int, int>(tvshow.TvShowId, int.Parse(seasonNumberNode.LastChild.Value), int.Parse(episodeNumberNode.LastChild.Value)));
+                var episode = new Episode(new Tuple<string, int, int>(imdbId, seasonNumber, int.Parse(episodeNumberNode.LastChild.Value)));
 
                 var nameNode = xmlNode.SelectSingleNode("EpisodeName");
                 episode.Name = (nameNode != null) ? nameNode.LastChild.Value : null;
@@ -236,20 +221,63 @@ namespace STrackerServer.InformationProviders.Providers
         }
 
         /// <summary>
-        /// Auxiliary method for create xml document.
+        /// Auxiliary method for get the actors.
         /// </summary>
-        /// <param name="url">
-        /// The url.
+        /// <param name="id">
+        /// The id.
         /// </param>
-        /// <returns>
-        /// The <see cref="XmlDocument"/>.
-        /// </returns>
-        private static XmlDocument CreateXmlDocument(string url)
+        /// <param name="tvshow">
+        /// The television show.
+        /// </param>
+        private void GetActors(string id, ref TvShow tvshow)
         {
-            var xdoc = new XmlDocument();
-            xdoc.Load(new XmlTextReader(url));
+            var xdocActors = new XmlDocument();
+            var url = string.Format("{0}/api/{1}/series/{2}/actors.xml", this.mirrorPath, this.apiKey, id);
+            xdocActors.Load(new XmlTextReader(url));
 
-            return xdoc;
+            var actorsNodes = xdocActors.SelectNodes("//Actor");
+            if (actorsNodes == null)
+            {
+                return;
+            }
+
+            for (var i = 0; i < actorsNodes.Count; i++)
+            {
+                var xmlNode = actorsNodes.Item(i);
+                if (xmlNode == null)
+                {
+                    continue;
+                }
+
+                // In this fase of the project, the actor dont need the key.
+                var actor = new Actor();
+
+                var nodeName = xmlNode.SelectSingleNode("Name");
+                actor.Name = (nodeName != null) ? nodeName.LastChild.Value : null;
+
+                var characterNameNode = xmlNode.SelectSingleNode("Role");
+                actor.CharacterName = (characterNameNode != null) ? characterNameNode.LastChild.Value : null;
+
+                tvshow.Actors.Add(actor);
+            }
+        }
+
+        /// <summary>
+        /// Auxiliary method for load xml document.
+        /// </summary>
+        /// <param name="id">
+        /// The Id.
+        /// </param>
+        private void LoadXmlDocument(string id)
+        {
+            if (this.xdocLoaded)
+            {
+                return;
+            }
+
+            var url = string.Format("{0}/api/{1}/series/{2}/all", this.mirrorPath, this.apiKey, id);
+            this.xdoc.Load(new XmlTextReader(url));
+            this.xdocLoaded = true;
         }
 
         /// <summary>
@@ -263,8 +291,11 @@ namespace STrackerServer.InformationProviders.Providers
         /// </returns>
         private string GetTheTvDbId(string imdbId)
         {
-            var xdoc = CreateXmlDocument(string.Format("{0}/api/GetSeriesByRemoteID.php?imdbid={1}", this.mirrorPath, imdbId));
-            var seriesIdNode = xdoc.SelectSingleNode("//seriesid");
+            var url = string.Format("{0}/api/GetSeriesByRemoteID.php?imdbid={1}", this.mirrorPath, imdbId);
+            var xdocId = new XmlDocument();
+            xdocId.Load(new XmlTextReader(url));
+
+            var seriesIdNode = xdocId.SelectSingleNode("//seriesid");
 
             return seriesIdNode != null ? seriesIdNode.LastChild.Value : null;
         }
