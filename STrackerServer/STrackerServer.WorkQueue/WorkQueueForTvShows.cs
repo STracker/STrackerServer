@@ -9,8 +9,6 @@
 
 namespace STrackerServer.WorkQueue
 {
-    using System.Collections.Concurrent;
-
     using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.InformationProviders.Core;
@@ -44,11 +42,14 @@ namespace STrackerServer.WorkQueue
         /// <summary>
         /// The work queue.
         /// </summary>
-        private readonly ConcurrentDictionary<string, CreateTvShowsWork> workQueue;
+        private readonly IQueue<string, CreateTvShowsWork> queue; 
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WorkQueueForTvShows"/> class.
         /// </summary>
+        /// <param name="queue">
+        /// The queue.
+        /// </param>
         /// <param name="tvshowsRepository">
         /// The television shows repository.
         /// </param>
@@ -61,13 +62,13 @@ namespace STrackerServer.WorkQueue
         /// <param name="infoProvider">
         /// The information Provider.
         /// </param>
-        public WorkQueueForTvShows(ITvShowsRepository tvshowsRepository, ISeasonsRepository seasonsRepository, IEpisodesRepository episodesRepository, ITvShowsInformationProvider infoProvider)
+        public WorkQueueForTvShows(IQueue<string, CreateTvShowsWork> queue, ITvShowsRepository tvshowsRepository, ISeasonsRepository seasonsRepository, IEpisodesRepository episodesRepository, ITvShowsInformationProvider infoProvider)
         {
             this.tvshowsRepository = tvshowsRepository;
             this.seasonsRepository = seasonsRepository;
             this.episodesRepository = episodesRepository;
             this.infoProvider = infoProvider;
-            this.workQueue = new ConcurrentDictionary<string, CreateTvShowsWork>();
+            this.queue = queue;
         }
 
         /// <summary>
@@ -81,11 +82,38 @@ namespace STrackerServer.WorkQueue
         ///       <cref>IWork</cref>
         ///     </see> .
         /// </returns>
-        public IWork<TvShow> AddWork(params object[] parameters)
+        public IWork<TvShow, string> AddWork(params object[] parameters)
         {
             var imdbId = (string)parameters[0];
             var work = new CreateTvShowsWork(this.tvshowsRepository, this.seasonsRepository, this.episodesRepository, this.infoProvider, imdbId);
-            return this.workQueue.TryAdd(imdbId, work) ? work : null;
+
+            if (!this.queue.Queue.TryAdd(imdbId, work))
+            {
+                return null;
+            }
+
+            work.BeginExecute();
+            return work;
+        }
+
+        /// <summary>
+        /// The wait for work.
+        /// </summary>
+        /// <param name="work">
+        /// The work.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TvShow"/>.
+        /// </returns>
+        public TvShow WaitForWork(IWork<TvShow, string> work)
+        {
+            var tvshow = work.EndExecute();
+
+            // Remove work from queue.
+            CreateTvShowsWork outWork;
+            this.queue.Queue.TryRemove(work.Id, out outWork);
+
+            return tvshow;
         }
 
         /// <summary>
@@ -99,9 +127,9 @@ namespace STrackerServer.WorkQueue
         ///       <cref>IWork</cref>
         ///     </see> .
         /// </returns>
-        public IWork<TvShow> ExistsWork(object workId)
+        public IWork<TvShow, string> ExistsWork(object workId)
         {
-            return this.workQueue.ContainsKey((string)workId) ? this.workQueue[(string)workId] : null;
+            return this.queue.Queue.ContainsKey((string)workId) ? this.queue.Queue[(string)workId] : null;
         }
     }
 }

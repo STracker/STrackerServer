@@ -43,27 +43,30 @@ namespace STrackerServer.InformationProviders.Core
         /// <summary>
         /// Get seasons information.
         /// </summary>
-        /// <param name="tvshow">
-        /// The television show.
+        /// <param name="imdbId">
+        /// The IMDB Id.
         /// </param>
         /// <returns>
         /// The <see>
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        IEnumerable<Season> GetSeasonsInformation(TvShow tvshow);
+        IEnumerable<Season> GetSeasonsInformation(string imdbId);
 
         /// <summary>
         /// Get episodes information.
         /// </summary>
-        /// <param name="tvshow">
-        /// The television show.
+        /// <param name="imdbId">
+        /// The IMDB Id.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// The season Number.
         /// </param>
         /// <returns>
         /// The <see>
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        IEnumerable<Episode> GetEpisodesInformation(TvShow tvshow);
+        IEnumerable<Episode> GetEpisodesInformation(string imdbId, int seasonNumber);
     }
 }

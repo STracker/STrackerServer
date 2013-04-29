@@ -71,7 +71,7 @@ namespace STrackerServer.BusinessLayer.Operations
             var work = this.workQueue.ExistsWork(id);
             if (work != null)
             {
-                return work.EndExecuteWork();
+                return this.workQueue.WaitForWork(work);
             }
 
             var tvshow = this.Repository.Read(id);
@@ -81,8 +81,8 @@ namespace STrackerServer.BusinessLayer.Operations
             }
 
             work = this.workQueue.AddWork(id);
-            work.BeginExecuteWork();
-            return work.EndExecuteWork();
+
+            return (work != null) ? this.workQueue.WaitForWork(work) : null;
         }
 
         /// <summary>
@@ -109,11 +109,8 @@ namespace STrackerServer.BusinessLayer.Operations
             }
 
             work = this.workQueue.AddWork(id);
-            if (work != null)
-            {
-                work.BeginExecuteWork();
-            }
-            return null;
+
+            return (work != null) ? this.workQueue.WaitForWork(work) : null;
         }
 
         /// <summary>

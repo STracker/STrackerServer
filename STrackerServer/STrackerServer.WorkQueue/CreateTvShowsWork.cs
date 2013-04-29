@@ -23,7 +23,7 @@ namespace STrackerServer.WorkQueue
     /// <summary>
     /// The work.
     /// </summary>
-    public class CreateTvShowsWork : IWork<TvShow>
+    public class CreateTvShowsWork : IWork<TvShow, string>
     {
         /// <summary>
         /// The television shows repository.
@@ -46,14 +46,9 @@ namespace STrackerServer.WorkQueue
         private readonly ITvShowsInformationProvider infoProvider;
 
         /// <summary>
-        /// The event.
+        /// The wait event.
         /// </summary>
-        private readonly AutoResetEvent myEvent;
-
-        /// <summary>
-        /// The IMDB id.
-        /// </summary>
-        private readonly string imdbId;
+        private readonly ManualResetEvent waitEvent;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateTvShowsWork"/> class.
@@ -79,28 +74,27 @@ namespace STrackerServer.WorkQueue
             this.seasonsRepository = seasonsRepository;
             this.episodesRepository = episodesRepository;
             this.infoProvider = infoProvider;
-            this.imdbId = imdbId;
-            this.myEvent = new AutoResetEvent(false);
+            this.waitEvent = new ManualResetEvent(false);
+            this.Id = imdbId;
         }
+
+        /// <summary>
+        /// Gets the id.
+        /// </summary>
+        public string Id { get; private set; }
 
         /// <summary>
         /// The begin execute work.
         /// </summary>
-        public void BeginExecuteWork()
+        public void BeginExecute()
         {
-            // Verify if the television show realy exists.
-            if (!this.infoProvider.VerifyIfExists(this.imdbId))
-            {
-                return;
-            }
-
             var task = Task.Factory.StartNew(this.ExecuteTask);
 
             task.ContinueWith(
                 complete =>
                 {
                     complete.Wait();
-                    this.myEvent.Set();
+                    this.waitEvent.Set();
                 });
         }
 
@@ -110,10 +104,11 @@ namespace STrackerServer.WorkQueue
         /// <returns>
         /// The <see cref="TvShow"/>.
         /// </returns>
-        public TvShow EndExecuteWork()
+        public TvShow EndExecute()
         {
-            this.myEvent.WaitOne();
-            return this.tvshowsRepository.Read(this.imdbId);
+            this.waitEvent.WaitOne();
+
+            return this.tvshowsRepository.Read(this.Id);
         }
 
         /// <summary>
@@ -121,23 +116,28 @@ namespace STrackerServer.WorkQueue
         /// </summary>
         private void ExecuteTask()
         {
-            var tvshowInfo = this.infoProvider.GetTvShowInformation(this.imdbId);
+            // Verify if the television show realy exists.
+            if (!this.infoProvider.VerifyIfExists(this.Id))
+            {
+                return;
+            }
+
+            var tvshowInfo = this.infoProvider.GetTvShowInformation(this.Id);
             if (tvshowInfo == null || !this.tvshowsRepository.Create(tvshowInfo))
             {
                 return;
             }
             
-            var seasonsInfo = this.infoProvider.GetSeasonsInformation(tvshowInfo);
+            var seasonsInfo = this.infoProvider.GetSeasonsInformation(this.Id);
             var enumerable = seasonsInfo as List<Season> ?? seasonsInfo.ToList();
             if (seasonsInfo == null || !this.seasonsRepository.CreateAll(enumerable))
             {
                 return;
             }
 
-            var episodesInfo = this.infoProvider.GetEpisodesInformation(tvshowInfo);
-            if (episodesInfo != null)
+            foreach (var episodesInfo in enumerable.Select(season => this.infoProvider.GetEpisodesInformation(this.Id, season.SeasonNumber)).Where(episodesInfo => episodesInfo != null))
             {
-                this.episodesRepository.CreateAll(episodesInfo);    
+                this.episodesRepository.CreateAll(episodesInfo);
             }
         }
     }

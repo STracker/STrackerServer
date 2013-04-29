@@ -13,9 +13,12 @@ namespace STrackerServer.WorkQueue.Core
     /// The  work queue interface.
     /// </summary>
     /// <typeparam name="T">
-    /// Type of the return of the work.
+    /// Type of the return of work.
     /// </typeparam>
-    public interface IWorkQueue<out T>
+    /// <typeparam name="TK">
+    /// Type of the id.
+    /// </typeparam>
+    public interface IWorkQueue<T, TK>
     {
         /// <summary>
         /// Add one work to queue.
@@ -28,7 +31,18 @@ namespace STrackerServer.WorkQueue.Core
         ///       <cref>IWork</cref>
         ///     </see> .
         /// </returns>
-        IWork<T> AddWork(params object[] parameters);
+        IWork<T, TK> AddWork(params object[] parameters);
+
+        /// <summary>
+        /// The wait for work.
+        /// </summary>
+        /// <param name="work">
+        /// The work.
+        /// </param>
+        /// <returns>
+        /// The <see cref="T"/>.
+        /// </returns>
+        T WaitForWork(IWork<T, TK> work);
 
         /// <summary>
         /// Verify if already exists the work.
@@ -41,6 +55,6 @@ namespace STrackerServer.WorkQueue.Core
         ///       <cref>IWork</cref>
         ///     </see> .
         /// </returns>
-        IWork<T> ExistsWork(object workId);
+        IWork<T, TK> ExistsWork(object workId);
     }
 }

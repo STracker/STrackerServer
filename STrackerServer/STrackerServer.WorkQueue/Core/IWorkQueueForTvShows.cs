@@ -14,7 +14,7 @@ namespace STrackerServer.WorkQueue.Core
     /// <summary>
     /// The work queue for television shows interface.
     /// </summary>
-    public interface IWorkQueueForTvShows : IWorkQueue<TvShow>
+    public interface IWorkQueueForTvShows : IWorkQueue<TvShow, string>
     {
     }
 }
