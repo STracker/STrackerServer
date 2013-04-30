@@ -71,10 +71,6 @@
     <Reference Include="System.Web.Optimization">
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.0.0\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20715.0\lib\net40\System.Web.Razor.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -109,6 +105,10 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20710.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
@@ -142,7 +142,9 @@
     <Compile Include="Controllers\SeasonsController.cs" />
     <Compile Include="Controllers\SeasonWebController.cs" />
     <Compile Include="Controllers\TvShowsController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TvShowsWebController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\UsersWebController.cs" />
     <Compile Include="Custom_action_results\SeeOtherResult.cs" />
     <Compile Include="Global.asax.cs">
@@ -157,11 +159,11 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Content Include="Content\images\blackorchid.png" />
     <Content Include="Content\bootstrap-responsive.css" />
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\blackorchid.png" />
     <Content Include="Content\images\dark_geometric.png" />
     <Content Include="Content\images\debut_dark.png" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
@@ -169,8 +171,8 @@
     <Content Include="Content\images\noisy_net.png" />
     <Content Include="Content\images\pinstriped_suit.png" />
     <Content Include="Content\images\subtle_grunge.png" />
-    <Content Include="Content\StrackerStyle.css" />
     <Content Include="Content\images\wild_oliva.png" />
+    <Content Include="Content\StrackerStyle.css" />
     <Content Include="Global.asax" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -186,9 +188,18 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
+    <Content Include="Views\HomeWeb\Contact.cshtml" />
+    <Content Include="Views\HomeWeb\Index.cshtml" />
     <Content Include="Views\SeasonWeb\Index.cshtml" />
+    <Content Include="Views\SeasonWeb\Show.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\MainLayout.cshtml" />
+    <Content Include="Views\TvShowsWeb\Index.cshtml" />
+    <Content Include="Views\TvShowsWeb\Search.cshtml" />
+    <Content Include="Views\TvShowsWeb\Show.cshtml" />
+    <Content Include="Views\UsersWeb\Profile.cshtml" />
+    <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -210,17 +221,6 @@
       <Project>{8ebc7ae5-4f9c-4c2c-b2fa-6629ea485a92}</Project>
       <Name>STrackerServer.NinjectDependencies</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\HomeWeb\Contact.cshtml" />
-    <Content Include="Views\HomeWeb\Index.cshtml" />
-    <Content Include="Views\SeasonWeb\Show.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\MainLayout.cshtml" />
-    <Content Include="Views\TvShowsWeb\Index.cshtml" />
-    <Content Include="Views\TvShowsWeb\Search.cshtml" />
-    <Content Include="Views\TvShowsWeb\Show.cshtml" />
-    <Content Include="Views\UsersWeb\Profile.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
