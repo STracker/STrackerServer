@@ -80,19 +80,19 @@ namespace STrackerServer.InformationProviders.Providers
             
             // Get the basic information.
             var nameNode = this.xdoc.SelectSingleNode("//SeriesName");
-            tvshow.Name = (nameNode != null) ? nameNode.LastChild.Value : null;
+            tvshow.Name = (nameNode != null && nameNode.LastChild != null) ? nameNode.LastChild.Value : null;
 
             var descrNode = this.xdoc.SelectSingleNode("//Overview");
-            tvshow.Description = (descrNode != null) ? descrNode.LastChild.Value : null;
+            tvshow.Description = (descrNode != null && descrNode.LastChild != null) ? descrNode.LastChild.Value : null;
 
             var firstAiredNode = this.xdoc.SelectSingleNode("//FirstAired");
-            tvshow.FirstAired = (firstAiredNode != null) ? firstAiredNode.LastChild.Value : null;
+            tvshow.FirstAired = (firstAiredNode != null && firstAiredNode.LastChild != null) ? firstAiredNode.LastChild.Value : null;
 
             var airDayNode = this.xdoc.SelectSingleNode("//Airs_DayOfWeek");
-            tvshow.AirDay = (airDayNode != null) ? airDayNode.LastChild.Value : null;
+            tvshow.AirDay = (airDayNode != null && airDayNode.LastChild != null) ? airDayNode.LastChild.Value : null;
 
             var runtimeNode = this.xdoc.SelectSingleNode("//Runtime");
-            tvshow.Runtime = (runtimeNode != null) ? int.Parse(runtimeNode.LastChild.Value) : 0;
+            tvshow.Runtime = (runtimeNode != null && runtimeNode.LastChild != null) ? int.Parse(runtimeNode.LastChild.Value) : 0;
 
             this.GetActors(id, ref tvshow);
             return tvshow;
@@ -198,7 +198,7 @@ namespace STrackerServer.InformationProviders.Providers
                 var episode = new Episode(new Tuple<string, int, int>(imdbId, seasonNumber, int.Parse(episodeNumberNode.LastChild.Value)));
 
                 var nameNode = xmlNode.SelectSingleNode("EpisodeName");
-                episode.Name = (nameNode != null) ? nameNode.LastChild.Value : null;
+                episode.Name = (nameNode != null && nameNode.LastChild != null) ? nameNode.LastChild.Value : null;
 
                 list.Add(episode);
             }
@@ -253,10 +253,10 @@ namespace STrackerServer.InformationProviders.Providers
                 var actor = new Actor();
 
                 var nodeName = xmlNode.SelectSingleNode("Name");
-                actor.Name = (nodeName != null) ? nodeName.LastChild.Value : null;
+                actor.Name = (nodeName != null && nodeName.LastChild != null) ? nodeName.LastChild.Value : null;
 
                 var characterNameNode = xmlNode.SelectSingleNode("Role");
-                actor.CharacterName = (characterNameNode != null) ? characterNameNode.LastChild.Value : null;
+                actor.CharacterName = (characterNameNode != null && characterNameNode.LastChild != null) ? characterNameNode.LastChild.Value : null;
 
                 tvshow.Actors.Add(actor);
             }
