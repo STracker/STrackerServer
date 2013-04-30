@@ -32,14 +32,17 @@ namespace STrackerServer.BusinessLayer.Core
         IEnumerable<TvShow> ReadAllByGenre(Genre genre);
 
         /// <summary>
-        /// Get one television show by name.
+        /// Try Get one television show by name.
         /// </summary>
         /// <param name="name">
         /// The name.
         /// </param>
+        /// <param name="state">
+        /// The state.
+        ///  </param>
         /// <returns>
         /// The <see cref="TvShow"/>.
         /// </returns>
-        TvShow ReadByName(string name);
+        TvShow TryReadByName(string name, out OperationResultState state);
     }
 }

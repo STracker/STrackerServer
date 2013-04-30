@@ -144,7 +144,6 @@
     <Compile Include="Controllers\TvShowsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TvShowsWebController.cs" />
-    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\UsersWebController.cs" />
     <Compile Include="Custom_action_results\SeeOtherResult.cs" />
     <Compile Include="Global.asax.cs">
@@ -153,6 +152,7 @@
     <Compile Include="Models\Home\HomeModel.cs" />
     <Compile Include="Models\Season\SeasonWeb.cs" />
     <Compile Include="Models\TvShow\TvShowWeb.cs" />
+    <Compile Include="Models\User\UserView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -195,7 +195,6 @@
     <Content Include="Views\SeasonWeb\Show.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\MainLayout.cshtml" />
-    <Content Include="Views\TvShowsWeb\Index.cshtml" />
     <Content Include="Views\TvShowsWeb\Search.cshtml" />
     <Content Include="Views\TvShowsWeb\Show.cshtml" />
     <Content Include="Views\UsersWeb\Profile.cshtml" />
@@ -203,7 +202,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\Core\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

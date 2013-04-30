@@ -57,6 +57,33 @@ namespace STrackerServer.InformationProviders.Providers
         }
 
         /// <summary>
+        /// The verify if exists by name.
+        /// </summary>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        public string VerifyIfExistsByName(string name)
+        {
+            var url = string.Format("{0}/api/GetSeries.php?seriesname={1}", this.mirrorPath, name);
+            var xdoc2 = new XmlDocument();
+            xdoc2.Load(new XmlTextReader(url));
+
+            var seriesNode = xdoc2.SelectNodes("//Series");
+
+            // In this phase, STracker only accept requests for total name of the television show.
+            if (seriesNode == null || seriesNode.Count > 1)
+            {
+                return null;
+            }
+
+            var imdbIdNode = xdoc2.SelectSingleNode("//IMDB_ID");
+            return (imdbIdNode != null && imdbIdNode.LastChild != null) ? imdbIdNode.LastChild.Value : null;
+        }
+
+        /// <summary>
         /// Get a television show object with information filled.
         /// </summary>
         /// <param name="imdbId">
