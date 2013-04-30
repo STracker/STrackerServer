@@ -143,7 +143,7 @@ namespace STrackerServer.Controllers
             if (cookie == null)
             {
                 this.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                return this.View("Error", 501);
+                return this.View("Error", (int)HttpStatusCode.Forbidden);
             }
 
             var callbackCookie = new JavaScriptSerializer().Deserialize<CallbackCookie>(cookie.Value);
@@ -153,7 +153,7 @@ namespace STrackerServer.Controllers
             if (state.Equals(MD5.Create().ComputeHash(encoding.GetBytes(callbackCookie.State)).ToString())) 
             {
                 Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                return this.View("Error", 502);
+                return this.View("Error", (int)HttpStatusCode.Forbidden);
             }
 
             User user;
@@ -181,14 +181,14 @@ namespace STrackerServer.Controllers
             catch (Exception /*or only FacebookOAuthException???*/)
             {
                 this.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return this.View("Error", 503);
+                return this.View("Error", (int)HttpStatusCode.BadRequest);
             }
             
             // False - Error while trying to update
             if (!this.usersOperations.VerifyAndSave(user))
             {
                 this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                return this.View("Error", 504);
+                return this.View("Error", (int)HttpStatusCode.InternalServerError);
             }
             
             cookie.Expires = DateTime.Now.AddDays(-1d);
