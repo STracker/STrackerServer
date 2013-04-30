@@ -120,15 +120,13 @@ namespace STrackerServer.Repository.MongoDB.Core
                 throw new InvalidIdException();
             }
 
-            var task = Task.Factory.StartNew(() => this.ExecuteCreateTask(entity.Key));
-            task.ContinueWith(
-                completed =>
-                    {
-                        completed.Wait();
-                        this.Delete(entity.Key);
-                    });
+            if (this.collection.Insert(entity).Ok)
+            {
+                CreateTask(entity);
+                return true;
+            }
 
-            return this.collection.Insert(entity).Ok;
+            return false;
         }
 
         /// <summary>
@@ -173,6 +171,37 @@ namespace STrackerServer.Repository.MongoDB.Core
         {
             var query = Query<CreateTvShowWork>.EQ(c => c.Key, key);
             return this.collection.FindAndRemove(query, SortBy.Null).Ok;
+        }
+
+        /// <summary>
+        /// The get id.
+        /// </summary>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        public string GetId(string name)
+        {
+            return this.infoProvider.VerifyIfExistsByName(name);
+        }
+
+        /// <summary>
+        /// The create task.
+        /// </summary>
+        /// <param name="entity">
+        /// The entity.
+        /// </param>
+        private void CreateTask(CreateTvShowWork entity)
+        {
+            var task = Task.Factory.StartNew(() => this.ExecuteCreateTask(entity.Key));
+            task.ContinueWith(
+                completed =>
+                {
+                    completed.Wait();
+                    this.Delete(entity.Key);
+                });
         }
 
         /// <summary>

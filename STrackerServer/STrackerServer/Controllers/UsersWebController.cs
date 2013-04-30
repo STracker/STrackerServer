@@ -9,9 +9,10 @@
 
 namespace STrackerServer.Controllers
 {
-    using System;
     using System.Web.Mvc;
     using BusinessLayer.Core;
+
+    using STrackerServer.Models.User;
 
     /// <summary>
     /// The users controller.
@@ -44,7 +45,10 @@ namespace STrackerServer.Controllers
         [HttpGet]
         public new ActionResult Profile()
         {
-            return this.View("Profile");
+            var user = this.usersOperations.Read(User.Identity.Name);
+            return user == null
+                       ? this.View("Error")
+                       : this.View("Profile", new UserView { Email = user.Key, Name = user.Name });
         }
     }
 }

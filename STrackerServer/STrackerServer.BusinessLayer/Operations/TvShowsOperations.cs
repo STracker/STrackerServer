@@ -111,17 +111,28 @@ namespace STrackerServer.BusinessLayer.Operations
         }
 
         /// <summary>
-        /// Get one television show by name.
+        /// Try get one television show by name.
         /// </summary>
         /// <param name="name">
         /// The name.
         /// </param>
+        /// <param name="state">
+        /// The state.
+        /// </param>
         /// <returns>
         /// The <see cref="TvShow"/>.
         /// </returns>
-        public TvShow ReadByName(string name)
+        public TvShow TryReadByName(string name, out OperationResultState state)
         {
-            return ((ITvShowsRepository)this.Repository).ReadByName(name);
+            var id = this.worksRepository.GetId(name);
+
+            if (id == null)
+            {
+                state = OperationResultState.NotFound;
+                return null;
+            }
+
+            return this.TryRead(id, out state);
         }
     }
 }

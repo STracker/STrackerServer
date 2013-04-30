@@ -1,8 +1,16 @@
-﻿@model dynamic
+﻿@model STrackerServer.Models.User.UserView
 
 @{
     ViewBag.Title = "title";
     Layout = "~/Views/Shared/MainLayout.cshtml";
 }
 
-<h2>title</h2>
+<div class="container-fluid">
+  <div class="row-fluid">
+      <div class="span6">
+          name: @Html.DisplayFor(m => m.Name)
+          <br/>
+          email: @Html.DisplayFor(m => m.Email)
+      </div>
+  </div>
+</div>

@@ -100,9 +100,6 @@ namespace STrackerServer.Repository.MongoDB.Core
             
             // Get the collection that have all references for all television shows.
             var collectionAll = Database.GetCollection(DatabaseNameForSynopsis);
-            
-            // Ensure index for name search. If the index already exists, this is ignored.
-            collectionAll.EnsureIndex(new IndexKeysBuilder().Ascending("Name"));
 
             // The order is relevant because mongo don't ensure transactions.
             return collection.Insert(entity).Ok && collectionAll.Insert(entity.GetSynopsis()).Ok;
@@ -183,7 +180,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         }
 
         /// <summary>
-        /// Get one television show by name.
+        /// Try get one television show by name.
         /// </summary>
         /// <param name="name">
         /// The name.
@@ -191,7 +188,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <returns>
         /// The <see cref="TvShow"/>.
         /// </returns>
-        public TvShow ReadByName(string name)
+        public TvShow TryReadByName(string name)
         {
             var collection = Database.GetCollection<TvShow.TvShowSynopsis>(DatabaseNameForSynopsis);
             var query = Query<TvShow.TvShowSynopsis>.EQ(e => e.Name, name);

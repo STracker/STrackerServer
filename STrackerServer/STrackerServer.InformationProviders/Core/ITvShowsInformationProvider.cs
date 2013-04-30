@@ -30,6 +30,17 @@ namespace STrackerServer.InformationProviders.Core
         bool VerifyIfExists(string imdbId);
 
         /// <summary>
+        /// The verify if exists by name.
+        /// </summary>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        string VerifyIfExistsByName(string name);
+
+        /// <summary>
         /// Get a television show object with information filled.
         /// </summary>
         /// <param name="imdbId">

@@ -9,7 +9,6 @@
 
 namespace STrackerServer.Controllers
 {
-    using System.Collections.Generic;
     using System.Net;
     using System.Web.Mvc;
     using BusinessLayer.Core;
@@ -38,18 +37,6 @@ namespace STrackerServer.Controllers
         }
 
         /// <summary>
-        /// The index.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="ActionResult"/>.
-        /// </returns>
-        [HttpGet]
-        public ActionResult Index()
-        {
-            return this.View();
-        }
-
-        /// <summary>
         /// The television show
         /// </summary>
         /// <param name="tvshowId">
@@ -74,7 +61,7 @@ namespace STrackerServer.Controllers
         }
 
         /// <summary>
-        /// The television show web search.
+        /// Get one television show by name.
         /// </summary>
         /// <param name="name">
         /// The name.
@@ -83,9 +70,28 @@ namespace STrackerServer.Controllers
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpGet]
-        public ActionResult Search(string name)
+        public ActionResult GetByName(string name)
         {
-            return this.View();
+            OperationResultState state;
+            var tvshow = this.tvshowOps.TryReadByName(name, out state);
+
+            switch (state)
+            {
+                    case OperationResultState.Completed:
+                    return this.View("Show", new TvShowWeb(tvshow));
+
+                    case OperationResultState.InProcess:
+                    Response.StatusCode = (int)HttpStatusCode.Accepted;
+                    return this.View("Error", (int)HttpStatusCode.Accepted);
+
+                    case OperationResultState.NotFound:
+                    Response.StatusCode = (int)HttpStatusCode.NotFound;
+                    return this.View("Error", (int)HttpStatusCode.NotFound);
+
+                    default:
+                    Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    return this.View("Error", (int)HttpStatusCode.InternalServerError);
+            }
         }
     }
 }

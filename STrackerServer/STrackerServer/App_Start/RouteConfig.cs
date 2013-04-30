@@ -27,14 +27,14 @@ namespace STrackerServer.App_Start
             routes.MapRoute("Home", string.Empty, new { controller = "HomeWeb", action = "Index" });
             routes.MapRoute("Contact", "Contact", new { controller = "HomeWeb", action = "Contact" });
 
-            routes.MapRoute("User", "User/{action}", new { controller = "UsersWeb" });
+            routes.MapRoute("UserView", "UserView/{action}", new { controller = "UsersWeb" });
 
             routes.MapRoute("Account_Login", "Account/Login", new { controller = "Account", action = "Login", ReturnUrl = UrlParameter.Optional });
             routes.MapRoute("Account_Callback", "Account/Callback", new { controller = "Account", action = "Callback" });
             routes.MapRoute("Account_Logout", "Account/Logout", new { controller = "Account", action = "Logout" });
 
-            routes.MapRoute("TvShowsWeb_Index", "TvShows", new { controller = "TvShowsWeb", action = "Index" });
             routes.MapRoute("TvShowsWeb_Show", "TvShows/{tvshowId}", new { controller = "TvShowsWeb", action = "Show" });
+            routes.MapRoute("TvShowsWeb_GetByName", "TvShows", new { controller = "TvShowsWeb", action = "GetByName" });
 
             routes.MapRoute("SeasonWeb_Show", "TvShows/{tvshowId}/Seasons/{number}", new { controller = "SeasonsWeb", action = "Show" });
         }

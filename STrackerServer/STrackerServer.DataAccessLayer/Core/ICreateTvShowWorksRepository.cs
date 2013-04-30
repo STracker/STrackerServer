@@ -16,5 +16,15 @@ namespace STrackerServer.DataAccessLayer.Core
     /// </summary>
     public interface ICreateTvShowWorksRepository : IRepository<CreateTvShowWork, string>
     {
+        /// <summary>
+        /// The get id.
+        /// </summary>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        string GetId(string name);
     }
 }

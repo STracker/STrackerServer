@@ -30,7 +30,7 @@ namespace STrackerServer.Models.TvShow
             this.Description = tvshow.Description;
             this.Genres = tvshow.Genres;
             this.Rating = tvshow.Rating;
-            //this.Artwork = tvshow.Artworks[0];
+            this.Artwork = tvshow.Artworks[0];
             this.Actors = tvshow.Actors;
             this.Runtime = tvshow.Runtime;
             this.Creator = tvshow.Creator;
