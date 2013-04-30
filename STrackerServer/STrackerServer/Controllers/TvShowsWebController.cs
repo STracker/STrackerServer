@@ -78,7 +78,7 @@ namespace STrackerServer.Controllers
             switch (state)
             {
                     case OperationResultState.Completed:
-                    return this.View("Show", new TvShowWeb(tvshow));
+                    return this.View("Show", new TvShowView(tvshow));
 
                     case OperationResultState.InProcess:
                     Response.StatusCode = (int)HttpStatusCode.Accepted;

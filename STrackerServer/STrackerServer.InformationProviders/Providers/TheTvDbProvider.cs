@@ -74,13 +74,29 @@ namespace STrackerServer.InformationProviders.Providers
             var seriesNode = xdoc2.SelectNodes("//Series");
 
             // In this phase, STracker only accept requests for total name of the television show.
-            if (seriesNode == null || seriesNode.Count > 1)
+            if (seriesNode == null)
             {
                 return null;
             }
 
-            var imdbIdNode = xdoc2.SelectSingleNode("//IMDB_ID");
-            return (imdbIdNode != null && imdbIdNode.LastChild != null) ? imdbIdNode.LastChild.Value : null;
+            for (var i = 0; i < seriesNode.Count; i++)
+            {
+                var xmlNode = seriesNode.Item(i);
+                if (xmlNode == null)
+                {
+                    continue;
+                }
+
+                var nodeName = xdoc2.SelectSingleNode("//SeriesName");
+                if (nodeName != null && nodeName.LastChild != null && nodeName.LastChild.Value.Equals(name))
+                {
+                    var imdbIdNode = xdoc2.SelectSingleNode("//IMDB_ID");
+                    return (imdbIdNode != null && imdbIdNode.LastChild != null) ? imdbIdNode.LastChild.Value : null;
+                }
+            }
+
+            var imdbIdNoderet = xdoc2.SelectSingleNode("//IMDB_ID");
+            return (imdbIdNoderet != null && imdbIdNoderet.LastChild != null) ? imdbIdNoderet.LastChild.Value : null;
         }
 
         /// <summary>
@@ -124,7 +140,11 @@ namespace STrackerServer.InformationProviders.Providers
             var posterImageNode = this.xdoc.SelectSingleNode("//poster");
             if (posterImageNode != null && posterImageNode.LastChild != null)
             {
-                tvshow.Artworks.Add(new Artwork { ImageUrl = string.Format("{0}/banners/{1}",this.mirrorPath, posterImageNode.LastChild.Value) });
+                tvshow.Artworks.Add(
+                    new Artwork
+                        {
+                            ImageUrl = string.Format("{0}/banners/{1}", this.mirrorPath, posterImageNode.LastChild.Value)
+                        });
             }
 
             this.GetActors(id, ref tvshow);
@@ -329,6 +349,12 @@ namespace STrackerServer.InformationProviders.Providers
 
                 var characterNameNode = xmlNode.SelectSingleNode("Role");
                 actor.CharacterName = (characterNameNode != null && characterNameNode.LastChild != null) ? characterNameNode.LastChild.Value : null;
+
+                var imageNode = xmlNode.SelectSingleNode("Image");
+                if (imageNode != null && imageNode.LastChild != null)
+                {
+                    actor.Photo = new Artwork { ImageUrl = string.Format("{0}/banners/{1}", this.mirrorPath, imageNode.LastChild.Value) };
+                }
 
                 tvshow.Actors.Add(actor);
             }
