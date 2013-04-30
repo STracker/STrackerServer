@@ -82,12 +82,15 @@ namespace STrackerServer.Controllers
                     return this.View("Show", new TvShowWeb(tvshow));
 
                     case OperationResultState.InProcess:
+                    Response.StatusCode = (int)HttpStatusCode.Accepted;
                     return this.View("Error", (int)HttpStatusCode.Accepted);
 
                     case OperationResultState.NotFound:
+                    Response.StatusCode = (int)HttpStatusCode.NotFound;
                     return this.View("Error", (int)HttpStatusCode.NotFound);
 
                     default:
+                    Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     return this.View("Error", (int)HttpStatusCode.InternalServerError);
             }
         }

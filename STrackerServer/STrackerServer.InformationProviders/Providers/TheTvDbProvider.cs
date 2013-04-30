@@ -121,6 +121,12 @@ namespace STrackerServer.InformationProviders.Providers
             var runtimeNode = this.xdoc.SelectSingleNode("//Runtime");
             tvshow.Runtime = (runtimeNode != null && runtimeNode.LastChild != null) ? int.Parse(runtimeNode.LastChild.Value) : 0;
 
+            var posterImageNode = this.xdoc.SelectSingleNode("//poster");
+            if (posterImageNode != null && posterImageNode.LastChild != null)
+            {
+                tvshow.Artworks.Add(new Artwork { ImageUrl = string.Format("{0}/banners/{1}",this.mirrorPath, posterImageNode.LastChild.Value) });
+            }
+
             this.GetActors(id, ref tvshow);
             return tvshow;
         }
