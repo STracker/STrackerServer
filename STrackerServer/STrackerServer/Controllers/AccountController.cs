@@ -7,24 +7,22 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.IO;
-using System.Security.Cryptography;
-using System.Text;
-using System.Xml;
-using System.Xml.Serialization;
-using Newtonsoft.Json;
-
 namespace STrackerServer.Controllers
 {
     using System;
     using System.Configuration;
     using System.Net;
+    using System.Security.Cryptography;
+    using System.Text;
     using System.Web;
     using System.Web.Mvc;
+    using System.Web.Script.Serialization;
     using System.Web.Security;
+ 
     using BusinessLayer.Core;
     using Custom_action_results;
     using DataAccessLayer.DomainEntities;
+
     using Facebook;
 
     /// <summary>
@@ -33,6 +31,11 @@ namespace STrackerServer.Controllers
     public class AccountController : Controller
     {
         /// <summary>
+        /// The name of the state cookie.
+        /// </summary>
+        private const string StateCookie = "State";
+
+        /// <summary>
         /// Facebook client id.
         /// </summary>
         private static readonly string FacebookClientId = ConfigurationManager.AppSettings["Client:Id"];
@@ -40,12 +43,7 @@ namespace STrackerServer.Controllers
         /// <summary>
         /// Facebook client secret.
         /// </summary>
-        private static readonly string FacebookClientSecret = ConfigurationManager.AppSettings["Client:Secret"];
-
-        /// <summary>
-        /// The name of the state cookie.
-        /// </summary>
-        private const string stateCookie = "State";
+        private static readonly string FacebookClientSecret = ConfigurationManager.AppSettings["Client:Secret"]; 
 
         /// <summary>
         /// Users operations.
@@ -63,8 +61,6 @@ namespace STrackerServer.Controllers
             this.usersOperations = usersOperations;
         }
 
-
-
         /// <summary>
         /// Gets the callback uri.
         /// </summary>
@@ -74,8 +70,17 @@ namespace STrackerServer.Controllers
             get { return Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Callback"); }
         }
 
+        /// <summary>
+        /// The login.
+        /// </summary>
+        /// <param name="ReturnUrl">
+        /// The return url.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
         [HttpGet]
-        public ActionResult Login(string returnUri)
+        public ActionResult Login(string ReturnUrl)
         {
             var fb = new FacebookClient();
             var encoding = new ASCIIEncoding();
@@ -86,11 +91,17 @@ namespace STrackerServer.Controllers
                     client_id = FacebookClientId,
                     redirect_uri = this.CallbackUri,
                     response_type = "code",
-                    scope = "email,publish_actions",
+                    scope = "email,publish_actions,read_stream,read_requests",
                     state = MD5.Create().ComputeHash(encoding.GetBytes(state))
                 });
 
-            Response.Cookies.Add(new HttpCookie(stateCookie, state));
+            var jsonValue = new JavaScriptSerializer().Serialize(new CallbackCookie
+                                                                {
+                                                                    ReturnUrl = ReturnUrl,
+                                                                    State = state
+                                                                });
+
+            Response.Cookies.Add(new HttpCookie(StateCookie, jsonValue));
             return new SeeOtherResult { Uri = loginUrl.AbsoluteUri };
         }
 
@@ -107,10 +118,22 @@ namespace STrackerServer.Controllers
             return new SeeOtherResult { Uri = Url.Action("Index", "HomeWeb") };
         }
 
+        /// <summary>
+        /// The callback.
+        /// </summary>
+        /// <param name="code">
+        /// The code.
+        /// </param>
+        /// <param name="state">
+        /// The state.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
         [HttpGet]
         public ActionResult Callback(string code, string state)
         {
-            var cookie = Request.Cookies[stateCookie];
+            var cookie = Request.Cookies[StateCookie];
 
             if (cookie == null)
             {
@@ -118,9 +141,11 @@ namespace STrackerServer.Controllers
                 return this.View("Error");
             }
 
+            var callbackCookie = new JavaScriptSerializer().Deserialize<CallbackCookie>(cookie.Value);
+
             var encoding = new ASCIIEncoding();
 
-            if (state.Equals(MD5.Create().ComputeHash(encoding.GetBytes(cookie.Value)).ToString())) 
+            if (state.Equals(MD5.Create().ComputeHash(encoding.GetBytes(callbackCookie.State)).ToString())) 
             {
                 Response.StatusCode = (int)HttpStatusCode.Forbidden;
                 return this.View("Error");
@@ -164,9 +189,26 @@ namespace STrackerServer.Controllers
                 return this.View("Error");
             }
 
-            Response.Cookies.Remove(stateCookie);
+            Response.Cookies.Remove(StateCookie);
             FormsAuthentication.SetAuthCookie(user.Key, false);
-            return new SeeOtherResult { Uri = Url.Action("Index", "HomeWeb") };
+
+            return callbackCookie.ReturnUrl == null ? new SeeOtherResult{ Uri = Url.Action("Index","HomeWeb")} : new SeeOtherResult { Uri = callbackCookie.ReturnUrl };
+        }
+
+        /// <summary>
+        /// The callback cookie.
+        /// </summary>
+        internal class CallbackCookie
+        {
+            /// <summary>
+            /// Gets or sets the return url.
+            /// </summary>
+            public string ReturnUrl { get; set; }
+
+            /// <summary>
+            /// Gets or sets the state.
+            /// </summary>
+            public string State { get; set; }
         }
     }
 }

@@ -149,7 +149,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Home\HomeModel.cs" />
-    <Compile Include="Models\TvShow\TvShowEpisodesInfo.cs" />
+    <Compile Include="Models\Season\SeasonWeb.cs" />
     <Compile Include="Models\TvShow\TvShowWeb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -157,14 +157,20 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="Content\images\blackorchid.png" />
     <Content Include="Content\bootstrap-responsive.css" />
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\dark_geometric.png" />
+    <Content Include="Content\images\debut_dark.png" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
     <Content Include="Content\images\glyphicons-halflings.png" />
+    <Content Include="Content\images\noisy_net.png" />
+    <Content Include="Content\images\pinstriped_suit.png" />
     <Content Include="Content\images\subtle_grunge.png" />
     <Content Include="Content\StrackerStyle.css" />
+    <Content Include="Content\images\wild_oliva.png" />
     <Content Include="Global.asax" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -187,7 +193,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\Core\" />
-    <Folder Include="Models\Season\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

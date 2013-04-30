@@ -8,23 +8,9 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span3"> 
-            <div class="box" style="padding: 10px 0"> 
-                <ul class="nav nav-list">
-                    <li class="center">
-                        <img class="img-rounded"src="@Model.Artwork.ImageUrl" alt="No Artwork"/>   
-                    </li>
-                    <li class="black-divider"/>
-                    <li><a href="@Url.Action("Index","SeasonWeb", new {tvshowId = Model.TvShowId})">Seasons and Episodes</a></li>
-                    <li><a>Comments</a></li>
-                    <li class="black-divider"/>
-                    @if(User.Identity.IsAuthenticated)
-                    {
-                        <li><a>Subscribe</a></li>
-                    }
-                </ul>
-            </div>
+            <img class="img-rounded" src="http://4.bp.blogspot.com/_EfyL4jXaxgg/TNWuwbBnAxI/AAAAAAAABnI/OStq0qVhJ8U/s1600/the-walking-dead-poster.jpg" alt="No Artwork"/>      
         </div>
-        <div class="span7">
+        <div class="span9">
             <div class="box">
                 <h2>@Model.Name</h2>
                 <p>@Model.Description</p> 
@@ -48,7 +34,7 @@
             <div class="box">
                 <table class="table">
                     <tr>
-                        <th>Photo</th>
+                        <th></th>
                         <th>Name</th>
                         <th>Character</th>
                     </tr>
@@ -57,7 +43,7 @@
                     {
                         <tr>
                             <td>
-                                <img src="@actor.Photo.ImageUrl" alt="No Artwork"/>
+                                <img class="icon-actor" src="http://t0.gstatic.com/images?q=tbn:ANd9GcRM3UJLCHqZ3Q1GXQEkgaiaI14goWRCuq9FLOBRyLaO9ZtbutFS" alt="No Artwork"/>
                             </td>
                             <td>
                                 @actor.Name

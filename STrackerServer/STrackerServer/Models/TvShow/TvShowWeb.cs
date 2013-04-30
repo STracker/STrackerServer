@@ -3,7 +3,7 @@
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  Account Controller.
+//  Television Show Web Controller
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
