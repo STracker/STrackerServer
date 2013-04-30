@@ -96,7 +96,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         public CreateTvShowWorksRepository(MongoClient client, MongoUrl url, ITvShowsInformationProvider infoProvider, ITvShowsRepository tvshowsRepository, ISeasonsRepository seasonsRepository, IEpisodesRepository episodesRepository)
             : base(client, url)
         {
-            collection = Database.GetCollection<CreateTvShowWork>("CreateTvShowWorkQueue");
+            this.collection = Database.GetCollection<CreateTvShowWork>("CreateTvShowWorkQueue");
             this.infoProvider = infoProvider;
             this.tvshowsRepository = tvshowsRepository;
             this.seasonsRepository = seasonsRepository;
