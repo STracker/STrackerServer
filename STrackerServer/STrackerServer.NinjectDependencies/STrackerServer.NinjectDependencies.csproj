@@ -72,10 +72,6 @@
       <Project>{a43347c5-0aa1-4712-8451-8b9b91666b76}</Project>
       <Name>STrackerServer.Repository.MongoDB</Name>
     </ProjectReference>
-    <ProjectReference Include="..\STrackerServer.WorkQueue\STrackerServer.WorkQueue.csproj">
-      <Project>{5c7aaed2-9084-4744-bd36-855653e95b8a}</Project>
-      <Name>STrackerServer.WorkQueue</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

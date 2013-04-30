@@ -107,6 +107,14 @@ namespace STrackerServer.Repository.MongoDB.Core
             {
                 return this.HookCreate(entity);
             }
+            catch (WriteConcernException)
+            {
+                throw new DuplicatedIdException();
+            }
+            catch (InvalidIdException)
+            {
+                throw;
+            }
             catch (Exception)
             {
                 // TODO, add exception to Log mechanism.

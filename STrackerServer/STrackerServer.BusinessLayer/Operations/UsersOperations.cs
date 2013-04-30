@@ -29,44 +29,6 @@ namespace STrackerServer.BusinessLayer.Operations
         }
 
         /// <summary>
-        /// Create one user.
-        /// </summary>
-        /// <param name="entity">
-        /// The entity.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public override bool Create(User entity)
-        {
-            return Repository.Create(entity);
-        }
-
-        public override User Read(string id)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override User ReadAsync(string id)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        /// <summary>
-        /// Update one user.
-        /// </summary>
-        /// <param name="entity">
-        /// The entity.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public override bool Update(User entity)
-        {
-            return Repository.Update(entity);
-        }
-
-        /// <summary>
         /// Verify if the user exists, if not create one. Also verify if the properties of the user have changed.
         /// </summary>
         /// <param name="user">
@@ -77,7 +39,7 @@ namespace STrackerServer.BusinessLayer.Operations
         /// </returns>
         public bool VerifyAndSave(User user)
         {
-            var domainUser = this.Read(user.Key);
+            var domainUser = this.Repository.Read(user.Key);
             if (domainUser == null)
             {
                 return this.Create(user);

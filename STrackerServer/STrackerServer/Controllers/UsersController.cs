@@ -10,7 +10,7 @@ namespace STrackerServer.Controllers
     [Authorize]
     public class UsersController : Controller
     {
-        private IUsersOperations usersOperations;
+        private readonly IUsersOperations usersOperations;
 
         public UsersController(IUsersOperations usersOperations)
         {

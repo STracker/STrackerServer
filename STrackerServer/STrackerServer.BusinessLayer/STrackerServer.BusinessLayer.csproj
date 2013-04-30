@@ -39,11 +39,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\IAsyncOperations.cs" />
     <Compile Include="Core\ICrudOperations.cs" />
     <Compile Include="Core\IEpisodesOperations.cs" />
     <Compile Include="Core\ISeasonsOperations.cs" />
     <Compile Include="Core\ITvShowsOperations.cs" />
     <Compile Include="Core\IUsersOperations.cs" />
+    <Compile Include="Core\OperationResultState.cs" />
     <Compile Include="Operations\BaseCrudOperations.cs" />
     <Compile Include="Operations\EpisodesOperations.cs" />
     <Compile Include="Operations\SeasonsOperations.cs" />
@@ -55,10 +57,6 @@
     <ProjectReference Include="..\STrackerServer.DataAccessLayer\STrackerServer.DataAccessLayer.csproj">
       <Project>{f7946d64-169e-437b-9d4c-69d56f4c32f4}</Project>
       <Name>STrackerServer.DataAccessLayer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\STrackerServer.WorkQueue\STrackerServer.WorkQueue.csproj">
-      <Project>{5c7aaed2-9084-4744-bd36-855653e95b8a}</Project>
-      <Name>STrackerServer.WorkQueue</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

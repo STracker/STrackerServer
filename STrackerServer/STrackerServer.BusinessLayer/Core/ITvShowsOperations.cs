@@ -16,7 +16,7 @@ namespace STrackerServer.BusinessLayer.Core
     /// <summary>
     /// Television shows operations interface.
     /// </summary>
-    public interface ITvShowsOperations : ICrudOperations<TvShow, string>
+    public interface ITvShowsOperations : IAsyncOperations<TvShow, string>
     {
         /// <summary>
         /// Get all television shows by genre.

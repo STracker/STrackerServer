@@ -45,17 +45,6 @@ namespace STrackerServer.BusinessLayer.Core
         T Read(TK id);
 
         /// <summary>
-        /// The read async operation.
-        /// </summary>
-        /// <param name="id">
-        /// The id.
-        /// </param>
-        /// <returns>
-        /// The <see cref="T"/>.
-        /// </returns>
-        T ReadAsync(TK id);
-
-        /// <summary>
         /// Update operation.
         /// </summary>
         /// <param name="entity">

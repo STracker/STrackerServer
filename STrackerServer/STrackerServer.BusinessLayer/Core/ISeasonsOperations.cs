@@ -16,7 +16,7 @@ namespace STrackerServer.BusinessLayer.Core
     /// <summary>
     /// Seasons operations interface.
     /// </summary>
-    public interface ISeasonsOperations : ICrudOperations<Season, Tuple<string, int>>
+    public interface ISeasonsOperations : IAsyncOperations<Season, Tuple<string, int>>
     {
         /// <summary>
         /// Get all seasons synopsis from one television show.

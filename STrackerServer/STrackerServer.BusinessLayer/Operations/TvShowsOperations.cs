@@ -9,13 +9,11 @@
 
 namespace STrackerServer.BusinessLayer.Operations
 {
-    using System;
     using System.Collections.Generic;
 
     using STrackerServer.BusinessLayer.Core;
     using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities;
-    using STrackerServer.WorkQueue.Core;
 
     /// <summary>
     /// Television shows operations.
@@ -23,9 +21,9 @@ namespace STrackerServer.BusinessLayer.Operations
     public class TvShowsOperations : BaseCrudOperations<TvShow, string>, ITvShowsOperations
     {
         /// <summary>
-        /// The work queue.
+        /// The works repository.
         /// </summary>
-        private readonly IWorkQueueForTvShows workQueue;
+        private readonly ICreateTvShowWorksRepository worksRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TvShowsOperations"/> class.
@@ -33,98 +31,67 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <param name="repository">
         /// The repository.
         /// </param>
-        /// <param name="workQueue">
-        /// The work Queue.
+        /// <param name="worksRepository">
+        ///  Work queue for create television shows information.
         /// </param>
-        public TvShowsOperations(ITvShowsRepository repository, IWorkQueueForTvShows workQueue)
+        public TvShowsOperations(ITvShowsRepository repository, ICreateTvShowWorksRepository worksRepository)
             : base(repository)
         {
-            this.workQueue = workQueue;
+            this.worksRepository = worksRepository;
         }
 
         /// <summary>
-        /// Create one television show.
-        /// </summary>
-        /// <param name="entity">
-        /// The entity.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public override bool Create(TvShow entity)
-        {
-            // TODO validate fields!
-            return this.Repository.Create(entity);
-        }
-
-        /// <summary>
-        /// Get one television show.
+        /// Try get one television show.
         /// </summary>
         /// <param name="id">
         /// The id.
         /// </param>
-        /// <returns>
-        /// The <see cref="TvShow"/>.
-        /// </returns>
-        public override TvShow Read(string id)
-        {
-            var work = this.workQueue.ExistsWork(id);
-            if (work != null)
-            {
-                return this.workQueue.WaitForWork(work);
-            }
-
-            var tvshow = this.Repository.Read(id);
-            if (tvshow != null)
-            {
-                return tvshow;
-            }
-
-            work = this.workQueue.AddWork(id);
-
-            return (work != null) ? this.workQueue.WaitForWork(work) : null;
-        }
-
-        /// <summary>
-        /// The read async operation.
-        /// </summary>
-        /// <param name="id">
-        /// The id.
+        /// <param name="resultState">
+        /// The resultState.
         /// </param>
         /// <returns>
         /// The <see cref="TvShow"/>.
         /// </returns>
-        public override TvShow ReadAsync(string id)
+        public TvShow TryRead(string id, out OperationResultState resultState)
         {
-            var work = this.workQueue.ExistsWork(id);
+            // Verifiy if exists one work for this operation.
+            var work = this.worksRepository.Read(id);
             if (work != null)
             {
+                // Work already exists, so try get the information later.
+                resultState = OperationResultState.InProcess;
                 return null;
             }
 
+            // Verify if exists in database.
             var tvshow = this.Repository.Read(id);
             if (tvshow != null)
             {
+                resultState = OperationResultState.Completed;
                 return tvshow;
             }
 
-            work = this.workQueue.AddWork(id);
+            // If don't exists the work and don't exists the information in database, creates one work.
+            try
+            {
+                if (!this.worksRepository.Create(new CreateTvShowWork { Key = id }))
+                {
+                    resultState = OperationResultState.Error;
+                    return null;
+                }
 
-            return (work != null) ? this.workQueue.WaitForWork(work) : null;
-        }
+                resultState = OperationResultState.InProcess;
+            }
+            catch (DuplicatedIdException)
+            {
+                resultState = OperationResultState.InProcess;          
+            }
+            catch (InvalidIdException)
+            {
+                resultState = OperationResultState.NotFound;
+            }
 
-        /// <summary>
-        /// Update one television show.
-        /// </summary>
-        /// <param name="entity">
-        /// The entity.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public override bool Update(TvShow entity)
-        {
-            throw new NotImplementedException();
+            return null;
         }
 
         /// <summary>
@@ -140,7 +107,7 @@ namespace STrackerServer.BusinessLayer.Operations
         /// </returns>
         public IEnumerable<TvShow> ReadAllByGenre(Genre genre)
         {
-            throw new NotImplementedException();
+            return ((ITvShowsRepository)this.Repository).ReadAllByGenre(genre);
         }
 
         /// <summary>

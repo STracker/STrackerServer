@@ -1,20 +1,20 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IWorkQueueForTvShows.cs" company="STracker">
+// <copyright file="ICreateTvShowWorksRepository.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  Interfaces for work queue taht creates television shows.
+//  Interface that defines the contract of  repositories for television show works.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.WorkQueue.Core
+namespace STrackerServer.DataAccessLayer.Core
 {
     using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
-    /// The work queue for television shows interface.
+    /// The Create television shows works repository interface.
     /// </summary>
-    public interface IWorkQueueForTvShows : IWorkQueue<TvShow, string>
+    public interface ICreateTvShowWorksRepository : IRepository<CreateTvShowWork, string>
     {
     }
 }

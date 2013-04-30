@@ -21,53 +21,46 @@ namespace STrackerServer.BusinessLayer.Operations
     public class EpisodesOperations : BaseCrudOperations<Episode, Tuple<string, int, int>>, IEpisodesOperations
     {
         /// <summary>
+        /// The seasons operations.
+        /// </summary>
+        private readonly ISeasonsOperations seasonsOperations;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="EpisodesOperations"/> class.
         /// </summary>
+        /// <param name="seasonsOperations">
+        /// The seasons Operations.
+        /// </param>
         /// <param name="repository">
         /// The repository.
         /// </param>
-        public EpisodesOperations(IEpisodesRepository repository)
+        public EpisodesOperations(ISeasonsOperations seasonsOperations, IEpisodesRepository repository)
             : base(repository)
         {
+            this.seasonsOperations = seasonsOperations;
         }
 
         /// <summary>
-        /// Create one episode.
+        /// Try get one episode.
         /// </summary>
-        /// <param name="entity">
-        /// The entity.
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <param name="state">
+        /// The state.
         /// </param>
         /// <returns>
-        /// The <see cref="bool"/>.
+        /// The <see cref="Episode"/>.
         /// </returns>
-        public override bool Create(Episode entity)
+        public Episode TryRead(Tuple<string, int, int> id, out OperationResultState state)
         {
-            // TODO validate fields, like tvshowid and season number verify if exists.
-            throw new NotImplementedException();
-        }
+            var season = this.seasonsOperations.TryRead(new Tuple<string, int>(id.Item1, id.Item2), out state);
+            if (state == OperationResultState.Completed && season != null)
+            {
+                return this.Repository.Read(id);
+            }
 
-        public override Episode Read(Tuple<string, int, int> id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override Episode ReadAsync(Tuple<string, int, int> id)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Update one episode.
-        /// </summary>
-        /// <param name="entity">
-        /// The entity.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public override bool Update(Episode entity)
-        {
-            throw new NotImplementedException();
+            return null;
         }
     }
 }

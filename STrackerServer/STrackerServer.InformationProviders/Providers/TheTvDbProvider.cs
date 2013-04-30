@@ -73,7 +73,7 @@ namespace STrackerServer.InformationProviders.Providers
             {
                 return null;
             }
-
+            
             this.LoadXmlDocument(id);
 
             var tvshow = new TvShow(imdbId);

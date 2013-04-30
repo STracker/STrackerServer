@@ -42,42 +42,21 @@ namespace STrackerServer.BusinessLayer.Operations
         }
 
         /// <summary>
-        /// Create one season.
+        /// Try get one season.
         /// </summary>
-        /// <param name="entity">
-        /// The entity.
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <param name="state">
+        /// The state.
         /// </param>
         /// <returns>
-        /// The <see cref="bool"/>.
+        /// The <see cref="Season"/>.
         /// </returns>
-        public override bool Create(Season entity)
+        public Season TryRead(Tuple<string, int> id, out OperationResultState state)
         {
-            // TODO validate fields, like tvshowid verify if exists.
-            throw new NotImplementedException();
-        }
-
-        public override Season Read(Tuple<string, int> id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override Season ReadAsync(Tuple<string, int> id)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Update one season.
-        /// </summary>
-        /// <param name="entity">
-        /// The entity.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public override bool Update(Season entity)
-        {
-            throw new NotImplementedException();
+            this.tvshowsOperations.TryRead(id.Item1, out state);
+            return state == OperationResultState.Completed ? this.Repository.Read(id) : null;
         }
 
         /// <summary>
@@ -93,7 +72,7 @@ namespace STrackerServer.BusinessLayer.Operations
         /// </returns>
         public IEnumerable<Season.SeasonSynopsis> GetAllFromOneTvShow(string tvshowId)
         {
-            return this.tvshowsOperations.Read(tvshowId) == null ? new List<Season.SeasonSynopsis>() : ((ISeasonsRepository)this.Repository).GetAllFromOneTvShow(tvshowId);
+            return ((ISeasonsRepository)this.Repository).GetAllFromOneTvShow(tvshowId);
         }
     }
 }
