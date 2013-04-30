@@ -72,7 +72,7 @@ namespace STrackerServer.Controllers
         /// Attention! This property must be called when exists one http request.
         private string CallbackUri
         {
-            get { return Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Callback"); }
+            get { return Request.Url.Host + Url.Action("Callback"); }
         }
 
         /// <summary>
@@ -190,10 +190,10 @@ namespace STrackerServer.Controllers
                 this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return this.View("Error");
             }
-
+            
             cookie.Expires = DateTime.Now.AddDays(-1d);
             Response.Cookies.Add(cookie);
-
+            
             FormsAuthentication.SetAuthCookie(user.Key, false);
 
             return callbackCookie.ReturnUrl == null ? new SeeOtherResult { Url = Url.Action("Index","HomeWeb")} : new SeeOtherResult { Url = callbackCookie.ReturnUrl };
