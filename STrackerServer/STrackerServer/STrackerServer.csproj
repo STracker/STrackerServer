@@ -194,11 +194,9 @@
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Views\HomeWeb\Contact.cshtml" />
     <Content Include="Views\HomeWeb\Index.cshtml" />
-    <Content Include="Views\SeasonsWeb\Index.cshtml" />
     <Content Include="Views\SeasonsWeb\Show.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\MainLayout.cshtml" />
-    <Content Include="Views\TvShowsWeb\Search.cshtml" />
     <Content Include="Views\TvShowsWeb\Show.cshtml" />
     <Content Include="Views\UsersWeb\Profile.cshtml" />
     <Content Include="Views\Web.config" />
