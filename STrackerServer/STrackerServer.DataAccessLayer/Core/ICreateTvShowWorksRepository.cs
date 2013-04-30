@@ -1,23 +1,20 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IEpisodesOperations.cs" company="STracker">
+// <copyright file="ICreateTvShowWorksRepository.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  Interface that defines the contract of operations over episodes.
+//  Interface that defines the contract of  repositories for television show works.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.BusinessLayer.Core
+namespace STrackerServer.DataAccessLayer.Core
 {
-    using System;
-
     using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
-    /// Episodes operations interface.
+    /// The Create television shows works repository interface.
     /// </summary>
-    public interface IEpisodesOperations : ICrudOperations<Episode, Tuple<string, int, int>>
+    public interface ICreateTvShowWorksRepository : IRepository<CreateTvShowWork, string>
     {
-        // Addictional actions...
     }
 }

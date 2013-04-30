@@ -21,8 +21,6 @@ namespace STrackerServer.NinjectDependencies
     using STrackerServer.InformationProviders.Core;
     using STrackerServer.InformationProviders.Providers;
     using STrackerServer.Repository.MongoDB.Core;
-    using STrackerServer.WorkQueue;
-    using STrackerServer.WorkQueue.Core;
 
     /// <summary>
     /// The module for STRACKER.
@@ -56,9 +54,8 @@ namespace STrackerServer.NinjectDependencies
             this.Bind<IUsersOperations>().To<UsersOperations>();
             this.Bind<IUsersRepository>().To<UsersRepository>();
 
-            // Work queues stuff dependencies...
-            this.Bind<IQueue<string, CreateTvShowsWork>>().To<QueueForCreateTvShowsWorks>().InSingletonScope();
-            this.Bind<IWorkQueueForTvShows>().To<WorkQueueForTvShows>();
+            // Works stuff dependencies...
+            this.Bind<ICreateTvShowWorksRepository>().To<CreateTvShowWorksRepository>();
 
             // External providers stuff dependencies...
             this.Bind<ITvShowsInformationProvider>().To<TheTvDbProvider>();

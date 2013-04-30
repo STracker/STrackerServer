@@ -39,14 +39,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\DuplicatedIdException.cs" />
+    <Compile Include="Core\ICreateTvShowWorksRepository.cs" />
     <Compile Include="Core\IEntity.cs" />
     <Compile Include="Core\IEpisodesRepository.cs" />
+    <Compile Include="Core\InvalidIdException.cs" />
     <Compile Include="Core\IRepository.cs" />
     <Compile Include="Core\ISeasonsRepository.cs" />
     <Compile Include="Core\ITvShowsRepository.cs" />
     <Compile Include="Core\IUsersRepository.cs" />
     <Compile Include="DomainEntities\Actor.cs" />
     <Compile Include="DomainEntities\Artwork.cs" />
+    <Compile Include="DomainEntities\CreateTvShowWork.cs" />
     <Compile Include="DomainEntities\Episode.cs" />
     <Compile Include="DomainEntities\Genre.cs" />
     <Compile Include="DomainEntities\Media.cs" />

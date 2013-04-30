@@ -9,8 +9,8 @@
 
 namespace STrackerServer.Controllers
 {
-    using System.Collections.Generic;
     using System.Net;
+    using System.Net.Http;
     using System.Web.Http;
 
     using STrackerServer.BusinessLayer.Core;
@@ -30,7 +30,7 @@ namespace STrackerServer.Controllers
         /// <summary>
         /// The operations.
         /// </summary>
-        protected readonly ICrudOperations<T, TK> Operations;
+        protected readonly IAsyncOperations<T, TK> Operations;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseController{T,TK}"/> class.
@@ -38,7 +38,7 @@ namespace STrackerServer.Controllers
         /// <param name="operations">
         /// The operations.
         /// </param>
-        protected BaseController(ICrudOperations<T, TK> operations)
+        protected BaseController(IAsyncOperations<T, TK> operations)
         {
             this.Operations = operations;
         }
@@ -49,18 +49,28 @@ namespace STrackerServer.Controllers
         /// <param name="entity">
         /// The entity.
         /// </param>
+        /// <param name="state">
+        /// The state.
+        /// </param>
         /// <returns>
-        /// The <see cref="T"/>.
+        /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
-        protected T Get(T entity)
+        protected HttpResponseMessage TryGet(T entity, OperationResultState state)
         {
-            if (Equals(entity, default(T)))
+            switch (state)
             {
-                //throw new HttpResponseException(HttpStatusCode.NotFound);
-                return default(T);
-            }
+                    case OperationResultState.InProcess:
+                        return Request.CreateResponse(HttpStatusCode.Accepted, "in process...");
 
-            return entity;
+                    case OperationResultState.NotFound:
+                        throw new HttpResponseException(HttpStatusCode.NotFound);
+
+                    case OperationResultState.Error:
+                        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+
+                    default:
+                        return Request.CreateResponse(HttpStatusCode.OK, entity);
+            }
         }
     }
 }

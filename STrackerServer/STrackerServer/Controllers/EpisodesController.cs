@@ -10,6 +10,7 @@
 namespace STrackerServer.Controllers
 {
     using System;
+    using System.Net.Http;
     using System.Web.Http;
 
     using STrackerServer.BusinessLayer.Core;
@@ -44,12 +45,15 @@ namespace STrackerServer.Controllers
         /// The number.
         /// </param>
         /// <returns>
-        /// The <see cref="Episode"/>.
+        /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
         [HttpGet]
-        public Episode Get(string tvshowId, int seasonNumber, int number)
+        public HttpResponseMessage Get(string tvshowId, int seasonNumber, int number)
         {
-            return this.Get(this.Operations.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, number)));
+            OperationResultState state;
+            var episode = this.Operations.TryRead(new Tuple<string, int, int>(tvshowId, seasonNumber, number), out state);
+
+            return this.TryGet(episode, state);
         }
     }
 }

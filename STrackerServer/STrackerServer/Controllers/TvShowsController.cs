@@ -9,6 +9,8 @@
 
 namespace STrackerServer.Controllers
 {
+    using System;
+    using System.Net.Http;
     using System.Web.Http;
 
     using STrackerServer.BusinessLayer.Core;
@@ -37,12 +39,15 @@ namespace STrackerServer.Controllers
         /// The id.
         /// </param>
         /// <returns>
-        /// The <see cref="TvShow"/>.
+        /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
         [HttpGet]
-        public TvShow Get(string id)
+        public HttpResponseMessage Get(string id)
         {
-            return this.Get(this.Operations.Read(id));
+            OperationResultState state;
+            var tvshow = this.Operations.TryRead(id, out state);
+
+            return this.TryGet(tvshow, state);
         }
 
         /// <summary>
@@ -58,7 +63,7 @@ namespace STrackerServer.Controllers
         /// </returns>
         public TvShow GetByName(string name)
         {
-            return this.Get(((ITvShowsOperations)this.Operations).ReadByName(name));
+            throw new NotImplementedException();
         }
     }
 }
