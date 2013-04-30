@@ -72,7 +72,7 @@ namespace STrackerServer.Controllers
         /// Attention! This property must be called when exists one http request.
         private string CallbackUri
         {
-            get { return Request.Url.Host + Url.Action("Callback"); }
+            get { return Request.Url.Host + ":80" + Url.Action("Callback"); }
         }
 
         /// <summary>
