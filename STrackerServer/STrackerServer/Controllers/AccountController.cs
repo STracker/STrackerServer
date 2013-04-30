@@ -72,7 +72,7 @@ namespace STrackerServer.Controllers
         /// Attention! This property must be called when exists one http request.
         private string CallbackUri
         {
-            get { return Request.Url.Host + ":80" + Url.Action("Callback"); }
+            get { return "http://" + Request.Url.Host + Url.Action("Callback"); }
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace STrackerServer.Controllers
             if (cookie == null)
             {
                 this.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                return this.View("Error");
+                return this.View("Error", 501);
             }
 
             var callbackCookie = new JavaScriptSerializer().Deserialize<CallbackCookie>(cookie.Value);
@@ -153,7 +153,7 @@ namespace STrackerServer.Controllers
             if (state.Equals(MD5.Create().ComputeHash(encoding.GetBytes(callbackCookie.State)).ToString())) 
             {
                 Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                return this.View("Error");
+                return this.View("Error", 502);
             }
 
             User user;
@@ -181,14 +181,14 @@ namespace STrackerServer.Controllers
             catch (Exception /*or only FacebookOAuthException???*/)
             {
                 this.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return this.View("Error");
+                return this.View("Error", 503);
             }
             
             // False - Error while trying to update
             if (!this.usersOperations.VerifyAndSave(user))
             {
                 this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                return this.View("Error");
+                return this.View("Error", 504);
             }
             
             cookie.Expires = DateTime.Now.AddDays(-1d);
@@ -196,7 +196,7 @@ namespace STrackerServer.Controllers
             
             FormsAuthentication.SetAuthCookie(user.Key, false);
 
-            return callbackCookie.ReturnUrl == null ? new SeeOtherResult { Url = Url.Action("Index","HomeWeb")} : new SeeOtherResult { Url = callbackCookie.ReturnUrl };
+            return callbackCookie.ReturnUrl == null ? new SeeOtherResult { Url = Url.Action("Index", "HomeWeb") } : new SeeOtherResult { Url = callbackCookie.ReturnUrl };
         }
 
         /// <summary>
