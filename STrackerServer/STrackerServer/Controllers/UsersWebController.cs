@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Net;
+
 namespace STrackerServer.Controllers
 {
     using System.Web.Mvc;
@@ -46,9 +48,16 @@ namespace STrackerServer.Controllers
         public new ActionResult Profile()
         {
             var user = this.usersOperations.Read(User.Identity.Name);
-            return user == null
-                       ? this.View("Error")
-                       : this.View("Profile", new UserView { Email = user.Key, Name = user.Name });
+
+            // Isto é possivel??
+            if (user == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return this.View("Error");
+            }
+
+            // ------------//
+            return this.View("Profile", new UserView { Email = user.Key, Name = user.Name });
         }
     }
 }

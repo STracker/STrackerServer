@@ -43,7 +43,13 @@
                     {
                         <tr>
                             <td>
-                                <img class="icon-actor" src="@actor.Photo.ImageUrl" alt="No Artwork"/>
+                                @if(actor.Photo != null)
+                                {
+                                    <img class="icon-actor" src="@actor.Photo.ImageUrl" alt="No Artwork"/>
+                                }else
+                                {
+                                    <img class="icon-actor" src="http://eelearningcommunity.org/ee/filelocation/default.jpg" alt="No Artwork"/>
+                                }
                             </td>
                             <td>
                                 @actor.Name

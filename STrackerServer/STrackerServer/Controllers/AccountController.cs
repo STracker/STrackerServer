@@ -36,6 +36,11 @@ namespace STrackerServer.Controllers
         private const string StateCookie = "State";
 
         /// <summary>
+        /// The permissions.
+        /// </summary>
+        private const string Permissions = "email";
+
+        /// <summary>
         /// Facebook client id.
         /// </summary>
         private static readonly string FacebookClientId = ConfigurationManager.AppSettings["Client:Id"];
@@ -73,14 +78,14 @@ namespace STrackerServer.Controllers
         /// <summary>
         /// The login.
         /// </summary>
-        /// <param name="ReturnUrl">
+        /// <param name="returnUrl">
         /// The return url.
         /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpGet]
-        public ActionResult Login(string ReturnUrl)
+        public ActionResult Login(string returnUrl)
         {
             var fb = new FacebookClient();
             var encoding = new ASCIIEncoding();
@@ -91,18 +96,18 @@ namespace STrackerServer.Controllers
                     client_id = FacebookClientId,
                     redirect_uri = this.CallbackUri,
                     response_type = "code",
-                    scope = "email,publish_actions,read_stream,read_requests",
+                    scope = Permissions,
                     state = MD5.Create().ComputeHash(encoding.GetBytes(state))
                 });
 
             var jsonValue = new JavaScriptSerializer().Serialize(new CallbackCookie
                                                                 {
-                                                                    ReturnUrl = ReturnUrl,
+                                                                    ReturnUrl = returnUrl,
                                                                     State = state
                                                                 });
 
             Response.Cookies.Add(new HttpCookie(StateCookie, jsonValue));
-            return new SeeOtherResult { Uri = loginUrl.AbsoluteUri };
+            return new SeeOtherResult { Url = loginUrl.AbsoluteUri };
         }
 
         /// <summary>
@@ -115,7 +120,7 @@ namespace STrackerServer.Controllers
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
-            return new SeeOtherResult { Uri = Url.Action("Index", "HomeWeb") };
+            return new SeeOtherResult { Url = Url.Action("Index", "HomeWeb") };
         }
 
         /// <summary>
@@ -176,23 +181,22 @@ namespace STrackerServer.Controllers
             catch (Exception /*or only FacebookOAuthException???*/)
             {
                 this.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                
-                // TODO, create view for this error. 
                 return this.View("Error");
             }
             
             // False - Error while trying to update
             if (!this.usersOperations.VerifyAndSave(user))
             {
-                // TODO, create view for this error. 
                 this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return this.View("Error");
             }
 
-            Response.Cookies.Remove(StateCookie);
+            cookie.Expires = DateTime.Now.AddDays(-1d);
+            Response.Cookies.Add(cookie);
+
             FormsAuthentication.SetAuthCookie(user.Key, false);
 
-            return callbackCookie.ReturnUrl == null ? new SeeOtherResult{ Uri = Url.Action("Index","HomeWeb")} : new SeeOtherResult { Uri = callbackCookie.ReturnUrl };
+            return callbackCookie.ReturnUrl == null ? new SeeOtherResult { Url = Url.Action("Index","HomeWeb")} : new SeeOtherResult { Url = callbackCookie.ReturnUrl };
         }
 
         /// <summary>

@@ -74,11 +74,13 @@ namespace STrackerServer.Controllers
         {
             OperationResultState state;
             var tvshow = this.tvshowOps.TryReadByName(name, out state);
+            return tvshow == null ? this.GetView(state) : this.View("Show", new TvShowView(tvshow));
 
+            /*
             switch (state)
             {
                     case OperationResultState.Completed:
-                    return this.View("Show", new TvShowView(tvshow));
+                    
 
                     case OperationResultState.InProcess:
                     Response.StatusCode = (int)HttpStatusCode.Accepted;
@@ -92,6 +94,7 @@ namespace STrackerServer.Controllers
                     Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     return this.View("Error", (int)HttpStatusCode.InternalServerError);
             }
+            * */
         }
     }
 }

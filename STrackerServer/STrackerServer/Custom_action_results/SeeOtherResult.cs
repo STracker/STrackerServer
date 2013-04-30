@@ -18,9 +18,9 @@ namespace STrackerServer.Custom_action_results
     public class SeeOtherResult : ActionResult 
     {
         /// <summary>
-        /// Gets or sets the uri.
+        /// Gets or sets the url.
         /// </summary>
-        public string Uri { get; set; }
+        public string Url { get; set; }
 
         /// <summary>
         /// The execute result.
@@ -31,7 +31,7 @@ namespace STrackerServer.Custom_action_results
         public override void ExecuteResult(ControllerContext context)
         {
             context.HttpContext.Response.StatusCode = (int)HttpStatusCode.SeeOther;
-            context.HttpContext.Response.RedirectLocation = Uri;
+            context.HttpContext.Response.RedirectLocation = Url;
         }
     }
 }

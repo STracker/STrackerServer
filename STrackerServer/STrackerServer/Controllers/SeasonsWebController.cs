@@ -53,7 +53,7 @@ namespace STrackerServer.Controllers
         /// <param name="tvshowId">
         /// The television show id.
         /// </param>
-        /// <param name="seasonId">
+        /// <param name="number">
         /// The season id.
         /// </param>
         /// <returns>
