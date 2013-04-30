@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="HomeModel.cs" company="STracker">
+// <copyright file="HomeView.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
@@ -13,7 +13,7 @@ namespace STrackerServer.Models.Home
     /// <summary>
     /// The Home Web model.
     /// </summary>
-    public class HomeModel
+    public class HomeView
     {
         /// <summary>
         /// Gets or sets the user name.

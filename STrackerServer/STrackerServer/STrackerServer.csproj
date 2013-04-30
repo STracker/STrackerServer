@@ -137,10 +137,12 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BaseWebController.cs" />
     <Compile Include="Controllers\EpisodesController.cs" />
+    <Compile Include="Controllers\EpisodesWebController.cs" />
     <Compile Include="Controllers\HomeWebController.cs" />
     <Compile Include="Controllers\SeasonsController.cs" />
-    <Compile Include="Controllers\SeasonWebController.cs" />
+    <Compile Include="Controllers\SeasonsWebController.cs" />
     <Compile Include="Controllers\TvShowsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TvShowsWebController.cs" />
@@ -150,9 +152,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Home\HomeModel.cs" />
-    <Compile Include="Models\Season\SeasonWeb.cs" />
-    <Compile Include="Models\TvShow\TvShowWeb.cs" />
+    <Compile Include="Models\Episode\EpisodeView.cs" />
+    <Compile Include="Models\Home\HomeView.cs" />
+    <Compile Include="Models\Season\SeasonView.cs" />
+    <Compile Include="Models\TvShow\TvShowView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -191,8 +194,8 @@
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Views\HomeWeb\Contact.cshtml" />
     <Content Include="Views\HomeWeb\Index.cshtml" />
-    <Content Include="Views\SeasonWeb\Index.cshtml" />
-    <Content Include="Views\SeasonWeb\Show.cshtml" />
+    <Content Include="Views\SeasonsWeb\Index.cshtml" />
+    <Content Include="Views\SeasonsWeb\Show.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\MainLayout.cshtml" />
     <Content Include="Views\TvShowsWeb\Index.cshtml" />
@@ -203,7 +206,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\Core\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

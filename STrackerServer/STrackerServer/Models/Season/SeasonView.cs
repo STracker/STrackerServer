@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SeasonWeb.cs" company="STracker">
+// <copyright file="SeasonView.cs" company="STracker">
 //   Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
@@ -15,7 +15,7 @@ namespace STrackerServer.Models.Season
     /// <summary>
     /// The season web.
     /// </summary>
-    public class SeasonWeb
+    public class SeasonView
     {
         /// <summary>
         /// Gets or sets the artwork.
@@ -26,6 +26,11 @@ namespace STrackerServer.Models.Season
         /// Gets or sets the television show id.
         /// </summary>
         public string TvShowId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the season number.
+        /// </summary>
+        public int SeasonNumber { get; set; }
 
         /// <summary>
         /// Gets or sets the episode list.

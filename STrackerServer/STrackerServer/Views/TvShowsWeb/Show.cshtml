@@ -1,4 +1,4 @@
-﻿@model STrackerServer.Models.TvShow.TvShowWeb
+﻿@model STrackerServer.Models.TvShow.TvShowView
 
 @{
     ViewBag.Title = @Model.Name;
@@ -25,10 +25,10 @@
             </div>     
             <div class="box">
                  <b> Seasons:</b>
-                <a href="@Url.Action("Show", "SeasonWeb", new { tvshowId = Model.TvShowId, seasonId = Model.SeasonSynopses[0].SeasonNumber })">@Model.SeasonSynopses[0].SeasonNumber</a> 
+                <a href="@Url.Action("Show", "SeasonsWeb", new { tvshowId = Model.TvShowId, number = Model.SeasonSynopses[0].SeasonNumber })">@Model.SeasonSynopses[0].SeasonNumber</a> 
                 @for (var i = 1; i < Model.SeasonSynopses.Count; i++ )   
                 {
-                    <b>| </b><a href="@Url.Action("Show", "SeasonWeb", new { tvshowId = Model.TvShowId, seasonId = Model.SeasonSynopses[i].SeasonNumber })">@Model.SeasonSynopses[i].SeasonNumber</a>  
+                    <b>| </b><a href="@Url.Action("Show", "SeasonsWeb", new { tvshowId = Model.TvShowId, number = Model.SeasonSynopses[i].SeasonNumber })">@Model.SeasonSynopses[i].SeasonNumber</a>  
                 }
             </div> 
             <div class="box">

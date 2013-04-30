@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TvShowWeb.cs" company="STracker">
+// <copyright file="TvShowView.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
@@ -15,15 +15,15 @@ namespace STrackerServer.Models.TvShow
     /// <summary>
     /// The view model of the television show.
     /// </summary>
-    public class TvShowWeb
+    public class TvShowView
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TvShowWeb"/> class.
+        /// Initializes a new instance of the <see cref="TvShowView"/> class.
         /// </summary>
         /// <param name="tvshow">
         /// The television show.
         /// </param>
-        public TvShowWeb(TvShow tvshow)
+        public TvShowView(TvShow tvshow)
         {
             this.TvShowId = tvshow.TvShowId;
             this.Name = tvshow.Name;

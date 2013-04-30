@@ -19,7 +19,7 @@ namespace STrackerServer.Controllers
     /// <summary>
     /// The television shows web controller.
     /// </summary>
-    public class TvShowsWebController : Controller
+    public class TvShowsWebController : BaseWebController
     {
         /// <summary>
         /// The operations of the Television Show Controller.
@@ -61,16 +61,15 @@ namespace STrackerServer.Controllers
         [HttpGet]
         public ActionResult Show(string tvshowId)
         {
-            TvShow tvshow = this.tvshowOps.Read(tvshowId);
+            OperationResultState state;
+            TvShow tvshow = this.tvshowOps.TryRead(tvshowId, out state);
 
             if (tvshow == null)
             {
-                Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return this.View("Error");
+                return this.GetView(state);
             }
 
-            TvShowWeb model = new TvShowWeb(tvshow);
-
+            TvShowView model = new TvShowView(tvshow);
             return this.View(model);
         }
 

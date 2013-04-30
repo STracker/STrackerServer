@@ -1,0 +1,41 @@
+﻿@model STrackerServer.Models.Season.SeasonView
+
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3"> 
+            <img class="img-rounded" src="http://4.bp.blogspot.com/_EfyL4jXaxgg/TNWuwbBnAxI/AAAAAAAABnI/OStq0qVhJ8U/s1600/the-walking-dead-poster.jpg" alt="No Artwork"/>      
+        </div>
+        <div class="span9">
+            <div class="box">
+                <p><b>Season @Model.SeasonNumber</b></p>                
+                <table class="table">
+                    <tr>
+                        <th>Number</th>
+                        <th>Name</th>
+                        <th>Link</th>
+                    </tr>
+        
+                    @foreach(var episode in Model.EpisodeList)
+                    {
+                        <tr>
+                            <td>
+                                @episode.EpisodeNumber
+                            </td>
+                            <td>
+                                @episode.Name
+                            </td>
+                            <td>
+                                @Html.ActionLink("Link","Show","EpisodesWeb", new {})
+                            </td>
+                        </tr>  
+                    }
+                </table>
+            </div>       
+        </div>
+    </div>
+</div>

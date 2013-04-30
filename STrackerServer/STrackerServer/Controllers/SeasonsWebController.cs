@@ -1,11 +1,13 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SeasonWebController.cs" company="STracker">
+// <copyright file="SeasonsWebController.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
 //  Season Web Controller
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
+using STrackerServer.DataAccessLayer.DomainEntities;
 
 namespace STrackerServer.Controllers
 {
@@ -18,7 +20,7 @@ namespace STrackerServer.Controllers
     /// <summary>
     /// The season web controller.
     /// </summary>
-    public class SeasonWebController : Controller
+    public class SeasonsWebController : BaseWebController
     {
         /// <summary>
         /// The television show operations.
@@ -31,7 +33,7 @@ namespace STrackerServer.Controllers
         private readonly ISeasonsOperations seasonOps;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SeasonWebController"/> class.
+        /// Initializes a new instance of the <see cref="SeasonsWebController"/> class.
         /// </summary>
         /// <param name="showOps">
         /// The show ops.
@@ -39,7 +41,7 @@ namespace STrackerServer.Controllers
         /// <param name="seasonOps">
         /// The season ops.
         /// </param>
-        public SeasonWebController(ITvShowsOperations showOps, ISeasonsOperations seasonOps)
+        public SeasonsWebController(ITvShowsOperations showOps, ISeasonsOperations seasonOps)
         {
             this.showOps = showOps;
             this.seasonOps = seasonOps;
@@ -58,23 +60,24 @@ namespace STrackerServer.Controllers
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpGet]
-        public ActionResult Show(string tvshowId, int seasonId)
+        public ActionResult Show(string tvshowId, int number)
         {
-            var season = this.seasonOps.Read(new Tuple<string, int>(tvshowId, seasonId));
+            OperationResultState state;
+            Season season = this.seasonOps.TryRead(new Tuple<string, int>(tvshowId, number), out state);
 
             if (season == null)
             {
-                return this.View("Error");
+                return this.GetView(state);
             }
 
-            var seasonWeb = new SeasonWeb
-                                {
-                                    TvShowId = tvshowId,
-                                    Artwork = this.showOps.Read(tvshowId).Artworks.First().ImageUrl,
-                                    EpisodeList = season.EpisodeSynopses.OrderBy(ep => ep.EpisodeNumber)
-                                };
+            SeasonView model = new SeasonView
+            {
+                TvShowId = tvshowId,
+                EpisodeList = season.EpisodeSynopses.OrderBy(ep => ep.EpisodeNumber),
+                SeasonNumber = season.SeasonNumber
+            };
 
-            return this.View(seasonWeb);
+            return this.View(model);
         }
     }
 }

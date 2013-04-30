@@ -198,7 +198,46 @@ namespace STrackerServer.InformationProviders.Providers
                 var episode = new Episode(new Tuple<string, int, int>(imdbId, seasonNumber, int.Parse(episodeNumberNode.LastChild.Value)));
 
                 var nameNode = xmlNode.SelectSingleNode("EpisodeName");
+
                 episode.Name = (nameNode != null && nameNode.LastChild != null) ? nameNode.LastChild.Value : null;
+
+                var descriptionNode = xmlNode.SelectSingleNode("Overview");
+
+                episode.Description = (descriptionNode != null && descriptionNode.LastChild != null) ? descriptionNode.LastChild.Value : null;
+
+                var directorNode = xmlNode.SelectSingleNode("Director");
+
+                episode.Directors = new List<Person>();
+
+                string[] directors = (directorNode != null && directorNode.LastChild != null) ? directorNode.LastChild.Value.Split('|') : new string[0];
+
+                foreach (var director in directors)
+                {
+                    if (director != string.Empty)
+                    {
+                        episode.Directors.Add(new Person
+                        {
+                            Name = director.Trim()
+                        });
+                    }
+                }
+
+                var guestsNode = xmlNode.SelectSingleNode("GuestStars");
+
+                episode.GuestActors = new List<Actor>();
+
+                string[] guests = (guestsNode != null && guestsNode.LastChild != null) ? guestsNode.LastChild.Value.Split('|') : new string[0];
+
+                foreach (var guest in guests)
+                {
+                    if (guest != string.Empty)
+                    {
+                        episode.GuestActors.Add(new Actor
+                        {
+                            Name = guest.Trim()
+                        });
+                    }
+                }
 
                 list.Add(episode);
             }
