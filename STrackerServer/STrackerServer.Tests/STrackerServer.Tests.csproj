@@ -68,12 +68,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomRepositories\CustomTvShowsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NinjectModules\TestModuleForMongoRepositories.cs" />
-    <Compile Include="Tests.Repository.MongoDB\EpisodesRepositoryTests.cs" />
-    <Compile Include="Tests.Repository.MongoDB\SeasonsRepositoryTests.cs" />
-    <Compile Include="Tests.Repository.MongoDB\TvShowsMongoRepositoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -94,7 +90,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="CustomRepositories\" />
     <Folder Include="Tests.BusinessLayer\" />
+    <Folder Include="Tests.Repository.MongoDB\" />
     <Folder Include="Tests.STrackerServer\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
