@@ -9,7 +9,6 @@
 
 namespace STrackerServer.Controllers
 {
-    using System;
     using System.Net.Http;
     using System.Web.Http;
 
@@ -58,9 +57,9 @@ namespace STrackerServer.Controllers
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        public TvShow GetByName(string name)
+        public HttpResponseMessage GetByName(string name)
         {
-            throw new NotImplementedException();
+            return this.BaseGet(((ITvShowsOperations)this.Operations).ReadByName(name));
         }
     }
 }

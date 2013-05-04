@@ -95,11 +95,12 @@ namespace STrackerServer.Repository.MongoDB.Core
         {
             var collection = Database.GetCollection(entity.Key);
 
-            // Ensure indexes for collection
-            collection.EnsureIndex(new IndexKeysBuilder().Ascending("TvShowId", "SeasonNumber", "EpisodeNumber"), IndexOptions.SetUnique(true));
-            
             // Get the collection that have all references for all television shows.
             var collectionAll = Database.GetCollection(DatabaseNameForSynopsis);
+
+            // Ensure indexes for collections
+            collection.EnsureIndex(new IndexKeysBuilder().Ascending("TvShowId", "SeasonNumber", "EpisodeNumber"), IndexOptions.SetUnique(true));
+            collectionAll.EnsureIndex(new IndexKeysBuilder().Ascending("Name"));
 
             // The order is relevant because mongo don't ensure transactions.
             return collection.Insert(entity).Ok && collectionAll.Insert(entity.GetSynopsis()).Ok;
@@ -180,7 +181,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         }
 
         /// <summary>
-        /// Try get one television show by name.
+        /// The read by name.
         /// </summary>
         /// <param name="name">
         /// The name.
@@ -188,7 +189,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <returns>
         /// The <see cref="TvShow"/>.
         /// </returns>
-        public TvShow TryReadByName(string name)
+        public TvShow ReadByName(string name)
         {
             var collection = Database.GetCollection<TvShow.TvShowSynopsis>(DatabaseNameForSynopsis);
             var query = Query<TvShow.TvShowSynopsis>.EQ(e => e.Name, name);

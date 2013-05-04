@@ -55,13 +55,13 @@ namespace STrackerServer.BusinessLayer.Operations
         public override TvShow Read(string id)
         {
             var tvshow = this.Repository.Read(id);
-            if (tvshow == null)
+            if (tvshow != null)
             {
-                queueM.Push(new Message { CommandName = "id", Arg = id });
-                return null;
+                return tvshow;
             }
 
-            return tvshow;
+            queueM.Push(new Message { CommandName = "id", Arg = id });
+            return null;
         }
 
         /// <summary>
@@ -91,7 +91,14 @@ namespace STrackerServer.BusinessLayer.Operations
         /// </returns>
         public TvShow ReadByName(string name)
         {
-            throw new System.NotImplementedException();
+            var tvshow = ((ITvShowsRepository)this.Repository).ReadByName(name);
+            if (tvshow != null)
+            {
+                return tvshow;
+            }
+
+            queueM.Push(new Message { CommandName = "name", Arg = name });
+            return null;
         }
     }
 }

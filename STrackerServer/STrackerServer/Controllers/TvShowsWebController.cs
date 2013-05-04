@@ -15,6 +15,8 @@ namespace STrackerServer.Controllers
 
     using Models.TvShow;
 
+    using STrackerServer.Custom_action_results;
+
     /// <summary>
     /// The television shows web controller.
     /// </summary>
@@ -72,7 +74,14 @@ namespace STrackerServer.Controllers
         [HttpGet]
         public ActionResult GetByName(string name)
         {
-            return this.View("Error", (int)HttpStatusCode.NotFound);
+            var tvshow = this.tvshowOps.ReadByName(name);
+            if (tvshow == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            return new SeeOtherResult { Url = Url.Action("Show", new { tvshowId = tvshow.TvShowId }) };
         }
     }
 }

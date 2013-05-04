@@ -30,5 +30,16 @@ namespace STrackerServer.DataAccessLayer.Core
         ///     </see> .
         /// </returns>
         IEnumerable<TvShow> ReadAllByGenre(Genre genre);
+
+        /// <summary>
+        /// The read by name.
+        /// </summary>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TvShow"/>.
+        /// </returns>
+        TvShow ReadByName(string name);
     }
 }
