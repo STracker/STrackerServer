@@ -64,10 +64,7 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <returns>
         /// The <see cref="T"/>.
         /// </returns>
-        public T Read(TK id)
-        {
-            return this.Repository.Read(id);
-        }
+        public abstract T Read(TK id);
 
         /// <summary>
         /// Update one entity.

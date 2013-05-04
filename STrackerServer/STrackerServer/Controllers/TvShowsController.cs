@@ -44,10 +44,7 @@ namespace STrackerServer.Controllers
         [HttpGet]
         public HttpResponseMessage Get(string id)
         {
-            OperationResultState state;
-            var tvshow = this.Operations.TryRead(id, out state);
-
-            return this.TryGet(tvshow, state);
+            return this.BaseGet(this.Operations.Read(id));
         }
 
         /// <summary>

@@ -7,12 +7,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using STrackerServer.DataAccessLayer.DomainEntities;
-
 namespace STrackerServer.Controllers
 {
     using System;
     using System.Linq;
+    using System.Net;
     using System.Web.Mvc;
     using BusinessLayer.Core;
     using Models.Season;
@@ -20,13 +19,8 @@ namespace STrackerServer.Controllers
     /// <summary>
     /// The season web controller.
     /// </summary>
-    public class SeasonsWebController : BaseWebController
+    public class SeasonsWebController : Controller
     {
-        /// <summary>
-        /// The television show operations.
-        /// </summary>
-        private readonly ITvShowsOperations showOps;
-
         /// <summary>
         /// The season operations.
         /// </summary>
@@ -35,15 +29,11 @@ namespace STrackerServer.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="SeasonsWebController"/> class.
         /// </summary>
-        /// <param name="showOps">
-        /// The show ops.
-        /// </param>
         /// <param name="seasonOps">
         /// The season ops.
         /// </param>
-        public SeasonsWebController(ITvShowsOperations showOps, ISeasonsOperations seasonOps)
+        public SeasonsWebController(ISeasonsOperations seasonOps)
         {
-            this.showOps = showOps;
             this.seasonOps = seasonOps;
         }
 
@@ -62,15 +52,15 @@ namespace STrackerServer.Controllers
         [HttpGet]
         public ActionResult Show(string tvshowId, int number)
         {
-            OperationResultState state;
-            Season season = this.seasonOps.TryRead(new Tuple<string, int>(tvshowId, number), out state);
+            var season = this.seasonOps.Read(new Tuple<string, int>(tvshowId, number));
 
             if (season == null)
             {
-                return this.GetView(state);
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return this.View("Error", Response.StatusCode);
             }
 
-            SeasonView model = new SeasonView
+            var model = new SeasonView
             {
                 TvShowId = tvshowId,
                 EpisodeList = season.EpisodeSynopses.OrderBy(ep => ep.EpisodeNumber),

@@ -16,7 +16,7 @@ namespace STrackerServer.BusinessLayer.Core
     /// <summary>
     /// Episodes operations interface.
     /// </summary>
-    public interface IEpisodesOperations : IAsyncOperations<Episode, Tuple<string, int, int>>
+    public interface IEpisodesOperations : ICrudOperations<Episode, Tuple<string, int, int>>
     {
     }
 }

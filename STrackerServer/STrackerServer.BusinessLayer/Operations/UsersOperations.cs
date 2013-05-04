@@ -29,6 +29,20 @@ namespace STrackerServer.BusinessLayer.Operations
         }
 
         /// <summary>
+        /// Get one user.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="User"/>.
+        /// </returns>
+        public override User Read(string id)
+        {
+            return this.Repository.Read(id);
+        }
+
+        /// <summary>
         /// Verify if the user exists, if not create one. Also verify if the properties of the user have changed.
         /// </summary>
         /// <param name="user">

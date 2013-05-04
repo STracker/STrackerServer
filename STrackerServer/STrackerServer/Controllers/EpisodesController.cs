@@ -50,10 +50,7 @@ namespace STrackerServer.Controllers
         [HttpGet]
         public HttpResponseMessage Get(string tvshowId, int seasonNumber, int number)
         {
-            OperationResultState state;
-            var episode = this.Operations.TryRead(new Tuple<string, int, int>(tvshowId, seasonNumber, number), out state);
-
-            return this.TryGet(episode, state);
+            return this.BaseGet(this.Operations.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, number)));
         }
     }
 }

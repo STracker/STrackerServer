@@ -12,13 +12,13 @@ namespace STrackerServer.Controllers
     using System.Net;
     using System.Web.Mvc;
     using BusinessLayer.Core;
-    using DataAccessLayer.DomainEntities;
+
     using Models.TvShow;
 
     /// <summary>
     /// The television shows web controller.
     /// </summary>
-    public class TvShowsWebController : BaseWebController
+    public class TvShowsWebController : Controller
     {
         /// <summary>
         /// The operations of the Television Show Controller.
@@ -48,15 +48,15 @@ namespace STrackerServer.Controllers
         [HttpGet]
         public ActionResult Show(string tvshowId)
         {
-            OperationResultState state;
-            TvShow tvshow = this.tvshowOps.TryRead(tvshowId, out state);
+            var tvshow = this.tvshowOps.Read(tvshowId);
 
             if (tvshow == null)
             {
-                return this.GetView(state);
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return this.View("Error", Response.StatusCode);
             }
 
-            TvShowView model = new TvShowView(tvshow);
+            var model = new TvShowView(tvshow);
             return this.View(model);
         }
 
@@ -72,29 +72,7 @@ namespace STrackerServer.Controllers
         [HttpGet]
         public ActionResult GetByName(string name)
         {
-            OperationResultState state;
-            var tvshow = this.tvshowOps.TryReadByName(name, out state);
-            return tvshow == null ? this.GetView(state) : this.View("Show", new TvShowView(tvshow));
-
-            /*
-            switch (state)
-            {
-                    case OperationResultState.Completed:
-                    
-
-                    case OperationResultState.InProcess:
-                    Response.StatusCode = (int)HttpStatusCode.Accepted;
-                    return this.View("Error", (int)HttpStatusCode.Accepted);
-
-                    case OperationResultState.NotFound:
-                    Response.StatusCode = (int)HttpStatusCode.NotFound;
-                    return this.View("Error", (int)HttpStatusCode.NotFound);
-
-                    default:
-                    Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                    return this.View("Error", (int)HttpStatusCode.InternalServerError);
-            }
-            * */
+            return this.View("Error", (int)HttpStatusCode.NotFound);
         }
     }
 }

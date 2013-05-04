@@ -30,6 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="RabbitMQ.Client">
+      <HintPath>..\external libraries\RabbitMQ.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="STrackerUpdater.RabbitMQ">
+      <HintPath>..\external libraries\STrackerUpdater.RabbitMQ.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -39,13 +45,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\IAsyncOperations.cs" />
     <Compile Include="Core\ICrudOperations.cs" />
     <Compile Include="Core\IEpisodesOperations.cs" />
     <Compile Include="Core\ISeasonsOperations.cs" />
     <Compile Include="Core\ITvShowsOperations.cs" />
     <Compile Include="Core\IUsersOperations.cs" />
-    <Compile Include="Core\OperationResultState.cs" />
     <Compile Include="Operations\BaseCrudOperations.cs" />
     <Compile Include="Operations\EpisodesOperations.cs" />
     <Compile Include="Operations\SeasonsOperations.cs" />

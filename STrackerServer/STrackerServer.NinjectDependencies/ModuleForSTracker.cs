@@ -15,12 +15,14 @@ namespace STrackerServer.NinjectDependencies
 
     using Ninject.Modules;
 
+    using RabbitMQ.Client;
+
     using STrackerServer.BusinessLayer.Core;
     using STrackerServer.BusinessLayer.Operations;
     using STrackerServer.DataAccessLayer.Core;
-    using STrackerServer.InformationProviders.Core;
-    using STrackerServer.InformationProviders.Providers;
     using STrackerServer.Repository.MongoDB.Core;
+
+    using STrackerUpdater.RabbitMQ;
 
     /// <summary>
     /// The module for STRACKER.
@@ -54,11 +56,9 @@ namespace STrackerServer.NinjectDependencies
             this.Bind<IUsersOperations>().To<UsersOperations>();
             this.Bind<IUsersRepository>().To<UsersRepository>();
 
-            // Works stuff dependencies...
-            this.Bind<ICreateTvShowWorksRepository>().To<CreateTvShowWorksRepository>();
-
-            // External providers stuff dependencies...
-            this.Bind<ITvShowsInformationProvider>().To<TheTvDbProvider>();
+            // Queue dependencies...
+            this.Bind<ConnectionFactory>().ToSelf().InSingletonScope().WithPropertyValue("Uri", ConfigurationManager.AppSettings["RabbitMQUri"]);
+            this.Bind<QueueManager>().ToSelf();
         }
     }
 }

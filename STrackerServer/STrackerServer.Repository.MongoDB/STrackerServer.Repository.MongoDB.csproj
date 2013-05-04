@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\BaseRepository.cs" />
-    <Compile Include="Core\CreateTvShowWorksRepository.cs" />
     <Compile Include="Core\EpisodesRepository.cs" />
     <Compile Include="Core\SeasonsRepository.cs" />
     <Compile Include="Core\TvShowsRepository.cs" />
@@ -61,10 +60,6 @@
     <ProjectReference Include="..\STrackerServer.DataAccessLayer\STrackerServer.DataAccessLayer.csproj">
       <Project>{F7946D64-169E-437B-9D4C-69D56F4C32F4}</Project>
       <Name>STrackerServer.DataAccessLayer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\STrackerServer.InformationProviders\STrackerServer.InformationProviders.csproj">
-      <Project>{c2688013-f6c9-443f-887f-b50473970d38}</Project>
-      <Name>STrackerServer.InformationProviders</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

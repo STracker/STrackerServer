@@ -39,6 +39,12 @@
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="RabbitMQ.Client">
+      <HintPath>..\external libraries\RabbitMQ.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="STrackerUpdater.RabbitMQ">
+      <HintPath>..\external libraries\STrackerUpdater.RabbitMQ.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -63,10 +69,6 @@
     <ProjectReference Include="..\STrackerServer.DataAccessLayer\STrackerServer.DataAccessLayer.csproj">
       <Project>{f7946d64-169e-437b-9d4c-69d56f4c32f4}</Project>
       <Name>STrackerServer.DataAccessLayer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\STrackerServer.InformationProviders\STrackerServer.InformationProviders.csproj">
-      <Project>{c2688013-f6c9-443f-887f-b50473970d38}</Project>
-      <Name>STrackerServer.InformationProviders</Name>
     </ProjectReference>
     <ProjectReference Include="..\STrackerServer.Repository.MongoDB\STrackerServer.Repository.MongoDB.csproj">
       <Project>{a43347c5-0aa1-4712-8451-8b9b91666b76}</Project>

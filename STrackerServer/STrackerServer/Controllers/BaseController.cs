@@ -30,7 +30,7 @@ namespace STrackerServer.Controllers
         /// <summary>
         /// The operations.
         /// </summary>
-        protected readonly IAsyncOperations<T, TK> Operations;
+        protected readonly ICrudOperations<T, TK> Operations;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseController{T,TK}"/> class.
@@ -38,7 +38,7 @@ namespace STrackerServer.Controllers
         /// <param name="operations">
         /// The operations.
         /// </param>
-        protected BaseController(IAsyncOperations<T, TK> operations)
+        protected BaseController(ICrudOperations<T, TK> operations)
         {
             this.Operations = operations;
         }
@@ -49,28 +49,17 @@ namespace STrackerServer.Controllers
         /// <param name="entity">
         /// The entity.
         /// </param>
-        /// <param name="state">
-        /// The state.
-        /// </param>
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
-        protected HttpResponseMessage TryGet(T entity, OperationResultState state)
+        protected HttpResponseMessage BaseGet(T entity)
         {
-            switch (state)
+            if (Equals(entity, default(T)))
             {
-                    case OperationResultState.InProcess:
-                        return Request.CreateResponse(HttpStatusCode.Accepted, "in process...");
-
-                    case OperationResultState.NotFound:
-                        throw new HttpResponseException(HttpStatusCode.NotFound);
-
-                    case OperationResultState.Error:
-                        throw new HttpResponseException(HttpStatusCode.InternalServerError);
-
-                    default:
-                        return Request.CreateResponse(HttpStatusCode.OK, entity);
+                throw new HttpResponseException(HttpStatusCode.NotFound);
             }
+
+            return Request.CreateResponse(HttpStatusCode.OK, entity);
         }
     }
 }

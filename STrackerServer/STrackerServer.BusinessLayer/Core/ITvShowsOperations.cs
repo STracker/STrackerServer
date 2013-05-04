@@ -16,7 +16,7 @@ namespace STrackerServer.BusinessLayer.Core
     /// <summary>
     /// Television shows operations interface.
     /// </summary>
-    public interface ITvShowsOperations : IAsyncOperations<TvShow, string>
+    public interface ITvShowsOperations : ICrudOperations<TvShow, string>
     {
         /// <summary>
         /// Get all television shows by genre.
@@ -37,12 +37,9 @@ namespace STrackerServer.BusinessLayer.Core
         /// <param name="name">
         /// The name.
         /// </param>
-        /// <param name="state">
-        /// The state.
-        ///  </param>
         /// <returns>
         /// The <see cref="TvShow"/>.
         /// </returns>
-        TvShow TryReadByName(string name, out OperationResultState state);
+        TvShow ReadByName(string name);
     }
 }

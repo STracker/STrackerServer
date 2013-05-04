@@ -137,14 +137,12 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\BaseWebController.cs" />
     <Compile Include="Controllers\EpisodesController.cs" />
     <Compile Include="Controllers\EpisodesWebController.cs" />
     <Compile Include="Controllers\HomeWebController.cs" />
     <Compile Include="Controllers\SeasonsController.cs" />
     <Compile Include="Controllers\SeasonsWebController.cs" />
     <Compile Include="Controllers\TvShowsController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TvShowsWebController.cs" />
     <Compile Include="Controllers\UsersWebController.cs" />
     <Compile Include="Custom_action_results\SeeOtherResult.cs" />

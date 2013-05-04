@@ -7,25 +7,20 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
-using STrackerServer.BusinessLayer.Core;
-using STrackerServer.DataAccessLayer.DomainEntities;
-using STrackerServer.Models.Episode;
-
 namespace STrackerServer.Controllers
 {
+    using System;
+    using System.Net;
     using System.Web.Mvc;
+
+    using STrackerServer.BusinessLayer.Core;
+    using STrackerServer.Models.Episode;
 
     /// <summary>
     /// The episodes web controller.
     /// </summary>
-    public class EpisodesWebController : BaseWebController
+    public class EpisodesWebController : Controller
     {
-        /// <summary>
-        /// The season operations.
-        /// </summary>
-        private readonly ITvShowsOperations showOps;
-
         /// <summary>
         /// The episodes operations.
         /// </summary>
@@ -34,18 +29,13 @@ namespace STrackerServer.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="EpisodesWebController"/> class.
         /// </summary>
-        /// <param name="showOps">
-        /// The season ops.
-        /// </param>
         /// <param name="episodesOps">
         /// The episodes ops.
         /// </param>
-        public EpisodesWebController(ITvShowsOperations showOps, IEpisodesOperations episodesOps)
+        public EpisodesWebController(IEpisodesOperations episodesOps)
         {
-            this.showOps = showOps;
             this.episodesOps = episodesOps;
         }
-
 
         /// <summary>
         /// The show.
@@ -64,15 +54,15 @@ namespace STrackerServer.Controllers
         /// </returns>
         public ActionResult Show(string tvshowId, int seasonNumber, int number)
         {
-            OperationResultState state;
-            Episode episode = this.episodesOps.TryRead(new Tuple<string, int, int>(tvshowId, seasonNumber, number), out state);
+            var episode = this.episodesOps.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, number));
 
             if (episode == null)
             {
-                return this.GetView(state);
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return this.View("Error", Response.StatusCode);
             }
 
-            EpisodeView model = new EpisodeView
+            var model = new EpisodeView
             {
                 TvShowId = episode.Key.Item1,
                 SeasonNumber = episode.Key.Item2,
@@ -82,8 +72,8 @@ namespace STrackerServer.Controllers
                 Rating = episode.Rating,
             };
 
-            return this.View(model);
+            // return this.View(model);
+            return this.View("Error", model.EpisodeNumber);
         }
-
     }
 }

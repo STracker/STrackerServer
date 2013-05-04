@@ -15,15 +15,18 @@ namespace STrackerServer.BusinessLayer.Operations
     using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities;
 
+    using STrackerUpdater.RabbitMQ;
+    using STrackerUpdater.RabbitMQ.Core;
+
     /// <summary>
     /// Television shows operations.
     /// </summary>
     public class TvShowsOperations : BaseCrudOperations<TvShow, string>, ITvShowsOperations
     {
         /// <summary>
-        /// The works repository.
+        /// The queue manager.
         /// </summary>
-        private readonly ICreateTvShowWorksRepository worksRepository;
+        private readonly QueueManager queueM;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TvShowsOperations"/> class.
@@ -31,67 +34,34 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <param name="repository">
         /// The repository.
         /// </param>
-        /// <param name="worksRepository">
-        ///  Work queue for create television shows information.
+        /// <param name="queueM">
+        /// The queue manager.
         /// </param>
-        public TvShowsOperations(ITvShowsRepository repository, ICreateTvShowWorksRepository worksRepository)
+        public TvShowsOperations(ITvShowsRepository repository, QueueManager queueM)
             : base(repository)
         {
-            this.worksRepository = worksRepository;
+            this.queueM = queueM;
         }
 
         /// <summary>
-        /// Try get one television show.
+        /// Get one television show by id.
         /// </summary>
         /// <param name="id">
         /// The id.
         /// </param>
-        /// <param name="resultState">
-        /// The resultState.
-        /// </param>
         /// <returns>
         /// The <see cref="TvShow"/>.
         /// </returns>
-        public TvShow TryRead(string id, out OperationResultState resultState)
+        public override TvShow Read(string id)
         {
-            // Verifiy if exists one work for this operation.
-            var work = this.worksRepository.Read(id);
-            if (work != null)
+            var tvshow = this.Repository.Read(id);
+            if (tvshow == null)
             {
-                // Work already exists, so try get the information later.
-                resultState = OperationResultState.InProcess;
+                queueM.Push(new Message { CommandName = "id", Arg = id });
                 return null;
             }
 
-            // Verify if exists in database.
-            var tvshow = this.Repository.Read(id);
-            if (tvshow != null)
-            {
-                resultState = OperationResultState.Completed;
-                return tvshow;
-            }
-
-            // If don't exists the work and don't exists the information in database, creates one work.
-            try
-            {
-                if (!this.worksRepository.Create(new CreateTvShowWork { Key = id }))
-                {
-                    resultState = OperationResultState.Error;
-                    return null;
-                }
-
-                resultState = OperationResultState.InProcess;
-            }
-            catch (DuplicatedIdException)
-            {
-                resultState = OperationResultState.InProcess;          
-            }
-            catch (InvalidIdException)
-            {
-                resultState = OperationResultState.NotFound;
-            }
-
-            return null;
+            return tvshow;
         }
 
         /// <summary>
@@ -111,28 +81,17 @@ namespace STrackerServer.BusinessLayer.Operations
         }
 
         /// <summary>
-        /// Try get one television show by name.
+        /// Try Get one television show by name.
         /// </summary>
         /// <param name="name">
         /// The name.
         /// </param>
-        /// <param name="state">
-        /// The state.
-        /// </param>
         /// <returns>
         /// The <see cref="TvShow"/>.
         /// </returns>
-        public TvShow TryReadByName(string name, out OperationResultState state)
+        public TvShow ReadByName(string name)
         {
-            var id = this.worksRepository.GetId(name);
-
-            if (id == null)
-            {
-                state = OperationResultState.NotFound;
-                return null;
-            }
-
-            return this.TryRead(id, out state);
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -42,21 +42,18 @@ namespace STrackerServer.BusinessLayer.Operations
         }
 
         /// <summary>
-        /// Try get one season.
+        ///  Get one season from one television show.
         /// </summary>
         /// <param name="id">
         /// The id.
         /// </param>
-        /// <param name="state">
-        /// The state.
-        /// </param>
         /// <returns>
         /// The <see cref="Season"/>.
         /// </returns>
-        public Season TryRead(Tuple<string, int> id, out OperationResultState state)
+        public override Season Read(Tuple<string, int> id)
         {
-            this.tvshowsOperations.TryRead(id.Item1, out state);
-            return state == OperationResultState.Completed ? this.Repository.Read(id) : null;
+            var tvshow = this.tvshowsOperations.Read(id.Item1);
+            return (tvshow == null) ? null : this.Repository.Read(id);
         }
 
         /// <summary>
