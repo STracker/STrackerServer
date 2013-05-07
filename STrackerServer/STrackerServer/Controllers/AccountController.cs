@@ -71,7 +71,7 @@ namespace STrackerServer.Controllers
         /// Attention! This property must be called when exists one http request.
         private string CallbackUri
         {
-            get { return Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Callback"); }
+            get { return "http://" + Request.Url.Host + Url.Action("Callback"); }
         }
 
         /// <summary>
