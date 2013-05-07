@@ -12,7 +12,6 @@ namespace STrackerServer.Controllers
     using System;
     using System.Configuration;
     using System.Net;
-    using System.Security.Cryptography;
     using System.Text;
     using System.Web;
     using System.Web.Mvc;
@@ -43,12 +42,12 @@ namespace STrackerServer.Controllers
         /// <summary>
         /// Facebook client id.
         /// </summary>
-        private static readonly string FacebookClientId = ConfigurationManager.AppSettings["Client:Id"];
+        private static readonly string FacebookClientId = ConfigurationManager.AppSettings["Facebook:Id"];
 
         /// <summary>
         /// Facebook client secret.
         /// </summary>
-        private static readonly string FacebookClientSecret = ConfigurationManager.AppSettings["Client:Secret"]; 
+        private static readonly string FacebookClientSecret = ConfigurationManager.AppSettings["Facebook:Secret"]; 
 
         /// <summary>
         /// Users operations.
@@ -72,7 +71,7 @@ namespace STrackerServer.Controllers
         /// Attention! This property must be called when exists one http request.
         private string CallbackUri
         {
-            get { return "http://" + Request.Url.Host + Url.Action("Callback"); }
+            get { return Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Callback"); }
         }
 
         /// <summary>
@@ -88,7 +87,6 @@ namespace STrackerServer.Controllers
         public ActionResult Login(string returnUrl)
         {
             var fb = new FacebookClient();
-            var encoding = new ASCIIEncoding();
             var state = Guid.NewGuid().ToString();
   
             var loginUrl = fb.GetLoginUrl(new
@@ -97,7 +95,7 @@ namespace STrackerServer.Controllers
                     redirect_uri = this.CallbackUri,
                     response_type = "code",
                     scope = Permissions,
-                    state = MD5.Create().ComputeHash(encoding.GetBytes(state))
+                    state
                 });
 
             var jsonValue = new JavaScriptSerializer().Serialize(new CallbackCookie
@@ -140,7 +138,7 @@ namespace STrackerServer.Controllers
         {
             var cookie = Request.Cookies[StateCookie];
 
-            if (cookie == null)
+            if (code == null || cookie == null)
             {
                 this.Response.StatusCode = (int)HttpStatusCode.Forbidden;
                 return this.View("Error", (int)HttpStatusCode.Forbidden);
@@ -148,9 +146,7 @@ namespace STrackerServer.Controllers
 
             var callbackCookie = new JavaScriptSerializer().Deserialize<CallbackCookie>(cookie.Value);
 
-            var encoding = new ASCIIEncoding();
-
-            if (state.Equals(MD5.Create().ComputeHash(encoding.GetBytes(callbackCookie.State)).ToString())) 
+            if (!state.Equals(callbackCookie.State)) 
             {
                 Response.StatusCode = (int)HttpStatusCode.Forbidden;
                 return this.View("Error", (int)HttpStatusCode.Forbidden);
@@ -162,7 +158,7 @@ namespace STrackerServer.Controllers
             {
                 var fb = new FacebookClient(); 
 
-                dynamic result = fb.Post(
+                dynamic result = fb.Get(
                     "oauth/access_token",
                     new
                     {
@@ -178,13 +174,12 @@ namespace STrackerServer.Controllers
 
                 user = new User(me.email) { Name = me.name, Photo = new Artwork { ImageUrl = me.picture.data.url } };
             }
-            catch (Exception /*or only FacebookOAuthException???*/)
+            catch (FacebookOAuthException)
             {
                 this.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View("Error", (int)HttpStatusCode.BadRequest);
             }
-            
-            // False - Error while trying to update
+           
             if (!this.usersOperations.VerifyAndSave(user))
             {
                 this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
@@ -196,7 +191,9 @@ namespace STrackerServer.Controllers
             
             FormsAuthentication.SetAuthCookie(user.Key, false);
 
-            return callbackCookie.ReturnUrl == null ? new SeeOtherResult { Url = Url.Action("Index", "HomeWeb") } : new SeeOtherResult { Url = callbackCookie.ReturnUrl };
+            return callbackCookie.ReturnUrl == null ? 
+                new SeeOtherResult { Url = Url.Action("Index", "HomeWeb") } : 
+                new SeeOtherResult { Url = callbackCookie.ReturnUrl };
         }
 
         /// <summary>

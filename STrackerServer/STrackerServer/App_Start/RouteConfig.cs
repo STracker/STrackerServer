@@ -30,7 +30,22 @@ namespace STrackerServer.App_Start
             routes.MapRoute("UserView", "User/{action}", new { controller = "UsersWeb" });
 
             routes.MapRoute("Account_Login", "Account/Login", new { controller = "Account", action = "Login", returnUrl = UrlParameter.Optional });
-            routes.MapRoute("Account_Callback", "Account/Callback", new { controller = "Account", action = "Callback" });
+
+            routes.MapRoute(
+                "Account_Callback",
+                "Account/Callback",
+                new
+                {
+                    controller = "Account",
+                    action = "Callback",
+                    code = UrlParameter.Optional,
+                    error = UrlParameter.Optional,
+                    error_code = UrlParameter.Optional,
+                    error_description = UrlParameter.Optional,
+                    error_reason = UrlParameter.Optional
+                }
+            );
+
             routes.MapRoute("Account_Logout", "Account/Logout", new { controller = "Account", action = "Logout" });
 
             routes.MapRoute("TvShowsWeb_Show", "TvShows/{tvshowId}", new { controller = "TvShowsWeb", action = "Show" });
