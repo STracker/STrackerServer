@@ -29,5 +29,21 @@ namespace STrackerServer.DataAccessLayer.Core
         /// The <see cref="bool"/>.
         /// </returns>
         bool CreateAll(IEnumerable<Episode> episodes);
+
+        /// <summary>
+        /// The get all from one season.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// The season number.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>IEnumerable</cref>
+        ///     </see> .
+        /// </returns>
+        IEnumerable<Episode.EpisodeSynopsis> GetAllFromOneSeason(string tvshowId, int seasonNumber);
     }
 }

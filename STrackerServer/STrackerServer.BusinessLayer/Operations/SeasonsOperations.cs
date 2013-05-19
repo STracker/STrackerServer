@@ -69,7 +69,8 @@ namespace STrackerServer.BusinessLayer.Operations
         /// </returns>
         public IEnumerable<Season.SeasonSynopsis> GetAllFromOneTvShow(string tvshowId)
         {
-            return ((ISeasonsRepository)this.Repository).GetAllFromOneTvShow(tvshowId);
+            var tvshow = this.tvshowsOperations.Read(tvshowId);
+            return tvshow == null ? null : ((ISeasonsRepository)this.Repository).GetAllFromOneTvShow(tvshowId);
         }
     }
 }

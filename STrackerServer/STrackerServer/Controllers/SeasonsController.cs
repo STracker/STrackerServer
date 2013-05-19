@@ -10,7 +10,6 @@
 namespace STrackerServer.Controllers
 {
     using System;
-    using System.Collections.Generic;
     using System.Net.Http;
     using System.Web.Http;
 
@@ -63,9 +62,9 @@ namespace STrackerServer.Controllers
         ///     </see> .
         /// </returns>
         [HttpGet]
-        public IEnumerable<Season.SeasonSynopsis> GetAll(string tvshowId)
+        public HttpResponseMessage GetAll(string tvshowId)
         {
-            return ((ISeasonsOperations)this.Operations).GetAllFromOneTvShow(tvshowId);
+            return this.BaseGet(((ISeasonsOperations)this.Operations).GetAllFromOneTvShow(tvshowId));
         }   
     }
 }

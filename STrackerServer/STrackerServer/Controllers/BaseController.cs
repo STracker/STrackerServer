@@ -46,20 +46,23 @@ namespace STrackerServer.Controllers
         /// <summary>
         /// Auxiliary method for Get operations.
         /// </summary>
-        /// <param name="entity">
-        /// The entity.
+        /// <typeparam name="TT">
+        /// Type of the object.
+        /// </typeparam>
+        /// <param name="obj">
+        /// The object.
         /// </param>
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
-        protected HttpResponseMessage BaseGet(T entity)
+        protected HttpResponseMessage BaseGet<TT>(TT obj)
         {
-            if (Equals(entity, default(T)))
+            if (Equals(obj, default(T)))
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, entity);
+            return Request.CreateResponse(HttpStatusCode.OK, obj);
         }
     }
 }

@@ -219,15 +219,8 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </returns>
         public IEnumerable<Season.SeasonSynopsis> GetAllFromOneTvShow(string tvshowId)
         {
-            var collection = this.Database.GetCollection(tvshowId);
-            var query = Query<Season>.EQ(s => s.TvShowId, tvshowId);
-            var cursor = collection.FindAs<Season>(query);
-
-            /*
-             * Because television show document have also the TvShowId it will be returned. Needed to select all except the first document
-             * wich is the television show document.
-             */
-            return cursor.Select(season => season.GetSynopsis()).ToList().Where(season => season.SeasonNumber > 0);
+            var tvshow = this.tvshowsRepository.Read(tvshowId);
+            return tvshow.SeasonSynopses;
         }
     }
 }

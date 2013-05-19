@@ -10,6 +10,7 @@
 namespace STrackerServer.BusinessLayer.Operations
 {
     using System;
+    using System.Collections.Generic;
 
     using STrackerServer.BusinessLayer.Core;
     using STrackerServer.DataAccessLayer.Core;
@@ -53,6 +54,26 @@ namespace STrackerServer.BusinessLayer.Operations
         {
             var season = this.seasonsOperations.Read(new Tuple<string, int>(id.Item1, id.Item2));
             return (season == null) ? null : this.Repository.Read(id);
+        }
+
+        /// <summary>
+        /// The get all from one season.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// The season number.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>IEnumerable</cref>
+        ///     </see> .
+        /// </returns>
+        public IEnumerable<Episode.EpisodeSynopsis> GetAllFromOneSeason(string tvshowId, int seasonNumber)
+        {
+            var season = this.seasonsOperations.Read(new Tuple<string, int>(tvshowId, seasonNumber));
+            return season == null ? null : ((IEpisodesRepository)this.Repository).GetAllFromOneSeason(tvshowId, seasonNumber);
         }
     }
 }

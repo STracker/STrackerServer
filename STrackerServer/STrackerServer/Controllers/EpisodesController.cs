@@ -52,5 +52,23 @@ namespace STrackerServer.Controllers
         {
             return this.BaseGet(this.Operations.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, number)));
         }
+
+        /// <summary>
+        /// The get all.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// The season number.
+        /// </param>
+        /// <returns>
+        /// The <see cref="HttpResponseMessage"/>.
+        /// </returns>
+        [HttpGet]
+        public HttpResponseMessage GetAll(string tvshowId, int seasonNumber)
+        {
+            return this.BaseGet(((IEpisodesOperations)this.Operations).GetAllFromOneSeason(tvshowId, seasonNumber));
+        }
     }
 }
