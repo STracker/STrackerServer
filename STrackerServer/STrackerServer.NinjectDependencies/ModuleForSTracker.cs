@@ -58,7 +58,7 @@ namespace STrackerServer.NinjectDependencies
 
             // Queue dependencies...
             this.Bind<ConnectionFactory>().ToSelf().InSingletonScope().WithPropertyValue("Uri", ConfigurationManager.AppSettings["RabbitMQUri"]);
-            this.Bind<QueueManager>().ToSelf();
+            this.Bind<QueueManager>().ToSelf().InSingletonScope();
         }
     }
 }
