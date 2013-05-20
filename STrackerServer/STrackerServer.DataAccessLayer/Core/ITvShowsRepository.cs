@@ -19,7 +19,7 @@ namespace STrackerServer.DataAccessLayer.Core
     public interface ITvShowsRepository : IRepository<TvShow, string>
     {
         /// <summary>
-        /// Get all television shows with genre equals to argument genre.
+        /// The read all by genre.
         /// </summary>
         /// <param name="genre">
         /// The genre.
@@ -29,7 +29,7 @@ namespace STrackerServer.DataAccessLayer.Core
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        IEnumerable<TvShow> ReadAllByGenre(Genre genre);
+        IEnumerable<TvShow.TvShowSynopsis> ReadAllByGenre(string genre);
 
         /// <summary>
         /// The read by name.

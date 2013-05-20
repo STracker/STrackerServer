@@ -3,145 +3,49 @@
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  Implementation of genres enumerator.
+//  Implementation of genre domain entity.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace STrackerServer.DataAccessLayer.DomainEntities
 {
+    using System.Collections.Generic;
+
+    using STrackerServer.DataAccessLayer.Core;
+
     /// <summary>
     /// The genre.
     /// </summary>
-    public enum Genre
+    public class Genre : IEntity<string>
     {
         /// <summary>
-        /// Action Genre.
+        /// Initializes a new instance of the <see cref="Genre"/> class.
         /// </summary>
-        Action,
+        public Genre()
+        {
+            this.TvshowsSynopses = new List<TvShow.TvShowSynopsis>();
+        }
 
         /// <summary>
-        /// Adventure Genre.
+        /// Initializes a new instance of the <see cref="Genre"/> class.
         /// </summary>
-        Adventure,
+        /// <param name="name">
+        /// The name of the genre.
+        /// </param>
+        public Genre(string name)
+        {
+            this.Key = name;
+            this.TvshowsSynopses = new List<TvShow.TvShowSynopsis>();
+        }
 
         /// <summary>
-        /// Animation Genre.
+        /// Gets or sets the key.
         /// </summary>
-        Animation,
+        public string Key { get;  set; }
 
         /// <summary>
-        /// Biography Genre.
+        /// Gets or sets the television shows synopses.
         /// </summary>
-        Biography,
-
-        /// <summary>
-        /// Comedy Genre.
-        /// </summary>
-        Comedy,
-
-        /// <summary>
-        /// Crime Genre.
-        /// </summary>
-        Crime,
-
-        /// <summary>
-        /// Documentary Genre.
-        /// </summary>
-        Documentary,
-
-        /// <summary>
-        /// Drama Genre.
-        /// </summary>
-        Drama,
-
-        /// <summary>
-        /// Family Genre.
-        /// </summary>
-        Family,
-
-        /// <summary>
-        /// Fantasy Genre.
-        /// </summary>
-        Fantasy,
-
-        /// <summary>
-        /// Film-Noir Genre.
-        /// </summary>
-        FilmNoir,
-
-        /// <summary>
-        /// Game-Show Genre.
-        /// </summary>
-        GameShow,
-
-        /// <summary>
-        /// History  Genre.
-        /// </summary>
-        History,
-
-        /// <summary>
-        /// Horror  Genre.
-        /// </summary>
-        Horror,
-
-        /// <summary>
-        /// Music Genre.
-        /// </summary>
-        Music,
-
-        /// <summary>
-        /// Musical Genre.
-        /// </summary>
-        Musical,
-
-        /// <summary>
-        /// Mystery Genre.
-        /// </summary>
-        Mystery,
-
-        /// <summary>
-        /// News Genre.
-        /// </summary>
-        News,
-
-        /// <summary>
-        /// Reality-TV Genre.
-        /// </summary>
-        RealityTv,
-
-        /// <summary>
-        /// Romance Genre.
-        /// </summary>
-        Romance,
-
-        /// <summary>
-        /// Sci-Fi Genre.
-        /// </summary>
-        SciFi,
-
-        /// <summary>
-        /// Sport Genre.
-        /// </summary>
-        Sport,
-
-        /// <summary>
-        /// Talk Show Genre.
-        /// </summary>
-        TalkShow,
-
-        /// <summary>
-        /// Thriller Genre.
-        /// </summary>
-        Thriller,
-
-        /// <summary>
-        /// War Genre.
-        /// </summary>
-        War,
-
-        /// <summary>
-        /// Western Genre.
-        /// </summary>
-        Western
+        public List<TvShow.TvShowSynopsis> TvshowsSynopses { get; set; }  
     }
 }

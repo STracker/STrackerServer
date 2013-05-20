@@ -55,7 +55,7 @@ namespace STrackerServer.Models.TvShow
         /// <summary>
         /// Gets or sets the genres.
         /// </summary>
-        public List<Genre> Genres { get; set; }
+        public List<string> Genres { get; set; }
 
         /// <summary>
         /// Gets or sets the rating.

@@ -19,7 +19,7 @@ namespace STrackerServer.BusinessLayer.Core
     public interface ITvShowsOperations : ICrudOperations<TvShow, string>
     {
         /// <summary>
-        /// Get all television shows by genre.
+        /// The read all by genre.
         /// </summary>
         /// <param name="genre">
         /// The genre.
@@ -29,7 +29,7 @@ namespace STrackerServer.BusinessLayer.Core
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        IEnumerable<TvShow> ReadAllByGenre(Genre genre);
+        IEnumerable<TvShow.TvShowSynopsis> ReadAllByGenre(string genre);
 
         /// <summary>
         /// Try Get one television show by name.

@@ -23,7 +23,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// </summary>
         public Media()
         {
-            this.Genres = new List<Genre>();
+            this.Genres = new List<string>();
             this.Artworks = new List<Artwork>();
             this.Actors = new List<Actor>();
         }
@@ -38,7 +38,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         {
             this.Key = key;
 
-            this.Genres = new List<Genre>();
+            this.Genres = new List<string>();
             this.Artworks = new List<Artwork>();
             this.Actors = new List<Actor>();
         }
@@ -61,7 +61,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// <summary>
         /// Gets or sets the genres.
         /// </summary>
-        public List<Genre> Genres { get; set; }
+        public List<string> Genres { get; set; }
 
         /// <summary>
         /// Gets or sets the rating.

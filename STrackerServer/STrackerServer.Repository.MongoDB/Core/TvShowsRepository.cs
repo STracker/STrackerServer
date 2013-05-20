@@ -12,6 +12,7 @@ namespace STrackerServer.Repository.MongoDB.Core
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using global::MongoDB.Bson.Serialization;
     using global::MongoDB.Driver;
@@ -27,9 +28,14 @@ namespace STrackerServer.Repository.MongoDB.Core
     public class TvShowsRepository : BaseRepository<TvShow, string>, ITvShowsRepository
     {
         /// <summary>
-        /// The database name for television show synopsis documents.
+        /// The collection name for television show synopsis documents.
         /// </summary>
-        private const string DatabaseNameForSynopsis = "Tvshows";
+        private const string CollectionNameForSynopsis = "Tvshows";
+
+        /// <summary>
+        /// The collection name for genres.
+        /// </summary>
+        private const string CollectionNameForGenres = "TvshowsGenres";
 
         /// <summary>
         /// Initializes static members of the <see cref="TvShowsRepository"/> class.
@@ -50,22 +56,32 @@ namespace STrackerServer.Repository.MongoDB.Core
                 BsonClassMap.RegisterClassMap<User>();
             }
 
-            if (BsonClassMap.IsClassMapRegistered(typeof(Media)))
+            if (!BsonClassMap.IsClassMapRegistered(typeof(Media)))
+            {
+                BsonClassMap.RegisterClassMap<Media>(
+               cm =>
+               {
+                   cm.AutoMap();
+                   cm.UnmapProperty(c => c.Key);
+
+                   // ignoring _id field when deserialize.
+                   cm.SetIgnoreExtraElementsIsInherited(true);
+                   cm.SetIgnoreExtraElements(true);
+               });
+                BsonClassMap.RegisterClassMap<TvShow>();
+            }
+
+            if (BsonClassMap.IsClassMapRegistered(typeof(Genre)))
             {
                 return;
             }
 
-            BsonClassMap.RegisterClassMap<Media>(
+            BsonClassMap.RegisterClassMap<Genre>( 
                 cm =>
                     {
                         cm.AutoMap();
-                        cm.UnmapProperty(c => c.Key);
-
-                        // ignoring _id field when deserialize.
-                        cm.SetIgnoreExtraElementsIsInherited(true);
-                        cm.SetIgnoreExtraElements(true);
+                        cm.SetIdMember(cm.GetMemberMap(g => g.Key));
                     });
-            BsonClassMap.RegisterClassMap<TvShow>();
         }
 
         /// <summary>
@@ -96,14 +112,28 @@ namespace STrackerServer.Repository.MongoDB.Core
             var collection = Database.GetCollection(entity.Key);
 
             // Get the collection that have all references for all television shows.
-            var collectionAll = Database.GetCollection(DatabaseNameForSynopsis);
+            var collectionAll = Database.GetCollection(CollectionNameForSynopsis);
 
             // Ensure indexes for collections
             collection.EnsureIndex(new IndexKeysBuilder().Ascending("TvShowId", "SeasonNumber", "EpisodeNumber"), IndexOptions.SetUnique(true));
             collectionAll.EnsureIndex(new IndexKeysBuilder().Ascending("Name"));
 
             // The order is relevant because mongo don't ensure transactions.
-            return collection.Insert(entity).Ok && collectionAll.Insert(entity.GetSynopsis()).Ok;
+            if (!collection.Insert(entity).Ok || !collectionAll.Insert(entity.GetSynopsis()).Ok)
+            {
+                return false;
+            }
+
+            var collectionGenres = Database.GetCollection(CollectionNameForGenres);
+            foreach (var entityGenre in entity.Genres.Select(genre => new Genre(genre)))
+            {
+                entityGenre.TvshowsSynopses.Add(entity.GetSynopsis());
+
+                // Save method update or create the document if don't exists.
+                collectionGenres.Save(entityGenre);
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -161,11 +191,23 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </returns>
         public override bool HookDelete(string key)
         {
-            return this.Database.DropCollection(key).Ok;
+            var tvshow = this.Read(key);
+
+            var collectionGenres = Database.GetCollection(CollectionNameForGenres);
+            foreach (var entityGenre in tvshow.Genres.Select(genre => collectionGenres.FindOneByIdAs<Genre>(genre)))
+            {
+                entityGenre.TvshowsSynopses.Remove(tvshow.GetSynopsis());
+                collectionGenres.Save(entityGenre);
+            }
+
+            var collectionAll = Database.GetCollection(CollectionNameForSynopsis);
+            var query = Query<TvShow.TvShowSynopsis>.EQ(tv => tv.Id, key);
+           
+            return this.Database.DropCollection(key).Ok && collectionAll.FindAndRemove(query, SortBy.Null).Ok;
         }
 
         /// <summary>
-        /// The get all by genre.
+        /// The read all by genre.
         /// </summary>
         /// <param name="genre">
         /// The genre.
@@ -175,9 +217,18 @@ namespace STrackerServer.Repository.MongoDB.Core
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        public IEnumerable<TvShow> ReadAllByGenre(Genre genre)
+        public IEnumerable<TvShow.TvShowSynopsis> ReadAllByGenre(string genre)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var collectionGenres = Database.GetCollection(CollectionNameForGenres);
+                return collectionGenres.FindOneByIdAs<Genre>(genre).TvshowsSynopses;
+            }
+            catch (Exception)
+            {
+                // TODO, add to log mechanism.
+                return null;
+            }
         }
 
         /// <summary>
@@ -191,7 +242,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </returns>
         public TvShow ReadByName(string name)
         {
-            var collection = Database.GetCollection<TvShow.TvShowSynopsis>(DatabaseNameForSynopsis);
+            var collection = Database.GetCollection<TvShow.TvShowSynopsis>(CollectionNameForSynopsis);
             var query = Query<TvShow.TvShowSynopsis>.EQ(e => e.Name, name);
 
             try

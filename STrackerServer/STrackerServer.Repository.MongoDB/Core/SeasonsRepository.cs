@@ -219,8 +219,16 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </returns>
         public IEnumerable<Season.SeasonSynopsis> GetAllFromOneTvShow(string tvshowId)
         {
-            var tvshow = this.tvshowsRepository.Read(tvshowId);
-            return tvshow.SeasonSynopses;
+            try
+            {
+                var tvshow = this.tvshowsRepository.Read(tvshowId);
+                return tvshow.SeasonSynopses;
+            }
+            catch (Exception)
+            {
+                // TODO, add to log mechanism.
+                return null;
+            }
         }
     }
 }

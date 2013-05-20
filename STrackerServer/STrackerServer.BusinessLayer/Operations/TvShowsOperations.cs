@@ -65,7 +65,7 @@ namespace STrackerServer.BusinessLayer.Operations
         }
 
         /// <summary>
-        /// Get television shows by genre.
+        /// The read all by genre.
         /// </summary>
         /// <param name="genre">
         /// The genre.
@@ -75,7 +75,7 @@ namespace STrackerServer.BusinessLayer.Operations
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        public IEnumerable<TvShow> ReadAllByGenre(Genre genre)
+        public IEnumerable<TvShow.TvShowSynopsis> ReadAllByGenre(string genre)
         {
             return ((ITvShowsRepository)this.Repository).ReadAllByGenre(genre);
         }
