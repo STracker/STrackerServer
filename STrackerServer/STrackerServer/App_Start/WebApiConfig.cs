@@ -23,8 +23,7 @@ namespace STrackerServer.App_Start
         {
             // Routes for tvshows.
             config.Routes.MapHttpRoute("tvshow_get", "api/tvshows/{id}", new { controller = "tvshows", action = "get" });
-            config.Routes.MapHttpRoute("tvshow_getByName", "api/tvshows", new { controller = "tvshows", action = "getbyname" });
-            config.Routes.MapHttpRoute("tvshow_geAllByGenre", "api/tvshows", new { controller = "tvshows", action = "getallbygenre" });
+            config.Routes.MapHttpRoute("tvshow_geAllByGenre", "api/tvshows", new { controller = "tvshows" });
 
             // Routes for seasons.
             config.Routes.MapHttpRoute("season_getAll", "api/tvshows/{tvshowId}/seasons", new { controller = "seasons", action = "getall" });

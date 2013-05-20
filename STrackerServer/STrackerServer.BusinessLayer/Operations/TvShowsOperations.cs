@@ -77,7 +77,7 @@ namespace STrackerServer.BusinessLayer.Operations
         /// </returns>
         public IEnumerable<TvShow.TvShowSynopsis> ReadAllByGenre(string genre)
         {
-            return ((ITvShowsRepository)this.Repository).ReadAllByGenre(genre);
+            return ((ITvShowsRepository)this.Repository).ReadAllByGenre(genre.ToLower());
         }
 
         /// <summary>

@@ -125,12 +125,21 @@ namespace STrackerServer.Repository.MongoDB.Core
             }
 
             var collectionGenres = Database.GetCollection(CollectionNameForGenres);
-            foreach (var entityGenre in entity.Genres.Select(genre => new Genre(genre)))
+            foreach (var genre in entity.Genres)
             {
-                entityGenre.TvshowsSynopses.Add(entity.GetSynopsis());
+                var doc = collectionGenres.FindOneByIdAs<Genre>(genre);
+                if (doc == null)
+                {
+                    var genreInsert = new Genre(genre);
+                    genreInsert.TvshowsSynopses.Add(entity.GetSynopsis());
+                    collectionGenres.Insert(genreInsert);
+                    continue;
+                }
 
-                // Save method update or create the document if don't exists.
-                collectionGenres.Save(entityGenre);
+                doc.TvshowsSynopses.Add(entity.GetSynopsis());
+                var query = Query<Genre>.EQ(g => g.Key, genre);
+                var update = Update<Genre>.Set(g => g.TvshowsSynopses, doc.TvshowsSynopses);
+                collectionGenres.Update(query, update);
             }
 
             return true;
