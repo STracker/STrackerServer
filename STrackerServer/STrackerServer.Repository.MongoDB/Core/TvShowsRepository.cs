@@ -127,17 +127,17 @@ namespace STrackerServer.Repository.MongoDB.Core
             var collectionGenres = Database.GetCollection(CollectionNameForGenres);
             foreach (var genre in entity.Genres)
             {
-                var doc = collectionGenres.FindOneByIdAs<Genre>(genre);
+                var doc = collectionGenres.FindOneByIdAs<Genre>(genre.ToLower());
                 if (doc == null)
                 {
-                    var genreInsert = new Genre(genre);
+                    var genreInsert = new Genre(genre.ToLower());
                     genreInsert.TvshowsSynopses.Add(entity.GetSynopsis());
                     collectionGenres.Insert(genreInsert);
                     continue;
                 }
 
                 doc.TvshowsSynopses.Add(entity.GetSynopsis());
-                var query = Query<Genre>.EQ(g => g.Key, genre);
+                var query = Query<Genre>.EQ(g => g.Key, genre.ToLower());
                 var update = Update<Genre>.Set(g => g.TvshowsSynopses, doc.TvshowsSynopses);
                 collectionGenres.Update(query, update);
             }
@@ -203,8 +203,10 @@ namespace STrackerServer.Repository.MongoDB.Core
             var tvshow = this.Read(key);
 
             var collectionGenres = Database.GetCollection(CollectionNameForGenres);
-            foreach (var entityGenre in tvshow.Genres.Select(genre => collectionGenres.FindOneByIdAs<Genre>(genre)))
+            foreach (var entityGenre in tvshow.Genres.Select(genre => collectionGenres.FindOneByIdAs<Genre>(genre.ToLower())))
             {
+                var synopse = entityGenre.TvshowsSynopses.FirstOrDefault(tv => tv.Id == tvshow.TvShowId);
+                entityGenre.TvshowsSynopses.Remove(synopse);
                 entityGenre.TvshowsSynopses.Remove(tvshow.GetSynopsis());
                 collectionGenres.Save(entityGenre);
             }

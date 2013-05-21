@@ -70,6 +70,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Operations.Tests\EpisodesOperationsTests.cs" />
+    <Compile Include="Operations.Tests\SeasonsOperations.cs" />
     <Compile Include="Operations.Tests\TvShowsOperations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

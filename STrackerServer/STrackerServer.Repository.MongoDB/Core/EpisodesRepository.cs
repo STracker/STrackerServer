@@ -131,17 +131,10 @@ namespace STrackerServer.Repository.MongoDB.Core
         public override bool HookUpdate(Episode entity)
         {
             var collection = Database.GetCollection(entity.TvShowId);
+            var query = Query.And(Query<Episode>.EQ(e => e.TvShowId, entity.TvShowId), Query<Episode>.EQ(e => e.SeasonNumber, entity.SeasonNumber), Query<Episode>.EQ(e => e.EpisodeNumber, entity.EpisodeNumber));
+            var update = Update<Episode>.Set(e => e.Rating, entity.Rating);
 
-            // Update the object synopse.
-            var season = this.seasonsRepository.Read(new Tuple<string, int>(entity.TvShowId, entity.EpisodeNumber));
-            var synopse = season.EpisodeSynopses.Find(e => e.EpisodeNumber == entity.EpisodeNumber);       
-            if (synopse == null)
-            {
-                return collection.Save(entity).Ok;
-            }
-
-            synopse.Name = entity.Name;
-            return collection.Save(entity).Ok && this.seasonsRepository.Update(season);
+            return collection.Update(query, update).Ok;
         }
 
         /// <summary>

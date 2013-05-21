@@ -96,7 +96,7 @@ namespace STrackerServer.BusinessLayer.Operations
             {
                 return tvshow;
             }
-
+            // try catch aqui
             queueM.Push(new Message { CommandName = "name", Arg = name });
             return null;
         }
