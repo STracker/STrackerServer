@@ -9,13 +9,13 @@
 
 namespace STrackerServer.Controllers
 {
+    using System.Linq;
     using System.Net;
     using System.Web.Mvc;
-    using BusinessLayer.Core;
 
-    using Models.TvShow;
-
+    using STrackerServer.BusinessLayer.Core;
     using STrackerServer.Custom_action_results;
+    using STrackerServer.Models.TvShow;
 
     /// <summary>
     /// The television shows web controller.
@@ -28,14 +28,23 @@ namespace STrackerServer.Controllers
         private readonly ITvShowsOperations tvshowOps;
 
         /// <summary>
+        /// The user operations.
+        /// </summary>
+        private readonly IUsersOperations userOps;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TvShowsWebController"/> class.
         /// </summary>
         /// <param name="tvshowOps">
-        /// The operations.
+        /// The television show operations.
         /// </param>
-        public TvShowsWebController(ITvShowsOperations tvshowOps)
+        /// <param name="userOps">
+        /// The user operations.
+        /// </param>
+        public TvShowsWebController(ITvShowsOperations tvshowOps, IUsersOperations userOps)
         {
             this.tvshowOps = tvshowOps;
+            this.userOps = userOps;
         }
 
         /// <summary>
@@ -58,7 +67,15 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            var model = new TvShowView(tvshow);
+            var isSubscribed = false;
+
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = this.userOps.Read(User.Identity.Name);
+                isSubscribed = user.SubscriptionList.Any(synopsis => synopsis.Id.Equals(tvshowId));
+            }
+
+            var model = new TvShowView(tvshow, isSubscribed);
             return this.View(model);
         }
 

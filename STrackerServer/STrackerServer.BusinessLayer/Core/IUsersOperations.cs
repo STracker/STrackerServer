@@ -26,5 +26,33 @@ namespace STrackerServer.BusinessLayer.Core
         /// The <see cref="bool"/>.
         /// </returns>
         bool VerifyAndSave(User user);
+
+        /// <summary>
+        /// The add subscription.
+        /// </summary>
+        /// <param name="userId">
+        /// The user id.
+        /// </param>
+        /// <param name="tvshowId">
+        /// The television show.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool AddSubscription(string userId, string tvshowId);
+
+        /// <summary>
+        /// The remove subscription.
+        /// </summary>
+        /// <param name="userId">
+        /// The name.
+        /// </param>
+        /// <param name="tvshowId">
+        /// The television show.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool RemoveSubscription(string userId, string tvshowId);
     }
 }

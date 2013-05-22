@@ -18,7 +18,7 @@ namespace STrackerServer.DataAccessLayer.Core
     /// <typeparam name="TK">
     /// Type of entity's Key.
     /// </typeparam>
-    public interface IRepository<T, in TK> where T : IEntity<TK>
+    public interface IRepository<T, in TK>
     {
         /// <summary>
         /// The create.

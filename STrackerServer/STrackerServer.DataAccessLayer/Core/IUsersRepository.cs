@@ -16,6 +16,57 @@ namespace STrackerServer.DataAccessLayer.Core
     /// </summary>
     public interface IUsersRepository : IRepository<User, string>
     {
-        // TODO
+        /// <summary>
+        /// Verifies if the user exists.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool Exists(string key);
+
+        /// <summary>
+        /// The add friend.
+        /// </summary>
+        /// <param name="user">
+        /// The user.
+        /// </param>
+        /// <param name="friend">
+        /// The friend.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool AddFriend(User user, User friend);
+
+        /// <summary>
+        /// The add subscription.
+        /// </summary>
+        /// <param name="user">
+        /// The user.
+        /// </param>
+        /// <param name="tvshow">
+        /// The television show.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool AddSubscription(User user, TvShow tvshow);
+
+        /// <summary>
+        /// The remove subscription.
+        /// </summary>
+        /// <param name="user">
+        /// The user.
+        /// </param>
+        /// <param name="tvshow">
+        /// The television show.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool RemoveSubscription(User user, TvShow tvshow);
     }
 }

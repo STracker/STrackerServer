@@ -8,7 +8,19 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span3"> 
-            <img class="img-rounded" src="@Model.Artwork.ImageUrl" alt="No Artwork"/>      
+            <img class="img-rounded" src="@Model.Artwork.ImageUrl" alt="No Artwork"/>  
+            
+            <div class="extra-padding">
+                <div class="box">
+                    @if (!User.Identity.IsAuthenticated || !Model.IsSubscribed)
+                    {              
+                        using(Html.BeginForm("Subscribe","UsersWeb", new { tvshowId = Model.TvShowId }))
+                        {
+                            <input class="btn-link" type="submit" value="Subscribe"/>
+                        }
+                    } 
+                </div>
+            </div>             
         </div>
         <div class="span9">
             <div class="box">

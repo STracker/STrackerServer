@@ -23,7 +23,10 @@ namespace STrackerServer.Models.TvShow
         /// <param name="tvshow">
         /// The television show.
         /// </param>
-        public TvShowView(TvShow tvshow)
+        /// <param name="isSubscribed">
+        /// The user is subscribed.
+        /// </param>
+        public TvShowView(TvShow tvshow, bool isSubscribed)
         {
             this.TvShowId = tvshow.TvShowId;
             this.Name = tvshow.Name;
@@ -35,7 +38,13 @@ namespace STrackerServer.Models.TvShow
             this.Runtime = tvshow.Runtime;
             this.Creator = tvshow.Creator;
             this.SeasonSynopses = tvshow.SeasonSynopses;
+            this.IsSubscribed = isSubscribed;
         }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the user is subscribed.
+        /// </summary>
+        public bool IsSubscribed { get; set; }
 
         /// <summary>
         /// Gets or sets the television show IMDB id.

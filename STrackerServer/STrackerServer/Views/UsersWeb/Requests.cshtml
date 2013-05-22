@@ -1,0 +1,45 @@
+﻿@model List<STrackerServer.Models.User.FriendRequestView>
+
+@{
+    ViewBag.Title = "Friend Requests";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span8">     
+            <div class="box">  
+                <h3>Friend Requests</h3>
+                <div class="extra-padding">
+                    <table class="table">
+                        @foreach (var request in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <img class="icon-actor" src="@request.Picture" alt="No Artwork"/> 
+                                </td>
+                                <td>
+                                    @request.Name
+                                </td>
+                                <td>
+                                    @using(Html.BeginForm("AcceptRequest","UsersWeb", new { id = request.Id }))
+                                    {
+                                        @Html.Hidden("accept", true)
+                                        <input class="btn-link" type="submit" value="Accept"/>
+                                    }
+                                </td>
+                                <td>
+                                    @using (Html.BeginForm("AcceptRequest", "UsersWeb", new { id = request.Id }))
+                                    {
+                                        @Html.Hidden("accept", false)
+                                        <input class="btn-link" type="submit" value="Reject"/>
+                                    }
+                                </td>
+                            </tr>  
+                        }
+                    </table>
+                </div>               
+            </div>     
+        </div>
+    </div>
+</div>

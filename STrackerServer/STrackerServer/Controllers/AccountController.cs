@@ -55,23 +55,39 @@ namespace STrackerServer.Controllers
         private readonly IUsersOperations usersOperations;
 
         /// <summary>
+        /// Friend request operations.
+        /// </summary>
+        private readonly IFriendRequestOperations friendRequestOperations;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="AccountController"/> class.
         /// </summary>
         /// <param name="usersOperations">
         /// The users operations.
         /// </param>
-        public AccountController(IUsersOperations usersOperations)
+        /// <param name="friendRequestOperations">
+        /// The friend request operations.
+        /// </param>
+        public AccountController(IUsersOperations usersOperations, IFriendRequestOperations friendRequestOperations)
         {
             this.usersOperations = usersOperations;
+            this.friendRequestOperations = friendRequestOperations;
         }
 
         /// <summary>
         /// Gets the callback uri.
         /// </summary>
         /// Attention! This property must be called when exists one http request.
-        private string CallbackUri
+        /*private string CallbackUri
         {
             get { return "http://" + Request.Url.Host + Url.Action("Callback"); }
+        }*/
+        private string CallbackUri
+        {
+            get
+            {
+                return Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Callback");
+            }
         }
 
         /// <summary>
@@ -170,9 +186,9 @@ namespace STrackerServer.Controllers
 
                 fb.AccessToken = result.access_token;
 
-                dynamic me = fb.Get("me?fields=name,email,picture");
-
-                user = new User(me.email) { Name = me.name, Photo = new Artwork { ImageUrl = me.picture.data.url } };
+                dynamic me = fb.Get("me?fields=id,name,email,picture");
+                string picture = string.Format("https://graph.facebook.com/{0}/picture?type=large", me.id);
+                user = new User(me.id) { Email = me.email, Name = me.name, Photo = new Artwork { ImageUrl = picture } };
             }
             catch (FacebookOAuthException)
             {
@@ -186,6 +202,8 @@ namespace STrackerServer.Controllers
                 return this.View("Error", (int)HttpStatusCode.InternalServerError);
             }
             
+            this.friendRequestOperations.Refresh(user.Key);
+
             cookie.Expires = DateTime.Now.AddDays(-1d);
             Response.Cookies.Add(cookie);
             

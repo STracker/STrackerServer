@@ -1,0 +1,42 @@
+﻿@model STrackerServer.Models.User.UserPublicView
+
+@{
+    ViewBag.Title = Model.Name;
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span2"> 
+            <img class="img-rounded" src="@Model.PictureUrl" alt="No Artwork"/>  
+            
+            <div class="extra-padding">
+                <div class="box">
+
+                    @if (User.Identity.IsAuthenticated && !Model.IsFriend)
+                    {              
+                        using(Html.BeginForm("Invite","UsersWeb", new { id = Model.Id }))
+                        {
+                            <input class="btn-link" type="submit" value="Invite"/>
+                        }
+                    } 
+                </div>
+            </div>       
+        </div>
+        <div class="span9">        
+            <div class="box">
+                <h2>Subscriptions</h2>
+                <table class="table">
+                    @foreach(var sub in Model.SubscriptionList)
+                    {
+                        <tr>
+                            <td> 
+                                @sub.Name
+                            </td>
+                        </tr>  
+                    }
+                </table>
+            </div>     
+        </div>
+    </div>
+</div>

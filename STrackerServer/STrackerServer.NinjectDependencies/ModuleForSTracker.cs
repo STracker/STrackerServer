@@ -56,6 +56,9 @@ namespace STrackerServer.NinjectDependencies
             this.Bind<IUsersOperations>().To<UsersOperations>();
             this.Bind<IUsersRepository>().To<UsersRepository>();
 
+            this.Bind<IFriendRequestOperations>().To<FriendRequestOperations>();
+            this.Bind<IFriendRequestRepository>().To<FriendRequestRepository>();
+
             // Queue dependencies...
             this.Bind<ConnectionFactory>().ToSelf().InSingletonScope().WithPropertyValue("Uri", ConfigurationManager.AppSettings["RabbitMQUri"]);
             this.Bind<QueueManager>().ToSelf().InSingletonScope();

@@ -7,13 +7,16 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Net;
-
 namespace STrackerServer.Controllers
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
     using System.Web.Mvc;
-    using BusinessLayer.Core;
-
+    using STrackerServer.BusinessLayer.Core;
+    using STrackerServer.Custom_action_results;
+    using STrackerServer.DataAccessLayer.DomainEntities;
+    using STrackerServer.Models.TvShow;
     using STrackerServer.Models.User;
 
     /// <summary>
@@ -28,36 +31,232 @@ namespace STrackerServer.Controllers
         private readonly IUsersOperations usersOperations;
 
         /// <summary>
+        /// The friend request operations.
+        /// </summary>
+        private readonly IFriendRequestOperations friendRequestOperations;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="UsersWebController"/> class.
         /// </summary>
         /// <param name="usersOperations">
         /// The users operations.
         /// </param>
-        public UsersWebController(IUsersOperations usersOperations)
+        /// <param name="friendRequestOperations">
+        /// The friend Request Operations.
+        /// </param>
+        public UsersWebController(IUsersOperations usersOperations, IFriendRequestOperations friendRequestOperations)
         {
             this.usersOperations = usersOperations;
+            this.friendRequestOperations = friendRequestOperations;
         }
 
         /// <summary>
-        /// The user profile.
+        /// The show.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpGet]
+        public ActionResult Show(string id)
+        {
+            if (User.Identity.IsAuthenticated && User.Identity.Name.Equals(id))
+            {
+                return new SeeOtherResult { Url = Url.Action("Index") };
+            }
+
+            var user = this.usersOperations.Read(id);
+            
+            if (user == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            var isFriend = this.User.Identity.IsAuthenticated && user.Friends.Any(synopsis => synopsis.Id.Equals(User.Identity.Name));
+
+            return this.View(new UserPublicView
+            {
+                Id = id,
+                Name = user.Name,
+                PictureUrl = user.Photo.ImageUrl,
+                SubscriptionList = user.SubscriptionList.ConvertAll(input => new SubscriptionView
+                    {
+                        Id = input.Id,
+                        Name = input.Name
+                    }),
+                IsFriend = isFriend
+            });
+        }
+
+        /// <summary>
+        /// The index.
         /// </summary>
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpGet]
-        public new ActionResult Profile()
+        [Authorize]
+        public ActionResult Index()
         {
             var user = this.usersOperations.Read(User.Identity.Name);
 
-            // Isto é possivel??
             if (user == null)
             {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                return this.View("Error");
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return this.View("Error", Response.StatusCode);
             }
 
-            // ------------//
-            return this.View("Profile", new UserView { Email = user.Key, Name = user.Name });
+            return this.View(new UserPrivateView
+            {
+                Id = User.Identity.Name,
+                Name = user.Name,
+                PictureUrl = user.Photo.ImageUrl,
+                SubscriptionList = user.SubscriptionList,
+            });
+        }
+
+        /// <summary>
+        /// The requests.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpGet]
+        [Authorize]
+        public ActionResult Requests()
+        {
+            List<FriendRequest> requests = this.friendRequestOperations.GetRequests(User.Identity.Name);
+
+            if (requests == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            return this.View(requests.ConvertAll(request =>
+                {
+                    User user = usersOperations.Read(request.From);
+                    return new FriendRequestView { Id = request.Key, Name = user.Name, Picture = user.Photo.ImageUrl };
+                }));
+        }
+
+        /// <summary>
+        /// The invite.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpPost]
+        [Authorize]
+        public ActionResult Invite(string id)
+        {
+            if (id.Equals(User.Identity.Name))
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            FriendRequest request = new FriendRequest
+                {
+                    Key = User.Identity.Name + id,
+                    From = User.Identity.Name, 
+                    To = id,
+                    Accepted = false
+                };
+
+            if (!this.friendRequestOperations.Create(request))
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            return new SeeOtherResult { Url = Url.Action("Show", new { id }) };
+        }
+
+        /// <summary>
+        /// The subscribe.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpPost]
+        [Authorize]
+        public ActionResult Subscribe(string tvshowId)
+        {
+            if (!this.usersOperations.AddSubscription(User.Identity.Name, tvshowId))
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            return new SeeOtherResult { Url = Url.Action("Show", "TvShowsWeb", new { tvshowId }) };
+        }
+
+        /// <summary>
+        /// The remove subscription.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpPost]
+        [Authorize]
+        public ActionResult UnSubscribe(string tvshowId)
+        {
+            if (!this.usersOperations.RemoveSubscription(User.Identity.Name, tvshowId))
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            return new SeeOtherResult { Url = Url.Action("Index") };
+        }
+
+        /// <summary>
+        /// The accept request.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <param name="accept">
+        /// The accept.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpPost]
+        [Authorize]
+        public ActionResult AcceptRequest(string id, bool accept)
+        {
+            if (accept)
+            {
+                if (!this.friendRequestOperations.Accept(id, User.Identity.Name))
+                {
+                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return this.View("Error", Response.StatusCode);
+                }
+            }
+            else
+            {
+                if (!this.friendRequestOperations.Reject(id, User.Identity.Name))
+                {
+                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return this.View("Error", Response.StatusCode);
+                }
+            }
+
+            return new SeeOtherResult { Url = Url.Action("Requests") };
         }
     }
 }

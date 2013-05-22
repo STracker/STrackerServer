@@ -117,7 +117,7 @@ namespace STrackerServer.Repository.MongoDB.Core
             // Ensure indexes for collections
             collection.EnsureIndex(new IndexKeysBuilder().Ascending("TvShowId", "SeasonNumber", "EpisodeNumber"), IndexOptions.SetUnique(true));
             collectionAll.EnsureIndex(new IndexKeysBuilder().Ascending("Name"));
-
+            
             // The order is relevant because mongo don't ensure transactions.
             if (!collection.Insert(entity).Ok || !collectionAll.Insert(entity.GetSynopsis()).Ok)
             {
