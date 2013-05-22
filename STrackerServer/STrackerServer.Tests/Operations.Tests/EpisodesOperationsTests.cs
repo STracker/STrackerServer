@@ -60,7 +60,6 @@ namespace STrackerServer.Tests.Operations.Tests
         public void Read()
         {
             var episode = this.operations.Read(new Tuple<string, int, int>("tt0098904", 1, 1));
-
             Assert.AreEqual(episode.Name, "The Seinfeld Chronicles");
             Assert.AreEqual(
                 episode.Description,
