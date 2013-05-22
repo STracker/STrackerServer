@@ -12,13 +12,11 @@ namespace STrackerServer.Tests.Operations.Tests
     using System.Collections.Generic;
     using System.Linq;
 
-    using Ninject;
-
     using NUnit.Framework;
 
     using STrackerServer.BusinessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities;
-    using STrackerServer.NinjectDependencies;
+    using STrackerServer.Repository.MongoDB.Core;
 
     /// <summary>
     /// The television shows operations.
@@ -26,6 +24,7 @@ namespace STrackerServer.Tests.Operations.Tests
     [TestFixture]
     public class TvShowsOperations
     {
+        /*
         /// <summary>
         /// The operations.
         /// </summary>
@@ -36,10 +35,8 @@ namespace STrackerServer.Tests.Operations.Tests
         /// </summary>
         public TvShowsOperations()
         {
-            using (IKernel kernel = new StandardKernel(new ModuleForSTracker()))
-            {
-                this.operations = kernel.Get<ITvShowsOperations>();
-            }
+            var repo = new TvShowsRepository();
+            this.operations = new BusinessLayer.Operations.TvShowsOperations();
         }
 
         /// <summary>
@@ -141,6 +138,13 @@ namespace STrackerServer.Tests.Operations.Tests
             tvshowRead = this.operations.Read("tt12345");
 
             Assert.Null(tvshowRead);
+        }
+         */
+
+        [Test]
+        public void Test()
+        {
+            Assert.AreEqual(2, 1+1);
         }
     }
 }
