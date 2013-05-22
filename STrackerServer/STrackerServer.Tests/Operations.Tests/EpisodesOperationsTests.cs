@@ -83,7 +83,7 @@ namespace STrackerServer.Tests.Operations.Tests
         public void CreateUpdateDelete()
         {
             // Create
-            var tvshow = new TvShow("tt12345")
+            var tvshow = new TvShow("tt12347")
             {
                 Name = "FakeTvShow",
                 Description = "This is a fake television show information for testing...",
@@ -92,13 +92,13 @@ namespace STrackerServer.Tests.Operations.Tests
             };
             this.tvshowsOperations.Create(tvshow);
 
-            var season = new Season(new Tuple<string, int>("tt12345", 1));
+            var season = new Season(new Tuple<string, int>("tt12347", 1));
             this.seasonsoperations.Create(season);
 
-            var episode = new Episode(new Tuple<string, int, int>("tt12345", 1, 1)) { Name = "FakeEpisode", Description = "This is a fake episode" };
+            var episode = new Episode(new Tuple<string, int, int>("tt12347", 1, 1)) { Name = "FakeEpisode", Description = "This is a fake episode" };
             this.operations.Create(episode);
 
-            var episodeRead = this.operations.Read(new Tuple<string, int, int>("tt12345", 1, 1));
+            var episodeRead = this.operations.Read(new Tuple<string, int, int>("tt12347", 1, 1));
 
             Assert.AreEqual(episodeRead.Name, "FakeEpisode");
             Assert.AreEqual(episode.Rating, 0);
@@ -106,27 +106,27 @@ namespace STrackerServer.Tests.Operations.Tests
             // Update
             episode.Rating = 5;
             this.operations.Update(episode);
-            episodeRead = this.operations.Read(new Tuple<string, int, int>("tt12345", 1, 1));
+            episodeRead = this.operations.Read(new Tuple<string, int, int>("tt12347", 1, 1));
 
             Assert.AreEqual(episodeRead.Rating, 5);
 
             // Delete
-            this.operations.Delete(new Tuple<string, int, int>("tt12345", 1, 1));
-            episodeRead = this.operations.Read(new Tuple<string, int, int>("tt12345", 1, 1));
+            this.operations.Delete(new Tuple<string, int, int>("tt12347", 1, 1));
+            episodeRead = this.operations.Read(new Tuple<string, int, int>("tt12347", 1, 1));
 
             Assert.Null(episodeRead);
 
-            season = this.seasonsoperations.Read(new Tuple<string, int>("tt12345", 1));
+            season = this.seasonsoperations.Read(new Tuple<string, int>("tt12347", 1));
 
             Assert.AreEqual(season.EpisodeSynopses.Count, 0);
 
-            this.seasonsoperations.Delete(new Tuple<string, int>("tt12345", 1));
-            tvshow = this.tvshowsOperations.Read("tt12345");
+            this.seasonsoperations.Delete(new Tuple<string, int>("tt12347", 1));
+            tvshow = this.tvshowsOperations.Read("tt12347");
 
             Assert.AreEqual(tvshow.SeasonSynopses.Count, 0);
 
-            this.tvshowsOperations.Delete("tt12345");
-            tvshow = this.tvshowsOperations.Read("tt12345");
+            this.tvshowsOperations.Delete("tt12347");
+            tvshow = this.tvshowsOperations.Read("tt12347");
 
             Assert.Null(tvshow);
         }
