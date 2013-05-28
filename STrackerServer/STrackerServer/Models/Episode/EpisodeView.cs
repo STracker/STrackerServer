@@ -53,5 +53,10 @@ namespace STrackerServer.Models.Episode
         /// Gets or sets the guest actors.
         /// </summary>
         public List<Actor> GuestActors { get; set; }
+
+        /// <summary>
+        /// Gets or sets the poster.
+        /// </summary>
+        public string Poster { get; set; }
     }
 }

@@ -36,5 +36,10 @@ namespace STrackerServer.Models.Season
         /// Gets or sets the episode list.
         /// </summary>
         public IEnumerable<Episode.EpisodeSynopsis> EpisodeList { get; set; }
+
+        /// <summary>
+        /// Gets or sets the poster.
+        /// </summary>
+        public string Poster { get; set; }
     }
 }

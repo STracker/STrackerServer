@@ -209,6 +209,7 @@
     <Content Include="Views\UsersWeb\Show.cshtml" />
     <Content Include="Views\UsersWeb\Requests.cshtml" />
     <Content Include="Views\UsersWeb\Index.cshtml" />
+    <Content Include="Views\EpisodesWeb\Show.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

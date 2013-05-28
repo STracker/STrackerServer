@@ -7,9 +7,10 @@
 
 <div class="container-fluid">
     <div class="row-fluid">
-        <div class="span2"> 
-            <img class="img-rounded" src="@Model.PictureUrl" alt="No Artwork"/>  
-            
+        <div class="span3"> 
+            <div style="text-align: center">
+                <img class="img-rounded" src="@Model.PictureUrl" alt="No Artwork"/>
+            </div> 
             <div class="extra-padding">
                 <div class="box">
 
@@ -23,9 +24,10 @@
                 </div>
             </div>       
         </div>
-        <div class="span9">        
+        <div class="span6">        
             <div class="box">
                 <h2>Subscriptions</h2>
+                <br/>
                 <table class="table">
                     @foreach(var sub in Model.SubscriptionList)
                     {

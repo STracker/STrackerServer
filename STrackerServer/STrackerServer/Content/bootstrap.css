@@ -99,7 +99,7 @@ sub {
 }
 
 img {
-  width: auto\9;
+  width: auto;
   height: auto;
   max-width: 100%;
   vertical-align: middle;
@@ -3378,7 +3378,7 @@ input[type="button"].btn-block {
 
 .btn-primary:active,
 .btn-primary.active {
-  background-color: #003399 \9;
+  background-color: #003399;
 }
 
 .btn-warning {
@@ -3411,7 +3411,7 @@ input[type="button"].btn-block {
 
 .btn-warning:active,
 .btn-warning.active {
-  background-color: #c67605 \9;
+  background-color: #c67605;
 }
 
 .btn-danger {

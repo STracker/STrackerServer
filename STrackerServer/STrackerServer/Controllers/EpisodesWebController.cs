@@ -27,14 +27,23 @@ namespace STrackerServer.Controllers
         private readonly IEpisodesOperations episodesOps;
 
         /// <summary>
+        /// The television shows ops.
+        /// </summary>
+        private readonly ITvShowsOperations tvshowsOps;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="EpisodesWebController"/> class.
         /// </summary>
         /// <param name="episodesOps">
         /// The episodes ops.
         /// </param>
-        public EpisodesWebController(IEpisodesOperations episodesOps)
+        /// <param name="tvshowsOps">
+        /// The television shows ops.
+        /// </param>
+        public EpisodesWebController(IEpisodesOperations episodesOps, ITvShowsOperations tvshowsOps)
         {
             this.episodesOps = episodesOps;
+            this.tvshowsOps = tvshowsOps;
         }
 
         /// <summary>
@@ -52,6 +61,7 @@ namespace STrackerServer.Controllers
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
+        [HttpGet]
         public ActionResult Show(string tvshowId, int seasonNumber, int number)
         {
             var episode = this.episodesOps.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, number));
@@ -70,10 +80,10 @@ namespace STrackerServer.Controllers
                 Description = episode.Description,
                 Name = episode.Name,
                 Rating = episode.Rating,
+                Poster = this.tvshowsOps.Read(tvshowId).Artworks[0].ImageUrl
             };
 
-            // return this.View(model);
-            return this.View("Error", model.EpisodeNumber);
+            return this.View(model);
         }
     }
 }

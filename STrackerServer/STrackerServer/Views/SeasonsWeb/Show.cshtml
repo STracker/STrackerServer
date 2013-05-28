@@ -6,14 +6,25 @@
 }
 
 <div class="container-fluid">
-    <div class="row-fluid center">
+    <div class="row-fluid">
+        <div class="span3"> 
+            <img class="img-rounded" src="@Model.Poster" alt="No Artwork"/>  
+         
+            <div class="extra-padding">
+                <div class="box">
+                    <a href="@Url.Action("Show","TvShowsWeb", new { tvshowId = Model.TvShowId })">Back</a>
+                </div>  
+            </div>         
+        </div>
+        <div class="span6">
             <div class="box">
-                <p><b>Season @Model.SeasonNumber</b></p>                
+                <h2>Season @Model.SeasonNumber</h2>    
+                <br/>           
                 <table class="table">
                     <tr>
                         <th>Number</th>
                         <th>Name</th>
-                        <th>Link</th>
+                        <th></th>
                     </tr>
         
                     @foreach(var episode in Model.EpisodeList)
@@ -26,11 +37,17 @@
                                 @episode.Name
                             </td>
                             <td>
-                                @Html.ActionLink("Link","Show","EpisodesWeb", new {})
+                                <a href="@Url.Action("Show","EpisodesWeb", new
+                                    {
+                                        tvshowId = Model.TvShowId, 
+                                        seasonNumber = Model.SeasonNumber, 
+                                        number = episode.EpisodeNumber
+                                    })">Link</a>
                             </td>
                         </tr>  
                     }
                 </table>
-            </div>       
-        </div>
+            </div>
+        </div>  
+    </div>
 </div>

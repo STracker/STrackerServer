@@ -186,9 +186,8 @@ namespace STrackerServer.Controllers
 
                 fb.AccessToken = result.access_token;
 
-                dynamic me = fb.Get("me?fields=id,name,email,picture");
-                string picture = string.Format("https://graph.facebook.com/{0}/picture?type=large", me.id);
-                user = new User(me.id) { Email = me.email, Name = me.name, Photo = new Artwork { ImageUrl = picture } };
+                dynamic me = fb.Get("me?fields=id,name,email,picture.type(large)");
+                user = new User(me.id) { Email = me.email, Name = me.name, Photo = new Artwork { ImageUrl = me.picture.data.url } };
             }
             catch (FacebookOAuthException)
             {

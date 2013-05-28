@@ -7,19 +7,31 @@
 
 <div class="container-fluid">
     <div class="row-fluid">
-        <div class="span2"> 
-            <img class="img-rounded" src="@Model.PictureUrl" alt="No Artwork"/>  
+        <div class="span3">
+            <div style="text-align: center">
+                <img class="img-rounded" src="@Model.PictureUrl" alt="No Artwork"/>
+            </div> 
+            
             
             <div class="extra-padding">
                 <div class="box">
-
+                    <a>Friends</a>
                 </div>
             </div>       
         </div>
-        <div class="span9">        
+        <div class="span6">        
             <div class="box">
                 <h2>Subscriptions</h2>
+                <br/>
                 <table class="table">
+                    
+                    <tr>
+                        <td>
+                            Name
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
                     @foreach(var sub in Model.SubscriptionList)
                     {
                         <tr>
@@ -29,7 +41,7 @@
                             <td>
                                 @using (Html.BeginForm("UnSubscribe", "UsersWeb", new { tvshowId = sub.Id }))
                                 {
-                                    <input class="btn-link" type="submit" value="Cancel"/>
+                                    <input class="btn-link" type="submit" value="Unsubscribe"/>
                                 }
                             </td>
                         </tr>  

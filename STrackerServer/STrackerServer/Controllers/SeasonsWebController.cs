@@ -27,14 +27,23 @@ namespace STrackerServer.Controllers
         private readonly ISeasonsOperations seasonOps;
 
         /// <summary>
+        /// The television shows ops.
+        /// </summary>
+        private readonly ITvShowsOperations tvshowsOps;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SeasonsWebController"/> class.
         /// </summary>
         /// <param name="seasonOps">
         /// The season ops.
         /// </param>
-        public SeasonsWebController(ISeasonsOperations seasonOps)
+        /// <param name="tvshowsOps">
+        /// The television shows ops.
+        /// </param>
+        public SeasonsWebController(ISeasonsOperations seasonOps, ITvShowsOperations tvshowsOps)
         {
             this.seasonOps = seasonOps;
+            this.tvshowsOps = tvshowsOps;
         }
 
         /// <summary>
@@ -64,7 +73,8 @@ namespace STrackerServer.Controllers
             {
                 TvShowId = tvshowId,
                 EpisodeList = season.EpisodeSynopses.OrderBy(ep => ep.EpisodeNumber),
-                SeasonNumber = season.SeasonNumber
+                SeasonNumber = season.SeasonNumber,
+                Poster = this.tvshowsOps.Read(tvshowId).Artworks[0].ImageUrl
             };
 
             return this.View(model);
