@@ -15,15 +15,16 @@
             
             <div class="extra-padding">
                 <div class="box">
-                    <a>Friends</a>
+                    <p><a>Friends</a></p>
+                    <p><a href="@Url.Action("Requests","UsersWeb")">Friend Requests</a></p>
                 </div>
             </div>       
         </div>
-        <div class="span6">        
+        <div class="span9">        
             <div class="box">
                 <h2>Subscriptions</h2>
                 <br/>
-                <table class="table">
+                <table class="table table-condensed">
                     
                     <tr>
                         <td>
@@ -36,7 +37,7 @@
                     {
                         <tr>
                             <td>
-                                @sub.Name
+                                <a href="@Url.Action("Show","TvShowsWeb", new {tvshowId = sub.Id})"></a>@sub.Name
                             </td>
                             <td>
                                 @using (Html.BeginForm("UnSubscribe", "UsersWeb", new { tvshowId = sub.Id }))

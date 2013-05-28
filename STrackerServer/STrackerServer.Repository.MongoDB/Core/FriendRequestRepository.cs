@@ -139,10 +139,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </returns>
         public List<FriendRequest> ReadAllTo(string userId)
         {
-            var query = Query.And(
-                Query<FriendRequest>.EQ(request => request.To, userId),
-                Query<FriendRequest>.EQ(request => request.Accepted, false));
-
+            var query = Query.And(Query<FriendRequest>.EQ(request => request.To, userId));
             return this.collection.FindAs<FriendRequest>(query).ToList();
         }
 
@@ -159,10 +156,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </returns>
         public List<FriendRequest> ReadAllFrom(string userId)
         {
-            var query = Query.And(
-               Query<FriendRequest>.EQ(request => request.From, userId),
-               Query<FriendRequest>.EQ(request => request.Accepted, true));
-
+            var query = Query.And(Query<FriendRequest>.EQ(request => request.From, userId));
             return this.collection.FindAs<FriendRequest>(query).ToList();
         }
     }

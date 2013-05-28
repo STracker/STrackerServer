@@ -3,6 +3,8 @@
     background-image: url(/Content/images/debut_dark.png);
     color: whitesmoke;
     font-family: sans-serif;
+    text-align:justify;
+    text-justify:inter-word;
 } 
 
 .center {

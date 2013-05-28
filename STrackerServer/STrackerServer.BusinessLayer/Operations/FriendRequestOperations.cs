@@ -10,7 +10,7 @@
 namespace STrackerServer.BusinessLayer.Operations
 {
     using System.Collections.Generic;
-
+    using System.Linq;
     using STrackerServer.BusinessLayer.Core;
     using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities;
@@ -74,7 +74,39 @@ namespace STrackerServer.BusinessLayer.Operations
                 return false;
             }
 
+            request.Key = request.From + request.To;
             return this.repository.Create(request);
+        }
+
+        /// <summary>
+        /// The read.
+        /// </summary>
+        /// <param name="from">
+        /// The from.
+        /// </param>
+        /// <param name="to">
+        /// The to.
+        /// </param>
+        /// <returns>
+        /// The <see cref="FriendRequest"/>.
+        /// </returns>
+        public FriendRequest Read(string from, string to)
+        {
+            return this.repository.Read(from + to);
+        }
+
+        /// <summary>
+        /// The read.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <returns>
+        /// The <see cref="FriendRequest"/>.
+        /// </returns>
+        public FriendRequest Read(string key)
+        {
+            return this.repository.Read(key);
         }
 
         /// <summary>
@@ -175,7 +207,15 @@ namespace STrackerServer.BusinessLayer.Operations
         /// </returns>
         public List<FriendRequest> GetRequests(string userId)
         {
-            return !this.usersRepository.Exists(userId) ? null : this.repository.ReadAllTo(userId);
+            List<FriendRequest> returnList = new List<FriendRequest>();
+            this.repository.ReadAllTo(userId).ForEach(request =>
+            {
+                 if (!request.Accepted)
+                 {
+                     returnList.Add(request);
+                 }
+            });
+            return returnList;
         }
 
         /// <summary>
@@ -186,12 +226,27 @@ namespace STrackerServer.BusinessLayer.Operations
         /// </param>
         public void Refresh(string userId)
         {
+            User user = this.usersRepository.Read(userId);
+
             List<FriendRequest> myRequests = this.repository.ReadAllFrom(userId);
 
-            foreach (var friendRequest in myRequests)
+            foreach (var request in myRequests)
             {
-                this.usersRepository.AddFriend(this.usersRepository.Read(friendRequest.From), this.usersRepository.Read(friendRequest.To));
-                this.repository.Delete(friendRequest.Key);
+                if (request.Accepted)
+                {
+                    if (!user.Friends.Exists(synopsis => synopsis.Id.Equals(request.To)))
+                    {
+                        this.usersRepository.AddFriend(this.usersRepository.Read(request.From), this.usersRepository.Read(request.To));
+                    }
+                    this.repository.Delete(request.Key);
+                }
+                else
+                {
+                    if (user.Friends.Exists(synopsis => synopsis.Id.Equals(request.To)))
+                    {
+                        this.repository.Delete(request.Key);
+                    }  
+                }  
             }
         }
     }

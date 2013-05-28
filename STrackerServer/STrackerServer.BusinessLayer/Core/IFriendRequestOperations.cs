@@ -30,6 +30,20 @@ namespace STrackerServer.BusinessLayer.Core
         bool Create(FriendRequest request);
 
         /// <summary>
+        /// The read.
+        /// </summary>
+        /// <param name="from">
+        /// The from.
+        /// </param>
+        /// <param name="to">
+        /// The to.
+        /// </param>
+        /// <returns>
+        /// The <see cref="FriendRequest"/>.
+        /// </returns>
+        FriendRequest Read(string from, string to);
+
+        /// <summary>
         /// The delete.
         /// </summary>
         /// <param name="id">

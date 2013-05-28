@@ -75,7 +75,16 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            var isFriend = this.User.Identity.IsAuthenticated && user.Friends.Any(synopsis => synopsis.Id.Equals(User.Identity.Name));
+            var isFriend = false;
+
+            if (this.User.Identity.IsAuthenticated)
+            {
+                if (user.Friends.Any(synopsis => synopsis.Id.Equals(User.Identity.Name))
+                    || this.friendRequestOperations.Read(User.Identity.Name, id) != null)
+                {
+                    isFriend = true;
+                }
+            }
 
             return this.View(new UserPublicView
             {
@@ -164,7 +173,6 @@ namespace STrackerServer.Controllers
 
             FriendRequest request = new FriendRequest
                 {
-                    Key = User.Identity.Name + id,
                     From = User.Identity.Name, 
                     To = id,
                     Accepted = false

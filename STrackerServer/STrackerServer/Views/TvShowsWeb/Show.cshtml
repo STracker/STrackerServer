@@ -11,26 +11,33 @@
             <img class="img-rounded" src="@Model.Artwork.ImageUrl" alt="No Artwork"/>  
            
             @if (User.Identity.IsAuthenticated && !Model.IsSubscribed)
-            {    
-                using(Html.BeginForm("Subscribe","UsersWeb", new { tvshowId = Model.TvShowId }))
-                {
-                    <input class="btn btn-primary" style="width: 300px" type="submit" value="Subscribe"/>
-                }
-            } 
-
-            <div class="extra-padding">
+            {   
+                <div class="extra-padding">
+                    @using(Html.BeginForm("Subscribe","UsersWeb", new { tvshowId = Model.TvShowId }))
+                    {
+                        <input class="btn btn-primary" style="width: 300px" type="submit" value="Subscribe"/>
+                    }
+                </div> 
                 <div class="box">
-                    <a>Comments</a>
-                </div>         
-            </div> 
+                    <a>Comments</a>   
+                </div> 
+            }
+            else
+            {
+                <div class="extra-padding">
+                    <div class="box">
+                        <p><a>Comments</a></p> 
+                    </div>
+                </div> 
+            }
         </div> 
         <div class="span6">
             <div class="box">
                 <h2>@Model.Name</h2>
                 <p>@Model.Description</p> 
                 <p><b>Air Day: </b> @Model.AirDay</p>
-                <p><b>Runtime: </b> @Model.Runtime</p>              
-                <p><b>IMDB: </b> <a href="http://www.imdb.com/title/@Model.TvShowId">Link</a></p>  
+                <p><b>Runtime: </b> @Model.Runtime min</p>              
+                <p><a href="http://www.imdb.com/title/@Model.TvShowId">IMDB</a></p>  
 
                 <p><b>Genre:</b></p>
                 <ul>
@@ -51,9 +58,9 @@
             <div class="box">
                 <h2>Cast</h2>
                 <br/>
-                <table class="table">
+                <table class="table table-condensed">
                     <tr>
-                        <th></th>
+                        <th>Photo</th>
                         <th>Name</th>
                         <th>Character</th>
                     </tr>

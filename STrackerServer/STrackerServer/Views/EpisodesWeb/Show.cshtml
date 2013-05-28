@@ -9,44 +9,44 @@
     <div class="row-fluid">
         <div class="span3">
             
-            @if ( Model.Artworks.Count() != 0)
+            @if ( Model.Artworks.Count != 0)
             {
                 <div style="text-align: center">
-                    <img class="img-rounded" src="@Model.Artworks[0]" alt="No Artwork"/>
+                    <img class="img-rounded" src="@Model.Artworks[0].ImageUrl" alt="No Artwork"/>
                 </div> 
             }
             else
             {
                 <img class="img-rounded" src="@Model.Poster" alt="No Artwork"/>   
-            }        
-         
-            <div class="extra-padding">
-                <div class="box">
-                    <a href="@Url.Action("Show","TvShowsWeb", new { tvshowId = Model.TvShowId })">Back</a>
-                </div>  
-            </div>         
+            }               
         </div>
         <div class="span6">
             <div class="box">
+                <h3><a href="@Url.Action("Show","TvShowsWeb", new { tvshowId = Model.TvShowId})">@Model.TvShowName</a></h3>
+                <p>Season @Model.SeasonNumber, Episode @Model.EpisodeNumber</p>
                 <h2>@Model.Name</h2>  
                 <p>@Model.Description</p>
-                <p><b>Season: </b> @Model.SeasonNumber</p>
-                <p><b>Episode: </b> @Model.EpisodeNumber</p>
-                            
-                <p><b>Directors:</b></p>
-                <ul>
-                    <li>TODO</li>                         
-                </ul>              
-            </div>
-            <div class="box">
-                <h2>Guest Actors</h2> 
-                <br/>                
-                <table class="table">
-                    <tr>
-                        <th>Photo</th>
-                        <th>Name</th>
-                    </tr>
-                </table>
+                      
+                @if (Model.Directors.Count != 0)
+                {
+                    <p><b>Directors:</b></p>
+                    <ul>
+                        @foreach(var director in Model.Directors)
+                        {
+                            <li>@director.Name</li>
+                        }                           
+                    </ul>
+                }     
+                @if (Model.GuestActors.Count != 0)
+                {
+                    <p><b>Guest Actors:</b></p>
+                    <ul>
+                        @foreach (var actor in Model.GuestActors)
+                        {
+                            <li>@actor.Name</li>
+                        }                           
+                    </ul>
+                }                     
             </div>
         </div>  
     </div>

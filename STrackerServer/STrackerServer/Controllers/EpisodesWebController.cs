@@ -14,6 +14,7 @@ namespace STrackerServer.Controllers
     using System.Web.Mvc;
 
     using STrackerServer.BusinessLayer.Core;
+    using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.Models.Episode;
 
     /// <summary>
@@ -72,15 +73,21 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
+            TvShow tvshow = this.tvshowsOps.Read(tvshowId);
+
             var model = new EpisodeView
             {
+                Artworks = episode.Artworks,
                 TvShowId = episode.Key.Item1,
+                TvShowName = tvshow.Name,
                 SeasonNumber = episode.Key.Item2,
                 EpisodeNumber = episode.Key.Item3,
                 Description = episode.Description,
                 Name = episode.Name,
                 Rating = episode.Rating,
-                Poster = this.tvshowsOps.Read(tvshowId).Artworks[0].ImageUrl
+                Poster = tvshow.Artworks[0].ImageUrl,
+                GuestActors = episode.GuestActors,
+                Directors = episode.Directors
             };
 
             return this.View(model);

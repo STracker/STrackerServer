@@ -58,5 +58,10 @@ namespace STrackerServer.Models.Episode
         /// Gets or sets the poster.
         /// </summary>
         public string Poster { get; set; }
+
+        /// <summary>
+        /// Gets or sets the television show name.
+        /// </summary>
+        public string TvShowName { get; set; }
     }
 }

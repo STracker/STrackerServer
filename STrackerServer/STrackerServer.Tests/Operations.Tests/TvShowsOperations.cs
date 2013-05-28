@@ -9,6 +9,7 @@
 
 namespace STrackerServer.Tests.Operations.Tests
 {
+    /*
     using System.Collections.Generic;
     using System.Linq;
 
@@ -23,8 +24,7 @@ namespace STrackerServer.Tests.Operations.Tests
     /// </summary>
     [TestFixture]
     public class TvShowsOperations
-    {
-        /*
+    {     
         /// <summary>
         /// The operations.
         /// </summary>
@@ -139,12 +139,6 @@ namespace STrackerServer.Tests.Operations.Tests
 
             Assert.Null(tvshowRead);
         }
-         */
-
-        [Test]
-        public void Test()
-        {
-            Assert.AreEqual(2, 1+1);
-        }
     }
+     * */
 }
