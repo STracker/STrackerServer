@@ -210,17 +210,20 @@ namespace STrackerServer.Controllers
         }
 
         /// <summary>
-        /// The remove subscription.
+        /// The un subscribe.
         /// </summary>
         /// <param name="tvshowId">
         /// The television show id.
+        /// </param>
+        /// <param name="redirectUrl">
+        /// The redirect url.
         /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpPost]
         [Authorize]
-        public ActionResult UnSubscribe(string tvshowId)
+        public ActionResult UnSubscribe(string tvshowId, string redirectUrl)
         {
             if (!this.usersOperations.RemoveSubscription(User.Identity.Name, tvshowId))
             {
@@ -228,7 +231,7 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            return new SeeOtherResult { Url = Url.Action("Index") };
+            return new SeeOtherResult { Url = redirectUrl };
         }
 
         /// <summary>

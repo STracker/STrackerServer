@@ -14,41 +14,44 @@
             
             
             <div class="extra-padding">
-                <div class="box">
+                <div class="box" style="text-align: center">
                     <p><a>Friends</a></p>
                     <p><a href="@Url.Action("Requests","UsersWeb")">Friend Requests</a></p>
                 </div>
             </div>       
         </div>
-        <div class="span9">        
-            <div class="box">
-                <h2>Subscriptions</h2>
-                <br/>
-                <table class="table table-condensed">
-                    
-                    <tr>
-                        <td>
-                            Name
-                        </td>
-                        <td>
-                        </td>
-                    </tr>
-                    @foreach(var sub in Model.SubscriptionList)
-                    {
+        <div class="span6">
+                            
+            @if (Model.SubscriptionList.Count != 0)
+            {
+                <div class="box">
+                    <h2>Subscriptions</h2>
+                    <br/>
+                    <table class="table table-condensed"> 
                         <tr>
                             <td>
-                                <a href="@Url.Action("Show","TvShowsWeb", new {tvshowId = sub.Id})"></a>@sub.Name
+                                Name
                             </td>
                             <td>
-                                @using (Html.BeginForm("UnSubscribe", "UsersWeb", new { tvshowId = sub.Id }))
-                                {
-                                    <input class="btn-link" type="submit" value="Unsubscribe"/>
-                                }
                             </td>
-                        </tr>  
-                    }
-                </table>
-            </div>     
+                        </tr>
+                        @foreach(var sub in Model.SubscriptionList)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("Show","TvShowsWeb", new {tvshowId = sub.Id})"></a>@sub.Name
+                                </td>
+                                <td>
+                                    @using (Html.BeginForm("UnSubscribe", "UsersWeb", new { tvshowId = sub.Id , redirectUrl = Url.Action("Index","UsersWeb")}))
+                                    {
+                                        <input class="btn-link" type="submit" value="Unsubscribe"/>
+                                    }
+                                </td>
+                            </tr>  
+                        }
+                    </table>
+                </div>   
+            }    
         </div>
     </div>
 </div>

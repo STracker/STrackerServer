@@ -10,24 +10,33 @@
         <div class="span3"> 
             <img class="img-rounded" src="@Model.Artwork.ImageUrl" alt="No Artwork"/>  
            
-            @if (User.Identity.IsAuthenticated && !Model.IsSubscribed)
+            @if (User.Identity.IsAuthenticated)
             {   
-                <div class="extra-padding">
-                    @using(Html.BeginForm("Subscribe","UsersWeb", new { tvshowId = Model.TvShowId }))
-                    {
-                        <input class="btn btn-primary" style="width: 300px" type="submit" value="Subscribe"/>
-                    }
-                </div> 
-                <div class="box">
-                    <a>Comments</a>   
-                </div> 
+                if (Model.IsSubscribed)
+                {
+                    <div class="extra-padding">
+                        @using(Html.BeginForm("UnSubscribe","UsersWeb", new { tvshowId = Model.TvShowId, redirectUrl = Url.Action("Show","TvShowsWeb", new { tvshowId = Model.TvShowId })}))
+                        {
+                            <input class="btn btn-block btn-danger" type="submit" value="Unsubscribe"/>
+                        }
+                    </div>
+                }
+                else
+                {
+                     <div class="extra-padding">
+                        @using(Html.BeginForm("Subscribe","UsersWeb", new { tvshowId = Model.TvShowId }))
+                        {
+                            <input class="btn btn-block btn-primary" type="submit" value="Subscribe"/>
+                        }
+                    </div>
+                }
+                    
+                <p><a class="btn btn-block btn-primary">Comments</a></p>        
             }
             else
             {
                 <div class="extra-padding">
-                    <div class="box">
-                        <p><a>Comments</a></p> 
-                    </div>
+                    <p><a class="btn btn-block btn-primary">Comments</a></p> 
                 </div> 
             }
         </div> 

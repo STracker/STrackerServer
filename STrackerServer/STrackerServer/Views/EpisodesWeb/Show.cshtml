@@ -8,7 +8,6 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span3">
-            
             @if ( Model.Artworks.Count != 0)
             {
                 <div style="text-align: center">
@@ -22,11 +21,13 @@
         </div>
         <div class="span6">
             <div class="box">
-                <h3><a href="@Url.Action("Show","TvShowsWeb", new { tvshowId = Model.TvShowId})">@Model.TvShowName</a></h3>
-                <p>Season @Model.SeasonNumber, Episode @Model.EpisodeNumber</p>
-                <h2>@Model.Name</h2>  
+                
+                <h3>@Model.Name</h3> 
+                <p>Season @Model.SeasonNumber, Episode @Model.EpisodeNumber</p> 
+                <br/>
                 <p>@Model.Description</p>
-                      
+                <br/>          
+
                 @if (Model.Directors.Count != 0)
                 {
                     <p><b>Directors:</b></p>
