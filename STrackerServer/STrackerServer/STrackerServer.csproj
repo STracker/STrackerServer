@@ -150,7 +150,7 @@
     <Compile Include="Controllers\TvShowsController.cs" />
     <Compile Include="Controllers\TvShowsWebController.cs" />
     <Compile Include="Controllers\UsersWebController.cs" />
-    <Compile Include="Custom_action_results\SeeOtherResult.cs" />
+    <Compile Include="Action_Results\SeeOtherResult.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

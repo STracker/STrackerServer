@@ -54,16 +54,6 @@ namespace STrackerServer.Tests.Operations.Tests
         private IUsersOperations userOps;
 
         /// <summary>
-        /// The main.
-        /// </summary>
-        /// <param name="args">
-        /// The args.
-        /// </param>
-        public static void Main(string[] args)
-        {
-        }
-
-        /// <summary>
         /// The set up.
         /// </summary>
         [SetUp]
@@ -97,10 +87,7 @@ namespace STrackerServer.Tests.Operations.Tests
                     Email = "fake email",
                     Friends =
                         new List<User.UserSynopsis>
-                            { 
-                                new User.UserSynopsis { Id = "0" },
-                                new User.UserSynopsis { Id = "1" } 
-                            },
+                            { new User.UserSynopsis { Id = "0" }, new User.UserSynopsis { Id = "1" } },
                     Key = "fake key",
                     Name = "fake name",
                     Photo = new Artwork { ImageUrl = "fake image url" },

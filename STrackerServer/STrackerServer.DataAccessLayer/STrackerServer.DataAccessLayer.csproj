@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\ICommentsRepository.cs" />
     <Compile Include="Core\IEntity.cs" />
     <Compile Include="Core\IEpisodesRepository.cs" />
     <Compile Include="Core\IFriendRequestRepository.cs" />
@@ -48,13 +49,17 @@
     <Compile Include="Core\IUsersRepository.cs" />
     <Compile Include="DomainEntities\Actor.cs" />
     <Compile Include="DomainEntities\Artwork.cs" />
+    <Compile Include="DomainEntities\Comment.cs" />
+    <Compile Include="DomainEntities\Container.cs" />
     <Compile Include="DomainEntities\Episode.cs" />
+    <Compile Include="DomainEntities\EpisodeComments.cs" />
     <Compile Include="DomainEntities\FriendRequest.cs" />
     <Compile Include="DomainEntities\Genre.cs" />
     <Compile Include="DomainEntities\Media.cs" />
     <Compile Include="DomainEntities\Person.cs" />
     <Compile Include="DomainEntities\Season.cs" />
     <Compile Include="DomainEntities\TvShow.cs" />
+    <Compile Include="DomainEntities\TvShowComments.cs" />
     <Compile Include="DomainEntities\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

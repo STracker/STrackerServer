@@ -116,6 +116,8 @@ namespace STrackerServer.Repository.MongoDB.Core
 
             // Ensure indexes for collections
             collection.EnsureIndex(new IndexKeysBuilder().Ascending("TvShowId", "SeasonNumber", "EpisodeNumber"), IndexOptions.SetUnique(true));
+            collection.EnsureIndex(new IndexKeysBuilder().Ascending("TvShowId", "ContainerType"));
+            collection.EnsureIndex(new IndexKeysBuilder().Ascending("TvShowId", "SeasonNumber", "EpisodeNumber", "ContainerType"), IndexOptions.SetUnique(true));
             collectionAll.EnsureIndex(new IndexKeysBuilder().Ascending("Name"));
             
             // The order is relevant because mongo don't ensure transactions.
@@ -158,8 +160,9 @@ namespace STrackerServer.Repository.MongoDB.Core
         {
             var collection = Database.GetCollection(key);
             var query = Query<TvShow>.EQ(tv => tv.TvShowId, key);
-            
+
             var tvshow = collection.FindOneAs<TvShow>(query);
+
             if (tvshow == null)
             {
                 return null;
@@ -182,7 +185,8 @@ namespace STrackerServer.Repository.MongoDB.Core
         {
             var collection = Database.GetCollection(entity.TvShowId);
             var query = Query<TvShow>.EQ(tv => tv.TvShowId, entity.TvShowId);
-            var update = Update<TvShow>.Set(tv => tv.SeasonSynopses, entity.SeasonSynopses).Set(tv => tv.Rating, entity.Rating).Set(tv => tv.Runtime, entity.Runtime);
+            var update =
+                Update<TvShow>.Set(tv => tv.SeasonSynopses, entity.SeasonSynopses).Set(tv => tv.Rating, entity.Rating).Set(tv => tv.Runtime, entity.Runtime);
 
             return collection.Update(query, update).Ok;
         }

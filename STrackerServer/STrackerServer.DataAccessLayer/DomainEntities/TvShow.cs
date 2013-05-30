@@ -76,7 +76,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// </returns>
         public TvShowSynopsis GetSynopsis()
         {
-            return new TvShowSynopsis { Id = this.Key, Name = this.Name };
+            return new TvShowSynopsis { Id = this.Key, Name = this.Name, Poster = this.Artworks[0].ImageUrl };
         }
 
         /// <summary>
@@ -93,6 +93,11 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
             /// Gets or sets the name.
             /// </summary>
             public string Name { get; set; }
+
+            /// <summary>
+            /// Gets or sets the poster.
+            /// </summary>
+            public string Poster { get; set; }
         }
     }
 }
