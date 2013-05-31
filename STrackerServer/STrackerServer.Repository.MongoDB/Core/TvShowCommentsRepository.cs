@@ -9,6 +9,7 @@
 
 namespace STrackerServer.Repository.MongoDB.Core
 {
+    using global::MongoDB.Bson.Serialization;
     using global::MongoDB.Driver;
 
     using global::MongoDB.Driver.Builders;
@@ -25,6 +26,29 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// The container type.
         /// </summary>
         private const string ContainerType = "Comments";
+
+        /// <summary>
+        /// Initializes static members of the <see cref="TvShowCommentsRepository"/> class.
+        /// </summary>
+        static TvShowCommentsRepository()
+        {
+             if (BsonClassMap.IsClassMapRegistered(typeof(Container<string, Comment>)))
+            {
+                return;
+            }
+
+            BsonClassMap.RegisterClassMap<Container<string, Comment>>(
+                cm =>
+                    {
+                        cm.AutoMap();
+                        cm.UnmapProperty(c => c.Key);
+
+                        // ignoring _id field when deserialize.
+                        cm.SetIgnoreExtraElementsIsInherited(true);
+                        cm.SetIgnoreExtraElements(true);
+                    });
+            BsonClassMap.RegisterClassMap<TvShowComments>();
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TvShowCommentsRepository"/> class.

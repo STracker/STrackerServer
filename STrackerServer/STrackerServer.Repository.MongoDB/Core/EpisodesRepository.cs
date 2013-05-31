@@ -44,7 +44,10 @@ namespace STrackerServer.Repository.MongoDB.Core
         {
             if (!BsonClassMap.IsClassMapRegistered(typeof(Episode)))
             {
-                BsonClassMap.RegisterClassMap<Episode>(
+                return;
+            }
+
+            BsonClassMap.RegisterClassMap<Episode>(
                 cm =>
                 {
                     cm.AutoMap();
@@ -54,24 +57,6 @@ namespace STrackerServer.Repository.MongoDB.Core
                     cm.SetIgnoreExtraElementsIsInherited(true);
                     cm.SetIgnoreExtraElements(true);
                 });
-            }
-
-            if (BsonClassMap.IsClassMapRegistered(typeof(EpisodeComments)))
-            {
-                return;
-            }
-
-            BsonClassMap.RegisterClassMap<EpisodeComments>(
-                cm =>
-                    {
-                        cm.AutoMap();
-                        cm.UnmapProperty(c => c.Key);
-
-                        // ignoring _id field when deserialize.
-                        cm.SetIgnoreExtraElementsIsInherited(true);
-                        cm.SetIgnoreExtraElements(true);
-                    });
-            BsonClassMap.RegisterClassMap<Container<Tuple<string, int, int>, Comment>>();
         }
 
         /// <summary>
