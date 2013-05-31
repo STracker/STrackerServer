@@ -76,7 +76,16 @@ namespace STrackerServer.Repository.MongoDB.Core
                 Query<EpisodeComments>.EQ(comments => comments.Key.Item3, key.Item3),
                 Query<EpisodeComments>.EQ(comments => comments.ContainerType, ContainerType));
 
-            return this.Database.GetCollection(key.Item1).FindOneAs<EpisodeComments>(query);
+            var comment = this.Database.GetCollection(key.Item1).FindOneAs<EpisodeComments>(query);
+
+            if (comment == null)
+            {
+                return null;
+            }
+
+            comment.Key = key;
+
+            return comment;
         }
 
         /// <summary>

@@ -9,8 +9,6 @@
 
 namespace STrackerServer.DataAccessLayer.DomainEntities
 {
-    using System.Collections.Generic;
-
     /// <summary>
     /// The television show comments.
     /// </summary>
@@ -25,6 +23,12 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         public TvShowComments(string key)
             : base(key, "Comments")
         {
+            this.TvshowId = key;
         }
+
+        /// <summary>
+        /// Gets or sets the television show id.
+        /// </summary>
+        public string TvshowId { get; set; }
     }
 }

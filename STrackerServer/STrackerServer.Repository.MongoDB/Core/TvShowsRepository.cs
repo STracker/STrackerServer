@@ -76,17 +76,32 @@ namespace STrackerServer.Repository.MongoDB.Core
                 BsonClassMap.RegisterClassMap<TvShow>();
             }
 
-            if (BsonClassMap.IsClassMapRegistered(typeof(Genre)))
+            if (!BsonClassMap.IsClassMapRegistered(typeof(Genre)))
+            {
+                BsonClassMap.RegisterClassMap<Genre>(
+                cm =>
+                {
+                    cm.AutoMap();
+                    cm.SetIdMember(cm.GetMemberMap(g => g.Key));
+                });
+            }
+
+            if (BsonClassMap.IsClassMapRegistered(typeof(TvShowComments)))
             {
                 return;
             }
 
-            BsonClassMap.RegisterClassMap<Genre>( 
+            BsonClassMap.RegisterClassMap<TvShowComments>(
                 cm =>
                     {
                         cm.AutoMap();
-                        cm.SetIdMember(cm.GetMemberMap(g => g.Key));
+                        cm.UnmapProperty(c => c.Key);
+
+                        // ignoring _id field when deserialize.
+                        cm.SetIgnoreExtraElementsIsInherited(true);
+                        cm.SetIgnoreExtraElements(true);
                     });
+            BsonClassMap.RegisterClassMap<Container<string, Comment>>();
         }
 
         /// <summary>

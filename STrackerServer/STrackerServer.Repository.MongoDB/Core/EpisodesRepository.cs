@@ -42,12 +42,9 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </summary>
         static EpisodesRepository()
         {
-            if (BsonClassMap.IsClassMapRegistered(typeof(Episode)))
+            if (!BsonClassMap.IsClassMapRegistered(typeof(Episode)))
             {
-                return;
-            }
-
-            BsonClassMap.RegisterClassMap<Episode>(
+                BsonClassMap.RegisterClassMap<Episode>(
                 cm =>
                 {
                     cm.AutoMap();
@@ -57,6 +54,24 @@ namespace STrackerServer.Repository.MongoDB.Core
                     cm.SetIgnoreExtraElementsIsInherited(true);
                     cm.SetIgnoreExtraElements(true);
                 });
+            }
+
+            if (BsonClassMap.IsClassMapRegistered(typeof(EpisodeComments)))
+            {
+                return;
+            }
+
+            BsonClassMap.RegisterClassMap<EpisodeComments>(
+                cm =>
+                    {
+                        cm.AutoMap();
+                        cm.UnmapProperty(c => c.Key);
+
+                        // ignoring _id field when deserialize.
+                        cm.SetIgnoreExtraElementsIsInherited(true);
+                        cm.SetIgnoreExtraElements(true);
+                    });
+            BsonClassMap.RegisterClassMap<Container<Tuple<string, int, int>, Comment>>();
         }
 
         /// <summary>
@@ -101,7 +116,7 @@ namespace STrackerServer.Repository.MongoDB.Core
             season.EpisodeSynopses.Add(synopse);
 
             // Also create the document for comments.
-            return collection.Insert(entity).Ok && this.seasonsRepository.Update(season) && this.commentsRepository.Create(new EpisodeComments(new Tuple<string, int, int>(entity.TvShowId, entity.SeasonNumber, entity.EpisodeNumber)));
+            return collection.Insert(entity).Ok && this.seasonsRepository.Update(season) && this.commentsRepository.Create(new EpisodeComments(entity.Key));
         }
 
         /// <summary>

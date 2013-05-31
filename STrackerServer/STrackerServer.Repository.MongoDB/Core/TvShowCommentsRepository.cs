@@ -71,7 +71,17 @@ namespace STrackerServer.Repository.MongoDB.Core
             var query = Query.And(
                 Query<TvShowComments>.EQ(comments => comments.Key, key),
                 Query<TvShowComments>.EQ(comments => comments.ContainerType, ContainerType));
-            return this.Database.GetCollection(key).FindOneAs<TvShowComments>(query);
+
+            var comment = this.Database.GetCollection(key).FindOneAs<TvShowComments>(query);
+
+            if (comment == null)
+            {
+                return null;
+            }
+
+            comment.Key = key;
+
+            return comment;
         }
 
         /// <summary>

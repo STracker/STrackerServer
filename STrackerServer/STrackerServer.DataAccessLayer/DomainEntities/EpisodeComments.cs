@@ -25,6 +25,24 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         public EpisodeComments(Tuple<string, int, int> key)
             : base(key, "Comments")
         {
+            this.TvshowId = key.Item1;
+            this.EpisodeNumber = key.Item2;
+            this.SeasonNumber = key.Item3;
         }
+
+        /// <summary>
+        /// Gets or sets the television show id.
+        /// </summary>
+        public string TvshowId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the season number.
+        /// </summary>
+        public int SeasonNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets the episode number.
+        /// </summary>
+        public int EpisodeNumber { get; set; }
     }
 }
