@@ -39,12 +39,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\ICommentsRepository.cs" />
     <Compile Include="Core\IEntity.cs" />
+    <Compile Include="Core\IEpisodeCommentsRepository.cs" />
     <Compile Include="Core\IEpisodesRepository.cs" />
     <Compile Include="Core\IFriendRequestRepository.cs" />
     <Compile Include="Core\IRepository.cs" />
     <Compile Include="Core\ISeasonsRepository.cs" />
+    <Compile Include="Core\ITvShowCommentsRepository.cs" />
     <Compile Include="Core\ITvShowsRepository.cs" />
     <Compile Include="Core\IUsersRepository.cs" />
     <Compile Include="DomainEntities\Actor.cs" />

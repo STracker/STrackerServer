@@ -14,7 +14,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
     /// <summary>
     /// The episode comments.
     /// </summary>
-    public class EpisodeComments : Container<Tuple<string, string, int>, Comment>
+    public class EpisodeComments : Container<Tuple<string, int, int>, Comment>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EpisodeComments"/> class.
@@ -25,7 +25,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// <param name="container">
         /// The container.
         /// </param>
-        public EpisodeComments(Tuple<string, string, int> key, string container)
+        public EpisodeComments(Tuple<string, int, int> key, string container)
             : base(key, container)
         {
         }
