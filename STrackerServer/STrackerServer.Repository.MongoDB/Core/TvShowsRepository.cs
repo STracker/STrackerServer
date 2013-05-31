@@ -124,9 +124,8 @@ namespace STrackerServer.Repository.MongoDB.Core
             var collectionAll = Database.GetCollection(CollectionNameForSynopsis);
 
             // Ensure indexes for collections
-            collection.EnsureIndex(new IndexKeysBuilder().Ascending("TvShowId", "SeasonNumber", "EpisodeNumber"), IndexOptions.SetUnique(true));
-            collection.EnsureIndex(new IndexKeysBuilder().Ascending("TvShowId", "ContainerType"));
             collection.EnsureIndex(new IndexKeysBuilder().Ascending("TvShowId", "SeasonNumber", "EpisodeNumber", "ContainerType"), IndexOptions.SetUnique(true));
+            collection.EnsureIndex(new IndexKeysBuilder().Ascending("TvShowId", "ContainerType"), IndexOptions.SetUnique(true));
             collectionAll.EnsureIndex(new IndexKeysBuilder().Ascending("Name"));
             
             // The order is relevant because mongo don't ensure transactions.

@@ -23,12 +23,12 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         public TvShowComments(string key)
             : base(key, "Comments")
         {
-            this.TvshowId = key;
+            this.TvShowId = key;
         }
 
         /// <summary>
         /// Gets or sets the television show id.
         /// </summary>
-        public string TvshowId { get; set; }
+        public string TvShowId { get; set; }
     }
 }
