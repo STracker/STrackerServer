@@ -33,6 +33,11 @@ namespace STrackerServer.Repository.MongoDB.Core
         private readonly ISeasonsRepository seasonsRepository;
 
         /// <summary>
+        /// The comments repository.
+        /// </summary>
+        private readonly IEpisodeCommentsRepository commentsRepository;
+
+        /// <summary>
         /// Initializes static members of the <see cref="EpisodesRepository"/> class.
         /// </summary>
         static EpisodesRepository()
@@ -60,16 +65,20 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <param name="seasonsRepository">
         /// The seasons repository.
         /// </param>
+        /// <param name="commentsRepository">
+        /// The comments Repository.
+        /// </param>
         /// <param name="client">
         /// MongoDB client.
         /// </param>
         /// <param name="url">
         /// MongoDB url.
         /// </param>
-        public EpisodesRepository(ISeasonsRepository seasonsRepository, MongoClient client, MongoUrl url) 
+        public EpisodesRepository(ISeasonsRepository seasonsRepository, IEpisodeCommentsRepository commentsRepository, MongoClient client, MongoUrl url) 
             : base(client, url)
         {
             this.seasonsRepository = seasonsRepository;
+            this.commentsRepository = commentsRepository;
         }
 
         /// <summary>
@@ -91,7 +100,8 @@ namespace STrackerServer.Repository.MongoDB.Core
             var synopse = entity.GetSynopsis();
             season.EpisodeSynopses.Add(synopse);
 
-            return collection.Insert(entity).Ok && this.seasonsRepository.Update(season);
+            // Also create the document for comments.
+            return collection.Insert(entity).Ok && this.seasonsRepository.Update(season) && this.commentsRepository.Create(new EpisodeComments(entity.Key));
         }
 
         /// <summary>

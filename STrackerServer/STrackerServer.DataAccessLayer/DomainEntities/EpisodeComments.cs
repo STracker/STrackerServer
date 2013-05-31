@@ -22,11 +22,8 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// <param name="key">
         /// The key.
         /// </param>
-        /// <param name="container">
-        /// The container.
-        /// </param>
-        public EpisodeComments(Tuple<string, int, int> key, string container)
-            : base(key, container)
+        public EpisodeComments(Tuple<string, int, int> key)
+            : base(key, "Comments")
         {
         }
     }

@@ -21,7 +21,7 @@ namespace STrackerServer.Tests.Operations.Tests
     using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.Repository.MongoDB.Core;
-
+    /*
     /// <summary>
     /// The users operations tests.
     /// </summary>
@@ -185,4 +185,5 @@ namespace STrackerServer.Tests.Operations.Tests
             Assert.False(this.userOps.Delete("fake key"));
         }
     }
+     */
 }

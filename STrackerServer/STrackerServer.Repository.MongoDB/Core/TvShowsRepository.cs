@@ -38,6 +38,11 @@ namespace STrackerServer.Repository.MongoDB.Core
         private const string CollectionNameForGenres = "TvshowsGenres";
 
         /// <summary>
+        /// The comments repository.
+        /// </summary>
+        private readonly ITvShowCommentsRepository commentsRepository;
+
+        /// <summary>
         /// Initializes static members of the <see cref="TvShowsRepository"/> class.
         /// </summary>
         static TvShowsRepository()
@@ -87,15 +92,19 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <summary>
         /// Initializes a new instance of the <see cref="TvShowsRepository"/> class.
         /// </summary>
+        /// <param name="commentsRepository">
+        /// The comments Repository.
+        /// </param>
         /// <param name="client">
         /// MongoDB client.
         /// </param>
         /// <param name="url">
         /// MongoDB url.
         /// </param>
-        public TvShowsRepository(MongoClient client, MongoUrl url)
+        public TvShowsRepository(ITvShowCommentsRepository commentsRepository, MongoClient client, MongoUrl url)
             : base(client, url)
         {
+            this.commentsRepository = commentsRepository;
         }
 
         /// <summary>
@@ -144,7 +153,8 @@ namespace STrackerServer.Repository.MongoDB.Core
                 collectionGenres.Update(query, update);
             }
 
-            return true;
+            // Create the document for comments.
+            return this.commentsRepository.Create(new TvShowComments(entity.Key));
         }
 
         /// <summary>
