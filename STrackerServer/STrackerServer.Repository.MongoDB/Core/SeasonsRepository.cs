@@ -173,37 +173,18 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <param name="seasons">
         /// The seasons.
         /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public bool CreateAll(IEnumerable<Season> seasons)
+        public void CreateAll(IEnumerable<Season> seasons)
         {
             var enumerable = seasons as List<Season> ?? seasons.ToList();
             if (!enumerable.Any())
             {
-                return false;
+                return;
             }
 
-            var tvshowId = enumerable.ElementAt(0).TvShowId;
-            var collection = this.Database.GetCollection(tvshowId);
-            try
-            {
-                collection.InsertBatch(enumerable);
-            }
-            catch (Exception)
-            {
-                // TODO, add exception to Log mechanism.
-                return false;
-            }
-
-            // Add the synopsis to television show document.
-            var tvshow = this.tvshowsRepository.Read(tvshowId);
             foreach (var season in enumerable)
             {
-                tvshow.SeasonSynopses.Add(season.GetSynopsis());
+                this.Create(season);
             }
-
-            return this.tvshowsRepository.Update(tvshow);
         }
 
         /// <summary>
