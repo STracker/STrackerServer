@@ -136,13 +136,13 @@ namespace STrackerServer.Controllers
         {
             var comment = new Comment { UserId = User.Identity.Name, Body = body };
 
-            if (this.tvshowOps.AddComment(tvshowId, comment))
+            if (!this.tvshowOps.AddComment(tvshowId, comment))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View("Error", Response.StatusCode);
             }
 
-            return new SeeOtherResult { Url = Url.Action("Comments") };
+            return new SeeOtherResult { Url = Url.Action("Comments", "TvShowsWeb", new { tvshowId }) };
         }
     }
 }

@@ -5,9 +5,9 @@
     Layout = "~/Views/Shared/MainLayout.cshtml";
 }
 
-@using(Html.BeginForm("AddComment","TvShowsWeb"))
+@using(Html.BeginForm("Comments","TvShowsWeb"))
 {
-    Html.Hidden("tvshowId", Model.TvShowId);
-    Html.Editor("body");
+    @Html.Hidden("tvshowId", Model.TvShowId);
+    @Html.Editor("body");
     <input class="btn btn-primary" type="submit" value="Add Comment"/>
 }
