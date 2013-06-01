@@ -34,5 +34,25 @@ namespace STrackerServer.BusinessLayer.Core
         ///     </see> .
         /// </returns>
         IEnumerable<Episode.EpisodeSynopsis> GetAllFromOneSeason(string tvshowId, int seasonNumber);
+
+        /// <summary>
+        /// The add comment.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// The season number.
+        /// </param>
+        /// <param name="episodeNumber">
+        /// The episode number.
+        /// </param>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool AddComment(string tvshowId, int seasonNumber, int episodeNumber, Comment comment);
     }
 }

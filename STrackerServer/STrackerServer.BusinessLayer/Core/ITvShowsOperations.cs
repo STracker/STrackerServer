@@ -41,5 +41,19 @@ namespace STrackerServer.BusinessLayer.Core
         /// The <see cref="TvShow"/>.
         /// </returns>
         TvShow ReadByName(string name);
+
+        /// <summary>
+        /// The add comment.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool AddComment(string tvshowId, Comment comment);
     }
 }

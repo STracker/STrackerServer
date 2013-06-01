@@ -60,7 +60,7 @@ namespace STrackerServer.BusinessLayer.Operations
                 return tvshow;
             }
 
-            queueM.Push(new Message { CommandName = "id", Arg = id });
+            this.queueM.Push(new Message { CommandName = "id", Arg = id });
             return null;
         }
 
@@ -96,9 +96,40 @@ namespace STrackerServer.BusinessLayer.Operations
             {
                 return tvshow;
             }
-            // try catch aqui
-            queueM.Push(new Message { CommandName = "name", Arg = name });
+
+            this.queueM.Push(new Message { CommandName = "name", Arg = name });
             return null;
+        }
+
+        /// <summary>
+        /// The add comment.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool AddComment(string tvshowId, Comment comment)
+        {
+            var tvshow = this.Repository.Read(tvshowId);
+
+            if (tvshow == null)
+            {
+                return false;
+            }
+
+            this.queueM.Push(
+                new Message
+                    {
+                        CommandName = "tvShowComment",
+                        Arg = string.Format("{0}|{1}|{2}", tvshowId, comment.UserId, comment.Body)
+                    });
+
+            return true;
         }
     }
 }

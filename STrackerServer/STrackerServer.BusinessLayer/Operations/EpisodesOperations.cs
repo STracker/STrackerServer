@@ -16,6 +16,9 @@ namespace STrackerServer.BusinessLayer.Operations
     using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities;
 
+    using STrackerUpdater.RabbitMQ;
+    using STrackerUpdater.RabbitMQ.Core;
+
     /// <summary>
     /// Episodes operations.
     /// </summary>
@@ -27,18 +30,27 @@ namespace STrackerServer.BusinessLayer.Operations
         private readonly ISeasonsOperations seasonsOperations;
 
         /// <summary>
+        /// The queue manager.
+        /// </summary>
+        private readonly QueueManager queueM;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="EpisodesOperations"/> class.
         /// </summary>
         /// <param name="seasonsOperations">
-        /// The seasons Operations.
+        /// The seasons operations.
         /// </param>
         /// <param name="repository">
         /// The repository.
         /// </param>
-        public EpisodesOperations(ISeasonsOperations seasonsOperations, IEpisodesRepository repository)
+        /// <param name="queueM">
+        /// The queue m.
+        /// </param>
+        public EpisodesOperations(ISeasonsOperations seasonsOperations, IEpisodesRepository repository, QueueManager queueM)
             : base(repository)
         {
             this.seasonsOperations = seasonsOperations;
+            this.queueM = queueM;
         }
 
         /// <summary>
@@ -74,6 +86,43 @@ namespace STrackerServer.BusinessLayer.Operations
         {
             var season = this.seasonsOperations.Read(new Tuple<string, int>(tvshowId, seasonNumber));
             return season == null ? null : ((IEpisodesRepository)this.Repository).GetAllFromOneSeason(tvshowId, seasonNumber);
+        }
+
+        /// <summary>
+        /// The add comment.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// The season number.
+        /// </param>
+        /// <param name="episodeNumber">
+        /// The episode number.
+        /// </param>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool AddComment(string tvshowId, int seasonNumber, int episodeNumber, Comment comment)
+        {
+            var episode = this.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber));
+
+            if (episode == null)
+            {
+                return false;
+            }
+
+            this.queueM.Push(
+                new Message
+                {
+                    CommandName = "episodeComment",
+                    Arg = string.Format("{0}|{1}|{2}|{3}|{4}", tvshowId, seasonNumber, episodeNumber, comment.UserId, comment.Body)
+                });
+
+            return true;
         }
     }
 }

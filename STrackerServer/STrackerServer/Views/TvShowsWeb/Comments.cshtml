@@ -1,0 +1,13 @@
+﻿@model STrackerServer.Models.TvShow.TvShowCommentsView
+
+@{
+    ViewBag.Title = "Comments";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+@using(Html.BeginForm("AddComment","TvShowsWeb"))
+{
+    Html.Hidden("tvshowId", Model.TvShowId);
+    Html.Editor("body");
+    <input class="btn btn-primary" type="submit" value="Add Comment"/>
+}

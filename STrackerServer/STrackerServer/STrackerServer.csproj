@@ -158,6 +158,7 @@
     <Compile Include="Models\Home\HomeView.cs" />
     <Compile Include="Models\Season\SeasonView.cs" />
     <Compile Include="Models\TvShow\SubscriptionView.cs" />
+    <Compile Include="Models\TvShow\TvShowCommentsView.cs" />
     <Compile Include="Models\TvShow\TvShowView.cs" />
     <Compile Include="Models\User\FriendRequestView.cs" />
     <Compile Include="Models\User\FriendView.cs" />
@@ -210,6 +211,7 @@
     <Content Include="Views\UsersWeb\Requests.cshtml" />
     <Content Include="Views\UsersWeb\Index.cshtml" />
     <Content Include="Views\EpisodesWeb\Show.cshtml" />
+    <Content Include="Views\TvShowsWeb\Comments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

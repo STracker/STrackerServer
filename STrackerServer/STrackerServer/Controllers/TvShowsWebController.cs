@@ -15,6 +15,7 @@ namespace STrackerServer.Controllers
 
     using STrackerServer.BusinessLayer.Core;
     using STrackerServer.Custom_action_results;
+    using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.Models.TvShow;
 
     /// <summary>
@@ -99,6 +100,49 @@ namespace STrackerServer.Controllers
             }
 
             return new SeeOtherResult { Url = Url.Action("Show", new { tvshowId = tvshow.TvShowId }) };
+        }
+
+        /// <summary>
+        /// The comments.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpGet]
+        public ActionResult Comments(string tvshowId)
+        {
+            var view = new TvShowCommentsView { TvShowId = tvshowId };
+            return this.View(view);
+        }
+
+        /// <summary>
+        /// The add comment.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="body">
+        /// The body.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpPost]
+        [Authorize]
+        public ActionResult Comments(string tvshowId, string body)
+        {
+            var comment = new Comment { UserId = User.Identity.Name, Body = body };
+
+            if (this.tvshowOps.AddComment(tvshowId, comment))
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            return new SeeOtherResult { Url = Url.Action("Comments") };
         }
     }
 }
