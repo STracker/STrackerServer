@@ -68,6 +68,27 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
+            var model = new TvShowView(tvshow);
+            return this.View(model);
+        }
+
+        /// <summary>
+        /// The show options.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="unsubscribeRedirectUrl">
+        /// The Unsubscribe Redirect Url.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpGet]
+        public ActionResult TvShowPartialOptions(string tvshowId, string unsubscribeRedirectUrl)
+        {
+            var tvshow = this.tvshowOps.Read(tvshowId);
+
             var isSubscribed = false;
 
             if (User.Identity.IsAuthenticated)
@@ -76,8 +97,15 @@ namespace STrackerServer.Controllers
                 isSubscribed = user.SubscriptionList.Any(synopsis => synopsis.Id.Equals(tvshowId));
             }
 
-            var model = new TvShowView(tvshow, isSubscribed);
-            return this.View(model);
+            var tvshowPartial = new TvShowPartialOptions
+                {
+                    TvShowId = tvshowId, 
+                    Poster = tvshow.Artworks[0].ImageUrl, 
+                    IsSubscribed = isSubscribed,
+                    RedirectUrl = unsubscribeRedirectUrl
+                };
+
+            return this.View(tvshowPartial);
         }
 
         /// <summary>
@@ -114,7 +142,15 @@ namespace STrackerServer.Controllers
         [HttpGet]
         public ActionResult Comments(string tvshowId)
         {
-            var view = new TvShowCommentsView { TvShowId = tvshowId };
+            var tvshowComments = this.tvshowOps.GetComments(tvshowId);
+
+            if (tvshowComments == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            var view = new TvShowCommentsView { TvShowId = tvshowComments.TvShowId, Comments = tvshowComments.Comments };
             return this.View(view);
         }
 

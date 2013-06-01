@@ -26,7 +26,7 @@ namespace STrackerServer.Models.TvShow
         /// <param name="isSubscribed">
         /// The user is subscribed.
         /// </param>
-        public TvShowView(TvShow tvshow, bool isSubscribed)
+        public TvShowView(TvShow tvshow)
         {
             this.TvShowId = tvshow.TvShowId;
             this.Name = tvshow.Name;
@@ -39,7 +39,6 @@ namespace STrackerServer.Models.TvShow
             this.AirDay = tvshow.AirDay;
             this.Creator = tvshow.Creator;
             this.SeasonSynopses = tvshow.SeasonSynopses;
-            this.IsSubscribed = isSubscribed;
         }
 
         /// <summary>

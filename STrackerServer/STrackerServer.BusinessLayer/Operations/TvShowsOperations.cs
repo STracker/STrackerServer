@@ -29,18 +29,27 @@ namespace STrackerServer.BusinessLayer.Operations
         private readonly QueueManager queueM;
 
         /// <summary>
+        /// The comments repository.
+        /// </summary>
+        private readonly ITvShowCommentsRepository commentsRepository;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TvShowsOperations"/> class.
         /// </summary>
         /// <param name="repository">
         /// The repository.
         /// </param>
+        /// <param name="commentsRepository">
+        /// The comments Repository.
+        /// </param>
         /// <param name="queueM">
         /// The queue manager.
         /// </param>
-        public TvShowsOperations(ITvShowsRepository repository, QueueManager queueM)
+        public TvShowsOperations(ITvShowsRepository repository, ITvShowCommentsRepository commentsRepository, QueueManager queueM)
             : base(repository)
         {
             this.queueM = queueM;
+            this.commentsRepository = commentsRepository;
         }
 
         /// <summary>
@@ -130,6 +139,34 @@ namespace STrackerServer.BusinessLayer.Operations
                     });
 
             return true;
+        }
+
+        /// <summary>
+        /// The get comments.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TvShowComments"/>.
+        /// </returns>
+        public TvShowComments GetComments(string tvshowId)
+        {
+            var tvshow = this.Repository.Read(tvshowId);
+
+            if (tvshow == null)
+            {
+                return null;
+            }
+
+            var tvshowComments = this.commentsRepository.Read(tvshowId);
+
+            if (tvshowComments == null)
+            {
+                return null;
+            }
+
+            return tvshowComments;
         }
     }
 }

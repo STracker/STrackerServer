@@ -55,5 +55,16 @@ namespace STrackerServer.BusinessLayer.Core
         /// The <see cref="bool"/>.
         /// </returns>
         bool AddComment(string tvshowId, Comment comment);
+
+        /// <summary>
+        /// The get comments.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TvShowComments"/>.
+        /// </returns>
+        TvShowComments GetComments(string tvshowId);
     }
 }

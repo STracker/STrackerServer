@@ -1,0 +1,36 @@
+﻿@model STrackerServer.Models.TvShow.TvShowPartialOptions
+
+<img class="img-rounded" src="@Model.Poster" alt="No Artwork"/>  
+           
+@if (User.Identity.IsAuthenticated)
+{   
+    if (Model.IsSubscribed)
+    {
+        <div class="extra-padding">
+            @using(Html.BeginForm("UnSubscribe","UsersWeb", new { tvshowId = Model.TvShowId, redirectUrl = Model.RedirectUrl }))
+            {
+                <input class="btn btn-block btn-danger" type="submit" value="Unsubscribe"/>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="extra-padding">
+            @using (Html.BeginForm("Subscribe", "UsersWeb", new { tvshowId = Model.TvShowId, redirectUrl = Model.RedirectUrl }))
+            {
+                <input class="btn btn-block btn-primary" type="submit" value="Subscribe"/>
+            }
+        </div>
+    }
+    <p>
+        <a class="btn btn-block btn-primary" href="@Url.Action("Comments","TvShowsWeb", new { tvshowId = Model.TvShowId })">Comments</a>
+    </p>        
+}
+else
+{
+    <div class="extra-padding">
+        <p>
+            <a class="btn btn-block btn-primary" href="@Url.Action("Comments","TvShowsWeb", new { tvshowId = Model.TvShowId })">Comments</a>
+        </p> 
+    </div> 
+}

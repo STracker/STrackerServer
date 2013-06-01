@@ -193,12 +193,15 @@ namespace STrackerServer.Controllers
         /// <param name="tvshowId">
         /// The television show id.
         /// </param>
+        /// <param name="redirectUrl">
+        /// The redirect Url.
+        /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpPost]
         [Authorize]
-        public ActionResult Subscribe(string tvshowId)
+        public ActionResult Subscribe(string tvshowId, string redirectUrl)
         {
             if (!this.usersOperations.AddSubscription(User.Identity.Name, tvshowId))
             {
@@ -206,7 +209,7 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            return new SeeOtherResult { Url = Url.Action("Show", "TvShowsWeb", new { tvshowId }) };
+            return new SeeOtherResult { Url = redirectUrl };
         }
 
         /// <summary>

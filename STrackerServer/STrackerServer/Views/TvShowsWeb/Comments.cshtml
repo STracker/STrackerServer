@@ -5,9 +5,37 @@
     Layout = "~/Views/Shared/MainLayout.cshtml";
 }
 
-@using(Html.BeginForm("Comments","TvShowsWeb"))
-{
-    @Html.Hidden("tvshowId", Model.TvShowId);
-    @Html.Editor("body");
-    <input class="btn btn-primary" type="submit" value="Add Comment"/>
-}
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3">  
+            @Html.Action("TvShowPartialOptions","TvShowsWeb", new
+                {
+                    tvshowId = Model.TvShowId, 
+                    unsubscribeRedirectUrl = Url.Action("Comments","TvShowsWeb", new { tvshowId = Model.TvShowId })
+                })
+        </div> 
+        <div class="span6">
+            <div class="box">
+                
+                <h2>Comments</h2>
+                <br/>         
+                @if(User.Identity.IsAuthenticated)
+                {
+                    
+                    
+                        using(Html.BeginForm("Comments","TvShowsWeb"))
+                        {
+                            @Html.Hidden("tvshowId", Model.TvShowId)
+
+                            <textarea class="btn-block" style="min-width: inherit" id="body" name="body" type="text" value="">
+
+                            </textarea>
+                    
+   
+                            <input class="btn btn-primary" type="submit" value="Add Comment"/>
+                        }
+                }   
+            </div>         
+        </div>
+    </div>
+</div>
