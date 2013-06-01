@@ -123,9 +123,10 @@ namespace STrackerServer.Repository.MongoDB.Core
             // Get the collection that have all references for all television shows.
             var collectionAll = Database.GetCollection(CollectionNameForSynopsis);
 
-            // Ensure indexes for collections
-            collection.EnsureIndex(new IndexKeysBuilder().Ascending("TvShowId", "SeasonNumber", "EpisodeNumber", "ContainerType"), IndexOptions.SetUnique(true));
-            collection.EnsureIndex(new IndexKeysBuilder().Ascending("TvShowId", "ContainerType"), IndexOptions.SetUnique(true));
+            // Ensure indexes for collections.
+            collection.EnsureIndex(new IndexKeysBuilder().Ascending("TvShowId", "SeasonNumber", "EpisodeNumber"), IndexOptions.SetUnique(true));
+
+            // For name.
             collectionAll.EnsureIndex(new IndexKeysBuilder().Ascending("Name"));
             
             // The order is relevant because mongo don't ensure transactions.
@@ -153,7 +154,7 @@ namespace STrackerServer.Repository.MongoDB.Core
             }
 
             // Create the document for comments.
-            return this.commentsRepository.Create(new TvShowComments(entity.Key));
+            return this.commentsRepository.Create(new TvShowComments(entity.TvShowId));
         }
 
         /// <summary>

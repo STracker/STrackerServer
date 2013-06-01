@@ -42,7 +42,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </summary>
         static EpisodesRepository()
         {
-            if (!BsonClassMap.IsClassMapRegistered(typeof(Episode)))
+            if (BsonClassMap.IsClassMapRegistered(typeof(Episode)))
             {
                 return;
             }
@@ -101,7 +101,7 @@ namespace STrackerServer.Repository.MongoDB.Core
             season.EpisodeSynopses.Add(synopse);
 
             // Also create the document for comments.
-            return collection.Insert(entity).Ok && this.seasonsRepository.Update(season) && this.commentsRepository.Create(new EpisodeComments(entity.Key));
+            return collection.Insert(entity).Ok && this.seasonsRepository.Update(season) && this.commentsRepository.Create(new EpisodeComments(new Tuple<string, int, int>(entity.TvShowId, entity.SeasonNumber, entity.EpisodeNumber)));
         }
 
         /// <summary>

@@ -25,31 +25,30 @@ namespace STrackerServer.Repository.MongoDB.Core
     public class EpisodeCommentsRepository : BaseRepository<EpisodeComments, Tuple<string, int, int>>, IEpisodeCommentsRepository
     {
         /// <summary>
-        /// The container type.
+        /// The collection prefix.
         /// </summary>
-        private const string ContainerType = "Comments";
+        private const string CollectionPrefix = "Comments";
 
         /// <summary>
         /// Initializes static members of the <see cref="EpisodeCommentsRepository"/> class.
         /// </summary>
         static EpisodeCommentsRepository()
         {
-            if (BsonClassMap.IsClassMapRegistered(typeof(Container<Tuple<string, int, int>, Comment>)))
+            if (BsonClassMap.IsClassMapRegistered(typeof(EpisodeComments)))
             {
                 return;
             }
 
-            BsonClassMap.RegisterClassMap<Container<Tuple<string, int, int>, Comment>>(
+            BsonClassMap.RegisterClassMap<EpisodeComments>(
                 cm =>
-                {
-                    cm.AutoMap();
-                    cm.UnmapProperty(c => c.Key);
+                    {
+                        cm.AutoMap();
+                        cm.UnmapProperty(c => c.Key);
 
-                    // ignoring _id field when deserialize.
-                    cm.SetIgnoreExtraElementsIsInherited(true);
-                    cm.SetIgnoreExtraElements(true);
-                });
-            BsonClassMap.RegisterClassMap<EpisodeComments>();   
+                        // ignoring _id field when deserialize.
+                        cm.SetIgnoreExtraElementsIsInherited(true);
+                        cm.SetIgnoreExtraElements(true);
+                    });
         }
 
         /// <summary>
@@ -78,7 +77,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </returns>
         public override bool HookCreate(EpisodeComments entity)
         {
-            return this.Database.GetCollection(entity.Key.Item1).Insert(entity).Ok;
+            return this.Database.GetCollection(string.Format("{0}-{1}", entity.Key.Item1, CollectionPrefix)).Insert(entity).Ok;
         }
 
         /// <summary>
@@ -97,11 +96,9 @@ namespace STrackerServer.Repository.MongoDB.Core
             var query = Query.And(
                 Query<EpisodeComments>.EQ(comments => comments.Key.Item1, key.Item1),
                 Query<EpisodeComments>.EQ(comments => comments.Key.Item2, key.Item2),
-                Query<EpisodeComments>.EQ(comments => comments.Key.Item3, key.Item3),
-                Query<EpisodeComments>.EQ(comments => comments.ContainerType, ContainerType));
+                Query<EpisodeComments>.EQ(comments => comments.Key.Item3, key.Item3));
 
-            var comment = this.Database.GetCollection(key.Item1).FindOneAs<EpisodeComments>(query);
-
+            var comment = this.Database.GetCollection(string.Format("{0}-{1}", key.Item1, CollectionPrefix)).FindOneAs<EpisodeComments>(query);
             if (comment == null)
             {
                 return null;
@@ -127,12 +124,13 @@ namespace STrackerServer.Repository.MongoDB.Core
             var query = Query.And(
                 Query<EpisodeComments>.EQ(c => c.Key.Item1, entity.Key.Item1),
                 Query<EpisodeComments>.EQ(c => c.Key.Item2, entity.Key.Item2),
-                Query<EpisodeComments>.EQ(c => c.Key.Item3, entity.Key.Item3),
-                Query<EpisodeComments>.EQ(c => c.ContainerType, ContainerType));
+                Query<EpisodeComments>.EQ(c => c.Key.Item3, entity.Key.Item3));
 
-            var update = Update<EpisodeComments>.Set(showComments => showComments.Items, entity.Items);
+            var update = Update<EpisodeComments>.Set(showComments => showComments.Comments, entity.Comments);
 
-            return this.Database.GetCollection(entity.Key.Item1).Update(query, update).Ok;
+            return
+                this.Database.GetCollection(string.Format("{0}-{1}", entity.Key.Item1, CollectionPrefix)).Update(
+                    query, update).Ok;
         }
 
         /// <summary>
@@ -150,10 +148,9 @@ namespace STrackerServer.Repository.MongoDB.Core
             var query = Query.And(
                 Query<EpisodeComments>.EQ(c => c.Key.Item1, key.Item1),
                 Query<EpisodeComments>.EQ(c => c.Key.Item2, key.Item2),
-                Query<EpisodeComments>.EQ(c => c.Key.Item3, key.Item3),
-                Query<EpisodeComments>.EQ(c => c.ContainerType, ContainerType));
+                Query<EpisodeComments>.EQ(c => c.Key.Item3, key.Item3));
 
-            return this.Database.GetCollection(key.Item1).FindAndRemove(query, SortBy.Null).Ok;
+            return this.Database.GetCollection(string.Format("{0}-{1}", key.Item1, CollectionPrefix)).FindAndRemove(query, SortBy.Null).Ok;
         }
     }
 }

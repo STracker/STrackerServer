@@ -23,21 +23,21 @@ namespace STrackerServer.Repository.MongoDB.Core
     public class TvShowCommentsRepository : BaseRepository<TvShowComments, string>, ITvShowCommentsRepository
     {
         /// <summary>
-        /// The container type.
+        /// The collection prefix.
         /// </summary>
-        private const string ContainerType = "Comments";
+        private const string CollectionPrefix = "Comments";
 
         /// <summary>
         /// Initializes static members of the <see cref="TvShowCommentsRepository"/> class.
         /// </summary>
         static TvShowCommentsRepository()
         {
-             if (BsonClassMap.IsClassMapRegistered(typeof(Container<string, Comment>)))
+             if (BsonClassMap.IsClassMapRegistered(typeof(TvShowComments)))
             {
                 return;
             }
 
-            BsonClassMap.RegisterClassMap<Container<string, Comment>>(
+            BsonClassMap.RegisterClassMap<TvShowComments>(
                 cm =>
                     {
                         cm.AutoMap();
@@ -47,7 +47,6 @@ namespace STrackerServer.Repository.MongoDB.Core
                         cm.SetIgnoreExtraElementsIsInherited(true);
                         cm.SetIgnoreExtraElements(true);
                     });
-            BsonClassMap.RegisterClassMap<TvShowComments>();
         }
 
         /// <summary>
@@ -76,7 +75,12 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </returns>
         public override bool HookCreate(TvShowComments entity)
         {
-            return this.Database.GetCollection(entity.Key).Insert(entity).Ok;
+            var collection = this.Database.GetCollection(string.Format("{0}-{1}", entity.TvShowId, CollectionPrefix));
+
+            // Ensure index.
+            collection.EnsureIndex(new IndexKeysBuilder().Ascending("TvShowId", "SeasonNumber", "EpisodeNumber"), IndexOptions.SetUnique(true));
+
+            return collection.Insert(entity).Ok;
         }
 
         /// <summary>
@@ -92,12 +96,9 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </returns>
         public override TvShowComments HookRead(string key)
         {
-            var query = Query.And(
-                Query<TvShowComments>.EQ(comments => comments.Key, key),
-                Query<TvShowComments>.EQ(comments => comments.ContainerType, ContainerType));
+            var query = Query<TvShowComments>.EQ(comments => comments.TvShowId, key);
 
-            var comment = this.Database.GetCollection(key).FindOneAs<TvShowComments>(query);
-
+            var comment = this.Database.GetCollection(string.Format("{0}-{1}", key, CollectionPrefix)).FindOneAs<TvShowComments>(query);
             if (comment == null)
             {
                 return null;
@@ -120,12 +121,10 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </returns>
         public override bool HookUpdate(TvShowComments entity)
         {
-            var query = Query.And(
-                 Query<TvShowComments>.EQ(c => c.Key, entity.Key),
-                 Query<TvShowComments>.EQ(c => c.ContainerType, ContainerType));
+            var query = Query<TvShowComments>.EQ(comments => comments.TvShowId, entity.Key);
+            var update = Update<TvShowComments>.Set(showComments => showComments.Comments, entity.Comments);
 
-            var update = Update<TvShowComments>.Set(showComments => showComments.Items, entity.Items);
-            return this.Database.GetCollection(entity.Key).Update(query, update).Ok;
+            return this.Database.GetCollection(string.Format("{0}-{1}", entity.TvShowId, CollectionPrefix)).Update(query, update).Ok;
         }
 
         /// <summary>
@@ -140,11 +139,9 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </returns>
         public override bool HookDelete(string key)
         {
-            var query = Query.And(
-                 Query<TvShowComments>.EQ(c => c.Key, key),
-                 Query<TvShowComments>.EQ(c => c.ContainerType, ContainerType));
+            var query = Query<TvShowComments>.EQ(comments => comments.TvShowId, key);
 
-            return this.Database.GetCollection(key).FindAndRemove(query, SortBy.Null).Ok;
+            return this.Database.GetCollection(string.Format("{0}-{1}", key, CollectionPrefix)).FindAndRemove(query, SortBy.Null).Ok;
         }
     }
 }

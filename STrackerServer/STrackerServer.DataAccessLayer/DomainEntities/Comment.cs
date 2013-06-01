@@ -9,8 +9,6 @@
 
 namespace STrackerServer.DataAccessLayer.DomainEntities
 {
-    using STrackerServer.DataAccessLayer.Core;
-
     /// <summary>
     /// The comment.
     /// </summary>
