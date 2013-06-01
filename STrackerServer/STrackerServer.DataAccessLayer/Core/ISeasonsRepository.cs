@@ -38,9 +38,6 @@ namespace STrackerServer.DataAccessLayer.Core
         /// <param name="seasons">
         /// The seasons.
         /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        bool CreateAll(IEnumerable<Season> seasons);
+        void CreateAll(IEnumerable<Season> seasons);
     }
 }

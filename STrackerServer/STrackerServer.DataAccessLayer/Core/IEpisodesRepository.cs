@@ -25,10 +25,7 @@ namespace STrackerServer.DataAccessLayer.Core
         /// <param name="episodes">
         /// The episodes.
         /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        bool CreateAll(IEnumerable<Episode> episodes);
+        void CreateAll(IEnumerable<Episode> episodes);
 
         /// <summary>
         /// The get all from one season.
