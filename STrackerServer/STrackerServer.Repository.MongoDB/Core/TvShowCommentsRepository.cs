@@ -143,5 +143,28 @@ namespace STrackerServer.Repository.MongoDB.Core
 
             return this.Database.GetCollection(string.Format("{0}-{1}", key, CollectionPrefix)).FindAndRemove(query, SortBy.Null).Ok;
         }
+
+        /// <summary>
+        /// The add comment.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool AddComment(string key, Comment comment)
+        {
+            var comments = this.Read(key);
+           
+            // Set index and update.
+            comment.Index = comments.Comments.Count + 1;
+            comments.Comments.Add(comment);
+
+            return this.Update(comments);
+        }
     }
 }

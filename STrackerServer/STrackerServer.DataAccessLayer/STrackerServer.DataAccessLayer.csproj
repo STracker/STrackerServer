@@ -46,6 +46,7 @@
     <Compile Include="Core\IRepository.cs" />
     <Compile Include="Core\ISeasonsRepository.cs" />
     <Compile Include="Core\ITvShowCommentsRepository.cs" />
+    <Compile Include="Core\ITvShowRatingsRepository.cs" />
     <Compile Include="Core\ITvShowsRepository.cs" />
     <Compile Include="Core\IUsersRepository.cs" />
     <Compile Include="DomainEntities\Actor.cs" />
@@ -57,9 +58,11 @@
     <Compile Include="DomainEntities\Genre.cs" />
     <Compile Include="DomainEntities\Media.cs" />
     <Compile Include="DomainEntities\Person.cs" />
+    <Compile Include="DomainEntities\Rating.cs" />
     <Compile Include="DomainEntities\Season.cs" />
     <Compile Include="DomainEntities\TvShow.cs" />
     <Compile Include="DomainEntities\TvShowComments.cs" />
+    <Compile Include="DomainEntities\TvShowRatings.cs" />
     <Compile Include="DomainEntities\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -154,19 +154,7 @@ namespace STrackerServer.BusinessLayer.Operations
         {
             var tvshow = this.Repository.Read(tvshowId);
 
-            if (tvshow == null)
-            {
-                return null;
-            }
-
-            var tvshowComments = this.commentsRepository.Read(tvshowId);
-
-            if (tvshowComments == null)
-            {
-                return null;
-            }
-
-            return tvshowComments;
+            return tvshow == null ? null : this.commentsRepository.Read(tvshowId);
         }
     }
 }
