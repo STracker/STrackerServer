@@ -194,5 +194,12 @@ namespace STrackerServer.Controllers
 
             return new SeeOtherResult { Url = Url.Action("Comments", "TvShowsWeb", new { tvshowId }) };
         }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult RemoveComment()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -21,10 +21,24 @@
             <div class="box">                  
                 @foreach(var comment in Model.Comments)
                 {
-                    <div class="box-whiter">
-                        <p>@comment.UserId</p>
-                        @comment.Body
-                    </div> 
+                    <div> 
+                        <div class="box-whiter">
+                            <div style="text-align: right">
+                                @if (User.Identity.IsAuthenticated && comment.UserId.Equals(User.Identity.Name))
+                                {
+                                    using (Html.BeginForm("RemoveComment", "TvShowsWeb", FormMethod.Post))
+                                    {
+                                        @Html.Hidden("tvshowId", Model.TvShowId)
+                                        @Html.Hidden("index", comment.Index)
+                                        <input class="btn btn-danger btn-mini" type="submit" value="x"/>
+                                    } 
+                                }
+                            </div>
+
+                            <p>@comment.UserId</p>
+                            @comment.Body  
+                        </div> 
+                    </div>
                 }
             </div>
             
