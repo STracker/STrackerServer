@@ -103,6 +103,17 @@ namespace STrackerServer.BusinessLayer.Operations
         }
 
         /// <summary>
+        /// The remove comment.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        public abstract void RemoveComment(TK key, Comment comment);
+
+        /// <summary>
         /// The add comment hook method.
         /// </summary>
         /// <param name="key">

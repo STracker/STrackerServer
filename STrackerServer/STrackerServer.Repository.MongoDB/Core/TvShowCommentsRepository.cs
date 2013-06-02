@@ -169,5 +169,42 @@ namespace STrackerServer.Repository.MongoDB.Core
 
             return this.Update(comments);
         }
+
+        /// <summary>
+        /// The remove comment.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool RemoveComment(string key, Comment comment)
+        {
+            var comments = this.Read(key);
+
+            Comment commentForRemove = null;
+            foreach (var c in comments.Comments)
+            {
+                if (!c.UserId.Equals(comment.UserId) || c.Index != comment.Index)
+                {
+                    continue;
+                }
+
+                commentForRemove = c;
+                break;
+            }
+
+            if (commentForRemove == null)
+            {
+                return false;
+            }
+
+            comments.Comments.Remove(commentForRemove);
+            return this.Update(comments);
+        }
     }
 }

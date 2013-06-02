@@ -46,5 +46,16 @@ namespace STrackerServer.BusinessLayer.Core
         /// The <see cref="TC"/>.
         /// </returns>
         TC GetComments(TK key);
+
+        /// <summary>
+        /// The remove comment.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        void RemoveComment(TK key, Comment comment);
     }
 }

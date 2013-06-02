@@ -29,5 +29,19 @@ namespace STrackerServer.DataAccessLayer.Core
         /// The <see cref="bool"/>.
         /// </returns>
         bool AddComment(string key, Comment comment);
+
+        /// <summary>
+        /// The remove comment.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool RemoveComment(string key, Comment comment);
     }
 }

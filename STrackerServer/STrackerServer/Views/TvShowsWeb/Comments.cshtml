@@ -26,8 +26,9 @@
                             <div style="text-align: right">
                                 @if (User.Identity.IsAuthenticated && comment.UserId.Equals(User.Identity.Name))
                                 {
-                                    using (Html.BeginForm("RemoveComment", "TvShowsWeb", FormMethod.Post))
+                                    using (Html.BeginForm("Comments", "TvShowsWeb", FormMethod.Post))
                                     {
+                                        @Html.Hidden("add", false)
                                         @Html.Hidden("tvshowId", Model.TvShowId)
                                         @Html.Hidden("index", comment.Index)
                                         <input class="btn btn-danger btn-mini" type="submit" value="x"/>
@@ -47,6 +48,7 @@
                 <div class="box">       
                     @using (Html.BeginForm("Comments", "TvShowsWeb"))
                     {
+                        @Html.Hidden("add", true)
                         @Html.Hidden("tvshowId", Model.TvShowId)
                         <textarea class="btn-block comments-textarea" id="body" name="body"></textarea>
                         <input class="btn btn-primary" type="submit" value="Add Comment"/>

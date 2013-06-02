@@ -182,5 +182,48 @@ namespace STrackerServer.Repository.MongoDB.Core
 
             return this.Update(comments);
         }
+
+        /// <summary>
+        /// The remove comment.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// The season number.
+        /// </param>
+        /// <param name="episodeNumber">
+        /// The episode number.
+        /// </param>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool RemoveComment(string tvshowId, int seasonNumber, int episodeNumber, Comment comment)
+        {
+            var comments = this.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber));
+
+            Comment commentForRemove = null;
+            foreach (var c in comments.Comments)
+            {
+                if (!c.UserId.Equals(comment.UserId) || c.Index != comment.Index)
+                {
+                    continue;
+                }
+
+                commentForRemove = c;
+                break;
+            }
+
+            if (commentForRemove == null)
+            {
+                return false;
+            }
+
+            comments.Comments.Remove(commentForRemove);
+            return this.Update(comments);
+        }
     }
 }

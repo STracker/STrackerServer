@@ -37,5 +37,25 @@ namespace STrackerServer.DataAccessLayer.Core
         /// The <see cref="bool"/>.
         /// </returns>
         bool AddComment(string tvshowId, int seasonNumber, int episodeNumber, Comment comment);
+
+        /// <summary>
+        /// The remove comment.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// The season number.
+        /// </param>
+        /// <param name="episodeNumber">
+        /// The episode number.
+        /// </param>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool RemoveComment(string tvshowId, int seasonNumber, int episodeNumber, Comment comment);
     }
 }

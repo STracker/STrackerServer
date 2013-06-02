@@ -41,6 +41,24 @@ namespace STrackerServer.BusinessLayer.Operations
         }
 
         /// <summary>
+        /// The remove comment.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        public override void RemoveComment(Tuple<string, int, int> key, Comment comment)
+        {
+            this.QueueM.Push(new Message
+                {
+                    CommandName = "episodeCommentRemove",
+                    Arg = string.Format("{0}|{1}|{2}|{3}|{4}", key.Item1, key.Item2, key.Item3, comment.UserId, comment.Index)
+                });
+        }
+
+        /// <summary>
         /// The add comment hook method.
         /// </summary>
         /// <param name="key">
@@ -54,7 +72,7 @@ namespace STrackerServer.BusinessLayer.Operations
             this.QueueM.Push(
                new Message
                {
-                   CommandName = "episodeComment",
+                   CommandName = "episodeCommentAdd",
                    Arg = string.Format("{0}|{1}|{2}|{3}|{4}", key.Item1, key.Item2, key.Item3, comment.UserId, comment.Body)
                });
         }

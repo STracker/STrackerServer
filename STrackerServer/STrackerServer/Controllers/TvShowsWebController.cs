@@ -171,8 +171,14 @@ namespace STrackerServer.Controllers
         /// <summary>
         /// The add comment.
         /// </summary>
+        /// <param name="add">
+        /// The add.
+        /// </param>
         /// <param name="tvshowId">
         /// The television show id.
+        /// </param>
+        /// <param name="index">
+        /// The index.
         /// </param>
         /// <param name="body">
         /// The body.
@@ -180,11 +186,26 @@ namespace STrackerServer.Controllers
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
+        /// If add is true than is for create a comment, otherwise is for delete a comment.
         [HttpPost]
         [Authorize]
-        public ActionResult Comments(string tvshowId, string body)
+        public ActionResult Comments(bool add, string tvshowId, int? index, string body)
         {
-            var comment = new Comment { UserId = User.Identity.Name, Body = body };
+            Comment comment;
+            if (!add)
+            {
+                if (index == null)
+                {
+                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return this.View("Error", Response.StatusCode); 
+                }
+
+                comment = new Comment { UserId = User.Identity.Name, Index = index.Value };
+                this.commentsOperations.RemoveComment(tvshowId, comment);
+                return new SeeOtherResult { Url = Url.Action("Comments", "TvShowsWeb", new { tvshowId }) };
+            }
+
+            comment = new Comment { UserId = User.Identity.Name, Body = body };
 
             if (!this.commentsOperations.AddComment(tvshowId, comment))
             {
@@ -193,19 +214,6 @@ namespace STrackerServer.Controllers
             }
 
             return new SeeOtherResult { Url = Url.Action("Comments", "TvShowsWeb", new { tvshowId }) };
-        }
-
-        /// <summary>
-        /// The remove comment.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="ActionResult"/>.
-        /// </returns>
-        [HttpPost]
-        [Authorize]
-        public ActionResult RemoveComment()
-        {
-            return null;
         }
     }
 }
