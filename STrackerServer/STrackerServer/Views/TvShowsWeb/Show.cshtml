@@ -41,25 +41,7 @@
             <div class="box">
                 <h2>Cast</h2>
                 <br/>
-
-                <div style="text-align: center">
-                    @foreach(var actor in Model.Actors)
-                    {
-                        <div class="span2" style="text-align: justify">
-
-                            @if(actor.Photo != null)
-                            {
-                                <img class="" src="@actor.Photo.ImageUrl" alt="No Artwork"/>
-                            }
-       
-        
-                            @actor.Name
-                            @actor.CharacterName
-                            <br/>
-                        </div>   
-                    }
-                </div>
-
+                  
                 <table class="table table-condensed">
                     <tr>
                         <th>Photo</th>
@@ -73,7 +55,11 @@
                             <td>
                                 @if(actor.Photo != null)
                                 {
-                                    <img class="" src="@actor.Photo.ImageUrl" alt="No Artwork"/>
+                                    <img class="icon-actor" src="@actor.Photo.ImageUrl" alt="No Artwork"/>
+                                }
+                                else
+                                {
+                                    <img class="icon-actor" src="https://dl.dropboxusercontent.com/u/2696848/default-profile-pic.jpg" alt="No Artwork"/>
                                 }
                             </td>
                             <td>

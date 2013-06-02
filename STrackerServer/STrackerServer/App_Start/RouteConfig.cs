@@ -42,7 +42,7 @@ namespace STrackerServer.App_Start
             routes.MapRoute(
                 "Account_Login",
                 "Account/Login",
-                new { controller = "Account", action = "Login", returnUrl = UrlParameter.Optional });
+                new { controller = "Account", action = "Login"});
 
             routes.MapRoute(
                 "Account_Callback",
