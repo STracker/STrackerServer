@@ -1,32 +1,27 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Comment.cs" company="STracker">
+// <copyright file="Rating.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//   Implementation of comment object.
+//   Implementation of rating object.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace STrackerServer.DataAccessLayer.DomainEntities
 {
     /// <summary>
-    /// The comment.
+    /// The rating.
     /// </summary>
-    public class Comment 
+    public class Rating
     {
-        /// <summary>
-        /// Gets or sets the comment body.
-        /// </summary>
-        public string Body { get; set; }
-
         /// <summary>
         /// Gets or sets the user id.
         /// </summary>
         public string UserId { get; set; }
 
         /// <summary>
-        /// Gets or sets the index.
+        /// Gets or sets the user rating.
         /// </summary>
-        public int Index { get; set; }
+        public int UserRating { get; set; }
     }
 }

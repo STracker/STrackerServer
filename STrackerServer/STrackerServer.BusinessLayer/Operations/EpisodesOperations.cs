@@ -30,6 +30,11 @@ namespace STrackerServer.BusinessLayer.Operations
         private readonly ISeasonsOperations seasonsOperations;
 
         /// <summary>
+        /// The comments repository.
+        /// </summary>
+        private readonly IEpisodeCommentsRepository commentsRepository;
+
+        /// <summary>
         /// The queue manager.
         /// </summary>
         private readonly QueueManager queueM;
@@ -43,13 +48,17 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <param name="repository">
         /// The repository.
         /// </param>
+        /// <param name="commentsRepository">
+        /// The comments Repository.
+        /// </param>
         /// <param name="queueM">
         /// The queue m.
         /// </param>
-        public EpisodesOperations(ISeasonsOperations seasonsOperations, IEpisodesRepository repository, QueueManager queueM)
+        public EpisodesOperations(ISeasonsOperations seasonsOperations, IEpisodesRepository repository, IEpisodeCommentsRepository commentsRepository, QueueManager queueM)
             : base(repository)
         {
             this.seasonsOperations = seasonsOperations;
+            this.commentsRepository = commentsRepository;
             this.queueM = queueM;
         }
 
@@ -123,6 +132,28 @@ namespace STrackerServer.BusinessLayer.Operations
                 });
 
             return true;
+        }
+
+        /// <summary>
+        /// The get comments.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// The season number.
+        /// </param>
+        /// <param name="episodeNumber">
+        /// The episode number.
+        /// </param>
+        /// <returns>
+        /// The <see cref="EpisodeComments"/>.
+        /// </returns>
+        public EpisodeComments GetComments(string tvshowId, int seasonNumber, int episodeNumber)
+        {
+            var episode = this.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber));
+
+            return episode == null ? null : this.commentsRepository.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber));
         }
     }
 }

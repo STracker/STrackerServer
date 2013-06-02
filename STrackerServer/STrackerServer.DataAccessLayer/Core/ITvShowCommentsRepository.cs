@@ -16,5 +16,18 @@ namespace STrackerServer.DataAccessLayer.Core
     /// </summary>
     public interface ITvShowCommentsRepository : IRepository<TvShowComments, string>
     {
+        /// <summary>
+        /// The add comment.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool AddComment(string key, Comment comment);
     }
 }

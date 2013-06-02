@@ -18,5 +18,18 @@ namespace STrackerServer.DataAccessLayer.Core
     /// </summary>
     public interface IEpisodeCommentsRepository : IRepository<EpisodeComments, Tuple<string, int, int>>
     {
+        /// <summary>
+        /// The add comment.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool AddComment(Tuple<string, int, int> key, Comment comment);
     }
 }
