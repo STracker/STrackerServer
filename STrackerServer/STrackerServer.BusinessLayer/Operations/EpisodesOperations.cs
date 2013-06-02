@@ -16,9 +16,6 @@ namespace STrackerServer.BusinessLayer.Operations
     using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities;
 
-    using STrackerUpdater.RabbitMQ;
-    using STrackerUpdater.RabbitMQ.Core;
-
     /// <summary>
     /// Episodes operations.
     /// </summary>
@@ -30,16 +27,6 @@ namespace STrackerServer.BusinessLayer.Operations
         private readonly ISeasonsOperations seasonsOperations;
 
         /// <summary>
-        /// The comments repository.
-        /// </summary>
-        private readonly IEpisodeCommentsRepository commentsRepository;
-
-        /// <summary>
-        /// The queue manager.
-        /// </summary>
-        private readonly QueueManager queueM;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="EpisodesOperations"/> class.
         /// </summary>
         /// <param name="seasonsOperations">
@@ -48,18 +35,10 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <param name="repository">
         /// The repository.
         /// </param>
-        /// <param name="commentsRepository">
-        /// The comments Repository.
-        /// </param>
-        /// <param name="queueM">
-        /// The queue m.
-        /// </param>
-        public EpisodesOperations(ISeasonsOperations seasonsOperations, IEpisodesRepository repository, IEpisodeCommentsRepository commentsRepository, QueueManager queueM)
+        public EpisodesOperations(ISeasonsOperations seasonsOperations, IEpisodesRepository repository)
             : base(repository)
         {
             this.seasonsOperations = seasonsOperations;
-            this.commentsRepository = commentsRepository;
-            this.queueM = queueM;
         }
 
         /// <summary>
@@ -95,65 +74,6 @@ namespace STrackerServer.BusinessLayer.Operations
         {
             var season = this.seasonsOperations.Read(new Tuple<string, int>(tvshowId, seasonNumber));
             return season == null ? null : ((IEpisodesRepository)this.Repository).GetAllFromOneSeason(tvshowId, seasonNumber);
-        }
-
-        /// <summary>
-        /// The add comment.
-        /// </summary>
-        /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <param name="seasonNumber">
-        /// The season number.
-        /// </param>
-        /// <param name="episodeNumber">
-        /// The episode number.
-        /// </param>
-        /// <param name="comment">
-        /// The comment.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public bool AddComment(string tvshowId, int seasonNumber, int episodeNumber, Comment comment)
-        {
-            var episode = this.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber));
-
-            if (episode == null)
-            {
-                return false;
-            }
-
-            this.queueM.Push(
-                new Message
-                {
-                    CommandName = "episodeComment",
-                    Arg = string.Format("{0}|{1}|{2}|{3}|{4}", tvshowId, seasonNumber, episodeNumber, comment.UserId, comment.Body)
-                });
-
-            return true;
-        }
-
-        /// <summary>
-        /// The get comments.
-        /// </summary>
-        /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <param name="seasonNumber">
-        /// The season number.
-        /// </param>
-        /// <param name="episodeNumber">
-        /// The episode number.
-        /// </param>
-        /// <returns>
-        /// The <see cref="EpisodeComments"/>.
-        /// </returns>
-        public EpisodeComments GetComments(string tvshowId, int seasonNumber, int episodeNumber)
-        {
-            var episode = this.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber));
-
-            return episode == null ? null : this.commentsRepository.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber));
         }
     }
 }

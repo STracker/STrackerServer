@@ -21,8 +21,14 @@ namespace STrackerServer.DataAccessLayer.Core
         /// <summary>
         /// The add comment.
         /// </summary>
-        /// <param name="key">
-        /// The key.
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// The season number.
+        /// </param>
+        /// <param name="episodeNumber">
+        /// The episode number.
         /// </param>
         /// <param name="comment">
         /// The comment.
@@ -30,6 +36,6 @@ namespace STrackerServer.DataAccessLayer.Core
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool AddComment(Tuple<string, int, int> key, Comment comment);
+        bool AddComment(string tvshowId, int seasonNumber, int episodeNumber, Comment comment);
     }
 }

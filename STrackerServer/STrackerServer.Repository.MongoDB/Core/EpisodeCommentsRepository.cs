@@ -156,8 +156,14 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <summary>
         /// The add comment.
         /// </summary>
-        /// <param name="key">
-        /// The key.
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// The season number.
+        /// </param>
+        /// <param name="episodeNumber">
+        /// The episode number.
         /// </param>
         /// <param name="comment">
         /// The comment.
@@ -165,9 +171,9 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public bool AddComment(Tuple<string, int, int> key, Comment comment)
+        public bool AddComment(string tvshowId, int seasonNumber, int episodeNumber, Comment comment)
         {
-            var comments = this.Read(key);
+            var comments = this.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber));
 
             // Set index and update.
             comment.Index = comments.Comments.Count + 1;
