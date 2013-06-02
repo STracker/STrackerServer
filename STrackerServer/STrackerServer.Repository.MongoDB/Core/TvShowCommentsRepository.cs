@@ -32,12 +32,12 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </summary>
         static TvShowCommentsRepository()
         {
-             if (BsonClassMap.IsClassMapRegistered(typeof(TvShowComments)))
+             if (BsonClassMap.IsClassMapRegistered(typeof(BaseComments<string>)))
             {
                 return;
             }
 
-            BsonClassMap.RegisterClassMap<TvShowComments>(
+            BsonClassMap.RegisterClassMap<BaseComments<string>>(
                 cm =>
                     {
                         cm.AutoMap();
@@ -47,6 +47,7 @@ namespace STrackerServer.Repository.MongoDB.Core
                         cm.SetIgnoreExtraElementsIsInherited(true);
                         cm.SetIgnoreExtraElements(true);
                     });
+            BsonClassMap.RegisterClassMap<TvShowComments>();
         }
 
         /// <summary>
@@ -96,17 +97,19 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </returns>
         public override TvShowComments HookRead(string key)
         {
-            var query = Query<TvShowComments>.EQ(comments => comments.TvShowId, key);
+            var query = Query<TvShowComments>.EQ(c => c.TvShowId, key);
 
-            var comment = this.Database.GetCollection(string.Format("{0}-{1}", key, CollectionPrefix)).FindOneAs<TvShowComments>(query);
-            if (comment == null)
+            var collection = this.Database.GetCollection(string.Format("{0}-{1}", key, CollectionPrefix));
+
+            var comments = collection.FindOneAs<TvShowComments>(query);
+            if (comments == null)
             {
                 return null;
             }
 
-            comment.Key = key;
+            comments.Key = key;
 
-            return comment;
+            return comments;
         }
 
         /// <summary>

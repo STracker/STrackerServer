@@ -14,13 +14,19 @@ namespace STrackerServer.BusinessLayer.Core
     /// <summary>
     /// The CommentsOperations interface.
     /// </summary>
-    public interface ICommentsOperations
+    /// <typeparam name="TC">
+    /// Type of the comment entity.
+    /// </typeparam>
+    /// <typeparam name="TK">
+    /// Type of the key.
+    /// </typeparam>
+    public interface ICommentsOperations<out TC, in TK>
     {
         /// <summary>
         /// The add comment.
         /// </summary>
-        /// <param name="tvshowId">
-        /// The television show id.
+        /// <param name="key">
+        /// The key.
         /// </param>
         /// <param name="comment">
         /// The comment.
@@ -28,54 +34,17 @@ namespace STrackerServer.BusinessLayer.Core
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool AddTvShowComment(string tvshowId, Comment comment);
+        bool AddComment(TK key, Comment comment);
 
         /// <summary>
         /// The get comments.
         /// </summary>
-        /// <param name="tvshowId">
-        /// The television show id.
+        /// <param name="key">
+        /// The key.
         /// </param>
         /// <returns>
-        /// The <see cref="TvShowComments"/>.
+        /// The <see cref="TC"/>.
         /// </returns>
-        TvShowComments GetTvShowComments(string tvshowId);
-
-        /// <summary>
-        /// The add comment.
-        /// </summary>
-        /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <param name="seasonNumber">
-        /// The season number.
-        /// </param>
-        /// <param name="episodeNumber">
-        /// The episode number.
-        /// </param>
-        /// <param name="comment">
-        /// The comment.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        bool AddEpisodeComment(string tvshowId, int seasonNumber, int episodeNumber, Comment comment);
-
-        /// <summary>
-        /// The get comments.
-        /// </summary>
-        /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <param name="seasonNumber">
-        /// The season number.
-        /// </param>
-        /// <param name="episodeNumber">
-        /// The episode number.
-        /// </param>
-        /// <returns>
-        /// The <see cref="EpisodeComments"/>.
-        /// </returns>
-        EpisodeComments GetEpisodeComments(string tvshowId, int seasonNumber, int episodeNumber);
+        TC GetComments(TK key);
     }
 }

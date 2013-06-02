@@ -3,7 +3,7 @@
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//   The Episode Comments Repository interface.
+//   The Episode BaseComments Repository interface.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -14,7 +14,7 @@ namespace STrackerServer.DataAccessLayer.Core
     using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
-    /// The Episode Comments Repository interface.
+    /// The Episode BaseComments Repository interface.
     /// </summary>
     public interface IEpisodeCommentsRepository : IRepository<EpisodeComments, Tuple<string, int, int>>
     {

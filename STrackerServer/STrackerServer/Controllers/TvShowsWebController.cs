@@ -36,7 +36,7 @@ namespace STrackerServer.Controllers
         /// <summary>
         /// The comments operations.
         /// </summary>
-        private readonly ICommentsOperations commentsOperations;
+        private readonly ITvShowsCommentsOperations commentsOperations;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TvShowsWebController"/> class.
@@ -50,7 +50,7 @@ namespace STrackerServer.Controllers
         /// <param name="commentsOperations">
         /// The comments Operations.
         /// </param>
-        public TvShowsWebController(ITvShowsOperations tvshowOps, IUsersOperations userOps, ICommentsOperations commentsOperations)
+        public TvShowsWebController(ITvShowsOperations tvshowOps, IUsersOperations userOps, ITvShowsCommentsOperations commentsOperations)
         {
             this.tvshowOps = tvshowOps;
             this.userOps = userOps;
@@ -156,7 +156,7 @@ namespace STrackerServer.Controllers
         [HttpGet]
         public ActionResult Comments(string tvshowId)
         {
-            var tvshowComments = this.commentsOperations.GetTvShowComments(tvshowId);
+            var tvshowComments = this.commentsOperations.GetComments(tvshowId);
 
             if (tvshowComments == null)
             {
@@ -186,7 +186,7 @@ namespace STrackerServer.Controllers
         {
             var comment = new Comment { UserId = User.Identity.Name, Body = body };
 
-            if (!this.commentsOperations.AddTvShowComment(tvshowId, comment))
+            if (!this.commentsOperations.AddComment(tvshowId, comment))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View("Error", Response.StatusCode);
@@ -195,11 +195,17 @@ namespace STrackerServer.Controllers
             return new SeeOtherResult { Url = Url.Action("Comments", "TvShowsWeb", new { tvshowId }) };
         }
 
+        /// <summary>
+        /// The remove comment.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
         [HttpPost]
         [Authorize]
         public ActionResult RemoveComment()
         {
-            throw new System.NotImplementedException();
+            return null;
         }
     }
 }

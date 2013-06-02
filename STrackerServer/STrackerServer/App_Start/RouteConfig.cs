@@ -40,9 +40,7 @@ namespace STrackerServer.App_Start
             routes.MapRoute("User_UnSubscribe", "User/UnSubscribe/{tvshowId}", new { controller = "UsersWeb", action = "UnSubscribe" });
 
             routes.MapRoute(
-                "Account_Login",
-                "Account/Login",
-                new { controller = "Account", action = "Login"});
+                "Account_Login", "Account/Login", new { controller = "Account", action = "Login" });
 
             routes.MapRoute(
                 "Account_Callback",

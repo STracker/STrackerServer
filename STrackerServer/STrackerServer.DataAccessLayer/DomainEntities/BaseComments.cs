@@ -1,9 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TvShowComments.cs" company="STracker">
+// <copyright file="BaseComments.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//   The television show comments.
+//  Implementation of base comments domain entity. 
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -11,28 +11,35 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
 {
     using System.Collections.Generic;
 
+    using STrackerServer.DataAccessLayer.Core;
+
     /// <summary>
-    /// The television show comments.
+    /// The comments.
     /// </summary>
-    public class TvShowComments : BaseComments<string>
+    /// <typeparam name="T">
+    /// Type of the key.
+    /// </typeparam>
+    public class BaseComments<T> : IEntity<T>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TvShowComments"/> class.
+        /// Initializes a new instance of the <see cref="BaseComments{T}"/> class.
         /// </summary>
         /// <param name="key">
         /// The key.
         /// </param>
-        public TvShowComments(string key)
-            : base(key)
+        public BaseComments(T key)
         {
-            this.TvShowId = key;
-
-            this.Comments = new List<Comment>();
+            this.Key = key;
         }
 
         /// <summary>
-        /// Gets or sets the television show id.
+        /// Gets or sets the key.
         /// </summary>
-        public string TvShowId { get; set; }
+        public T Key { get; set; }
+
+        /// <summary>
+        /// Gets or sets the comments.
+        /// </summary>
+        public List<Comment> Comments { get; set; } 
     }
 }

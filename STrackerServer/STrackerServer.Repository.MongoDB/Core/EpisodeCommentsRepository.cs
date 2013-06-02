@@ -34,12 +34,12 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </summary>
         static EpisodeCommentsRepository()
         {
-            if (BsonClassMap.IsClassMapRegistered(typeof(EpisodeComments)))
+            if (BsonClassMap.IsClassMapRegistered(typeof(BaseComments<Tuple<string, int, int>>)))
             {
                 return;
             }
 
-            BsonClassMap.RegisterClassMap<EpisodeComments>(
+            BsonClassMap.RegisterClassMap<BaseComments<Tuple<string, int, int>>>(
                 cm =>
                     {
                         cm.AutoMap();
@@ -49,6 +49,7 @@ namespace STrackerServer.Repository.MongoDB.Core
                         cm.SetIgnoreExtraElementsIsInherited(true);
                         cm.SetIgnoreExtraElements(true);
                     });
+            BsonClassMap.RegisterClassMap<EpisodeComments>();
         }
 
         /// <summary>

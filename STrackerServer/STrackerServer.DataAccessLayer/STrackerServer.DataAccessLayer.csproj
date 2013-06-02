@@ -52,6 +52,7 @@
     <Compile Include="DomainEntities\Actor.cs" />
     <Compile Include="DomainEntities\Artwork.cs" />
     <Compile Include="DomainEntities\Comment.cs" />
+    <Compile Include="DomainEntities\BaseComments.cs" />
     <Compile Include="DomainEntities\Episode.cs" />
     <Compile Include="DomainEntities\EpisodeComments.cs" />
     <Compile Include="DomainEntities\FriendRequest.cs" />

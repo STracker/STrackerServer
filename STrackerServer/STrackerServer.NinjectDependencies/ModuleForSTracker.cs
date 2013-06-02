@@ -58,8 +58,9 @@ namespace STrackerServer.NinjectDependencies
 
             // Comments stuff dependencies...
             this.Bind<ITvShowCommentsRepository>().To<TvShowCommentsRepository>();
-            this.Bind<ICommentsOperations>().To<CommentsOperations>();
             this.Bind<IEpisodeCommentsRepository>().To<EpisodeCommentsRepository>();
+            this.Bind<ITvShowsCommentsOperations>().To<TvShowsCommentsOperations>();
+            this.Bind<IEpisodesCommentsOperations>().To<EpisodesCommentsOperations>();
 
             // Friends stuff dependencies...
             this.Bind<IFriendRequestOperations>().To<FriendRequestOperations>();
