@@ -15,27 +15,31 @@
                 })
         </div> 
         <div class="span6">
-            <div class="box">
-                
-                <h2>Comments</h2>
-                <br/>         
-                @if(User.Identity.IsAuthenticated)
+     
+            <h2>Comments</h2>
+
+            <div class="box">                  
+                @foreach(var comment in Model.Comments)
                 {
-                    
-                    
-                        using(Html.BeginForm("Comments","TvShowsWeb"))
-                        {
-                            @Html.Hidden("tvshowId", Model.TvShowId)
-
-                            <textarea class="btn-block" style="min-width: inherit" id="body" name="body" type="text" value="">
-
-                            </textarea>
-                    
-   
-                            <input class="btn btn-primary" type="submit" value="Add Comment"/>
-                        }
-                }   
-            </div>         
+                    <div class="box-whiter">
+                        <p>@comment.UserId</p>
+                        @comment.Body
+                    </div> 
+                }
+            </div>
+            
+            @if(User.Identity.IsAuthenticated)
+            {
+                <div class="box">       
+                    @using (Html.BeginForm("Comments", "TvShowsWeb"))
+                    {
+                        @Html.Hidden("tvshowId", Model.TvShowId)
+                        <textarea class="btn-block comments-textarea" id="body" name="body"></textarea>
+                        <input class="btn btn-primary" type="submit" value="Add Comment"/>
+                    }   
+                </div>
+            }
         </div>
     </div>
 </div>
+

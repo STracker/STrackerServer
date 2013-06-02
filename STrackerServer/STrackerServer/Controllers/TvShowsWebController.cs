@@ -89,6 +89,13 @@ namespace STrackerServer.Controllers
         {
             var tvshow = this.tvshowOps.Read(tvshowId);
 
+            if (tvshow == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return this.View("Error", Response.StatusCode);
+            }
+            
+
             var isSubscribed = false;
 
             if (User.Identity.IsAuthenticated)
