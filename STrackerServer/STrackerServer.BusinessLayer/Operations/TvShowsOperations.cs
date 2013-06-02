@@ -29,27 +29,18 @@ namespace STrackerServer.BusinessLayer.Operations
         private readonly QueueManager queueM;
 
         /// <summary>
-        /// The comments repository.
-        /// </summary>
-        private readonly ITvShowCommentsRepository commentsRepository;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="TvShowsOperations"/> class.
         /// </summary>
         /// <param name="repository">
         /// The repository.
         /// </param>
-        /// <param name="commentsRepository">
-        /// The comments Repository.
-        /// </param>
         /// <param name="queueM">
         /// The queue manager.
         /// </param>
-        public TvShowsOperations(ITvShowsRepository repository, ITvShowCommentsRepository commentsRepository, QueueManager queueM)
+        public TvShowsOperations(ITvShowsRepository repository, QueueManager queueM)
             : base(repository)
         {
             this.queueM = queueM;
-            this.commentsRepository = commentsRepository;
         }
 
         /// <summary>
@@ -108,53 +99,6 @@ namespace STrackerServer.BusinessLayer.Operations
 
             this.queueM.Push(new Message { CommandName = "name", Arg = name });
             return null;
-        }
-
-        /// <summary>
-        /// The add comment.
-        /// </summary>
-        /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <param name="comment">
-        /// The comment.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public bool AddComment(string tvshowId, Comment comment)
-        {
-            var tvshow = this.Repository.Read(tvshowId);
-
-            if (tvshow == null)
-            {
-                return false;
-            }
-
-            this.queueM.Push(
-                new Message
-                    {
-                        CommandName = "tvShowComment",
-                        Arg = string.Format("{0}|{1}|{2}", tvshowId, comment.UserId, comment.Body)
-                    });
-
-            return true;
-        }
-
-        /// <summary>
-        /// The get comments.
-        /// </summary>
-        /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <returns>
-        /// The <see cref="TvShowComments"/>.
-        /// </returns>
-        public TvShowComments GetComments(string tvshowId)
-        {
-            var tvshow = this.Repository.Read(tvshowId);
-
-            return tvshow == null ? null : this.commentsRepository.Read(tvshowId);
         }
     }
 }

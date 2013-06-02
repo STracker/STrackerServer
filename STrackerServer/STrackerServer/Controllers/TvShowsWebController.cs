@@ -34,6 +34,11 @@ namespace STrackerServer.Controllers
         private readonly IUsersOperations userOps;
 
         /// <summary>
+        /// The comments operations.
+        /// </summary>
+        private readonly ICommentsOperations commentsOperations;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TvShowsWebController"/> class.
         /// </summary>
         /// <param name="tvshowOps">
@@ -42,10 +47,14 @@ namespace STrackerServer.Controllers
         /// <param name="userOps">
         /// The user operations.
         /// </param>
-        public TvShowsWebController(ITvShowsOperations tvshowOps, IUsersOperations userOps)
+        /// <param name="commentsOperations">
+        /// The comments Operations.
+        /// </param>
+        public TvShowsWebController(ITvShowsOperations tvshowOps, IUsersOperations userOps, ICommentsOperations commentsOperations)
         {
             this.tvshowOps = tvshowOps;
             this.userOps = userOps;
+            this.commentsOperations = commentsOperations;
         }
 
         /// <summary>
@@ -88,14 +97,12 @@ namespace STrackerServer.Controllers
         public ActionResult TvShowPartialOptions(string tvshowId, string unsubscribeRedirectUrl)
         {
             var tvshow = this.tvshowOps.Read(tvshowId);
-
             if (tvshow == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
                 return this.View("Error", Response.StatusCode);
             }
             
-
             var isSubscribed = false;
 
             if (User.Identity.IsAuthenticated)
@@ -149,7 +156,7 @@ namespace STrackerServer.Controllers
         [HttpGet]
         public ActionResult Comments(string tvshowId)
         {
-            var tvshowComments = this.tvshowOps.GetComments(tvshowId);
+            var tvshowComments = this.commentsOperations.GetTvShowComments(tvshowId);
 
             if (tvshowComments == null)
             {
@@ -179,7 +186,7 @@ namespace STrackerServer.Controllers
         {
             var comment = new Comment { UserId = User.Identity.Name, Body = body };
 
-            if (!this.tvshowOps.AddComment(tvshowId, comment))
+            if (!this.commentsOperations.AddTvShowComment(tvshowId, comment))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View("Error", Response.StatusCode);

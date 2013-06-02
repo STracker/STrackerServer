@@ -43,7 +43,6 @@ namespace STrackerServer.NinjectDependencies
             // Television shows stuff dependencies...
             this.Bind<ITvShowsOperations>().To<TvShowsOperations>();
             this.Bind<ITvShowsRepository>().To<TvShowsRepository>();
-            this.Bind<ITvShowCommentsRepository>().To<TvShowCommentsRepository>();
 
             // Seasons stuff dependencies...
             this.Bind<ISeasonsOperations>().To<SeasonsOperations>();
@@ -52,12 +51,17 @@ namespace STrackerServer.NinjectDependencies
             // Episodes stuff dependencies...
             this.Bind<IEpisodesOperations>().To<EpisodesOperations>();
             this.Bind<IEpisodesRepository>().To<EpisodesRepository>();
-            this.Bind<IEpisodeCommentsRepository>().To<EpisodeCommentsRepository>();
 
             // Users stuff dependencies...
             this.Bind<IUsersOperations>().To<UsersOperations>();
             this.Bind<IUsersRepository>().To<UsersRepository>();
 
+            // Comments stuff dependencies...
+            this.Bind<ITvShowCommentsRepository>().To<TvShowCommentsRepository>();
+            this.Bind<ICommentsOperations>().To<CommentsOperations>();
+            this.Bind<IEpisodeCommentsRepository>().To<EpisodeCommentsRepository>();
+
+            // Friends stuff dependencies...
             this.Bind<IFriendRequestOperations>().To<FriendRequestOperations>();
             this.Bind<IFriendRequestRepository>().To<FriendRequestRepository>();
 

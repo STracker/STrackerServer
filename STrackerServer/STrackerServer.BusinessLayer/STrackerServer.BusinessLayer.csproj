@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\ICommentsOperations.cs" />
     <Compile Include="Core\ICrudOperations.cs" />
     <Compile Include="Core\IEpisodesOperations.cs" />
     <Compile Include="Core\IFriendRequestOperations.cs" />
@@ -52,6 +53,7 @@
     <Compile Include="Core\ITvShowsOperations.cs" />
     <Compile Include="Core\IUsersOperations.cs" />
     <Compile Include="Operations\BaseCrudOperations.cs" />
+    <Compile Include="Operations\CommentsOperations.cs" />
     <Compile Include="Operations\EpisodesOperations.cs" />
     <Compile Include="Operations\FriendRequestOperations.cs" />
     <Compile Include="Operations\SeasonsOperations.cs" />
