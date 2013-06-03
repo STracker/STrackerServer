@@ -23,9 +23,6 @@ namespace STrackerServer.Models.TvShow
         /// <param name="tvshow">
         /// The television show.
         /// </param>
-        /// <param name="isSubscribed">
-        /// The user is subscribed.
-        /// </param>
         public TvShowView(TvShow tvshow)
         {
             this.TvShowId = tvshow.TvShowId;

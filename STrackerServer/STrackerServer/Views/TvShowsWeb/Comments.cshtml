@@ -18,39 +18,32 @@
      
             <h2>Comments</h2>
 
-            <div class="box">                  
-                @foreach(var comment in Model.Comments)
+            <div class="box">
+                @for (var i = 0; i < Model.Comments.Count; i++)
                 {
                     <div> 
                         <div class="box-whiter">
                             <div style="text-align: right">
-                                @if (User.Identity.IsAuthenticated && comment.UserId.Equals(User.Identity.Name))
+                                @if (User.Identity.IsAuthenticated && Model.Comments.ElementAt(i).UserId.Equals(User.Identity.Name))
                                 {
-                                    using (Html.BeginForm("Comments", "TvShowsWeb", FormMethod.Post))
-                                    {
-                                        @Html.Hidden("add", false)
-                                        @Html.Hidden("tvshowId", Model.TvShowId)
-                                        @Html.Hidden("index", comment.Index)
-                                        <input class="btn btn-danger btn-mini" type="submit" value="x"/>
-                                    } 
+                                    <a href="@Url.Action("CommentsEdit", "TvShowsWeb", new {tvshowId = Model.TvShowId, position = i})">Edit</a>
                                 }
                             </div>
-
-                            <p>@comment.UserId</p>
-                            @comment.Body  
+                            <p>@Model.Comments.ElementAt(i).UserId</p>
+                            @Model.Comments.ElementAt(i).Body  
                         </div> 
                     </div>
-                }
+                }      
             </div>
             
             @if(User.Identity.IsAuthenticated)
             {
-                <div class="box">       
+                <div class="box">
+                    @Html.ValidationSummary()       
                     @using (Html.BeginForm("Comments", "TvShowsWeb"))
                     {
-                        @Html.Hidden("add", true)
-                        @Html.Hidden("tvshowId", Model.TvShowId)
-                        <textarea class="btn-block comments-textarea" id="body" name="body"></textarea>
+                        @Html.Hidden("TvShowId", Model.TvShowId)
+                        <textarea class="btn-block comments-textarea" id="Body" name="Body"></textarea>
                         <input class="btn btn-primary" type="submit" value="Add Comment"/>
                     }   
                 </div>
@@ -58,4 +51,3 @@
         </div>
     </div>
 </div>
-

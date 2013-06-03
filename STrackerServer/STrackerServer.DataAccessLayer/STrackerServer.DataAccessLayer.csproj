@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\ICommentsRepository.cs" />
     <Compile Include="Core\IEntity.cs" />
     <Compile Include="Core\IEpisodeCommentsRepository.cs" />
     <Compile Include="Core\IEpisodesRepository.cs" />

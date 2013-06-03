@@ -3,7 +3,7 @@
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//   The Television Show BaseComments Repository interface.
+//   The Television Show comments Repository interface.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -14,34 +14,7 @@ namespace STrackerServer.DataAccessLayer.Core
     /// <summary>
     /// The Television Show BaseComments Repository interface.
     /// </summary>
-    public interface ITvShowCommentsRepository : IRepository<TvShowComments, string>
+    public interface ITvShowCommentsRepository : ICommentsRepository<TvShowComments, string>
     {
-        /// <summary>
-        /// The add comment.
-        /// </summary>
-        /// <param name="key">
-        /// The key.
-        /// </param>
-        /// <param name="comment">
-        /// The comment.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        bool AddComment(string key, Comment comment);
-
-        /// <summary>
-        /// The remove comment.
-        /// </summary>
-        /// <param name="key">
-        /// The key.
-        /// </param>
-        /// <param name="comment">
-        /// The comment.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        bool RemoveComment(string key, Comment comment);
     }
 }

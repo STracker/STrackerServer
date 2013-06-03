@@ -21,7 +21,7 @@ namespace STrackerServer.BusinessLayer.Operations
     /// <summary>
     /// The episodes comments operations.
     /// </summary>
-    public class EpisodesCommentsOperations : CommentsOperations<Episode, EpisodeComments, Tuple<string, int, int>>, IEpisodesCommentsOperations 
+    public class EpisodesCommentsOperations : BaseCommentsOperations<Episode, EpisodeComments, Tuple<string, int, int>>, IEpisodesCommentsOperations 
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EpisodesCommentsOperations"/> class.
@@ -46,15 +46,18 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <param name="key">
         /// The key.
         /// </param>
-        /// <param name="comment">
-        /// The comment.
+        /// <param name="userId">
+        /// The user Id.
         /// </param>
-        public override void RemoveComment(Tuple<string, int, int> key, Comment comment)
+        /// <param name="commentPosition">
+        /// The comment Position.
+        /// </param>
+        public override void RemoveComment(Tuple<string, int, int> key, string userId, int commentPosition)
         {
             this.QueueM.Push(new Message
                 {
                     CommandName = "episodeCommentRemove",
-                    Arg = string.Format("{0}|{1}|{2}|{3}|{4}", key.Item1, key.Item2, key.Item3, comment.UserId, comment.Index)
+                    Arg = string.Format("{0}|{1}|{2}|{3}|{4}", key.Item1, key.Item2, key.Item3, userId, commentPosition)
                 });
         }
 

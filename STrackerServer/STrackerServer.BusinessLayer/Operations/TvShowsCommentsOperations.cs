@@ -19,7 +19,7 @@ namespace STrackerServer.BusinessLayer.Operations
     /// <summary>
     /// The television shows comments operations.
     /// </summary>
-    public class TvShowsCommentsOperations : CommentsOperations<TvShow, TvShowComments, string>, ITvShowsCommentsOperations 
+    public class TvShowsCommentsOperations : BaseCommentsOperations<TvShow, TvShowComments, string>, ITvShowsCommentsOperations 
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TvShowsCommentsOperations"/> class.
@@ -44,15 +44,18 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <param name="key">
         /// The key.
         /// </param>
-        /// <param name="comment">
-        /// The comment.
+        /// <param name="userId">
+        /// The user Id.
         /// </param>
-        public override void RemoveComment(string key, Comment comment)
+        /// <param name="commentPosition">
+        /// The comment Position.
+        /// </param>
+        public override void RemoveComment(string key, string userId, int commentPosition)
         {
             this.QueueM.Push(new Message
                 {
                     CommandName = "tvShowCommentRemove",
-                    Arg = string.Format("{0}|{1}|{2}", key, comment.UserId, comment.Index)
+                    Arg = string.Format("{0}|{1}|{2}", key, userId, commentPosition)
                 });
         }
 

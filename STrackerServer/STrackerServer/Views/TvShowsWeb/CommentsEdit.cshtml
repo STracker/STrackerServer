@@ -1,0 +1,38 @@
+﻿@model STrackerServer.Models.TvShow.TvShowCommentView
+
+@{
+    ViewBag.Title = "Comment";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3">
+            @Html.Action("TvShowPartialOptions","TvShowsWeb", new
+            {
+                tvshowId = Model.TvShowId, 
+                unsubscribeRedirectUrl = Url.Action("Comments","TvShowsWeb", new { tvshowId = Model.TvShowId })
+            })
+        </div> 
+        <div class="span6">
+            <h2>Comment</h2>
+            <div class="box">
+                <div style="text-align: right">
+                    @if (User.Identity.IsAuthenticated && Model.UserId.Equals(User.Identity.Name))
+                    {
+                        @Html.ValidationSummary()
+                        using (Html.BeginForm("CommentsEdit", "TvShowsWeb", FormMethod.Post))
+                        {
+                            @Html.Hidden("tvshowId", Model.TvShowId)
+                            @Html.Hidden("position", Model.Position)
+                            <input class="btn btn-danger btn-mini" type="submit" value="x"/>
+                        } 
+                    }
+                </div>
+
+                <p>@Model.UserId</p>
+                @Model.Body  
+            </div>  
+        </div>
+    </div>
+</div>

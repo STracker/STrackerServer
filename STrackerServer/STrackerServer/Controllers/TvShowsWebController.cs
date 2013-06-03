@@ -165,55 +165,89 @@ namespace STrackerServer.Controllers
             }
 
             var view = new TvShowCommentsView { TvShowId = tvshowComments.TvShowId, Comments = tvshowComments.Comments };
+
             return this.View(view);
         }
 
         /// <summary>
         /// The add comment.
         /// </summary>
-        /// <param name="add">
-        /// The add.
-        /// </param>
-        /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <param name="index">
-        /// The index.
-        /// </param>
-        /// <param name="body">
-        /// The body.
+        /// <param name="addView">
+        /// The operation View.
         /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
-        /// If add is true than is for create a comment, otherwise is for delete a comment.
         [HttpPost]
         [Authorize]
-        public ActionResult Comments(bool add, string tvshowId, int? index, string body)
+        public ActionResult Comments(TvShowCommentAddView addView)
         {
-            Comment comment;
-            if (!add)
+            if (addView.Body != null && addView.Body.Trim().Equals(string.Empty))
             {
-                if (index == null)
-                {
-                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    return this.View("Error", Response.StatusCode); 
-                }
-
-                comment = new Comment { UserId = User.Identity.Name, Index = index.Value };
-                this.commentsOperations.RemoveComment(tvshowId, comment);
-                return new SeeOtherResult { Url = Url.Action("Comments", "TvShowsWeb", new { tvshowId }) };
+             ModelState.AddModelError("Body", "The comment is empty!");  
             }
 
-            comment = new Comment { UserId = User.Identity.Name, Body = body };
-
-            if (!this.commentsOperations.AddComment(tvshowId, comment))
+            if (!ModelState.IsValid)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return this.View("Error", Response.StatusCode);
+                return this.Comments(addView.TvShowId);
             }
 
-            return new SeeOtherResult { Url = Url.Action("Comments", "TvShowsWeb", new { tvshowId }) };
+            var comment = new Comment { Body = addView.Body, UserId = User.Identity.Name };
+
+            this.commentsOperations.AddComment(addView.TvShowId, comment);
+            return new SeeOtherResult { Url = Url.Action("Comments", "TvShowsWeb", new { addView.TvShowId }) };
+        }
+
+        /// <summary>
+        /// The comments remove.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show Id.
+        /// </param>
+        /// <param name="position">
+        /// The position.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpGet]
+        [Authorize]
+        public ActionResult CommentsEdit(string tvshowId, int position)
+        {
+            var comment = this.commentsOperations.GetComments(tvshowId).Comments.ElementAt(position);
+
+            if (!comment.UserId.Equals(User.Identity.Name))
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return this.View("Error", Response.StatusCode); 
+            }
+
+            var commentView = new TvShowCommentView { TvShowId = tvshowId, UserId = comment.UserId, Body = comment.Body, Position = position };
+            return this.View(commentView);
+        }
+
+        /// <summary>
+        /// The comments remove.
+        /// </summary>
+        /// <param name="removeView">
+        /// The remove View.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpPost]
+        [Authorize]
+        public ActionResult CommentsEdit(TvShowCommentRemoveView removeView)
+        {
+            if (!ModelState.IsValid)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return this.CommentsEdit(removeView.TvShowId, removeView.Position);
+            }
+
+            this.commentsOperations.RemoveComment(removeView.TvShowId, User.Identity.Name, removeView.Position);
+            return new SeeOtherResult { Url = Url.Action("Comments", "TvShowsWeb", new { removeView.TvShowId }) };
         }
     }
 }

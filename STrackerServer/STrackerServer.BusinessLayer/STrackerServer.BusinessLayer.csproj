@@ -55,7 +55,7 @@
     <Compile Include="Core\ITvShowsOperations.cs" />
     <Compile Include="Core\IUsersOperations.cs" />
     <Compile Include="Operations\BaseCrudOperations.cs" />
-    <Compile Include="Operations\CommentsOperations.cs" />
+    <Compile Include="Operations\BaseCommentsOperations.cs" />
     <Compile Include="Operations\EpisodesCommentsOperations.cs" />
     <Compile Include="Operations\EpisodesOperations.cs" />
     <Compile Include="Operations\FriendRequestOperations.cs" />

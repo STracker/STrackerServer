@@ -157,8 +157,11 @@
     <Compile Include="Models\Episode\EpisodeView.cs" />
     <Compile Include="Models\Home\HomeView.cs" />
     <Compile Include="Models\Season\SeasonView.cs" />
+    <Compile Include="Models\TvShow\TvShowCommentAddView.cs" />
     <Compile Include="Models\TvShow\SubscriptionView.cs" />
+    <Compile Include="Models\TvShow\TvShowCommentRemoveView.cs" />
     <Compile Include="Models\TvShow\TvShowCommentsView.cs" />
+    <Compile Include="Models\TvShow\TvShowCommentView.cs" />
     <Compile Include="Models\TvShow\TvShowPartialOptions.cs" />
     <Compile Include="Models\TvShow\TvShowView.cs" />
     <Compile Include="Models\User\FriendRequestView.cs" />
@@ -214,6 +217,7 @@
     <Content Include="Views\EpisodesWeb\Show.cshtml" />
     <Content Include="Views\TvShowsWeb\Comments.cshtml" />
     <Content Include="Views\TvShowsWeb\TvShowPartialOptions.cshtml" />
+    <Content Include="Views\TvShowsWeb\CommentsEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

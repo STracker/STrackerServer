@@ -3,7 +3,7 @@
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//   The Episode BaseComments Repository interface.
+//   The Episode comments Repository interface.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -16,46 +16,7 @@ namespace STrackerServer.DataAccessLayer.Core
     /// <summary>
     /// The Episode BaseComments Repository interface.
     /// </summary>
-    public interface IEpisodeCommentsRepository : IRepository<EpisodeComments, Tuple<string, int, int>>
+    public interface IEpisodeCommentsRepository : ICommentsRepository<EpisodeComments, Tuple<string, int, int>>
     {
-        /// <summary>
-        /// The add comment.
-        /// </summary>
-        /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <param name="seasonNumber">
-        /// The season number.
-        /// </param>
-        /// <param name="episodeNumber">
-        /// The episode number.
-        /// </param>
-        /// <param name="comment">
-        /// The comment.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        bool AddComment(string tvshowId, int seasonNumber, int episodeNumber, Comment comment);
-
-        /// <summary>
-        /// The remove comment.
-        /// </summary>
-        /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <param name="seasonNumber">
-        /// The season number.
-        /// </param>
-        /// <param name="episodeNumber">
-        /// The episode number.
-        /// </param>
-        /// <param name="comment">
-        /// The comment.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        bool RemoveComment(string tvshowId, int seasonNumber, int episodeNumber, Comment comment);
     }
 }

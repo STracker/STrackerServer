@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CommentsOperations.cs" company="STracker">
+// <copyright file="BaseCommentsOperations.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
@@ -27,7 +27,7 @@ namespace STrackerServer.BusinessLayer.Operations
     /// <typeparam name="TK">
     /// Type of the key.
     /// </typeparam>
-    public abstract class CommentsOperations<T, TC, TK> : ICommentsOperations<TC, TK> where T : IEntity<TK> where TC : IEntity<TK> 
+    public abstract class BaseCommentsOperations<T, TC, TK> : ICommentsOperations<TC, TK> where T : IEntity<TK> where TC : BaseComments<TK> 
     {
         /// <summary>
         /// The comments repository.
@@ -45,7 +45,7 @@ namespace STrackerServer.BusinessLayer.Operations
         protected readonly QueueManager QueueM;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CommentsOperations{T,TC,TK}"/> class.
+        /// Initializes a new instance of the <see cref="BaseCommentsOperations{T,TC,TK}"/> class. 
         /// </summary>
         /// <param name="commentsRepository">
         /// The comments repository.
@@ -56,7 +56,7 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <param name="queueM">
         /// The queue m.
         /// </param>
-        protected CommentsOperations(IRepository<TC, TK> commentsRepository, IRepository<T, TK> repository, QueueManager queueM)
+        protected BaseCommentsOperations(IRepository<TC, TK> commentsRepository, IRepository<T, TK> repository, QueueManager queueM)
         {
             this.CommentsRepository = commentsRepository;
             this.Repository = repository;
@@ -108,10 +108,13 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <param name="key">
         /// The key.
         /// </param>
-        /// <param name="comment">
-        /// The comment.
+        /// <param name="userId">
+        /// The user Id.
         /// </param>
-        public abstract void RemoveComment(TK key, Comment comment);
+        /// <param name="commentPosition">
+        /// The comment Position.
+        /// </param>
+        public abstract void RemoveComment(TK key, string userId, int commentPosition);
 
         /// <summary>
         /// The add comment hook method.

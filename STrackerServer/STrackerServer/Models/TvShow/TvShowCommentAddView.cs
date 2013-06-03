@@ -1,27 +1,31 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Comment.cs" company="STracker">
+// <copyright file="TvShowCommentAddView.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//   Implementation of comment object.
+//   Defines the TvShowCommentAddView type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.DataAccessLayer.DomainEntities
+namespace STrackerServer.Models.TvShow
 {
+    using System.ComponentModel.DataAnnotations;
+
     /// <summary>
-    /// The comment.
+    /// The comment create view.
     /// </summary>
-    public class Comment 
+    public class TvShowCommentAddView
     {
         /// <summary>
-        /// Gets or sets the comment body.
+        /// Gets or sets the television show id.
         /// </summary>
-        public string Body { get; set; }
+        [Required]
+        public string TvShowId { get; set; }
 
         /// <summary>
-        /// Gets or sets the user id.
+        /// Gets or sets the body.
         /// </summary>
-        public string UserId { get; set; }
+        [Required]
+        public string Body { get; set; }
     }
 }

@@ -1,26 +1,26 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ICommentsOperations.cs" company="STracker">
+// <copyright file="ICommentsRepository.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  Interface that defines the contract of operations over comments.
+//   The base comments repository interface.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.BusinessLayer.Core
+namespace STrackerServer.DataAccessLayer.Core
 {
     using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
-    /// The BaseCommentsOperations interface.
+    /// The CommentsRepository interface.
     /// </summary>
-    /// <typeparam name="TC">
-    /// Type of the comment entity.
+    /// <typeparam name="T">
+    /// Type of entity.
     /// </typeparam>
     /// <typeparam name="TK">
-    /// Type of the key.
+    /// Type of entity key.
     /// </typeparam>
-    public interface ICommentsOperations<out TC, in TK>
+    public interface ICommentsRepository<T, in TK> : IRepository<T, TK> where T : BaseComments<TK>
     {
         /// <summary>
         /// The add comment.
@@ -37,17 +37,6 @@ namespace STrackerServer.BusinessLayer.Core
         bool AddComment(TK key, Comment comment);
 
         /// <summary>
-        /// The get comments.
-        /// </summary>
-        /// <param name="key">
-        /// The key.
-        /// </param>
-        /// <returns>
-        /// The <see cref="TC"/>.
-        /// </returns>
-        TC GetComments(TK key);
-
-        /// <summary>
         /// The remove comment.
         /// </summary>
         /// <param name="key">
@@ -59,6 +48,9 @@ namespace STrackerServer.BusinessLayer.Core
         /// <param name="commentPosition">
         /// The comment Position.
         /// </param>
-        void RemoveComment(TK key, string userId, int commentPosition);
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool RemoveComment(TK key, string userId, int commentPosition);
     }
 }
