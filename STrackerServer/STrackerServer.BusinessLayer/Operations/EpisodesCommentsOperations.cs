@@ -41,24 +41,20 @@ namespace STrackerServer.BusinessLayer.Operations
         }
 
         /// <summary>
-        /// The remove comment.
+        /// The remove comment hook.
         /// </summary>
         /// <param name="key">
         /// The key.
         /// </param>
-        /// <param name="userId">
-        /// The user Id.
+        /// <param name="comment">
+        /// The comment.
         /// </param>
-        /// <param name="commentPosition">
-        /// The comment Position.
-        /// </param>
-        public override void RemoveComment(Tuple<string, int, int> key, string userId, int commentPosition)
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        protected override bool RemoveCommentHook(Tuple<string, int, int> key, Comment comment)
         {
-            this.QueueM.Push(new Message
-                {
-                    CommandName = "episodeCommentRemove",
-                    Arg = string.Format("{0}|{1}|{2}|{3}|{4}", key.Item1, key.Item2, key.Item3, userId, commentPosition)
-                });
+            return ((IEpisodeCommentsRepository)this.CommentsRepository).RemoveComment(key, comment);
         }
 
         /// <summary>

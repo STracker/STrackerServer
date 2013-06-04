@@ -23,9 +23,9 @@ namespace STrackerServer.Models.TvShow
         public string TvShowId { get; set; }
 
         /// <summary>
-        /// Gets or sets the position.
+        /// Gets or sets the Timestamp.
         /// </summary>
         [Required]
-        public int Position { get; set; }
+        public string Timestamp { get; set; }
     }
 }

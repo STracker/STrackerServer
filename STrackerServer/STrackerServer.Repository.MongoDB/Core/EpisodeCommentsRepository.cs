@@ -22,7 +22,7 @@ namespace STrackerServer.Repository.MongoDB.Core
     /// <summary>
     /// The episode comments repository.
     /// </summary>
-    public class EpisodeCommentsRepository : BaseCommentsRepository<EpisodeComments, Tuple<string, int, int>>, IEpisodeCommentsRepository
+    public class EpisodeCommentsRepository : BaseRepository<EpisodeComments, Tuple<string, int, int>>, IEpisodeCommentsRepository
     {
         /// <summary>
         /// The collection prefix.
@@ -78,7 +78,9 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </returns>
         public override bool HookCreate(EpisodeComments entity)
         {
-            return this.Database.GetCollection(string.Format("{0}-{1}", entity.Key.Item1, CollectionPrefix)).Insert(entity).Ok;
+            return
+                this.Database.GetCollection(string.Format("{0}-{1}", entity.Key.Item1, CollectionPrefix)).Insert(entity)
+                    .Ok;
         }
 
         /// <summary>
@@ -151,7 +153,57 @@ namespace STrackerServer.Repository.MongoDB.Core
                 Query<EpisodeComments>.EQ(c => c.Key.Item2, key.Item2),
                 Query<EpisodeComments>.EQ(c => c.Key.Item3, key.Item3));
 
-            return this.Database.GetCollection(string.Format("{0}-{1}", key.Item1, CollectionPrefix)).FindAndRemove(query, SortBy.Null).Ok;
+            return
+                this.Database.GetCollection(string.Format("{0}-{1}", key.Item1, CollectionPrefix)).FindAndRemove(
+                    query, SortBy.Null).Ok;
+        }
+
+        /// <summary>
+        /// The add comment.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool AddComment(Tuple<string, int, int> key, Comment comment)
+        {
+            var collection = this.Database.GetCollection(string.Format("{0}-{1}", key.Item1, CollectionPrefix));
+
+            var query = Query.And(
+                Query<EpisodeComments>.EQ(c => c.Key.Item1, key.Item1),
+                Query<EpisodeComments>.EQ(c => c.Key.Item2, key.Item2),
+                Query<EpisodeComments>.EQ(c => c.Key.Item3, key.Item3));
+
+            return collection.Update(query, Update<EpisodeComments>.Push(ec => ec.Comments, comment)).Ok;
+        }
+
+        /// <summary>
+        /// The remove comment.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool RemoveComment(Tuple<string, int, int> key, Comment comment)
+        {
+            var collection = this.Database.GetCollection(string.Format("{0}-{1}", key.Item1, CollectionPrefix));
+
+            var query = Query.And(
+                Query<EpisodeComments>.EQ(c => c.Key.Item1, key.Item1),
+                Query<EpisodeComments>.EQ(c => c.Key.Item2, key.Item2),
+                Query<EpisodeComments>.EQ(c => c.Key.Item3, key.Item3));
+
+            return collection.Update(query, Update<EpisodeComments>.Pull(ec => ec.Comments, comment)).Ok;
         }
     }
 }
