@@ -10,7 +10,6 @@
 namespace STrackerServer.BusinessLayer.Operations
 {
     using System.Collections.Generic;
-    using System.Linq;
     using STrackerServer.BusinessLayer.Core;
     using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities;
@@ -18,7 +17,7 @@ namespace STrackerServer.BusinessLayer.Operations
     /// <summary>
     /// The friend request operations.
     /// </summary>
-    public class FriendRequestOperations : IFriendRequestOperations
+    public class FriendRequestOperations : IFriendRequestOperations 
     {
         /// <summary>
         /// Gets the repository.
@@ -61,8 +60,8 @@ namespace STrackerServer.BusinessLayer.Operations
                 return false;
             }
 
-            User userFrom = this.usersRepository.Read(request.From);
-            User userTo = this.usersRepository.Read(request.To);
+            var userFrom = this.usersRepository.Read(request.From);
+            var userTo = this.usersRepository.Read(request.To);
 
             if (userFrom == null || userTo == null)
             {
@@ -96,20 +95,6 @@ namespace STrackerServer.BusinessLayer.Operations
         }
 
         /// <summary>
-        /// The read.
-        /// </summary>
-        /// <param name="key">
-        /// The key.
-        /// </param>
-        /// <returns>
-        /// The <see cref="FriendRequest"/>.
-        /// </returns>
-        public FriendRequest Read(string key)
-        {
-            return this.repository.Read(key);
-        }
-
-        /// <summary>
         /// The delete.
         /// </summary>
         /// <param name="id">
@@ -128,7 +113,7 @@ namespace STrackerServer.BusinessLayer.Operations
                 return false;
             }
 
-            FriendRequest request = this.repository.Read(id);
+            var request = this.repository.Read(id);
 
             if (request == null || (!userId.Equals(request.From) && !userId.Equals(request.To)))
             {
@@ -152,8 +137,8 @@ namespace STrackerServer.BusinessLayer.Operations
         /// </returns>
         public bool Accept(string id, string userId)
         {
-            User user = this.usersRepository.Read(userId);
-            FriendRequest request = this.repository.Read(id);
+            var user = this.usersRepository.Read(userId);
+            var request = this.repository.Read(id);
 
             if (request == null || !userId.Equals(request.To))
             {
@@ -184,7 +169,7 @@ namespace STrackerServer.BusinessLayer.Operations
         /// </returns>
         public bool Reject(string id, string userId)
         {
-            FriendRequest request = this.repository.Read(id);
+            var request = this.repository.Read(id);
 
             if (request == null || !userId.Equals(request.To))
             {
@@ -207,7 +192,7 @@ namespace STrackerServer.BusinessLayer.Operations
         /// </returns>
         public List<FriendRequest> GetRequests(string userId)
         {
-            List<FriendRequest> returnList = new List<FriendRequest>();
+            var returnList = new List<FriendRequest>();
             this.repository.ReadAllTo(userId).ForEach(request =>
             {
                  if (!request.Accepted)
@@ -226,9 +211,9 @@ namespace STrackerServer.BusinessLayer.Operations
         /// </param>
         public void Refresh(string userId)
         {
-            User user = this.usersRepository.Read(userId);
+            var user = this.usersRepository.Read(userId);
 
-            List<FriendRequest> myRequests = this.repository.ReadAllFrom(userId);
+            var myRequests = this.repository.ReadAllFrom(userId);
 
             foreach (var request in myRequests)
             {
@@ -238,6 +223,7 @@ namespace STrackerServer.BusinessLayer.Operations
                     {
                         this.usersRepository.AddFriend(this.usersRepository.Read(request.From), this.usersRepository.Read(request.To));
                     }
+
                     this.repository.Delete(request.Key);
                 }
                 else

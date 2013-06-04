@@ -10,8 +10,6 @@
 
 namespace STrackerServer.Repository.MongoDB.Core
 {
-    using System.Linq;
-
     using global::MongoDB.Bson.Serialization;
     using global::MongoDB.Driver;
 
@@ -110,7 +108,9 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </returns>
         public override bool HookUpdate(User entity)
         {
-            return this.collection.Save(entity).Ok;
+            return this.collection.Update(
+                Query<User>.EQ(user => user.Key, entity.Key),
+                Update<User>.Set(user => user.Name, entity.Name).Set(user => user.Photo, entity.Photo)).Ok;
         }
 
         /// <summary>
@@ -124,43 +124,8 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </returns>
         public override bool HookDelete(string key)
         {
-            var query = Query<User>.EQ(u => u.Key, key);
-
+            var query = Query<User>.EQ(user => user.Key, key);
             return this.collection.FindAndRemove(query, SortBy.Null).Ok;
-        }
-
-        /// <summary>
-        /// Verifies if the user exists.
-        /// </summary>
-        /// <param name="key">
-        /// The key.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public bool Exists(string key)
-        {
-            return this.collection.FindOneByIdAs<User>(key) != null;
-        }
-
-        /// <summary>
-        /// The add friend.
-        /// </summary>
-        /// <param name="user">
-        /// The user.
-        /// </param>
-        /// <param name="friend">
-        /// The friend.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public bool AddFriend(User user, User friend)
-        {
-            user.Friends.Add(friend.GetSynopsis());
-            var query = Query<User>.EQ(input => input.Key, user.Key);
-            var update = Update<User>.Set(user1 => user1.Friends, user.Friends);
-            return this.collection.Update(query, update).Ok;
         }
 
         /// <summary>

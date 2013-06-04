@@ -28,6 +28,12 @@ namespace STrackerServer.Controllers
             return this.View();
         }
 
+        /// <summary>
+        /// The contact.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
         public ActionResult Contact()
         {
             return this.View();

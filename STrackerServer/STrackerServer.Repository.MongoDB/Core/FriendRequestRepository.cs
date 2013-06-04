@@ -24,7 +24,7 @@ namespace STrackerServer.Repository.MongoDB.Core
     /// <summary>
     /// The friend request repository.
     /// </summary>
-    public class FriendRequestRepository : BaseRepository<FriendRequest, string>, IFriendRequestRepository
+    public class FriendRequestRepository : IFriendRequestRepository
     {
         /// <summary>
         /// The collection name.
@@ -47,9 +47,10 @@ namespace STrackerServer.Repository.MongoDB.Core
                     cm =>
                         {
                             cm.AutoMap();
+                            cm.UnmapProperty(c => c.Key);
 
-                            // map _id field to key property.
-                            cm.SetIdMember(cm.GetMemberMap(p => p.Key));
+                            cm.SetIgnoreExtraElementsIsInherited(true);
+                            cm.SetIgnoreExtraElements(true);
                         });
             }
         }
@@ -64,66 +65,8 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// The url.
         /// </param>
         public FriendRequestRepository(MongoClient client, MongoUrl url)
-            : base(client, url)
         {
-            this.collection = this.Database.GetCollection<User>(CollectioneName);
-        }
-
-        /// <summary>
-        /// The hook create.
-        /// </summary>
-        /// <param name="entity">
-        /// The entity.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public override bool HookCreate(FriendRequest entity)
-        {
-            return this.collection.Insert(entity).Ok;
-        }
-
-        /// <summary>
-        /// The hook read.
-        /// </summary>
-        /// <param name="key">
-        /// The key.
-        /// </param>
-        /// <returns>
-        /// The <see cref="FriendRequest"/>.
-        /// </returns>
-        public override FriendRequest HookRead(string key)
-        {
-            return this.collection.FindOneByIdAs<FriendRequest>(key);
-        }
-
-        /// <summary>
-        /// The hook update.
-        /// </summary>
-        /// <param name="entity">
-        /// The entity.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public override bool HookUpdate(FriendRequest entity)
-        {
-            return this.collection.Save(entity).Ok;
-        }
-
-        /// <summary>
-        /// The hook delete.
-        /// </summary>
-        /// <param name="key">
-        /// The key.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public override bool HookDelete(string key)
-        {
-            var query = Query<User>.EQ(u => u.Key, key);
-            return this.collection.FindAndRemove(query, SortBy.Null).Ok;
+            this.collection = client.GetServer().GetDatabase(url.DatabaseName).GetCollection(CollectioneName);
         }
 
         /// <summary>
@@ -139,7 +82,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </returns>
         public List<FriendRequest> ReadAllTo(string userId)
         {
-            var query = Query.And(Query<FriendRequest>.EQ(request => request.To, userId));
+            var query = Query<FriendRequest>.EQ(request => request.To, userId);
             return this.collection.FindAs<FriendRequest>(query).ToList();
         }
 
@@ -156,7 +99,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </returns>
         public List<FriendRequest> ReadAllFrom(string userId)
         {
-            var query = Query.And(Query<FriendRequest>.EQ(request => request.From, userId));
+            var query = Query<FriendRequest>.EQ(request => request.From, userId);
             return this.collection.FindAs<FriendRequest>(query).ToList();
         }
     }

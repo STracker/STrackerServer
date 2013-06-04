@@ -184,7 +184,7 @@ namespace STrackerServer.Controllers
         {
             if (addView.Body != null && addView.Body.Trim().Equals(string.Empty))
             {
-             ModelState.AddModelError("Body", "The comment is empty!");  
+                ModelState.AddModelError("Body", "The comment is empty!");  
             }
 
             if (!ModelState.IsValid)
@@ -215,11 +215,19 @@ namespace STrackerServer.Controllers
         [Authorize]
         public ActionResult CommentsEdit(string tvshowId, int position)
         {
-            var comment = this.commentsOperations.GetComments(tvshowId).Comments.ElementAt(position);
+            var comments = this.commentsOperations.GetComments(tvshowId).Comments;
+
+            if (position >= comments.Count)
+            {
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            var comment = comments.ElementAt(position);
 
             if (!comment.UserId.Equals(User.Identity.Name))
             {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                Response.StatusCode = (int)HttpStatusCode.Forbidden;
                 return this.View("Error", Response.StatusCode); 
             }
 

@@ -201,15 +201,19 @@ namespace STrackerServer.Controllers
         /// </returns>
         [HttpPost]
         [Authorize]
-        public ActionResult Subscribe(string tvshowId, string redirectUrl)
+        public ActionResult Subscribe(SubscribeFormValues values)
         {
-            if (!this.usersOperations.AddSubscription(User.Identity.Name, tvshowId))
+            //
+            // ALTEARAR PORQUE ISTO TA MAL.
+            //
+
+            if (!this.usersOperations.AddSubscription(User.Identity.Name, values.tvshowId))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View("Error", Response.StatusCode);
             }
 
-            return new SeeOtherResult { Url = redirectUrl };
+            return new SeeOtherResult { Url = values.redirectUrl };
         }
 
         /// <summary>

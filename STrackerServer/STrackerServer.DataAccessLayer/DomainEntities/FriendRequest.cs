@@ -30,10 +30,5 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// Gets or sets the to.
         /// </summary>
         public string To { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether it was accepted.
-        /// </summary>
-        public bool Accepted { get; set; }
     }
 }
