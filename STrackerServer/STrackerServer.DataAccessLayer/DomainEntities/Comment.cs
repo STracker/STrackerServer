@@ -23,5 +23,10 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// Gets or sets the user id.
         /// </summary>
         public string UserId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the timestamp.
+        /// </summary>
+        public string Timestamp { get; set; }
     }
 }

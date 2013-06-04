@@ -9,6 +9,7 @@
 
 namespace STrackerServer.Controllers
 {
+    using System.Globalization;
     using System.Linq;
     using System.Net;
     using System.Web.Mvc;
@@ -193,7 +194,7 @@ namespace STrackerServer.Controllers
                 return this.Comments(addView.TvShowId);
             }
 
-            var comment = new Comment { Body = addView.Body, UserId = User.Identity.Name };
+            var comment = new Comment { Body = addView.Body, UserId = User.Identity.Name, Timestamp = System.Environment.TickCount.ToString(CultureInfo.InvariantCulture) };
 
             this.commentsOperations.AddComment(addView.TvShowId, comment);
             return new SeeOtherResult { Url = Url.Action("Comments", "TvShowsWeb", new { addView.TvShowId }) };
@@ -231,7 +232,7 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode); 
             }
 
-            var commentView = new TvShowCommentView { TvShowId = tvshowId, UserId = comment.UserId, Body = comment.Body, Position = position };
+            var commentView = new TvShowCommentView { TvShowId = tvshowId, UserId = comment.UserId, Body = comment.Body, Timestamp = comment.Timestamp };
             return this.View(commentView);
         }
 
@@ -251,10 +252,10 @@ namespace STrackerServer.Controllers
             if (!ModelState.IsValid)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return this.CommentsEdit(removeView.TvShowId, removeView.Position);
+                return null;
             }
 
-            this.commentsOperations.RemoveComment(removeView.TvShowId, User.Identity.Name, removeView.Position);
+            this.commentsOperations.RemoveComment(removeView.TvShowId, User.Identity.Name, removeView.Timestamp);
             return new SeeOtherResult { Url = Url.Action("Comments", "TvShowsWeb", new { removeView.TvShowId }) };
         }
     }

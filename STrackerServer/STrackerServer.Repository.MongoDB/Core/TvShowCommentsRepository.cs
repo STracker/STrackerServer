@@ -20,7 +20,7 @@ namespace STrackerServer.Repository.MongoDB.Core
     /// <summary>
     /// The television show comments repository.
     /// </summary>
-    public class TvShowCommentsRepository : BaseCommentsRepository<TvShowComments, string>, ITvShowCommentsRepository
+    public class TvShowCommentsRepository : BaseRepository<TvShowComments, string>, ITvShowCommentsRepository
     {
         /// <summary>
         /// The collection prefix.
@@ -145,6 +145,48 @@ namespace STrackerServer.Repository.MongoDB.Core
             var query = Query<TvShowComments>.EQ(comments => comments.TvShowId, key);
 
             return this.Database.GetCollection(string.Format("{0}-{1}", key, CollectionPrefix)).FindAndRemove(query, SortBy.Null).Ok;
+        }
+
+        /// <summary>
+        /// The add comment.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool AddComment(string key, Comment comment)
+        {
+            var query = Query<TvShowComments>.EQ(comments => comments.TvShowId, key);
+
+            return
+                this.Database.GetCollection(string.Format("{0}-{1}", key, CollectionPrefix)).Update(
+                    query, Update<TvShowComments>.Push(tvc => tvc.Comments, comment)).Ok;
+        }
+
+        /// <summary>
+        /// The remove comment.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool RemoveComment(string key, Comment comment)
+        {
+            var query = Query<TvShowComments>.EQ(comments => comments.TvShowId, key);
+
+            return
+                this.Database.GetCollection(string.Format("{0}-{1}", key, CollectionPrefix)).Update(
+                    query, Update<TvShowComments>.Pull(tvc => tvc.Comments, comment)).Ok;
         }
     }
 }

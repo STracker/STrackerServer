@@ -56,9 +56,12 @@ namespace STrackerServer.BusinessLayer.Core
         /// <param name="userId">
         /// The user Id.
         /// </param>
-        /// <param name="commentPosition">
-        /// The comment Position.
+        /// <param name="timestamp">
+        /// The time Stamp.
         /// </param>
-        void RemoveComment(TK key, string userId, int commentPosition);
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool RemoveComment(TK key, string userId, string timestamp);
     }
 }

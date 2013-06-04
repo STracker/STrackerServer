@@ -24,7 +24,7 @@
                         using (Html.BeginForm("CommentsEdit", "TvShowsWeb", FormMethod.Post))
                         {
                             @Html.Hidden("tvshowId", Model.TvShowId)
-                            @Html.Hidden("position", Model.Position)
+                            @Html.Hidden("timestamp", Model.Timestamp)
                             <input class="btn btn-danger btn-mini" type="submit" value="x"/>
                         } 
                     }

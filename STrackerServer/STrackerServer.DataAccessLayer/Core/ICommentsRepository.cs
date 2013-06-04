@@ -42,15 +42,12 @@ namespace STrackerServer.DataAccessLayer.Core
         /// <param name="key">
         /// The key.
         /// </param>
-        /// <param name="userId">
-        /// The user Id.
-        /// </param>
-        /// <param name="commentPosition">
-        /// The comment Position.
+        /// <param name="comment">
+        /// The comment.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool RemoveComment(TK key, string userId, int commentPosition);
+        bool RemoveComment(TK key, Comment comment);
     }
 }

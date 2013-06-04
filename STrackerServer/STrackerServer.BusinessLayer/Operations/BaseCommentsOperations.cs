@@ -9,6 +9,8 @@
 
 namespace STrackerServer.BusinessLayer.Operations
 {
+    using System.Linq;
+
     using STrackerServer.BusinessLayer.Core;
     using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities;
@@ -78,7 +80,7 @@ namespace STrackerServer.BusinessLayer.Operations
         public bool AddComment(TK key, Comment comment)
         {
             var entity = this.Repository.Read(key);
-            if (Equals(entity, null))
+            if (Equals(entity, default(T)))
             {
                 return false;
             }
@@ -111,10 +113,40 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <param name="userId">
         /// The user Id.
         /// </param>
-        /// <param name="commentPosition">
-        /// The comment Position.
+        /// <param name="timestamp">
+        /// The time Stamp.
         /// </param>
-        public abstract void RemoveComment(TK key, string userId, int commentPosition);
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool RemoveComment(TK key, string userId, string timestamp)
+        {
+            var entity = this.Repository.Read(key);
+            if (Equals(entity, default(T)))
+            {
+                return false;
+            }
+
+            var commentR =
+                this.CommentsRepository.Read(key).Comments.FirstOrDefault(
+                    c => c.UserId.Equals(userId) && c.Timestamp.Equals(timestamp));
+
+            return commentR != null && this.RemoveCommentHook(key, commentR);
+        }
+
+        /// <summary>
+        /// The remove comment hook.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        protected abstract bool RemoveCommentHook(TK key, Comment comment);
 
         /// <summary>
         /// The add comment hook method.
