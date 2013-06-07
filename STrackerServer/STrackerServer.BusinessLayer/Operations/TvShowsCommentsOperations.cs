@@ -52,7 +52,7 @@ namespace STrackerServer.BusinessLayer.Operations
         /// </returns>
         protected override bool RemoveCommentHook(string key, Comment comment)
         {
-            return ((ITvShowCommentsRepository)this.CommentsRepository).RemoveComment(key, comment);
+            return this.CommentsRepository.RemoveComment(key, comment);
         }
 
         /// <summary>

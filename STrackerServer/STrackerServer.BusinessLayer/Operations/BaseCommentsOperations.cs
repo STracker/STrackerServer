@@ -34,7 +34,7 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <summary>
         /// The comments repository.
         /// </summary>
-        protected readonly IRepository<TC, TK> CommentsRepository;
+        protected readonly ICommentsRepository<TC, TK> CommentsRepository;
 
         /// <summary>
         /// The entity repository.
@@ -58,7 +58,7 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <param name="queueM">
         /// The queue m.
         /// </param>
-        protected BaseCommentsOperations(IRepository<TC, TK> commentsRepository, IRepository<T, TK> repository, QueueManager queueM)
+        protected BaseCommentsOperations(ICommentsRepository<TC, TK> commentsRepository, IRepository<T, TK> repository, QueueManager queueM)
         {
             this.CommentsRepository = commentsRepository;
             this.Repository = repository;

@@ -64,11 +64,6 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         public List<string> Genres { get; set; }
 
         /// <summary>
-        /// Gets or sets the rating.
-        /// </summary>
-        public int Rating { get; set; }
-
-        /// <summary>
         /// Gets or sets the artworks.
         /// </summary>
         public List<Artwork> Artworks { get; set; }

@@ -12,7 +12,7 @@ namespace STrackerServer.DataAccessLayer.Core
     using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
-    /// The Television Show BaseComments Repository interface.
+    /// The Television Show Comments Repository interface.
     /// </summary>
     public interface ITvShowCommentsRepository : ICommentsRepository<TvShowComments, string>
     {

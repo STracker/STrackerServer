@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ICommentsOperations.cs" company="STracker">
+// <copyright file="IRatingsOperations.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
@@ -12,56 +12,53 @@ namespace STrackerServer.BusinessLayer.Core
     using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
-    /// The BaseCommentsOperations interface.
+    /// The RatingsOperations interface.
     /// </summary>
-    /// <typeparam name="TC">
-    /// Type of the comment entity.
+    /// <typeparam name="TR">
+    /// Type of entity.
     /// </typeparam>
     /// <typeparam name="TK">
-    /// Type of the key.
+    /// Type of entity key.
     /// </typeparam>
-    public interface ICommentsOperations<out TC, in TK> where TC : BaseComments<TK>
+    public interface IRatingsOperations<out TR, in TK> where TR : BaseRatings<TK>
     {
         /// <summary>
-        /// The add comment.
+        /// The add rating.
         /// </summary>
         /// <param name="key">
         /// The key.
         /// </param>
-        /// <param name="comment">
-        /// The comment.
+        /// <param name="rating">
+        /// The rating.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool AddComment(TK key, Comment comment);
+        bool AddRating(TK key, Rating rating);
 
         /// <summary>
-        /// The get comments.
+        /// The remove rating.
         /// </summary>
         /// <param name="key">
         /// The key.
         /// </param>
-        /// <returns>
-        /// The <see cref="TC"/>.
-        /// </returns>
-        TC GetComments(TK key);
-
-        /// <summary>
-        /// The remove comment.
-        /// </summary>
-        /// <param name="key">
-        /// The key.
-        /// </param>
-        /// <param name="userId">
-        /// The user Id.
-        /// </param>
-        /// <param name="timestamp">
-        /// The time Stamp.
+        /// <param name="rating">
+        /// The rating.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool RemoveComment(TK key, string userId, string timestamp);
+        bool RemoveRating(TK key, Rating rating);
+
+        /// <summary>
+        /// The get all ratings.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TR"/>.
+        /// </returns>
+        TR GetAllRatings(TK key);
     }
 }
