@@ -38,6 +38,11 @@ namespace STrackerServer.Repository.MongoDB.Core
         private readonly IEpisodeCommentsRepository commentsRepository;
 
         /// <summary>
+        /// The ratings repository.
+        /// </summary>
+        private readonly IEpisodeRatingsRepository ratingsRepository;
+
+        /// <summary>
         /// Initializes static members of the <see cref="EpisodesRepository"/> class.
         /// </summary>
         static EpisodesRepository()
@@ -68,17 +73,21 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <param name="commentsRepository">
         /// The comments Repository.
         /// </param>
+        /// <param name="ratingsRepository">
+        /// The ratings Repository.
+        /// </param>
         /// <param name="client">
         /// MongoDB client.
         /// </param>
         /// <param name="url">
         /// MongoDB url.
         /// </param>
-        public EpisodesRepository(ISeasonsRepository seasonsRepository, IEpisodeCommentsRepository commentsRepository, MongoClient client, MongoUrl url) 
+        public EpisodesRepository(ISeasonsRepository seasonsRepository, IEpisodeCommentsRepository commentsRepository, IEpisodeRatingsRepository ratingsRepository, MongoClient client, MongoUrl url) 
             : base(client, url)
         {
             this.seasonsRepository = seasonsRepository;
             this.commentsRepository = commentsRepository;
+            this.ratingsRepository = ratingsRepository;
         }
 
         /// <summary>
@@ -101,7 +110,7 @@ namespace STrackerServer.Repository.MongoDB.Core
             season.EpisodeSynopses.Add(synopse);
 
             // Also create the document for comments.
-            return collection.Insert(entity).Ok && this.seasonsRepository.Update(season) && this.commentsRepository.Create(new EpisodeComments(new Tuple<string, int, int>(entity.TvShowId, entity.SeasonNumber, entity.EpisodeNumber)));
+            return collection.Insert(entity).Ok && this.seasonsRepository.Update(season) && this.commentsRepository.Create(new EpisodeComments(new Tuple<string, int, int>(entity.TvShowId, entity.SeasonNumber, entity.EpisodeNumber))) && this.ratingsRepository.Create(new EpisodeRatings(new Tuple<string, int, int>(entity.TvShowId, entity.SeasonNumber, entity.EpisodeNumber)));
         }
 
         /// <summary>

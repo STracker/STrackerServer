@@ -50,9 +50,11 @@
   <ItemGroup>
     <Compile Include="Core\BaseRepository.cs" />
     <Compile Include="Core\EpisodeCommentsRepository.cs" />
+    <Compile Include="Core\EpisodeRatingsRepository.cs" />
     <Compile Include="Core\EpisodesRepository.cs" />
     <Compile Include="Core\SeasonsRepository.cs" />
     <Compile Include="Core\TvShowCommentsRepository.cs" />
+    <Compile Include="Core\TvShowRatingsRepository.cs" />
     <Compile Include="Core\TvShowsRepository.cs" />
     <Compile Include="Core\UsersRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

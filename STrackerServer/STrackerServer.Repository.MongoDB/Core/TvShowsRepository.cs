@@ -43,6 +43,11 @@ namespace STrackerServer.Repository.MongoDB.Core
         private readonly ITvShowCommentsRepository commentsRepository;
 
         /// <summary>
+        /// The ratings repository.
+        /// </summary>
+        private readonly ITvShowRatingsRepository ratingsRepository;
+
+        /// <summary>
         /// Initializes static members of the <see cref="TvShowsRepository"/> class.
         /// </summary>
         static TvShowsRepository()
@@ -95,16 +100,20 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <param name="commentsRepository">
         /// The comments Repository.
         /// </param>
+        /// <param name="ratingsRepository">
+        /// The ratings Repository.
+        /// </param>
         /// <param name="client">
         /// MongoDB client.
         /// </param>
         /// <param name="url">
         /// MongoDB url.
         /// </param>
-        public TvShowsRepository(ITvShowCommentsRepository commentsRepository, MongoClient client, MongoUrl url)
+        public TvShowsRepository(ITvShowCommentsRepository commentsRepository, ITvShowRatingsRepository ratingsRepository, MongoClient client, MongoUrl url)
             : base(client, url)
         {
             this.commentsRepository = commentsRepository;
+            this.ratingsRepository = ratingsRepository;
         }
 
         /// <summary>
@@ -154,7 +163,7 @@ namespace STrackerServer.Repository.MongoDB.Core
             }
 
             // Create the document for comments.
-            return this.commentsRepository.Create(new TvShowComments(entity.TvShowId));
+            return this.commentsRepository.Create(new TvShowComments(entity.TvShowId)) && this.ratingsRepository.Create(new TvShowRatings(entity.TvShowId));
         }
 
         /// <summary>
@@ -196,7 +205,7 @@ namespace STrackerServer.Repository.MongoDB.Core
             var collection = Database.GetCollection(entity.TvShowId);
             var query = Query<TvShow>.EQ(tv => tv.TvShowId, entity.TvShowId);
             var update =
-                Update<TvShow>.Set(tv => tv.SeasonSynopses, entity.SeasonSynopses).Set(tv => tv.Rating, entity.Rating).Set(tv => tv.Runtime, entity.Runtime);
+                Update<TvShow>.Set(tv => tv.SeasonSynopses, entity.SeasonSynopses).Set(tv => tv.Runtime, entity.Runtime);
 
             return collection.Update(query, update).Ok;
         }

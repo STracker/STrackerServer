@@ -62,6 +62,12 @@ namespace STrackerServer.NinjectDependencies
             this.Bind<ITvShowsCommentsOperations>().To<TvShowsCommentsOperations>();
             this.Bind<IEpisodesCommentsOperations>().To<EpisodesCommentsOperations>();
 
+            // Ratings stuff dependencies...
+            this.Bind<ITvShowRatingsRepository>().To<TvShowRatingsRepository>();
+            this.Bind<IEpisodeRatingsRepository>().To<EpisodeRatingsRepository>();
+            this.Bind<ITvShowsRatingsOperations>().To<TvShowsRatingsOperations>();
+            this.Bind<IEpisodesRatingsOperations>().To<EpisodesRatingsOperations>();
+
             // Queue dependencies...
             this.Bind<ConnectionFactory>().ToSelf().InSingletonScope().WithPropertyValue("Uri", ConfigurationManager.AppSettings["RabbitMQUri"]);
             this.Bind<QueueManager>().ToSelf().InSingletonScope();

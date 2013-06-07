@@ -40,6 +40,11 @@ namespace STrackerServer.Controllers
         private readonly ITvShowsCommentsOperations commentsOperations;
 
         /// <summary>
+        /// The ratings operations.
+        /// </summary>
+        private readonly ITvShowsRatingsOperations ratingsOperations;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TvShowsWebController"/> class.
         /// </summary>
         /// <param name="tvshowOps">
@@ -51,11 +56,15 @@ namespace STrackerServer.Controllers
         /// <param name="commentsOperations">
         /// The comments Operations.
         /// </param>
-        public TvShowsWebController(ITvShowsOperations tvshowOps, IUsersOperations userOps, ITvShowsCommentsOperations commentsOperations)
+        /// <param name="ratingsOperations">
+        /// The ratings Operations.
+        /// </param>
+        public TvShowsWebController(ITvShowsOperations tvshowOps, IUsersOperations userOps, ITvShowsCommentsOperations commentsOperations, ITvShowsRatingsOperations ratingsOperations)
         {
             this.tvshowOps = tvshowOps;
             this.userOps = userOps;
             this.commentsOperations = commentsOperations;
+            this.ratingsOperations = ratingsOperations;
         }
 
         /// <summary>
@@ -70,6 +79,14 @@ namespace STrackerServer.Controllers
         [HttpGet]
         public ActionResult Show(string tvshowId)
         {
+
+
+            var rating = new Rating() { UserId = User.Identity.Name, UserRating = 4 };
+
+            var ret = this.ratingsOperations.AddRating(tvshowId, rating);
+
+
+
             var tvshow = this.tvshowOps.Read(tvshowId);
 
             if (tvshow == null)

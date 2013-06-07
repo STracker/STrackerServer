@@ -1,20 +1,20 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ITvShowRatingsRepository.cs" company="STracker">
+// <copyright file="ITvShowsRatingsOperations.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//   The Television Show ratings Repository interface.
+//  Interface that defines the contract of operations over television shows ratings.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.DataAccessLayer.Core
+namespace STrackerServer.BusinessLayer.Core
 {
     using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
-    /// The Television Show Ratings Repository interface.
+    /// The television shows ratings operations interface.
     /// </summary>
-    public interface ITvShowRatingsRepository : IRatingsRepository<TvShowRatings, string>
+    public interface ITvShowsRatingsOperations : IRatingsOperations<TvShowRatings, string>
     {
     }
 }

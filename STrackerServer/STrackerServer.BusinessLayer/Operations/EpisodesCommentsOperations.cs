@@ -54,7 +54,7 @@ namespace STrackerServer.BusinessLayer.Operations
         /// </returns>
         protected override bool RemoveCommentHook(Tuple<string, int, int> key, Comment comment)
         {
-            return ((IEpisodeCommentsRepository)this.CommentsRepository).RemoveComment(key, comment);
+            return this.CommentsRepository.RemoveComment(key, comment);
         }
 
         /// <summary>
