@@ -14,9 +14,9 @@ namespace STrackerServer.Controllers
     using System.Net;
     using System.Web.Mvc;
 
-    using STrackerServer.BusinessLayer.Core;
+    using STrackerServer.BusinessLayer.Core.TvShowsOperations;
+    using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.Custom_action_results;
-    using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
     using STrackerServer.Models.TvShow;
 
@@ -28,12 +28,12 @@ namespace STrackerServer.Controllers
         /// <summary>
         /// The operations of the Television Show Controller.
         /// </summary>
-        private readonly ITvShowsOperations tvshowOps;
+        private readonly ITvShowsOperations tvshowOperations;
 
         /// <summary>
         /// The user operations.
         /// </summary>
-        private readonly IUsersOperations userOps;
+        private readonly IUsersOperations userOperations;
 
         /// <summary>
         /// The comments operations.
@@ -48,10 +48,10 @@ namespace STrackerServer.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="TvShowsWebController"/> class.
         /// </summary>
-        /// <param name="tvshowOps">
+        /// <param name="tvshowOperations">
         /// The television show operations.
         /// </param>
-        /// <param name="userOps">
+        /// <param name="userOperations">
         /// The user operations.
         /// </param>
         /// <param name="commentsOperations">
@@ -60,10 +60,10 @@ namespace STrackerServer.Controllers
         /// <param name="ratingsOperations">
         /// The ratings Operations.
         /// </param>
-        public TvShowsWebController(ITvShowsOperations tvshowOps, IUsersOperations userOps, ITvShowsCommentsOperations commentsOperations, ITvShowsRatingsOperations ratingsOperations)
+        public TvShowsWebController(ITvShowsOperations tvshowOperations, IUsersOperations userOperations, ITvShowsCommentsOperations commentsOperations, ITvShowsRatingsOperations ratingsOperations)
         {
-            this.tvshowOps = tvshowOps;
-            this.userOps = userOps;
+            this.tvshowOperations = tvshowOperations;
+            this.userOperations = userOperations;
             this.commentsOperations = commentsOperations;
             this.ratingsOperations = ratingsOperations;
         }
@@ -72,7 +72,7 @@ namespace STrackerServer.Controllers
         /// The television show
         /// </summary>
         /// <param name="tvshowId">
-        /// The television Show Id.
+        /// The television Show Key.
         /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
@@ -80,15 +80,7 @@ namespace STrackerServer.Controllers
         [HttpGet]
         public ActionResult Show(string tvshowId)
         {
-
-
-            var rating = new Rating() { UserId = User.Identity.Name, UserRating = 4 };
-
-            var ret = this.ratingsOperations.AddRating(tvshowId, rating);
-
-
-
-            var tvshow = this.tvshowOps.Read(tvshowId);
+            var tvshow = this.tvshowOperations.Read(tvshowId);
 
             if (tvshow == null)
             {
@@ -115,7 +107,7 @@ namespace STrackerServer.Controllers
         [HttpGet]
         public ActionResult TvShowPartialOptions(string tvshowId, string unsubscribeRedirectUrl)
         {
-            var tvshow = this.tvshowOps.Read(tvshowId);
+            var tvshow = this.tvshowOperations.Read(tvshowId);
             if (tvshow == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
@@ -126,14 +118,14 @@ namespace STrackerServer.Controllers
 
             if (User.Identity.IsAuthenticated)
             {
-                var user = this.userOps.Read(User.Identity.Name);
+                var user = this.userOperations.Read(User.Identity.Name);
                 isSubscribed = user.SubscriptionList.Any(synopsis => synopsis.Id.Equals(tvshowId));
             }
 
             var tvshowPartial = new TvShowPartialOptions
                 {
                     TvShowId = tvshowId, 
-                    Poster = tvshow.Artworks[0].ImageUrl, 
+                    Poster = tvshow.Poster.ImageUrl, 
                     IsSubscribed = isSubscribed,
                     RedirectUrl = unsubscribeRedirectUrl
                 };
@@ -153,7 +145,7 @@ namespace STrackerServer.Controllers
         [HttpGet]
         public ActionResult GetByName(string name)
         {
-            var tvshow = this.tvshowOps.ReadByName(name);
+            var tvshow = this.tvshowOperations.ReadByName(name);
             if (tvshow == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
@@ -222,7 +214,7 @@ namespace STrackerServer.Controllers
         /// The comments remove.
         /// </summary>
         /// <param name="tvshowId">
-        /// The television show Id.
+        /// The television show Key.
         /// </param>
         /// <param name="position">
         /// The position.

@@ -1,13 +1,12 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IEpisodesOperations.cs" company="STracker">
+// <copyright file="ISeasonsOperations.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  Interface that defines the contract of operations over episodes.
+//  Interface that defines the contract of operations over seasons.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-namespace STrackerServer.BusinessLayer.Core
+namespace STrackerServer.BusinessLayer.Core.SeasonsOperations
 {
     using System;
     using System.Collections.Generic;
@@ -15,24 +14,21 @@ namespace STrackerServer.BusinessLayer.Core
     using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
-    /// Episodes operations interface.
+    /// Seasons operations interface.
     /// </summary>
-    public interface IEpisodesOperations : ICrudOperations<Episode, Tuple<string, int, int>>
+    public interface ISeasonsOperations : ICrudOperations<Season, Tuple<string, int>>
     {
         /// <summary>
-        /// The get all from one season.
+        /// Get all seasons synopsis from one television show.
         /// </summary>
         /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <param name="seasonNumber">
-        /// The season number.
+        /// Television show id.
         /// </param>
         /// <returns>
         /// The <see>
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        IEnumerable<Episode.EpisodeSynopsis> GetAllFromOneSeason(string tvshowId, int seasonNumber);
+        IEnumerable<Season.SeasonSynopsis> GetAllFromOneTvShow(string tvshowId);
     }
 }

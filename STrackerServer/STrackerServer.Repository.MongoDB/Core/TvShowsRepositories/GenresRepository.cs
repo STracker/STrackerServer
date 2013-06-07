@@ -11,6 +11,7 @@
 namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
 {
     using System;
+    using System.Configuration;
 
     using global::MongoDB.Driver;
 
@@ -27,7 +28,12 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         /// <summary>
         /// The collection name.
         /// </summary>
-        private const string CollectionName = "TvShows-Genres";
+        private readonly string collectionName;
+
+        /// <summary>
+        /// The collection. In this case the collection is always the same.
+        /// </summary>
+        private readonly MongoCollection collection;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GenresRepository"/> class.
@@ -41,58 +47,8 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         public GenresRepository(MongoClient client, MongoUrl url)
             : base(client, url)
         {
-        }
-
-        /// <summary>
-        /// Hook method for Create operation.
-        /// </summary>
-        /// <param name="entity">
-        /// The entity.
-        /// </param>
-        public override void HookCreate(Genre entity)
-        {
-            var collection = this.Database.GetCollection(CollectionName);
-            entity.Id = entity.Id.ToLower();
-            collection.Insert(entity);
-        }
-
-        /// <summary>
-        /// Hook method for Read operation.
-        /// </summary>
-        /// <param name="id">
-        /// The id.
-        /// </param>
-        /// <returns>
-        /// The <see cref="Genre"/>.
-        /// </returns>
-        public override Genre HookRead(string id)
-        {
-            var collection = this.Database.GetCollection(CollectionName);
-            return collection.FindOneByIdAs<Genre>(id.ToLower());
-        }
-
-        /// <summary>
-        /// Hook method for Update operation.
-        /// </summary>
-        /// <param name="entity">
-        /// The entity.
-        /// </param>
-        public override void HookUpdate(Genre entity)
-        {
-            throw new NotSupportedException("this method currently is not supported.");
-        }
-
-        /// <summary>
-        /// Hook method for Delete operation.
-        /// </summary>
-        /// <param name="id">
-        /// The id.
-        /// </param>
-        public override void HookDelete(string id)
-        {
-            var collection = this.Database.GetCollection(CollectionName);
-            var query = Query<Genre>.EQ(g => g.Id, id.ToLower());
-            collection.FindAndRemove(query, SortBy.Null);
+            this.collectionName = ConfigurationManager.AppSettings["GenresCollection"];
+            this.collection = this.Database.GetCollection(this.collectionName);
         }
 
         /// <summary>
@@ -106,21 +62,22 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         /// </param>
         public void AddTvShowToGenre(TvShow.TvShowSynopsis tvshow, Genre.GenreSynopsis genre)
         {
-            var g = this.Read(genre.GenreType);
-            
+            var g = this.Read(genre.Id);
+
             // If the genre not yet exists, create.
             if (g == null)
             {
-                g = new Genre { Id = genre.GenreType };
+                g = new Genre { Key = genre.Id };
                 g.TvshowsSynopses.Add(tvshow);
 
                 this.Create(g);
                 return;
             }
 
-            var collection = this.Database.GetCollection(CollectionName);
-            var query = Query<Genre>.EQ(gq => gq.Id, genre.GenreType.ToLower());
-            collection.FindAndModify(query, SortBy.Null, Update<Genre>.Push(gq => gq.TvshowsSynopses, tvshow));
+            var query = Query<Genre>.EQ(gq => gq.Key, genre.Id.ToLower());
+            var update = Update<Genre>.Push(gq => gq.TvshowsSynopses, tvshow);
+
+            this.ModifyList(this.collection, query, update);
         }
 
         /// <summary>
@@ -134,15 +91,59 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         /// </param>
         public void RemoveTvShowFromGenre(TvShow.TvShowSynopsis tvshow, Genre.GenreSynopsis genre)
         {
-            var g = this.Read(genre.GenreType);
-            if (g == null)
-            {
-                return;
-            }
+            var query = Query<Genre>.EQ(gq => gq.Key, genre.Id.ToLower());
+            var update = Update<Genre>.Pull(gq => gq.TvshowsSynopses, tvshow);
 
-            var collection = this.Database.GetCollection(CollectionName);
-            var query = Query<Genre>.EQ(gq => gq.Id, genre.GenreType.ToLower());
-            collection.FindAndModify(query, SortBy.Null, Update<Genre>.Pull(gq => gq.TvshowsSynopses, tvshow));
+            this.ModifyList(this.collection, query, update);
+        }
+
+        /// <summary>
+        /// Hook method for Create operation.
+        /// </summary>
+        /// <param name="entity">
+        /// The entity.
+        /// </param>
+        protected override void HookCreate(Genre entity)
+        {
+            entity.Key = entity.Key.ToLower();
+            this.collection.Insert(entity);
+        }
+
+        /// <summary>
+        /// Hook method for Read operation.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Genre"/>.
+        /// </returns>
+        protected override Genre HookRead(string id)
+        {
+            return this.collection.FindOneByIdAs<Genre>(id.ToLower());
+        }
+
+        /// <summary>
+        /// Hook method for Update operation.
+        /// </summary>
+        /// <param name="entity">
+        /// The entity.
+        /// </param>
+        protected override void HookUpdate(Genre entity)
+        {
+            throw new NotSupportedException("this method currently is not supported.");
+        }
+
+        /// <summary>
+        /// Hook method for Delete operation.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        protected override void HookDelete(string id)
+        {
+            var query = Query<Genre>.EQ(g => g.Key, id.ToLower());
+            this.collection.FindAndRemove(query, SortBy.Null);
         }
     }
 }

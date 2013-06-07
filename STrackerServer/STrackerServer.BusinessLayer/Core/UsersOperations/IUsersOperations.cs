@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.BusinessLayer.Core
+namespace STrackerServer.BusinessLayer.Core.UsersOperations
 {
     using STrackerServer.DataAccessLayer.DomainEntities;
 
@@ -22,10 +22,7 @@ namespace STrackerServer.BusinessLayer.Core
         /// <param name="user">
         /// The user.
         /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        bool VerifyAndSave(User user);
+        void VerifyAndSave(User user);
 
         /// <summary>
         /// The add subscription.

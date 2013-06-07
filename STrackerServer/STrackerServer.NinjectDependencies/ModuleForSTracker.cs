@@ -17,15 +17,22 @@ namespace STrackerServer.NinjectDependencies
 
     using RabbitMQ.Client;
 
-    using STrackerServer.BusinessLayer.Core;
-    using STrackerServer.BusinessLayer.Operations;
-    using STrackerServer.DataAccessLayer.Core;
+    using STrackerServer.BusinessLayer.Core.EpisodesOperations;
+    using STrackerServer.BusinessLayer.Core.SeasonsOperations;
+    using STrackerServer.BusinessLayer.Core.TvShowsOperations;
+    using STrackerServer.BusinessLayer.Core.UsersOperations;
+    using STrackerServer.BusinessLayer.Operations.EpisodesOperations;
+    using STrackerServer.BusinessLayer.Operations.SeasonsOperations;
+    using STrackerServer.BusinessLayer.Operations.TvShowsOperations;
+    using STrackerServer.BusinessLayer.Operations.UsersOperations;
     using STrackerServer.DataAccessLayer.Core.EpisodesRepositories;
     using STrackerServer.DataAccessLayer.Core.SeasonsRepositories;
     using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
     using STrackerServer.DataAccessLayer.Core.UsersRepositories;
-    using STrackerServer.Repository.MongoDB.Core;
+    using STrackerServer.Repository.MongoDB.Core.EpisodesRepositories;
+    using STrackerServer.Repository.MongoDB.Core.SeasonsRepositories;
     using STrackerServer.Repository.MongoDB.Core.TvShowsRepositories;
+    using STrackerServer.Repository.MongoDB.Core.UsersRepositories;
 
     using STrackerUpdater.RabbitMQ;
 
@@ -48,6 +55,9 @@ namespace STrackerServer.NinjectDependencies
             // Television shows stuff dependencies...
             this.Bind<ITvShowsOperations>().To<TvShowsOperations>();
             this.Bind<ITvShowsRepository>().To<TvShowsRepository>();
+            this.Bind<IGenresRepository>().To<GenresRepository>();
+            this.Bind<ITvShowCommentsRepository>().To<TvShowCommentsRepository>();
+            this.Bind<ITvShowRatingsRepository>().To<TvShowRatingsRepository>();
 
             // Seasons stuff dependencies...
             this.Bind<ISeasonsOperations>().To<SeasonsOperations>();
@@ -56,22 +66,12 @@ namespace STrackerServer.NinjectDependencies
             // Episodes stuff dependencies...
             this.Bind<IEpisodesOperations>().To<EpisodesOperations>();
             this.Bind<IEpisodesRepository>().To<EpisodesRepository>();
+            this.Bind<IEpisodeCommentsRepository>().To<EpisodeCommentsRepository>();
+            this.Bind<IEpisodeRatingsRepository>().To<EpisodeRatingsRepository>();
 
             // Users stuff dependencies...
             this.Bind<IUsersOperations>().To<UsersOperations>();
             this.Bind<IUsersRepository>().To<UsersRepository>();
-
-            // Comments stuff dependencies...
-            this.Bind<ITvShowCommentsRepository>().To<TvShowCommentsRepository>();
-            this.Bind<IEpisodeCommentsRepository>().To<EpisodeCommentsRepository>();
-            this.Bind<ITvShowsCommentsOperations>().To<TvShowsCommentsOperations>();
-            this.Bind<IEpisodesCommentsOperations>().To<EpisodesCommentsOperations>();
-
-            // Ratings stuff dependencies...
-            this.Bind<ITvShowRatingsRepository>().To<TvShowRatingsRepository>();
-            this.Bind<IEpisodeRatingsRepository>().To<EpisodeRatingsRepository>();
-            this.Bind<ITvShowsRatingsOperations>().To<TvShowsRatingsOperations>();
-            this.Bind<IEpisodesRatingsOperations>().To<EpisodesRatingsOperations>();
 
             // Queue dependencies...
             this.Bind<ConnectionFactory>().ToSelf().InSingletonScope().WithPropertyValue("Uri", ConfigurationManager.AppSettings["RabbitMQUri"]);

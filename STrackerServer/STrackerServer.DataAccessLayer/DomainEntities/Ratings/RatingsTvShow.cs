@@ -15,6 +15,17 @@ namespace STrackerServer.DataAccessLayer.DomainEntities.Ratings
     public class RatingsTvShow : RatingsBase<string>
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="RatingsTvShow"/> class.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        public RatingsTvShow(string id) : base(id)
+        {
+            this.TvShowId = id;
+        }
+
+        /// <summary>
         /// Gets or sets the television show id.
         /// </summary>
         public string TvShowId { get; set; }

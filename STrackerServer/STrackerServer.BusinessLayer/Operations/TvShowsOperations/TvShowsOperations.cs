@@ -7,12 +7,12 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.BusinessLayer.Operations
+namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
 {
     using System.Collections.Generic;
+    using System.Configuration;
 
-    using STrackerServer.BusinessLayer.Core;
-    using STrackerServer.DataAccessLayer.Core;
+    using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
 
@@ -61,7 +61,7 @@ namespace STrackerServer.BusinessLayer.Operations
                 return tvshow;
             }
 
-            this.queueM.Push(new Message { CommandName = "id", Arg = id });
+            this.queueM.Push(new Message { CommandName = ConfigurationManager.AppSettings["TvShowAddByIdCmd"], Arg = id });
             return null;
         }
 
@@ -98,7 +98,7 @@ namespace STrackerServer.BusinessLayer.Operations
                 return tvshow;
             }
 
-            this.queueM.Push(new Message { CommandName = "name", Arg = name });
+            this.queueM.Push(new Message { CommandName = ConfigurationManager.AppSettings["TvShowAddByNameCmd"], Arg = name });
             return null;
         }
     }

@@ -16,6 +16,9 @@ namespace STrackerServer.Controllers
     using BusinessLayer.Core;
     using Models.Season;
 
+    using STrackerServer.BusinessLayer.Core.SeasonsOperations;
+    using STrackerServer.BusinessLayer.Core.TvShowsOperations;
+
     /// <summary>
     /// The season web controller.
     /// </summary>
@@ -74,7 +77,7 @@ namespace STrackerServer.Controllers
                 TvShowId = tvshowId,
                 EpisodeList = season.EpisodeSynopses.OrderBy(ep => ep.EpisodeNumber),
                 SeasonNumber = season.SeasonNumber,
-                Poster = this.tvshowsOps.Read(tvshowId).Artworks[0].ImageUrl
+                Poster = this.tvshowsOps.Read(tvshowId).Poster.ImageUrl
             };
 
             return this.View(model);

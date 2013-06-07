@@ -31,11 +31,10 @@ namespace STrackerServer.Models.TvShow
             this.Name = tvshow.Name;
             this.Description = tvshow.Description;
             this.Genres = tvshow.Genres;
-            this.Artwork = tvshow.Artworks[0];
+            this.Artwork = tvshow.Poster;
             this.Actors = tvshow.Actors;
             this.Runtime = tvshow.Runtime;
             this.AirDay = tvshow.AirDay;
-            this.Creator = tvshow.Creator;
             this.SeasonSynopses = tvshow.SeasonSynopses;
         }
 
@@ -62,7 +61,7 @@ namespace STrackerServer.Models.TvShow
         /// <summary>
         /// Gets or sets the genres.
         /// </summary>
-        public List<string> Genres { get; set; }
+        public List<Genre.GenreSynopsis> Genres { get; set; }
 
         /// <summary>
         /// Gets or sets the rating.

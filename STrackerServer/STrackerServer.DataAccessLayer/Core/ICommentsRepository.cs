@@ -9,7 +9,6 @@
 
 namespace STrackerServer.DataAccessLayer.Core
 {
-    using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.Comments;
 
@@ -27,8 +26,8 @@ namespace STrackerServer.DataAccessLayer.Core
         /// <summary>
         /// The add comment.
         /// </summary>
-        /// <param name="key">
-        /// The key.
+        /// <param name="id">
+        /// The id.
         /// </param>
         /// <param name="comment">
         /// The comment.
@@ -36,13 +35,13 @@ namespace STrackerServer.DataAccessLayer.Core
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool AddComment(TK key, Comment comment);
+        bool AddComment(TK id, Comment comment);
 
         /// <summary>
         /// The remove comment.
         /// </summary>
-        /// <param name="key">
-        /// The key.
+        /// <param name="id">
+        /// The id.
         /// </param>
         /// <param name="comment">
         /// The comment.
@@ -50,6 +49,6 @@ namespace STrackerServer.DataAccessLayer.Core
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool RemoveComment(TK key, Comment comment);
+        bool RemoveComment(TK id, Comment comment);
     }
 }

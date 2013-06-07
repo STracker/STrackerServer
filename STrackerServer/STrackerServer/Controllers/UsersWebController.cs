@@ -12,7 +12,8 @@ namespace STrackerServer.Controllers
     using System.Linq;
     using System.Net;
     using System.Web.Mvc;
-    using STrackerServer.BusinessLayer.Core;
+
+    using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.Custom_action_results;
     using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.Models.TvShow;

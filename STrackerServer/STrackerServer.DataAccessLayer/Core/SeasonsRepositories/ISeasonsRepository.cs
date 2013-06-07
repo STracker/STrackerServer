@@ -39,5 +39,33 @@ namespace STrackerServer.DataAccessLayer.Core.SeasonsRepositories
         ///     </see> .
         /// </returns>
         IEnumerable<Season.SeasonSynopsis> GetAllFromOneTvShow(string tvshowId);
+
+        /// <summary>
+        /// The add episode synopsis.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// Television show id.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// The season number.
+        /// </param>
+        /// <param name="episode">
+        /// The episode.
+        /// </param>
+        void AddEpisodeSynopsis(string tvshowId, int seasonNumber, Episode.EpisodeSynopsis episode);
+
+        /// <summary>
+        /// The remove episode synopsis.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// Television show id.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// The season number.
+        /// </param>
+        /// <param name="episode">
+        /// The episode.
+        /// </param>
+        void RemoveEpisodeSynopsis(string tvshowId, int seasonNumber, Episode.EpisodeSynopsis episode);
     }
 }

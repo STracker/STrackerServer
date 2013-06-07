@@ -28,7 +28,7 @@ namespace STrackerServer.DataAccessLayer.Core.UsersRepositories
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool AddSubscription(User user, TvShow tvshow);
+        bool AddSubscription(User user, TvShow.TvShowSynopsis tvshow);
 
         /// <summary>
         /// The remove subscription.
@@ -42,7 +42,7 @@ namespace STrackerServer.DataAccessLayer.Core.UsersRepositories
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool RemoveSubscription(User user, TvShow tvshow);
+        bool RemoveSubscription(User user, TvShow.TvShowSynopsis tvshow);
 
         /// <summary>
         /// The invite.

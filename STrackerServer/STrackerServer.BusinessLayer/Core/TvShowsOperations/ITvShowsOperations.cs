@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.BusinessLayer.Core
+namespace STrackerServer.BusinessLayer.Core.TvShowsOperations
 {
     using System.Collections.Generic;
 

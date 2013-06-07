@@ -30,9 +30,21 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         }
 
         /// <summary>
-        /// Gets or sets the id.
+        /// Initializes a new instance of the <see cref="TvShow"/> class.
         /// </summary>
-        public string Id { get; set; }
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        public TvShow(string id) : this()
+        {
+            this.Key = id;
+            this.TvShowId = id;
+        }
+
+        /// <summary>
+        /// Gets or sets the key.
+        /// </summary>
+        public string Key { get; set; }
 
         /// <summary>
         /// Gets or sets the television show IMDB id.

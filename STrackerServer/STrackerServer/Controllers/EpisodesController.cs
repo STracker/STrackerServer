@@ -13,7 +13,7 @@ namespace STrackerServer.Controllers
     using System.Net.Http;
     using System.Web.Http;
 
-    using STrackerServer.BusinessLayer.Core;
+    using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>

@@ -37,6 +37,7 @@
       <HintPath>..\external libraries\STrackerUpdater.RabbitMQ.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -47,26 +48,26 @@
   <ItemGroup>
     <Compile Include="Core\ICommentsOperations.cs" />
     <Compile Include="Core\ICrudOperations.cs" />
-    <Compile Include="Core\IEpisodesCommentsOperations.cs" />
-    <Compile Include="Core\IEpisodesOperations.cs" />
-    <Compile Include="Core\IEpisodesRatingsOperations.cs" />
+    <Compile Include="Core\EpisodesOperations\IEpisodesCommentsOperations.cs" />
+    <Compile Include="Core\EpisodesOperations\IEpisodesOperations.cs" />
+    <Compile Include="Core\EpisodesOperations\IEpisodesRatingsOperations.cs" />
     <Compile Include="Core\IRatingsOperations.cs" />
-    <Compile Include="Core\ISeasonsOperations.cs" />
-    <Compile Include="Core\ITvShowsRatingsOperations.cs" />
-    <Compile Include="Core\ITvShowsCommentsOperations.cs" />
-    <Compile Include="Core\ITvShowsOperations.cs" />
-    <Compile Include="Core\IUsersOperations.cs" />
+    <Compile Include="Core\SeasonsOperations\ISeasonsOperations.cs" />
+    <Compile Include="Core\TvShowsOperations\ITvShowsRatingsOperations.cs" />
+    <Compile Include="Core\TvShowsOperations\ITvShowsCommentsOperations.cs" />
+    <Compile Include="Core\TvShowsOperations\ITvShowsOperations.cs" />
+    <Compile Include="Core\UsersOperations\IUsersOperations.cs" />
     <Compile Include="Operations\BaseCrudOperations.cs" />
     <Compile Include="Operations\BaseCommentsOperations.cs" />
     <Compile Include="Operations\BaseRatingsOperations.cs" />
-    <Compile Include="Operations\EpisodesCommentsOperations.cs" />
-    <Compile Include="Operations\EpisodesOperations.cs" />
-    <Compile Include="Operations\EpisodesRatingsOperations.cs" />
-    <Compile Include="Operations\SeasonsOperations.cs" />
-    <Compile Include="Operations\TvShowsCommentsOperations.cs" />
-    <Compile Include="Operations\TvShowsOperations.cs" />
-    <Compile Include="Operations\TvShowsRatingsOperations.cs" />
-    <Compile Include="Operations\UsersOperations.cs" />
+    <Compile Include="Operations\EpisodesOperations\EpisodesCommentsOperations.cs" />
+    <Compile Include="Operations\EpisodesOperations\EpisodesOperations.cs" />
+    <Compile Include="Operations\EpisodesOperations\EpisodesRatingsOperations.cs" />
+    <Compile Include="Operations\SeasonsOperations\SeasonsOperations.cs" />
+    <Compile Include="Operations\TvShowsOperations\TvShowsCommentsOperations.cs" />
+    <Compile Include="Operations\TvShowsOperations\TvShowsOperations.cs" />
+    <Compile Include="Operations\TvShowsOperations\TvShowsRatingsOperations.cs" />
+    <Compile Include="Operations\UsersOperations\UsersOperations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

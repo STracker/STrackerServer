@@ -7,12 +7,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.BusinessLayer.Operations
+namespace STrackerServer.BusinessLayer.Operations.UsersOperations
 {
     using System.Linq;
 
-    using STrackerServer.BusinessLayer.Core;
-    using STrackerServer.DataAccessLayer.Core;
+    using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
     using STrackerServer.DataAccessLayer.Core.UsersRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
@@ -62,26 +61,24 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <param name="user">
         /// The user.
         /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public bool VerifyAndSave(User user)
+        public void VerifyAndSave(User user)
         {
             var domainUser = this.Repository.Read(user.Key);
 
             if (domainUser == null)
             {
-                return this.Create(user);
+                this.Create(user);
+                return;
             }
 
             if (user.Equals(domainUser))
             {
-                return true;
+                return;
             }
 
             // For not lose the friends its necessary to "pass" them to new object user for update.
             user.Friends = domainUser.Friends;
-            return this.Update(user);
+            this.Update(user);
         }
 
         /// <summary>
@@ -98,21 +95,14 @@ namespace STrackerServer.BusinessLayer.Operations
         /// </returns>
         public bool AddSubscription(string userId, string tvshowId)
         {
-            User user = Repository.Read(userId);
-
-            TvShow tvshow = this.tvshowsRepository.Read(tvshowId);
-
+            var user = this.Repository.Read(userId);
+            var tvshow = this.tvshowsRepository.Read(tvshowId);
             if (tvshow == null)
             {
                 return false;
             }
 
-            if (user.SubscriptionList.Any(sub => sub.Id.Equals(tvshowId)))
-            {
-                return false;
-            }
-
-            return ((IUsersRepository)Repository).AddSubscription(user, tvshow);
+            return !user.SubscriptionList.Any(sub => sub.Id.Equals(tvshowId)) && ((IUsersRepository)this.Repository).AddSubscription(user, tvshow.GetSynopsis());
         }
 
         /// <summary>
@@ -129,21 +119,14 @@ namespace STrackerServer.BusinessLayer.Operations
         /// </returns>
         public bool RemoveSubscription(string userId, string tvshowId)
         {
-            User user = Repository.Read(userId);
-
-            TvShow tvshow = this.tvshowsRepository.Read(tvshowId);
-
+            var user = this.Repository.Read(userId);
+            var tvshow = this.tvshowsRepository.Read(tvshowId);
             if (tvshow == null)
             {
                 return false;
             }
 
-            if (!user.SubscriptionList.Any(sub => sub.Id.Equals(tvshowId)))
-            {
-                return false;
-            }
-
-            return ((IUsersRepository)Repository).RemoveSubscription(user, tvshow);
+            return user.SubscriptionList.Any(sub => sub.Id.Equals(tvshowId)) && ((IUsersRepository)this.Repository).RemoveSubscription(user, tvshow.GetSynopsis());
         }
 
         /// <summary>
@@ -165,15 +148,15 @@ namespace STrackerServer.BusinessLayer.Operations
                 return false;
             }
 
-            var userFrom = Repository.Read(from);
-            var userTo = Repository.Read(to);
+            var userFrom = this.Repository.Read(from);
+            var userTo = this.Repository.Read(to);
             
             if (userFrom.Friends.Exists(synopsis => synopsis.Id.Equals(to)) || userTo.FriendRequests.Exists(synopsis => synopsis.Id.Equals(from)))
             {
                 return false;
             }
             
-            return ((IUsersRepository)Repository).Invite(userFrom, userTo);
+            return ((IUsersRepository)this.Repository).Invite(userFrom, userTo);
         }
 
         /// <summary>
@@ -190,15 +173,10 @@ namespace STrackerServer.BusinessLayer.Operations
         /// </returns>
         public bool AcceptInvite(string from, string to)
         {
-            var userFrom = Repository.Read(from);
-            var userTo = Repository.Read(to);
+            var userFrom = this.Repository.Read(from);
+            var userTo = this.Repository.Read(to);
 
-            if (!userTo.FriendRequests.Exists(synopsis => synopsis.Id.Equals(from)))
-            {
-                return false;
-            }
-
-            return ((IUsersRepository)Repository).AcceptInvite(userFrom, userTo);
+            return userTo.FriendRequests.Exists(synopsis => synopsis.Id.Equals(@from)) && ((IUsersRepository)this.Repository).AcceptInvite(userFrom, userTo);
         }
 
         /// <summary>
@@ -215,15 +193,10 @@ namespace STrackerServer.BusinessLayer.Operations
         /// </returns>
         public bool RejectInvite(string from, string to)
         {
-            var userFrom = Repository.Read(from);
-            var userTo = Repository.Read(to);
+            var userFrom = this.Repository.Read(from);
+            var userTo = this.Repository.Read(to);
 
-            if (!userTo.FriendRequests.Exists(synopsis => synopsis.Id.Equals(from)))
-            {
-                return false;
-            }
-
-            return ((IUsersRepository)Repository).RejectInvite(userFrom, userTo);
+            return userTo.FriendRequests.Exists(synopsis => synopsis.Id.Equals(@from)) && ((IUsersRepository)this.Repository).RejectInvite(userFrom, userTo);
         }
     }
 }

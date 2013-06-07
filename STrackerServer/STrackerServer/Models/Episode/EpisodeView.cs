@@ -47,11 +47,6 @@ namespace STrackerServer.Models.Episode
         public List<Person> Directors { get; set; }
 
         /// <summary>
-        /// Gets or sets the artworks.
-        /// </summary>
-        public List<Artwork> Artworks { get; set; }
-
-        /// <summary>
         /// Gets or sets the guest actors.
         /// </summary>
         public List<Actor> GuestActors { get; set; }
@@ -59,7 +54,7 @@ namespace STrackerServer.Models.Episode
         /// <summary>
         /// Gets or sets the poster.
         /// </summary>
-        public string Poster { get; set; }
+        public Artwork Poster { get; set; }
 
         /// <summary>
         /// Gets or sets the television show name.

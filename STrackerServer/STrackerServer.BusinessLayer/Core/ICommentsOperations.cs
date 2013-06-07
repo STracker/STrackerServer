@@ -9,7 +9,6 @@
 
 namespace STrackerServer.BusinessLayer.Core
 {
-    using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.Comments;
 
@@ -41,22 +40,22 @@ namespace STrackerServer.BusinessLayer.Core
         /// <summary>
         /// The get comments.
         /// </summary>
-        /// <param name="key">
-        /// The key.
+        /// <param name="id">
+        /// The id.
         /// </param>
         /// <returns>
         /// The <see cref="TC"/>.
         /// </returns>
-        TC GetComments(TK key);
+        TC GetComments(TK id);
 
         /// <summary>
         /// The remove comment.
         /// </summary>
-        /// <param name="key">
-        /// The key.
+        /// <param name="id">
+        /// The id.
         /// </param>
         /// <param name="userId">
-        /// The user Id.
+        /// The user Key.
         /// </param>
         /// <param name="timestamp">
         /// The time Stamp.
@@ -64,6 +63,6 @@ namespace STrackerServer.BusinessLayer.Core
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool RemoveComment(TK key, string userId, string timestamp);
+        bool RemoveComment(TK id, string userId, string timestamp);
     }
 }

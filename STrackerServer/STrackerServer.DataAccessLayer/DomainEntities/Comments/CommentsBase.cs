@@ -28,12 +28,23 @@ namespace STrackerServer.DataAccessLayer.DomainEntities.Comments
         public CommentsBase()
         {
             this.Comments = new List<Comment>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommentsBase{T}"/> class.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        public CommentsBase(T id) : this()
+        {
+            this.Key = id;
         } 
 
         /// <summary>
-        /// Gets or sets the id.
+        /// Gets or sets the key.
         /// </summary>
-        public T Id { get; set; }
+        public T Key { get; set; }
 
         /// <summary>
         /// Gets or sets the comments.

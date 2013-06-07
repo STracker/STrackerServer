@@ -7,13 +7,13 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.BusinessLayer.Operations
+namespace STrackerServer.BusinessLayer.Operations.SeasonsOperations
 {
     using System;
     using System.Collections.Generic;
 
-    using STrackerServer.BusinessLayer.Core;
-    using STrackerServer.DataAccessLayer.Core;
+    using STrackerServer.BusinessLayer.Core.SeasonsOperations;
+    using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.DataAccessLayer.Core.SeasonsRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
 

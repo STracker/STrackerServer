@@ -26,8 +26,8 @@ namespace STrackerServer.DataAccessLayer.Core
         /// <summary>
         /// The add rating.
         /// </summary>
-        /// <param name="key">
-        /// The key.
+        /// <param name="id">
+        /// The id.
         /// </param>
         /// <param name="rating">
         /// The rating.
@@ -35,13 +35,13 @@ namespace STrackerServer.DataAccessLayer.Core
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool AddRating(TK key, Rating rating);
+        bool AddRating(TK id, Rating rating);
 
         /// <summary>
         /// The remove rating.
         /// </summary>
-        /// <param name="key">
-        /// The key.
+        /// <param name="id">
+        /// The id.
         /// </param>
         /// <param name="rating">
         /// The rating.
@@ -49,6 +49,6 @@ namespace STrackerServer.DataAccessLayer.Core
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool RemoveRating(TK key, Rating rating);
+        bool RemoveRating(TK id, Rating rating);
     }
 }

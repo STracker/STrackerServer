@@ -16,13 +16,13 @@ namespace STrackerServer.Controllers
     using System.Web.Mvc;
     using System.Web.Script.Serialization;
     using System.Web.Security;
- 
-    using BusinessLayer.Core;
+
     using Custom_action_results;
     using DataAccessLayer.DomainEntities;
 
     using Facebook;
 
+    using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
 
     /// <summary>
@@ -43,7 +43,7 @@ namespace STrackerServer.Controllers
         /// <summary>
         /// Facebook client id.
         /// </summary>
-        private static readonly string FacebookClientId = ConfigurationManager.AppSettings["Facebook:Id"];
+        private static readonly string FacebookClientId = ConfigurationManager.AppSettings["Facebook:Key"];
 
         /// <summary>
         /// Facebook client secret.
@@ -78,7 +78,8 @@ namespace STrackerServer.Controllers
         {
             get
             {
-                return Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Callback");
+                var url = this.Request.Url;
+                return url == null ? null : url.GetLeftPart(UriPartial.Authority) + this.Url.Action("Callback");
             }
         }
 
@@ -186,12 +187,8 @@ namespace STrackerServer.Controllers
                 this.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View("Error", (int)HttpStatusCode.BadRequest);
             }
-           
-            if (!this.usersOperations.VerifyAndSave(user))
-            {
-                this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                return this.View("Error", (int)HttpStatusCode.InternalServerError);
-            }
+
+            this.usersOperations.VerifyAndSave(user);
 
             cookie.Expires = DateTime.Now.AddDays(-1d);
             Response.Cookies.Add(cookie);

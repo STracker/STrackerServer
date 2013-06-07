@@ -9,11 +9,11 @@
 
 namespace STrackerServer.BusinessLayer.Operations
 {
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
     using STrackerServer.BusinessLayer.Core;
     using STrackerServer.DataAccessLayer.Core;
-    using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.Comments;
 
@@ -79,6 +79,7 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public bool AddComment(TK key, Comment comment)
         {
             var entity = this.Repository.Read(key);
@@ -100,6 +101,7 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <returns>
         /// The <see cref="TC"/>.
         /// </returns>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public TC GetComments(TK key)
         {
             var entity = this.Repository.Read(key);
@@ -113,7 +115,7 @@ namespace STrackerServer.BusinessLayer.Operations
         /// The key.
         /// </param>
         /// <param name="userId">
-        /// The user Id.
+        /// The user Key.
         /// </param>
         /// <param name="timestamp">
         /// The time Stamp.
@@ -121,6 +123,7 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public bool RemoveComment(TK key, string userId, string timestamp)
         {
             var entity = this.Repository.Read(key);
@@ -129,9 +132,7 @@ namespace STrackerServer.BusinessLayer.Operations
                 return false;
             }
 
-            var commentR =
-                this.CommentsRepository.Read(key).Comments.FirstOrDefault(
-                    c => c.UserId.Equals(userId) && c.Timestamp.Equals(timestamp));
+            var commentR = this.CommentsRepository.Read(key).Comments.FirstOrDefault(c => c.UserId.Equals(userId) && c.Timestamp.Equals(timestamp));
 
             return commentR != null && this.RemoveCommentHook(key, commentR);
         }

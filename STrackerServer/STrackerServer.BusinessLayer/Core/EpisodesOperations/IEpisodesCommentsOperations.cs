@@ -7,11 +7,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.BusinessLayer.Core
+namespace STrackerServer.BusinessLayer.Core.EpisodesOperations
 {
     using System;
 
-    using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.Comments;
 
     /// <summary>

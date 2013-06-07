@@ -7,10 +7,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.BusinessLayer.Operations
+namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
 {
-    using STrackerServer.BusinessLayer.Core;
-    using STrackerServer.DataAccessLayer.Core;
+    using System.Configuration;
+
+    using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
@@ -72,7 +73,7 @@ namespace STrackerServer.BusinessLayer.Operations
             this.QueueM.Push(
                 new Message
                 {
-                    CommandName = "tvShowCommentAdd",
+                    CommandName = ConfigurationManager.AppSettings["TvShowCommentCmd"],
                     Arg = string.Format("{0}|{1}|{2}|{3}", key, comment.UserId, comment.Timestamp, comment.Body)
                 });
         }

@@ -8,10 +8,10 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span3">
-            @if ( Model.Artworks.Count != 0)
+            @if ( Model.Poster != null)
             {
                 <div style="text-align: center">
-                    <img class="img-rounded" src="@Model.Artworks[0].ImageUrl" alt="No Artwork"/>
+                    <img class="img-rounded" src="@Model.Poster.ImageUrl" alt="No Artwork"/>
                 </div> 
             }
             else

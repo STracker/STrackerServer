@@ -10,11 +10,13 @@
 namespace STrackerServer.BusinessLayer.Operations
 {
     using System;
+    using System.Configuration;
+    using System.Diagnostics.CodeAnalysis;
 
     using STrackerServer.BusinessLayer.Core;
     using STrackerServer.DataAccessLayer.Core;
-    using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.Ratings;
 
     /// <summary>
     /// The ratings operations.
@@ -28,19 +30,17 @@ namespace STrackerServer.BusinessLayer.Operations
     /// <typeparam name="TK">
     /// Type of the key.
     /// </typeparam>
-    public class BaseRatingsOperations<T, TR, TK> : IRatingsOperations<TR, TK>
-        where T : IEntity<TK>
-        where TR : BaseRatings<TK>
+    public class BaseRatingsOperations<T, TR, TK> : IRatingsOperations<TR, TK> where T : IEntity<TK> where TR : RatingsBase<TK>
     {
         /// <summary>
         /// The min rating.
         /// </summary>
-        protected readonly int MinRating = 1;
+        protected readonly int MinRating;
 
         /// <summary>
         /// The max rating.
         /// </summary>
-        protected readonly int MaxRating = 5;
+        protected readonly int MaxRating;
 
         /// <summary>
         /// The ratings repository.
@@ -65,6 +65,9 @@ namespace STrackerServer.BusinessLayer.Operations
         {
             this.RatingsRepository = ratingsRepository;
             this.Repository = repository;
+
+            this.MinRating = int.Parse(ConfigurationManager.AppSettings["RatingMinValue"]);
+            this.MaxRating = int.Parse(ConfigurationManager.AppSettings["RatingMaxValue"]);
         } 
 
         /// <summary>
@@ -79,6 +82,7 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public bool AddRating(TK key, Rating rating)
         {
             if (rating.UserRating < this.MinRating || rating.UserRating > this.MaxRating)
@@ -87,7 +91,6 @@ namespace STrackerServer.BusinessLayer.Operations
             }
 
             var entity = this.Repository.Read(key);
-
             return !Equals(entity, default(T)) && this.RatingsRepository.AddRating(key, rating);
         }
 
@@ -117,10 +120,10 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <returns>
         /// The <see cref="TR"/>.
         /// </returns>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public TR GetAllRatings(TK key)
         {
             var entity = this.Repository.Read(key);
-
             return Equals(entity, default(T)) ? default(TR) : this.RatingsRepository.Read(key);
         }
     }

@@ -10,8 +10,11 @@
 namespace STrackerServer.Repository.MongoDB.Core
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
 
     using global::MongoDB.Driver;
+
+    using global::MongoDB.Driver.Builders;
 
     using STrackerServer.DataAccessLayer.Core;
 
@@ -46,58 +49,25 @@ namespace STrackerServer.Repository.MongoDB.Core
         }
 
         /// <summary>
-        /// Hook method for Create operation.
-        /// </summary>
-        /// <param name="entity">
-        /// The entity.
-        /// </param>
-        /// Is abstract because his implementation is diferent from repository to repository.
-        public abstract void HookCreate(T entity);
-
-        /// <summary>
-        /// Hook method for Read operation.
-        /// </summary>
-        /// <param name="id">
-        /// The id.
-        /// </param>
-        /// <returns>
-        /// The <see cref="T"/>.
-        /// </returns>
-        public abstract T HookRead(TK id);
-
-        /// <summary>
-        /// Hook method for Update operation.
-        /// </summary>
-        /// <param name="entity">
-        /// The entity.
-        /// </param>
-        /// Is abstract because his implementation is diferent from repository to repository.
-        public abstract void HookUpdate(T entity);
-
-        /// <summary>
-        /// Hook method for Delete operation.
-        /// </summary>
-        /// <param name="id">
-        /// The id.
-        /// </param>
-        /// Is abstract because his implementation is diferent from repository to repository.
-        public abstract void HookDelete(TK id);
-
-        /// <summary>
         /// The create.
         /// </summary>
         /// <param name="entity">
         /// The entity.
         /// </param>
-        public void Create(T entity)
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool Create(T entity)
         {
             try
             {
                 this.HookCreate(entity);
+                return true;
             }
             catch (Exception)
             {
                 // TODO, add exception to Log mechanism.
+                return false;
             }
         }
 
@@ -110,11 +80,19 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <returns>
         /// The <see cref="T"/>.
         /// </returns>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public T Read(TK id)
         {
             try
             {
-                return this.HookRead(id);
+                var entity = this.HookRead(id);
+                if (Equals(entity, default(T)))
+                {
+                    return default(T);
+                }
+
+                entity.Key = id;
+                return entity;
             }
             catch (Exception)
             {
@@ -158,5 +136,71 @@ namespace STrackerServer.Repository.MongoDB.Core
                 // TODO, add exception to Log mechanism.
             }
         }
+
+        /// <summary>
+        /// The modify list.
+        /// </summary>
+        /// <param name="collection">
+        /// The collection.
+        /// </param>
+        /// <param name="query">
+        /// The query.
+        /// </param>
+        /// <param name="update">
+        /// The update.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        protected bool ModifyList(MongoCollection collection, IMongoQuery query, IMongoUpdate update)
+        {
+            try
+            {
+                return collection.FindAndModify(query, SortBy.Null, update).Ok;
+            }
+            catch (Exception)
+            {
+                // TODO, add exception to Log mechanism.
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Hook method for Create operation.
+        /// </summary>
+        /// <param name="entity">
+        /// The entity.
+        /// </param>
+        /// Is abstract because his implementation is diferent from repository to repository.
+        protected abstract void HookCreate(T entity);
+
+        /// <summary>
+        /// Hook method for Read operation.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="T"/>.
+        /// </returns>
+        protected abstract T HookRead(TK id);
+
+        /// <summary>
+        /// Hook method for Update operation.
+        /// </summary>
+        /// <param name="entity">
+        /// The entity.
+        /// </param>
+        /// Is abstract because his implementation is diferent from repository to repository.
+        protected abstract void HookUpdate(T entity);
+
+        /// <summary>
+        /// Hook method for Delete operation.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// Is abstract because his implementation is diferent from repository to repository.
+        protected abstract void HookDelete(TK id);
     }
 }

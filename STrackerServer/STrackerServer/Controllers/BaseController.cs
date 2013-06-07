@@ -9,6 +9,7 @@
 
 namespace STrackerServer.Controllers
 {
+    using System.Diagnostics.CodeAnalysis;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
@@ -55,6 +56,7 @@ namespace STrackerServer.Controllers
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         protected HttpResponseMessage BaseGet<TT>(TT obj)
         {
             if (Equals(obj, default(T)))

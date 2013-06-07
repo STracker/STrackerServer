@@ -26,7 +26,10 @@ namespace STrackerServer.DataAccessLayer.Core
         /// <param name="entity">
         /// The entity.
         /// </param>
-        void Create(T entity);
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool Create(T entity);
 
         /// <summary>
         /// The read.

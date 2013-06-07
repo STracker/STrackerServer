@@ -13,7 +13,8 @@ namespace STrackerServer.Controllers
     using System.Net;
     using System.Web.Mvc;
 
-    using STrackerServer.BusinessLayer.Core;
+    using STrackerServer.BusinessLayer.Core.EpisodesOperations;
+    using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.Models.Episode;
 
@@ -77,15 +78,13 @@ namespace STrackerServer.Controllers
 
             var model = new EpisodeView
             {
-                Artworks = episode.Artworks,
-                TvShowId = episode.Key.Item1,
+                TvShowId = episode.TvShowId,
                 TvShowName = tvshow.Name,
-                SeasonNumber = episode.Key.Item2,
-                EpisodeNumber = episode.Key.Item3,
+                SeasonNumber = episode.SeasonNumber,
+                EpisodeNumber = episode.EpisodeNumber,
                 Description = episode.Description,
                 Name = episode.Name,
-                Rating = episode.Rating,
-                Poster = tvshow.Artworks[0].ImageUrl,
+                Poster = tvshow.Poster,
                 GuestActors = episode.GuestActors,
                 Directors = episode.Directors
             };

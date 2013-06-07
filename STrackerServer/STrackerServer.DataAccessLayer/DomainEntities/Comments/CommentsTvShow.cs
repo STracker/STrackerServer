@@ -15,6 +15,17 @@ namespace STrackerServer.DataAccessLayer.DomainEntities.Comments
     public class CommentsTvShow : CommentsBase<string>
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CommentsTvShow"/> class.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        public CommentsTvShow(string id) : base(id)
+        {
+            this.TvShowId = id;
+        }
+
+        /// <summary>
         /// Gets or sets the television show id.
         /// </summary>
         public string TvShowId { get; set; }

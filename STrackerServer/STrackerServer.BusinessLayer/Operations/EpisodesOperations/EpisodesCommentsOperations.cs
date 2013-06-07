@@ -7,12 +7,12 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.BusinessLayer.Operations
+namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
 {
     using System;
+    using System.Configuration;
 
-    using STrackerServer.BusinessLayer.Core;
-    using STrackerServer.DataAccessLayer.Core;
+    using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.DataAccessLayer.Core.EpisodesRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
@@ -74,7 +74,7 @@ namespace STrackerServer.BusinessLayer.Operations
             this.QueueM.Push(
                new Message
                {
-                   CommandName = "episodeCommentAdd",
+                   CommandName = ConfigurationManager.AppSettings["EpisodeCommentCmd"],
                    Arg = string.Format("{0}|{1}|{2}|{3}|{4}", key.Item1, key.Item2, key.Item3, comment.UserId, comment.Body)
                });
         }

@@ -48,16 +48,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\BaseCommentsRepository.cs" />
+    <Compile Include="Core\BaseRatingsRepository.cs" />
     <Compile Include="Core\BaseRepository.cs" />
-    <Compile Include="Core\EpisodeCommentsRepository.cs" />
-    <Compile Include="Core\EpisodeRatingsRepository.cs" />
-    <Compile Include="Core\EpisodesRepository.cs" />
-    <Compile Include="Core\SeasonsRepository.cs" />
-    <Compile Include="Core\TvShowCommentsRepository.cs" />
-    <Compile Include="Core\TvShowRatingsRepository.cs" />
+    <Compile Include="Core\EpisodesRepositories\EpisodeCommentsRepository.cs" />
+    <Compile Include="Core\EpisodesRepositories\EpisodeRatingsRepository.cs" />
+    <Compile Include="Core\EpisodesRepositories\EpisodesRepository.cs" />
+    <Compile Include="Core\MongoDbExtensions.cs" />
+    <Compile Include="Core\SeasonsRepositories\SeasonsRepository.cs" />
+    <Compile Include="Core\TvShowsRepositories\TvShowCommentsRepository.cs" />
+    <Compile Include="Core\TvShowsRepositories\TvShowRatingsRepository.cs" />
     <Compile Include="Core\TvShowsRepositories\GenresRepository.cs" />
     <Compile Include="Core\TvShowsRepositories\TvShowsRepository.cs" />
-    <Compile Include="Core\UsersRepository.cs" />
+    <Compile Include="Core\UsersRepositories\UsersRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -68,10 +71,6 @@
       <Project>{F7946D64-169E-437B-9D4C-69D56F4C32F4}</Project>
       <Name>STrackerServer.DataAccessLayer</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Core\EpisodesRepositories\" />
-    <Folder Include="Core\SeasonsRepositories\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

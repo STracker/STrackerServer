@@ -45,14 +45,11 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <param name="entity">
         /// The entity.
         /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
         /// Don't need to validate fields, because only administrator can use this 
         /// operation.
-        public bool Create(T entity)
+        public void Create(T entity)
         {
-            return this.Repository.Create(entity);
+            this.Repository.Create(entity);
         }
 
         /// <summary>
@@ -72,14 +69,11 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <param name="entity">
         /// The entity.
         /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
         /// Don't need to validate fields, because only administrator can use this 
         /// operation.
-        public bool Update(T entity)
+        public void Update(T entity)
         {
-            return this.Repository.Update(entity);
+            this.Repository.Update(entity);
         }
 
         /// <summary>
@@ -88,12 +82,11 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <param name="id">
         /// The id.
         /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public bool Delete(TK id)
+        /// Don't need to validate fields, because only administrator can use this 
+        /// operation.
+        public void Delete(TK id)
         {
-            return this.Repository.Delete(id);
+            this.Repository.Delete(id);
         }
     }
 }

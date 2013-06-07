@@ -15,7 +15,7 @@ namespace STrackerServer.Models.TvShow
     public class SubscriptionView
     {
         /// <summary>
-        /// Gets or sets the Id.
+        /// Gets or sets the Key.
         /// </summary>
         public string Id { get; set; }
 

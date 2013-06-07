@@ -30,9 +30,23 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         }
 
         /// <summary>
-        /// Gets or sets the id.
+        /// Initializes a new instance of the <see cref="Episode"/> class.
         /// </summary>
-        public Tuple<string, int, int> Id { get; set; }
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        public Episode(Tuple<string, int, int> id) : this()
+        {
+            this.Key = id;
+            this.TvShowId = id.Item1;
+            this.SeasonNumber = id.Item2;
+            this.EpisodeNumber = id.Item3;
+        }
+
+        /// <summary>
+        /// Gets or sets the key.
+        /// </summary>
+        public Tuple<string, int, int> Key { get; set; }
 
         /// <summary>
         /// Gets or sets the television show id.

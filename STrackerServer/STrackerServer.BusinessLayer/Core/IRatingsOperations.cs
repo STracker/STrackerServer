@@ -9,8 +9,8 @@
 
 namespace STrackerServer.BusinessLayer.Core
 {
-    using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.Ratings;
 
     /// <summary>
     /// The RatingsOperations interface.
@@ -21,13 +21,13 @@ namespace STrackerServer.BusinessLayer.Core
     /// <typeparam name="TK">
     /// Type of entity key.
     /// </typeparam>
-    public interface IRatingsOperations<out TR, in TK> where TR : BaseRatings<TK>
+    public interface IRatingsOperations<out TR, in TK> where TR : RatingsBase<TK>
     {
         /// <summary>
         /// The add rating.
         /// </summary>
-        /// <param name="key">
-        /// The key.
+        /// <param name="id">
+        /// The id.
         /// </param>
         /// <param name="rating">
         /// The rating.
@@ -35,13 +35,13 @@ namespace STrackerServer.BusinessLayer.Core
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool AddRating(TK key, Rating rating);
+        bool AddRating(TK id, Rating rating);
 
         /// <summary>
         /// The remove rating.
         /// </summary>
-        /// <param name="key">
-        /// The key.
+        /// <param name="id">
+        /// The id.
         /// </param>
         /// <param name="rating">
         /// The rating.
@@ -49,17 +49,17 @@ namespace STrackerServer.BusinessLayer.Core
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool RemoveRating(TK key, Rating rating);
+        bool RemoveRating(TK id, Rating rating);
 
         /// <summary>
         /// The get all ratings.
         /// </summary>
-        /// <param name="key">
-        /// The key.
+        /// <param name="id">
+        /// The id.
         /// </param>
         /// <returns>
         /// The <see cref="TR"/>.
         /// </returns>
-        TR GetAllRatings(TK key);
+        TR GetAllRatings(TK id);
     }
 }

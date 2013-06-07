@@ -32,14 +32,14 @@
                     {
                         <tr>
                             <td>
-                                @episode.CommentsEpisodeNumber
+                                @episode.EpisodeNumber
                             </td>
                             <td>
                                 <a href="@Url.Action("Show","EpisodesWeb", new
                                              {
                                                  tvshowId = Model.TvShowId, 
                                                  seasonNumber = Model.SeasonNumber, 
-                                                 number = episode.CommentsEpisodeNumber
+                                                 number = episode.EpisodeNumber
                                              })">@episode.Name</a>
                             </td>
                         </tr>  

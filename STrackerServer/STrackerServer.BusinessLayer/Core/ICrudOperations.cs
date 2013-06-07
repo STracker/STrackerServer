@@ -28,10 +28,7 @@ namespace STrackerServer.BusinessLayer.Core
         /// <param name="entity">
         /// The entity.
         /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        bool Create(T entity);
+        void Create(T entity);
 
         /// <summary>
         /// Read operation.
@@ -50,10 +47,7 @@ namespace STrackerServer.BusinessLayer.Core
         /// <param name="entity">
         /// The entity.
         /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        bool Update(T entity);
+        void Update(T entity);
 
         /// <summary>
         /// Delete operation.
@@ -61,9 +55,6 @@ namespace STrackerServer.BusinessLayer.Core
         /// <param name="id">
         /// The id.
         /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        bool Delete(TK id);
+        void Delete(TK id);
     }
 }

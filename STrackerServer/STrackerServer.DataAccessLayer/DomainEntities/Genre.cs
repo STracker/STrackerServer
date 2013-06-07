@@ -27,9 +27,20 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         }
 
         /// <summary>
-        /// Gets or sets the id.
+        /// Initializes a new instance of the <see cref="Genre"/> class.
         /// </summary>
-        public string Id { get; set; }
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        public Genre(string id) : this()
+        {
+            this.Key = id;
+        }
+
+        /// <summary>
+        /// Gets or sets the key.
+        /// </summary>
+        public string Key { get; set; }
 
         /// <summary>
         /// Gets or sets the television shows synopses associated to this genre.
@@ -44,8 +55,8 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// </returns>
         public GenreSynopsis GetSynopsis()
         {
-            var uri = string.Format("genres/{0}", this.Id);
-            return new GenreSynopsis { GenreType = this.Id, Uri = uri };
+            var uri = string.Format("genres/{0}", this.Key);
+            return new GenreSynopsis { Id = this.Key, Uri = uri };
         }
 
         /// <summary>
@@ -56,7 +67,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
             /// <summary>
             /// Gets or sets the genre type.
             /// </summary>
-            public string GenreType { get; set; }
+            public string Id { get; set; }
 
             /// <summary>
             /// Gets or sets the uri.

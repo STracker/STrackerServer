@@ -41,5 +41,27 @@ namespace STrackerServer.DataAccessLayer.Core.TvShowsRepositories
         /// The <see cref="STrackerServer.DataAccessLayer.DomainEntities.TvShow"/>.
         /// </returns>
         TvShow ReadByName(string name);
+
+        /// <summary>
+        /// The add season synopsis.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="season">
+        /// The season.
+        /// </param>
+        void AddSeasonSynopsis(string tvshowId, Season.SeasonSynopsis season);
+
+        /// <summary>
+        /// The remove season synopsis.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="season">
+        /// The season.
+        /// </param>
+        void RemoveSeasonSynopsis(string tvshowId, Season.SeasonSynopsis season);
     }
 }

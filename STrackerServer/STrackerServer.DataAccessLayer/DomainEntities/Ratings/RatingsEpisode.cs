@@ -17,6 +17,19 @@ namespace STrackerServer.DataAccessLayer.DomainEntities.Ratings
     public class RatingsEpisode : RatingsBase<Tuple<string, int, int>>
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="RatingsEpisode"/> class.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        public RatingsEpisode(Tuple<string, int, int> id) : base(id)
+        {
+            this.TvShowId = id.Item1;
+            this.SeasonNumber = id.Item2;
+            this.EpisodeNumber = id.Item3;
+        }
+
+        /// <summary>
         /// Gets or sets the television show id.
         /// </summary>
         public string TvShowId { get; set; }
