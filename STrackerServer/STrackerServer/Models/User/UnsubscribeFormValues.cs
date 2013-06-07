@@ -1,9 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SubscribeFormValues.cs" company="STracker">
+// <copyright file="UnsubscribeFormValues.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//   Defines the SubscribeFormValues type.
+//   The unsubscribe form values.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -12,10 +12,10 @@ namespace STrackerServer.Models.User
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
-    /// The subscribe form values.
+    /// The unsubscribe form values.
     /// </summary>
-    public class SubscribeFormValues
-    {
+    public class UnsubscribeFormValues
+    {        
         /// <summary>
         /// Gets or sets the television show id.
         /// </summary>

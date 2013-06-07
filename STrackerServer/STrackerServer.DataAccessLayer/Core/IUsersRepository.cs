@@ -43,5 +43,47 @@ namespace STrackerServer.DataAccessLayer.Core
         /// The <see cref="bool"/>.
         /// </returns>
         bool RemoveSubscription(User user, TvShow tvshow);
+
+        /// <summary>
+        /// The invite.
+        /// </summary>
+        /// <param name="from">
+        /// The from.
+        /// </param>
+        /// <param name="to">
+        /// The to.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool Invite(User from, User to);
+
+        /// <summary>
+        /// The accept invite.
+        /// </summary>
+        /// <param name="from">
+        /// The from.
+        /// </param>
+        /// <param name="to">
+        /// The to.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool AcceptInvite(User from, User to);
+
+        /// <summary>
+        /// The reject invite.
+        /// </summary>
+        /// <param name="from">
+        /// The from.
+        /// </param>
+        /// <param name="to">
+        /// The to.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool RejectInvite(User from, User to);
     }
 }

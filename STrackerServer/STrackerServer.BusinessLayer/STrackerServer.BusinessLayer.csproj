@@ -49,7 +49,6 @@
     <Compile Include="Core\ICrudOperations.cs" />
     <Compile Include="Core\IEpisodesCommentsOperations.cs" />
     <Compile Include="Core\IEpisodesOperations.cs" />
-    <Compile Include="Core\IFriendRequestOperations.cs" />
     <Compile Include="Core\ISeasonsOperations.cs" />
     <Compile Include="Core\ITvShowsCommentsOperations.cs" />
     <Compile Include="Core\ITvShowsOperations.cs" />
@@ -58,7 +57,6 @@
     <Compile Include="Operations\BaseCommentsOperations.cs" />
     <Compile Include="Operations\EpisodesCommentsOperations.cs" />
     <Compile Include="Operations\EpisodesOperations.cs" />
-    <Compile Include="Operations\FriendRequestOperations.cs" />
     <Compile Include="Operations\SeasonsOperations.cs" />
     <Compile Include="Operations\TvShowsCommentsOperations.cs" />
     <Compile Include="Operations\TvShowsOperations.cs" />

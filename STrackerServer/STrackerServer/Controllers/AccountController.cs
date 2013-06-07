@@ -12,7 +12,6 @@ namespace STrackerServer.Controllers
     using System;
     using System.Configuration;
     using System.Net;
-    using System.Text;
     using System.Web;
     using System.Web.Mvc;
     using System.Web.Script.Serialization;
@@ -55,23 +54,14 @@ namespace STrackerServer.Controllers
         private readonly IUsersOperations usersOperations;
 
         /// <summary>
-        /// Friend request operations.
-        /// </summary>
-        private readonly IFriendRequestOperations friendRequestOperations;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="AccountController"/> class.
         /// </summary>
         /// <param name="usersOperations">
         /// The users operations.
         /// </param>
-        /// <param name="friendRequestOperations">
-        /// The friend request operations.
-        /// </param>
-        public AccountController(IUsersOperations usersOperations, IFriendRequestOperations friendRequestOperations)
+        public AccountController(IUsersOperations usersOperations)
         {
             this.usersOperations = usersOperations;
-            this.friendRequestOperations = friendRequestOperations;
         }
 
         /// <summary>
@@ -200,8 +190,6 @@ namespace STrackerServer.Controllers
                 this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return this.View("Error", (int)HttpStatusCode.InternalServerError);
             }
-            
-            this.friendRequestOperations.Refresh(user.Key);
 
             cookie.Expires = DateTime.Now.AddDays(-1d);
             Response.Cookies.Add(cookie);

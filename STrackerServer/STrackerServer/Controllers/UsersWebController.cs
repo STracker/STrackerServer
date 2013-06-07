@@ -9,7 +9,6 @@
 
 namespace STrackerServer.Controllers
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Net;
     using System.Web.Mvc;
@@ -31,23 +30,14 @@ namespace STrackerServer.Controllers
         private readonly IUsersOperations usersOperations;
 
         /// <summary>
-        /// The friend request operations.
-        /// </summary>
-        private readonly IFriendRequestOperations friendRequestOperations;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="UsersWebController"/> class.
         /// </summary>
         /// <param name="usersOperations">
         /// The users operations.
         /// </param>
-        /// <param name="friendRequestOperations">
-        /// The friend Request Operations.
-        /// </param>
-        public UsersWebController(IUsersOperations usersOperations, IFriendRequestOperations friendRequestOperations)
+        public UsersWebController(IUsersOperations usersOperations)
         {
             this.usersOperations = usersOperations;
-            this.friendRequestOperations = friendRequestOperations;
         }
 
         /// <summary>
@@ -76,16 +66,15 @@ namespace STrackerServer.Controllers
             }
 
             var isFriend = false;
-
+            
             if (this.User.Identity.IsAuthenticated)
             {
-                if (user.Friends.Any(synopsis => synopsis.Id.Equals(User.Identity.Name))
-                    || this.friendRequestOperations.Read(User.Identity.Name, id) != null)
+                if (user.Friends.Any(synopsis => synopsis.Id.Equals(User.Identity.Name)) || user.FriendRequests.Any(synopsis => synopsis.Id.Equals(User.Identity.Name)))
                 {
                     isFriend = true;
                 }
             }
-
+            
             return this.View(new UserPublicView
             {
                 Id = id,
@@ -112,12 +101,6 @@ namespace STrackerServer.Controllers
         {
             var user = this.usersOperations.Read(User.Identity.Name);
 
-            if (user == null)
-            {
-                Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return this.View("Error", Response.StatusCode);
-            }
-
             return this.View(new UserPrivateView
             {
                 Id = User.Identity.Name,
@@ -137,64 +120,48 @@ namespace STrackerServer.Controllers
         [Authorize]
         public ActionResult Requests()
         {
-            List<FriendRequest> requests = this.friendRequestOperations.GetRequests(User.Identity.Name);
+            var user = this.usersOperations.Read(User.Identity.Name);
 
-            if (requests == null)
-            {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return this.View("Error", Response.StatusCode);
-            }
-
-            return this.View(requests.ConvertAll(request =>
+            return this.View(user.FriendRequests.ConvertAll(input => 
                 {
-                    User user = usersOperations.Read(request.From);
-                    return new FriendRequestView { Id = request.Key, Name = user.Name, Picture = user.Photo.ImageUrl };
+                    User userReq = usersOperations.Read(input.Id);
+                    return new FriendRequestView { Id = userReq.Key, Name = userReq.Name, Picture = userReq.Photo.ImageUrl };
                 }));
         }
 
         /// <summary>
         /// The invite.
         /// </summary>
-        /// <param name="id">
-        /// The id.
+        /// <param name="values">
+        /// The values.
         /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpPost]
         [Authorize]
-        public ActionResult Invite(string id)
+        public ActionResult Invite(InviteFormValues values)
         {
-            if (id.Equals(User.Identity.Name))
+            if (!ModelState.IsValid)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View("Error", Response.StatusCode);
             }
 
-            FriendRequest request = new FriendRequest
-                {
-                    From = User.Identity.Name, 
-                    To = id,
-                    Accepted = false
-                };
-
-            if (!this.friendRequestOperations.Create(request))
+            if (!this.usersOperations.Invite(User.Identity.Name, values.Id))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View("Error", Response.StatusCode);
             }
 
-            return new SeeOtherResult { Url = Url.Action("Show", new { id }) };
+            return new SeeOtherResult { Url = Url.Action("Show", new { id = values.Id }) };
         }
 
         /// <summary>
         /// The subscribe.
         /// </summary>
-        /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <param name="redirectUrl">
-        /// The redirect Url.
+        /// <param name="values">
+        /// The values.
         /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
@@ -203,63 +170,62 @@ namespace STrackerServer.Controllers
         [Authorize]
         public ActionResult Subscribe(SubscribeFormValues values)
         {
-            //
-            // ALTEARAR PORQUE ISTO TA MAL.
-            //
-
-            if (!this.usersOperations.AddSubscription(User.Identity.Name, values.tvshowId))
+            if (!ModelState.IsValid || !this.usersOperations.AddSubscription(User.Identity.Name, values.TvshowId))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View("Error", Response.StatusCode);
             }
 
-            return new SeeOtherResult { Url = values.redirectUrl };
+            return new SeeOtherResult { Url = values.RedirectUrl };
         }
 
         /// <summary>
         /// The un subscribe.
         /// </summary>
-        /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <param name="redirectUrl">
-        /// The redirect url.
+        /// <param name="values">
+        /// The values.
         /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpPost]
         [Authorize]
-        public ActionResult UnSubscribe(string tvshowId, string redirectUrl)
+        public ActionResult UnSubscribe(UnsubscribeFormValues values)
         {
-            if (!this.usersOperations.RemoveSubscription(User.Identity.Name, tvshowId))
+            if (!ModelState.IsValid || !this.usersOperations.RemoveSubscription(User.Identity.Name, values.TvshowId))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View("Error", Response.StatusCode);
             }
 
-            return new SeeOtherResult { Url = redirectUrl };
+            return new SeeOtherResult { Url = values.RedirectUrl };
         }
 
         /// <summary>
-        /// The accept request.
+        /// The request.
         /// </summary>
         /// <param name="id">
         /// The id.
         /// </param>
-        /// <param name="accept">
-        /// The accept.
+        /// <param name="values">
+        /// The values.
         /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpPost]
         [Authorize]
-        public ActionResult AcceptRequest(string id, bool accept)
+        public ActionResult RequestResponse(string id, RequestResponseFormValues values)
         {
-            if (accept)
+            if (!ModelState.IsValid)
             {
-                if (!this.friendRequestOperations.Accept(id, User.Identity.Name))
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            if (values.Accept)
+            {
+                if (!this.usersOperations.AcceptInvite(id, User.Identity.Name))
                 {
                     Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     return this.View("Error", Response.StatusCode);
@@ -267,7 +233,7 @@ namespace STrackerServer.Controllers
             }
             else
             {
-                if (!this.friendRequestOperations.Reject(id, User.Identity.Name))
+                if (!this.usersOperations.RejectInvite(id, User.Identity.Name))
                 {
                     Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     return this.View("Error", Response.StatusCode);

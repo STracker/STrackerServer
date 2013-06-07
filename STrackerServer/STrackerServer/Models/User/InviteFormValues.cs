@@ -1,9 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SubscribeFormValues.cs" company="STracker">
-//  Copyright (c) STracker Developers. All rights reserved.
+// <copyright file="InviteFormValues.cs" company="STracker">
+//   Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//   Defines the SubscribeFormValues type.
+//   The invite form values.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -12,20 +12,14 @@ namespace STrackerServer.Models.User
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
-    /// The subscribe form values.
+    /// The invite form values.
     /// </summary>
-    public class SubscribeFormValues
+    public class InviteFormValues
     {
         /// <summary>
-        /// Gets or sets the television show id.
+        /// Gets or sets the user id.
         /// </summary>
         [Required]
-        public string TvshowId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the redirect url.
-        /// </summary>
-        [Required]
-        public string RedirectUrl { get; set; }
+        public string Id { get; set; }
     }
 }

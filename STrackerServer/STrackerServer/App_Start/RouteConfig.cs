@@ -29,15 +29,14 @@ namespace STrackerServer.App_Start
 
             routes.MapRoute("User_Index", "User", new { controller = "UsersWeb", action = "Index" });
 
-            routes.MapRoute("User_AcceptRequest", "User/Requests/{id}", new { controller = "UsersWeb", action = "AcceptRequest" });
+            routes.MapRoute("User_Requests_Response", "User/Requests/{id}", new { controller = "UsersWeb", action = "RequestResponse" });
             routes.MapRoute("User_Requests", "User/Requests", new { controller = "UsersWeb", action = "Requests" });
-      
-            routes.MapRoute("User_Show", "User/{id}", new { controller = "UsersWeb", action = "Show" });
-
-            routes.MapRoute("User_Invite", "User/{id}/Invite", new { controller = "UsersWeb", action = "Invite" });
-
+            routes.MapRoute("User_Invite", "User/Invite", new { controller = "UsersWeb", action = "Invite" });
+            
             routes.MapRoute("User_Subscribe", "User/Subscribe", new { controller = "UsersWeb", action = "Subscribe" });
             routes.MapRoute("User_UnSubscribe", "User/UnSubscribe", new { controller = "UsersWeb", action = "UnSubscribe" });
+
+            routes.MapRoute("User_Show", "User/{id}", new { controller = "UsersWeb", action = "Show" });
 
             routes.MapRoute(
                 "Account_Login", "Account/Login", new { controller = "Account", action = "Login" });

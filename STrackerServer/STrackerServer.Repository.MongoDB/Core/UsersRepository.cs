@@ -167,5 +167,81 @@ namespace STrackerServer.Repository.MongoDB.Core
             var update = Update<User>.Set(user1 => user1.SubscriptionList, user.SubscriptionList);
             return this.collection.Update(query, update).Ok;
         }
+
+        /// <summary>
+        /// The invite.
+        /// </summary>
+        /// <param name="from">
+        /// The from.
+        /// </param>
+        /// <param name="to">
+        /// The to.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool Invite(User from, User to)
+        {
+            var query = Query<User>.EQ(user => user.Key, to.Key);
+
+            var update = Update<User>.AddToSet(user => user.FriendRequests, from.GetSynopsis());
+
+            return this.collection.Update(query, update).Ok;
+        }
+
+        /// <summary>
+        /// The accept invite.
+        /// </summary>
+        /// <param name="from">
+        /// The from.
+        /// </param>
+        /// <param name="to">
+        /// The to.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool AcceptInvite(User from, User to)
+        {
+            var query = Query<User>.EQ(user => user.Key, to.Key);
+
+            // adicionar amigo ( remover & adicionar)
+            // remover request
+            var update = Update<User>
+                .AddToSet(user => user.Friends, from.GetSynopsis())
+                .Pull(user => user.FriendRequests, from.GetSynopsis());
+
+            if (!this.collection.Update(query, update).Ok)
+            {
+                return false;
+            }
+
+            query = Query<User>.EQ(user => user.Key, from.Key);
+
+            update = Update<User>.AddToSet(user => user.Friends, to.GetSynopsis());
+
+            return this.collection.Update(query, update).Ok;
+        }
+
+        /// <summary>
+        /// The reject invite.
+        /// </summary>
+        /// <param name="from">
+        /// The from.
+        /// </param>
+        /// <param name="to">
+        /// The to.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool RejectInvite(User from, User to)
+        {
+            var query = Query<User>.EQ(user => user.Key, to.Key);
+
+            var update = Update<User>.Pull(user => user.FriendRequests, from.GetSynopsis());
+
+            return this.collection.Update(query, update).Ok;
+        }
     }
 }

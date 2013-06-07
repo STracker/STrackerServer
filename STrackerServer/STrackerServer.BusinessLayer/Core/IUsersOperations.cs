@@ -54,5 +54,47 @@ namespace STrackerServer.BusinessLayer.Core
         /// The <see cref="bool"/>.
         /// </returns>
         bool RemoveSubscription(string userId, string tvshowId);
+
+        /// <summary>
+        /// The invite.
+        /// </summary>
+        /// <param name="from">
+        /// The from.
+        /// </param>
+        /// <param name="to">
+        /// The to.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool Invite(string from, string to);
+
+        /// <summary>
+        /// The accept invite.
+        /// </summary>
+        /// <param name="from">
+        /// The from.
+        /// </param>
+        /// <param name="to">
+        /// The to.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool AcceptInvite(string from, string to);
+
+        /// <summary>
+        /// The reject invite.
+        /// </summary>
+        /// <param name="from">
+        /// The from.
+        /// </param>
+        /// <param name="to">
+        /// The to.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool RejectInvite(string from, string to);
     }
 }

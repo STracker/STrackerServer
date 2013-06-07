@@ -22,14 +22,14 @@
                                     @request.Name
                                 </td>
                                 <td>
-                                    @using(Html.BeginForm("AcceptRequest","UsersWeb", new { id = request.Id }))
+                                    @using(Html.BeginForm("RequestResponse","UsersWeb", new {id = request.Id}))
                                     {
                                         @Html.Hidden("accept", true)
                                         <input class="btn-link" type="submit" value="Accept"/>
                                     }
                                 </td>
                                 <td>
-                                    @using (Html.BeginForm("AcceptRequest", "UsersWeb", new { id = request.Id }))
+                                    @using (Html.BeginForm("RequestResponse", "UsersWeb", new { id = request.Id }))
                                     {
                                         @Html.Hidden("accept", false)
                                         <input class="btn-link" type="submit" value="Reject"/>

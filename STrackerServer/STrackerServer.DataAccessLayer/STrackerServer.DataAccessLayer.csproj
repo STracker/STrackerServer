@@ -43,7 +43,6 @@
     <Compile Include="Core\IEntity.cs" />
     <Compile Include="Core\IEpisodeCommentsRepository.cs" />
     <Compile Include="Core\IEpisodesRepository.cs" />
-    <Compile Include="Core\IFriendRequestRepository.cs" />
     <Compile Include="Core\IRepository.cs" />
     <Compile Include="Core\ISeasonsRepository.cs" />
     <Compile Include="Core\ITvShowCommentsRepository.cs" />
@@ -56,7 +55,6 @@
     <Compile Include="DomainEntities\BaseComments.cs" />
     <Compile Include="DomainEntities\Episode.cs" />
     <Compile Include="DomainEntities\EpisodeComments.cs" />
-    <Compile Include="DomainEntities\FriendRequest.cs" />
     <Compile Include="DomainEntities\Genre.cs" />
     <Compile Include="DomainEntities\Media.cs" />
     <Compile Include="DomainEntities\Person.cs" />

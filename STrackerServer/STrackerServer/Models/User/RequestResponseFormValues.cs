@@ -1,9 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SubscribeFormValues.cs" company="STracker">
+// <copyright file="RequestResponseFormValues.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//   Defines the SubscribeFormValues type.
+//   The request response form values.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -12,20 +12,14 @@ namespace STrackerServer.Models.User
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
-    /// The subscribe form values.
+    /// The request response form values.
     /// </summary>
-    public class SubscribeFormValues
+    public class RequestResponseFormValues
     {
         /// <summary>
-        /// Gets or sets the television show id.
+        /// Gets or sets a value indicating whether accept.
         /// </summary>
         [Required]
-        public string TvshowId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the redirect url.
-        /// </summary>
-        [Required]
-        public string RedirectUrl { get; set; }
+        public bool Accept { get; set; }
     }
 }

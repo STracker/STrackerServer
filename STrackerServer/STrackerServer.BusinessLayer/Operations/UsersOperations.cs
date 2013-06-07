@@ -66,6 +66,7 @@ namespace STrackerServer.BusinessLayer.Operations
         public bool VerifyAndSave(User user)
         {
             var domainUser = this.Repository.Read(user.Key);
+
             if (domainUser == null)
             {
                 return this.Create(user);
@@ -96,11 +97,6 @@ namespace STrackerServer.BusinessLayer.Operations
         public bool AddSubscription(string userId, string tvshowId)
         {
             User user = Repository.Read(userId);
-
-            if (user == null)
-            {
-                return false;
-            }
 
             TvShow tvshow = this.tvshowsRepository.Read(tvshowId);
 
@@ -133,11 +129,6 @@ namespace STrackerServer.BusinessLayer.Operations
         {
             User user = Repository.Read(userId);
 
-            if (user == null)
-            {
-                return false;
-            }
-
             TvShow tvshow = this.tvshowsRepository.Read(tvshowId);
 
             if (tvshow == null)
@@ -151,6 +142,86 @@ namespace STrackerServer.BusinessLayer.Operations
             }
 
             return ((IUsersRepository)Repository).RemoveSubscription(user, tvshow);
+        }
+
+        /// <summary>
+        /// The invite.
+        /// </summary>
+        /// <param name="from">
+        /// The from.
+        /// </param>
+        /// <param name="to">
+        /// The to.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool Invite(string from, string to)
+        {
+            if (from.Equals(to))
+            {
+                return false;
+            }
+
+            var userFrom = Repository.Read(from);
+            var userTo = Repository.Read(to);
+            
+            if (userFrom.Friends.Exists(synopsis => synopsis.Id.Equals(to)) || userTo.FriendRequests.Exists(synopsis => synopsis.Id.Equals(from)))
+            {
+                return false;
+            }
+            
+            return ((IUsersRepository)Repository).Invite(userFrom, userTo);
+        }
+
+        /// <summary>
+        /// The accept invite.
+        /// </summary>
+        /// <param name="from">
+        /// The from.
+        /// </param>
+        /// <param name="to">
+        /// The to.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool AcceptInvite(string from, string to)
+        {
+            var userFrom = Repository.Read(from);
+            var userTo = Repository.Read(to);
+
+            if (!userTo.FriendRequests.Exists(synopsis => synopsis.Id.Equals(from)))
+            {
+                return false;
+            }
+
+            return ((IUsersRepository)Repository).AcceptInvite(userFrom, userTo);
+        }
+
+        /// <summary>
+        /// The reject invite.
+        /// </summary>
+        /// <param name="from">
+        /// The from.
+        /// </param>
+        /// <param name="to">
+        /// The to.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool RejectInvite(string from, string to)
+        {
+            var userFrom = Repository.Read(from);
+            var userTo = Repository.Read(to);
+
+            if (!userTo.FriendRequests.Exists(synopsis => synopsis.Id.Equals(from)))
+            {
+                return false;
+            }
+
+            return ((IUsersRepository)Repository).RejectInvite(userFrom, userTo);
         }
     }
 }

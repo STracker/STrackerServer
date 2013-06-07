@@ -7,8 +7,10 @@
     if (Model.IsSubscribed)
     {
         <div class="extra-padding">
-            @using(Html.BeginForm("UnSubscribe","UsersWeb", new { tvshowId = Model.TvShowId, redirectUrl = Model.RedirectUrl }))
+            @using(Html.BeginForm("UnSubscribe","UsersWeb"))
             {
+                @Html.Hidden("tvshowId",Model.TvShowId)
+                @Html.Hidden("redirectUrl",Model.RedirectUrl)
                 <input class="btn btn-block btn-danger" type="submit" value="Unsubscribe"/>
             }
         </div>
@@ -16,8 +18,10 @@
     else
     {
         <div class="extra-padding">
-            @using (Html.BeginForm("Subscribe", "UsersWeb", new { tvshowId = Model.TvShowId, redirectUrl = Model.RedirectUrl }))
+            @using (Html.BeginForm("Subscribe", "UsersWeb"))
             {
+                @Html.Hidden("tvshowId",Model.TvShowId)
+                @Html.Hidden("redirectUrl",Model.RedirectUrl)
                 <input class="btn btn-block btn-primary" type="submit" value="Subscribe"/>
             }
         </div>

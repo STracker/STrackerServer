@@ -15,8 +15,9 @@
             @if (User.Identity.IsAuthenticated && !Model.IsFriend)
             {      
                 <div class="extra-padding">
-                    @using(Html.BeginForm("Invite","UsersWeb", new { id = Model.Id }))
+                    @using(Html.BeginForm("Invite","UsersWeb"))
                     {
+                        @Html.Hidden("id",Model.Id)
                         <input class="btn btn-block btn-primary" type="submit" value="Invite"/>
                     }
                 </div>   

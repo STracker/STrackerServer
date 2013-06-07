@@ -166,7 +166,10 @@
     <Compile Include="Models\TvShow\TvShowView.cs" />
     <Compile Include="Models\User\FriendRequestView.cs" />
     <Compile Include="Models\User\FriendView.cs" />
+    <Compile Include="Models\User\InviteFormValues.cs" />
+    <Compile Include="Models\User\RequestResponseFormValues.cs" />
     <Compile Include="Models\User\SubscribeFormValues.cs" />
+    <Compile Include="Models\User\UnsubscribeFormValues.cs" />
     <Compile Include="Models\User\UserPrivateView.cs" />
     <Compile Include="Models\User\UserPublicView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
