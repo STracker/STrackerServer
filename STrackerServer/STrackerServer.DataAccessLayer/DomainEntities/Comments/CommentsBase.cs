@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="BaseComments.cs" company="STracker">
+// <copyright file="CommentsBase.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
@@ -7,11 +7,12 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.DataAccessLayer.DomainEntities
+namespace STrackerServer.DataAccessLayer.DomainEntities.Comments
 {
     using System.Collections.Generic;
 
     using STrackerServer.DataAccessLayer.Core;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
 
     /// <summary>
     /// The comments.
@@ -19,27 +20,24 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
     /// <typeparam name="T">
     /// Type of the key.
     /// </typeparam>
-    public class BaseComments<T> : IEntity<T>
+    public class CommentsBase<T> : IEntity<T>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseComments{T}"/> class.
+        /// Initializes a new instance of the <see cref="CommentsBase{T}"/> class.
         /// </summary>
-        /// <param name="key">
-        /// The key.
-        /// </param>
-        public BaseComments(T key)
+        public CommentsBase()
         {
-            this.Key = key;
-        }
+            this.Comments = new List<Comment>();
+        } 
 
         /// <summary>
-        /// Gets or sets the key.
+        /// Gets or sets the id.
         /// </summary>
-        public T Key { get; set; }
+        public T Id { get; set; }
 
         /// <summary>
         /// Gets or sets the comments.
         /// </summary>
-        public List<Comment> Comments { get; set; } 
+        public List<Comment> Comments { get; set; }
     }
 }

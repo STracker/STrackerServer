@@ -1,43 +1,45 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ISeasonsRepository.cs" company="STracker">
+// <copyright file="ITvShowsRepository.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  Interface that defines the contract of seasons repositories.
+//  Interface that defines the contract of television shows repositories.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.DataAccessLayer.Core
+namespace STrackerServer.DataAccessLayer.Core.TvShowsRepositories
 {
-    using System;
     using System.Collections.Generic;
 
     using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
-    /// Seasons repository interface.
+    /// Television shows repository interface.
     /// </summary>
-    public interface ISeasonsRepository : IRepository<Season, Tuple<string, int>>
+    public interface ITvShowsRepository : IRepository<TvShow, string>
     {
         /// <summary>
-        /// Get all seasons synopsis from one television show.
+        /// The read all by genre.
         /// </summary>
-        /// <param name="tvshowId">
-        /// Television show id.
+        /// <param name="genre">
+        /// The genre.
         /// </param>
         /// <returns>
         /// The <see>
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        IEnumerable<Season.SeasonSynopsis> GetAllFromOneTvShow(string tvshowId);
+        IEnumerable<TvShow.TvShowSynopsis> ReadAllByGenre(string genre);
 
         /// <summary>
-        /// Create several seasons.
+        /// The read by name.
         /// </summary>
-        /// <param name="seasons">
-        /// The seasons.
+        /// <param name="name">
+        /// The name.
         /// </param>
-        void CreateAll(IEnumerable<Season> seasons);
+        /// <returns>
+        /// The <see cref="STrackerServer.DataAccessLayer.DomainEntities.TvShow"/>.
+        /// </returns>
+        TvShow ReadByName(string name);
     }
 }

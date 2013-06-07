@@ -11,6 +11,10 @@ namespace STrackerServer.Repository.MongoDB.Core
 {
     using System;
 
+    using STrackerServer.DataAccessLayer.Core.EpisodesRepositories;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.Comments;
+
     using global::MongoDB.Bson.Serialization;
     using global::MongoDB.Driver;
 
@@ -22,7 +26,7 @@ namespace STrackerServer.Repository.MongoDB.Core
     /// <summary>
     /// The episode comments repository.
     /// </summary>
-    public class EpisodeCommentsRepository : BaseRepository<EpisodeComments, Tuple<string, int, int>>, IEpisodeCommentsRepository
+    public class EpisodeCommentsRepository : BaseRepository<CommentsEpisode, Tuple<string, int, int>>, IEpisodeCommentsRepository
     {
         /// <summary>
         /// The collection prefix.
@@ -34,12 +38,12 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </summary>
         static EpisodeCommentsRepository()
         {
-            if (BsonClassMap.IsClassMapRegistered(typeof(BaseComments<Tuple<string, int, int>>)))
+            if (BsonClassMap.IsClassMapRegistered(typeof(CommentsBase<Tuple<string, int, int>>)))
             {
                 return;
             }
 
-            BsonClassMap.RegisterClassMap<BaseComments<Tuple<string, int, int>>>(
+            BsonClassMap.RegisterClassMap<CommentsBase<Tuple<string, int, int>>>(
                 cm =>
                     {
                         cm.AutoMap();
@@ -49,7 +53,7 @@ namespace STrackerServer.Repository.MongoDB.Core
                         cm.SetIgnoreExtraElementsIsInherited(true);
                         cm.SetIgnoreExtraElements(true);
                     });
-            BsonClassMap.RegisterClassMap<EpisodeComments>();
+            BsonClassMap.RegisterClassMap<CommentsEpisode>();
         }
 
         /// <summary>
@@ -76,7 +80,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public override bool HookCreate(EpisodeComments entity)
+        public override bool HookCreate(CommentsEpisode entity)
         {
             var collection = this.Database.GetCollection(string.Format("{0}-{1}", entity.TvShowId, CollectionPrefix));
 
@@ -97,14 +101,14 @@ namespace STrackerServer.Repository.MongoDB.Core
         ///       <cref>T</cref>
         ///     </see> .
         /// </returns>
-        public override EpisodeComments HookRead(Tuple<string, int, int> key)
+        public override CommentsEpisode HookRead(Tuple<string, int, int> key)
         {
             var query = Query.And(
-                Query<EpisodeComments>.EQ(comments => comments.Key.Item1, key.Item1),
-                Query<EpisodeComments>.EQ(comments => comments.Key.Item2, key.Item2),
-                Query<EpisodeComments>.EQ(comments => comments.Key.Item3, key.Item3));
+                Query<CommentsEpisode>.EQ(comments => comments.Key.Item1, key.Item1),
+                Query<CommentsEpisode>.EQ(comments => comments.Key.Item2, key.Item2),
+                Query<CommentsEpisode>.EQ(comments => comments.Key.Item3, key.Item3));
 
-            var comment = this.Database.GetCollection(string.Format("{0}-{1}", key.Item1, CollectionPrefix)).FindOneAs<EpisodeComments>(query);
+            var comment = this.Database.GetCollection(string.Format("{0}-{1}", key.Item1, CollectionPrefix)).FindOneAs<CommentsEpisode>(query);
             if (comment == null)
             {
                 return null;
@@ -125,14 +129,14 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public override bool HookUpdate(EpisodeComments entity)
+        public override bool HookUpdate(CommentsEpisode entity)
         {
             var query = Query.And(
-                Query<EpisodeComments>.EQ(c => c.Key.Item1, entity.Key.Item1),
-                Query<EpisodeComments>.EQ(c => c.Key.Item2, entity.Key.Item2),
-                Query<EpisodeComments>.EQ(c => c.Key.Item3, entity.Key.Item3));
+                Query<CommentsEpisode>.EQ(c => c.Key.Item1, entity.Key.Item1),
+                Query<CommentsEpisode>.EQ(c => c.Key.Item2, entity.Key.Item2),
+                Query<CommentsEpisode>.EQ(c => c.Key.Item3, entity.Key.Item3));
 
-            var update = Update<EpisodeComments>.Set(showComments => showComments.Comments, entity.Comments);
+            var update = Update<CommentsEpisode>.Set(showComments => showComments.Comments, entity.Comments);
 
             return
                 this.Database.GetCollection(string.Format("{0}-{1}", entity.Key.Item1, CollectionPrefix)).Update(
@@ -152,9 +156,9 @@ namespace STrackerServer.Repository.MongoDB.Core
         public override bool HookDelete(Tuple<string, int, int> key)
         {
             var query = Query.And(
-                Query<EpisodeComments>.EQ(c => c.Key.Item1, key.Item1),
-                Query<EpisodeComments>.EQ(c => c.Key.Item2, key.Item2),
-                Query<EpisodeComments>.EQ(c => c.Key.Item3, key.Item3));
+                Query<CommentsEpisode>.EQ(c => c.Key.Item1, key.Item1),
+                Query<CommentsEpisode>.EQ(c => c.Key.Item2, key.Item2),
+                Query<CommentsEpisode>.EQ(c => c.Key.Item3, key.Item3));
 
             return
                 this.Database.GetCollection(string.Format("{0}-{1}", key.Item1, CollectionPrefix)).FindAndRemove(
@@ -178,11 +182,11 @@ namespace STrackerServer.Repository.MongoDB.Core
             var collection = this.Database.GetCollection(string.Format("{0}-{1}", key.Item1, CollectionPrefix));
 
             var query = Query.And(
-                Query<EpisodeComments>.EQ(c => c.Key.Item1, key.Item1),
-                Query<EpisodeComments>.EQ(c => c.Key.Item2, key.Item2),
-                Query<EpisodeComments>.EQ(c => c.Key.Item3, key.Item3));
+                Query<CommentsEpisode>.EQ(c => c.Key.Item1, key.Item1),
+                Query<CommentsEpisode>.EQ(c => c.Key.Item2, key.Item2),
+                Query<CommentsEpisode>.EQ(c => c.Key.Item3, key.Item3));
 
-            return collection.Update(query, Update<EpisodeComments>.Push(ec => ec.Comments, comment)).Ok;
+            return collection.Update(query, Update<CommentsEpisode>.Push(ec => ec.Comments, comment)).Ok;
         }
 
         /// <summary>
@@ -202,11 +206,11 @@ namespace STrackerServer.Repository.MongoDB.Core
             var collection = this.Database.GetCollection(string.Format("{0}-{1}", key.Item1, CollectionPrefix));
 
             var query = Query.And(
-                Query<EpisodeComments>.EQ(c => c.Key.Item1, key.Item1),
-                Query<EpisodeComments>.EQ(c => c.Key.Item2, key.Item2),
-                Query<EpisodeComments>.EQ(c => c.Key.Item3, key.Item3));
+                Query<CommentsEpisode>.EQ(c => c.Key.Item1, key.Item1),
+                Query<CommentsEpisode>.EQ(c => c.Key.Item2, key.Item2),
+                Query<CommentsEpisode>.EQ(c => c.Key.Item3, key.Item3));
 
-            return collection.Update(query, Update<EpisodeComments>.Pull(ec => ec.Comments, comment)).Ok;
+            return collection.Update(query, Update<CommentsEpisode>.Pull(ec => ec.Comments, comment)).Ok;
         }
     }
 }

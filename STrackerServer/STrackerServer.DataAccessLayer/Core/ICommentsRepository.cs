@@ -10,6 +10,8 @@
 namespace STrackerServer.DataAccessLayer.Core
 {
     using STrackerServer.DataAccessLayer.DomainEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.Comments;
 
     /// <summary>
     /// The CommentsRepository interface.
@@ -20,7 +22,7 @@ namespace STrackerServer.DataAccessLayer.Core
     /// <typeparam name="TK">
     /// Type of entity key.
     /// </typeparam>
-    public interface ICommentsRepository<T, in TK> : IRepository<T, TK> where T : BaseComments<TK>
+    public interface ICommentsRepository<T, in TK> : IRepository<T, TK> where T : CommentsBase<TK>
     {
         /// <summary>
         /// The add comment.

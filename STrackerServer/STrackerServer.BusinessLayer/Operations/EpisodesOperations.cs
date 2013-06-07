@@ -14,6 +14,7 @@ namespace STrackerServer.BusinessLayer.Operations
 
     using STrackerServer.BusinessLayer.Core;
     using STrackerServer.DataAccessLayer.Core;
+    using STrackerServer.DataAccessLayer.Core.EpisodesRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
@@ -48,7 +49,7 @@ namespace STrackerServer.BusinessLayer.Operations
         /// The id.
         /// </param>
         /// <returns>
-        /// The <see cref="Episode"/>.
+        /// The <see cref="STrackerServer.DataAccessLayer.DomainEntities.Episode"/>.
         /// </returns>
         public override Episode Read(Tuple<string, int, int> id)
         {

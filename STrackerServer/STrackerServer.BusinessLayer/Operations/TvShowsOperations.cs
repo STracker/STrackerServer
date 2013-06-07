@@ -13,6 +13,7 @@ namespace STrackerServer.BusinessLayer.Operations
 
     using STrackerServer.BusinessLayer.Core;
     using STrackerServer.DataAccessLayer.Core;
+    using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
 
     using STrackerUpdater.RabbitMQ;
@@ -50,7 +51,7 @@ namespace STrackerServer.BusinessLayer.Operations
         /// The id.
         /// </param>
         /// <returns>
-        /// The <see cref="TvShow"/>.
+        /// The <see cref="STrackerServer.DataAccessLayer.DomainEntities.TvShow"/>.
         /// </returns>
         public override TvShow Read(string id)
         {
@@ -87,7 +88,7 @@ namespace STrackerServer.BusinessLayer.Operations
         /// The name.
         /// </param>
         /// <returns>
-        /// The <see cref="TvShow"/>.
+        /// The <see cref="STrackerServer.DataAccessLayer.DomainEntities.TvShow"/>.
         /// </returns>
         public TvShow ReadByName(string name)
         {

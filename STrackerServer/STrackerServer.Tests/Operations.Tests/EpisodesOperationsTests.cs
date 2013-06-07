@@ -71,7 +71,7 @@ namespace STrackerServer.Tests.Operations.Tests
         public void ReadAll()
         {
             var episodes = this.operations.GetAllFromOneSeason("tt0098904", 1);
-            Assert.AreEqual(((List<Episode.EpisodeSynopsis>)episodes).Count, 5);
+            Assert.AreEqual(((List<CommentsEpisode.EpisodeSynopsis>)episodes).Count, 5);
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace STrackerServer.Tests.Operations.Tests
         public void CreateUpdateDelete()
         {
             // Create
-            var tvshow = new TvShow("tt12347")
+            var tvshow = new CommentsTvShow("tt12347")
             {
                 Name = "FakeTvShow",
                 Description = "This is a fake television show information for testing...",
@@ -93,7 +93,7 @@ namespace STrackerServer.Tests.Operations.Tests
             var season = new Season(new Tuple<string, int>("tt12347", 1));
             this.seasonsoperations.Create(season);
 
-            var episode = new Episode(new Tuple<string, int, int>("tt12347", 1, 1)) { Name = "FakeEpisode", Description = "This is a fake episode" };
+            var episode = new CommentsEpisode(new Tuple<string, int, int>("tt12347", 1, 1)) { Name = "FakeEpisode", Description = "This is a fake episode" };
             this.operations.Create(episode);
 
             var episodeRead = this.operations.Read(new Tuple<string, int, int>("tt12347", 1, 1));

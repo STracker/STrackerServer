@@ -10,11 +10,12 @@
 namespace STrackerServer.BusinessLayer.Core
 {
     using STrackerServer.DataAccessLayer.DomainEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.Comments;
 
     /// <summary>
     /// The television shows comments operations interface.
     /// </summary>
-    public interface ITvShowsCommentsOperations : ICommentsOperations<TvShowComments, string>
+    public interface ITvShowsCommentsOperations : ICommentsOperations<CommentsTvShow, string>
     {
     }
 }

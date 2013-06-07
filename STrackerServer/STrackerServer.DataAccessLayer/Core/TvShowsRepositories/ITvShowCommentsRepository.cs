@@ -7,14 +7,14 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.DataAccessLayer.Core
+namespace STrackerServer.DataAccessLayer.Core.TvShowsRepositories
 {
-    using STrackerServer.DataAccessLayer.DomainEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.Comments;
 
     /// <summary>
     /// The Television Show Comments Repository interface.
     /// </summary>
-    public interface ITvShowCommentsRepository : ICommentsRepository<TvShowComments, string>
+    public interface ITvShowCommentsRepository : ICommentsRepository<CommentsTvShow, string>
     {
     }
 }

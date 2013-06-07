@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EpisodeRatings.cs" company="STracker">
+// <copyright file="RatingsEpisode.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
@@ -7,28 +7,15 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.DataAccessLayer.DomainEntities
+namespace STrackerServer.DataAccessLayer.DomainEntities.Ratings
 {
     using System;
 
     /// <summary>
     /// The episode ratings.
     /// </summary>
-    public class EpisodeRatings : BaseRatings<Tuple<string, int, int>>
+    public class RatingsEpisode : RatingsBase<Tuple<string, int, int>>
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EpisodeRatings"/> class.
-        /// </summary>
-        /// <param name="key">
-        /// The key.
-        /// </param>
-        public EpisodeRatings(Tuple<string, int, int> key) : base(key)
-        {
-            this.TvShowId = key.Item1;
-            this.SeasonNumber = key.Item2;
-            this.EpisodeNumber = key.Item3;
-        }
-
         /// <summary>
         /// Gets or sets the television show id.
         /// </summary>

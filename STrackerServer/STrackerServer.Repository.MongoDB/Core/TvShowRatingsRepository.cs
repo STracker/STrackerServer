@@ -8,6 +8,10 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace STrackerServer.Repository.MongoDB.Core
 {
+    using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.Ratings;
+
     using global::MongoDB.Bson.Serialization;
 
     using global::MongoDB.Driver;
@@ -20,7 +24,7 @@ namespace STrackerServer.Repository.MongoDB.Core
     /// <summary>
     /// The television show ratings repository.
     /// </summary>
-    public class TvShowRatingsRepository : BaseRepository<TvShowRatings, string>, ITvShowRatingsRepository 
+    public class TvShowRatingsRepository : BaseRepository<RatingsTvShow, string>, ITvShowRatingsRepository 
     {
         /// <summary>
         /// The collection prefix.
@@ -47,7 +51,7 @@ namespace STrackerServer.Repository.MongoDB.Core
                     cm.SetIgnoreExtraElementsIsInherited(true);
                     cm.SetIgnoreExtraElements(true);
                 });
-            BsonClassMap.RegisterClassMap<TvShowRatings>();
+            BsonClassMap.RegisterClassMap<RatingsTvShow>();
         }
 
         /// <summary>
@@ -74,7 +78,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public override bool HookCreate(TvShowRatings entity)
+        public override bool HookCreate(RatingsTvShow entity)
         {
             var collection = this.Database.GetCollection(string.Format("{0}-{1}", entity.TvShowId, CollectionPrefix));
 
@@ -95,13 +99,13 @@ namespace STrackerServer.Repository.MongoDB.Core
         ///       <cref>T</cref>
         ///     </see> .
         /// </returns>
-        public override TvShowRatings HookRead(string key)
+        public override RatingsTvShow HookRead(string key)
         {
-            var query = Query<TvShowRatings>.EQ(r => r.TvShowId, key);
+            var query = Query<RatingsTvShow>.EQ(r => r.TvShowId, key);
 
             var collection = this.Database.GetCollection(string.Format("{0}-{1}", key, CollectionPrefix));
 
-            var ratings = collection.FindOneAs<TvShowRatings>(query);
+            var ratings = collection.FindOneAs<RatingsTvShow>(query);
             if (ratings == null)
             {
                 return null;
@@ -122,10 +126,10 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public override bool HookUpdate(TvShowRatings entity)
+        public override bool HookUpdate(RatingsTvShow entity)
         {
-            var query = Query<TvShowRatings>.EQ(r => r.TvShowId, entity.Key);
-            var update = Update<TvShowRatings>.Set(r => r.Ratings, entity.Ratings);
+            var query = Query<RatingsTvShow>.EQ(r => r.TvShowId, entity.Key);
+            var update = Update<RatingsTvShow>.Set(r => r.Ratings, entity.Ratings);
 
             return this.Database.GetCollection(string.Format("{0}-{1}", entity.TvShowId, CollectionPrefix)).Update(query, update).Ok;
         }
@@ -142,7 +146,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </returns>
         public override bool HookDelete(string key)
         {
-            var query = Query<TvShowRatings>.EQ(ratings => ratings.TvShowId, key);
+            var query = Query<RatingsTvShow>.EQ(ratings => ratings.TvShowId, key);
 
             return this.Database.GetCollection(string.Format("{0}-{1}", key, CollectionPrefix)).FindAndRemove(query, SortBy.Null).Ok;
         }
@@ -161,11 +165,11 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </returns>
         public bool AddRating(string key, Rating rating)
         {
-            var query = Query<TvShowRatings>.EQ(ratings => ratings.TvShowId, key);
+            var query = Query<RatingsTvShow>.EQ(ratings => ratings.TvShowId, key);
 
             var collection = this.Database.GetCollection(string.Format("{0}-{1}", key, CollectionPrefix));
 
-            return collection.Update(query, Update<TvShowRatings>.Pull(tvr => tvr.Ratings, rating)).Ok && collection.Update(query, Update<TvShowRatings>.Push(tvr => tvr.Ratings, rating)).Ok;
+            return collection.Update(query, Update<RatingsTvShow>.Pull(tvr => tvr.Ratings, rating)).Ok && collection.Update(query, Update<RatingsTvShow>.Push(tvr => tvr.Ratings, rating)).Ok;
         }
 
         /// <summary>
@@ -182,9 +186,9 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </returns>
         public bool RemoveRating(string key, Rating rating)
         {
-            var query = Query<TvShowRatings>.EQ(ratings => ratings.TvShowId, key);
+            var query = Query<RatingsTvShow>.EQ(ratings => ratings.TvShowId, key);
 
-            return this.Database.GetCollection(string.Format("{0}-{1}", key, CollectionPrefix)).Update(query, Update<TvShowRatings>.Pull(tvr => tvr.Ratings, rating)).Ok;
+            return this.Database.GetCollection(string.Format("{0}-{1}", key, CollectionPrefix)).Update(query, Update<RatingsTvShow>.Pull(tvr => tvr.Ratings, rating)).Ok;
         }
     }
 }

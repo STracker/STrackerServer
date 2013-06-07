@@ -38,7 +38,7 @@ namespace STrackerServer.BusinessLayer.Core
         /// The name.
         /// </param>
         /// <returns>
-        /// The <see cref="TvShow"/>.
+        /// The <see cref="STrackerServer.DataAccessLayer.DomainEntities.TvShow"/>.
         /// </returns>
         TvShow ReadByName(string name);
     }

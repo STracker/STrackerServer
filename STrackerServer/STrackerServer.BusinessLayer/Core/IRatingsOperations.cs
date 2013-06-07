@@ -10,6 +10,7 @@
 namespace STrackerServer.BusinessLayer.Core
 {
     using STrackerServer.DataAccessLayer.DomainEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
 
     /// <summary>
     /// The RatingsOperations interface.

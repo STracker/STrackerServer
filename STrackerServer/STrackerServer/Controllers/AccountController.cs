@@ -23,6 +23,8 @@ namespace STrackerServer.Controllers
 
     using Facebook;
 
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
+
     /// <summary>
     /// Account controller.
     /// </summary>

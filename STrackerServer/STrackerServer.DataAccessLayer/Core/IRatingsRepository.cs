@@ -9,7 +9,8 @@
 
 namespace STrackerServer.DataAccessLayer.Core
 {
-    using STrackerServer.DataAccessLayer.DomainEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.Ratings;
 
     /// <summary>
     /// The RatingsRepository interface.
@@ -20,7 +21,7 @@ namespace STrackerServer.DataAccessLayer.Core
     /// <typeparam name="TK">
     /// Type of entity key.
     /// </typeparam>
-    public interface IRatingsRepository<T, in TK> : IRepository<T, TK> where T : BaseRatings<TK>
+    public interface IRatingsRepository<T, in TK> : IRepository<T, TK> where T : RatingsBase<TK>
     {
         /// <summary>
         /// The add rating.

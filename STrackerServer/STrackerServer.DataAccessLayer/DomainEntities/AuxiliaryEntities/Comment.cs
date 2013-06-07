@@ -7,12 +7,12 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.DataAccessLayer.DomainEntities
+namespace STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities
 {
     /// <summary>
     /// The comment.
     /// </summary>
-    public class Comment 
+    public class Comment
     {
         /// <summary>
         /// Gets or sets the comment body.

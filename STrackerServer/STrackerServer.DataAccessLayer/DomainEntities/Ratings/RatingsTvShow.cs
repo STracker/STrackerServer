@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TvShowRatings.cs" company="STracker">
+// <copyright file="RatingsTvShow.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
@@ -7,24 +7,13 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.DataAccessLayer.DomainEntities
+namespace STrackerServer.DataAccessLayer.DomainEntities.Ratings
 {
     /// <summary>
     /// The television show ratings.
     /// </summary>
-    public class TvShowRatings : BaseRatings<string>
+    public class RatingsTvShow : RatingsBase<string>
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TvShowRatings"/> class.
-        /// </summary>
-        /// <param name="key">
-        /// The key.
-        /// </param>
-        public TvShowRatings(string key) : base(key)
-        {
-            this.TvShowId = key;
-        }
-
         /// <summary>
         /// Gets or sets the television show id.
         /// </summary>

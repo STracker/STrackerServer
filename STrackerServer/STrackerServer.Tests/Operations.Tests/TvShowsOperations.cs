@@ -78,7 +78,7 @@ namespace STrackerServer.Tests.Operations.Tests
         public void ReadByGenre()
         {
             // Create fake television show
-            var tvshow = new TvShow("tt12345")
+            var tvshow = new CommentsTvShow("tt12345")
             {
                 Name = "FakeTvShow",
                 Description = "This is a fake television show information for testing...",
@@ -108,7 +108,7 @@ namespace STrackerServer.Tests.Operations.Tests
         public void CreateUpdateDelete()
         {
             // Create
-            var tvshow = new TvShow("tt12345")
+            var tvshow = new CommentsTvShow("tt12345")
                 {
                     Name = "FakeTvShow",
                     Description = "This is a fake television show information for testing...",

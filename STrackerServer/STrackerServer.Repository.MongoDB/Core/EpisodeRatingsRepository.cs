@@ -11,6 +11,10 @@ namespace STrackerServer.Repository.MongoDB.Core
 {
     using System;
 
+    using STrackerServer.DataAccessLayer.Core.EpisodesRepositories;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.Ratings;
+
     using global::MongoDB.Bson.Serialization;
     using global::MongoDB.Driver;
 
@@ -22,7 +26,7 @@ namespace STrackerServer.Repository.MongoDB.Core
     /// <summary>
     /// The episode ratings repository.
     /// </summary>
-    public class EpisodeRatingsRepository : BaseRepository<EpisodeRatings, Tuple<string, int, int>>, IEpisodeRatingsRepository 
+    public class EpisodeRatingsRepository : BaseRepository<RatingsEpisode, Tuple<string, int, int>>, IEpisodeRatingsRepository 
     {
         /// <summary>
         /// The collection prefix.
@@ -49,7 +53,7 @@ namespace STrackerServer.Repository.MongoDB.Core
                     cm.SetIgnoreExtraElementsIsInherited(true);
                     cm.SetIgnoreExtraElements(true);
                 });
-            BsonClassMap.RegisterClassMap<EpisodeRatings>();
+            BsonClassMap.RegisterClassMap<RatingsEpisode>();
         }
 
         /// <summary>
@@ -76,7 +80,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public override bool HookCreate(EpisodeRatings entity)
+        public override bool HookCreate(RatingsEpisode entity)
         {
             var collection = this.Database.GetCollection(string.Format("{0}-{1}", entity.TvShowId, CollectionPrefix));
 
@@ -97,14 +101,14 @@ namespace STrackerServer.Repository.MongoDB.Core
         ///       <cref>T</cref>
         ///     </see> .
         /// </returns>
-        public override EpisodeRatings HookRead(Tuple<string, int, int> key)
+        public override RatingsEpisode HookRead(Tuple<string, int, int> key)
         {
             var query = Query.And(
-                Query<EpisodeRatings>.EQ(ratings => ratings.Key.Item1, key.Item1),
-                Query<EpisodeRatings>.EQ(ratings => ratings.Key.Item2, key.Item2),
-                Query<EpisodeRatings>.EQ(ratings => ratings.Key.Item3, key.Item3));
+                Query<RatingsEpisode>.EQ(ratings => ratings.Key.Item1, key.Item1),
+                Query<RatingsEpisode>.EQ(ratings => ratings.Key.Item2, key.Item2),
+                Query<RatingsEpisode>.EQ(ratings => ratings.Key.Item3, key.Item3));
 
-            var rating = this.Database.GetCollection(string.Format("{0}-{1}", key.Item1, CollectionPrefix)).FindOneAs<EpisodeRatings>(query);
+            var rating = this.Database.GetCollection(string.Format("{0}-{1}", key.Item1, CollectionPrefix)).FindOneAs<RatingsEpisode>(query);
             if (rating == null)
             {
                 return null;
@@ -125,14 +129,14 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public override bool HookUpdate(EpisodeRatings entity)
+        public override bool HookUpdate(RatingsEpisode entity)
         {
             var query = Query.And(
-                Query<EpisodeRatings>.EQ(ratings => ratings.Key.Item1, entity.Key.Item1),
-                Query<EpisodeRatings>.EQ(ratings => ratings.Key.Item2, entity.Key.Item2),
-                Query<EpisodeRatings>.EQ(ratings => ratings.Key.Item3, entity.Key.Item3));
+                Query<RatingsEpisode>.EQ(ratings => ratings.Key.Item1, entity.Key.Item1),
+                Query<RatingsEpisode>.EQ(ratings => ratings.Key.Item2, entity.Key.Item2),
+                Query<RatingsEpisode>.EQ(ratings => ratings.Key.Item3, entity.Key.Item3));
 
-            var update = Update<EpisodeRatings>.Set(ratings => ratings.Ratings, entity.Ratings);
+            var update = Update<RatingsEpisode>.Set(ratings => ratings.Ratings, entity.Ratings);
 
             return
                 this.Database.GetCollection(string.Format("{0}-{1}", entity.Key.Item1, CollectionPrefix)).Update(
@@ -152,9 +156,9 @@ namespace STrackerServer.Repository.MongoDB.Core
         public override bool HookDelete(Tuple<string, int, int> key)
         {
             var query = Query.And(
-                Query<EpisodeRatings>.EQ(ratings => ratings.Key.Item1, key.Item1),
-                Query<EpisodeRatings>.EQ(ratings => ratings.Key.Item2, key.Item2),
-                Query<EpisodeRatings>.EQ(ratings => ratings.Key.Item3, key.Item3));
+                Query<RatingsEpisode>.EQ(ratings => ratings.Key.Item1, key.Item1),
+                Query<RatingsEpisode>.EQ(ratings => ratings.Key.Item2, key.Item2),
+                Query<RatingsEpisode>.EQ(ratings => ratings.Key.Item3, key.Item3));
 
             return
                 this.Database.GetCollection(string.Format("{0}-{1}", key.Item1, CollectionPrefix)).FindAndRemove(
@@ -178,11 +182,11 @@ namespace STrackerServer.Repository.MongoDB.Core
             var collection = this.Database.GetCollection(string.Format("{0}-{1}", key.Item1, CollectionPrefix));
 
             var query = Query.And(
-                Query<EpisodeRatings>.EQ(ratings => ratings.Key.Item1, key.Item1),
-                Query<EpisodeRatings>.EQ(ratings => ratings.Key.Item2, key.Item2),
-                Query<EpisodeRatings>.EQ(ratings => ratings.Key.Item3, key.Item3));
+                Query<RatingsEpisode>.EQ(ratings => ratings.Key.Item1, key.Item1),
+                Query<RatingsEpisode>.EQ(ratings => ratings.Key.Item2, key.Item2),
+                Query<RatingsEpisode>.EQ(ratings => ratings.Key.Item3, key.Item3));
 
-            return collection.Update(query, Update<EpisodeRatings>.Pull(er => er.Ratings, rating).Push(er => er.Ratings, rating)).Ok;
+            return collection.Update(query, Update<RatingsEpisode>.Pull(er => er.Ratings, rating).Push(er => er.Ratings, rating)).Ok;
         }
 
         /// <summary>
@@ -202,11 +206,11 @@ namespace STrackerServer.Repository.MongoDB.Core
             var collection = this.Database.GetCollection(string.Format("{0}-{1}", key.Item1, CollectionPrefix));
 
             var query = Query.And(
-                Query<EpisodeRatings>.EQ(ratings => ratings.Key.Item1, key.Item1),
-                Query<EpisodeRatings>.EQ(ratings => ratings.Key.Item2, key.Item2),
-                Query<EpisodeRatings>.EQ(ratings => ratings.Key.Item3, key.Item3));
+                Query<RatingsEpisode>.EQ(ratings => ratings.Key.Item1, key.Item1),
+                Query<RatingsEpisode>.EQ(ratings => ratings.Key.Item2, key.Item2),
+                Query<RatingsEpisode>.EQ(ratings => ratings.Key.Item3, key.Item3));
 
-            return collection.Update(query, Update<EpisodeRatings>.Pull(er => er.Ratings, rating)).Ok;
+            return collection.Update(query, Update<RatingsEpisode>.Pull(er => er.Ratings, rating)).Ok;
         }
     }
 }

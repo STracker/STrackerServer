@@ -92,10 +92,10 @@ namespace STrackerServer.Tests.Operations.Tests
                     Name = "fake name",
                     Photo = new Artwork { ImageUrl = "fake image url" },
                     SubscriptionList =
-                        new List<TvShow.TvShowSynopsis>
+                        new List<CommentsTvShow.TvShowSynopsis>
                             {
-                                new TvShow.TvShowSynopsis { Id = "0", Name = "tvshow 0" },
-                                new TvShow.TvShowSynopsis { Id = "1", Name = "tvshow 1" }
+                                new CommentsTvShow.TvShowSynopsis { Id = "0", Name = "tvshow 0" },
+                                new CommentsTvShow.TvShowSynopsis { Id = "1", Name = "tvshow 1" }
                             }
                 };
 
@@ -122,10 +122,10 @@ namespace STrackerServer.Tests.Operations.Tests
                     Name = "fake name",
                     Photo = new Artwork { ImageUrl = "fake image url" },
                     SubscriptionList =
-                        new List<TvShow.TvShowSynopsis>
+                        new List<CommentsTvShow.TvShowSynopsis>
                                 {
-                                    new TvShow.TvShowSynopsis { Id = "0", Name = "tvshow 0" },
-                                    new TvShow.TvShowSynopsis { Id = "1", Name = "tvshow 1" }
+                                    new CommentsTvShow.TvShowSynopsis { Id = "0", Name = "tvshow 0" },
+                                    new CommentsTvShow.TvShowSynopsis { Id = "1", Name = "tvshow 1" }
                                 }
                 };
 

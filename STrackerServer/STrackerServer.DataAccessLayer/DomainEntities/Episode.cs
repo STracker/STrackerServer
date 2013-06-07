@@ -13,37 +13,26 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
     using System.Collections.Generic;
 
     using STrackerServer.DataAccessLayer.Core;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
 
     /// <summary>
-    /// Episode domain entity.
+    /// CommentsEpisode domain entity.
     /// </summary>
     public class Episode : IEntity<Tuple<string, int, int>>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Episode"/> class.
+        /// Initializes a new instance of the <see cref="STrackerServer.DataAccessLayer.DomainEntities.Episode"/> class.
         /// </summary>
         public Episode()
         {  
+            this.Directors = new List<Person>();
+            this.GuestActors = new List<Actor>();
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Episode"/> class.
+        /// Gets or sets the id.
         /// </summary>
-        /// <param name="key">
-        /// Compound key. Order: television show id, season number, episode number.
-        /// </param>
-        public Episode(Tuple<string, int, int> key)
-        {
-            this.Key = key;
-            this.TvShowId = key.Item1;
-            this.SeasonNumber = key.Item2;
-            this.EpisodeNumber = key.Item3;
-        }
-
-        /// <summary>
-        /// Gets or sets the key.
-        /// </summary>
-        public Tuple<string, int, int> Key { get; set; }
+        public Tuple<string, int, int> Id { get; set; }
 
         /// <summary>
         /// Gets or sets the television show id.
@@ -71,19 +60,14 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         public string Description { get; set; }
 
         /// <summary>
-        /// Gets or sets the rating.
+        /// Gets or sets the poster.
         /// </summary>
-        public int Rating { get; set; }
+        public Artwork Poster { get; set; }
 
         /// <summary>
         /// Gets or sets the directors.
         /// </summary>
         public List<Person> Directors { get; set; }
-
-        /// <summary>
-        /// Gets or sets the artworks.
-        /// </summary>
-        public List<Artwork> Artworks { get; set; }
 
         /// <summary>
         /// Gets or sets the guest actors.
@@ -98,13 +82,15 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// </returns>
         public EpisodeSynopsis GetSynopsis()
         {
-            return new EpisodeSynopsis { EpisodeNumber = this.EpisodeNumber, Name = this.Name };
+            var uri = string.Format("tvshows/{0}/seasons/{1}/episodes/{2}", this.TvShowId, this.SeasonNumber, this.EpisodeNumber);
+
+            return new EpisodeSynopsis { EpisodeNumber = this.EpisodeNumber, Name = this.Name, Uri = uri };
         }
 
         /// <summary>
-        /// Episode synopsis object.
+        /// CommentsEpisode synopsis object.
         /// </summary>
-        public class EpisodeSynopsis
+        public class EpisodeSynopsis : ISynopsis
         {
             /// <summary>
             /// Gets or sets the episode number.
@@ -115,6 +101,11 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
             /// Gets or sets the name.
             /// </summary>
             public string Name { get; set; }
+
+            /// <summary>
+            /// Gets or sets the uri.
+            /// </summary>
+            public string Uri { get; set; }
         }
     }
 }

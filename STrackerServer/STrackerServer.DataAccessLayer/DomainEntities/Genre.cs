@@ -27,25 +27,41 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Genre"/> class.
+        /// Gets or sets the id.
         /// </summary>
-        /// <param name="name">
-        /// The name of the genre.
-        /// </param>
-        public Genre(string name)
+        public string Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the television shows synopses associated to this genre.
+        /// </summary>
+        public List<TvShow.TvShowSynopsis> TvshowsSynopses { get; set; }
+
+        /// <summary>
+        /// The get synopsis.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="GenreSynopsis"/>.
+        /// </returns>
+        public GenreSynopsis GetSynopsis()
         {
-            this.Key = name;
-            this.TvshowsSynopses = new List<TvShow.TvShowSynopsis>();
+            var uri = string.Format("genres/{0}", this.Id);
+            return new GenreSynopsis { GenreType = this.Id, Uri = uri };
         }
 
         /// <summary>
-        /// Gets or sets the key.
+        /// The genre synopsis.
         /// </summary>
-        public string Key { get;  set; }
+        public class GenreSynopsis : ISynopsis
+        {
+            /// <summary>
+            /// Gets or sets the genre type.
+            /// </summary>
+            public string GenreType { get; set; }
 
-        /// <summary>
-        /// Gets or sets the television shows synopses.
-        /// </summary>
-        public List<TvShow.TvShowSynopsis> TvshowsSynopses { get; set; }  
+            /// <summary>
+            /// Gets or sets the uri.
+            /// </summary>
+            public string Uri { get; set; }
+        }
     }
 }

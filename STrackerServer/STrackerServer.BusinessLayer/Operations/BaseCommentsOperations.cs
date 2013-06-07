@@ -14,6 +14,8 @@ namespace STrackerServer.BusinessLayer.Operations
     using STrackerServer.BusinessLayer.Core;
     using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.Comments;
 
     using STrackerUpdater.RabbitMQ;
 
@@ -29,7 +31,7 @@ namespace STrackerServer.BusinessLayer.Operations
     /// <typeparam name="TK">
     /// Type of the key.
     /// </typeparam>
-    public abstract class BaseCommentsOperations<T, TC, TK> : ICommentsOperations<TC, TK> where T : IEntity<TK> where TC : BaseComments<TK> 
+    public abstract class BaseCommentsOperations<T, TC, TK> : ICommentsOperations<TC, TK> where T : IEntity<TK> where TC : CommentsBase<TK> 
     {
         /// <summary>
         /// The comments repository.

@@ -17,6 +17,7 @@ namespace STrackerServer.Controllers
     using STrackerServer.BusinessLayer.Core;
     using STrackerServer.Custom_action_results;
     using STrackerServer.DataAccessLayer.DomainEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
     using STrackerServer.Models.TvShow;
 
     /// <summary>

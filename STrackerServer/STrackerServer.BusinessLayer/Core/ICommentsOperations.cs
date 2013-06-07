@@ -10,6 +10,8 @@
 namespace STrackerServer.BusinessLayer.Core
 {
     using STrackerServer.DataAccessLayer.DomainEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.Comments;
 
     /// <summary>
     /// The BaseCommentsOperations interface.
@@ -20,7 +22,7 @@ namespace STrackerServer.BusinessLayer.Core
     /// <typeparam name="TK">
     /// Type of the key.
     /// </typeparam>
-    public interface ICommentsOperations<out TC, in TK> where TC : BaseComments<TK>
+    public interface ICommentsOperations<out TC, in TK> where TC : CommentsBase<TK>
     {
         /// <summary>
         /// The add comment.

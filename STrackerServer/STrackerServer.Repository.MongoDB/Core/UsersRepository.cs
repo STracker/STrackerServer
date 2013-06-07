@@ -10,6 +10,9 @@
 
 namespace STrackerServer.Repository.MongoDB.Core
 {
+    using STrackerServer.DataAccessLayer.Core.UsersRepositories;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
+
     using global::MongoDB.Bson.Serialization;
     using global::MongoDB.Driver;
 

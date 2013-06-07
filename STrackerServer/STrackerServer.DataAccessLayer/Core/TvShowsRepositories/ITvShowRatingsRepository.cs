@@ -1,22 +1,20 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IEpisodeRatingsRepository.cs" company="STracker">
+// <copyright file="ITvShowRatingsRepository.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//   The episode ratings Repository interface.
+//   The Television Show ratings Repository interface.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.DataAccessLayer.Core
+namespace STrackerServer.DataAccessLayer.Core.TvShowsRepositories
 {
-    using System;
-
-    using STrackerServer.DataAccessLayer.DomainEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.Ratings;
 
     /// <summary>
     /// The Television Show Ratings Repository interface.
     /// </summary>
-    public interface IEpisodeRatingsRepository : IRatingsRepository<EpisodeRatings, Tuple<string, int, int>>
+    public interface ITvShowRatingsRepository : IRatingsRepository<RatingsTvShow, string>
     {
     }
 }

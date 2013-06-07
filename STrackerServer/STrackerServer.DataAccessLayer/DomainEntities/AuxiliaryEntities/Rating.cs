@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.DataAccessLayer.DomainEntities
+namespace STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities
 {
     /// <summary>
     /// The rating.

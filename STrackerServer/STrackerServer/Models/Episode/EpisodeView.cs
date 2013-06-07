@@ -4,6 +4,8 @@ namespace STrackerServer.Models.Episode
 {
     using System.Collections.Generic;
 
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
+
     /// <summary>
     /// The episode view.
     /// </summary>

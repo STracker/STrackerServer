@@ -13,12 +13,14 @@ namespace STrackerServer.BusinessLayer.Operations
 
     using STrackerServer.BusinessLayer.Core;
     using STrackerServer.DataAccessLayer.Core;
+    using STrackerServer.DataAccessLayer.Core.EpisodesRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.Ratings;
 
     /// <summary>
     /// The episodes ratings operations.
     /// </summary>
-    public class EpisodesRatingsOperations : BaseRatingsOperations<Episode, EpisodeRatings, Tuple<string, int, int>>, IEpisodesRatingsOperations 
+    public class EpisodesRatingsOperations : BaseRatingsOperations<Episode, RatingsEpisode, Tuple<string, int, int>>, IEpisodesRatingsOperations 
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EpisodesRatingsOperations"/> class.

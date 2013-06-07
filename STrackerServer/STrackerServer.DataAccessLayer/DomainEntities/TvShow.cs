@@ -11,37 +11,48 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
 {
     using System.Collections.Generic;
 
+    using STrackerServer.DataAccessLayer.Core;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
+
     /// <summary>
     /// Television show domain entity.
     /// </summary>
-    public class TvShow : Media
+    public class TvShow : IEntity<string>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TvShow"/> class.
+        /// Initializes a new instance of the <see cref="STrackerServer.DataAccessLayer.DomainEntities.TvShow"/> class.
         /// </summary>
         public TvShow()
         {
+            this.Actors = new List<Actor>();
+            this.Genres = new List<Genre.GenreSynopsis>();
             this.SeasonSynopses = new List<Season.SeasonSynopsis>();    
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TvShow"/> class.
+        /// Gets or sets the id.
         /// </summary>
-        /// <param name="key">
-        /// The key.
-        /// </param>
-        public TvShow(string key)
-            : base(key)
-        {
-            this.TvShowId = key;
-
-            this.SeasonSynopses = new List<Season.SeasonSynopsis>();
-        }
+        public string Id { get; set; }
 
         /// <summary>
         /// Gets or sets the television show IMDB id.
         /// </summary>
         public string TvShowId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the description.
+        /// </summary>
+        public string Description { get; set; }
+
+        /// <summary>
+        /// Gets or sets the poster.
+        /// </summary>
+        public Artwork Poster { get; set; }
 
         /// <summary>
         /// Gets or sets the first aired.
@@ -59,9 +70,14 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         public int Runtime { get; set; }
 
         /// <summary>
-        /// Gets or sets the creator.
+        /// Gets or sets the actors.
         /// </summary>
-        public Person Creator { get; set; }
+        public List<Actor> Actors { get; set; }
+
+        /// <summary>
+        /// Gets or sets the genres.
+        /// </summary>
+        public List<Genre.GenreSynopsis> Genres { get; set; }
 
         /// <summary>
         /// Gets or sets the season synopses.
@@ -76,16 +92,18 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// </returns>
         public TvShowSynopsis GetSynopsis()
         {
-            return new TvShowSynopsis { Id = this.Key, Name = this.Name, Poster = this.Artworks[0].ImageUrl };
+            var uri = string.Format("tvshows/{0}", this.TvShowId);
+            
+            return new TvShowSynopsis { Id = this.TvShowId, Name = this.Name, Poster = this.Poster, Uri = uri };
         }
 
         /// <summary>
         /// Television show synopsis object.
         /// </summary>
-        public class TvShowSynopsis
+        public class TvShowSynopsis : ISynopsis
         {
             /// <summary>
-            /// Gets or sets the Id.
+            /// Gets or sets the television show id.
             /// </summary>
             public string Id { get; set; }
 
@@ -97,7 +115,12 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
             /// <summary>
             /// Gets or sets the poster.
             /// </summary>
-            public string Poster { get; set; }
+            public Artwork Poster { get; set; }
+
+            /// <summary>
+            /// Gets or sets the uri.
+            /// </summary>
+            public string Uri { get; set; }
         }
     }
 }

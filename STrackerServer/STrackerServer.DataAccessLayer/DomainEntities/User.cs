@@ -11,10 +11,13 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
 {
     using System.Collections.Generic;
 
+    using STrackerServer.DataAccessLayer.Core;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
+
     /// <summary>
     /// The user.
     /// </summary>
-    public class User : Person
+    public class User : Person, IEntity<string>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="User"/> class.
@@ -27,18 +30,9 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="User"/> class.
+        /// Gets or sets the id.
         /// </summary>
-        /// <param name="id">
-        /// The id.
-        /// </param>
-        public User(string id)
-            : base(id)
-        {
-            this.Friends = new List<UserSynopsis>();
-            this.FriendRequests = new List<UserSynopsis>();
-            this.SubscriptionList = new List<TvShow.TvShowSynopsis>();
-        }
+        public string Id { get; set; }
 
         /// <summary>
         /// Gets or sets the email.
@@ -61,17 +55,6 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         public List<TvShow.TvShowSynopsis> SubscriptionList { get; set; }
 
         /// <summary>
-        /// The get synopsis.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="UserSynopsis"/>.
-        /// </returns>
-        public UserSynopsis GetSynopsis()
-        {
-            return new UserSynopsis { Id = this.Key };
-        }
-
-        /// <summary>
         /// The compare to.
         /// </summary>
         /// <param name="other">
@@ -82,18 +65,42 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// </returns>
         public bool Equals(User other)
         {
+            // Compare name and photo for verify if is necessary update the information.
             return Name.Equals(other.Name) && Photo.ImageUrl.Equals(other.Photo.ImageUrl);
+        }
+
+        /// <summary>
+        /// The get synopsis.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="UserSynopsis"/>.
+        /// </returns>
+        public UserSynopsis GetSynopsis()
+        {
+            var uri = string.Format("users/{0}", this.Id);
+
+            return new UserSynopsis { Id = this.Id, Name = this.Name, Uri = uri };
         }
 
         /// <summary>
         /// The user synopsis.
         /// </summary>
-        public class UserSynopsis
+        public class UserSynopsis : ISynopsis
         {
             /// <summary>
             /// Gets or sets the id.
             /// </summary>
             public string Id { get; set; }
+
+            /// <summary>
+            /// Gets or sets the name.
+            /// </summary>
+            public string Name { get; set; }
+
+            /// <summary>
+            /// Gets or sets the uri.
+            /// </summary>
+            public string Uri { get; set; }
         }
     }
 }

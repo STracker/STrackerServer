@@ -11,7 +11,10 @@ namespace STrackerServer.BusinessLayer.Operations
 {
     using STrackerServer.BusinessLayer.Core;
     using STrackerServer.DataAccessLayer.Core;
+    using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.Comments;
 
     using STrackerUpdater.RabbitMQ;
     using STrackerUpdater.RabbitMQ.Core;
@@ -19,7 +22,7 @@ namespace STrackerServer.BusinessLayer.Operations
     /// <summary>
     /// The television shows comments operations.
     /// </summary>
-    public class TvShowsCommentsOperations : BaseCommentsOperations<TvShow, TvShowComments, string>, ITvShowsCommentsOperations 
+    public class TvShowsCommentsOperations : BaseCommentsOperations<TvShow, CommentsTvShow, string>, ITvShowsCommentsOperations 
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TvShowsCommentsOperations"/> class.

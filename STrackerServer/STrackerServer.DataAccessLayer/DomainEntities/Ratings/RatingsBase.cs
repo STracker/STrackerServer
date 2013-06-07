@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="BaseRatings.cs" company="STracker">
+// <copyright file="RatingsBase.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
@@ -7,11 +7,12 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.DataAccessLayer.DomainEntities
+namespace STrackerServer.DataAccessLayer.DomainEntities.Ratings
 {
     using System.Collections.Generic;
 
     using STrackerServer.DataAccessLayer.Core;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
 
     /// <summary>
     /// The comments.
@@ -19,23 +20,20 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
     /// <typeparam name="T">
     /// Type of the key.
     /// </typeparam>
-    public class BaseRatings<T> : IEntity<T>
+    public class RatingsBase<T> : IEntity<T>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseRatings{T}"/> class.
+        /// Initializes a new instance of the <see cref="RatingsBase{T}"/> class.
         /// </summary>
-        /// <param name="key">
-        /// The key.
-        /// </param>
-        public BaseRatings(T key)
+        public RatingsBase()
         {
-            this.Key = key;
+            this.Ratings = new List<Rating>();
         }
 
         /// <summary>
-        /// Gets or sets the key.
+        /// Gets or sets the id.
         /// </summary>
-        public T Key { get; set; }
+        public T Id { get; set; }
 
         /// <summary>
         /// Gets or sets the ratings.

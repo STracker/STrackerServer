@@ -28,19 +28,9 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Season"/> class.
+        /// Gets or sets the id.
         /// </summary>
-        /// <param name="key">
-        /// Compound key. Order: television show id, season number.
-        /// </param>
-        public Season(Tuple<string, int> key)
-        {
-            this.Key = key;
-            this.TvShowId = key.Item1;
-            this.SeasonNumber = key.Item2;
-
-            this.EpisodeSynopses = new List<Episode.EpisodeSynopsis>();
-        }
+        public Tuple<string, int> Id { get; set; }
 
         /// <summary>
         /// Gets or sets the key.
@@ -70,18 +60,25 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// </returns>
         public SeasonSynopsis GetSynopsis()
         {
-            return new SeasonSynopsis { SeasonNumber = this.SeasonNumber };
+            var uri = string.Format("tvshows/{0}/seasons/{1}", this.TvShowId, this.SeasonNumber);
+
+            return new SeasonSynopsis { SeasonNumber = this.SeasonNumber, Uri = uri };
         }
 
         /// <summary>
         /// Season synopsis object.
         /// </summary>
-        public class SeasonSynopsis
+        public class SeasonSynopsis : ISynopsis
         {
             /// <summary>
             /// Gets or sets the season number.
             /// </summary>
             public int SeasonNumber { get; set; }
+
+            /// <summary>
+            /// Gets or sets the uri.
+            /// </summary>
+            public string Uri { get; set; }
         }
     }
 }

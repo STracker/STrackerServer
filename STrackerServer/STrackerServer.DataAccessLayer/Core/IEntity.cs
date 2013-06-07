@@ -3,23 +3,23 @@
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  Interface that defines the contract of domain entities.
+//  Interface that defines the contract of the domain entities.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace STrackerServer.DataAccessLayer.Core
 {
     /// <summary>
-    /// Entities interface.
+    /// IEntity interface.
     /// </summary>
     /// <typeparam name="TK">
-    /// Type of entity's Key.
+    /// Type of entity's id.
     /// </typeparam>
-    public interface IEntity<out TK>
+    public interface IEntity<TK>
     {
         /// <summary>
-        /// Gets the key.
+        /// Gets or sets the id.
         /// </summary>
-        TK Key { get; }
+        TK Id { get; set; }
     }
 }

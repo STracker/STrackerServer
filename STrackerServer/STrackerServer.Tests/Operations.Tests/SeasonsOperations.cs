@@ -77,7 +77,7 @@ namespace STrackerServer.Tests.Operations.Tests
         public void CreateDelete()
         {
             // Create
-            var tvshow = new TvShow("tt12346")
+            var tvshow = new CommentsTvShow("tt12346")
             {
                 Name = "FakeTvShow",
                 Description = "This is a fake television show information for testing...",

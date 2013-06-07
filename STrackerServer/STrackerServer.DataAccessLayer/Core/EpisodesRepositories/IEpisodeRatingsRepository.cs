@@ -1,23 +1,22 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IEpisodesRatingsOperations.cs" company="STracker">
+// <copyright file="IEpisodeRatingsRepository.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  Interface that defines the contract of operations over episodes ratings.
+//   The episode ratings Repository interface.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.BusinessLayer.Core
+namespace STrackerServer.DataAccessLayer.Core.EpisodesRepositories
 {
     using System;
 
-    using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.Ratings;
 
     /// <summary>
-    /// The episodes ratings operations interface.
+    /// The Television Show Ratings Repository interface.
     /// </summary>
-    public interface IEpisodesRatingsOperations : IRatingsOperations<RatingsEpisode, Tuple<string, int, int>>
+    public interface IEpisodeRatingsRepository : IRatingsRepository<RatingsEpisode, Tuple<string, int, int>>
     {
     }
 }

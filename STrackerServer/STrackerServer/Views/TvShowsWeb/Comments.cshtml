@@ -42,7 +42,7 @@
                     @Html.ValidationSummary()       
                     @using (Html.BeginForm("Comments", "TvShowsWeb"))
                     {
-                        @Html.Hidden("TvShowId", Model.TvShowId)
+                        @Html.Hidden("CommentsTvShowId", Model.TvShowId)
                         <textarea class="btn-block comments-textarea" id="Body" name="Body"></textarea>
                         <input class="btn btn-primary" type="submit" value="Add Comment"/>
                     }   

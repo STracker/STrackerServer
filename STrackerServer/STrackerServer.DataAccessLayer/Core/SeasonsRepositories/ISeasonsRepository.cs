@@ -1,13 +1,13 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IEpisodesRepository.cs" company="STracker">
+// <copyright file="ISeasonsRepository.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  Interface that defines the contract of episodes repositories.
+//  Interface that defines the contract of seasons repositories.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.DataAccessLayer.Core
+namespace STrackerServer.DataAccessLayer.Core.SeasonsRepositories
 {
     using System;
     using System.Collections.Generic;
@@ -15,32 +15,29 @@ namespace STrackerServer.DataAccessLayer.Core
     using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
-    /// Episodes repository interface.
+    /// Seasons repository interface.
     /// </summary>
-    public interface IEpisodesRepository : IRepository<Episode, Tuple<string, int, int>>
+    public interface ISeasonsRepository : IRepository<Season, Tuple<string, int>>
     {
         /// <summary>
-        /// Create several episodes.
+        /// Create several seasons.
         /// </summary>
-        /// <param name="episodes">
-        /// The episodes.
+        /// <param name="seasons">
+        /// The seasons.
         /// </param>
-        void CreateAll(IEnumerable<Episode> episodes);
+        void CreateAll(IEnumerable<Season> seasons);
 
         /// <summary>
-        /// The get all from one season.
+        /// Get all seasons synopsis from one television show.
         /// </summary>
         /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <param name="seasonNumber">
-        /// The season number.
+        /// Television show id.
         /// </param>
         /// <returns>
         /// The <see>
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        IEnumerable<Episode.EpisodeSynopsis> GetAllFromOneSeason(string tvshowId, int seasonNumber);
+        IEnumerable<Season.SeasonSynopsis> GetAllFromOneTvShow(string tvshowId);
     }
 }

@@ -14,6 +14,11 @@ namespace STrackerServer.Repository.MongoDB.Core
     using System.Collections.Generic;
     using System.Linq;
 
+    using STrackerServer.DataAccessLayer.Core.EpisodesRepositories;
+    using STrackerServer.DataAccessLayer.Core.SeasonsRepositories;
+    using STrackerServer.DataAccessLayer.DomainEntities.Comments;
+    using STrackerServer.DataAccessLayer.DomainEntities.Ratings;
+
     using global::MongoDB.Bson.Serialization;
     using global::MongoDB.Driver;
 
@@ -110,7 +115,7 @@ namespace STrackerServer.Repository.MongoDB.Core
             season.EpisodeSynopses.Add(synopse);
 
             // Also create the document for comments.
-            return collection.Insert(entity).Ok && this.seasonsRepository.Update(season) && this.commentsRepository.Create(new EpisodeComments(new Tuple<string, int, int>(entity.TvShowId, entity.SeasonNumber, entity.EpisodeNumber))) && this.ratingsRepository.Create(new EpisodeRatings(new Tuple<string, int, int>(entity.TvShowId, entity.SeasonNumber, entity.EpisodeNumber)));
+            return collection.Insert(entity).Ok && this.seasonsRepository.Update(season) && this.commentsRepository.Create(new CommentsEpisode(new Tuple<string, int, int>(entity.TvShowId, entity.SeasonNumber, entity.EpisodeNumber))) && this.ratingsRepository.Create(new RatingsEpisode(new Tuple<string, int, int>(entity.TvShowId, entity.SeasonNumber, entity.EpisodeNumber)));
         }
 
         /// <summary>
@@ -120,7 +125,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// The key.
         /// </param>
         /// <returns>
-        /// The <see cref="Episode"/>.
+        /// The <see cref="STrackerServer.DataAccessLayer.DomainEntities.Episode"/>.
         /// </returns>
         public override Episode HookRead(Tuple<string, int, int> key)
         {

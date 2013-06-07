@@ -13,7 +13,10 @@ namespace STrackerServer.BusinessLayer.Operations
 
     using STrackerServer.BusinessLayer.Core;
     using STrackerServer.DataAccessLayer.Core;
+    using STrackerServer.DataAccessLayer.Core.EpisodesRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.Comments;
 
     using STrackerUpdater.RabbitMQ;
     using STrackerUpdater.RabbitMQ.Core;
@@ -21,7 +24,7 @@ namespace STrackerServer.BusinessLayer.Operations
     /// <summary>
     /// The episodes comments operations.
     /// </summary>
-    public class EpisodesCommentsOperations : BaseCommentsOperations<Episode, EpisodeComments, Tuple<string, int, int>>, IEpisodesCommentsOperations 
+    public class EpisodesCommentsOperations : BaseCommentsOperations<Episode, CommentsEpisode, Tuple<string, int, int>>, IEpisodesCommentsOperations 
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EpisodesCommentsOperations"/> class.

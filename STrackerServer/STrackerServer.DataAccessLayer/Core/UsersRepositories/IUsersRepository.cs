@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.DataAccessLayer.Core
+namespace STrackerServer.DataAccessLayer.Core.UsersRepositories
 {
     using STrackerServer.DataAccessLayer.DomainEntities;
 

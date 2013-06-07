@@ -1,20 +1,22 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ITvShowRatingsRepository.cs" company="STracker">
+// <copyright file="ISynopsis.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//   The Television Show ratings Repository interface.
+//  Interface that defines the contract of the domain entities.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace STrackerServer.DataAccessLayer.Core
 {
-    using STrackerServer.DataAccessLayer.DomainEntities;
-
     /// <summary>
-    /// The Television Show Ratings Repository interface.
+    /// EntitySynopsis interface.
     /// </summary>
-    public interface ITvShowRatingsRepository : IRatingsRepository<TvShowRatings, string>
+    public interface ISynopsis
     {
+        /// <summary>
+        /// Gets or sets the uri.
+        /// </summary>
+        string Uri { get; set; }
     }
 }

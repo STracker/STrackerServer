@@ -52,21 +52,18 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// The entity.
         /// </param>
         /// Is abstract because his implementation is diferent from repository to repository.
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public abstract bool HookCreate(T entity);
+        public abstract void HookCreate(T entity);
 
         /// <summary>
         /// Hook method for Read operation.
         /// </summary>
-        /// <param name="key">
-        /// The key.
+        /// <param name="id">
+        /// The id.
         /// </param>
         /// <returns>
         /// The <see cref="T"/>.
         /// </returns>
-        public abstract T HookRead(TK key);
+        public abstract T HookRead(TK id);
 
         /// <summary>
         /// Hook method for Update operation.
@@ -75,22 +72,16 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// The entity.
         /// </param>
         /// Is abstract because his implementation is diferent from repository to repository.
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public abstract bool HookUpdate(T entity);
+        public abstract void HookUpdate(T entity);
 
         /// <summary>
         /// Hook method for Delete operation.
         /// </summary>
-        /// <param name="key">
-        /// The key.
+        /// <param name="id">
+        /// The id.
         /// </param>
         /// Is abstract because his implementation is diferent from repository to repository.
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public abstract bool HookDelete(TK key);
+        public abstract void HookDelete(TK id);
 
         /// <summary>
         /// The create.
@@ -98,36 +89,32 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <param name="entity">
         /// The entity.
         /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public bool Create(T entity)
+        public void Create(T entity)
         {
             try
             {
-                return this.HookCreate(entity);
+                this.HookCreate(entity);
             }
             catch (Exception)
             {
                 // TODO, add exception to Log mechanism.
-                return false;
             }
         }
 
         /// <summary>
         /// The read.
         /// </summary>
-        /// <param name="key">
-        /// The key.
+        /// <param name="id">
+        /// The id.
         /// </param>
         /// <returns>
         /// The <see cref="T"/>.
         /// </returns>
-        public T Read(TK key)
+        public T Read(TK id)
         {
             try
             {
-                return this.HookRead(key);
+                return this.HookRead(id);
             }
             catch (Exception)
             {
@@ -142,41 +129,33 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <param name="entity">
         /// The entity.
         /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public bool Update(T entity)
+        public void Update(T entity)
         {
             try
             {
-                return this.HookUpdate(entity);
+                this.HookUpdate(entity);
             }
             catch (Exception)
             {
                 // TODO, add exception to Log mechanism.
-                return false;
             }
         }
 
         /// <summary>
         /// The delete.
         /// </summary>
-        /// <param name="key">
-        /// The key.
+        /// <param name="id">
+        /// The id.
         /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public bool Delete(TK key)
+        public void Delete(TK id)
         {
             try
             {
-                return this.HookDelete(key);
+                this.HookDelete(id);
             }
             catch (Exception)
             {
                 // TODO, add exception to Log mechanism.
-                return false;
             }
         }
     }

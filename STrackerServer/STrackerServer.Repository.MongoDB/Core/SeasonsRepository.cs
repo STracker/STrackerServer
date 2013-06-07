@@ -14,6 +14,9 @@ namespace STrackerServer.Repository.MongoDB.Core
     using System.Collections.Generic;
     using System.Linq;
 
+    using STrackerServer.DataAccessLayer.Core.SeasonsRepositories;
+    using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
+
     using global::MongoDB.Bson.Serialization;
     using global::MongoDB.Driver;
 

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EpisodeComments.cs" company="STracker">
+// <copyright file="CommentsEpisode.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
@@ -7,32 +7,15 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.DataAccessLayer.DomainEntities
+namespace STrackerServer.DataAccessLayer.DomainEntities.Comments
 {
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// The episode comments.
     /// </summary>
-    public class EpisodeComments : BaseComments<Tuple<string, int, int>>
+    public class CommentsEpisode : CommentsBase<Tuple<string, int, int>>
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EpisodeComments"/> class.
-        /// </summary>
-        /// <param name="key">
-        /// The key.
-        /// </param>
-        public EpisodeComments(Tuple<string, int, int> key) : base(key)
-        {
-            this.Key = key;
-            this.TvShowId = key.Item1;
-            this.SeasonNumber = key.Item2;
-            this.EpisodeNumber = key.Item3;
-
-            this.Comments = new List<Comment>();
-        }
-
         /// <summary>
         /// Gets or sets the television show id.
         /// </summary>

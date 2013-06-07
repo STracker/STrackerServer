@@ -11,12 +11,14 @@ namespace STrackerServer.BusinessLayer.Operations
 {
     using STrackerServer.BusinessLayer.Core;
     using STrackerServer.DataAccessLayer.Core;
+    using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.Ratings;
 
     /// <summary>
     /// The television shows ratings operations.
     /// </summary>
-    public class TvShowsRatingsOperations : BaseRatingsOperations<TvShow, TvShowRatings, string>, ITvShowsRatingsOperations 
+    public class TvShowsRatingsOperations : BaseRatingsOperations<TvShow, RatingsTvShow, string>, ITvShowsRatingsOperations 
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TvShowsRatingsOperations"/> class.

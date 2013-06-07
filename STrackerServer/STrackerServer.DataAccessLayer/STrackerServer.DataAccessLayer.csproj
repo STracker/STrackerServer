@@ -41,35 +41,37 @@
   <ItemGroup>
     <Compile Include="Core\ICommentsRepository.cs" />
     <Compile Include="Core\IEntity.cs" />
-    <Compile Include="Core\IEpisodeCommentsRepository.cs" />
-    <Compile Include="Core\IEpisodeRatingsRepository.cs" />
-    <Compile Include="Core\IEpisodesRepository.cs" />
+    <Compile Include="Core\ISynopsis.cs" />
+    <Compile Include="Core\EpisodesRepositories\IEpisodeCommentsRepository.cs" />
+    <Compile Include="Core\EpisodesRepositories\IEpisodeRatingsRepository.cs" />
+    <Compile Include="Core\EpisodesRepositories\IEpisodesRepository.cs" />
     <Compile Include="Core\IRatingsRepository.cs" />
     <Compile Include="Core\IRepository.cs" />
-    <Compile Include="Core\ISeasonsRepository.cs" />
-    <Compile Include="Core\ITvShowCommentsRepository.cs" />
-    <Compile Include="Core\ITvShowRatingsRepository.cs" />
-    <Compile Include="Core\ITvShowsRepository.cs" />
-    <Compile Include="Core\IUsersRepository.cs" />
-    <Compile Include="DomainEntities\Actor.cs" />
-    <Compile Include="DomainEntities\Artwork.cs" />
-    <Compile Include="DomainEntities\BaseRatings.cs" />
-    <Compile Include="DomainEntities\Comment.cs" />
-    <Compile Include="DomainEntities\BaseComments.cs" />
+    <Compile Include="Core\SeasonsRepositories\ISeasonsRepository.cs" />
+    <Compile Include="Core\TvShowsRepositories\IGenresRepository.cs" />
+    <Compile Include="Core\TvShowsRepositories\ITvShowCommentsRepository.cs" />
+    <Compile Include="Core\TvShowsRepositories\ITvShowRatingsRepository.cs" />
+    <Compile Include="Core\TvShowsRepositories\ITvShowsRepository.cs" />
+    <Compile Include="Core\UsersRepositories\IUsersRepository.cs" />
+    <Compile Include="DomainEntities\AuxiliaryEntities\Actor.cs" />
+    <Compile Include="DomainEntities\AuxiliaryEntities\Artwork.cs" />
+    <Compile Include="DomainEntities\AuxiliaryEntities\Comment.cs" />
+    <Compile Include="DomainEntities\Comments\CommentsBase.cs" />
     <Compile Include="DomainEntities\Episode.cs" />
-    <Compile Include="DomainEntities\EpisodeComments.cs" />
-    <Compile Include="DomainEntities\EpisodeRatings.cs" />
+    <Compile Include="DomainEntities\Comments\CommentsEpisode.cs" />
+    <Compile Include="DomainEntities\Ratings\RatingsEpisode.cs" />
     <Compile Include="DomainEntities\Genre.cs" />
-    <Compile Include="DomainEntities\Media.cs" />
-    <Compile Include="DomainEntities\Person.cs" />
-    <Compile Include="DomainEntities\Rating.cs" />
+    <Compile Include="DomainEntities\AuxiliaryEntities\Person.cs" />
+    <Compile Include="DomainEntities\AuxiliaryEntities\Rating.cs" />
+    <Compile Include="DomainEntities\Ratings\RatingsBase.cs" />
     <Compile Include="DomainEntities\Season.cs" />
     <Compile Include="DomainEntities\TvShow.cs" />
-    <Compile Include="DomainEntities\TvShowComments.cs" />
-    <Compile Include="DomainEntities\TvShowRatings.cs" />
+    <Compile Include="DomainEntities\Comments\CommentsTvShow.cs" />
+    <Compile Include="DomainEntities\Ratings\RatingsTvShow.cs" />
     <Compile Include="DomainEntities\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

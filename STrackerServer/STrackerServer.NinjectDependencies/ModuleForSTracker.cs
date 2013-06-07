@@ -20,7 +20,12 @@ namespace STrackerServer.NinjectDependencies
     using STrackerServer.BusinessLayer.Core;
     using STrackerServer.BusinessLayer.Operations;
     using STrackerServer.DataAccessLayer.Core;
+    using STrackerServer.DataAccessLayer.Core.EpisodesRepositories;
+    using STrackerServer.DataAccessLayer.Core.SeasonsRepositories;
+    using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
+    using STrackerServer.DataAccessLayer.Core.UsersRepositories;
     using STrackerServer.Repository.MongoDB.Core;
+    using STrackerServer.Repository.MongoDB.Core.TvShowsRepositories;
 
     using STrackerUpdater.RabbitMQ;
 

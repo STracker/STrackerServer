@@ -12,6 +12,7 @@ namespace STrackerServer.Models.TvShow
     using System.Collections.Generic;
 
     using STrackerServer.DataAccessLayer.DomainEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
 
     /// <summary>
     /// The television show comments view.

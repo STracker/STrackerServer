@@ -7,38 +7,13 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.DataAccessLayer.DomainEntities
+namespace STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities
 {
-    using STrackerServer.DataAccessLayer.Core;
-
     /// <summary>
     /// Person domain entity.
     /// </summary>
-    public class Person : IEntity<string>
+    public class Person
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Person"/> class.
-        /// </summary>
-        public Person()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Person"/> class.
-        /// </summary>
-        /// <param name="key">
-        /// The key.
-        /// </param>
-        public Person(string key)
-        {
-            this.Key = key;
-        }
-
-        /// <summary>
-        /// Gets or sets the key.
-        /// </summary>
-        public string Key { get; set; }
-
         /// <summary>
         /// Gets or sets the name.
         /// </summary>

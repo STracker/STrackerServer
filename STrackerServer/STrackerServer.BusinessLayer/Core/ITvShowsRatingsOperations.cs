@@ -10,11 +10,12 @@
 namespace STrackerServer.BusinessLayer.Core
 {
     using STrackerServer.DataAccessLayer.DomainEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.Ratings;
 
     /// <summary>
     /// The television shows ratings operations interface.
     /// </summary>
-    public interface ITvShowsRatingsOperations : IRatingsOperations<TvShowRatings, string>
+    public interface ITvShowsRatingsOperations : IRatingsOperations<RatingsTvShow, string>
     {
     }
 }

@@ -26,21 +26,18 @@ namespace STrackerServer.DataAccessLayer.Core
         /// <param name="entity">
         /// The entity.
         /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        bool Create(T entity);
+        void Create(T entity);
 
         /// <summary>
         /// The read.
         /// </summary>
-        /// <param name="key">
-        /// The key.
+        /// <param name="id">
+        /// The id.
         /// </param>
         /// <returns>
         /// The <see cref="T"/>.
         /// </returns>
-        T Read(TK key);
+        T Read(TK id);
 
         /// <summary>
         /// The update.
@@ -48,20 +45,14 @@ namespace STrackerServer.DataAccessLayer.Core
         /// <param name="entity">
         /// The entity.
         /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        bool Update(T entity);
+        void Update(T entity);
 
         /// <summary>
         /// The delete.
         /// </summary>
-        /// <param name="key">
-        /// The key.
+        /// <param name="id">
+        /// The id.
         /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        bool Delete(TK key);
+        void Delete(TK id);
     }
 }

@@ -12,6 +12,8 @@ namespace STrackerServer.Models.TvShow
     using System.Collections.Generic;
     using DataAccessLayer.DomainEntities;
 
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
+
     /// <summary>
     /// The view model of the television show.
     /// </summary>

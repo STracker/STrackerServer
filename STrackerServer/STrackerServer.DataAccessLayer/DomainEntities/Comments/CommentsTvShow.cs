@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TvShowComments.cs" company="STracker">
+// <copyright file="CommentsTvShow.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
@@ -7,29 +7,13 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.DataAccessLayer.DomainEntities
+namespace STrackerServer.DataAccessLayer.DomainEntities.Comments
 {
-    using System.Collections.Generic;
-
     /// <summary>
     /// The television show comments.
     /// </summary>
-    public class TvShowComments : BaseComments<string>
+    public class CommentsTvShow : CommentsBase<string>
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TvShowComments"/> class.
-        /// </summary>
-        /// <param name="key">
-        /// The key.
-        /// </param>
-        public TvShowComments(string key)
-            : base(key)
-        {
-            this.TvShowId = key;
-
-            this.Comments = new List<Comment>();
-        }
-
         /// <summary>
         /// Gets or sets the television show id.
         /// </summary>
