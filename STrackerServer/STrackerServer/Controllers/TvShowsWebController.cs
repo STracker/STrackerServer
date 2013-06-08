@@ -88,49 +88,13 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            var model = new TvShowView(tvshow);
-            return this.View(model);
-        }
-
-        /// <summary>
-        /// The show options.
-        /// </summary>
-        /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <param name="unsubscribeRedirectUrl">
-        /// The Unsubscribe Redirect Url.
-        /// </param>
-        /// <returns>
-        /// The <see cref="ActionResult"/>.
-        /// </returns>
-        [HttpGet]
-        public ActionResult TvShowPartialOptions(string tvshowId, string unsubscribeRedirectUrl)
-        {
-            var tvshow = this.tvshowOperations.Read(tvshowId);
-            if (tvshow == null)
-            {
-                Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return this.View("Error", Response.StatusCode);
-            }
-            
-            var isSubscribed = false;
-
-            if (User.Identity.IsAuthenticated)
-            {
-                var user = this.userOperations.Read(User.Identity.Name);
-                isSubscribed = user.SubscriptionList.Any(synopsis => synopsis.Id.Equals(tvshowId));
-            }
-
-            var tvshowPartial = new TvShowPartialOptions
+            var model = new TvShowView(tvshow)
                 {
-                    TvShowId = tvshowId, 
-                    Poster = tvshow.Poster.ImageUrl, 
-                    IsSubscribed = isSubscribed,
-                    RedirectUrl = unsubscribeRedirectUrl
+                    Options =
+                        TvShowOptions.Create(
+                            tvshow, this.userOperations.Read(User.Identity.Name), Url.Action("Show", new { tvshowId }))
                 };
-
-            return this.View(tvshowPartial);
+            return this.View(model);
         }
 
         /// <summary>

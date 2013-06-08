@@ -142,7 +142,7 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         {
             var collection = this.Database.GetCollection(id.Item1);
             var query = Query.And(Query<Episode>.EQ(e => e.TvShowId, id.Item1), Query<Episode>.EQ(e => e.SeasonNumber, id.Item2), Query<Episode>.EQ(e => e.EpisodeNumber, id.Item3));
-            return collection.FindOne<Episode>(query, "_id", "Key");
+            return collection.FindOne<Episode>(query, "_id");
         }
 
         /// <summary>

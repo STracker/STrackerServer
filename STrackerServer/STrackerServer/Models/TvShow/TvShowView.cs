@@ -97,5 +97,10 @@ namespace STrackerServer.Models.TvShow
         /// Gets or sets the season synopses.
         /// </summary>
         public List<Season.SeasonSynopsis> SeasonSynopses { get; set; }
+
+        /// <summary>
+        /// Gets or sets the options.
+        /// </summary>
+        public TvShowOptions Options { get; set; }
     }
 }

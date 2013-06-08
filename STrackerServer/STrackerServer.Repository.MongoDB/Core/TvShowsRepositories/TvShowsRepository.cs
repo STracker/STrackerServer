@@ -201,8 +201,7 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         {
             var collection = this.Database.GetCollection(id);
             var query = Query<TvShow>.EQ(tv => tv.TvShowId, id);
-
-            return collection.FindOne<TvShow>(query, "_id", "Key");
+            return collection.FindOne<TvShow>(query, "_id");
         }
 
         /// <summary>

@@ -10,7 +10,10 @@
 namespace STrackerServer.Models.Season
 {
     using System.Collections.Generic;
+
     using DataAccessLayer.DomainEntities;
+
+    using STrackerServer.Models.TvShow;
 
     /// <summary>
     /// The season web.
@@ -41,5 +44,10 @@ namespace STrackerServer.Models.Season
         /// Gets or sets the poster.
         /// </summary>
         public string Poster { get; set; }
+
+        /// <summary>
+        /// Gets or sets the options.
+        /// </summary>
+        public TvShowOptions Options { get; set; }
     }
 }

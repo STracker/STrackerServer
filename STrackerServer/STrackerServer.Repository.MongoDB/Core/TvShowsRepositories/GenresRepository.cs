@@ -13,6 +13,7 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
     using System;
     using System.Configuration;
 
+    using global::MongoDB.Bson.Serialization;
     using global::MongoDB.Driver;
 
     using global::MongoDB.Driver.Builders;
@@ -34,6 +35,24 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         /// The collection. In this case the collection is always the same.
         /// </summary>
         private readonly MongoCollection collection;
+
+        /// <summary>
+        /// Initializes static members of the <see cref="GenresRepository"/> class.
+        /// </summary>
+        static GenresRepository()
+        {
+            if (BsonClassMap.IsClassMapRegistered(typeof(Genre)))
+            {
+                return;
+            }
+
+            BsonClassMap.RegisterClassMap<Genre>(
+                cm =>
+                {
+                    cm.AutoMap();
+                    cm.SetIdMember(cm.GetMemberMap(user => user.Key));
+                });
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GenresRepository"/> class.

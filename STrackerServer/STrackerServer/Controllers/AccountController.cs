@@ -41,6 +41,11 @@ namespace STrackerServer.Controllers
         private const string Permissions = "email";
 
         /// <summary>
+        /// The user info query.
+        /// </summary>
+        private const string UserInfoQuery = "me?fields=id,name,email,picture.type(large)";
+
+        /// <summary>
         /// Facebook client id.
         /// </summary>
         private static readonly string FacebookClientId = ConfigurationManager.AppSettings["Facebook:Key"];
@@ -179,7 +184,7 @@ namespace STrackerServer.Controllers
 
                 fb.AccessToken = result.access_token;
 
-                dynamic me = fb.Get("me?fields=id,name,email,picture.type(large)");
+                dynamic me = fb.Get(UserInfoQuery);
                 user = new User(me.id) { Email = me.email, Name = me.name, Photo = new Artwork { ImageUrl = me.picture.data.url } };
             }
             catch (FacebookOAuthException)

@@ -119,7 +119,7 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
                 Query<RatingsEpisode>.EQ(ratings => ratings.SeasonNumber, id.Item2),
                 Query<RatingsEpisode>.EQ(ratings => ratings.EpisodeNumber, id.Item3));
 
-            return collection.FindOne<RatingsEpisode>(query, "_id", "Key");
+            return collection.FindOne<RatingsEpisode>(query, "_id");
         }
 
         /// <summary>

@@ -121,7 +121,7 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
                 Query<CommentsEpisode>.EQ(comments => comments.SeasonNumber, id.Item2),
                 Query<CommentsEpisode>.EQ(comments => comments.EpisodeNumber, id.Item3));
 
-            return collection.FindOne<CommentsEpisode>(query, "_id", "Key");
+            return collection.FindOne<CommentsEpisode>(query, "_id");
         }
 
         /// <summary>

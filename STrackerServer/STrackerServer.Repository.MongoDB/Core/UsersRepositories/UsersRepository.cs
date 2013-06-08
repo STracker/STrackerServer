@@ -12,6 +12,7 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
 {
     using System.Configuration;
 
+    using global::MongoDB.Bson.Serialization;
     using global::MongoDB.Driver;
 
     using global::MongoDB.Driver.Builders;
@@ -33,6 +34,24 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         /// The collection. In this case the collection is always the same (collection with name "Users").
         /// </summary>
         private readonly MongoCollection collection;
+
+        /// <summary>
+        /// Initializes static members of the <see cref="UsersRepository"/> class.
+        /// </summary>
+        static UsersRepository()
+        {
+            if (BsonClassMap.IsClassMapRegistered(typeof(User)))
+            {
+                return;
+            }
+
+            BsonClassMap.RegisterClassMap<User>(
+                cm =>
+                {
+                    cm.AutoMap();
+                    cm.SetIdMember(cm.GetMemberMap(user => user.Key));
+                });
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UsersRepository"/> class.

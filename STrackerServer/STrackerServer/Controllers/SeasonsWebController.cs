@@ -13,11 +13,12 @@ namespace STrackerServer.Controllers
     using System.Linq;
     using System.Net;
     using System.Web.Mvc;
-    using BusinessLayer.Core;
     using Models.Season;
 
     using STrackerServer.BusinessLayer.Core.SeasonsOperations;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
+    using STrackerServer.BusinessLayer.Core.UsersOperations;
+    using STrackerServer.Models.TvShow;
 
     /// <summary>
     /// The season web controller.
@@ -35,6 +36,11 @@ namespace STrackerServer.Controllers
         private readonly ITvShowsOperations tvshowsOps;
 
         /// <summary>
+        /// The users operations.
+        /// </summary>
+        private readonly IUsersOperations usersOperations;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SeasonsWebController"/> class.
         /// </summary>
         /// <param name="seasonOps">
@@ -43,10 +49,14 @@ namespace STrackerServer.Controllers
         /// <param name="tvshowsOps">
         /// The television shows ops.
         /// </param>
-        public SeasonsWebController(ISeasonsOperations seasonOps, ITvShowsOperations tvshowsOps)
+        /// <param name="usersOperations">
+        /// The users Operations.
+        /// </param>
+        public SeasonsWebController(ISeasonsOperations seasonOps, ITvShowsOperations tvshowsOps, IUsersOperations usersOperations)
         {
             this.seasonOps = seasonOps;
             this.tvshowsOps = tvshowsOps;
+            this.usersOperations = usersOperations;
         }
 
         /// <summary>
@@ -72,12 +82,17 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
+            var tvshow = this.tvshowsOps.Read(tvshowId);
+
             var model = new SeasonView
             {
                 TvShowId = tvshowId,
                 EpisodeList = season.EpisodeSynopses.OrderBy(ep => ep.EpisodeNumber),
                 SeasonNumber = season.SeasonNumber,
-                Poster = this.tvshowsOps.Read(tvshowId).Poster.ImageUrl
+                Poster = tvshow.Poster.ImageUrl,
+                Options =
+                        TvShowOptions.Create(
+                            tvshow, this.usersOperations.Read(User.Identity.Name), Url.Action("Show", new { tvshowId, number}))
             };
 
             return this.View(model);

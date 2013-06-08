@@ -157,7 +157,7 @@ namespace STrackerServer.Repository.MongoDB.Core.SeasonsRepositories
         {
             var collection = this.Database.GetCollection(id.Item1);
             var query = Query.And(Query<Season>.EQ(s => s.TvShowId, id.Item1), Query<Season>.EQ(s => s.SeasonNumber, id.Item2));
-            return collection.FindOne<Season>(query, "_id", "Key");
+            return collection.FindOne<Season>(query, "_id");
         }
 
         /// <summary>

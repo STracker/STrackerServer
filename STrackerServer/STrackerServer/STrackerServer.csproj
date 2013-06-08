@@ -162,7 +162,7 @@
     <Compile Include="Models\TvShow\TvShowCommentRemoveView.cs" />
     <Compile Include="Models\TvShow\TvShowCommentsView.cs" />
     <Compile Include="Models\TvShow\TvShowCommentView.cs" />
-    <Compile Include="Models\TvShow\TvShowPartialOptions.cs" />
+    <Compile Include="Models\TvShow\TvShowOptions.cs" />
     <Compile Include="Models\TvShow\TvShowView.cs" />
     <Compile Include="Models\User\FriendRequestView.cs" />
     <Compile Include="Models\User\FriendView.cs" />
@@ -220,7 +220,7 @@
     <Content Include="Views\UsersWeb\Index.cshtml" />
     <Content Include="Views\EpisodesWeb\Show.cshtml" />
     <Content Include="Views\TvShowsWeb\Comments.cshtml" />
-    <Content Include="Views\TvShowsWeb\TvShowPartialOptions.cshtml" />
+    <Content Include="Views\Shared\TvShowOptions.cshtml" />
     <Content Include="Views\TvShowsWeb\CommentsEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>

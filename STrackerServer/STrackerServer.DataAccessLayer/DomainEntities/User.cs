@@ -89,7 +89,6 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         public UserSynopsis GetSynopsis()
         {
             var uri = string.Format("users/{0}", this.Key);
-
             return new UserSynopsis { Id = this.Key, Name = this.Name, Uri = uri };
         }
 
