@@ -9,6 +9,7 @@
 
 namespace STrackerServer.Controllers
 {
+    using System.Net;
     using System.Net.Http;
     using System.Web.Http;
 
@@ -60,6 +61,11 @@ namespace STrackerServer.Controllers
         [HttpPost]
         public HttpResponseMessage Subscribe(string userId, string tvshowId)
         {
+            if (!ModelState.IsValid)
+            {
+                throw new HttpResponseException(HttpStatusCode.BadRequest);    
+            }
+
             return this.BasePost(((IUsersOperations)this.Operations).AddSubscription(userId, tvshowId));
         }
     }
