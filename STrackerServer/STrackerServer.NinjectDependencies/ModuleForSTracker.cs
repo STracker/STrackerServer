@@ -56,7 +56,9 @@ namespace STrackerServer.NinjectDependencies
             this.Bind<ITvShowsOperations>().To<TvShowsOperations>();
             this.Bind<ITvShowsRepository>().To<TvShowsRepository>();
             this.Bind<IGenresRepository>().To<GenresRepository>();
+            this.Bind<ITvShowsCommentsOperations>().To<TvShowsCommentsOperations>();
             this.Bind<ITvShowCommentsRepository>().To<TvShowCommentsRepository>();
+            this.Bind<ITvShowsRatingsOperations>().To<TvShowsRatingsOperations>();
             this.Bind<ITvShowRatingsRepository>().To<TvShowRatingsRepository>();
 
             // Seasons stuff dependencies...
