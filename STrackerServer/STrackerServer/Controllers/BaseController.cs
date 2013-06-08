@@ -83,7 +83,7 @@ namespace STrackerServer.Controllers
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK);
+            return Request.CreateResponse(HttpStatusCode.OK, true);
         }
     }
 }
