@@ -10,15 +10,18 @@
 
 namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
 {
+    using System.Collections.Generic;
     using System.Configuration;
 
     using global::MongoDB.Bson.Serialization;
+
     using global::MongoDB.Driver;
 
     using global::MongoDB.Driver.Builders;
 
     using STrackerServer.DataAccessLayer.Core.UsersRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
 
     /// <summary>
     /// The users repository.
@@ -168,6 +171,62 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
             var query = Query<User>.EQ(user => user.Key, to.Key);
             var update = Update<User>.Pull(user => user.FriendRequests, from.GetSynopsis());
             return this.ModifyList(this.collection, query, update);
+        }
+
+        /// <summary>
+        /// The send suggestion.
+        /// </summary>
+        /// <param name="userFrom">
+        /// The user from.
+        /// </param>
+        /// <param name="suggestion">
+        /// The suggestion.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool SendSuggestion(User userFrom, Suggestion suggestion)
+        {
+            var query = Query<User>.EQ(user => user.Key, userFrom.Key);
+            var update = Update<User>.AddToSet(user => user.Suggestions, suggestion);
+
+            return this.ModifyList(this.collection, query, update);
+        }
+
+        /// <summary>
+        /// The remove suggestion.
+        /// </summary>
+        /// <param name="userFrom">
+        /// The user from.
+        /// </param>
+        /// <param name="suggestion">
+        /// The suggestion.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool RemoveSuggestion(User userFrom, Suggestion suggestion)
+        {
+            var query = Query<User>.EQ(user => user.Key, userFrom.Key);
+            var update = Update<User>.Pull(user => user.Suggestions, suggestion);
+
+            return this.ModifyList(this.collection, query, update);
+        }
+
+        /// <summary>
+        /// The get suggestions.
+        /// </summary>
+        /// <param name="userFrom">
+        /// The user from.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>List</cref>
+        ///     </see> .
+        /// </returns>
+        public List<Suggestion> GetSuggestions(User userFrom)
+        {
+            return this.Read(userFrom.Key).Suggestions;
         }
 
         /// <summary>

@@ -74,6 +74,11 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         public string Description { get; set; }
 
         /// <summary>
+        /// Gets or sets the date.
+        /// </summary>
+        public string Date { get; set; }
+
+        /// <summary>
         /// Gets or sets the poster.
         /// </summary>
         public Artwork Poster { get; set; }

@@ -9,7 +9,10 @@
 
 namespace STrackerServer.BusinessLayer.Core.UsersOperations
 {
+    using System.Collections.Generic;
+
     using STrackerServer.DataAccessLayer.DomainEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
 
     /// <summary>
     /// Users operations interface.
@@ -93,5 +96,55 @@ namespace STrackerServer.BusinessLayer.Core.UsersOperations
         /// The <see cref="bool"/>.
         /// </returns>
         bool RejectInvite(string from, string to);
+
+        /// <summary>
+        /// The send suggestion.
+        /// </summary>
+        /// <param name="userFrom">
+        /// The user from.
+        /// </param>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="suggestion">
+        /// The suggestion.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool SendSuggestion(string userFrom, string tvshowId, Suggestion suggestion);
+
+        /// <summary>
+        /// The remove suggestion.
+        /// </summary>
+        /// <param name="userFrom">
+        /// The user from.
+        /// </param>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="suggestion">
+        /// The suggestion.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool RemoveSuggestion(string userFrom, string tvshowId, Suggestion suggestion);
+
+        /// <summary>
+        /// The get suggestions.
+        /// </summary>
+        /// <param name="userFrom">
+        /// The user from.
+        /// </param>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>List</cref>
+        ///     </see> .
+        /// </returns>
+        List<Suggestion> GetSuggestions(string userFrom, string tvshowId);
     }
 }

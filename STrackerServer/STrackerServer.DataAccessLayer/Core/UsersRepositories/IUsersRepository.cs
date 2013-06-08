@@ -9,7 +9,10 @@
 
 namespace STrackerServer.DataAccessLayer.Core.UsersRepositories
 {
+    using System.Collections.Generic;
+
     using STrackerServer.DataAccessLayer.DomainEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
 
     /// <summary>
     /// Users repository interface.
@@ -85,5 +88,46 @@ namespace STrackerServer.DataAccessLayer.Core.UsersRepositories
         /// The <see cref="bool"/>.
         /// </returns>
         bool RejectInvite(User from, User to);
+
+        /// <summary>
+        /// The send suggestion.
+        /// </summary>
+        /// <param name="userFrom">
+        /// The user from.
+        /// </param>
+        /// <param name="suggestion">
+        /// The suggestion.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool SendSuggestion(User userFrom, Suggestion suggestion);
+
+        /// <summary>
+        /// The remove suggestion.
+        /// </summary>
+        /// <param name="userFrom">
+        /// The user from.
+        /// </param>
+        /// <param name="suggestion">
+        /// The suggestion.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool RemoveSuggestion(User userFrom, Suggestion suggestion);
+
+        /// <summary>
+        /// The get suggestions.
+        /// </summary>
+        /// <param name="userFrom">
+        /// The user from.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>List</cref>
+        ///     </see> .
+        /// </returns>
+        List<Suggestion> GetSuggestions(User userFrom);
     }
 }

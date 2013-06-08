@@ -66,6 +66,11 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         public List<TvShow.TvShowSynopsis> SubscriptionList { get; set; }
 
         /// <summary>
+        /// Gets or sets the suggestions.
+        /// </summary>
+        public List<Suggestion> Suggestions { get; set; } 
+
+        /// <summary>
         /// The compare to.
         /// </summary>
         /// <param name="other">
