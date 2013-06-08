@@ -62,9 +62,11 @@ namespace STrackerServer.App_Start
             // TvShow Routes
             routes.MapRoute("TvShowsWeb_Comments", "TvShows/{tvshowId}/Comments", new { controller = "TvShowsWeb", action = "Comments" });
 
-            routes.MapRoute("TvShowsWeb_Create_Comments", "TvShows/{tvshowId}/Comments/Create", new { controller = "TvShowsWeb", action = "Comments" });
+            routes.MapRoute("TvShowsWeb_Create_Comments", "TvShows/{tvshowId}/Comments/Create", new { controller = "TvShowsWeb", action = "CreateComment" });
             
-            routes.MapRoute("TvShowsWeb_CommentsEdit", "TvShows/{tvshowId}/CommentsEdit/{position}", new { controller = "TvShowsWeb", action = "CommentsEdit" });
+            routes.MapRoute("TvShowsWeb_Comment", "TvShows/{tvshowId}/Comments/{position}", new { controller = "TvShowsWeb", action = "CommentsEdit" });
+
+            routes.MapRoute("TvShowsWeb_Comment_Remove", "TvShows/{tvshowId}/Comments/{position}/Remove", new { controller = "TvShowsWeb", action = "RemoveComment" }); 
 
             routes.MapRoute("TvShowsWeb_GetByName", "TvShows", new { controller = "TvShowsWeb", action = "GetByName" });
 

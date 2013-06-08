@@ -1,8 +1,28 @@
 ﻿@model STrackerServer.Models.TvShow.TvShowCreateComment
 
 @{
-    ViewBag.Title = "title";
-    Layout = "_Layout";
+    ViewBag.Title = "Create Comment";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
 }
 
-<h2>title</h2>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3">
+            @Html.Partial("TvShowCreateCommentOptions", Model.Options)
+        </div> 
+        <div class="span6">
+            <div class="box">
+                
+                <div class="alert-error">
+                    @Html.ValidationSummary()  
+                </div>     
+                @using (Html.BeginForm("CreateComment", "TvShowsWeb"))
+                {
+                    @Html.HiddenFor(comment => comment.TvShowId)
+                    <textarea class="btn-block comments-textarea" id="Body" name="Body"></textarea>
+                    <input class="btn btn-primary" type="submit" value="Add Comment"/>
+                }   
+            </div>
+        </div>
+    </div>
+</div>
