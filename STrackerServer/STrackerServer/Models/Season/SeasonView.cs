@@ -13,6 +13,7 @@ namespace STrackerServer.Models.Season
 
     using DataAccessLayer.DomainEntities;
 
+    using STrackerServer.Models.Partial;
     using STrackerServer.Models.TvShow;
 
     /// <summary>
@@ -48,6 +49,6 @@ namespace STrackerServer.Models.Season
         /// <summary>
         /// Gets or sets the options.
         /// </summary>
-        public TvShowOptions Options { get; set; }
+        public SeasonOptionsView Options { get; set; }
     }
 }

@@ -13,6 +13,7 @@ namespace STrackerServer.Models.TvShow
     using DataAccessLayer.DomainEntities;
 
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
+    using STrackerServer.Models.Partial;
 
     /// <summary>
     /// The view model of the television show.
@@ -101,6 +102,6 @@ namespace STrackerServer.Models.TvShow
         /// <summary>
         /// Gets or sets the options.
         /// </summary>
-        public TvShowOptions Options { get; set; }
+        public TvShowOptionsView Options { get; set; }
     }
 }

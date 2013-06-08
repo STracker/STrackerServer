@@ -10,7 +10,6 @@
 namespace STrackerServer.Controllers
 {
     using System.Globalization;
-    using System.Linq;
     using System.Net;
     using System.Web.Mvc;
 
@@ -18,6 +17,7 @@ namespace STrackerServer.Controllers
     using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.Custom_action_results;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
+    using STrackerServer.Models.Partial;
     using STrackerServer.Models.TvShow;
 
     /// <summary>
@@ -91,7 +91,7 @@ namespace STrackerServer.Controllers
             var model = new TvShowView(tvshow)
                 {
                     Options =
-                        TvShowOptions.Create(
+                        TvShowOptionsView.Create(
                             tvshow, this.userOperations.Read(User.Identity.Name), Url.Action("Show", new { tvshowId }))
                 };
             return this.View(model);
@@ -135,29 +135,70 @@ namespace STrackerServer.Controllers
 
             if (tvshowComments == null)
             {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
                 return this.View("Error", Response.StatusCode);
             }
 
-            var view = new TvShowCommentsView { TvShowId = tvshowComments.TvShowId, Comments = tvshowComments.Comments };
+            var tvshow = this.tvshowOperations.Read(tvshowId);
+
+            var view = new TvShowCommentsView
+                {
+                    TvShowId = tvshowComments.TvShowId,
+                    Comments = tvshowComments.Comments,
+                    Options = new TvShowCommentsOptionsView
+                        {
+                            Poster = tvshow.Poster.ImageUrl,
+                            TvShowId = tvshowId,
+                            TvShowName = tvshow.Name
+                        }
+                };
+            return this.View(view);
+        }
+
+        /// <summary>
+        /// The create comment.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpGet]
+        [Authorize]
+        public ActionResult CreateComment(string tvshowId)
+        {
+            var tvshow = this.tvshowOperations.Read(tvshowId);
+
+            if (tvshow == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            var view = new TvShowCreateComment
+                {
+                    TvShowId = tvshowId,
+                    Options = new TvShowCreateCommentOptions { Poster = tvshow.Poster.ImageUrl, TvShowId = tvshowId }
+                };
 
             return this.View(view);
         }
 
         /// <summary>
-        /// The add comment.
+        /// The create comment.
         /// </summary>
-        /// <param name="addView">
-        /// The operation View.
+        /// <param name="create">
+        /// The create.
         /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpPost]
         [Authorize]
-        public ActionResult Comments(TvShowCommentAddView addView)
+        public ActionResult CreateComment(TvShowCreateComment create)
         {
-            if (addView.Body != null && addView.Body.Trim().Equals(string.Empty))
+            if (create.Body != null && create.Body.Trim().Equals(string.Empty))
             {
                 ModelState.AddModelError("Body", "The comment is empty!");  
             }
@@ -165,15 +206,16 @@ namespace STrackerServer.Controllers
             if (!ModelState.IsValid)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return this.Comments(addView.TvShowId);
+                this.View(create);
             }
 
-            var comment = new Comment { Body = addView.Body, UserId = User.Identity.Name, Timestamp = System.Environment.TickCount.ToString(CultureInfo.InvariantCulture) };
+            var comment = new Comment { Body = create.Body, UserId = User.Identity.Name, Timestamp = System.Environment.TickCount.ToString(CultureInfo.InvariantCulture) };
 
-            this.commentsOperations.AddComment(addView.TvShowId, comment);
-            return new SeeOtherResult { Url = Url.Action("Comments", "TvShowsWeb", new { addView.TvShowId }) };
+            this.commentsOperations.AddComment(create.TvShowId, comment);
+            return new SeeOtherResult { Url = Url.Action("Comments", "TvShowsWeb", new { create.TvShowId }) };
         }
 
+        /*
         /// <summary>
         /// The comments remove.
         /// </summary>
@@ -206,7 +248,16 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode); 
             }
 
-            var commentView = new TvShowCommentView { TvShowId = tvshowId, UserId = comment.UserId, Body = comment.Body, Timestamp = comment.Timestamp };
+            var tvshow = this.tvshowOperations.Read(tvshowId);
+
+            var commentView = new TvShowCommentView
+                {
+                    TvShowId = tvshowId, 
+                    UserId = comment.UserId, 
+                    Body = comment.Body, 
+                    Timestamp = comment.Timestamp,
+                    Options = TvShowOptionsView.Create(tvshow, this.userOperations.Read(User.Identity.Name), Url.Action("CommentsEdit", new { tvshowId, position }))
+                };
             return this.View(commentView);
         }
 
@@ -226,11 +277,12 @@ namespace STrackerServer.Controllers
             if (!ModelState.IsValid)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return null;
+                return this.View("Error", Response.StatusCode);
             }
 
             this.commentsOperations.RemoveComment(removeView.TvShowId, User.Identity.Name, removeView.Timestamp);
             return new SeeOtherResult { Url = Url.Action("Comments", "TvShowsWeb", new { removeView.TvShowId }) };
         }
+         * */
     }
 }

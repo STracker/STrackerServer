@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TvShowOptions.cs" company="STracker">
+// <copyright file="TvShowOptionsView.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
@@ -7,19 +7,19 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Models.TvShow
+namespace STrackerServer.Models.Partial
 {
     using System.Linq;
 
     /// <summary>
     /// The television show options.
     /// </summary>
-    public class TvShowOptions
+    public class TvShowOptionsView
     {
         /// <summary>
-        /// Prevents a default instance of the <see cref="TvShowOptions"/> class from being created.
+        /// Prevents a default instance of the <see cref="TvShowOptionsView"/> class from being created.
         /// </summary>
-        private TvShowOptions()
+        private TvShowOptionsView()
         {
         }
 
@@ -56,9 +56,9 @@ namespace STrackerServer.Models.TvShow
         /// The redirect url.
         /// </param>
         /// <returns>
-        /// The <see cref="TvShowOptions"/>.
+        /// The <see cref="TvShowOptionsView"/>.
         /// </returns>
-        public static TvShowOptions Create(DataAccessLayer.DomainEntities.TvShow tvshow, DataAccessLayer.DomainEntities.User user, string redirectUrl)
+        public static TvShowOptionsView Create(DataAccessLayer.DomainEntities.TvShow tvshow, DataAccessLayer.DomainEntities.User user, string redirectUrl)
         {
             var isSubscribed = false;
 
@@ -67,7 +67,7 @@ namespace STrackerServer.Models.TvShow
                 isSubscribed = user.SubscriptionList.Any(synopsis => synopsis.Id.Equals(tvshow.TvShowId));
             }
 
-            return new TvShowOptions
+            return new TvShowOptionsView
             {
                 TvShowId = tvshow.TvShowId,
                 Poster = tvshow.Poster.ImageUrl,

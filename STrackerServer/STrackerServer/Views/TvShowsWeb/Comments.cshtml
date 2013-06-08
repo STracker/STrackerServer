@@ -8,17 +8,23 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span3">
-            @Html.Action("TvShowPartialOptions","TvShowsWeb", new
-            {
-                tvshowId = Model.TvShowId, 
-                unsubscribeRedirectUrl = Url.Action("Comments","TvShowsWeb", new { tvshowId = Model.TvShowId })
-            })
+            @Html.Partial("TvShowCommentsOptionsView", Model.Options)
         </div> 
         <div class="span6">
-     
-            <h2>Comments</h2>
-
             <div class="box">
+                <h2>Comments</h2>
+                
+                @if(User.Identity.IsAuthenticated)
+                {
+                    @Html.ValidationSummary()       
+                    using (Html.BeginForm("Comments", "TvShowsWeb"))
+                    {
+                        @Html.Hidden("CommentsTvShowKey", Model.TvShowId)
+                        <textarea class="btn-block comments-textarea" id="Body" name="Body"></textarea>
+                        <input class="btn btn-primary" type="submit" value="Add Comment"/>
+                    }   
+                }
+
                 @for (var i = 0; i < Model.Comments.Count; i++)
                 {
                     <div> 
@@ -35,19 +41,6 @@
                     </div>
                 }      
             </div>
-            
-            @if(User.Identity.IsAuthenticated)
-            {
-                <div class="box">
-                    @Html.ValidationSummary()       
-                    @using (Html.BeginForm("Comments", "TvShowsWeb"))
-                    {
-                        @Html.Hidden("CommentsTvShowKey", Model.TvShowId)
-                        <textarea class="btn-block comments-textarea" id="Body" name="Body"></textarea>
-                        <input class="btn btn-primary" type="submit" value="Add Comment"/>
-                    }   
-                </div>
-            }
         </div>
     </div>
 </div>

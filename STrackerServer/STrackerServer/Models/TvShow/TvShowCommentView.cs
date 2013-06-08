@@ -9,6 +9,8 @@
 
 namespace STrackerServer.Models.TvShow
 {
+    using STrackerServer.Models.Partial;
+
     /// <summary>
     /// The television show comment view.
     /// </summary>
@@ -33,5 +35,10 @@ namespace STrackerServer.Models.TvShow
         /// Gets or sets the body.
         /// </summary>
         public string Body { get; set; }
+
+        /// <summary>
+        /// Gets or sets the options.
+        /// </summary>
+        public TvShowCommentOptionsView Options { get; set; }
     }
 }

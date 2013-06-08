@@ -18,6 +18,7 @@ namespace STrackerServer.Controllers
     using STrackerServer.BusinessLayer.Core.SeasonsOperations;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
+    using STrackerServer.Models.Partial;
     using STrackerServer.Models.TvShow;
 
     /// <summary>
@@ -90,9 +91,8 @@ namespace STrackerServer.Controllers
                 EpisodeList = season.EpisodeSynopses.OrderBy(ep => ep.EpisodeNumber),
                 SeasonNumber = season.SeasonNumber,
                 Poster = tvshow.Poster.ImageUrl,
-                Options =
-                        TvShowOptions.Create(
-                            tvshow, this.usersOperations.Read(User.Identity.Name), Url.Action("Show", new { tvshowId, number}))
+                Options = new SeasonOptionsView()
+                        
             };
 
             return this.View(model);
