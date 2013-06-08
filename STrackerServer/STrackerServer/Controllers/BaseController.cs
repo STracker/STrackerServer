@@ -66,5 +66,24 @@ namespace STrackerServer.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, obj);
         }
+
+        /// <summary>
+        /// Auxiliary method for Post operations.
+        /// </summary>
+        /// <param name="state">
+        /// The state.
+        /// </param>
+        /// <returns>
+        /// The <see cref="HttpResponseMessage"/>.
+        /// </returns>
+        protected HttpResponseMessage BasePost(bool state)
+        {
+            if (!state)
+            {
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, true);
+        }
     }
 }

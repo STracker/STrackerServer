@@ -149,6 +149,7 @@
     <Compile Include="Controllers\SeasonsWebController.cs" />
     <Compile Include="Controllers\TvShowsController.cs" />
     <Compile Include="Controllers\TvShowsWebController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\UsersWebController.cs" />
     <Compile Include="Action_Results\SeeOtherResult.cs" />
     <Compile Include="Global.asax.cs">
