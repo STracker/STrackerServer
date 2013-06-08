@@ -12,14 +12,14 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
     using System;
     using System.Configuration;
 
+    using STrackerBackgroundWorker.RabbitMQ;
+    using STrackerBackgroundWorker.RabbitMQ.Core;
+
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.DataAccessLayer.Core.EpisodesRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.Comments;
-
-    using STrackerUpdater.RabbitMQ;
-    using STrackerUpdater.RabbitMQ.Core;
 
     /// <summary>
     /// The episodes comments operations.

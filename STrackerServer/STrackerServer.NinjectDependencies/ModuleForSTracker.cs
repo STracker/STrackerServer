@@ -17,6 +17,8 @@ namespace STrackerServer.NinjectDependencies
 
     using RabbitMQ.Client;
 
+    using STrackerBackgroundWorker.RabbitMQ;
+
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.BusinessLayer.Core.SeasonsOperations;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
@@ -33,8 +35,6 @@ namespace STrackerServer.NinjectDependencies
     using STrackerServer.Repository.MongoDB.Core.SeasonsRepositories;
     using STrackerServer.Repository.MongoDB.Core.TvShowsRepositories;
     using STrackerServer.Repository.MongoDB.Core.UsersRepositories;
-
-    using STrackerUpdater.RabbitMQ;
 
     /// <summary>
     /// The module for STRACKER.

@@ -12,12 +12,12 @@ namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
     using System.Collections.Generic;
     using System.Configuration;
 
+    using STrackerBackgroundWorker.RabbitMQ;
+    using STrackerBackgroundWorker.RabbitMQ.Core;
+
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
-
-    using STrackerUpdater.RabbitMQ;
-    using STrackerUpdater.RabbitMQ.Core;
 
     /// <summary>
     /// Television shows operations.

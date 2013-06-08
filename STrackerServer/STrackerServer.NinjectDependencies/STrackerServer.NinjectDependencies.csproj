@@ -42,7 +42,7 @@
       <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="RabbitMQ.Client">
-      <HintPath>..\external libraries\RabbitMQ.Client.dll</HintPath>
+      <HintPath>..\packages\RabbitMQ.Client.3.1.1\lib\net30\RabbitMQ.Client.dll</HintPath>
     </Reference>
     <Reference Include="STrackerBackgroundWorker.RabbitMQ">
       <HintPath>..\external libraries\STrackerBackgroundWorker.RabbitMQ.dll</HintPath>

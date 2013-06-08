@@ -12,12 +12,12 @@ namespace STrackerServer.BusinessLayer.Operations
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
+    using STrackerBackgroundWorker.RabbitMQ;
+
     using STrackerServer.BusinessLayer.Core;
     using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.Comments;
-
-    using STrackerUpdater.RabbitMQ;
 
     /// <summary>
     /// The comments operations.

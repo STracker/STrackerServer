@@ -11,14 +11,14 @@ namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
 {
     using System.Configuration;
 
+    using STrackerBackgroundWorker.RabbitMQ;
+    using STrackerBackgroundWorker.RabbitMQ.Core;
+
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.Comments;
-
-    using STrackerUpdater.RabbitMQ;
-    using STrackerUpdater.RabbitMQ.Core;
 
     /// <summary>
     /// The television shows comments operations.
