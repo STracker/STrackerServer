@@ -17,9 +17,7 @@ namespace STrackerServer.Controllers
 
     using STrackerServer.BusinessLayer.Core.SeasonsOperations;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
-    using STrackerServer.BusinessLayer.Core.UsersOperations;
-    using STrackerServer.Models.Partial;
-    using STrackerServer.Models.TvShow;
+    using STrackerServer.Models.Season.Options;
 
     /// <summary>
     /// The season web controller.
@@ -37,11 +35,6 @@ namespace STrackerServer.Controllers
         private readonly ITvShowsOperations tvshowsOps;
 
         /// <summary>
-        /// The users operations.
-        /// </summary>
-        private readonly IUsersOperations usersOperations;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="SeasonsWebController"/> class.
         /// </summary>
         /// <param name="seasonOps">
@@ -50,14 +43,10 @@ namespace STrackerServer.Controllers
         /// <param name="tvshowsOps">
         /// The television shows ops.
         /// </param>
-        /// <param name="usersOperations">
-        /// The users Operations.
-        /// </param>
-        public SeasonsWebController(ISeasonsOperations seasonOps, ITvShowsOperations tvshowsOps, IUsersOperations usersOperations)
+        public SeasonsWebController(ISeasonsOperations seasonOps, ITvShowsOperations tvshowsOps)
         {
             this.seasonOps = seasonOps;
             this.tvshowsOps = tvshowsOps;
-            this.usersOperations = usersOperations;
         }
 
         /// <summary>
@@ -91,8 +80,12 @@ namespace STrackerServer.Controllers
                 EpisodeList = season.EpisodeSynopses.OrderBy(ep => ep.EpisodeNumber),
                 SeasonNumber = season.SeasonNumber,
                 Poster = tvshow.Poster.ImageUrl,
-                Options = new SeasonOptionsView()
-                        
+                Options = new SeasonOptionsView
+                    {
+                        Poster = tvshow.Poster.ImageUrl,
+                        TvShowId = tvshowId,
+                        TvShowName = tvshow.Name
+                    }     
             };
 
             return this.View(model);

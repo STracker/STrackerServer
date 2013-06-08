@@ -11,6 +11,8 @@
 namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
 {
     using System;
+    using System.Linq;
+    using System.Collections.Generic;
     using System.Configuration;
 
     using global::MongoDB.Bson.Serialization;
@@ -114,6 +116,19 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
             var update = Update<Genre>.Pull(gq => gq.TvshowsSynopses, tvshow);
 
             this.ModifyList(this.collection, query, update);
+        }
+
+        /// <summary>
+        /// Get all genres.
+        /// </summary>
+        /// <returns>
+        /// The <see>
+        ///       <cref>List</cref>
+        ///     </see> .
+        /// </returns>
+        public List<Genre> GetAll()
+        {
+            return this.collection.FindAllAs<Genre>().ToList();
         }
 
         /// <summary>

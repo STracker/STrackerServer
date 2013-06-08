@@ -27,6 +27,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
             this.Friends = new List<UserSynopsis>();
             this.FriendRequests = new List<UserSynopsis>();
             this.SubscriptionList = new List<TvShow.TvShowSynopsis>();
+            this.Suggestions = new List<Suggestion>();
         }
 
         /// <summary>

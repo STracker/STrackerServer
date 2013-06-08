@@ -156,19 +156,21 @@
     </Compile>
     <Compile Include="Models\Episode\EpisodeView.cs" />
     <Compile Include="Models\Home\HomeView.cs" />
-    <Compile Include="Models\Partial\EpisodeOptionsView.cs" />
-    <Compile Include="Models\Partial\SeasonOptionsView.cs" />
-    <Compile Include="Models\Partial\TvShowCommentOptionsView.cs" />
-    <Compile Include="Models\Partial\TvShowCreateCommentOptions.cs" />
-    <Compile Include="Models\Partial\TvShowEditCommentOptions.cs" />
+    <Compile Include="Models\Episode\Options\EpisodeOptionsView.cs" />
+    <Compile Include="Models\Season\Options\SeasonOptionsView.cs" />
+    <Compile Include="Models\TvShow\Options\TvShowCommentOptionsView.cs" />
+    <Compile Include="Models\TvShow\Options\TvShowCreateCommentOptions.cs" />
+    <Compile Include="Models\TvShow\Options\TvShowEditCommentOptions.cs" />
     <Compile Include="Models\Season\SeasonView.cs" />
+    <Compile Include="Models\User\SuggestionFormValues.cs" />
+    <Compile Include="Models\User\SuggestionView.cs" />
     <Compile Include="Models\TvShow\TvShowCreateComment.cs" />
     <Compile Include="Models\TvShow\SubscriptionView.cs" />
     <Compile Include="Models\TvShow\TvShowRemoveComment.cs" />
-    <Compile Include="Models\Partial\TvShowCommentsOptionsView.cs" />
+    <Compile Include="Models\TvShow\Options\TvShowCommentsOptionsView.cs" />
     <Compile Include="Models\TvShow\TvShowCommentsView.cs" />
     <Compile Include="Models\TvShow\TvShowCommentView.cs" />
-    <Compile Include="Models\Partial\TvShowOptionsView.cs" />
+    <Compile Include="Models\TvShow\Options\TvShowOptionsView.cs" />
     <Compile Include="Models\TvShow\TvShowView.cs" />
     <Compile Include="Models\User\FriendRequestView.cs" />
     <Compile Include="Models\User\FriendView.cs" />
@@ -214,7 +216,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\HomeWeb\Contact.cshtml" />
-    <Content Include="Views\HomeWeb\Index.cshtml" />
     <Content Include="Views\SeasonsWeb\Show.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\MainLayout.cshtml" />
@@ -226,12 +227,16 @@
     <Content Include="Views\UsersWeb\Index.cshtml" />
     <Content Include="Views\EpisodesWeb\Show.cshtml" />
     <Content Include="Views\TvShowsWeb\Comments.cshtml" />
-    <Content Include="Views\TvShowsWeb\TvShowOptionsView.cshtml" />
+    <Content Include="Views\TvShowsWeb\TvShowOptions\TvShowOptionsView.cshtml" />
     <Content Include="Views\TvShowsWeb\CommentsEdit.cshtml" />
-    <Content Include="Views\TvShowsWeb\TvShowCommentsOptionsView.cshtml" />
+    <Content Include="Views\TvShowsWeb\TvShowOptions\TvShowCommentsOptionsView.cshtml" />
     <Content Include="Views\TvShowsWeb\CreateComment.cshtml" />
-    <Content Include="Views\TvShowsWeb\TvShowCreateCommentOptions.cshtml" />
-    <Content Include="Views\TvShowsWeb\TvShowEditCommentOptions.cshtml" />
+    <Content Include="Views\TvShowsWeb\TvShowOptions\TvShowCreateCommentOptions.cshtml" />
+    <Content Include="Views\TvShowsWeb\TvShowOptions\TvShowEditCommentOptions.cshtml" />
+    <Content Include="Views\TvShowsWeb\Suggestion.cshtml" />
+    <Content Include="Views\SeasonsWeb\SeasonOptions\SeasonOptionsView.cshtml" />
+    <Content Include="Views\EpisodesWeb\Options\EpisodeOptionsView.cshtml" />
+    <Content Include="Views\HomeWeb\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

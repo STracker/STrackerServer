@@ -1,19 +1,18 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TvShowCommentsOptionsView.cs" company="STracker">
+// <copyright file="SeasonOptionsView.cs" company="STracker">
 //   Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//   The television show comments options.
+//   Defines the SeasonOptionsView type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace STrackerServer.Models.Partial
-{
-    using System.Linq;
 
+namespace STrackerServer.Models.Season.Options
+{
     /// <summary>
-    /// The television show comments options.
+    /// The season options view.
     /// </summary>
-    public class TvShowCommentsOptionsView
+    public class SeasonOptionsView
     {
         /// <summary>
         /// Gets or sets the television show id.

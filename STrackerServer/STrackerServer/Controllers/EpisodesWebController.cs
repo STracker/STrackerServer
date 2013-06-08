@@ -17,6 +17,7 @@ namespace STrackerServer.Controllers
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.Models.Episode;
+    using STrackerServer.Models.Episode.Options;
 
     /// <summary>
     /// The episodes web controller.
@@ -79,14 +80,20 @@ namespace STrackerServer.Controllers
             var model = new EpisodeView
             {
                 TvShowId = episode.TvShowId,
-                TvShowName = tvshow.Name,
                 SeasonNumber = episode.SeasonNumber,
                 EpisodeNumber = episode.EpisodeNumber,
                 Description = episode.Description,
                 Name = episode.Name,
-                Poster = tvshow.Poster,
                 GuestActors = episode.GuestActors,
-                Directors = episode.Directors
+                Directors = episode.Directors,
+                Rating = 5,
+                Options = new EpisodeOptionsView
+                    {
+                        Poster = tvshow.Poster.ImageUrl,
+                        TvShowId = tvshowId,
+                        TvShowName = tvshow.Name,
+                        SeasonNumber = episode.SeasonNumber 
+                    }
             };
 
             return this.View(model);

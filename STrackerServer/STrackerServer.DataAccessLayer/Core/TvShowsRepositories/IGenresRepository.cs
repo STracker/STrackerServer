@@ -9,6 +9,8 @@
 
 namespace STrackerServer.DataAccessLayer.Core.TvShowsRepositories
 {
+    using System.Collections.Generic;
+
     using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
@@ -37,5 +39,15 @@ namespace STrackerServer.DataAccessLayer.Core.TvShowsRepositories
         /// The genre.
         /// </param>
         void RemoveTvShowFromGenre(TvShow.TvShowSynopsis tvshow, Genre.GenreSynopsis genre);
+
+        /// <summary>
+        /// Get all genres.
+        /// </summary>
+        /// <returns>
+        /// The <see>
+        ///       <cref>List</cref>
+        ///     </see> .
+        /// </returns>
+        List<Genre> GetAll();
     }
 }

@@ -21,14 +21,23 @@ namespace STrackerServer.Controllers
     public class TvShowsController : BaseController<TvShow, string>
     {
         /// <summary>
+        /// The genres operations.
+        /// </summary>
+        private readonly IGenresOperations genresOperations;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TvShowsController"/> class.
         /// </summary>
         /// <param name="tvshowsOperations">
         /// Television shows operations.
         /// </param>
-        public TvShowsController(ITvShowsOperations tvshowsOperations)
+        /// <param name="genresOperations">
+        /// The genres Operations.
+        /// </param>
+        public TvShowsController(ITvShowsOperations tvshowsOperations, IGenresOperations genresOperations)
             : base(tvshowsOperations)
         {
+            this.genresOperations = genresOperations;
         }
 
         /// <summary>
@@ -73,7 +82,7 @@ namespace STrackerServer.Controllers
         /// </returns>
         public HttpResponseMessage GetAllByGenre(string genre)
         {
-            return this.BaseGet(((ITvShowsOperations)this.Operations).ReadAllByGenre(genre));
+            return this.BaseGet(this.genresOperations.Read(genre));
         }
     }
 }

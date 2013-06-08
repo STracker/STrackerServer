@@ -1,0 +1,19 @@
+﻿@model STrackerServer.Models.Partial.TvShowCommentsOptionsView
+
+<img class="img-rounded" src="@Model.Poster" alt="No Artwork"/>  
+
+<div class="extra-padding"></div> 
+
+<p>
+    <a class="btn btn-block btn-primary" href="@Url.Action("Show","TvShowsWeb", new { tvshowId = Model.TvShowId })">@Model.TvShowName</a>
+</p> 
+
+@if (User.Identity.IsAuthenticated)
+{  
+    <p>
+        <a class="btn btn-block btn-primary" href="@Url.Action("CreateComment","TvShowsWeb", new { tvshowId = Model.TvShowId })">Create Comment</a>
+    </p> 
+}
+
+
+

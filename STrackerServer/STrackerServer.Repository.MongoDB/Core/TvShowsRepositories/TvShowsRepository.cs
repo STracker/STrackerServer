@@ -11,7 +11,6 @@
 namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
 {
     using System;
-    using System.Collections.Generic;
     using System.Configuration;
 
     using global::MongoDB.Driver;
@@ -81,22 +80,6 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
 
             this.collectionNameForSynopsis = ConfigurationManager.AppSettings["AllTvShowsCollection"];
             this.collectionAll = this.Database.GetCollection(this.collectionNameForSynopsis);
-        }
-
-        /// <summary>
-        /// The read all by genre.
-        /// </summary>
-        /// <param name="genre">
-        /// The genre.
-        /// </param>
-        /// <returns>
-        /// The <see>
-        ///       <cref>IEnumerable</cref>
-        ///     </see> .
-        /// </returns>
-        public IEnumerable<TvShow.TvShowSynopsis> ReadAllByGenre(string genre)
-        {
-            return this.genresRepository.Read(genre).TvshowsSynopses;
         }
 
         /// <summary>

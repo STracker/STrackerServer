@@ -14,7 +14,6 @@ namespace STrackerServer.App_Start
     /// </summary>
     public class RouteConfig
     {
-
         /// <summary>
         /// Register routes.
         /// </summary>
@@ -31,10 +30,12 @@ namespace STrackerServer.App_Start
 
             // User Routes
             routes.MapRoute("User_Requests_Response", "User/Requests/{id}", new { controller = "UsersWeb", action = "RequestResponse" });
+
             routes.MapRoute("User_Requests", "User/Requests", new { controller = "UsersWeb", action = "Requests" });
             routes.MapRoute("User_Invite", "User/Invite", new { controller = "UsersWeb", action = "Invite" });
             routes.MapRoute("User_Subscribe", "User/Subscribe", new { controller = "UsersWeb", action = "Subscribe" });
             routes.MapRoute("User_UnSubscribe", "User/UnSubscribe", new { controller = "UsersWeb", action = "UnSubscribe" });
+
             routes.MapRoute("User_Show", "User/{id}", new { controller = "UsersWeb", action = "Show" });
 
             routes.MapRoute("User_Index", "User", new { controller = "UsersWeb", action = "Index" });
@@ -61,6 +62,8 @@ namespace STrackerServer.App_Start
 
             // TvShow Routes
             routes.MapRoute("TvShowsWeb_Comments", "TvShows/{tvshowId}/Comments", new { controller = "TvShowsWeb", action = "Comments" });
+
+            routes.MapRoute("TvShowsWeb_Suggestion", "TvShows/{tvshowId}/Suggestion", new { controller = "TvShowsWeb", action = "Suggestion" });
 
             routes.MapRoute("TvShowsWeb_Create_Comments", "TvShows/{tvshowId}/Comments/Create", new { controller = "TvShowsWeb", action = "CreateComment" });
             

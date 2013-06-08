@@ -1,36 +1,29 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="HomeView.cs" company="STracker">
+// <copyright file="IGenresOperations.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  Account Controller.
+//   The GenresOperations interface.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Models.Home
+namespace STrackerServer.BusinessLayer.Core.TvShowsOperations
 {
     using System.Collections.Generic;
 
     using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
-    /// The Home Web model.
+    /// The Genres Operations interface.
     /// </summary>
-    public class HomeView
+    public interface IGenresOperations : ICrudOperations<Genre, string>
     {
         /// <summary>
-        /// Gets or sets the user name.
+        /// Get all genres.
         /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Gets or sets the user picture url.
-        /// </summary>
-        public string PictureUrl { get; set; }
-
-        /// <summary>
-        /// Gets or sets the genres.
-        /// </summary>
-        public List<Genre.GenreSynopsis> Genres { get; set; }
+        /// <returns>
+        /// The <see cref="List"/>.
+        /// </returns>
+        List<Genre> GetAll();
     }
 }

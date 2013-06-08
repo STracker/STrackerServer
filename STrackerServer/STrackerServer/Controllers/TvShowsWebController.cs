@@ -20,6 +20,7 @@ namespace STrackerServer.Controllers
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
     using STrackerServer.Models.Partial;
     using STrackerServer.Models.TvShow;
+    using STrackerServer.Models.User;
 
     /// <summary>
     /// The television shows web controller.
@@ -287,14 +288,65 @@ namespace STrackerServer.Controllers
         [Authorize]
         public ActionResult RemoveComment(TvShowRemoveComment removeView)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || !this.commentsOperations.RemoveComment(removeView.TvShowId, User.Identity.Name, removeView.Timestamp))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View("Error", Response.StatusCode);
             }
 
-            this.commentsOperations.RemoveComment(removeView.TvShowId, User.Identity.Name, removeView.Timestamp);
             return new SeeOtherResult { Url = Url.Action("Comments", "TvShowsWeb", new { removeView.TvShowId }) };
+        }
+
+        /// <summary>
+        /// The suggestion.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpGet]
+        [Authorize]
+        public ActionResult Suggestion(string tvshowId)
+        {
+            var tvshow = this.tvshowOperations.Read(tvshowId);
+
+            if (tvshow == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            var user = this.userOperations.Read(User.Identity.Name);
+            var view = new SuggestionView { Friends = user.Friends, TvShowId = tvshowId };
+
+            return this.View(view);
+        }
+
+        /// <summary>
+        /// The suggestion.
+        /// </summary>
+        /// <param name="values">
+        /// The values.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpPost]
+        [Authorize]
+        public ActionResult Suggestion(SuggestionFormValues values)
+        {
+            if (!ModelState.IsValid || !this.userOperations.SendSuggestion(values.FriendId, values.TvShowId, new Suggestion { TvShowId = values.TvShowId, UserId = User.Identity.Name }))
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            var user = this.userOperations.Read(User.Identity.Name);
+            var view = new SuggestionView { Friends = user.Friends, TvShowId = values.TvShowId };
+
+            return this.View(view);
         }
     }
 }

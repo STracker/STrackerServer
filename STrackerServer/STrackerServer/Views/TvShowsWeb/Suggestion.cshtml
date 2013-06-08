@@ -1,0 +1,39 @@
+﻿@model STrackerServer.Models.User.SuggestionView
+
+@{
+    ViewBag.Title = "Suggest";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span9">
+            <div class="box">
+                
+                <table class="table table-condensed">
+                    <tr>                       
+                        <th>Name</th>
+                        <th></th>
+                    </tr>
+                    
+                    @foreach(var friend in Model.Friends)
+                    {
+                        <tr>
+                            <td>
+                                @friend.Name
+                            </td>
+                            <td>
+                                @using(Html.BeginForm("Suggestion","TvShowsWeb"))
+                                {
+                                    @Html.Hidden("FriendId",friend.Id)
+                                    @Html.Hidden("TvShowId",Model.TvShowId)
+                                    <input class="btn btn-block btn-primary" type="submit" value="Suggest"/>
+                                }
+                            </td>
+                        </tr>  
+                    }
+                </table>
+            </div>
+        </div>      
+    </div>
+</div>
