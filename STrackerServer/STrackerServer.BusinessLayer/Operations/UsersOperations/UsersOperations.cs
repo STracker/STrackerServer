@@ -9,12 +9,14 @@
 
 namespace STrackerServer.BusinessLayer.Operations.UsersOperations
 {
+    using System.Collections.Generic;
     using System.Linq;
 
     using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
     using STrackerServer.DataAccessLayer.Core.UsersRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
 
     /// <summary>
     /// The users operations.
@@ -197,6 +199,100 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
             var userTo = this.Repository.Read(to);
 
             return userTo.FriendRequests.Exists(synopsis => synopsis.Id.Equals(@from)) && ((IUsersRepository)this.Repository).RejectInvite(userFrom, userTo);
+        }
+
+        /// <summary>
+        /// The send suggestion.
+        /// </summary>
+        /// <param name="userFrom">
+        /// The user from.
+        /// </param>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="suggestion">
+        /// The suggestion.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool SendSuggestion(string userFrom, string tvshowId, Suggestion suggestion)
+        {
+            TvShow tvshow;
+            User user;
+
+            return this.VerifyUserAndTvshow(userFrom, tvshowId, out user, out tvshow) && ((IUsersRepository)this.Repository).SendSuggestion(user, suggestion);
+        }
+
+        /// <summary>
+        /// The remove suggestion.
+        /// </summary>
+        /// <param name="userFrom">
+        /// The user from.
+        /// </param>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="suggestion">
+        /// The suggestion.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool RemoveSuggestion(string userFrom, string tvshowId, Suggestion suggestion)
+        {
+            TvShow tvshow;
+            User user;
+
+            return this.VerifyUserAndTvshow(userFrom, tvshowId, out user, out tvshow) && ((IUsersRepository)this.Repository).RemoveSuggestion(user, suggestion);
+        }
+
+        /// <summary>
+        /// The get suggestions.
+        /// </summary>
+        /// <param name="userFrom">
+        /// The user from.
+        /// </param>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>List</cref>
+        ///     </see> .
+        /// </returns>
+        public List<Suggestion> GetSuggestions(string userFrom, string tvshowId)
+        {
+            TvShow tvshow;
+            User user;
+
+            return !this.VerifyUserAndTvshow(userFrom, tvshowId, out user, out tvshow) ? null : ((IUsersRepository)this.Repository).GetSuggestions(user);
+        }
+
+        /// <summary>
+        /// The verify user and television show.
+        /// </summary>
+        /// <param name="userId">
+        /// The user id.
+        /// </param>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="user">
+        /// The user.
+        /// </param>
+        /// <param name="tvshow">
+        /// The television show.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        private bool VerifyUserAndTvshow(string userId, string tvshowId, out User user, out TvShow tvshow)
+        {
+            tvshow = this.tvshowsRepository.Read(tvshowId);
+            user = this.Repository.Read(userId);
+
+            return tvshow != null && user != null;
         }
     }
 }
