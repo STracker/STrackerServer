@@ -27,7 +27,7 @@ namespace STrackerServer.Models.TvShow
         /// </summary>
         [Required]
         [Range(1, 5)]
-        public int Rating { get; set; }
+        public int Value { get; set; }
 
         /// <summary>
         /// Gets or sets the television show name.

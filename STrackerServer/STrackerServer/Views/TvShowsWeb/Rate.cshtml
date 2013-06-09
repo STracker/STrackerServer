@@ -21,8 +21,8 @@
                 @Html.ValidationSummary()
                 @using (Html.BeginForm("Rate", "TvShowsWeb"))
                 {
-                    @Html.Hidden("TvShowId",Model.TvShowId)
-                    @Html.Hidden("Rating",2)
+                    @Html.HiddenFor(rating => rating.TvShowId)
+                    @Html.EditorFor(rating => rating.Value)
                     <input class="btn btn-danger btn-mini" type="submit" value="Rate"/>
                 }  
             </div>

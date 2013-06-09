@@ -369,7 +369,7 @@ namespace STrackerServer.Controllers
                             TvShowId = tvshowId,
                             TvShowName = tvshow.Name,
                             Poster = tvshow.Poster.ImageUrl,
-                            Rating = 1
+                            Value = 1
                         });
         }
 
@@ -384,7 +384,7 @@ namespace STrackerServer.Controllers
         /// </returns>
         [HttpPost]
         [Authorize]
-        public ActionResult Rate(string tvshowId, TvShowRating rating)
+        public ActionResult Rate(TvShowRating rating)
         {
             var tvshow = this.tvshowOperations.Read(rating.TvShowId); 
 
@@ -403,7 +403,7 @@ namespace STrackerServer.Controllers
                 return this.View(rating);
             }
 
-            if (tvshow == null || this.ratingsOperations.AddRating(tvshow.TvShowId, new Rating { UserId = User.Identity.Name, UserRating = rating.Rating }))
+            if (tvshow == null || this.ratingsOperations.AddRating(tvshow.TvShowId, new Rating { UserId = User.Identity.Name, UserRating = rating.Value }))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View("Error", Response.StatusCode);

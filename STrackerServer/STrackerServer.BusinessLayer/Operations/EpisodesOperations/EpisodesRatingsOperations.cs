@@ -47,7 +47,8 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
         /// </returns>
         public double GetAverageRating(Tuple<string, int, int> key)
         {
-            return this.GetAllRatings(key).Ratings.Average(rating => rating.UserRating);
+            var ratings = this.GetAllRatings(key).Ratings;
+            return ratings.Count == 0 ? 0 : ratings.Average(rating => rating.UserRating);
         }
     }
 }
