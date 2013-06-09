@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Controllers
+namespace STrackerServer.Controllers.Api
 {
     using System.Net.Http;
     using System.Web.Http;
@@ -60,20 +60,6 @@ namespace STrackerServer.Controllers
         public HttpResponseMessage GetByName(string name)
         {
             return this.BaseGet(((ITvShowsOperations)this.Operations).ReadByName(name));
-        }
-
-        /// <summary>
-        /// The get all by genre.
-        /// </summary>
-        /// <param name="genre">
-        /// The genre.
-        /// </param>
-        /// <returns>
-        /// The <see cref="HttpResponseMessage"/>.
-        /// </returns>
-        public HttpResponseMessage GetAllByGenre(string genre)
-        {
-            return this.BaseGet(((ITvShowsOperations)this.Operations).ReadAllByGenre(genre));
         }
     }
 }

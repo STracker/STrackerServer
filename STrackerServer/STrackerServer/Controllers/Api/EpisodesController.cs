@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Controllers
+namespace STrackerServer.Controllers.Api
 {
     using System;
     using System.Net.Http;

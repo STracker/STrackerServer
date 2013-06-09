@@ -7,9 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Controllers
+namespace STrackerServer.Controllers.Api
 {
-    using System.Net;
     using System.Net.Http;
     using System.Web.Http;
 
@@ -41,32 +40,9 @@ namespace STrackerServer.Controllers
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
         [HttpGet]
-        public HttpResponseMessage GetInfo(string userId)
+        public HttpResponseMessage Get(string userId)
         {
             return this.BaseGet(this.Operations.Read(userId));
-        }
-
-        /// <summary>
-        /// The subscribe.
-        /// </summary>
-        /// <param name="userId">
-        /// The user id.
-        /// </param>
-        /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <returns>
-        /// The <see cref="HttpResponseMessage"/>.
-        /// </returns>
-        [HttpPost]
-        public HttpResponseMessage Subscribe(string userId, string tvshowId)
-        {
-            if (!ModelState.IsValid)
-            {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);    
-            }
-
-            return this.BasePost(((IUsersOperations)this.Operations).AddSubscription(userId, tvshowId));
         }
     }
 }

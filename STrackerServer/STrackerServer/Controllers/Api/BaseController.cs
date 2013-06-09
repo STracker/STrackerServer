@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Controllers
+namespace STrackerServer.Controllers.Api
 {
     using System.Diagnostics.CodeAnalysis;
     using System.Net;
@@ -64,7 +64,7 @@ namespace STrackerServer.Controllers
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, obj);
+            return this.Request.CreateResponse(HttpStatusCode.OK, obj);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace STrackerServer.Controllers
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, true);
+            return this.Request.CreateResponse(HttpStatusCode.OK, true);
         }
     }
 }
