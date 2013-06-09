@@ -17,8 +17,14 @@
             </p> 
 
             <p>
-                <a class="btn btn-block btn-primary" href="@Url.Action("Show","SeasonsWeb", new { tvshowId = Model.TvShowId, number = Model.SeasonNumber })">Season @Model.SeasonNumber</a>
-            </p>    
+                <a class="btn btn-block btn-primary" href="@Url.Action("Show","SeasonsWeb", new { tvshowId = Model.TvShowId, number = Model.SeasonNumber })">Season: @Model.SeasonNumber</a>
+            </p> 
+            @if(User.Identity.IsAuthenticated)
+            {
+                <p>
+                    <a class="btn btn-block btn-primary" href="@Url.Action("Rate","EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber })">Rate</a>
+                </p> 
+            }
             <p>
                 <a class="btn btn-block btn-primary" href="@Url.Action("Comments","EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber })">Comments</a>
             </p> 
@@ -30,7 +36,9 @@
                 <p>Season @Model.SeasonNumber, Episode @Model.EpisodeNumber</p> 
                 <br/>
                 <p>@Model.Description</p>
-                <br/>          
+                <br/>  
+                <p><b>Rating</b> @Model.Rating</p>
+                            
 
                 @if (Model.Directors.Count != 0)
                 {

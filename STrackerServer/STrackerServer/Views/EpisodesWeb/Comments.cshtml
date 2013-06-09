@@ -13,7 +13,7 @@
             <div class="extra-padding"></div> 
 
             <p>
-                <a class="btn btn-block btn-primary" href="@Url.Action("Show","EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber })">Episode: @Model.EpisodeNumber</a>
+                <a class="btn btn-block btn-primary" href="@Url.Action("Show","EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber })">Season: @Model.SeasonNumber Episode: @Model.EpisodeNumber</a>
             </p> 
 
             @if (User.Identity.IsAuthenticated)
@@ -34,7 +34,7 @@
                             <div style="text-align: right">
                                 @if (User.Identity.IsAuthenticated && Model.Comments.ElementAt(i).UserId.Equals(User.Identity.Name))
                                 {
-                                    <a href="@Url.Action("Comment", "TvShowsWeb", new {tvshowId = Model.TvShowId, position = i})">Edit</a>
+                                    <a href="@Url.Action("Comment", "EpisodesWeb", new {tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber, position = i})">Edit</a>
                                 }
                             </div>
                             <p>@Model.Comments.ElementAt(i).UserId</p>

@@ -60,8 +60,10 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
 
             var update = Update<RatingsEpisode>.Push(er => er.Ratings, rating);
 
+            var removeRating = this.Read(id).Ratings.Find(r => r.UserId.Equals(rating.UserId));
+
             // If already have a rating for the user, need to remove it before insert the new one.
-            return this.RemoveRating(id, rating) && this.ModifyList(collection, query, update);
+            return this.RemoveRating(id, removeRating) && this.ModifyList(collection, query, update);
         }
 
         /// <summary>

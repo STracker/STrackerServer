@@ -9,7 +9,6 @@
 
 namespace STrackerServer.Controllers
 {
-    using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
     using System.Net;
@@ -403,7 +402,7 @@ namespace STrackerServer.Controllers
                 return this.View(rating);
             }
 
-            if (tvshow == null || this.ratingsOperations.AddRating(tvshow.TvShowId, new Rating { UserId = User.Identity.Name, UserRating = rating.Value }))
+            if (tvshow == null || !this.ratingsOperations.AddRating(tvshow.TvShowId, new Rating { UserId = User.Identity.Name, UserRating = rating.Value }))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View("Error", Response.StatusCode);

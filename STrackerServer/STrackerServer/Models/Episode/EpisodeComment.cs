@@ -1,22 +1,18 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EpisodeView.cs" company="STracker">
-//   Copyright (c) STracker Developers. All rights reserved.
+// <copyright file="EpisodeComment.cs" company="STracker">
+//  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//   The episode view.
+//   Defines the EpisodeComment type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace STrackerServer.Models.Episode
 {
-    using System.Collections.Generic;
-
-    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
-
     /// <summary>
-    /// The episode view.
+    /// The episode comment.
     /// </summary>
-    public class EpisodeView
+    public class EpisodeComment
     {
         /// <summary>
         /// Gets or sets the television show id.
@@ -34,34 +30,19 @@ namespace STrackerServer.Models.Episode
         public int EpisodeNumber { get; set; }
 
         /// <summary>
-        /// Gets or sets the name.
+        /// Gets or sets the user id.
         /// </summary>
-        public string Name { get; set; }
+        public string UserId { get; set; }
 
         /// <summary>
-        /// Gets or sets the description.
+        /// Gets or sets the Timestamp.
         /// </summary>
-        public string Description { get; set; }
+        public string Timestamp { get; set; }
 
         /// <summary>
-        /// Gets or sets the rating.
+        /// Gets or sets the body.
         /// </summary>
-        public double Rating { get; set; }
-
-        /// <summary>
-        /// Gets or sets the directors.
-        /// </summary>
-        public List<Person> Directors { get; set; }
-
-        /// <summary>
-        /// Gets or sets the guest actors.
-        /// </summary>
-        public List<Actor> GuestActors { get; set; }
-
-        /// <summary>
-        /// Gets or sets the television show name.
-        /// </summary>
-        public string TvShowName { get; set; }
+        public string Body { get; set; }
 
         /// <summary>
         /// Gets or sets the poster.

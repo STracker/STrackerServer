@@ -11,6 +11,7 @@ namespace STrackerServer.Controllers
 {
     using System;
     using System.Globalization;
+    using System.Linq;
     using System.Net;
     using System.Web.Mvc;
 
@@ -107,6 +108,7 @@ namespace STrackerServer.Controllers
                 Directors = episode.Directors,
                 Poster = tvshow.Poster.ImageUrl,
                 TvShowName = tvshow.Name,
+                Rating = this.ratingsOperations.GetAverageRating(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber))
             };
 
             return this.View(model);
@@ -222,6 +224,165 @@ namespace STrackerServer.Controllers
 
             this.commentsOperations.AddComment(new Tuple<string, int, int>(create.TvShowId, create.SeasonNumber, create.EpisodeNumber), comment);
             return new SeeOtherResult { Url = Url.Action("Comments", "EpisodesWeb", new { tvshowId = create.TvShowId, seasonNumber = create.SeasonNumber, episodeNumber = create.SeasonNumber }) };
+        }
+
+        /// <summary>
+        /// The comment.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// The season number.
+        /// </param>
+        /// <param name="episodeNumber">
+        /// The episode number.
+        /// </param>
+        /// <param name="position">
+        /// The position.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpGet]
+        [Authorize]
+        public ActionResult Comment(string tvshowId, int seasonNumber, int episodeNumber, int position)
+        {
+            var comments =
+                this.commentsOperations.GetComments(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber));
+
+            if (comments == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            if (position >= comments.Comments.Count)
+            {
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            var comment = comments.Comments.ElementAt(position);
+
+            if (!comment.UserId.Equals(User.Identity.Name))
+            {
+                Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            var tvshow = this.tvshowsOps.Read(tvshowId);
+
+            var commentView = new EpisodeComment
+            {
+                TvShowId = tvshowId,
+                SeasonNumber = seasonNumber,
+                EpisodeNumber = episodeNumber,
+                UserId = comment.UserId,
+                Body = comment.Body,
+                Timestamp = comment.Timestamp,
+                Poster = tvshow.Poster.ImageUrl,
+            };
+
+            return this.View(commentView);
+        }
+
+        /// <summary>
+        /// The remove comment.
+        /// </summary>
+        /// <param name="remove">
+        /// The remove.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpPost]
+        [Authorize]
+        public ActionResult RemoveComment(EpisodeRemoveComment remove)
+        {
+            if (!ModelState.IsValid || !this.commentsOperations.RemoveComment(new Tuple<string, int, int>(remove.TvShowId, remove.SeasonNumber, remove.EpisodeNumber), User.Identity.Name, remove.Timestamp))
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            return new SeeOtherResult { Url = Url.Action("Comments", "EpisodesWeb", new { tvshowId = remove.TvShowId, seasonNumber = remove.SeasonNumber, episodeNumber = remove.EpisodeNumber }) };
+        }
+
+        /// <summary>
+        /// The rate.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// The season number.
+        /// </param>
+        /// <param name="episodeNumber">
+        /// The episode number.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpGet]
+        [Authorize]
+        public ActionResult Rate(string tvshowId, int seasonNumber, int episodeNumber)
+        {
+            var episode = this.episodesOps.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber));
+
+            if (episode == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            return this.View(new EpisodeRating
+            {
+                TvShowId = tvshowId,
+                SeasonNumber = seasonNumber,
+                EpisodeNumber = episodeNumber,
+                Poster = this.tvshowsOps.Read(tvshowId).Poster.ImageUrl,
+                Value = 1
+            });
+        }
+
+        /// <summary>
+        /// The rate.
+        /// </summary>
+        /// <param name="rating">
+        /// The rating.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpPost]
+        [Authorize]
+        public ActionResult Rate(EpisodeRating rating)
+        {
+            var episode = this.episodesOps.Read(new Tuple<string, int, int>(rating.TvShowId, rating.SeasonNumber, rating.EpisodeNumber));
+
+            if (episode == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            var tvshow = this.tvshowsOps.Read(rating.TvShowId);
+
+            if (!ModelState.IsValid)
+            {
+                rating.Poster = tvshow.Poster.ImageUrl;
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return this.View(rating);
+            }
+
+            if (!this.ratingsOperations.AddRating(new Tuple<string, int, int>(rating.TvShowId, rating.SeasonNumber, rating.EpisodeNumber), new Rating { UserId = User.Identity.Name, UserRating = rating.Value }))
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            return new SeeOtherResult { Url = Url.Action("Show", new { tvshowId = rating.TvShowId, seasonNumber = rating.SeasonNumber, episodeNumber = rating.EpisodeNumber }) };
         }
     }
 }

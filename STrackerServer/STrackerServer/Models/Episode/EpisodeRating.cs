@@ -1,67 +1,45 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EpisodeView.cs" company="STracker">
+// <copyright file="EpisodeRating.cs" company="STracker">
 //   Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//   The episode view.
+//   The episode rating.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace STrackerServer.Models.Episode
 {
-    using System.Collections.Generic;
-
-    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
+    using System.ComponentModel.DataAnnotations;
 
     /// <summary>
-    /// The episode view.
+    /// The episode rating.
     /// </summary>
-    public class EpisodeView
+    public class EpisodeRating
     {
         /// <summary>
         /// Gets or sets the television show id.
         /// </summary>
+        [Required]
         public string TvShowId { get; set; }
 
         /// <summary>
         /// Gets or sets the season number.
         /// </summary>
+        [Required]
         public int SeasonNumber { get; set; }
 
         /// <summary>
         /// Gets or sets the episode number.
         /// </summary>
+        [Required]
         public int EpisodeNumber { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Gets or sets the description.
-        /// </summary>
-        public string Description { get; set; }
 
         /// <summary>
         /// Gets or sets the rating.
         /// </summary>
-        public double Rating { get; set; }
-
-        /// <summary>
-        /// Gets or sets the directors.
-        /// </summary>
-        public List<Person> Directors { get; set; }
-
-        /// <summary>
-        /// Gets or sets the guest actors.
-        /// </summary>
-        public List<Actor> GuestActors { get; set; }
-
-        /// <summary>
-        /// Gets or sets the television show name.
-        /// </summary>
-        public string TvShowName { get; set; }
+        [Required]
+        [Range(1, 5)]
+        public int Value { get; set; }
 
         /// <summary>
         /// Gets or sets the poster.
