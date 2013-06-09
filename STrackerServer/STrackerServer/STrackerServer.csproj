@@ -164,6 +164,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Episode\EpisodeComments.cs" />
+    <Compile Include="Models\Episode\EpisodeCreateComment.cs" />
     <Compile Include="Models\Episode\EpisodeView.cs" />
     <Compile Include="Models\Home\HomeView.cs" />
     <Compile Include="Models\Season\SeasonView.cs" />
@@ -236,6 +238,8 @@
     <Content Include="Views\TvShowsWeb\Suggest.cshtml" />
     <Content Include="Views\HomeWeb\Index.cshtml" />
     <Content Include="Views\TvShowsWeb\Rate.cshtml" />
+    <Content Include="Views\EpisodesWeb\Comments.cshtml" />
+    <Content Include="Views\EpisodesWeb\CreateComment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

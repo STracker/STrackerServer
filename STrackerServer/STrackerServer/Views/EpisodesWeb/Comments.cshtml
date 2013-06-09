@@ -1,0 +1,48 @@
+﻿@model STrackerServer.Models.Episode.EpisodeComments
+
+@{
+    ViewBag.Title = "Comments";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3">
+            <img class="img-rounded" src="@Model.Poster" alt="No Artwork"/>  
+
+            <div class="extra-padding"></div> 
+
+            <p>
+                <a class="btn btn-block btn-primary" href="@Url.Action("Show","EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber })">Episode: @Model.EpisodeNumber</a>
+            </p> 
+
+            @if (User.Identity.IsAuthenticated)
+            {  
+                <p>
+                    <a class="btn btn-block btn-primary" href="@Url.Action("CreateComment","EpisodesWeb", new { tvshowId = Model.TvShowId })">Create Comment</a>
+                </p> 
+            }
+        </div> 
+        <div class="span6">
+            <div class="box">
+                <h2>Comments</h2>
+
+                @for (var i = 0; i < Model.Comments.Count; i++)
+                {
+                    <div> 
+                        <div class="box-whiter">
+                            <div style="text-align: right">
+                                @if (User.Identity.IsAuthenticated && Model.Comments.ElementAt(i).UserId.Equals(User.Identity.Name))
+                                {
+                                    <a href="@Url.Action("Comment", "TvShowsWeb", new {tvshowId = Model.TvShowId, position = i})">Edit</a>
+                                }
+                            </div>
+                            <p>@Model.Comments.ElementAt(i).UserId</p>
+                            @Model.Comments.ElementAt(i).Body  
+                        </div> 
+                    </div>
+                }      
+            </div>
+        </div>
+    </div>
+</div>

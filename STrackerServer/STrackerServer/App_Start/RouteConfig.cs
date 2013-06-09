@@ -85,10 +85,21 @@ namespace STrackerServer.App_Start
                 "TvShows/{tvshowId}/Seasons/{number}",
                 new { controller = "SeasonsWeb", action = "Show" });
 
+            // Episode Routes
             routes.MapRoute(
                 "EpisodeWeb_Show",
-                "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{number}",
+                "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}",
                 new { controller = "EpisodesWeb", action = "Show" });
+
+            routes.MapRoute(
+                "EpisodeWeb_Comments",
+                "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}/Comments",
+                new { controller = "EpisodesWeb", action = "Comments" });
+
+            routes.MapRoute(
+                "EpisodeWeb_Create_Comment",
+                "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}/Comments/Create",
+                new { controller = "EpisodesWeb", action = "CreateComment" });
         }
     }
 }

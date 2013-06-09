@@ -19,6 +19,9 @@
             <p>
                 <a class="btn btn-block btn-primary" href="@Url.Action("Show","SeasonsWeb", new { tvshowId = Model.TvShowId, number = Model.SeasonNumber })">Season @Model.SeasonNumber</a>
             </p>    
+            <p>
+                <a class="btn btn-block btn-primary" href="@Url.Action("Comments","EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber })">Comments</a>
+            </p> 
         </div>
         <div class="span6">
             <div class="box">

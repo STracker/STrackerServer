@@ -17,11 +17,11 @@ namespace STrackerServer.Controllers
     using System.Web.Script.Serialization;
     using System.Web.Security;
 
-    using Custom_action_results;
     using DataAccessLayer.DomainEntities;
 
     using Facebook;
 
+    using STrackerServer.Action_Results;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
 

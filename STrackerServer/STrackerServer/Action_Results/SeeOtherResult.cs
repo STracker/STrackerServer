@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Custom_action_results
+namespace STrackerServer.Action_Results
 {
     using System.Net;
     using System.Web.Mvc;
@@ -31,7 +31,7 @@ namespace STrackerServer.Custom_action_results
         public override void ExecuteResult(ControllerContext context)
         {
             context.HttpContext.Response.StatusCode = (int)HttpStatusCode.SeeOther;
-            context.HttpContext.Response.RedirectLocation = Url;
+            context.HttpContext.Response.RedirectLocation = this.Url;
         }
     }
 }

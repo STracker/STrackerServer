@@ -1,0 +1,35 @@
+﻿@model STrackerServer.Models.Episode.EpisodeCreateComment
+
+@{
+    ViewBag.Title = "Create Comment";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3">
+            <img class="img-rounded" src="@Model.Poster" alt="No Artwork"/>  
+
+            <div class="extra-padding"></div>
+            <p>
+                <a class="btn btn-block btn-primary" href="@Url.Action("Comments","EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber })">Comments</a>
+            </p> 
+        </div> 
+        <div class="span6">
+            <div class="box">
+                
+                <div class="alert-error">
+                    @Html.ValidationSummary()  
+                </div>     
+                @using (Html.BeginForm("CreateComment", "EpisodesWeb"))
+                {
+                    @Html.HiddenFor(comment => comment.TvShowId)
+                    @Html.HiddenFor(comment => comment.SeasonNumber)
+                    @Html.HiddenFor(comment => comment.EpisodeNumber)
+                    <textarea class="btn-block comments-textarea" id="Body" name="Body"></textarea>
+                    <input class="btn btn-primary" type="submit" value="Add Comment"/>
+                }   
+            </div>
+        </div>
+    </div>
+</div>

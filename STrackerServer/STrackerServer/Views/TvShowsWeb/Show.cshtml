@@ -30,14 +30,15 @@
                             @Html.Hidden("redirectUrl",Model.RedirectUrl)
                             <input class="btn btn-block btn-primary" type="submit" value="Subscribe"/>
                         }
-                }       
+                }     
+                
+                <p>
+                    <a class="btn btn-block btn-primary" href="@Url.Action("Rate","TvShowsWeb", new { tvshowId = Model.TvShowId })">Rate</a>
+                </p> 
+                <p>
+                    <a class="btn btn-block btn-primary" href="@Url.Action("Suggest","TvShowsWeb", new { tvshowId = Model.TvShowId })">Suggest</a>
+                </p>  
             }
-            <p>
-                <a class="btn btn-block btn-primary" href="@Url.Action("Rate","TvShowsWeb", new { tvshowId = Model.TvShowId })">Rate</a>
-            </p> 
-            <p>
-                <a class="btn btn-block btn-primary" href="@Url.Action("Suggest","TvShowsWeb", new { tvshowId = Model.TvShowId })">Suggest</a>
-            </p>
             <p>
                 <a class="btn btn-block btn-primary" href="@Url.Action("Comments","TvShowsWeb", new { tvshowId = Model.TvShowId })">Comments</a>
             </p>
