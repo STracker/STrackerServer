@@ -1,0 +1,8 @@
+﻿@model STrackerServer.Models.Partial.TvShowEditCommentOptions
+
+<img class="img-rounded" src="@Model.Poster" alt="No Artwork"/>  
+
+<div class="extra-padding"></div>
+<p>
+    <a class="btn btn-block btn-primary" href="@Url.Action("Comments","TvShowsWeb", new { tvshowId = Model.TvShowId })">Comments</a>
+</p> 

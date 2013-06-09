@@ -1,40 +1,32 @@
 ﻿@model STrackerServer.Models.Partial.TvShowOptionsView
 
 <img class="img-rounded" src="@Model.Poster" alt="No Artwork"/>  
-           
+<div class="extra-padding"></div> 
 @if (User.Identity.IsAuthenticated)
 {   
     if (Model.IsSubscribed)
     {
-        <div class="extra-padding">
-            @using(Html.BeginForm("UnSubscribe","UsersWeb"))
+            using(Html.BeginForm("UnSubscribe","UsersWeb"))
             {
                 @Html.Hidden("tvshowId",Model.TvShowId)
                 @Html.Hidden("redirectUrl",Model.RedirectUrl)
                 <input class="btn btn-block btn-danger" type="submit" value="Unsubscribe"/>
             }
-        </div>
     }
     else
     {
-        <div class="extra-padding">
-            @using (Html.BeginForm("Subscribe", "UsersWeb"))
+            using (Html.BeginForm("Subscribe", "UsersWeb"))
             {
                 @Html.Hidden("tvshowId",Model.TvShowId)
                 @Html.Hidden("redirectUrl",Model.RedirectUrl)
                 <input class="btn btn-block btn-primary" type="submit" value="Subscribe"/>
             }
-        </div>
-    }
-    <p>
-        <a class="btn btn-block btn-primary" href="@Url.Action("Comments","TvShowsWeb", new { tvshowId = Model.TvShowId })">Comments</a>
-    </p>        
+    }       
 }
-else
-{
-    <div class="extra-padding">
-        <p>
-            <a class="btn btn-block btn-primary" href="@Url.Action("Comments","TvShowsWeb", new { tvshowId = Model.TvShowId })">Comments</a>
-        </p> 
-    </div> 
-}
+
+<p>
+    <a class="btn btn-block btn-primary" href="@Url.Action("Comments","TvShowsWeb", new { tvshowId = Model.TvShowId })">Comments</a>
+</p> 
+<p>
+    <a class="btn btn-block btn-primary" href="@Url.Action("Suggestion","TvShowsWeb", new { tvshowId = Model.TvShowId })">Suggest</a>
+</p>

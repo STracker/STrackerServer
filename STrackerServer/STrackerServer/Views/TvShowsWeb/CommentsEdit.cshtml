@@ -8,26 +8,22 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span3">
-             @Html.Partial("TvShowOptionsView", Model.Options)
+             @Html.Partial("TvShowOptions/TvShowEditCommentOptions", Model.Options)
         </div> 
         <div class="span6">
             <h2>Comment</h2>
             <div class="box">
-                <div style="text-align: right">
-                    @if (User.Identity.IsAuthenticated && Model.UserId.Equals(User.Identity.Name))
-                    {
-                        @Html.ValidationSummary()
-                        using (Html.BeginForm("CommentsEdit", "TvShowsWeb", FormMethod.Post))
-                        {
-                            @Html.Hidden("tvshowId", Model.TvShowId)
-                            @Html.Hidden("timestamp", Model.Timestamp)
-                            <input class="btn btn-danger btn-mini" type="submit" value="x"/>
-                        } 
-                    }
-                </div>
 
                 <p>@Model.UserId</p>
-                @Model.Body  
+                @Model.Body
+
+                @Html.ValidationSummary()
+                @using (Html.BeginForm("RemoveComment", "TvShowsWeb"))
+                {
+                    @Html.Hidden("tvshowId", Model.TvShowId)
+                    @Html.Hidden("timestamp", Model.Timestamp)
+                    <input class="btn btn-danger btn-mini" type="submit" value="Remove"/>
+                }  
             </div>  
         </div>
     </div>

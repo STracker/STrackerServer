@@ -9,7 +9,6 @@
 
 namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
 {
-    using System.Collections.Generic;
     using System.Configuration;
 
     using STrackerBackgroundWorker.RabbitMQ;
@@ -63,22 +62,6 @@ namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
 
             this.queueM.Push(new Message { CommandName = ConfigurationManager.AppSettings["TvShowAddByIdCmd"], Arg = id });
             return null;
-        }
-
-        /// <summary>
-        /// The read all by genre.
-        /// </summary>
-        /// <param name="genre">
-        /// The genre.
-        /// </param>
-        /// <returns>
-        /// The <see>
-        ///       <cref>IEnumerable</cref>
-        ///     </see> .
-        /// </returns>
-        public IEnumerable<TvShow.TvShowSynopsis> ReadAllByGenre(string genre)
-        {
-            return ((ITvShowsRepository)this.Repository).ReadAllByGenre(genre.ToLower());
         }
 
         /// <summary>

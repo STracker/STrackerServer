@@ -13,8 +13,7 @@ namespace STrackerServer.Models.Season
 
     using DataAccessLayer.DomainEntities;
 
-    using STrackerServer.Models.Partial;
-    using STrackerServer.Models.TvShow;
+    using STrackerServer.Models.Season.Options;
 
     /// <summary>
     /// The season web.

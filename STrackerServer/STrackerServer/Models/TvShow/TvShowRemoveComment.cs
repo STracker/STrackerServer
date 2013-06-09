@@ -1,9 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TvShowCommentRemoveView.cs" company="STracker">
+// <copyright file="TvShowRemoveComment.cs" company="STracker">
 //   Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//   Defines the TvShowCommentRemoveView type.
+//   Defines the TvShowRemoveComment type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -12,9 +12,9 @@ namespace STrackerServer.Models.TvShow
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
-    /// The television show comment remove view.
+    /// The television show comment remove.
     /// </summary>
-    public class TvShowCommentRemoveView
+    public class TvShowRemoveComment
     {
         /// <summary>
         /// Gets or sets the television show id.

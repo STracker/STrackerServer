@@ -16,5 +16,15 @@ namespace STrackerServer.BusinessLayer.Core.TvShowsOperations
     /// </summary>
     public interface ITvShowsRatingsOperations : IRatingsOperations<RatingsTvShow, string>
     {
+        /// <summary>
+        /// The get average rating.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
+        double GetAverageRating(string key);
     }
 }

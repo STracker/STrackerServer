@@ -10,12 +10,32 @@
 namespace STrackerServer.Controllers
 {
     using System.Web.Mvc;
+    using System.Collections.Generic;
+
+    using STrackerServer.BusinessLayer.Core.TvShowsOperations;
+    using STrackerServer.Models.Home;
 
     /// <summary>
     /// The home web controller.
     /// </summary>
     public class HomeWebController : Controller
     {
+        /// <summary>
+        /// The genres operations.
+        /// </summary>
+        private readonly IGenresOperations genresOperations;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HomeWebController"/> class.
+        /// </summary>
+        /// <param name="genresOperations">
+        /// The genres operations.
+        /// </param>
+        public HomeWebController(IGenresOperations genresOperations)
+        {
+            this.genresOperations = genresOperations;
+        }
+
         /// <summary>
         /// The main page.
         /// </summary>
@@ -25,7 +45,9 @@ namespace STrackerServer.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return this.View();
+            var view = new HomeView { Genres = this.genresOperations.GetAll().ConvertAll(input => input.GetSynopsis()) };
+
+            return this.View(view);
         }
 
         /// <summary>

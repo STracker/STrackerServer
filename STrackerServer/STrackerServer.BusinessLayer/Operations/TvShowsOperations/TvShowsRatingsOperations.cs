@@ -9,6 +9,8 @@
 
 namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
 {
+    using System.Linq;
+
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
@@ -31,6 +33,20 @@ namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
         public TvShowsRatingsOperations(ITvShowRatingsRepository ratingsRepository, ITvShowsRepository repository)
             : base(ratingsRepository, repository)
         {
+        }
+
+        /// <summary>
+        /// The get average rating.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
+        public double GetAverageRating(string key)
+        {
+            return this.GetAllRatings(key).Ratings.Average(rating => rating.UserRating);
         }
     }
 }

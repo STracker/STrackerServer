@@ -19,19 +19,6 @@ namespace STrackerServer.DataAccessLayer.Core.TvShowsRepositories
     public interface ITvShowsRepository : IRepository<TvShow, string>
     {
         /// <summary>
-        /// The read all by genre.
-        /// </summary>
-        /// <param name="genre">
-        /// The genre.
-        /// </param>
-        /// <returns>
-        /// The <see>
-        ///       <cref>IEnumerable</cref>
-        ///     </see> .
-        /// </returns>
-        IEnumerable<TvShow.TvShowSynopsis> ReadAllByGenre(string genre);
-
-        /// <summary>
         /// The read by name.
         /// </summary>
         /// <param name="name">

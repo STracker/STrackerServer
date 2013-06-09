@@ -39,6 +39,6 @@ namespace STrackerServer.Models.TvShow
         /// <summary>
         /// Gets or sets the options.
         /// </summary>
-        public TvShowCommentOptionsView Options { get; set; }
+        public TvShowEditCommentOptions Options { get; set; }
     }
 }

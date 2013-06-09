@@ -1,10 +1,18 @@
-﻿using STrackerServer.DataAccessLayer.DomainEntities;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="EpisodeView.cs" company="STracker">
+//   Copyright (c) STracker Developers. All rights reserved.
+// </copyright>
+// <summary>
+//   The episode view.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace STrackerServer.Models.Episode
 {
     using System.Collections.Generic;
 
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
+    using STrackerServer.Models.Episode.Options;
 
     /// <summary>
     /// The episode view.
@@ -52,13 +60,8 @@ namespace STrackerServer.Models.Episode
         public List<Actor> GuestActors { get; set; }
 
         /// <summary>
-        /// Gets or sets the poster.
+        /// Gets or sets the options.
         /// </summary>
-        public Artwork Poster { get; set; }
-
-        /// <summary>
-        /// Gets or sets the television show name.
-        /// </summary>
-        public string TvShowName { get; set; }
+        public EpisodeOptionsView Options { get; set; }
     }
 }
