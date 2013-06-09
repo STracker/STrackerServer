@@ -22,8 +22,10 @@ namespace STrackerServer.BusinessLayer.Core.TvShowsOperations
         /// Get all genres.
         /// </summary>
         /// <returns>
-        /// The <see cref="List"/>.
+        /// The <see>
+        ///       <cref>List</cref>
+        ///     </see> .
         /// </returns>
-        List<Genre> GetAll();
+        List<Genre.GenreSynopsis> GetAll();
     }
 }

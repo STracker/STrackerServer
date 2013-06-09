@@ -10,6 +10,7 @@
 namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
@@ -51,9 +52,10 @@ namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
         /// <returns>
         /// The <see cref="List{T}"/>.
         /// </returns>
-        public List<Genre> GetAll()
+        public List<Genre.GenreSynopsis> GetAll()
         {
-            return ((IGenresRepository)Repository).GetAll();
+            var list = ((IGenresRepository)Repository).GetAll();
+            return list.Select(genre => genre.GetSynopsis()).ToList();
         }
     }
 }

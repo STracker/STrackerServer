@@ -3,7 +3,7 @@
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  This object encapsulates the two necessary values for add a new 
+//  This object encapsulates the necessary value for add a new 
 //  subscription.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
@@ -17,12 +17,6 @@ namespace STrackerServer.Controllers.Api.AuxiliaryObjects
     /// </summary>
     public class ApiAddUserSubscription
     {
-        /// <summary>
-        /// Gets or sets the user id.
-        /// </summary>
-        [Required]
-        public string UserId { get; set; }
-
         /// <summary>
         /// Gets or sets the television show id.
         /// </summary>

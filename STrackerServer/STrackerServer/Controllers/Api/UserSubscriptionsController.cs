@@ -9,6 +9,7 @@
 
 namespace STrackerServer.Controllers.Api
 {
+    using System.Net;
     using System.Net.Http;
     using System.Web.Http;
 
@@ -37,26 +38,66 @@ namespace STrackerServer.Controllers.Api
         }
 
         /// <summary>
+        /// The get.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="HttpResponseMessage"/>.
+        /// </returns>
+        [HttpGet]
+        public HttpResponseMessage Get(string id)
+        {
+            var user = this.operations.Read(id);
+            if (user == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            return this.BaseGet(user.SubscriptionList);
+        }
+
+        /// <summary>
         /// The post.
         /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
         /// <param name="value">
         /// The value.
         /// </param>
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
-        /// ApiController in Post actions only accept one argument, so the values
-        /// are encapsulated inside the ApiAddUserSubscription object.
         [HttpPost]
-        public HttpResponseMessage Post([FromBody] ApiAddUserSubscription value)
+        public HttpResponseMessage Post(string id, [FromBody] ApiAddUserSubscription value)
         {
             if (!ModelState.IsValid)
             {
-                return this.BasePost(false);
+                return this.BasePostOrDelete(false);
             }
 
-            var state = this.operations.AddSubscription(value.UserId, value.TvShowId);
-            return this.BasePost(state);
+            var state = this.operations.AddSubscription(id, value.TvShowId);
+            return this.BasePostOrDelete(state);
+        }
+
+        /// <summary>
+        /// The delete.
+        /// </summary>
+        /// <param name="userId">
+        /// The user id.
+        /// </param>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="HttpResponseMessage"/>.
+        /// </returns>
+        [HttpDelete]
+        public HttpResponseMessage Delete(string userId, string tvshowId)
+        {
+            return null;
         }
     }
 }
