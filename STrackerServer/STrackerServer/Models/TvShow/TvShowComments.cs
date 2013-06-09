@@ -1,9 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TvShowCommentsView.cs" company="STracker">
+// <copyright file="TvShowComments.cs" company="STracker">
 //   Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//   Defines the TvShowCommentsView type.
+//   Defines the TvShowComments type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -11,14 +11,12 @@ namespace STrackerServer.Models.TvShow
 {
     using System.Collections.Generic;
 
-    using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
-    using STrackerServer.Models.Partial;
 
     /// <summary>
     /// The television show comments view.
     /// </summary>
-    public class TvShowCommentsView
+    public class TvShowComments
     {
         /// <summary>
         /// Gets or sets the television show id.
@@ -33,6 +31,27 @@ namespace STrackerServer.Models.TvShow
         /// <summary>
         /// Gets or sets the options.
         /// </summary>
-        public TvShowCommentsOptionsView Options { get; set; }
+        public TvShowCommentsOptions Options { get; set; }
+
+        /// <summary>
+        /// The television show comments options.
+        /// </summary>
+        public class TvShowCommentsOptions
+        {
+            /// <summary>
+            /// Gets or sets the television show id.
+            /// </summary>
+            public string TvShowId { get; set; }
+
+            /// <summary>
+            /// Gets or sets the television show name.
+            /// </summary>
+            public string TvShowName { get; set; }
+
+            /// <summary>
+            /// Gets or sets the television show poster.
+            /// </summary>
+            public string Poster { get; set; }
+        }
     }
 }

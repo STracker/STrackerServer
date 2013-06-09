@@ -1,42 +1,38 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TvShowCreateComment.cs" company="STracker">
+// <copyright file="TvShowRating.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//   Defines the TvShowCreateComment type.
+//   The rating view.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace STrackerServer.Models.TvShow
 {
-    using System.ComponentModel.DataAnnotations;
-
     /// <summary>
-    /// The television show comment create.
+    /// The rating view.
     /// </summary>
-    public class TvShowCreateComment
+    public class TvShowRating
     {
         /// <summary>
         /// Gets or sets the television show id.
         /// </summary>
-        [Required]
         public string TvShowId { get; set; }
 
         /// <summary>
-        /// Gets or sets the body.
+        /// Gets or sets the television show name.
         /// </summary>
-        [Required]
-        public string Body { get; set; }
+        public string TvShowName { get; set; }
 
         /// <summary>
         /// Gets or sets the options.
         /// </summary>
-        public TvShowCreateCommentOptions Options { get; set; }
+        public TvShowRatingOptions Options { get; set; }
 
         /// <summary>
-        /// The television show create comment options.
+        /// The television show rating options.
         /// </summary>
-        public class TvShowCreateCommentOptions
+        public class TvShowRatingOptions
         {
             /// <summary>
             /// Gets or sets the television show id.
@@ -44,9 +40,9 @@ namespace STrackerServer.Models.TvShow
             public string TvShowId { get; set; }
 
             /// <summary>
-            /// Gets or sets the poster.
+            /// Gets or sets the television show name.
             /// </summary>
-            public string Poster { get; set; }
+            public string TvShowName { get; set; }
         }
     }
 }

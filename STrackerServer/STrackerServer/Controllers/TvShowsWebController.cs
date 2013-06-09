@@ -18,7 +18,6 @@ namespace STrackerServer.Controllers
     using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.Custom_action_results;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
-    using STrackerServer.Models.Partial;
     using STrackerServer.Models.TvShow;
     using STrackerServer.Models.User;
 
@@ -92,8 +91,9 @@ namespace STrackerServer.Controllers
 
             var model = new TvShowView(tvshow)
                 {
+                    Rating = this.ratingsOperations.GetAverageRating(tvshowId),
                     Options =
-                        TvShowOptionsView.Create(
+                        TvShowView.TvShowOptions.Create(
                             tvshow, this.userOperations.Read(User.Identity.Name), Url.Action("Show", new { tvshowId }))
                 };
             return this.View(model);
@@ -143,11 +143,11 @@ namespace STrackerServer.Controllers
 
             var tvshow = this.tvshowOperations.Read(tvshowId);
 
-            var view = new TvShowCommentsView
+            var view = new TvShowComments
                 {
                     TvShowId = tvshowComments.TvShowId,
                     Comments = tvshowComments.Comments,
-                    Options = new TvShowCommentsOptionsView
+                    Options = new TvShowComments.TvShowCommentsOptions
                         {
                             Poster = tvshow.Poster.ImageUrl,
                             TvShowId = tvshowId,
@@ -181,7 +181,7 @@ namespace STrackerServer.Controllers
             var view = new TvShowCreateComment
                 {
                     TvShowId = tvshowId,
-                    Options = new TvShowCreateCommentOptions { Poster = tvshow.Poster.ImageUrl, TvShowId = tvshowId }
+                    Options = new TvShowCreateComment.TvShowCreateCommentOptions { Poster = tvshow.Poster.ImageUrl, TvShowId = tvshowId }
                 };
 
             return this.View(view);
@@ -212,7 +212,7 @@ namespace STrackerServer.Controllers
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
 
-                create.Options = new TvShowCreateCommentOptions
+                create.Options = new TvShowCreateComment.TvShowCreateCommentOptions
                     {
                         Poster = tvshow.Poster.ImageUrl, TvShowId = create.TvShowId 
                     };
@@ -260,13 +260,13 @@ namespace STrackerServer.Controllers
 
             var tvshow = this.tvshowOperations.Read(tvshowId);
 
-            var commentView = new TvShowCommentView
+            var commentView = new TvShowComment
                 {
                     TvShowId = tvshowId, 
                     UserId = comment.UserId, 
                     Body = comment.Body, 
                     Timestamp = comment.Timestamp,
-                    Options = new TvShowEditCommentOptions
+                    Options = new TvShowComment.TvShowCommentOptions
                         {
                             Poster = tvshow.Poster.ImageUrl,
                             TvShowId = tvshowId
@@ -314,7 +314,7 @@ namespace STrackerServer.Controllers
 
             if (tvshow == null)
             {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
                 return this.View("Error", Response.StatusCode);
             }
 
@@ -346,6 +346,40 @@ namespace STrackerServer.Controllers
             var user = this.userOperations.Read(User.Identity.Name);
             var view = new SuggestionView { Friends = user.Friends, TvShowId = values.TvShowId };
 
+            return this.View(view);
+        }
+
+        /// <summary>
+        /// The rating.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpGet]
+        [Authorize]
+        public ActionResult Rating(string tvshowId)
+        {
+            var tvshow = this.tvshowOperations.Read(tvshowId);
+
+            if (tvshow == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            var view = new TvShowRating
+                {
+                    TvShowId = tvshowId, 
+                    TvShowName = tvshow.Name,
+                    Options = new TvShowRating.TvShowRatingOptions
+                        {
+                            TvShowId = tvshowId,
+                            TvShowName = tvshow.Name, 
+                        }
+                };
             return this.View(view);
         }
     }

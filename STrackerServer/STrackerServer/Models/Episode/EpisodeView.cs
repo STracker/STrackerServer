@@ -12,7 +12,6 @@ namespace STrackerServer.Models.Episode
     using System.Collections.Generic;
 
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
-    using STrackerServer.Models.Episode.Options;
 
     /// <summary>
     /// The episode view.
@@ -62,6 +61,32 @@ namespace STrackerServer.Models.Episode
         /// <summary>
         /// Gets or sets the options.
         /// </summary>
-        public EpisodeOptionsView Options { get; set; }
+        public EpisodeOptions Options { get; set; }
+
+        /// <summary>
+        /// The episode options view.
+        /// </summary>
+        public class EpisodeOptions
+        {
+            /// <summary>
+            /// Gets or sets the television show id.
+            /// </summary>
+            public string TvShowId { get; set; }
+
+            /// <summary>
+            /// Gets or sets the season number.
+            /// </summary>
+            public int SeasonNumber { get; set; }
+
+            /// <summary>
+            /// Gets or sets the television show name.
+            /// </summary>
+            public string TvShowName { get; set; }
+
+            /// <summary>
+            /// Gets or sets the television show poster.
+            /// </summary>
+            public string Poster { get; set; }
+        }
     }
 }

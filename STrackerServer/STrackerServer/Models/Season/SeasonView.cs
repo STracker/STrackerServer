@@ -13,8 +13,6 @@ namespace STrackerServer.Models.Season
 
     using DataAccessLayer.DomainEntities;
 
-    using STrackerServer.Models.Season.Options;
-
     /// <summary>
     /// The season web.
     /// </summary>
@@ -48,6 +46,27 @@ namespace STrackerServer.Models.Season
         /// <summary>
         /// Gets or sets the options.
         /// </summary>
-        public SeasonOptionsView Options { get; set; }
+        public SeasonOptions Options { get; set; }
+
+        /// <summary>
+        /// The season options view.
+        /// </summary>
+        public class SeasonOptions
+        {
+            /// <summary>
+            /// Gets or sets the television show id.
+            /// </summary>
+            public string TvShowId { get; set; }
+
+            /// <summary>
+            /// Gets or sets the television show name.
+            /// </summary>
+            public string TvShowName { get; set; }
+
+            /// <summary>
+            /// Gets or sets the television show poster.
+            /// </summary>
+            public string Poster { get; set; }
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model STrackerServer.Models.TvShow.TvShowCommentView
+﻿@model STrackerServer.Models.TvShow.TvShowComment
 
 @{
     ViewBag.Title = "Comment";
@@ -8,7 +8,7 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span3">
-             @Html.Partial("TvShowOptions/TvShowEditCommentOptions", Model.Options)
+             @Html.Partial("TvShowOptions/TvShowCommentOptions", Model.Options)
         </div> 
         <div class="span6">
             <h2>Comment</h2>

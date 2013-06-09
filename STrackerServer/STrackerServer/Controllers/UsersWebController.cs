@@ -15,7 +15,6 @@ namespace STrackerServer.Controllers
 
     using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.Custom_action_results;
-    using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.Models.TvShow;
     using STrackerServer.Models.User;
 
@@ -123,11 +122,20 @@ namespace STrackerServer.Controllers
         {
             var user = this.usersOperations.Read(User.Identity.Name);
 
-            return this.View(user.FriendRequests.ConvertAll(input => 
+            var requests = new Requests
                 {
-                    User userReq = usersOperations.Read(input.Id);
-                    return new FriendRequestView { Id = userReq.Key, Name = userReq.Name, Picture = userReq.Photo.ImageUrl };
-                }));
+                    List =
+                        user.FriendRequests.ConvertAll(
+                            input =>
+                            new Requests.FriendRequest
+                                {
+                                    Id = input.Id,
+                                    Name = input.Name,
+                                    Picture = this.usersOperations.Read(input.Id).Photo.ImageUrl
+                                })
+                };
+
+            return this.View(requests);
         }
 
         /// <summary>

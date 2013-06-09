@@ -17,7 +17,6 @@ namespace STrackerServer.Controllers
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.Models.Episode;
-    using STrackerServer.Models.Episode.Options;
 
     /// <summary>
     /// The episodes web controller.
@@ -87,7 +86,7 @@ namespace STrackerServer.Controllers
                 GuestActors = episode.GuestActors,
                 Directors = episode.Directors,
                 Rating = 5,
-                Options = new EpisodeOptionsView
+                Options = new EpisodeView.EpisodeOptions
                     {
                         Poster = tvshow.Poster.ImageUrl,
                         TvShowId = tvshowId,

@@ -1,4 +1,4 @@
-﻿@model List<STrackerServer.Models.User.FriendRequestView>
+﻿@model STrackerServer.Models.User.Requests
 
 @{
     ViewBag.Title = "Friend Requests";
@@ -12,7 +12,7 @@
                 <h3>Friend Requests</h3>
                 <div class="extra-padding">
                     <table class="table table-condensed">
-                        @foreach (var request in Model)
+                        @foreach (var request in Model.List)
                         {
                             <tr>
                                 <td>
