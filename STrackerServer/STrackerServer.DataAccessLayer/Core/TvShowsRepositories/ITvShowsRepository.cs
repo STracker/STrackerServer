@@ -25,9 +25,11 @@ namespace STrackerServer.DataAccessLayer.Core.TvShowsRepositories
         /// The name.
         /// </param>
         /// <returns>
-        /// The <see cref="STrackerServer.DataAccessLayer.DomainEntities.TvShow"/>.
+        /// The <see>
+        ///       <cref>List</cref>
+        ///     </see> .
         /// </returns>
-        TvShow ReadByName(string name);
+        List<TvShow.TvShowSynopsis> ReadByName(string name);
 
         /// <summary>
         /// The add season synopsis.

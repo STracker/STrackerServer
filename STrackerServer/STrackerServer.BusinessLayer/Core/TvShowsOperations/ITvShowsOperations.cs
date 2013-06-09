@@ -19,14 +19,16 @@ namespace STrackerServer.BusinessLayer.Core.TvShowsOperations
     public interface ITvShowsOperations : ICrudOperations<TvShow, string>
     {
         /// <summary>
-        /// Try Get one television show by name.
+        /// The read by name.
         /// </summary>
         /// <param name="name">
         /// The name.
         /// </param>
         /// <returns>
-        /// The <see cref="STrackerServer.DataAccessLayer.DomainEntities.TvShow"/>.
+        /// The <see>
+        ///       <cref>List</cref>
+        ///     </see> .
         /// </returns>
-        TvShow ReadByName(string name);
+        List<TvShow.TvShowSynopsis> ReadByName(string name);
     }
 }

@@ -11,7 +11,9 @@
 namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
 {
     using System;
+    using System.Collections.Generic;
     using System.Configuration;
+    using System.Linq;
 
     using global::MongoDB.Driver;
 
@@ -89,15 +91,17 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         /// The name.
         /// </param>
         /// <returns>
-        /// The <see cref="STrackerServer.DataAccessLayer.DomainEntities.TvShow"/>.
+        /// The <see>
+        ///       <cref>List</cref>
+        ///     </see> .
         /// </returns>
-        public TvShow ReadByName(string name)
+        public List<TvShow.TvShowSynopsis> ReadByName(string name)
         {
             try
             {
-                var query = Query<TvShow.TvShowSynopsis>.EQ(e => e.Name, name);
-                var synopse = this.collectionAll.FindOneAs<TvShow.TvShowSynopsis>(query);
-                return synopse == null ? null : this.Read(synopse.Id);
+                var query = Query<TvShow.TvShowSynopsis>.Matches(e => e.Name, name);
+                var synopses = this.collectionAll.FindAs<TvShow.TvShowSynopsis>(query).ToList();
+                return synopses;
             }
             catch (Exception)
             {

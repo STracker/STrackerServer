@@ -9,6 +9,7 @@
 
 namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
 {
+    using System.Collections.Generic;
     using System.Configuration;
 
     using STrackerBackgroundWorker.RabbitMQ;
@@ -65,20 +66,22 @@ namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
         }
 
         /// <summary>
-        /// Try Get one television show by name.
+        /// The read by name.
         /// </summary>
         /// <param name="name">
         /// The name.
         /// </param>
         /// <returns>
-        /// The <see cref="STrackerServer.DataAccessLayer.DomainEntities.TvShow"/>.
+        /// The <see>
+        ///       <cref>List</cref>
+        ///     </see> .
         /// </returns>
-        public TvShow ReadByName(string name)
+        public List<TvShow.TvShowSynopsis> ReadByName(string name)
         {
-            var tvshow = ((ITvShowsRepository)this.Repository).ReadByName(name);
-            if (tvshow != null)
+            var tvshows = ((ITvShowsRepository)this.Repository).ReadByName(name);
+            if (tvshows != null)
             {
-                return tvshow;
+                return tvshows;
             }
 
             this.queueM.Push(new Message { CommandName = ConfigurationManager.AppSettings["TvShowAddByNameCmd"], Arg = name });
