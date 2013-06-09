@@ -10,6 +10,7 @@
 namespace STrackerServer.Controllers.Api
 {
     using System;
+    using System.Net;
     using System.Net.Http;
     using System.Web.Http;
 
@@ -56,7 +57,13 @@ namespace STrackerServer.Controllers.Api
         [HttpGet]
         public HttpResponseMessage Get(string tvshowId, int seasonNumber, int number)
         {
-            return this.BaseGet(this.operations.GetAllRatings(new Tuple<string, int, int>(tvshowId, seasonNumber, number)));
+            var ratings = this.operations.GetAllRatings(new Tuple<string, int, int>(tvshowId, seasonNumber, number));
+            if (ratings == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            return this.BaseGet(ratings.Ratings);
         }
 
         /// <summary>
@@ -82,10 +89,10 @@ namespace STrackerServer.Controllers.Api
         {
             if (!ModelState.IsValid)
             {
-                return this.BasePost(false);
+                return this.BasePostOrDelete(false);
             }
 
-            return this.BasePost(this.operations.AddRating(new Tuple<string, int, int>(tvshowId, seasonNumber, number), new Rating { UserId = rating.UserId, UserRating = int.Parse(rating.UserRating) }));
+            return this.BasePostOrDelete(this.operations.AddRating(new Tuple<string, int, int>(tvshowId, seasonNumber, number), new Rating { UserId = rating.UserId, UserRating = int.Parse(rating.UserRating) }));
         }
     }
 }

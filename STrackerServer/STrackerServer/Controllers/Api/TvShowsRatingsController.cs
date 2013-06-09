@@ -9,6 +9,7 @@
 
 namespace STrackerServer.Controllers.Api
 {
+    using System.Net;
     using System.Net.Http;
     using System.Web.Http;
 
@@ -49,7 +50,13 @@ namespace STrackerServer.Controllers.Api
         [HttpGet]
         public HttpResponseMessage Get(string id)
         {
-            return this.BaseGet(this.operations.GetAllRatings(id));
+            var ratings = this.operations.GetAllRatings(id);
+            if (ratings == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            return this.BaseGet(ratings.Ratings);
         }
 
         /// <summary>
@@ -69,10 +76,10 @@ namespace STrackerServer.Controllers.Api
         {
             if (!ModelState.IsValid)
             {
-                return this.BasePost(false);
+                return this.BasePostOrDelete(false);
             }
 
-            return this.BasePost(this.operations.AddRating(id, new Rating { UserId = rating.UserId, UserRating = int.Parse(rating.UserRating) }));
+            return this.BasePostOrDelete(this.operations.AddRating(id, new Rating { UserId = rating.UserId, UserRating = int.Parse(rating.UserRating) }));
         }
     }
 }

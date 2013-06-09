@@ -9,6 +9,7 @@
 
 namespace STrackerServer.Controllers.Api
 {
+    using System;
     using System.Net.Http;
     using System.Web.Http;
 
@@ -48,6 +49,18 @@ namespace STrackerServer.Controllers.Api
         public HttpResponseMessage Get(string userId)
         {
             return this.BaseGet(this.operations.Read(userId));
+        }
+
+        /// <summary>
+        /// The post.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="HttpResponseMessage"/>.
+        /// </returns>
+        [HttpPost]
+        public HttpResponseMessage Post()
+        {
+            throw new NotImplementedException();
         }
     }
 }

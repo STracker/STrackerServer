@@ -77,6 +77,11 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         public string AirDay { get; set; }
 
         /// <summary>
+        /// Gets or sets the air time.
+        /// </summary>
+        public string AirTime { get; set; }
+
+        /// <summary>
         /// Gets or sets the runtime.
         /// </summary>
         public int Runtime { get; set; }

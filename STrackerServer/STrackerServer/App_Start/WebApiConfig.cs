@@ -28,9 +28,7 @@ namespace STrackerServer.App_Start
             // Routes for tvshows.
             config.Routes.MapHttpRoute("api_tvshows", "api/tvshows", new { controller = "tvshows" });
             config.Routes.MapHttpRoute("api_tvshow_get", "api/tvshows/{id}", new { controller = "tvshows", action = "get" });
-            config.Routes.MapHttpRoute("api_tvshow_comments", "api/tvshows/{id}/comments", new { controller = "tvshowscomments" });
-            config.Routes.MapHttpRoute("api_tvshow_ratings", "api/tvshows/{id}/ratings", new { controller = "tvshowsratings" });
-
+            
             // Routes for seasons.
             config.Routes.MapHttpRoute("api_seasons", "api/tvshows/{tvshowId}/seasons", new { controller = "seasons", action = "getall" });
             config.Routes.MapHttpRoute("api_season_get", "api/tvshows/{tvshowId}/seasons/{number}", new { controller = "seasons", action = "get" });
@@ -38,11 +36,27 @@ namespace STrackerServer.App_Start
             // Routes for episodes.
             config.Routes.MapHttpRoute("api_episodes", "api/tvshows/{tvshowId}/seasons/{seasonNumber}/episodes", new { controller = "episodes", action = "getall" });
             config.Routes.MapHttpRoute("api_episode_get", "api/tvshows/{tvshowId}/seasons/{seasonNumber}/episodes/{number}", new { controller = "episodes", action = "get" });
+
+            // Routes for tvshows and episodes comments.
+            config.Routes.MapHttpRoute("api_tvshow_comments_delete", "api/tvshows/{id}/comments/{userId}/{timestamp}", new { controller = "tvshowscomments", action = "delete" });
+            config.Routes.MapHttpRoute("api_tvshow_comments", "api/tvshows/{id}/comments", new { controller = "tvshowscomments" });
+            config.Routes.MapHttpRoute("api_episode_comments_delete", "api/tvshows/{tvshowId}/seasons/{seasonNumber}/episodes/{number}/comments/{userId}/{timestamp}", new { controller = "episodescomments", action = "delete" });
             config.Routes.MapHttpRoute("api_episode_comments", "api/tvshows/{tvshowId}/seasons/{seasonNumber}/episodes/{number}/comments", new { controller = "episodescomments" });
+
+            // Routes for tvshows and episodes ratings.
+            config.Routes.MapHttpRoute("api_tvshow_ratings", "api/tvshows/{id}/ratings", new { controller = "tvshowsratings" });
             config.Routes.MapHttpRoute("api_episode_ratings", "api/tvshows/{tvshowId}/seasons/{seasonNumber}/episodes/{number}/ratings", new { controller = "episodesratings" });
 
+            // Routes for users.
+            config.Routes.MapHttpRoute("api_users", "api/users", new { controller = "users" });
+            config.Routes.MapHttpRoute("api_users_get", "api/users/{id}", new { controller = "users", action = "get" });
+
+            // Routes for users subscriptions.
+            config.Routes.MapHttpRoute("api_subscriptions_delete", "api/users/{userId}/subscriptions/{tvshowId}", new { controller = "usersubscriptions", action = "delete" });
+            config.Routes.MapHttpRoute("api_usersubscriptions", "api/users/{userId}/subscriptions", new { controller = "usersubscriptions" });
+
             // Default route.
-            config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new { id = RouteParameter.Optional });
+            // config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new { id = RouteParameter.Optional });
         }
     }
 }

@@ -10,6 +10,7 @@
 namespace STrackerServer.Controllers.Api
 {
     using System;
+    using System.Net;
     using System.Net.Http;
     using System.Web.Http;
 
@@ -56,7 +57,13 @@ namespace STrackerServer.Controllers.Api
         [HttpGet]
         public HttpResponseMessage Get(string tvshowId, int seasonNumber, int number)
         {
-            return this.BaseGet(this.operations.GetComments(new Tuple<string, int, int>(tvshowId, seasonNumber, number)));
+            var comments = this.operations.GetComments(new Tuple<string, int, int>(tvshowId, seasonNumber, number));
+            if (comments == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            return this.BaseGet(comments.Comments);
         }
 
         /// <summary>
@@ -82,11 +89,38 @@ namespace STrackerServer.Controllers.Api
         {
             if (!ModelState.IsValid)
             {
-                return this.BasePost(false);
+                return this.BasePostOrDelete(false);
             }
 
             this.operations.AddComment(new Tuple<string, int, int>(tvshowId, seasonNumber, number), new Comment { Body = comment.Body, UserId = comment.UserId, Timestamp = comment.Timestamp });
-            return this.BasePost(true);
+            return this.BasePostOrDelete(true);
+        }
+
+        /// <summary>
+        /// The delete.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// The season number.
+        /// </param>
+        /// <param name="number">
+        /// The number.
+        /// </param>
+        /// <param name="userId">
+        /// The user id.
+        /// </param>
+        /// <param name="timestamp">
+        /// The timestamp.
+        /// </param>
+        /// <returns>
+        /// The <see cref="HttpResponseMessage"/>.
+        /// </returns>
+        [HttpDelete]
+        public HttpResponseMessage Delete(string tvshowId, int seasonNumber, int number, string userId, string timestamp)
+        {
+            return this.BasePostOrDelete(this.operations.RemoveComment(new Tuple<string, int, int>(tvshowId, seasonNumber, number), userId, timestamp));
         }
     }
 }

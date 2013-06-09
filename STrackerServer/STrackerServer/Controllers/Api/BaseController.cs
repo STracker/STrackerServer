@@ -51,7 +51,7 @@ namespace STrackerServer.Controllers.Api
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
-        protected HttpResponseMessage BasePost(bool state)
+        protected HttpResponseMessage BasePostOrDelete(bool state)
         {
             if (!state)
             {

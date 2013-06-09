@@ -9,6 +9,7 @@
 
 namespace STrackerServer.Controllers.Api
 {
+    using System.Net;
     using System.Net.Http;
     using System.Web.Http;
 
@@ -49,7 +50,13 @@ namespace STrackerServer.Controllers.Api
         [HttpGet]
         public HttpResponseMessage Get(string id)
         {
-            return this.BaseGet(this.operations.GetComments(id));
+            var comments = this.operations.GetComments(id);
+            if (comments == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            return this.BaseGet(comments.Comments);
         }
 
         /// <summary>
@@ -69,11 +76,32 @@ namespace STrackerServer.Controllers.Api
         {
             if (!ModelState.IsValid)
             {
-                return this.BasePost(false);
+                return this.BasePostOrDelete(false);
             }
 
             this.operations.AddComment(id, new Comment { Body = comment.Body, UserId = comment.UserId, Timestamp = comment.Timestamp });
-            return this.BasePost(true);
+            return this.BasePostOrDelete(true);
+        }
+
+        /// <summary>
+        /// The delete.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <param name="userId">
+        /// The user id.
+        /// </param>
+        /// <param name="timestamp">
+        /// The timestamp.
+        /// </param>
+        /// <returns>
+        /// The <see cref="HttpResponseMessage"/>.
+        /// </returns>
+        [HttpDelete]
+        public HttpResponseMessage Delete(string id, string userId, string timestamp)
+        {
+            return this.BasePostOrDelete(this.operations.RemoveComment(id, userId, timestamp));
         }
     }
 }
