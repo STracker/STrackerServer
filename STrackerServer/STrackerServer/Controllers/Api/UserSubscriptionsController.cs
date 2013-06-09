@@ -40,16 +40,16 @@ namespace STrackerServer.Controllers.Api
         /// <summary>
         /// The get.
         /// </summary>
-        /// <param name="id">
-        /// The id.
+        /// <param name="userId">
+        /// The user Id.
         /// </param>
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
         [HttpGet]
-        public HttpResponseMessage Get(string id)
+        public HttpResponseMessage Get(string userId)
         {
-            var user = this.operations.Read(id);
+            var user = this.operations.Read(userId);
             if (user == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -61,8 +61,8 @@ namespace STrackerServer.Controllers.Api
         /// <summary>
         /// The post.
         /// </summary>
-        /// <param name="id">
-        /// The id.
+        /// <param name="userId">
+        /// The user Id.
         /// </param>
         /// <param name="value">
         /// The value.
@@ -71,14 +71,14 @@ namespace STrackerServer.Controllers.Api
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
         [HttpPost]
-        public HttpResponseMessage Post(string id, [FromBody] ApiAddUserSubscription value)
+        public HttpResponseMessage Post(string userId, [FromBody] ApiAddUserSubscription value)
         {
             if (!ModelState.IsValid)
             {
                 return this.BasePostOrDelete(false);
             }
 
-            var state = this.operations.AddSubscription(id, value.TvShowId);
+            var state = this.operations.AddSubscription(userId, value.TvShowId);
             return this.BasePostOrDelete(state);
         }
 
