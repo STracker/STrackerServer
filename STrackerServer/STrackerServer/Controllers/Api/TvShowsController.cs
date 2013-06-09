@@ -13,17 +13,16 @@ namespace STrackerServer.Controllers.Api
     using System.Web.Http;
 
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
-    using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
     /// Television shows API controller.
     /// </summary>
-    public class TvShowsController : BaseController<TvShow, string>
+    public class TvShowsController : BaseController
     {
         /// <summary>
-        /// The genres operations.
+        /// The operations.
         /// </summary>
-        private readonly IGenresOperations genresOperations;
+        private readonly ITvShowsOperations operations;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TvShowsController"/> class.
@@ -31,13 +30,9 @@ namespace STrackerServer.Controllers.Api
         /// <param name="tvshowsOperations">
         /// Television shows operations.
         /// </param>
-        /// <param name="genresOperations">
-        /// The genres Operations.
-        /// </param>
-        public TvShowsController(ITvShowsOperations tvshowsOperations, IGenresOperations genresOperations)
-            : base(tvshowsOperations)
+        public TvShowsController(ITvShowsOperations tvshowsOperations)
         {
-            this.genresOperations = genresOperations;
+            this.operations = tvshowsOperations;
         }
 
         /// <summary>
@@ -52,7 +47,7 @@ namespace STrackerServer.Controllers.Api
         [HttpGet]
         public HttpResponseMessage Get(string id)
         {
-            return this.BaseGet(this.Operations.Read(id));
+            return this.BaseGet(this.operations.Read(id));
         }
 
         /// <summary>
@@ -68,21 +63,7 @@ namespace STrackerServer.Controllers.Api
         /// </returns>
         public HttpResponseMessage GetByName(string name)
         {
-            return this.BaseGet(((ITvShowsOperations)this.Operations).ReadByName(name));
-        }
-
-        /// <summary>
-        /// The get all by genre.
-        /// </summary>
-        /// <param name="genre">
-        /// The genre.
-        /// </param>
-        /// <returns>
-        /// The <see cref="HttpResponseMessage"/>.
-        /// </returns>
-        public HttpResponseMessage GetAllByGenre(string genre)
-        {
-            return this.BaseGet(this.genresOperations.Read(genre));
+            return this.BaseGet(this.operations.ReadByName(name));
         }
     }
 }

@@ -1,10 +1,10 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ApiAddUserSubscription.cs" company="STracker">
+// <copyright file="ApiAddComment.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  This object encapsulates the two necessary values for add a new 
-//  subscription.
+//  This object encapsulates the necessary values for add a new 
+//  comment.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -13,10 +13,16 @@ namespace STrackerServer.Controllers.Api.AuxiliaryObjects
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
-    /// The API add user subscription.
+    /// The comment.
     /// </summary>
-    public class ApiAddUserSubscription
+    public class ApiAddComment
     {
+        /// <summary>
+        /// Gets or sets the comment body.
+        /// </summary>
+        [Required]
+        public string Body { get; set; }
+
         /// <summary>
         /// Gets or sets the user id.
         /// </summary>
@@ -24,9 +30,9 @@ namespace STrackerServer.Controllers.Api.AuxiliaryObjects
         public string UserId { get; set; }
 
         /// <summary>
-        /// Gets or sets the television show id.
+        /// Gets or sets the timestamp.
         /// </summary>
         [Required]
-        public string TvShowId { get; set; }
+        public string Timestamp { get; set; }
     }
 }

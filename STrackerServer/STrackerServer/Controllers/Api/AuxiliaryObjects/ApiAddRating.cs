@@ -1,10 +1,10 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ApiAddUserSubscription.cs" company="STracker">
+// <copyright file="ApiAddRating.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  This object encapsulates the two necessary values for add a new 
-//  subscription.
+//  This object encapsulates the necessary values for add a new 
+//  rating.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -13,9 +13,9 @@ namespace STrackerServer.Controllers.Api.AuxiliaryObjects
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
-    /// The API add user subscription.
+    /// The rating.
     /// </summary>
-    public class ApiAddUserSubscription
+    public class ApiAddRating
     {
         /// <summary>
         /// Gets or sets the user id.
@@ -24,9 +24,11 @@ namespace STrackerServer.Controllers.Api.AuxiliaryObjects
         public string UserId { get; set; }
 
         /// <summary>
-        /// Gets or sets the television show id.
+        /// Gets or sets the user rating.
         /// </summary>
+        /// Is the type string because web api validation don't
+        /// validate value types.
         [Required]
-        public string TvShowId { get; set; }
+        public string UserRating { get; set; }
     }
 }

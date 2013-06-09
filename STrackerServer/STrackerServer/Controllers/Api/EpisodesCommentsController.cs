@@ -1,9 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EpisodesController.cs" company="STracker">
+// <copyright file="EpisodesCommentsController.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  Controller for episodes.
+//  Api Controller for episodes comments.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -14,30 +14,32 @@ namespace STrackerServer.Controllers.Api
     using System.Web.Http;
 
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
+    using STrackerServer.Controllers.Api.AuxiliaryObjects;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
 
     /// <summary>
-    /// Episodes API controller.
+    /// The episodes comments controller.
     /// </summary>
-    public class EpisodesController : BaseController
+    public class EpisodesCommentsController : BaseController
     {
         /// <summary>
         /// The operations.
         /// </summary>
-        private readonly IEpisodesOperations operations;
+        private readonly IEpisodesCommentsOperations operations;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EpisodesController"/> class.
+        /// Initializes a new instance of the <see cref="EpisodesCommentsController"/> class.
         /// </summary>
-        /// <param name="episodesOperations">
-        /// The episodes operations.
+        /// <param name="operations">
+        /// The operations.
         /// </param>
-        public EpisodesController(IEpisodesOperations episodesOperations)
+        public EpisodesCommentsController(IEpisodesCommentsOperations operations)
         {
-            this.operations = episodesOperations;
+            this.operations = operations;
         }
 
         /// <summary>
-        /// Get information from the episode from one season from one television show.
+        /// The get.
         /// </summary>
         /// <param name="tvshowId">
         /// The television show id.
@@ -54,11 +56,11 @@ namespace STrackerServer.Controllers.Api
         [HttpGet]
         public HttpResponseMessage Get(string tvshowId, int seasonNumber, int number)
         {
-            return this.BaseGet(this.operations.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, number)));
+            return this.BaseGet(this.operations.GetComments(new Tuple<string, int, int>(tvshowId, seasonNumber, number)));
         }
 
         /// <summary>
-        /// The get all.
+        /// The post.
         /// </summary>
         /// <param name="tvshowId">
         /// The television show id.
@@ -66,13 +68,25 @@ namespace STrackerServer.Controllers.Api
         /// <param name="seasonNumber">
         /// The season number.
         /// </param>
+        /// <param name="number">
+        /// The number.
+        /// </param>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
-        [HttpGet]
-        public HttpResponseMessage GetAll(string tvshowId, int seasonNumber)
+        [HttpPost]
+        public HttpResponseMessage Post(string tvshowId, int seasonNumber, int number, [FromBody] ApiAddComment comment)
         {
-            return this.BaseGet(this.operations.GetAllFromOneSeason(tvshowId, seasonNumber));
+            if (!ModelState.IsValid)
+            {
+                return this.BasePost(false);
+            }
+
+            this.operations.AddComment(new Tuple<string, int, int>(tvshowId, seasonNumber, number), new Comment { Body = comment.Body, UserId = comment.UserId, Timestamp = comment.Timestamp });
+            return this.BasePost(true);
         }
     }
 }

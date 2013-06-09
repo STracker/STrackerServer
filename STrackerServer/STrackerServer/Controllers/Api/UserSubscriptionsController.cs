@@ -14,13 +14,17 @@ namespace STrackerServer.Controllers.Api
 
     using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.Controllers.Api.AuxiliaryObjects;
-    using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
     /// The user subscriptions controller.
     /// </summary>
-    public class UserSubscriptionsController : BaseController<User, string>
+    public class UserSubscriptionsController : BaseController
     {
+        /// <summary>
+        /// The operations.
+        /// </summary>
+        private readonly IUsersOperations operations;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="UserSubscriptionsController"/> class.
         /// </summary>
@@ -28,8 +32,8 @@ namespace STrackerServer.Controllers.Api
         /// The operations.
         /// </param>
         public UserSubscriptionsController(IUsersOperations operations)
-            : base(operations)
         {
+            this.operations = operations;
         }
 
         /// <summary>
@@ -46,7 +50,12 @@ namespace STrackerServer.Controllers.Api
         [HttpPost]
         public HttpResponseMessage Post([FromBody] ApiAddUserSubscription value)
         {
-            var state = ((IUsersOperations)this.Operations).AddSubscription(value.UserId, value.TvShowId);
+            if (!ModelState.IsValid)
+            {
+                return this.BasePost(false);
+            }
+
+            var state = this.operations.AddSubscription(value.UserId, value.TvShowId);
             return this.BasePost(state);
         }
     }

@@ -13,21 +13,26 @@ namespace STrackerServer.Controllers.Api
     using System.Web.Http;
 
     using STrackerServer.BusinessLayer.Core.UsersOperations;
-    using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
     /// The users controller.
     /// </summary>
-    public class UsersController : BaseController<User, string>
+    public class UsersController : BaseController
     {
+        /// <summary>
+        /// The operations.
+        /// </summary>
+        private readonly IUsersOperations operations;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="UsersController"/> class.
         /// </summary>
         /// <param name="usersOperations">
         /// The users operations.
         /// </param>
-        public UsersController(IUsersOperations usersOperations) : base(usersOperations)
+        public UsersController(IUsersOperations usersOperations)
         {
+            this.operations = usersOperations;
         }
 
         /// <summary>
@@ -42,7 +47,7 @@ namespace STrackerServer.Controllers.Api
         [HttpGet]
         public HttpResponseMessage Get(string userId)
         {
-            return this.BaseGet(this.Operations.Read(userId));
+            return this.BaseGet(this.operations.Read(userId));
         }
     }
 }
