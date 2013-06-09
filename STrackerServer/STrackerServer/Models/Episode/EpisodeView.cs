@@ -59,34 +59,13 @@ namespace STrackerServer.Models.Episode
         public List<Actor> GuestActors { get; set; }
 
         /// <summary>
-        /// Gets or sets the options.
+        /// Gets or sets the television show name.
         /// </summary>
-        public EpisodeOptions Options { get; set; }
+        public string TvShowName { get; set; }
 
         /// <summary>
-        /// The episode options view.
+        /// Gets or sets the poster.
         /// </summary>
-        public class EpisodeOptions
-        {
-            /// <summary>
-            /// Gets or sets the television show id.
-            /// </summary>
-            public string TvShowId { get; set; }
-
-            /// <summary>
-            /// Gets or sets the season number.
-            /// </summary>
-            public int SeasonNumber { get; set; }
-
-            /// <summary>
-            /// Gets or sets the television show name.
-            /// </summary>
-            public string TvShowName { get; set; }
-
-            /// <summary>
-            /// Gets or sets the television show poster.
-            /// </summary>
-            public string Poster { get; set; }
-        }
+        public string Poster { get; set; }
     }
 }

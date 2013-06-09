@@ -79,12 +79,7 @@ namespace STrackerServer.Controllers
                 EpisodeList = season.EpisodeSynopses.OrderBy(ep => ep.EpisodeNumber),
                 SeasonNumber = season.SeasonNumber,
                 Poster = tvshow.Poster.ImageUrl,
-                Options = new SeasonView.SeasonOptions
-                    {
-                        Poster = tvshow.Poster.ImageUrl,
-                        TvShowId = tvshowId,
-                        TvShowName = tvshow.Name
-                    }     
+                TvShowName = tvshow.Name   
             };
 
             return this.View(model);

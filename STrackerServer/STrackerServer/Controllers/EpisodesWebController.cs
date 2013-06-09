@@ -85,14 +85,8 @@ namespace STrackerServer.Controllers
                 Name = episode.Name,
                 GuestActors = episode.GuestActors,
                 Directors = episode.Directors,
-                Rating = 5,
-                Options = new EpisodeView.EpisodeOptions
-                    {
-                        Poster = tvshow.Poster.ImageUrl,
-                        TvShowId = tvshowId,
-                        TvShowName = tvshow.Name,
-                        SeasonNumber = episode.SeasonNumber 
-                    }
+                Poster = tvshow.Poster.ImageUrl,
+                TvShowName = tvshow.Name,
             };
 
             return this.View(model);

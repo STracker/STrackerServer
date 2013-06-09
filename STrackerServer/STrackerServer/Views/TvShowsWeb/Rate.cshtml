@@ -1,0 +1,31 @@
+﻿@model STrackerServer.Models.TvShow.TvShowRating
+
+@{
+    ViewBag.Title = "Rate";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3">
+            <img class="img-rounded" src="@Model.Poster" alt="No Artwork"/>  
+
+            <div class="extra-padding"></div> 
+
+            <p>
+                <a class="btn btn-block btn-primary" href="@Url.Action("Show","TvShowsWeb", new { tvshowId = Model.TvShowId })">@Model.TvShowName</a>
+            </p> 
+        </div> 
+        <div class="span6">
+            <div class="box">
+                @Html.ValidationSummary()
+                @using (Html.BeginForm("Rate", "TvShowsWeb"))
+                {
+                    @Html.Hidden("TvShowId",Model.TvShowId)
+                    @Html.Hidden("Rating",2)
+                    <input class="btn btn-danger btn-mini" type="submit" value="Rate"/>
+                }  
+            </div>
+        </div>
+    </div>
+</div>

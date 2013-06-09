@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SuggestionFormValues.cs" company="STracker">
+// <copyright file="SuggestFormValues.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
@@ -14,7 +14,7 @@ namespace STrackerServer.Models.User
     /// <summary>
     /// The suggestion form values.
     /// </summary>
-    public class SuggestionFormValues
+    public class SuggestFormValues
     {
         /// <summary>
         /// Gets or sets the friend id.

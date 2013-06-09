@@ -23,7 +23,7 @@
                                 @friend.Name
                             </td>
                             <td>
-                                @using(Html.BeginForm("Suggestion","TvShowsWeb"))
+                                @using(Html.BeginForm("Suggest","TvShowsWeb"))
                                 {
                                     @Html.Hidden("FriendId",friend.Id)
                                     @Html.Hidden("TvShowId",Model.TvShowId)

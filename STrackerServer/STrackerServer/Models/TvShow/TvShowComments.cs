@@ -29,29 +29,13 @@ namespace STrackerServer.Models.TvShow
         public List<Comment> Comments { get; set; }
 
         /// <summary>
-        /// Gets or sets the options.
+        /// Gets or sets the poster.
         /// </summary>
-        public TvShowCommentsOptions Options { get; set; }
+        public string Poster { get; set; }
 
         /// <summary>
-        /// The television show comments options.
+        /// Gets or sets the television show name.
         /// </summary>
-        public class TvShowCommentsOptions
-        {
-            /// <summary>
-            /// Gets or sets the television show id.
-            /// </summary>
-            public string TvShowId { get; set; }
-
-            /// <summary>
-            /// Gets or sets the television show name.
-            /// </summary>
-            public string TvShowName { get; set; }
-
-            /// <summary>
-            /// Gets or sets the television show poster.
-            /// </summary>
-            public string Poster { get; set; }
-        }
+        public string TvShowName { get; set; }
     }
 }

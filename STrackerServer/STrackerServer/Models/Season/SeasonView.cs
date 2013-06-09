@@ -44,29 +44,8 @@ namespace STrackerServer.Models.Season
         public string Poster { get; set; }
 
         /// <summary>
-        /// Gets or sets the options.
+        /// Gets or sets the television show name.
         /// </summary>
-        public SeasonOptions Options { get; set; }
-
-        /// <summary>
-        /// The season options view.
-        /// </summary>
-        public class SeasonOptions
-        {
-            /// <summary>
-            /// Gets or sets the television show id.
-            /// </summary>
-            public string TvShowId { get; set; }
-
-            /// <summary>
-            /// Gets or sets the television show name.
-            /// </summary>
-            public string TvShowName { get; set; }
-
-            /// <summary>
-            /// Gets or sets the television show poster.
-            /// </summary>
-            public string Poster { get; set; }
-        }
+        public string TvShowName { get; set; }
     }
 }
