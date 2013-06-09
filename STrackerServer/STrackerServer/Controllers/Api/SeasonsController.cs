@@ -7,20 +7,24 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Controllers
+namespace STrackerServer.Controllers.Api
 {
     using System;
     using System.Net.Http;
     using System.Web.Http;
 
     using STrackerServer.BusinessLayer.Core.SeasonsOperations;
-    using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
     /// Seasons API Controller.
     /// </summary>
-    public class SeasonsController : BaseController<Season, Tuple<string, int>>
+    public class SeasonsController : BaseController
     {
+        /// <summary>
+        /// The operations.
+        /// </summary>
+        private readonly ISeasonsOperations operations;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SeasonsController"/> class.
         /// </summary>
@@ -28,8 +32,8 @@ namespace STrackerServer.Controllers
         /// The seasons operations.
         /// </param>
         public SeasonsController(ISeasonsOperations seasonsOperations)
-            : base(seasonsOperations)
         {
+            this.operations = seasonsOperations;
         }
 
         /// <summary>
@@ -47,7 +51,7 @@ namespace STrackerServer.Controllers
         [HttpGet]
         public HttpResponseMessage Get(string tvshowId, int number)
         {
-            return this.BaseGet(this.Operations.Read(new Tuple<string, int>(tvshowId, number)));
+            return this.BaseGet(this.operations.Read(new Tuple<string, int>(tvshowId, number)));
         }
 
         /// <summary>
@@ -64,7 +68,7 @@ namespace STrackerServer.Controllers
         [HttpGet]
         public HttpResponseMessage GetAll(string tvshowId)
         {
-            return this.BaseGet(((ISeasonsOperations)this.Operations).GetAllFromOneTvShow(tvshowId));
+            return this.BaseGet(this.operations.GetAllFromOneTvShow(tvshowId));
         }   
     }
 }

@@ -7,20 +7,24 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Controllers
+namespace STrackerServer.Controllers.Api
 {
     using System;
     using System.Net.Http;
     using System.Web.Http;
 
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
-    using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
     /// Episodes API controller.
     /// </summary>
-    public class EpisodesController : BaseController<Episode, Tuple<string, int, int>>
+    public class EpisodesController : BaseController
     {
+        /// <summary>
+        /// The operations.
+        /// </summary>
+        private readonly IEpisodesOperations operations;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="EpisodesController"/> class.
         /// </summary>
@@ -28,8 +32,8 @@ namespace STrackerServer.Controllers
         /// The episodes operations.
         /// </param>
         public EpisodesController(IEpisodesOperations episodesOperations)
-            : base(episodesOperations)
         {
+            this.operations = episodesOperations;
         }
 
         /// <summary>
@@ -50,7 +54,7 @@ namespace STrackerServer.Controllers
         [HttpGet]
         public HttpResponseMessage Get(string tvshowId, int seasonNumber, int number)
         {
-            return this.BaseGet(this.Operations.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, number)));
+            return this.BaseGet(this.operations.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, number)));
         }
 
         /// <summary>
@@ -68,7 +72,7 @@ namespace STrackerServer.Controllers
         [HttpGet]
         public HttpResponseMessage GetAll(string tvshowId, int seasonNumber)
         {
-            return this.BaseGet(((IEpisodesOperations)this.Operations).GetAllFromOneSeason(tvshowId, seasonNumber));
+            return this.BaseGet(this.operations.GetAllFromOneSeason(tvshowId, seasonNumber));
         }
     }
 }

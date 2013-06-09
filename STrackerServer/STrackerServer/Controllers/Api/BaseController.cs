@@ -7,43 +7,18 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Controllers
+namespace STrackerServer.Controllers.Api
 {
     using System.Diagnostics.CodeAnalysis;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
 
-    using STrackerServer.BusinessLayer.Core;
-    using STrackerServer.DataAccessLayer.Core;
-
     /// <summary>
     /// Base controller.
     /// </summary>
-    /// <typeparam name="T">
-    /// Type of entity.
-    /// </typeparam>
-    /// <typeparam name="TK">
-    /// Type of entity's Key.
-    /// </typeparam>
-    public abstract class BaseController<T, TK> : ApiController where T : IEntity<TK>
+    public abstract class BaseController : ApiController
     {
-        /// <summary>
-        /// The operations.
-        /// </summary>
-        protected readonly ICrudOperations<T, TK> Operations;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BaseController{T,TK}"/> class.
-        /// </summary>
-        /// <param name="operations">
-        /// The operations.
-        /// </param>
-        protected BaseController(ICrudOperations<T, TK> operations)
-        {
-            this.Operations = operations;
-        }
-
         /// <summary>
         /// Auxiliary method for Get operations.
         /// </summary>
@@ -59,12 +34,12 @@ namespace STrackerServer.Controllers
         [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         protected HttpResponseMessage BaseGet<TT>(TT obj)
         {
-            if (Equals(obj, default(T)))
+            if (Equals(obj, default(TT)))
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, obj);
+            return this.Request.CreateResponse(HttpStatusCode.OK, obj);
         }
 
         /// <summary>
@@ -83,7 +58,7 @@ namespace STrackerServer.Controllers
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, true);
+            return this.Request.CreateResponse(HttpStatusCode.OK, true);
         }
     }
 }
