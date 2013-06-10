@@ -9,12 +9,14 @@
 
 namespace STrackerServer.Controllers
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Net;
     using System.Web.Mvc;
 
     using STrackerServer.Action_Results;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
+    using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.Models.TvShow;
     using STrackerServer.Models.User;
 
@@ -250,6 +252,32 @@ namespace STrackerServer.Controllers
             }
 
             return new SeeOtherResult { Url = Url.Action("Requests") };
+        }
+
+        /// <summary>
+        /// The get by name.
+        /// </summary>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpGet]
+        public ActionResult GetByName(string name)
+        {
+            if (name == null)
+            {
+                return this.View(new UserSearchResult { Result = new List<User>(), SearchValue = string.Empty });
+            }
+
+            var users = this.usersOperations.FindByName(name);
+            var result = new UserSearchResult
+            {
+                Result = users,
+                SearchValue = name
+            };
+            return this.View(result);
         }
     }
 }

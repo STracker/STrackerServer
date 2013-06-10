@@ -270,6 +270,22 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         }
 
         /// <summary>
+        /// The find by name.
+        /// </summary>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>List</cref>
+        ///     </see> .
+        /// </returns>
+        public List<User> FindByName(string name)
+        {
+            return ((IUsersRepository)this.Repository).FindByName(name);
+        }
+
+        /// <summary>
         /// The verify user and television show.
         /// </summary>
         /// <param name="userId">

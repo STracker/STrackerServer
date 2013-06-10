@@ -79,13 +79,13 @@ namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
         public List<TvShow.TvShowSynopsis> ReadByName(string name)
         {
             var tvshows = ((ITvShowsRepository)this.Repository).ReadByName(name);
-            if (tvshows != null)
+            
+            if (tvshows.Count == 0)
             {
-                return tvshows;
+                this.queueM.Push(new Message { CommandName = ConfigurationManager.AppSettings["TvShowAddByNameCmd"], Arg = name });
             }
 
-            this.queueM.Push(new Message { CommandName = ConfigurationManager.AppSettings["TvShowAddByNameCmd"], Arg = name });
-            return null;
+            return tvshows;
         }
     }
 }

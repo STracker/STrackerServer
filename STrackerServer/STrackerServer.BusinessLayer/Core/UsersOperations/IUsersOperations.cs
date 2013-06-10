@@ -146,5 +146,18 @@ namespace STrackerServer.BusinessLayer.Core.UsersOperations
         ///     </see> .
         /// </returns>
         List<Suggestion> GetSuggestions(string userFrom, string tvshowId);
+
+        /// <summary>
+        /// The find by name.
+        /// </summary>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>List</cref>
+        ///     </see> .
+        /// </returns>
+        List<User> FindByName(string name);
     }
 }

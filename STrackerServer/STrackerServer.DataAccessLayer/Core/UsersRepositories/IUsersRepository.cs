@@ -129,5 +129,18 @@ namespace STrackerServer.DataAccessLayer.Core.UsersRepositories
         ///     </see> .
         /// </returns>
         List<Suggestion> GetSuggestions(User userFrom);
+
+        /// <summary>
+        /// The find by name.
+        /// </summary>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>List</cref>
+        ///     </see> .
+        /// </returns>
+        List<User> FindByName(string name);
     }
 }

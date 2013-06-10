@@ -121,15 +121,13 @@ namespace STrackerServer.Controllers
         [HttpGet]
         public ActionResult GetByName(string name)
         {
-            var tvshow = this.tvshowOperations.ReadByName(name);
-            if (tvshow == null)
-            {
-                Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return this.View("Error", Response.StatusCode);
-            }
-
-            //return new SeeOtherResult { Url = Url.Action("Show", new { tvshowId = tvshow.TvShowId }) };
-            return null;
+            var tvshows = this.tvshowOperations.ReadByName(name);
+            var result = new TvShowSearchResult
+                {
+                    Result = tvshows,
+                    SearchValue = name
+                };
+            return this.View(result);
         }
 
         /// <summary>

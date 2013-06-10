@@ -12,7 +12,10 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
 {
     using System.Collections.Generic;
     using System.Configuration;
+    using System.Linq;
+    using System.Text.RegularExpressions;
 
+    using global::MongoDB.Bson;
     using global::MongoDB.Bson.Serialization;
 
     using global::MongoDB.Driver;
@@ -227,6 +230,23 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         public List<Suggestion> GetSuggestions(User userFrom)
         {
             return this.Read(userFrom.Key).Suggestions;
+        }
+
+        /// <summary>
+        /// The find by name.
+        /// </summary>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>List</cref>
+        ///     </see> .
+        /// </returns>
+        public List<User> FindByName(string name)
+        {
+            var query = Query<User>.Matches(user => user.Name, name);
+            return this.collection.FindAs<User>(query).ToList();
         }
 
         /// <summary>

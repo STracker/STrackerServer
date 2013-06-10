@@ -36,6 +36,8 @@ namespace STrackerServer.App_Start
             routes.MapRoute("User_Subscribe", "User/Subscribe", new { controller = "UsersWeb", action = "Subscribe" });
             routes.MapRoute("User_UnSubscribe", "User/UnSubscribe", new { controller = "UsersWeb", action = "UnSubscribe" });
 
+            routes.MapRoute("User_Search", "User/Search", new { controller = "UsersWeb", action = "GetByName" });
+
             routes.MapRoute("User_Show", "User/{id}", new { controller = "UsersWeb", action = "Show" });
 
             routes.MapRoute("User_Index", "User", new { controller = "UsersWeb", action = "Index" });
