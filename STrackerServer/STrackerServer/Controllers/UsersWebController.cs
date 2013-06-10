@@ -126,6 +126,7 @@ namespace STrackerServer.Controllers
 
             var requests = new Requests
                 {
+                    PictureUrl = user.Photo.ImageUrl,
                     List =
                         user.FriendRequests.ConvertAll(
                             input =>
@@ -278,6 +279,11 @@ namespace STrackerServer.Controllers
                 SearchValue = name
             };
             return this.View(result);
+        }
+
+        public ActionResult Friends()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

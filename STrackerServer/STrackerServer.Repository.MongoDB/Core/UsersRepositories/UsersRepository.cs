@@ -13,9 +13,7 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
     using System.Collections.Generic;
     using System.Configuration;
     using System.Linq;
-    using System.Text.RegularExpressions;
 
-    using global::MongoDB.Bson;
     using global::MongoDB.Bson.Serialization;
 
     using global::MongoDB.Driver;

@@ -18,8 +18,8 @@
             </div>
         </div>
     </div>
-
     <div class="row-fluid">
+        
         @foreach(var tvshow in Model.Result)
         {
             <div class="span2" style="text-align: center">
@@ -27,9 +27,8 @@
                     <div class="row-fluid">
                         <img src="@tvshow.Poster.ImageUrl" alt="No Image"/>
                     </div>
-                    <br/>
                     <div class="row-fluid">
-                         <a class="btn btn-block btn-primary" href="@Url.Action("Show","TvShowsWeb", new { tvshowId = tvshow.Id })">@tvshow.Name</a>
+                        <a class="btn btn-block btn-primary" href="@Url.Action("Show","TvShowsWeb", new { tvshowId = tvshow.Id })">@tvshow.Name</a>
                     </div>
                 </div>
             </div>

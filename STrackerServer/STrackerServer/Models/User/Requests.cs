@@ -22,6 +22,11 @@ namespace STrackerServer.Models.User
         public List<FriendRequest> List { get; set; }
 
         /// <summary>
+        /// Gets or sets the picture url.
+        /// </summary>
+        public string PictureUrl { get; set; }
+
+        /// <summary>
         /// The friend request.
         /// </summary>
         public class FriendRequest

@@ -106,7 +106,7 @@ namespace STrackerServer.Controllers
                 Name = episode.Name,
                 GuestActors = episode.GuestActors,
                 Directors = episode.Directors,
-                Poster = tvshow.Poster.ImageUrl,
+                Poster = episode.Poster == null ? tvshow.Poster.ImageUrl : episode.Poster.ImageUrl,
                 TvShowName = tvshow.Name,
                 Rating = this.ratingsOperations.GetAverageRating(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber))
             };
@@ -138,7 +138,10 @@ namespace STrackerServer.Controllers
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
                 return this.View("Error", Response.StatusCode);
-            }  
+            }
+
+            var episode = this.episodesOps.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber));
+            var tvshow = this.tvshowsOps.Read(tvshowId);
 
             var view = new EpisodeComments
                 {
@@ -146,7 +149,7 @@ namespace STrackerServer.Controllers
                     SeasonNumber = seasonNumber,
                     EpisodeNumber = episodeNumber,
                     Comments = episodeComments.Comments,
-                    Poster = this.tvshowsOps.Read(tvshowId).Poster.ImageUrl
+                    Poster = episode.Poster == null ? tvshow.Poster.ImageUrl : episode.Poster.ImageUrl,
                 };
 
             return this.View(view);
@@ -179,12 +182,14 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
+            var tvshow = this.tvshowsOps.Read(tvshowId);
+
             var view = new EpisodeCreateComment
                 {
                     TvShowId = tvshowId,
                     SeasonNumber = seasonNumber,
                     EpisodeNumber = episodeNumber,
-                    Poster = this.tvshowsOps.Read(tvshowId).Poster.ImageUrl
+                    Poster = episode.Poster == null ? tvshow.Poster.ImageUrl : episode.Poster.ImageUrl,
                 };
 
             return this.View(view);
@@ -216,7 +221,7 @@ namespace STrackerServer.Controllers
             if (!ModelState.IsValid)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                create.Poster = tvshow.Poster.ImageUrl;
+                create.Poster = episode.Poster == null ? tvshow.Poster.ImageUrl : episode.Poster.ImageUrl;
                 return this.View(create);
             }
 
@@ -272,6 +277,7 @@ namespace STrackerServer.Controllers
             }
 
             var tvshow = this.tvshowsOps.Read(tvshowId);
+            var episode = this.episodesOps.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber));
 
             var commentView = new EpisodeComment
             {
@@ -281,7 +287,7 @@ namespace STrackerServer.Controllers
                 UserId = comment.UserId,
                 Body = comment.Body,
                 Timestamp = comment.Timestamp,
-                Poster = tvshow.Poster.ImageUrl,
+                Poster = episode.Poster == null ? tvshow.Poster.ImageUrl : episode.Poster.ImageUrl
             };
 
             return this.View(commentView);
@@ -341,7 +347,7 @@ namespace STrackerServer.Controllers
                 TvShowId = tvshowId,
                 SeasonNumber = seasonNumber,
                 EpisodeNumber = episodeNumber,
-                Poster = this.tvshowsOps.Read(tvshowId).Poster.ImageUrl,
+                Poster = episode.Poster == null ? this.tvshowsOps.Read(tvshowId).Poster.ImageUrl : episode.Poster.ImageUrl,
                 Value = 1
             });
         }
@@ -371,7 +377,7 @@ namespace STrackerServer.Controllers
 
             if (!ModelState.IsValid)
             {
-                rating.Poster = tvshow.Poster.ImageUrl;
+                rating.Poster = episode.Poster == null ? tvshow.Poster.ImageUrl : episode.Poster.ImageUrl;
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View(rating);
             }
