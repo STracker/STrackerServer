@@ -18,25 +18,24 @@
                     <ul class="nav">
                         <li class="divider-vertical"></li>  
                         <li><a href="@Url.Action("Index","HomeWeb")"> Home </a></li>
-                        <li class="divider-vertical"></li>  
-                        <li><a href="@Url.Action("GetByName","UsersWeb")"> Search User </a></li>
-                        <li class="divider-vertical"></li>   
+                        <li class="divider-vertical"></li>    
                         <li><a href="@Url.Action("Contact","HomeWeb")"> Contact </a></li>
-                        <li class="divider-vertical"></li> 
+                        <li class="divider-vertical"></li>
                     </ul>
                     <ul class="nav pull-right">
-                        @if (!HttpContext.Current.User.Identity.IsAuthenticated)
-                        {
+                        @if (HttpContext.Current.User.Identity.IsAuthenticated)
+                        {   
+                            <li><a href="@Url.Action("GetByName","UsersWeb")"> Find Buddy </a></li>
+                            <li class="divider-vertical"></li> 
+                            <li>@Html.ActionLink("Profile","Index","UsersWeb")</li>
                             <li class="divider-vertical"></li>
-                            <li>@Html.ActionLink("Login", "Login", "Account", new { returnUrl = Request.Url.ToString() }, null)</li>
+                            <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
                             <li class="divider-vertical"></li>
                         }
                         else
                         {
                             <li class="divider-vertical"></li>
-                            <li>@Html.ActionLink("Profile","Index","UsersWeb")</li>
-                            <li class="divider-vertical"></li>
-                            <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
+                            <li>@Html.ActionLink("Login", "Login", "Account", new { returnUrl = Request.Url.ToString() }, null)</li>
                             <li class="divider-vertical"></li>
                         }
                     </ul>

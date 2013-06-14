@@ -9,6 +9,7 @@
 
 namespace STrackerServer.Controllers.Api
 {
+    using System.Net;
     using System.Net.Http;
     using System.Web.Http;
 
@@ -59,7 +60,14 @@ namespace STrackerServer.Controllers.Api
         [HttpGet]
         public HttpResponseMessage Get(string id)
         {
-            return this.BaseGet(this.operations.Read(id));
+            var genre = this.operations.Read(id);
+
+            if (genre == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            return this.BaseGet(genre.TvshowsSynopses);
         }
     }
 }

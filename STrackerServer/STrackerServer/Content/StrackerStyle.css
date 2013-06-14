@@ -58,3 +58,34 @@
     border-radius: 4px;
     background-color: rgba(255,255,255,0.15);
 }
+
+.extra-padding-left {
+    padding-left: 45px;
+}
+
+.stracker-breadcrumb {
+
+  margin: 0 0 20px;
+  list-style: none;
+  background-color: transparent;
+  border-color: midnightblue;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+}
+
+.stracker-breadcrumb > li {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  
+}
+
+.stracker-breadcrumb > li > .divider {
+  padding: 0 5px;
+  color: #ccc;
+}
+
+.stracker-breadcrumb > .active {
+  color: #999999;
+}

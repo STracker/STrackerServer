@@ -54,16 +54,16 @@ namespace STrackerServer.Controllers
         /// <param name="tvshowId">
         /// The television show id.
         /// </param>
-        /// <param name="number">
-        /// The season id.
+        /// <param name="seasonNumber">
+        /// The season Number.
         /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpGet]
-        public ActionResult Show(string tvshowId, int number)
+        public ActionResult Show(string tvshowId, int seasonNumber)
         {
-            var season = this.seasonOps.Read(new Tuple<string, int>(tvshowId, number));
+            var season = this.seasonOps.Read(new Tuple<string, int>(tvshowId, seasonNumber));
 
             if (season == null)
             {

@@ -9,16 +9,11 @@
     <div class="row-fluid">
         <div class="span3"> 
             <img class="img-rounded" src="@Model.Poster" alt="No Artwork"/>  
-
-            <div class="extra-padding"></div> 
-
-            <p>
-                <a class="btn btn-block btn-primary" href="@Url.Action("Show","TvShowsWeb", new { tvshowId = Model.TvShowId })">@Model.TvShowName</a>
-            </p> 
         </div>
         <div class="span6">
             <div class="box">
-                <h2>Season @Model.SeasonNumber</h2>    
+                <h3><a href="@Url.Action("Show","TvShowsWeb", new { tvshowId = Model.TvShowId })">@Model.TvShowName</a></h3>   
+                <h4>Season @Model.SeasonNumber</h4>    
                 <br/>           
                 <table class="table table-condensed">
                     <tr>
