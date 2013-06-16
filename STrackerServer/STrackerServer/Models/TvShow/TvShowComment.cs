@@ -25,6 +25,11 @@ namespace STrackerServer.Models.TvShow
         public string UserId { get; set; }
 
         /// <summary>
+        /// Gets or sets the username.
+        /// </summary>
+        public string Username { get; set; }
+
+        /// <summary>
         /// Gets or sets the Timestamp.
         /// </summary>
         public string Timestamp { get; set; }

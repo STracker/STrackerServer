@@ -92,8 +92,8 @@ namespace STrackerServer.DataAccessLayer.Core.UsersRepositories
         /// <summary>
         /// The send suggestion.
         /// </summary>
-        /// <param name="userFrom">
-        /// The user from.
+        /// <param name="userTo">
+        /// The user To.
         /// </param>
         /// <param name="suggestion">
         /// The suggestion.
@@ -101,7 +101,7 @@ namespace STrackerServer.DataAccessLayer.Core.UsersRepositories
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool SendSuggestion(User userFrom, Suggestion suggestion);
+        bool SendSuggestion(User userTo, Suggestion suggestion);
 
         /// <summary>
         /// The remove suggestion.

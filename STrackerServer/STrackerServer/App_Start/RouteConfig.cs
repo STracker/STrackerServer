@@ -26,7 +26,7 @@ namespace STrackerServer.App_Start
 
             // Root Routes
             routes.MapRoute("Home", string.Empty, new { controller = "HomeWeb", action = "Index" });
-            routes.MapRoute("Contact", "Contact", new { controller = "HomeWeb", action = "Contact" });
+            routes.MapRoute("Contact", "Api", new { controller = "HomeWeb", action = "Api" });
 
             // User Routes
             routes.MapRoute("User_Requests_Response", "User/Requests/{id}", new { controller = "UsersWeb", action = "RequestResponse" });

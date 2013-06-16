@@ -55,7 +55,7 @@ namespace STrackerServer.Controllers
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
-        public ActionResult Contact()
+        public ActionResult Api()
         {
             return this.View();
         }

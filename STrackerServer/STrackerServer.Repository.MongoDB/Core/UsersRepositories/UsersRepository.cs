@@ -177,8 +177,8 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         /// <summary>
         /// The send suggestion.
         /// </summary>
-        /// <param name="userFrom">
-        /// The user from.
+        /// <param name="userTo">
+        /// The user To.
         /// </param>
         /// <param name="suggestion">
         /// The suggestion.
@@ -186,9 +186,9 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public bool SendSuggestion(User userFrom, Suggestion suggestion)
+        public bool SendSuggestion(User userTo, Suggestion suggestion)
         {
-            var query = Query<User>.EQ(user => user.Key, userFrom.Key);
+            var query = Query<User>.EQ(user => user.Key, userTo.Key);
             var update = Update<User>.AddToSet(user => user.Suggestions, suggestion);
 
             return this.ModifyList(this.collection, query, update);

@@ -252,6 +252,7 @@
     <Content Include="Views\TvShowsWeb\GetByName.cshtml" />
     <Content Include="Views\UsersWeb\GetByName.cshtml" />
     <Content Include="Views\UsersWeb\Friends.cshtml" />
+    <Content Include="Views\HomeWeb\Api.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

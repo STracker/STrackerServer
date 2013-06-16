@@ -322,7 +322,13 @@ namespace STrackerServer.Controllers
             }
 
             var user = this.userOperations.Read(User.Identity.Name);
-            var view = new SuggestionView { Friends = user.Friends, TvShowId = tvshowId };
+            var view = new SuggestionView
+                {
+                    Friends = user.Friends, 
+                    TvShowId = tvshowId,
+                    Poster = tvshow.Poster.ImageUrl,
+                    TvShowName = tvshow.Name
+                };
 
             return this.View(view);
         }
