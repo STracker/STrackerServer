@@ -18,15 +18,5 @@ namespace STrackerServer.BusinessLayer.Core.EpisodesOperations
     /// </summary>
     public interface IEpisodesRatingsOperations : IRatingsOperations<RatingsEpisode, Tuple<string, int, int>>
     {
-        /// <summary>
-        /// The get average rating.
-        /// </summary>
-        /// <param name="key">
-        /// The key.
-        /// </param>
-        /// <returns>
-        /// The <see cref="int"/>.
-        /// </returns>
-        double GetAverageRating(Tuple<string, int, int> key);
     }
 }

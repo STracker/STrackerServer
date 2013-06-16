@@ -10,6 +10,7 @@
 namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
 {
     using System;
+    using System.Linq;
 
     using global::MongoDB.Driver;
 
@@ -24,6 +25,7 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
     /// </summary>
     public class EpisodeRatingsRepository : BaseRatingsRepository<RatingsEpisode, Tuple<string, int, int>>, IEpisodeRatingsRepository 
     {
+
         /// <summary>
         /// Initializes a new instance of the <see cref="EpisodeRatingsRepository"/> class.
         /// </summary>
@@ -63,7 +65,13 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
             var removeRating = this.Read(id).Ratings.Find(r => r.UserId.Equals(rating.UserId));
 
             // If already have a rating for the user, need to remove it before insert the new one.
-            return this.RemoveRating(id, removeRating) && this.ModifyList(collection, query, update);
+            if (this.RemoveRating(id, removeRating) && this.ModifyList(collection, query, update))
+            {
+                update = Update<RatingsEpisode>.Set(episode => episode.Average, this.Read(id).Ratings.Average(rating1 => rating1.UserRating));
+                return collection.Update(query, update).Ok;
+            }
+
+            return false;
         }
 
         /// <summary>

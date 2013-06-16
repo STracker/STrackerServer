@@ -100,8 +100,8 @@ namespace STrackerServer.BusinessLayer.Core.UsersOperations
         /// <summary>
         /// The send suggestion.
         /// </summary>
-        /// <param name="userFrom">
-        /// The user from.
+        /// <param name="userTo">
+        /// The user to.
         /// </param>
         /// <param name="tvshowId">
         /// The television show id.
@@ -112,13 +112,13 @@ namespace STrackerServer.BusinessLayer.Core.UsersOperations
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool SendSuggestion(string userFrom, string tvshowId, Suggestion suggestion);
+        bool SendSuggestion(string userTo, string tvshowId, Suggestion suggestion);
 
         /// <summary>
         /// The remove suggestion.
         /// </summary>
-        /// <param name="userFrom">
-        /// The user from.
+        /// <param name="userTo">
+        /// The user to.
         /// </param>
         /// <param name="tvshowId">
         /// The television show id.
@@ -129,7 +129,7 @@ namespace STrackerServer.BusinessLayer.Core.UsersOperations
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool RemoveSuggestion(string userFrom, string tvshowId, Suggestion suggestion);
+        bool RemoveSuggestion(string userTo, string tvshowId, Suggestion suggestion);
 
         /// <summary>
         /// The get suggestions.

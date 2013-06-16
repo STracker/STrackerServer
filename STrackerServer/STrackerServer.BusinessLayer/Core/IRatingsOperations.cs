@@ -24,6 +24,17 @@ namespace STrackerServer.BusinessLayer.Core
     public interface IRatingsOperations<out TR, in TK> where TR : RatingsBase<TK>
     {
         /// <summary>
+        /// The read.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TR"/>.
+        /// </returns>
+        TR Read(TK key);
+
+        /// <summary>
         /// The add rating.
         /// </summary>
         /// <param name="id">
@@ -36,20 +47,6 @@ namespace STrackerServer.BusinessLayer.Core
         /// The <see cref="bool"/>.
         /// </returns>
         bool AddRating(TK id, Rating rating);
-
-        /// <summary>
-        /// The remove rating.
-        /// </summary>
-        /// <param name="id">
-        /// The id.
-        /// </param>
-        /// <param name="rating">
-        /// The rating.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        bool RemoveRating(TK id, Rating rating);
 
         /// <summary>
         /// The get all ratings.

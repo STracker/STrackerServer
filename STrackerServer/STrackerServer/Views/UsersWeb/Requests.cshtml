@@ -7,48 +7,60 @@
 
 <div class="container-fluid">
     <div class="row-fluid">
-        <div class="span2">
-            <div style="text-align: center">
-                <img class="img-rounded" src="@Model.PictureUrl" alt="No Artwork"/>
-            </div>  
-            <div class="extra-padding"></div>
-            <p><a class="btn btn-block btn-primary" href="@Url.Action("Friends","UsersWeb")">Friends</a></p>
-            <p><a class="btn btn-block btn-primary" href="@Url.Action("Requests","UsersWeb")">Friend Requests</a></p> 
-        </div>
-        <div class="span7">
+        <div class="span3">
             <div class="box">
-                <div class="row-fluid">
-                    <h2>Friend Requests</h2>
+                <div style="text-align: center">
+                    @Model.Name
                 </div>
+                <div style="text-align: center">
+                    <img class="img-rounded" src="@Model.PictureUrl" alt="No Artwork"/>
+                </div> 
+                <div class="extra-padding"></div>
+                <p><a class="btn btn-block btn-primary" href="@Url.Action("Friends","UsersWeb")">Friends</a></p>
             </div>
-            <div class="extra-padding"></div>
-            
+        </div>
+
+        <div class="span6">
             <div class="box">
-                <div class="row-fluid">
-                    @foreach(var request in Model.List)
+                <h2>Friend Requests</h2> 
+                <br/>
+                <table class="table table-condensed">
+                    <tr>
+                        <th>
+                            Name  
+                        </th>
+                        <th>
+                        </th>
+                        <th>
+                        </th>
+                    </tr>
+
+                    @if (Model.List.Count != 0)
                     {
-                        <div class="span2">
-                            <div class="row-fluid">
-                                <a href="@Url.Action("Show", "UsersWeb", new { id = request.Id })">
-                                    <img class="img-rounded" src="@request.Picture" alt="No Artwork"/>
-                                </a>
-                            </div>
-                            <div class="row-fluid">
-                            
-                                @using(Html.BeginForm("RequestResponse","UsersWeb", new {id = request.Id}))
-                                {
-                                    @Html.Hidden("accept", true)
-                                    <input class="btn btn-mini btn-block btn-success" type="submit" value="Accept" />
-                                }
-                                @using (Html.BeginForm("RequestResponse", "UsersWeb", new { id = request.Id }))
-                                {
-                                    @Html.Hidden("accept", false)
-                                    <input class="btn btn-mini btn-block btn-danger" type="submit"  value="Reject"/>
-                                }
-                            </div>
-                        </div>   
+                        foreach(var request in Model.List)
+                        {
+                            <tr>
+                                <td>
+                                    @request.Name
+                                </td>
+                                <td>
+                                    @using(Html.BeginForm("RequestResponse","UsersWeb", new {id = request.Id}))
+                                    {
+                                        @Html.Hidden("accept", true)
+                                        <input class="btn btn-mini btn-block btn-success" type="submit" value="Accept" />
+                                    }
+                                </td>
+                                <td>
+                                    @using (Html.BeginForm("RequestResponse", "UsersWeb", new { id = request.Id }))
+                                    {
+                                        @Html.Hidden("accept", false)
+                                        <input class="btn btn-mini btn-block btn-danger" type="submit"  value="Reject"/>
+                                    }
+                                </td>
+                            </tr>
+                        }
                     }
-                </div>
+                </table>
             </div>
         </div>
     </div>

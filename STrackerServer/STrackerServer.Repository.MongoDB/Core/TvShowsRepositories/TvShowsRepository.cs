@@ -147,6 +147,33 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         }
 
         /// <summary>
+        /// The get top rated.
+        /// </summary>
+        /// <param name="max">
+        /// The max.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>List</cref>
+        ///     </see> .
+        /// </returns>
+        public List<TvShow.TvShowSynopsis> GetTopRated(int max)
+        {
+            var list = this.collectionAll
+                .FindAllAs<TvShow.TvShowSynopsis>()
+                .OrderByDescending(tvshow => this.ratingsRepository.Read(tvshow.Id).Average);
+
+            var top = new List<TvShow.TvShowSynopsis>(max);
+
+            for (var i = 0; i < max; i++)
+            {
+                top.Add(list.ElementAt(i));
+            }
+
+            return top;
+        }
+
+        /// <summary>
         /// Create one television show.
         /// </summary>
         /// <param name="entity">

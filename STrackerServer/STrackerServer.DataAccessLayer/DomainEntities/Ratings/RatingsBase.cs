@@ -47,6 +47,11 @@ namespace STrackerServer.DataAccessLayer.DomainEntities.Ratings
         public T Key { get; set; }
 
         /// <summary>
+        /// Gets or sets the average.
+        /// </summary>
+        public double Average { get; set; }
+
+        /// <summary>
         /// Gets or sets the ratings.
         /// </summary>
         public List<Rating> Ratings { get; set; }

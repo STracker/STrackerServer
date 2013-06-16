@@ -12,6 +12,7 @@ namespace STrackerServer.BusinessLayer.Operations
     using System;
     using System.Configuration;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
 
     using STrackerServer.BusinessLayer.Core;
     using STrackerServer.DataAccessLayer.Core;
@@ -68,7 +69,22 @@ namespace STrackerServer.BusinessLayer.Operations
 
             this.MinRating = int.Parse(ConfigurationManager.AppSettings["RatingMinValue"]);
             this.MaxRating = int.Parse(ConfigurationManager.AppSettings["RatingMaxValue"]);
-        } 
+        }
+
+        /// <summary>
+        /// The read.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TR"/>.
+        /// </returns>
+        public TR Read(TK key)
+        {
+            var entity = this.Repository.Read(key);
+            return !Equals(entity, default(T)) ? this.RatingsRepository.Read(key) : default(TR);
+        }
 
         /// <summary>
         /// The add rating.

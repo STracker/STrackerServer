@@ -87,7 +87,9 @@ namespace STrackerServer.Controllers
         [HttpGet]
         public ActionResult Show(string tvshowId, int seasonNumber, int episodeNumber)
         {
-            var episode = this.episodesOps.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber));
+            var key = new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber);
+
+            var episode = this.episodesOps.Read(key);
 
             if (episode == null)
             {
@@ -108,7 +110,7 @@ namespace STrackerServer.Controllers
                 Directors = episode.Directors,
                 Poster = episode.Poster == null ? tvshow.Poster.ImageUrl : episode.Poster.ImageUrl,
                 TvShowName = tvshow.Name,
-                Rating = this.ratingsOperations.GetAverageRating(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber))
+                Rating = this.ratingsOperations.Read(key).Average
             };
 
             return this.View(model);

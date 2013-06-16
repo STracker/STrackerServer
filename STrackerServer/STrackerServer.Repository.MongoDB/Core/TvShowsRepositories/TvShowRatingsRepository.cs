@@ -10,6 +10,7 @@
 namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
 {
     using System;
+    using System.Linq;
 
     using global::MongoDB.Driver;
 
@@ -54,12 +55,19 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         {
             var collection = this.Database.GetCollection(string.Format("{0}-{1}", id, CollectionPrefix));
             var query = Query<RatingsTvShow>.EQ(ratings => ratings.TvShowId, id);
+
             var update = Update<RatingsTvShow>.Push(tvr => tvr.Ratings, rating);
 
             var removeRating = this.Read(id).Ratings.Find(r => r.UserId.Equals(rating.UserId));
 
             // If already have a rating for the user, need to remove it before insert the new one.
-            return this.RemoveRating(id, removeRating) && this.ModifyList(collection, query, update);
+            if (this.RemoveRating(id, removeRating) && this.ModifyList(collection, query, update))
+            {
+                update = Update<RatingsTvShow>.Set(tvr => tvr.Average, this.Read(id).Ratings.Average(rating1 => rating1.UserRating));
+                return collection.Update(query, update).Ok;
+            }
+
+            return false;
         }
 
         /// <summary>

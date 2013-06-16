@@ -52,5 +52,18 @@ namespace STrackerServer.DataAccessLayer.Core.TvShowsRepositories
         /// The season.
         /// </param>
         void RemoveSeasonSynopsis(string tvshowId, Season.SeasonSynopsis season);
+
+        /// <summary>
+        /// The get top rated.
+        /// </summary>
+        /// <param name="max">
+        /// The max.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>List</cref>
+        ///     </see> .
+        /// </returns>
+        List<TvShow.TvShowSynopsis> GetTopRated(int max);
     }
 }

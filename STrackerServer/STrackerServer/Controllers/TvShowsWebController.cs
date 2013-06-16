@@ -9,6 +9,7 @@
 
 namespace STrackerServer.Controllers
 {
+    using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
     using System.Net;
@@ -17,6 +18,7 @@ namespace STrackerServer.Controllers
     using STrackerServer.Action_Results;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
+    using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
     using STrackerServer.Models.TvShow;
     using STrackerServer.Models.User;
@@ -100,7 +102,7 @@ namespace STrackerServer.Controllers
 
             var model = new TvShowView(tvshow)
             {
-                Rating = this.ratingsOperations.GetAverageRating(tvshowId),
+                Rating = this.ratingsOperations.Read(tvshowId).Average,
                 IsSubscribed = isSubscribed,
                 Poster = tvshow.Poster.ImageUrl,
                 RedirectUrl = Url.Action("Show", new { tvshowId })
@@ -121,12 +123,18 @@ namespace STrackerServer.Controllers
         [HttpGet]
         public ActionResult GetByName(string name)
         {
+            if (name == null || string.Empty.Equals(name.Trim()))
+            {
+                return this.View(new TvShowSearchResult { Result = new List<TvShow.TvShowSynopsis>(), SearchValue = string.Empty });
+            }
+
             var tvshows = this.tvshowOperations.ReadByName(name);
             var result = new TvShowSearchResult
                 {
                     Result = tvshows,
                     SearchValue = name
                 };
+
             return this.View(result);
         }
 

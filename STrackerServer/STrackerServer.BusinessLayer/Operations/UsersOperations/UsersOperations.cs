@@ -204,11 +204,11 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         /// <summary>
         /// The send suggestion.
         /// </summary>
-        /// <param name="userFrom">
-        /// The user from.
+        /// <param name="userTo">
+        /// The user to.
         /// </param>
         /// <param name="tvshowId">
-        /// The television show id.
+        /// The tvshow id.
         /// </param>
         /// <param name="suggestion">
         /// The suggestion.
@@ -216,12 +216,18 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public bool SendSuggestion(string userFrom, string tvshowId, Suggestion suggestion)
+        public bool SendSuggestion(string userTo, string tvshowId, Suggestion suggestion)
         {
             TvShow tvshow;
             User user;
 
-            return this.VerifyUserAndTvshow(userFrom, tvshowId, out user, out tvshow) && ((IUsersRepository)this.Repository).SendSuggestion(user, suggestion);
+            if (!this.VerifyUserAndTvshow(userTo, tvshowId, out user, out tvshow))
+            {
+                return false;
+            }
+
+
+            return user.Friends.Exists(synopsis => synopsis.Id.Equals(suggestion.UserId)) && ((IUsersRepository)this.Repository).SendSuggestion(user, suggestion);
         }
 
         /// <summary>

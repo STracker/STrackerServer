@@ -17,7 +17,6 @@ namespace STrackerServer.Controllers
     using STrackerServer.Action_Results;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.DataAccessLayer.DomainEntities;
-    using STrackerServer.Models.TvShow;
     using STrackerServer.Models.User;
 
     /// <summary>
@@ -52,9 +51,10 @@ namespace STrackerServer.Controllers
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpGet]
+        [Authorize]
         public ActionResult Show(string id)
         {
-            if (User.Identity.IsAuthenticated && User.Identity.Name.Equals(id))
+            if (User.Identity.Name.Equals(id))
             {
                 return new SeeOtherResult { Url = Url.Action("Index") };
             }
@@ -67,26 +67,14 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            var isFriend = false;
-            
-            if (this.User.Identity.IsAuthenticated)
-            {
-                if (user.Friends.Any(synopsis => synopsis.Id.Equals(User.Identity.Name)) || user.FriendRequests.Any(synopsis => synopsis.Id.Equals(User.Identity.Name)))
-                {
-                    isFriend = true;
-                }
-            }
-            
+            var isFriend = user.Friends.Any(synopsis => synopsis.Id.Equals(this.User.Identity.Name)) || user.FriendRequests.Any(synopsis => synopsis.Id.Equals(this.User.Identity.Name));
+
             return this.View(new UserPublicView
             {
                 Id = id,
                 Name = user.Name,
                 PictureUrl = user.Photo.ImageUrl,
-                SubscriptionList = user.SubscriptionList.ConvertAll(input => new SubscriptionView
-                    {
-                        Id = input.Id,
-                        Name = input.Name
-                    }),
+                SubscriptionList = user.SubscriptionList,
                 IsFriend = isFriend
             });
         }
@@ -126,6 +114,7 @@ namespace STrackerServer.Controllers
 
             var requests = new Requests
                 {
+                    Name = user.Name,
                     PictureUrl = user.Photo.ImageUrl,
                     List =
                         user.FriendRequests.ConvertAll(
@@ -265,14 +254,25 @@ namespace STrackerServer.Controllers
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpGet]
+        [Authorize]
         public ActionResult GetByName(string name)
         {
-            if (name == null)
+            if (name == null || string.Empty.Equals(name.Trim()))
             {
                 return this.View(new UserSearchResult { Result = new List<User>(), SearchValue = string.Empty });
             }
 
             var users = this.usersOperations.FindByName(name);
+
+            if (users.Count != 0)
+            {
+                var index = users.FindIndex(user => user.Key.Equals(User.Identity.Name));
+                if (index != -1)
+                {
+                    users.RemoveAt(index); 
+                }   
+            }
+
             var result = new UserSearchResult
             {
                 Result = users,
@@ -281,7 +281,22 @@ namespace STrackerServer.Controllers
             return this.View(result);
         }
 
+        /// <summary>
+        /// The user friends.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpGet]
+        [Authorize]
         public ActionResult Friends()
+        {
+            var user = this.usersOperations.Read(User.Identity.Name);
+            var view = new FriendsView { Name = user.Name, List = user.Friends, PictureUrl = user.Photo.ImageUrl };
+            return this.View(view);
+        }
+
+        public ActionResult RemoveFriend(string friendId)
         {
             throw new System.NotImplementedException();
         }

@@ -17,6 +17,11 @@ namespace STrackerServer.Models.User
     public class Requests
     {
         /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
         /// Gets or sets the list.
         /// </summary>
         public List<FriendRequest> List { get; set; }

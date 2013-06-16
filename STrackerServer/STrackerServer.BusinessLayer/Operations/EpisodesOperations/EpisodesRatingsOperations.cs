@@ -10,7 +10,6 @@
 namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
 {
     using System;
-    using System.Linq;
 
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.DataAccessLayer.Core.EpisodesRepositories;
@@ -34,21 +33,6 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
         public EpisodesRatingsOperations(IEpisodeRatingsRepository ratingsRepository, IEpisodesRepository repository)
             : base(ratingsRepository, repository)
         {
-        }
-
-        /// <summary>
-        /// The get average rating.
-        /// </summary>
-        /// <param name="key">
-        /// The key.
-        /// </param>
-        /// <returns>
-        /// The <see cref="int"/>.
-        /// </returns>
-        public double GetAverageRating(Tuple<string, int, int> key)
-        {
-            var ratings = this.GetAllRatings(key).Ratings;
-            return ratings.Count == 0 ? 0 : ratings.Average(rating => rating.UserRating);
         }
     }
 }
