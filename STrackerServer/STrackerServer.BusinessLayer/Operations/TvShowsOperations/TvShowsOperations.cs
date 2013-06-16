@@ -87,5 +87,21 @@ namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
 
             return tvshows;
         }
+
+        /// <summary>
+        /// The get top rated.
+        /// </summary>
+        /// <param name="max">
+        /// The max.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>List</cref>
+        ///     </see> .
+        /// </returns>
+        public List<TvShow.TvShowSynopsis> GetTopRated(int max)
+        {
+            return ((ITvShowsRepository)this.Repository).GetTopRated(max);
+        }
     }
 }

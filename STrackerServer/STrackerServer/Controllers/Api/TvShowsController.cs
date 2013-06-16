@@ -9,6 +9,8 @@
 
 namespace STrackerServer.Controllers.Api
 {
+    using System;
+    using System.Configuration;
     using System.Net.Http;
     using System.Web.Http;
 
@@ -19,6 +21,11 @@ namespace STrackerServer.Controllers.Api
     /// </summary>
     public class TvShowsController : BaseController
     {
+        /// <summary>
+        /// The max top rated television shows.
+        /// </summary>
+        private static readonly int MaxTopRatedTvShows = Convert.ToInt32(ConfigurationManager.AppSettings["MaxTopRatedTvShows"]);
+
         /// <summary>
         /// The operations.
         /// </summary>
@@ -64,6 +71,17 @@ namespace STrackerServer.Controllers.Api
         public HttpResponseMessage GetByName(string name)
         {
             return this.BaseGet(this.operations.ReadByName(name));
+        }
+
+        /// <summary>
+        /// The get top rated.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="HttpResponseMessage"/>.
+        /// </returns>
+        public HttpResponseMessage GetTopRated()
+        {
+            return this.BaseGet(this.operations.GetTopRated(MaxTopRatedTvShows));
         }
     }
 }

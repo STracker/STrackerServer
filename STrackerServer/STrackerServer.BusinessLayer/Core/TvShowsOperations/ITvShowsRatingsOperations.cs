@@ -9,6 +9,9 @@
 
 namespace STrackerServer.BusinessLayer.Core.TvShowsOperations
 {
+    using System.Collections.Generic;
+
+    using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.Ratings;
 
     /// <summary>

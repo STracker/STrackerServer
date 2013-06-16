@@ -161,7 +161,12 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         {
             var list = this.collectionAll
                 .FindAllAs<TvShow.TvShowSynopsis>()
-                .OrderByDescending(tvshow => this.ratingsRepository.Read(tvshow.Id).Average);
+                .OrderByDescending(tvshow => this.ratingsRepository.Read(tvshow.Id).Average).ToList();
+
+            if (list.Count < max)
+            {
+                return list;
+            }
 
             var top = new List<TvShow.TvShowSynopsis>(max);
 
