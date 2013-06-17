@@ -89,7 +89,7 @@ namespace STrackerServer.Tests.Operations.Tests
         /// The create test.
         /// </summary>
         [Test]
-        public void Create()
+        public void Test1Create()
         {
             var user = new User
                 {
@@ -119,7 +119,7 @@ namespace STrackerServer.Tests.Operations.Tests
         /// The read test.
         /// </summary>
         [Test]
-        public void Read()
+        public void Test2Read()
         {
             var user1 = new User
                 {
@@ -184,7 +184,7 @@ namespace STrackerServer.Tests.Operations.Tests
         /// The delete test.
         /// </summary>
         [Test]
-        public void Delete()
+        public void Test3Delete()
         {
             Assert.NotNull(this.userOps.Read("fake key"));
             this.userOps.Delete("fake key");
