@@ -11,43 +11,46 @@ namespace STrackerServer.Tests.Operations.Tests
     using System;
     using System.Collections.Generic;
 
+    using Ninject;
+
     using NUnit.Framework;
 
-    using STrackerServer.BusinessLayer.Core;
+    using STrackerServer.DataAccessLayer.Core.EpisodesRepositories;
+    using STrackerServer.DataAccessLayer.Core.SeasonsRepositories;
+    using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
     /// The episodes operations tests.
     /// </summary>
-   // [TestFixture]
+    [TestFixture]
     public class EpisodesOperationsTests
     {
-        /*
         /// <summary>
-        /// The television shows operations.
+        /// The television shows repository.
         /// </summary>
-        private readonly ITvShowsOperations tvshowsOperations;
+        private readonly ITvShowsRepository tvshowsRepo;
 
         /// <summary>
-        /// The seasons operations.
+        /// The seasons repository.
         /// </summary>
-        private readonly ISeasonsOperations seasonsoperations;
+        private readonly ISeasonsRepository seasonsRepo;
 
         /// <summary>
-        /// The operations.
+        /// The repository.
         /// </summary>
-        private readonly IEpisodesOperations operations;
+        private readonly IEpisodesRepository repository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EpisodesOperationsTests"/> class.
         /// </summary>
         public EpisodesOperationsTests()
         {
-            using (IKernel kernel = new StandardKernel(new ModuleForSTracker()))
+            using (IKernel kernel = new StandardKernel(new ModuleForUnitTests()))
             {
-                this.operations = kernel.Get<IEpisodesOperations>();
-                this.seasonsoperations = kernel.Get<ISeasonsOperations>();
-                this.tvshowsOperations = kernel.Get<ITvShowsOperations>();
+                this.repository = kernel.Get<IEpisodesRepository>();
+                this.seasonsRepo = kernel.Get<ISeasonsRepository>();
+                this.tvshowsRepo = kernel.Get<ITvShowsRepository>();
             }
         }
 
@@ -57,7 +60,7 @@ namespace STrackerServer.Tests.Operations.Tests
         [Test]
         public void Read()
         {
-            var episode = this.operations.Read(new Tuple<string, int, int>("tt0098904", 1, 1));
+            var episode = this.repository.Read(new Tuple<string, int, int>("tt0098904", 1, 1));
             Assert.AreEqual(episode.Name, "The Seinfeld Chronicles");
             Assert.AreEqual(
                 episode.Description,
@@ -70,64 +73,54 @@ namespace STrackerServer.Tests.Operations.Tests
         [Test]
         public void ReadAll()
         {
-            var episodes = this.operations.GetAllFromOneSeason("tt0098904", 1);
-            Assert.AreEqual(((List<CommentsEpisode.EpisodeSynopsis>)episodes).Count, 5);
+            var episodes = this.repository.GetAllFromOneSeason("tt0098904", 1);
+            Assert.AreEqual(((List<Episode.EpisodeSynopsis>)episodes).Count, 5);
         }
 
         /// <summary>
-        /// The create update delete.
+        /// The create delete.
         /// </summary>
         [Test]
-        public void CreateUpdateDelete()
+        public void CreateDelete()
         {
             // Create
-            var tvshow = new CommentsTvShow("tt12347")
+            var tvshow = new TvShow("tt12345")
             {
                 Name = "FakeTvShow",
                 Description = "This is a fake television show information for testing...",
-                Runtime = 40,
-                Genres = new List<string> { "Comedy" }
+                Runtime = 40
             };
-            this.tvshowsOperations.Create(tvshow);
+            this.tvshowsRepo.Create(tvshow);
 
-            var season = new Season(new Tuple<string, int>("tt12347", 1));
-            this.seasonsoperations.Create(season);
+            var season = new Season(new Tuple<string, int>("tt12345", 1));
+            this.seasonsRepo.Create(season);
 
-            var episode = new CommentsEpisode(new Tuple<string, int, int>("tt12347", 1, 1)) { Name = "FakeEpisode", Description = "This is a fake episode" };
-            this.operations.Create(episode);
+            var episode = new Episode(new Tuple<string, int, int>("tt12345", 1, 1)) { Name = "FakeEpisode", Description = "This is a fake episode" };
+            this.repository.Create(episode);
 
-            var episodeRead = this.operations.Read(new Tuple<string, int, int>("tt12347", 1, 1));
+            var episodeRead = this.repository.Read(new Tuple<string, int, int>("tt12345", 1, 1));
 
             Assert.AreEqual(episodeRead.Name, "FakeEpisode");
-            Assert.AreEqual(episode.Rating, 0);
-
-            // Update
-            episode.Rating = 5;
-            this.operations.Update(episode);
-            episodeRead = this.operations.Read(new Tuple<string, int, int>("tt12347", 1, 1));
-
-            Assert.AreEqual(episodeRead.Rating, 5);
 
             // Delete
-            this.operations.Delete(new Tuple<string, int, int>("tt12347", 1, 1));
-            episodeRead = this.operations.Read(new Tuple<string, int, int>("tt12347", 1, 1));
+            this.repository.Delete(new Tuple<string, int, int>("tt12345", 1, 1));
+            episodeRead = this.repository.Read(new Tuple<string, int, int>("tt12345", 1, 1));
 
             Assert.Null(episodeRead);
 
-            season = this.seasonsoperations.Read(new Tuple<string, int>("tt12347", 1));
+            season = this.seasonsRepo.Read(new Tuple<string, int>("tt12345", 1));
 
             Assert.AreEqual(season.EpisodeSynopses.Count, 0);
 
-            this.seasonsoperations.Delete(new Tuple<string, int>("tt12347", 1));
-            tvshow = this.tvshowsOperations.Read("tt12347");
+            this.seasonsRepo.Delete(new Tuple<string, int>("tt12345", 1));
+            tvshow = this.tvshowsRepo.Read("tt12345");
 
             Assert.AreEqual(tvshow.SeasonSynopses.Count, 0);
 
-            this.tvshowsOperations.Delete("tt12347");
-            tvshow = this.tvshowsOperations.Read("tt12347");
+            this.tvshowsRepo.Delete("tt12345");
+            tvshow = this.tvshowsRepo.Read("tt12345");
 
             Assert.Null(tvshow);
         }
-         * */
     }
 }

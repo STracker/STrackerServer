@@ -43,12 +43,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\mongocsharpdriver.1.8.1\lib\net35\MongoDB.Driver.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="RabbitMQ.Client, Version=3.0.4.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\external libraries\RabbitMQ.Client.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ModuleForUnitTests.cs" />
     <Compile Include="Operations.Tests\EpisodesOperationsTests.cs" />
     <Compile Include="Operations.Tests\SeasonsOperations.cs" />
     <Compile Include="Operations.Tests\TvShowsOperations.cs" />
@@ -87,10 +88,6 @@
     <ProjectReference Include="..\STrackerServer.Repository.MongoDB\STrackerServer.Repository.MongoDB.csproj">
       <Project>{a43347c5-0aa1-4712-8451-8b9b91666b76}</Project>
       <Name>STrackerServer.Repository.MongoDB</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\STrackerServer\STrackerServer.csproj">
-      <Project>{12275273-7251-40de-bb59-f889996a0172}</Project>
-      <Name>STrackerServer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

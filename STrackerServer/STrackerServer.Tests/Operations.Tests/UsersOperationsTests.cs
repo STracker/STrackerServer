@@ -10,20 +10,14 @@
 namespace STrackerServer.Tests.Operations.Tests
 {
     using System.Collections.Generic;
-    using System.Configuration;
 
-    using MongoDB.Driver;
+    using Ninject;
 
     using NUnit.Framework;
 
     using STrackerServer.BusinessLayer.Core.UsersOperations;
-    using STrackerServer.BusinessLayer.Operations.UsersOperations;
-    using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
-    using STrackerServer.DataAccessLayer.Core.UsersRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
-    using STrackerServer.Repository.MongoDB.Core.TvShowsRepositories;
-    using STrackerServer.Repository.MongoDB.Core.UsersRepositories;
 
     /// <summary>
     /// The users operations tests.
@@ -31,51 +25,20 @@ namespace STrackerServer.Tests.Operations.Tests
     [TestFixture]
     public class UsersOperationsTests
     { 
-        /*
-        /// <summary>
-        /// The mongo client.
-        /// </summary>
-        private MongoClient client;
-
-        /// <summary>
-        /// The mongo url.
-        /// </summary>
-        private MongoUrl url;
-
-        /// <summary>
-        /// The user repository.
-        /// </summary>
-        private IUsersRepository userRepo;
-
-        /// <summary>
-        /// The television show repository.
-        /// </summary>
-        private ITvShowsRepository tvshowRepo;
-
         /// <summary>
         /// The user operations.
         /// </summary>
-        private IUsersOperations userOps;
+        private readonly IUsersOperations userOps;
 
         /// <summary>
-        /// The set up.
+        /// Initializes a new instance of the <see cref="UsersOperationsTests"/> class.
         /// </summary>
-        [SetUp]
-        public void SetUp()
+        public UsersOperationsTests()
         {
-            this.url = new MongoUrl(ConfigurationManager.AppSettings["MongoDBURL"]);
-            this.client = new MongoClient(this.url);
-              
-            this.userRepo = new UsersRepository(this.client, this.url);
-
-            this.tvshowRepo = new TvShowsRepository(
-                this.client, 
-                this.url, 
-                new GenresRepository(this.client, this.url), 
-                new TvShowCommentsRepository(this.client, this.url),
-                new TvShowRatingsRepository(this.client, this.url));
-
-            this.userOps = new UsersOperations(this.userRepo, this.tvshowRepo);
+            using (IKernel kernel = new StandardKernel(new ModuleForUnitTests()))
+            {
+                this.userOps = kernel.Get<IUsersOperations>();
+            }
         }
 
         /// <summary>
@@ -191,6 +154,5 @@ namespace STrackerServer.Tests.Operations.Tests
             this.userOps.Delete("fake key");
             Assert.Null(this.userOps.Read("fake key"));
         }
-         * */
     }
 }
