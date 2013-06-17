@@ -37,7 +37,6 @@
                                     <a href="@Url.Action("Comment", "EpisodesWeb", new {tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber, position = i})">Edit</a>
                                 }
                             </div>
-                            <p>@Model.Comments.ElementAt(i).UserId</p>
                             @Model.Comments.ElementAt(i).Body  
                         </div> 
                     </div>
