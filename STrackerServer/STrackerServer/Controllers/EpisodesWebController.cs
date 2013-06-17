@@ -230,7 +230,7 @@ namespace STrackerServer.Controllers
             var comment = new Comment { Body = create.Body, UserId = User.Identity.Name, Timestamp = Environment.TickCount.ToString(CultureInfo.InvariantCulture) };
 
             this.commentsOperations.AddComment(new Tuple<string, int, int>(create.TvShowId, create.SeasonNumber, create.EpisodeNumber), comment);
-            return new SeeOtherResult { Url = Url.Action("Comments", "EpisodesWeb", new { tvshowId = create.TvShowId, seasonNumber = create.SeasonNumber, episodeNumber = create.SeasonNumber }) };
+            return new SeeOtherResult { Url = Url.Action("Comments", "EpisodesWeb", new { tvshowId = create.TvShowId, seasonNumber = create.SeasonNumber, episodeNumber = create.EpisodeNumber }) };
         }
 
         /// <summary>
