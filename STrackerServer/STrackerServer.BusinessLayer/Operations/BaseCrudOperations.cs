@@ -47,9 +47,12 @@ namespace STrackerServer.BusinessLayer.Operations
         /// </param>
         /// Don't need to validate fields, because only administrator can use this 
         /// operation.
-        public void Create(T entity)
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool Create(T entity)
         {
-            this.Repository.Create(entity);
+            return this.Repository.Create(entity);
         }
 
         /// <summary>

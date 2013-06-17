@@ -16,12 +16,15 @@ namespace STrackerServer.Tests.Operations.Tests
 
     using NUnit.Framework;
 
-    using STrackerServer.BusinessLayer.Core;
-    using STrackerServer.BusinessLayer.Operations;
-    using STrackerServer.DataAccessLayer.Core;
+    using STrackerServer.BusinessLayer.Core.UsersOperations;
+    using STrackerServer.BusinessLayer.Operations.UsersOperations;
+    using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
+    using STrackerServer.DataAccessLayer.Core.UsersRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
-    using STrackerServer.Repository.MongoDB.Core;
-    /*
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
+    using STrackerServer.Repository.MongoDB.Core.TvShowsRepositories;
+    using STrackerServer.Repository.MongoDB.Core.UsersRepositories;
+
     /// <summary>
     /// The users operations tests.
     /// </summary>
@@ -59,11 +62,17 @@ namespace STrackerServer.Tests.Operations.Tests
         [SetUp]
         public void SetUp()
         {
-            this.client = new MongoClient();
             this.url = new MongoUrl(ConfigurationManager.AppSettings["MongoDBURL"]);
-
+            this.client = new MongoClient(this.url);
+              
             this.userRepo = new UsersRepository(this.client, this.url);
-            this.tvshowRepo = new TvShowsRepository(this.client, this.url);
+
+            this.tvshowRepo = new TvShowsRepository(
+                this.client, 
+                this.url, 
+                new GenresRepository(this.client, this.url), 
+                new TvShowCommentsRepository(this.client, this.url),
+                new TvShowRatingsRepository(this.client, this.url));
 
             this.userOps = new UsersOperations(this.userRepo, this.tvshowRepo);
         }
@@ -82,21 +91,24 @@ namespace STrackerServer.Tests.Operations.Tests
         [Test]
         public void Create()
         {
-            User user = new User
+            var user = new User
                 {
                     Email = "fake email",
                     Friends =
                         new List<User.UserSynopsis>
-                            { new User.UserSynopsis { Id = "0" }, new User.UserSynopsis { Id = "1" } },
+                            {
+                                new User.UserSynopsis { Id = "0" }, new User.UserSynopsis { Id = "1" } 
+                            },
                     Key = "fake key",
                     Name = "fake name",
                     Photo = new Artwork { ImageUrl = "fake image url" },
                     SubscriptionList =
-                        new List<CommentsTvShow.TvShowSynopsis>
+                        new List<TvShow.TvShowSynopsis>
                             {
-                                new CommentsTvShow.TvShowSynopsis { Id = "0", Name = "tvshow 0" },
-                                new CommentsTvShow.TvShowSynopsis { Id = "1", Name = "tvshow 1" }
-                            }
+                                new TvShow.TvShowSynopsis { Id = "0" }, new TvShow.TvShowSynopsis { Id = "1" } 
+                            },
+                    FriendRequests = new List<User.UserSynopsis>(),
+                    Suggestions = new List<Suggestion>()
                 };
 
             Assert.True(this.userOps.Create(user));
@@ -109,29 +121,28 @@ namespace STrackerServer.Tests.Operations.Tests
         [Test]
         public void Read()
         {
-            User user1 = new User
+            var user1 = new User
                 {
                     Email = "fake email",
                     Friends =
                         new List<User.UserSynopsis>
-                                { 
-                                    new User.UserSynopsis { Id = "0" },
-                                    new User.UserSynopsis { Id = "1" } 
-                                },
+                            {
+                                new User.UserSynopsis { Id = "0" }, new User.UserSynopsis { Id = "1" } 
+                            },
                     Key = "fake key",
                     Name = "fake name",
                     Photo = new Artwork { ImageUrl = "fake image url" },
                     SubscriptionList =
-                        new List<CommentsTvShow.TvShowSynopsis>
-                                {
-                                    new CommentsTvShow.TvShowSynopsis { Id = "0", Name = "tvshow 0" },
-                                    new CommentsTvShow.TvShowSynopsis { Id = "1", Name = "tvshow 1" }
-                                }
+                        new List<TvShow.TvShowSynopsis>
+                            {
+                                new TvShow.TvShowSynopsis { Id = "0" }, new TvShow.TvShowSynopsis { Id = "1" } 
+                            },
+                    FriendRequests = new List<User.UserSynopsis>(),
+                    Suggestions = new List<Suggestion>()
                 };
 
-            User user2 = this.userOps.Read("fake key");
+            var user2 = this.userOps.Read("fake key");
 
-            // Compare
             Assert.AreEqual(user1.Email, user2.Email);
 
             if (user1.Friends.Count != user2.Friends.Count)
@@ -153,26 +164,20 @@ namespace STrackerServer.Tests.Operations.Tests
                 Assert.Fail("Subscription lists have different number of items.");
             }
 
+            for (int i = 0; i < user1.SubscriptionList.Count; i++)
+            {
+                Assert.AreEqual(user1.Friends[i].Id, user2.Friends[i].Id);
+            }
+
+            if (user1.Friends.Count != user2.Friends.Count)
+            {
+                Assert.Fail("Friends lists have different number of items.");
+            }
+
             for (int i = 0; i < user1.Friends.Count; i++)
             {
                 Assert.AreEqual(user1.Friends[i].Id, user2.Friends[i].Id);
             }
-        }
-
-        /// <summary>
-        /// The update test.
-        /// </summary>
-        [Test]
-        public void Update()
-        {
-            User user1 = this.userOps.Read("fake key");
-            user1.Name = "new fake name";
-
-            Assert.True(this.userOps.Update(user1));
-
-            User user2 = this.userOps.Read("fake key");
-
-            Assert.AreEqual(user1.Name, user2.Name);
         }
 
         /// <summary>
@@ -181,9 +186,9 @@ namespace STrackerServer.Tests.Operations.Tests
         [Test]
         public void Delete()
         {
-            Assert.True(this.userOps.Delete("fake key"));
-            Assert.False(this.userOps.Delete("fake key"));
+            Assert.NotNull(this.userOps.Read("fake key"));
+            this.userOps.Delete("fake key");
+            Assert.Null(this.userOps.Read("fake key"));
         }
     }
-     */
 }
