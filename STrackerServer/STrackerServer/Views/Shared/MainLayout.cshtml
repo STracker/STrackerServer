@@ -36,7 +36,7 @@
                         else
                         {
                             <li class="divider-vertical"></li>
-                            <li>@Html.ActionLink("Login", "Login", "Account", new { returnUrl = Request.Url.ToString() }, null)</li>
+                            <li>@Html.ActionLink("Login", "Login", "Account", new { returnUrl = Request.Url.Host + Request.Url.PathAndQuery }, null)</li>
                             <li class="divider-vertical"></li>
                         }
                     </ul>
