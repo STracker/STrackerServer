@@ -30,8 +30,7 @@ namespace STrackerServer.Tests.Operations.Tests
     /// </summary>
     [TestFixture]
     public class UsersOperationsTests
-    {
-        /*
+    { 
         /// <summary>
         /// The mongo client.
         /// </summary>
@@ -191,6 +190,5 @@ namespace STrackerServer.Tests.Operations.Tests
             this.userOps.Delete("fake key");
             Assert.Null(this.userOps.Read("fake key"));
         }
-         * */
     }
 }

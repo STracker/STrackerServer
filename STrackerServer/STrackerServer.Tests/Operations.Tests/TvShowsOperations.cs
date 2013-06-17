@@ -9,36 +9,32 @@
 
 namespace STrackerServer.Tests.Operations.Tests
 {
-    /*
+    
     using System.Collections.Generic;
+    using System.Configuration;
     using System.Linq;
+
+    using MongoDB.Driver;
 
     using NUnit.Framework;
 
     using STrackerServer.BusinessLayer.Core;
+    using STrackerServer.BusinessLayer.Core.TvShowsOperations;
+    using STrackerServer.BusinessLayer.Operations.UsersOperations;
     using STrackerServer.DataAccessLayer.DomainEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.Comments;
     using STrackerServer.Repository.MongoDB.Core;
+    using STrackerServer.Repository.MongoDB.Core.TvShowsRepositories;
+    using STrackerServer.Repository.MongoDB.Core.UsersRepositories;
 
     /// <summary>
     /// The television shows operations.
     /// </summary>
     [TestFixture]
     public class TvShowsOperations
-    {     
-        /// <summary>
-        /// The operations.
-        /// </summary>
-        private readonly ITvShowsOperations operations;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TvShowsOperations"/> class.
-        /// </summary>
-        public TvShowsOperations()
-        {
-            var repo = new TvShowsRepository();
-            this.operations = new BusinessLayer.Operations.TvShowsOperations();
-        }
-
+    {
+        /*
         /// <summary>
         /// The read by IMDB id test.
         /// </summary>
@@ -140,5 +136,6 @@ namespace STrackerServer.Tests.Operations.Tests
             Assert.Null(tvshowRead);
         }
     }
-     * */
+    */
+    }
 }
