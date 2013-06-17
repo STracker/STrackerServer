@@ -128,14 +128,18 @@ namespace STrackerServer.Controllers
         /// <summary>
         /// The log out action.
         /// </summary>
+        /// <param name="returnUrl">
+        /// The return Url.
+        /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpGet]
-        public ActionResult Logout()
+        [Authorize]
+        public ActionResult Logout(string returnUrl)
         {
             FormsAuthentication.SignOut();
-            return new SeeOtherResult { Url = Url.Action("Index", "HomeWeb") };
+            return new SeeOtherResult { Url = returnUrl };
         }
 
         /// <summary>
