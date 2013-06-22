@@ -11,8 +11,6 @@
     <iconUrl>http://springframework.net/images/SpringSource_Leaves100x100.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>The RabbitMQ .NET client is an implementation of an AMQP client library for C# (and, implicitly, other .NET languages), and a binding exposing AMQP services via Microsoft's Windows Communication Foundation (WCF).</description>
-    <releaseNotes />
-    <copyright />
     <language>en-US</language>
     <tags>RabbitMQ Client AMQP SpringSource vmware</tags>
   </metadata>
