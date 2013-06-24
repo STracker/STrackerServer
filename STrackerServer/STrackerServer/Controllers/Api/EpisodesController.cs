@@ -74,5 +74,23 @@ namespace STrackerServer.Controllers.Api
         {
             return this.BaseGet(this.operations.GetAllFromOneSeason(tvshowId, seasonNumber));
         }
+
+        /// <summary>
+        /// The get newest episodes.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="date">
+        /// The date.
+        /// </param>
+        /// <returns>
+        /// The <see cref="HttpResponseMessage"/>.
+        /// </returns>
+        [HttpGet]
+        public HttpResponseMessage GetNewest(string tvshowId, string date)
+        {
+            return this.BaseGet(this.operations.GetNewestEpisodes(tvshowId, date));
+        }
     }
 }

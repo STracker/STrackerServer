@@ -75,11 +75,11 @@ namespace STrackerServer.Controllers.Api
         {
             if (!ModelState.IsValid)
             {
-                return this.BasePostOrDelete(false);
+                return this.BasePost(false);
             }
 
             var state = this.operations.AddSubscription(userId, value.TvShowId);
-            return this.BasePostOrDelete(state);
+            return this.BasePost(state);
         }
 
         /// <summary>

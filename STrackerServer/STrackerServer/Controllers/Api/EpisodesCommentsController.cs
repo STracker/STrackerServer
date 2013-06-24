@@ -89,11 +89,11 @@ namespace STrackerServer.Controllers.Api
         {
             if (!ModelState.IsValid)
             {
-                return this.BasePostOrDelete(false);
+                return this.BasePost(false);
             }
 
             this.operations.AddComment(new Tuple<string, int, int>(tvshowId, seasonNumber, number), new Comment { Body = comment.Body, UserId = comment.UserId, Timestamp = comment.Timestamp });
-            return this.BasePostOrDelete(true);
+            return this.BasePost(true);
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace STrackerServer.Controllers.Api
         [HttpDelete]
         public HttpResponseMessage Delete(string tvshowId, int seasonNumber, int number, string userId, string timestamp)
         {
-            return this.BasePostOrDelete(this.operations.RemoveComment(new Tuple<string, int, int>(tvshowId, seasonNumber, number), userId, timestamp));
+            return this.BasePost(this.operations.RemoveComment(new Tuple<string, int, int>(tvshowId, seasonNumber, number), userId, timestamp));
         }
     }
 }

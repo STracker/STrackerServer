@@ -11,9 +11,11 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.BusinessLayer.Core.SeasonsOperations;
+    using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.DataAccessLayer.Core.EpisodesRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
 
@@ -23,6 +25,11 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
     public class EpisodesOperations : BaseCrudOperations<Episode, Tuple<string, int, int>>, IEpisodesOperations
     {
         /// <summary>
+        /// The television shows operations.
+        /// </summary>
+        private readonly ITvShowsOperations tvshowsOperations;
+
+        /// <summary>
         /// The seasons operations.
         /// </summary>
         private readonly ISeasonsOperations seasonsOperations;
@@ -30,15 +37,19 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
         /// <summary>
         /// Initializes a new instance of the <see cref="EpisodesOperations"/> class.
         /// </summary>
+        /// <param name="tvshowsOperations">
+        /// The television shows Operations.
+        /// </param>
         /// <param name="seasonsOperations">
         /// The seasons operations.
         /// </param>
         /// <param name="repository">
         /// The repository.
         /// </param>
-        public EpisodesOperations(ISeasonsOperations seasonsOperations, IEpisodesRepository repository)
+        public EpisodesOperations(ITvShowsOperations tvshowsOperations, ISeasonsOperations seasonsOperations, IEpisodesRepository repository)
             : base(repository)
         {
+            this.tvshowsOperations = tvshowsOperations;
             this.seasonsOperations = seasonsOperations;
         }
 
@@ -75,6 +86,32 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
         {
             var season = this.seasonsOperations.Read(new Tuple<string, int>(tvshowId, seasonNumber));
             return season == null ? null : ((IEpisodesRepository)this.Repository).GetAllFromOneSeason(tvshowId, seasonNumber);
+        }
+
+        /// <summary>
+        /// The get newest episodes.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="date">
+        /// The date.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>IEnumerable</cref>
+        ///     </see> .
+        /// </returns>
+        public IEnumerable<Episode.EpisodeSynopsis> GetNewestEpisodes(string tvshowId, string date)
+        {
+            var tvshow = this.tvshowsOperations.Read(tvshowId);
+            if (tvshow == null)
+            {
+                return null;
+            }
+
+            var episodes = (List<Episode.EpisodeSynopsis>)((IEpisodesRepository)this.Repository).GetNewestEpisodes(tvshowId);
+            return date == null ? episodes : episodes.Where(epi => DateTime.Parse(epi.Date) <= DateTime.Parse(date));
         }
     }
 }

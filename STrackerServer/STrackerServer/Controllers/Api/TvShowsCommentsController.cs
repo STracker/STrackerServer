@@ -76,11 +76,11 @@ namespace STrackerServer.Controllers.Api
         {
             if (!ModelState.IsValid)
             {
-                return this.BasePostOrDelete(false);
+                return this.BasePost(false);
             }
 
             this.operations.AddComment(id, new Comment { Body = comment.Body, UserId = comment.UserId, Timestamp = comment.Timestamp });
-            return this.BasePostOrDelete(true);
+            return this.BasePost(true);
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace STrackerServer.Controllers.Api
         [HttpDelete]
         public HttpResponseMessage Delete(string id, string userId, string timestamp)
         {
-            return this.BasePostOrDelete(this.operations.RemoveComment(id, userId, timestamp));
+            return this.BasePost(this.operations.RemoveComment(id, userId, timestamp));
         }
     }
 }
