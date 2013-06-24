@@ -69,6 +69,7 @@ namespace STrackerServer.Tests.Operations.Tests
             Assert.AreEqual(tvshow.Uri, "tvshows/tt0098904");
         }
 
+        /*
         /// <summary>
         /// The create.
         /// </summary>
@@ -97,5 +98,6 @@ namespace STrackerServer.Tests.Operations.Tests
             tvshowRead = this.repository.Read("tt12345");
             Assert.Null(tvshowRead);
         }
+         */
     }
 }

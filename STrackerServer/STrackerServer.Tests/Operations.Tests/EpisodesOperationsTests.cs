@@ -77,6 +77,7 @@ namespace STrackerServer.Tests.Operations.Tests
             Assert.AreEqual(((List<Episode.EpisodeSynopsis>)episodes).Count, 5);
         }
 
+        /*
         /// <summary>
         /// The create delete.
         /// </summary>
@@ -122,5 +123,6 @@ namespace STrackerServer.Tests.Operations.Tests
 
             Assert.Null(tvshow);
         }
+         */
     }
 }
