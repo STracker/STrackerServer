@@ -105,7 +105,7 @@ namespace STrackerServer.Tests.Operations.Tests
 
             this.tvshowsRepo.Delete("tt12345");
             tvshow = this.tvshowsRepo.Read("tt12345");
-
+             
             Assert.Null(tvshow);
         }
     }
