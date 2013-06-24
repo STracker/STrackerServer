@@ -18,7 +18,7 @@ namespace STrackerServer.Tests.Operations.Tests
     using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
-
+    /*
     /// <summary>
     /// The users operations tests.
     /// </summary>
@@ -155,4 +155,5 @@ namespace STrackerServer.Tests.Operations.Tests
             Assert.Null(this.userOps.Read("fake key"));
         }
     }
+     */
 }
