@@ -72,6 +72,7 @@ namespace STrackerServer.Tests.Operations.Tests
             Assert.AreEqual(((List<Season.SeasonSynopsis>)seasons).Count, 10);
         }
 
+        /*
         /// <summary>
         /// The create update delete.
         /// </summary>
@@ -108,5 +109,6 @@ namespace STrackerServer.Tests.Operations.Tests
               
             Assert.Null(tvshow);
         }
+         */
     }
 }
