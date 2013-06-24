@@ -42,5 +42,23 @@ namespace STrackerServer.DataAccessLayer.Core.EpisodesRepositories
         ///     </see> .
         /// </returns>
         IEnumerable<Episode.EpisodeSynopsis> GetAllFromOneSeason(string tvshowId, int seasonNumber);
+
+        /// <summary>
+        /// The get newest episodes.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>IEnumerable</cref>
+        ///     </see> .
+        /// </returns>
+        IEnumerable<Episode.EpisodeSynopsis> GetNewestEpisodes(string tvshowId); 
+
+        /// <summary>
+        /// The Delete old episodes.
+        /// </summary>
+        void DeleteOldEpisodes();
     }
 }

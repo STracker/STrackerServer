@@ -103,7 +103,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         {
             var uri = string.Format("tvshows/{0}/seasons/{1}/episodes/{2}", this.TvShowId, this.SeasonNumber, this.EpisodeNumber);
 
-            return new EpisodeSynopsis { EpisodeNumber = this.EpisodeNumber, Name = this.Name, Uri = uri };
+            return new EpisodeSynopsis { EpisodeNumber = this.EpisodeNumber, Name = this.Name, Date = this.Date, Uri = uri };
         }
 
         /// <summary>
@@ -120,6 +120,11 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
             /// Gets or sets the name.
             /// </summary>
             public string Name { get; set; }
+
+            /// <summary>
+            /// Gets or sets the date.
+            /// </summary>
+            public string Date { get; set; }
 
             /// <summary>
             /// Gets or sets the uri.

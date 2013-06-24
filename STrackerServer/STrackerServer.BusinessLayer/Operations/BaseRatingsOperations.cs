@@ -9,10 +9,8 @@
 
 namespace STrackerServer.BusinessLayer.Operations
 {
-    using System;
     using System.Configuration;
     using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
 
     using STrackerServer.BusinessLayer.Core;
     using STrackerServer.DataAccessLayer.Core;
@@ -80,6 +78,7 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <returns>
         /// The <see cref="TR"/>.
         /// </returns>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public TR Read(TK key)
         {
             var entity = this.Repository.Read(key);
@@ -108,23 +107,6 @@ namespace STrackerServer.BusinessLayer.Operations
 
             var entity = this.Repository.Read(key);
             return !Equals(entity, default(T)) && this.RatingsRepository.AddRating(key, rating);
-        }
-
-        /// <summary>
-        /// The remove rating.
-        /// </summary>
-        /// <param name="key">
-        /// The key.
-        /// </param>
-        /// <param name="rating">
-        /// The rating.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public bool RemoveRating(TK key, Rating rating)
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>
