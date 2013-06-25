@@ -7,6 +7,7 @@
 namespace STrackerServer.App_Start
 {
     using System.Web.Http;
+    using System.Web.Mvc;
 
     /// <summary>
     /// Web API config.
@@ -35,7 +36,7 @@ namespace STrackerServer.App_Start
             config.Routes.MapHttpRoute("api_season_get", "api/tvshows/{tvshowId}/seasons/{number}", new { controller = "seasons", action = "get" });
 
             // Routes for episodes.
-            config.Routes.MapHttpRoute("api_episode_newest", "api/tvshows/{tvshowId}/newestepisodes", new { controller = "episodes", action = "getnewest" });
+            config.Routes.MapHttpRoute("api_episode_newest", "api/tvshows/{tvshowId}/newestepisodes", new { controller = "episodes", action = "getnewest", date = UrlParameter.Optional });
             config.Routes.MapHttpRoute("api_episodes", "api/tvshows/{tvshowId}/seasons/{seasonNumber}/episodes", new { controller = "episodes", action = "getall" });
             config.Routes.MapHttpRoute("api_episode_get", "api/tvshows/{tvshowId}/seasons/{seasonNumber}/episodes/{number}", new { controller = "episodes", action = "get" });
 

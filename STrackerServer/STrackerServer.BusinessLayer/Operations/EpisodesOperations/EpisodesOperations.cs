@@ -104,6 +104,13 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
         /// </returns>
         public IEnumerable<Episode.EpisodeSynopsis> GetNewestEpisodes(string tvshowId, string date)
         {
+            // Verify date format.
+            DateTime temp;
+            if (!DateTime.TryParse(date, out temp))
+            {
+                return null;
+            }
+
             var tvshow = this.tvshowsOperations.Read(tvshowId);
             if (tvshow == null)
             {
@@ -111,6 +118,7 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
             }
 
             var episodes = (List<Episode.EpisodeSynopsis>)((IEpisodesRepository)this.Repository).GetNewestEpisodes(tvshowId);
+
             return date == null ? episodes : episodes.Where(epi => DateTime.Parse(epi.Date) <= DateTime.Parse(date));
         }
     }
