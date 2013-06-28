@@ -75,12 +75,13 @@ namespace STrackerServer.Controllers
         /// Gets the callback uri.
         /// </summary>
         /// Attention! This property must be called when exists one http request.
+        /*
         private string CallbackUri
         {
             get { return "http://" + Request.Url.Host + Url.Action("Callback"); }
         }
+        */
 
-        /*
         private string CallbackUri
         {
             get
@@ -89,7 +90,6 @@ namespace STrackerServer.Controllers
                 return url == null ? null : url.GetLeftPart(UriPartial.Authority) + this.Url.Action("Callback");
             }
         }
-        */
 
         /// <summary>
         /// The login.
@@ -128,18 +128,15 @@ namespace STrackerServer.Controllers
         /// <summary>
         /// The log out action.
         /// </summary>
-        /// <param name="returnUrl">
-        /// The return Url.
-        /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpGet]
         [Authorize]
-        public ActionResult Logout(string returnUrl)
+        public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
-            return new SeeOtherResult { Url = returnUrl };
+            return new SeeOtherResult { Url = Url.Action("Index", "HomeWeb")};
         }
 
         /// <summary>
