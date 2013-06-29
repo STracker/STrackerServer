@@ -13,10 +13,7 @@ namespace STrackerServer.Controllers.Api
     using System.Net.Http;
     using System.Web.Http;
 
-    using HawkNet.WebApi;
-
     using STrackerServer.BusinessLayer.Core.UsersOperations;
-    using STrackerServer.Hawk;
 
     /// <summary>
     /// The users controller.
@@ -42,17 +39,14 @@ namespace STrackerServer.Controllers.Api
         /// <summary>
         /// The get info.
         /// </summary>
-        /// <param name="userId">
-        /// The user id.
-        /// </param>
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
         [HttpGet]
         [Authorize]
-        public HttpResponseMessage Get(string userId)
+        public HttpResponseMessage Get()
         {
-            return this.BaseGet(this.operations.Read(userId));
+            return this.BaseGet(this.operations.Read(User.Identity.Name));
         }
 
         /// <summary>
