@@ -136,7 +136,7 @@ namespace STrackerServer.Controllers
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
-            return new SeeOtherResult { Url = Url.Action("Index", "HomeWeb")};
+            return new SeeOtherResult { Url = Url.Action("Index", "HomeWeb") };
         }
 
         /// <summary>

@@ -39,22 +39,23 @@ namespace STrackerServer.Controllers
         /// <summary>
         /// The show.
         /// </summary>
-        /// <param name="genre">
-        /// The genre.
+        /// <param name="name">
+        /// The name.
         /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpGet]
-        public ActionResult Show(string genre)
+        public ActionResult Show(string name)
         {
-            var genreModel = this.genreOperations.Read(genre);
+            var genreModel = this.genreOperations.Read(name);
 
-            if (genre == null)
+            if (genreModel == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
                 return this.View("Error", Response.StatusCode);
             }
+
             var view = new GenreView { GenreName = genreModel.Key, TvShows = genreModel.TvshowsSynopses };
             return this.View(view);
         }

@@ -119,6 +119,12 @@ namespace STrackerServer.App_Start
                 "EpisodeWeb_Comment_Remove",
                 "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}/Comments/{position}/Remove",
                 new { controller = "EpisodesWeb", action = "RemoveComment" }); 
+
+            // Genre Routes
+            routes.MapRoute(
+                "GenreWeb_Show", 
+                "Genres/{name}",
+                new { controller = "GenreWeb", action = "Show" });
         }
     }
 }

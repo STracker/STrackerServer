@@ -7,7 +7,11 @@
 namespace STrackerServer.App_Start
 {
     using System.Web.Http;
+    using System.Web.Http.Dispatcher;
     using System.Web.Mvc;
+
+    using HawkNet;
+    using HawkNet.WebApi;
 
     /// <summary>
     /// Web API config.
@@ -22,6 +26,16 @@ namespace STrackerServer.App_Start
         /// </param>
         public static void Register(HttpConfiguration config)
         {
+            var handler = new HawkMessageHandler(
+                new HttpControllerDispatcher(config),
+                id => new HawkCredential
+                    {
+                        Id = id,
+                        Key = "werxhqb98rpaxn39848xrunpaw3489ruxnpa98w4rxn",
+                        Algorithm = "hmacsha256",
+                        User = id
+                    });
+
             // Routes for genres.
             config.Routes.MapHttpRoute("api_genres", "api/genres", new { controller = "genres", action = "getall" });
             config.Routes.MapHttpRoute("api_genres_get", "api/genres/{id}", new { controller = "genres", action = "get" });
@@ -51,7 +65,7 @@ namespace STrackerServer.App_Start
             config.Routes.MapHttpRoute("api_episode_ratings", "api/tvshows/{tvshowId}/seasons/{seasonNumber}/episodes/{number}/ratings", new { controller = "episodesratings" });
 
             // Routes for users.
-            config.Routes.MapHttpRoute("api_users", "api/users", new { controller = "users" });
+            config.Routes.MapHttpRoute("api_users", "api/users", new { controller = "users" }, null, handler);
             config.Routes.MapHttpRoute("api_users_get", "api/users/{id}", new { controller = "users", action = "get" });
 
             // Routes for users subscriptions.

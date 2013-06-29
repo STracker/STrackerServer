@@ -22,8 +22,8 @@
                 @using (Html.BeginForm("Rate", "TvShowsWeb"))
                 {
                     @Html.HiddenFor(rating => rating.TvShowId)
-                    @Html.EditorFor(rating => rating.Value)
-                    <input class="btn btn-danger btn-mini" type="submit" value="Rate"/>
+                    <p>@Html.EditorFor(rating => rating.Value)</p>
+                    <p><input class="btn btn-danger" type="submit" value="Rate"/></p>
                 }  
             </div>
         </div>

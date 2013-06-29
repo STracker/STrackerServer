@@ -56,7 +56,9 @@
                 <ul>
                     @foreach(var genre in Model.Genres)
                     {
-                        <li>@genre.Id</li>            
+                        <li>
+                            <a href="@Url.Action("Show","GenreWeb", new { name = genre.Id })">@genre.Id</a>
+                        </li>            
                     }
                 </ul>
             </div>     
