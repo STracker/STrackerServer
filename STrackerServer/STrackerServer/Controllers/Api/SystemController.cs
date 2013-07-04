@@ -10,7 +10,6 @@
 namespace STrackerServer.Controllers.Api
 {
     using System;
-    using System.Globalization;
     using System.Web.Http;
 
     using STrackerServer.Controllers.Api.AuxiliaryObjects;
@@ -29,7 +28,7 @@ namespace STrackerServer.Controllers.Api
         [HttpGet]
         public TimeUtc GetTime()
         {
-            return new TimeUtc { Time = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture) };
+            return new TimeUtc { Time = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss") };
         }
     }
 }
