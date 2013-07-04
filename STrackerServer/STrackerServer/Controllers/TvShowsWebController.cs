@@ -10,7 +10,6 @@
 namespace STrackerServer.Controllers
 {
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
     using System.Net;
     using System.Web.Mvc;
@@ -226,7 +225,7 @@ namespace STrackerServer.Controllers
                 return this.View(create);
             }
 
-            var comment = new Comment { Body = create.Body, UserId = User.Identity.Name, Timestamp = System.Environment.TickCount.ToString(CultureInfo.InvariantCulture) };
+            var comment = new Comment { Body = create.Body, UserId = User.Identity.Name };
 
             this.commentsOperations.AddComment(create.TvShowId, comment);
             return new SeeOtherResult { Url = Url.Action("Comments", "TvShowsWeb", new { create.TvShowId }) };
@@ -238,25 +237,25 @@ namespace STrackerServer.Controllers
         /// <param name="tvshowId">
         /// The television show id.
         /// </param>
-        /// <param name="position">
-        /// The position.
+        /// <param name="id">
+        /// The id.
         /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpGet]
         [Authorize]
-        public ActionResult Comment(string tvshowId, int position)
+        public ActionResult Comment(string tvshowId, string id)
         {
             var comments = this.commentsOperations.GetComments(tvshowId).Comments;
 
-            if (position >= comments.Count)
+            var comment = comments.Find(comment1 => comment1.Id.Equals(id));
+
+            if (comment == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return this.View("Error", Response.StatusCode);
+                return this.View("Error", Response.StatusCode); 
             }
-
-            var comment = comments.ElementAt(position);
 
             if (!comment.UserId.Equals(User.Identity.Name))
             {
@@ -271,7 +270,7 @@ namespace STrackerServer.Controllers
                     TvShowId = tvshowId, 
                     UserId = comment.UserId, 
                     Body = comment.Body, 
-                    Timestamp = comment.Timestamp,
+                    Id = comment.Id,
                     Poster = tvshow.Poster.ImageUrl
                 };
 
@@ -291,7 +290,7 @@ namespace STrackerServer.Controllers
         [Authorize]
         public ActionResult RemoveComment(TvShowRemoveComment removeView)
         {
-            if (!ModelState.IsValid || !this.commentsOperations.RemoveComment(removeView.TvShowId, User.Identity.Name, removeView.Timestamp))
+            if (!ModelState.IsValid || !this.commentsOperations.RemoveComment(removeView.TvShowId, User.Identity.Name, removeView.Id))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View("Error", Response.StatusCode);

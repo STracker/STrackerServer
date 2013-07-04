@@ -26,21 +26,21 @@
         <div class="span6">
             <div class="box">
                 <h2>Comments</h2>
-
-                @for (var i = 0; i < Model.Comments.Count; i++)
+                
+                @foreach(var comment in Model.Comments)
                 {
                     <div> 
                         <div class="box-whiter">
                             <div style="text-align: right">
-                                @if (User.Identity.IsAuthenticated && Model.Comments.ElementAt(i).UserId.Equals(User.Identity.Name))
+                                @if (User.Identity.IsAuthenticated && comment.UserId.Equals(User.Identity.Name))
                                 {
-                                    <a href="@Url.Action("Comment", "EpisodesWeb", new {tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber, position = i})">Edit</a>
+                                    <a href="@Url.Action("Comment", "EpisodesWeb", new {tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber, id = comment.Id})">Edit</a>
                                 }
                             </div>
-                            @Model.Comments.ElementAt(i).Body  
+                            @comment.Body  
                         </div> 
                     </div>
-                }      
+                }  
             </div>
         </div>
     </div>

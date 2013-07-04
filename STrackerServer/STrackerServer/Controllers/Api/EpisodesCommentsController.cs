@@ -92,7 +92,7 @@ namespace STrackerServer.Controllers.Api
                 return this.BasePost(false);
             }
 
-            this.operations.AddComment(new Tuple<string, int, int>(tvshowId, seasonNumber, number), new Comment { Body = comment.Body, UserId = comment.UserId, Timestamp = comment.Timestamp });
+            this.operations.AddComment(new Tuple<string, int, int>(tvshowId, seasonNumber, number), new Comment { Body = comment.Body, UserId = comment.UserId });
             return this.BasePost(true);
         }
 

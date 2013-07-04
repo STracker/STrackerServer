@@ -117,14 +117,14 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <param name="userId">
         /// The user Key.
         /// </param>
-        /// <param name="timestamp">
-        /// The time Stamp.
+        /// <param name="id">
+        /// The id.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
         [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
-        public bool RemoveComment(TK key, string userId, string timestamp)
+        public bool RemoveComment(TK key, string userId, string id)
         {
             var entity = this.Repository.Read(key);
             if (Equals(entity, default(T)))
@@ -132,7 +132,7 @@ namespace STrackerServer.BusinessLayer.Operations
                 return false;
             }
 
-            var commentR = this.CommentsRepository.Read(key).Comments.FirstOrDefault(c => c.UserId.Equals(userId) && c.Timestamp.Equals(timestamp));
+            var commentR = this.CommentsRepository.Read(key).Comments.FirstOrDefault(c => c.UserId.Equals(userId) && c.Id.Equals(id));
 
             return commentR != null && this.RemoveCommentHook(key, commentR);
         }

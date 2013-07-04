@@ -30,11 +30,6 @@ namespace STrackerServer.Models.TvShow
         public string Username { get; set; }
 
         /// <summary>
-        /// Gets or sets the Timestamp.
-        /// </summary>
-        public string Timestamp { get; set; }
-
-        /// <summary>
         /// Gets or sets the body.
         /// </summary>
         public string Body { get; set; }
@@ -43,5 +38,10 @@ namespace STrackerServer.Models.TvShow
         /// Gets or sets the poster.
         /// </summary>
         public string Poster { get; set; }
+
+        /// <summary>
+        /// Gets or sets the id.
+        /// </summary>
+        public string Id { get; set; }
     }
 }

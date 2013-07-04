@@ -57,12 +57,12 @@ namespace STrackerServer.BusinessLayer.Core
         /// <param name="userId">
         /// The user Key.
         /// </param>
-        /// <param name="timestamp">
-        /// The time Stamp.
+        /// <param name="commentId">
+        /// The comment Id.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool RemoveComment(TK id, string userId, string timestamp);
+        bool RemoveComment(TK id, string userId, string commentId);
     }
 }

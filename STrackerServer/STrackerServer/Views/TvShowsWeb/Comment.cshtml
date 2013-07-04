@@ -26,7 +26,7 @@
                 @using (Html.BeginForm("RemoveComment", "TvShowsWeb"))
                 {
                     @Html.Hidden("tvshowId", Model.TvShowId)
-                    @Html.Hidden("timestamp", Model.Timestamp)
+                    @Html.Hidden("Id", Model.Id)
                     <input class="btn btn-danger btn-mini" type="submit" value="Remove"/>
                 }  
             </div>  

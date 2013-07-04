@@ -10,7 +10,6 @@
 namespace STrackerServer.Controllers
 {
     using System;
-    using System.Globalization;
     using System.Linq;
     using System.Net;
     using System.Web.Mvc;
@@ -227,7 +226,7 @@ namespace STrackerServer.Controllers
                 return this.View(create);
             }
 
-            var comment = new Comment { Body = create.Body, UserId = User.Identity.Name, Timestamp = Environment.TickCount.ToString(CultureInfo.InvariantCulture) };
+            var comment = new Comment { Body = create.Body, UserId = User.Identity.Name };
 
             this.commentsOperations.AddComment(new Tuple<string, int, int>(create.TvShowId, create.SeasonNumber, create.EpisodeNumber), comment);
             return new SeeOtherResult { Url = Url.Action("Comments", "EpisodesWeb", new { tvshowId = create.TvShowId, seasonNumber = create.SeasonNumber, episodeNumber = create.EpisodeNumber }) };
@@ -245,15 +244,15 @@ namespace STrackerServer.Controllers
         /// <param name="episodeNumber">
         /// The episode number.
         /// </param>
-        /// <param name="position">
-        /// The position.
+        /// <param name="id">
+        /// The id.
         /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpGet]
         [Authorize]
-        public ActionResult Comment(string tvshowId, int seasonNumber, int episodeNumber, int position)
+        public ActionResult Comment(string tvshowId, int seasonNumber, int episodeNumber, string id)
         {
             var comments =
                 this.commentsOperations.GetComments(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber));
@@ -264,13 +263,13 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            if (position >= comments.Comments.Count)
+            var comment = comments.Comments.FirstOrDefault(comment1 => comment1.Id.Equals(id));
+
+            if (comment == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
                 return this.View("Error", Response.StatusCode);
             }
-
-            var comment = comments.Comments.ElementAt(position);
 
             if (!comment.UserId.Equals(User.Identity.Name))
             {
@@ -288,7 +287,7 @@ namespace STrackerServer.Controllers
                 EpisodeNumber = episodeNumber,
                 UserId = comment.UserId,
                 Body = comment.Body,
-                Timestamp = comment.Timestamp,
+                Id = comment.Id,
                 Poster = episode.Poster == null ? tvshow.Poster.ImageUrl : episode.Poster.ImageUrl
             };
 
@@ -308,7 +307,7 @@ namespace STrackerServer.Controllers
         [Authorize]
         public ActionResult RemoveComment(EpisodeRemoveComment remove)
         {
-            if (!ModelState.IsValid || !this.commentsOperations.RemoveComment(new Tuple<string, int, int>(remove.TvShowId, remove.SeasonNumber, remove.EpisodeNumber), User.Identity.Name, remove.Timestamp))
+            if (!ModelState.IsValid || !this.commentsOperations.RemoveComment(new Tuple<string, int, int>(remove.TvShowId, remove.SeasonNumber, remove.EpisodeNumber), User.Identity.Name, remove.Id))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View("Error", Response.StatusCode);

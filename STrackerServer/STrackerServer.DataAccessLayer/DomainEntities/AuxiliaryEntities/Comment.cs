@@ -9,11 +9,21 @@
 
 namespace STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities
 {
+    using System;
+
     /// <summary>
     /// The comment.
     /// </summary>
     public class Comment
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Comment"/> class.
+        /// </summary>
+        public Comment()
+        {
+            this.Id = Guid.NewGuid().ToString();
+        }
+
         /// <summary>
         /// Gets or sets the comment body.
         /// </summary>
@@ -27,6 +37,6 @@ namespace STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities
         /// <summary>
         /// Gets or sets the timestamp.
         /// </summary>
-        public string Timestamp { get; set; }
+        public string Id { get; set; }
     }
 }

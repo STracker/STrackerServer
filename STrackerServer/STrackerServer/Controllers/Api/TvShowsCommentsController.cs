@@ -79,7 +79,7 @@ namespace STrackerServer.Controllers.Api
                 return this.BasePost(false);
             }
 
-            this.operations.AddComment(id, new Comment { Body = comment.Body, UserId = comment.UserId, Timestamp = comment.Timestamp });
+            this.operations.AddComment(id, new Comment { Body = comment.Body, UserId = comment.UserId });
             return this.BasePost(true);
         }
 

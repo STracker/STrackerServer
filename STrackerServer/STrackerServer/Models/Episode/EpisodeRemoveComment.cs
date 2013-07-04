@@ -35,9 +35,9 @@ namespace STrackerServer.Models.Episode
         public int EpisodeNumber { get; set; }
 
         /// <summary>
-        /// Gets or sets the Timestamp.
+        /// Gets or sets the id.
         /// </summary>
         [Required]
-        public string Timestamp { get; set; }
+        public string Id { get; set; }
     }
 }
