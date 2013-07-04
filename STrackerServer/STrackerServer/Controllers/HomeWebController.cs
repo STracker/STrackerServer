@@ -10,6 +10,7 @@
 namespace STrackerServer.Controllers
 {
     using System.Web.Mvc;
+    using System.Linq;
 
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.Models.Home;
@@ -44,7 +45,7 @@ namespace STrackerServer.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var view = new HomeView { Genres = this.genresOperations.GetAll() };
+            var view = new HomeView { Genres = this.genresOperations.GetAll().OrderBy(synopsis => synopsis.Id) };
 
             return this.View(view);
         }

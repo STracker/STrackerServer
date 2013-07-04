@@ -160,6 +160,7 @@
     <Compile Include="Controllers\Api\AuxiliaryObjects\ApiAddRating.cs" />
     <Compile Include="Controllers\Api\AuxiliaryObjects\ApiAddUserSubscription.cs" />
     <Compile Include="Controllers\Api\EpisodesRatingsController.cs" />
+    <Compile Include="Controllers\Api\SystemController.cs" />
     <Compile Include="Controllers\Api\TvShowsCommentsController.cs" />
     <Compile Include="Controllers\Api\BaseController.cs" />
     <Compile Include="Controllers\Api\EpisodesController.cs" />
@@ -239,6 +240,7 @@
     <None Include="Scripts\jquery-2.0.2.intellisense.js" />
     <Content Include="Scripts\jquery-2.0.2.js" />
     <Content Include="Scripts\jquery-2.0.2.min.js" />
+    <Content Include="Scripts\STracker.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

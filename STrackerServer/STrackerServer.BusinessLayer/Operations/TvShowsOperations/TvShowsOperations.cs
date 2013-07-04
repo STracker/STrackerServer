@@ -103,5 +103,21 @@ namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
         {
             return ((ITvShowsRepository)this.Repository).GetTopRated(max);
         }
+
+        /// <summary>
+        /// The get names.
+        /// </summary>
+        /// <param name="query">
+        /// The query.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>List</cref>
+        ///     </see> .
+        /// </returns>
+        public string[] GetNames(string query)
+        {
+            return ((ITvShowsRepository)this.Repository).GetNames(query);
+        }
     }
 }

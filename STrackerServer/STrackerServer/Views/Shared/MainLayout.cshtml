@@ -10,6 +10,10 @@
     <link href="@Url.Content("~/Content/bootstrap-responsive.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/StrackerStyle.css")" rel="stylesheet" type="text/css" />
     <link rel="icon" type="image/png" href="~/Content/images/tv.png">
+    
+    <script src="@Url.Content("~/Scripts/STracker.js")" type="text/javascript"></script> 
+    <script src="@Url.Content("~/Scripts/jquery-2.0.0.js")" type="text/javascript"></script> 
+    <script src="@Url.Content("~/Scripts/bootstrap.js")" type="text/javascript"></script> 
 </head>
     <body>
         <div class="navbar navbar-inverse navbar-fixed-top">
@@ -21,6 +25,12 @@
                         <li class="divider-vertical"></li>    
                         <li><a href="@Url.Action("Api","HomeWeb")"> API </a></li>
                         <li class="divider-vertical"></li>
+                        <li>
+                            <form action="@Url.Action("GetByName","TvShowsWeb")" method="GET" class="navbar-form pull-left">
+                                <input id="TvShowSearch" type="text" name="name" placeholder="Tv Show" autocomplete="off" class="typeahead"/>
+                                <button type="submit" class="btn btn-primary"><b class="icon-search"></b></button>
+                            </form>
+                        </li>
                     </ul>
                     <ul class="nav pull-right">
                         @if (HttpContext.Current.User.Identity.IsAuthenticated)
@@ -36,7 +46,9 @@
                         else
                         {
                             <li class="divider-vertical"></li>
+                            @* ReSharper disable PossibleNullReferenceException *@
                             <li>@Html.ActionLink("Login", "Login", "Account", new { returnUrl = Request.Url.PathAndQuery }, null)</li>
+                            @* ReSharper restore PossibleNullReferenceException *@
                             <li class="divider-vertical"></li>
                         }
                     </ul>

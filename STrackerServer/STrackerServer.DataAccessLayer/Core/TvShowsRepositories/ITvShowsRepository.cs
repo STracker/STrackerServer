@@ -65,5 +65,18 @@ namespace STrackerServer.DataAccessLayer.Core.TvShowsRepositories
         ///     </see> .
         /// </returns>
         List<TvShow.TvShowSynopsis> GetTopRated(int max);
+
+        /// <summary>
+        /// The get names.
+        /// </summary>
+        /// <param name="query">
+        /// The query.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>string[]</cref>
+        ///     </see> .
+        /// </returns>
+        string[] GetNames(string query);
     }
 }

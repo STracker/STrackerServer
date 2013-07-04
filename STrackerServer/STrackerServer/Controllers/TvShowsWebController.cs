@@ -423,5 +423,20 @@ namespace STrackerServer.Controllers
 
             return new SeeOtherResult { Url = Url.Action("Show", new { tvshowId = rating.TvShowId }) };
         }
+
+        /// <summary>
+        /// The get names.
+        /// </summary>
+        /// <param name="query">
+        /// The query.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpGet]
+        public ActionResult GetNames(string query)
+        {
+            return this.Json(query == null ? new string[0] : this.tvshowOperations.GetNames(query), JsonRequestBehavior.AllowGet);
+        }
     }
 }

@@ -65,6 +65,8 @@ namespace STrackerServer.App_Start
             routes.MapRoute("Account_Logout", "Account/Logout", new { controller = "Account", action = "Logout" });
 
             // TvShow Routes
+            routes.MapRoute("TvShowsWeb_Names", "TvShows/Names", new { controller = "TvShowsWeb", action = "GetNames" });
+
             routes.MapRoute("TvShowsWeb_Comments", "TvShows/{tvshowId}/Comments", new { controller = "TvShowsWeb", action = "Comments" });
 
             routes.MapRoute("TvShowsWeb_Suggestion", "TvShows/{tvshowId}/Suggest", new { controller = "TvShowsWeb", action = "Suggest" });

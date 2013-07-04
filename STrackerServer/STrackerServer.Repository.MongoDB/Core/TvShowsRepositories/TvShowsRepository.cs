@@ -179,6 +179,25 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         }
 
         /// <summary>
+        /// The get names.
+        /// </summary>
+        /// <param name="query">
+        /// The query.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>List</cref>
+        ///     </see> .
+        /// </returns>
+        public string[] GetNames(string query)
+        {
+            var collection = this.Database.GetCollection(this.collectionNameForSynopsis);
+            return collection.FindAllAs<TvShow.TvShowSynopsis>()
+                .Select(synopsis => synopsis.Name)
+                .Where(s => s.ToUpper().Contains(query.ToUpper())).ToArray();
+        }
+
+        /// <summary>
         /// Create one television show.
         /// </summary>
         /// <param name="entity">

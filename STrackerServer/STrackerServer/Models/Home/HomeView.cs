@@ -31,6 +31,6 @@ namespace STrackerServer.Models.Home
         /// <summary>
         /// Gets or sets the genres.
         /// </summary>
-        public List<Genre.GenreSynopsis> Genres { get; set; }
+        public IEnumerable<Genre.GenreSynopsis> Genres { get; set; }
     }
 }

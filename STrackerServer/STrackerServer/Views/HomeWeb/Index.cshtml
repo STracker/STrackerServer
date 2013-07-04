@@ -9,32 +9,13 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span12">
-            <div class="row center">
-                @using (Html.BeginForm("GetByName", "TvShowsWeb", FormMethod.Get))
-                {
-                    <input type="text" name="name" class="input-xxlarge search-query" />
-                    <button type="submit" class="btn btn-primary"><b class="icon-search"></b></button>
-                }
-            </div>
-        </div>
-    </div>
-    <div class="row-fluid">
-        <div class="span12">
-            <div class="row center">
-                <table class="table table-condensed">
-                    
-                </table>
-            </div>
-        </div>
-        <div class="row center">
-            <div class="span6 box-whiter">
+            <div>
                 @foreach(var genre in Model.Genres)
                 {
                     <div><a href="@Url.Action("Show","GenreWeb", new { name = genre.Id })">@genre.Id</a></div>
-                }
+                }          
             </div>
         </div>
- 
     </div>
 </div>
 
