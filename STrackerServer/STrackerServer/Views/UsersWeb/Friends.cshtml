@@ -43,7 +43,7 @@
                                     <a href="@Url.Action("Show","UsersWeb", new { id = friend.Id })">@friend.Name</a>
                                 </td>
                                 <td>
-                                    @using (Html.BeginForm("RemoveFriend", "UsersWeb", new { friendId = friend.Id }))
+                                    @using (Html.BeginForm("RemoveFriend", "UsersWeb", new { userId = friend.Id }))
                                     {
                                         <input class="btn-link" type="submit" value="Remove"/>
                                     }

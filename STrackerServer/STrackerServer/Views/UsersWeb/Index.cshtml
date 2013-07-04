@@ -18,6 +18,7 @@
                 
                 <div class="extra-padding"></div>
                 <p><a class="btn btn-block btn-primary" href="@Url.Action("Friends","UsersWeb")">Friends</a></p>
+                <p><a class="btn btn-block btn-primary" href="@Url.Action("Sugestions","UsersWeb")">Sugestions</a></p>
                 <p><a class="btn btn-block btn-primary" href="@Url.Action("Requests","UsersWeb")">Friend Requests</a></p> 
             </div>
         </div>
@@ -42,12 +43,14 @@
                         {
                             <tr>
                                 <td>
-                                    @sub.Name
+                                    <a href="@Url.Action("Show","TvShowsWeb", new { tvshowId = sub.Id })">@sub.Name</a>
                                 </td>
                                 <td>
                                     @using (Html.BeginForm("UnSubscribe", "UsersWeb", new { tvshowId = sub.Id, redirectUrl = Url.Action("Index", "UsersWeb") }))
                                     {
-                                        <input class="btn-link" type="submit" value="Unsubscribe"/>
+                                        <div style="text-align: right">
+                                            <input class="btn btn-mini btn-danger" type="submit" value="Unsubscribe"/>
+                                        </div>
                                     }
                                 </td>
                             </tr>

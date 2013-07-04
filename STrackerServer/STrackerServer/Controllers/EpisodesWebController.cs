@@ -109,6 +109,7 @@ namespace STrackerServer.Controllers
                 Directors = episode.Directors,
                 Poster = episode.Poster == null ? tvshow.Poster.ImageUrl : episode.Poster.ImageUrl,
                 TvShowName = tvshow.Name,
+                Date = episode.Date,
                 Rating = this.ratingsOperations.Read(key).Average
             };
 

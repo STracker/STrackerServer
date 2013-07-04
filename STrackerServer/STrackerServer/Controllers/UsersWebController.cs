@@ -296,9 +296,25 @@ namespace STrackerServer.Controllers
             return this.View(view);
         }
 
+        /// <summary>
+        /// The remove friend.
+        /// </summary>
+        /// <param name="friendId">
+        /// The friend id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpPost]
+        [Authorize]
         public ActionResult RemoveFriend(string friendId)
         {
-            throw new System.NotImplementedException();
+            return null;
+        }
+
+        public ActionResult Sugestions()
+        {
+            return null;
         }
     }
 }

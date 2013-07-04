@@ -36,6 +36,8 @@ namespace STrackerServer.App_Start
             routes.MapRoute("User_Subscribe", "User/Subscribe", new { controller = "UsersWeb", action = "Subscribe" });
             routes.MapRoute("User_UnSubscribe", "User/UnSubscribe", new { controller = "UsersWeb", action = "UnSubscribe" });
 
+            routes.MapRoute("User_Friends_Remove", "User/Friends/{userid}/remove", new { controller = "UsersWeb", action = "RemoveFriend" });
+
             routes.MapRoute("User_Friends", "User/Friends", new { controller = "UsersWeb", action = "Friends" });
 
             routes.MapRoute("User_Search", "User/Search", new { controller = "UsersWeb", action = "GetByName" });
@@ -114,12 +116,12 @@ namespace STrackerServer.App_Start
 
             routes.MapRoute(
                 "EpisodeWeb_Comment",
-                "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}/Comments/{position}",
+                "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}/Comments/{id}",
                 new { controller = "EpisodesWeb", action = "Comment" });
 
             routes.MapRoute(
                 "EpisodeWeb_Comment_Remove",
-                "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}/Comments/{position}/Remove",
+                "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}/Comments/{id}/Remove",
                 new { controller = "EpisodesWeb", action = "RemoveComment" }); 
 
             // Genre Routes
