@@ -49,12 +49,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Facebook.6.4.2\lib\net45\Facebook.dll</HintPath>
     </Reference>
-    <Reference Include="HawkNet">
-      <HintPath>..\packages\HawkNet.1.2.1.2\lib\net45\HawkNet.dll</HintPath>
-    </Reference>
-    <Reference Include="HawkNet.WebApi">
-      <HintPath>..\packages\HawkNet.WebApi.1.2.1.6\lib\net45\HawkNet.WebApi.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -285,6 +279,14 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\hawknet-master\HawkNet.WebApi\HawkNet.WebApi.csproj">
+      <Project>{fcd8173a-2d39-4f10-a4df-230b4b649dbb}</Project>
+      <Name>HawkNet.WebApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\hawknet-master\HawkNet\HawkNet.csproj">
+      <Project>{f997ce59-eee3-42e4-b41a-b32985994603}</Project>
+      <Name>HawkNet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\STrackerServer.BusinessLayer\STrackerServer.BusinessLayer.csproj">
       <Project>{a96f93ce-920a-4000-9ee7-662ac236ef11}</Project>
       <Name>STrackerServer.BusinessLayer</Name>
