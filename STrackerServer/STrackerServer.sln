@@ -28,9 +28,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{5ED3A5
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HawkNet", "..\..\..\hawknet-master\HawkNet\HawkNet.csproj", "{F997CE59-EEE3-42E4-B41A-B32985994603}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HawkNet", "HawkNet\HawkNet.csproj", "{F997CE59-EEE3-42E4-B41A-B32985994603}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HawkNet.WebApi", "..\..\..\hawknet-master\HawkNet.WebApi\HawkNet.WebApi.csproj", "{FCD8173A-2D39-4F10-A4DF-230B4B649DBB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HawkNet.WebApi", "HawkNet.WebApi\HawkNet.WebApi.csproj", "{FCD8173A-2D39-4F10-A4DF-230B4B649DBB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
