@@ -135,7 +135,7 @@ namespace HawkNet
 
             if (!IsEqual(mac, attributes["mac"]))
             {
-                throw new SecurityException(string.Format("|{0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}", host, method, uri, attributes["ext"], attributes["ts"], attributes["nonce"], credential, "header", attributes["hash"]));
+                throw new SecurityException(string.Format("|{0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}|{9}|{10}|", host, method, uri, attributes["ext"], attributes["ts"], attributes["nonce"], credential, "header", attributes["hash"], attributes["mac"],mac));
             }
 
 #if NET45
