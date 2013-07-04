@@ -159,6 +159,7 @@
     <Compile Include="Controllers\Api\AuxiliaryObjects\ApiAddComment.cs" />
     <Compile Include="Controllers\Api\AuxiliaryObjects\ApiAddRating.cs" />
     <Compile Include="Controllers\Api\AuxiliaryObjects\ApiAddUserSubscription.cs" />
+    <Compile Include="Controllers\Api\AuxiliaryObjects\TimeUtc.cs" />
     <Compile Include="Controllers\Api\EpisodesRatingsController.cs" />
     <Compile Include="Controllers\Api\SystemController.cs" />
     <Compile Include="Controllers\Api\TvShowsCommentsController.cs" />

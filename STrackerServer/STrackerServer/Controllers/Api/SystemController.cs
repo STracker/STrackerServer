@@ -13,6 +13,8 @@ namespace STrackerServer.Controllers.Api
     using System.Globalization;
     using System.Web.Http;
 
+    using STrackerServer.Controllers.Api.AuxiliaryObjects;
+
     /// <summary>
     /// The system controller.
     /// </summary>
@@ -25,9 +27,9 @@ namespace STrackerServer.Controllers.Api
         /// The <see cref="DateTime"/>.
         /// </returns>
         [HttpGet]
-        public string GetTime()
+        public TimeUtc GetTime()
         {
-            return DateTime.UtcNow.ToString(CultureInfo.InvariantCulture);
+            return new TimeUtc { Time = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture) };
         }
     }
 }
