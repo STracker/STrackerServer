@@ -135,7 +135,10 @@ namespace HawkNet
 
             if (!IsEqual(mac, attributes["mac"]))
             {
-                throw new SecurityException(string.Format("|{0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}|{9}|{10}|", host, method, uri, attributes["ext"], attributes["ts"], attributes["nonce"], credential, "header", attributes["hash"], attributes["mac"],mac));
+                 var sanitizedHost = (host.IndexOf(':') > 0) ?
+                host.Substring(0, host.IndexOf(':')) :
+                host;
+                throw new SecurityException(string.Format("host: {0}| sanatized host: {1}|{2}|{3}|{4}", host, sanitizedHost, uri.PathAndQuery, attributes["mac"], mac));
             }
 
 #if NET45
@@ -379,7 +382,7 @@ namespace HawkNet
                         method.ToUpper() + "\n" +
                         uri.PathAndQuery + "\n" +
                         sanitizedHost.ToLower() + "\n" +
-                        uri.Port.ToString() + "\n" +
+                       //uri.Port.ToString() + "\n" +
                         ((!string.IsNullOrEmpty(payloadHash)) ? payloadHash : "") + "\n" + 
                         ((!string.IsNullOrEmpty(ext)) ? ext : "") + "\n";
 
