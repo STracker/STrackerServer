@@ -292,6 +292,36 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         }
 
         /// <summary>
+        /// The remove friend.
+        /// </summary>
+        /// <param name="userId">
+        /// The user id.
+        /// </param>
+        /// <param name="friendId">
+        /// The friend id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool RemoveFriend(string userId, string friendId)
+        {
+            var userModel = this.Repository.Read(userId);
+            var userFriend = this.Repository.Read(friendId);
+
+            if (userModel == null || userFriend == null)
+            {
+                return false;
+            }
+
+            if (!userModel.Friends.Exists(synopsis => synopsis.Id.Equals(friendId)))
+            {
+                return false;
+            }
+
+            return ((IUsersRepository)this.Repository).RemoveFriend(userModel, userFriend);
+        }
+
+        /// <summary>
         /// The verify user and television show.
         /// </summary>
         /// <param name="userId">

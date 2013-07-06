@@ -142,5 +142,19 @@ namespace STrackerServer.DataAccessLayer.Core.UsersRepositories
         ///     </see> .
         /// </returns>
         List<User> FindByName(string name);
+
+        /// <summary>
+        /// The remove friend.
+        /// </summary>
+        /// <param name="userModel">
+        /// The user model.
+        /// </param>
+        /// <param name="userFriend">
+        /// The user friend.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool RemoveFriend(User userModel, User userFriend);
     }
 }

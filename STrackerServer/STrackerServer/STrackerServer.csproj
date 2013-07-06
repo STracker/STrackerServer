@@ -153,6 +153,7 @@
     <Compile Include="Controllers\Api\AuxiliaryObjects\ApiAddComment.cs" />
     <Compile Include="Controllers\Api\AuxiliaryObjects\ApiAddRating.cs" />
     <Compile Include="Controllers\Api\AuxiliaryObjects\ApiAddUserSubscription.cs" />
+    <Compile Include="Controllers\Api\AuxiliaryObjects\ApiRegister.cs" />
     <Compile Include="Controllers\Api\AuxiliaryObjects\TimeUtc.cs" />
     <Compile Include="Controllers\Api\EpisodesRatingsController.cs" />
     <Compile Include="Controllers\Api\SystemController.cs" />
@@ -176,6 +177,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hawk\HawkAuthorizeAttribute.cs" />
     <Compile Include="Models\Episode\EpisodeComment.cs" />
     <Compile Include="Models\Episode\EpisodeComments.cs" />
     <Compile Include="Models\Episode\EpisodeCreateComment.cs" />
@@ -189,7 +191,9 @@
     <Compile Include="Models\TvShow\TvShowSearchResult.cs" />
     <Compile Include="Models\User\FriendsView.cs" />
     <Compile Include="Models\User\SuggestFormValues.cs" />
+    <Compile Include="Models\User\SuggestionsView.cs" />
     <Compile Include="Models\User\SuggestionView.cs" />
+    <Compile Include="Models\User\SuggestView.cs" />
     <Compile Include="Models\TvShow\TvShowCreateComment.cs" />
     <Compile Include="Models\TvShow\SubscriptionView.cs" />
     <Compile Include="Models\TvShow\TvShowRemoveComment.cs" />
@@ -271,6 +275,7 @@
     <Content Include="Views\HomeWeb\Api.cshtml" />
     <Content Include="Scripts\jquery-2.0.2.min.map" />
     <Content Include="Views\GenreWeb\Show.cshtml" />
+    <Content Include="Views\UsersWeb\Suggestions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -279,10 +284,6 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HawkNet.WebApi\HawkNet.WebApi.csproj">
-      <Project>{fcd8173a-2d39-4f10-a4df-230b4b649dbb}</Project>
-      <Name>HawkNet.WebApi</Name>
-    </ProjectReference>
     <ProjectReference Include="..\HawkNet\HawkNet.csproj">
       <Project>{f997ce59-eee3-42e4-b41a-b32985994603}</Project>
       <Name>HawkNet</Name>

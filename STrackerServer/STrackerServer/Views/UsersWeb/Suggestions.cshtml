@@ -1,0 +1,73 @@
+﻿@model STrackerServer.Models.User.SuggestionsView
+
+@{
+    ViewBag.Title = "Suggestions";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3">
+            <div class="box">
+                <div style="text-align: center">
+                    @Model.Name
+                </div>
+                <div style="text-align: center">
+                    <img class="img-rounded" src="@Model.PictureUrl" alt="No Artwork"/>
+                </div> 
+                <div class="extra-padding"></div>
+                <p><a class="btn btn-block btn-primary" href="@Url.Action("Friends","UsersWeb")">Friends</a></p>
+                <p><a class="btn btn-block btn-primary" href="@Url.Action("Requests","UsersWeb")">Friend Requests</a></p> 
+            </div>
+        </div>
+        <div class="span6">
+        @foreach (var tvshowId in Model.Suggestions.Keys)
+        {
+ 
+            <div class="box">
+                <div>
+                    <div style="display: inline">
+                   
+                        <div style="display: inline-block">
+                            <div>
+                                <h4>
+                                    <a href="@Url.Action("Show","TvShowsWeb", new { tvshowId })">
+                                        @Model.Suggestions[tvshowId].TvShowName
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+
+                        <div style="display: inline-block">
+                            <div style="text-align: right">
+                                <button class="btn btn-mini btn-danger">
+                                    Remove
+                                </button>
+                            </div>
+                        </div>   
+                    </div>
+                </div>
+                
+                <br/>
+                <table class="table table-condensed">
+                    
+                    <tr>
+                        <th>
+                            Name  
+                        </th>
+                    </tr>
+                    @foreach (var friend in Model.Suggestions[tvshowId].Friends)
+                    {
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("Show","UsersWeb", new { id = friend.Id })">@friend.Name</a>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+           
+        }
+             </div>
+    </div>
+</div>

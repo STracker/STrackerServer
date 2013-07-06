@@ -159,5 +159,19 @@ namespace STrackerServer.BusinessLayer.Core.UsersOperations
         ///     </see> .
         /// </returns>
         List<User> FindByName(string name);
+
+        /// <summary>
+        /// The remove friend.
+        /// </summary>
+        /// <param name="userId">
+        /// The user id.
+        /// </param>
+        /// <param name="friendId">
+        /// The friend id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool RemoveFriend(string userId, string friendId);
     }
 }

@@ -138,7 +138,7 @@ namespace HawkNet
                  var sanitizedHost = (host.IndexOf(':') > 0) ?
                 host.Substring(0, host.IndexOf(':')) :
                 host;
-                throw new SecurityException(string.Format("host: {0}| sanatized host: {1}|{2}|{3}|{4}", host, sanitizedHost, uri.PathAndQuery, attributes["mac"], mac));
+                throw new SecurityException(string.Format("Bad mac"));
             }
 
 #if NET45
@@ -183,8 +183,8 @@ namespace HawkNet
                 nonce = GetRandomString(6);
             }
 
-            var normalizedTs = ((int)Math.Floor((ConvertToUnixTimestamp((ts.HasValue) 
-                ? ts.Value : DateTime.UtcNow) / 1000))).ToString();
+            var normalizedTs = ((int)Math.Floor(ConvertToUnixTimestamp((ts.HasValue) 
+                ? ts.Value : DateTime.UtcNow))).ToString();
 
             var mac = CalculateMac(host, 
                 method, 
@@ -382,7 +382,7 @@ namespace HawkNet
                         method.ToUpper() + "\n" +
                         uri.PathAndQuery + "\n" +
                         sanitizedHost.ToLower() + "\n" +
-                       //uri.Port.ToString() + "\n" +
+                        uri.Port.ToString() + "\n" +
                         ((!string.IsNullOrEmpty(payloadHash)) ? payloadHash : "") + "\n" + 
                         ((!string.IsNullOrEmpty(ext)) ? ext : "") + "\n";
 
@@ -421,7 +421,7 @@ namespace HawkNet
                 var now = ConvertToUnixTimestamp(DateTime.Now);
 
                 // Check timestamp staleness
-                if (Math.Abs((parsedTs * 1000) - now) > (timestampSkewSec * 1000))
+                if (Math.Abs(parsedTs - now) > timestampSkewSec)
                 {
                     return false;
                 }

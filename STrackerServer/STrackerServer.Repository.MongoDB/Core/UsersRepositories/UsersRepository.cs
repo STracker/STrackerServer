@@ -248,6 +248,33 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         }
 
         /// <summary>
+        /// The remove friend.
+        /// </summary>
+        /// <param name="userModel">
+        /// The user model.
+        /// </param>
+        /// <param name="userFriend">
+        /// The user friend.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool RemoveFriend(User userModel, User userFriend)
+        {
+            var query = Query<User>.EQ(user => user.Key, userModel.Key);
+            var update = Update<User>.Pull(user => user.Friends, userFriend.GetSynopsis());
+            
+            if (!this.ModifyList(this.collection, query, update))
+            {
+                return false;
+            }
+            
+            query = Query<User>.EQ(user => user.Key, userFriend.Key);
+            update = Update<User>.Pull(user => user.Friends, userModel.GetSynopsis());
+            return this.ModifyList(this.collection, query, update);
+        }
+
+        /// <summary>
         /// Create one user.
         /// </summary>
         /// <param name="entity">

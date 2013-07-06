@@ -15,6 +15,7 @@ namespace STrackerServer.Controllers
     using System.Web.Mvc;
 
     using STrackerServer.Action_Results;
+    using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.Models.User;
@@ -30,15 +31,19 @@ namespace STrackerServer.Controllers
         /// </summary>
         private readonly IUsersOperations usersOperations;
 
+        private readonly ITvShowsOperations tvshowsOperations;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="UsersWebController"/> class.
         /// </summary>
         /// <param name="usersOperations">
         /// The users operations.
         /// </param>
-        public UsersWebController(IUsersOperations usersOperations)
+        /// <param name="tvshowsOperations"> </param>
+        public UsersWebController(IUsersOperations usersOperations, ITvShowsOperations tvshowsOperations)
         {
             this.usersOperations = usersOperations;
+            this.tvshowsOperations = tvshowsOperations;
         }
 
         /// <summary>
@@ -309,12 +314,46 @@ namespace STrackerServer.Controllers
         [Authorize]
         public ActionResult RemoveFriend(string friendId)
         {
-            return null;
+            if (!this.usersOperations.RemoveFriend(User.Identity.Name, friendId))
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            return new SeeOtherResult { Url = Url.Action("Friends") };
         }
 
-        public ActionResult Sugestions()
+        /// <summary>
+        /// The suggestions.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpGet]
+        [Authorize]
+        public ActionResult Suggestions()
         {
-            return null;
+            var user = this.usersOperations.Read(User.Identity.Name);
+            var suggestionsView = new SuggestionsView
+                {
+                    Name = user.Name,
+                    PictureUrl = user.Photo.ImageUrl,
+                };
+
+            foreach (var suggestion in user.Suggestions.OrderBy(su => su.TvShowId))
+            {
+                if (!suggestionsView.Suggestions.ContainsKey(suggestion.TvShowId))
+                {
+                    var suggestionView = new SuggestionView
+                        { TvShowName = this.tvshowsOperations.Read(suggestion.TvShowId).Name };
+
+                    suggestionsView.Suggestions.Add(suggestion.TvShowId, suggestionView);
+                }
+
+                suggestionsView.Suggestions[suggestion.TvShowId].Friends.Add(this.usersOperations.Read(suggestion.UserId).GetSynopsis());
+            }
+
+            return this.View(suggestionsView);
         }
     }
 }

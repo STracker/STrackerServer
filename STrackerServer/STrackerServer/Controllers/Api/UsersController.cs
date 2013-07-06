@@ -9,11 +9,14 @@
 
 namespace STrackerServer.Controllers.Api
 {
-    using System;
     using System.Net.Http;
     using System.Web.Http;
 
     using STrackerServer.BusinessLayer.Core.UsersOperations;
+    using STrackerServer.Controllers.Api.AuxiliaryObjects;
+    using STrackerServer.DataAccessLayer.DomainEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
+    using STrackerServer.Hawk;
 
     /// <summary>
     /// The users controller.
@@ -43,7 +46,7 @@ namespace STrackerServer.Controllers.Api
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
         [HttpGet]
-        [Authorize]
+        [HawkAuthorize]
         public HttpResponseMessage Get()
         {
             return this.BaseGet(this.operations.Read(User.Identity.Name));
@@ -52,13 +55,20 @@ namespace STrackerServer.Controllers.Api
         /// <summary>
         /// The post.
         /// </summary>
+        /// <param name="register">
+        /// The register.
+        /// </param>
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
         [HttpPost]
-        public HttpResponseMessage Post()
+        [HawkAuthorize(CheckId = false)]
+        public HttpResponseMessage Post([FromBody] ApiRegister register)
         {
-            throw new NotImplementedException();
+            var user = new User(register.Id)
+                { Name = register.Name, Email = register.Email, Photo = new Artwork { ImageUrl = register.Photo } };
+            this.operations.VerifyAndSave(user);
+            return this.BaseGet(this.operations.Read(register.Id));
         }
     }
 }

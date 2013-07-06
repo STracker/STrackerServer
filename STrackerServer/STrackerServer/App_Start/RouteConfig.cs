@@ -31,6 +31,7 @@ namespace STrackerServer.App_Start
             // User Routes
             routes.MapRoute("User_Requests_Response", "User/Requests/{id}", new { controller = "UsersWeb", action = "RequestResponse" });
 
+            routes.MapRoute("User_Suggestions", "User/Suggestions", new { controller = "UsersWeb", action = "Suggestions" });
             routes.MapRoute("User_Requests", "User/Requests", new { controller = "UsersWeb", action = "Requests" });
             routes.MapRoute("User_Invite", "User/Invite", new { controller = "UsersWeb", action = "Invite" });
             routes.MapRoute("User_Subscribe", "User/Subscribe", new { controller = "UsersWeb", action = "Subscribe" });

@@ -1,4 +1,4 @@
-﻿@model STrackerServer.Models.User.SuggestionView
+﻿@model STrackerServer.Models.User.SuggestView
 
 @{
     ViewBag.Title = "Suggest";
@@ -31,7 +31,7 @@
                     {
                         <tr>
                             <td>
-                                @friend.Name
+                                <a href="@Url.Action("Show","UsersWeb", new { id = friend.Id })">@friend.Name</a>
                             </td>
                             <td>
                                 @using(Html.BeginForm("Suggest","TvShowsWeb",FormMethod.Post))
