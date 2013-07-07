@@ -382,7 +382,6 @@ namespace HawkNet
                         method.ToUpper() + "\n" +
                         uri.PathAndQuery + "\n" +
                         sanitizedHost.ToLower() + "\n" +
-                        uri.Port.ToString() + "\n" +
                         ((!string.IsNullOrEmpty(payloadHash)) ? payloadHash : "") + "\n" + 
                         ((!string.IsNullOrEmpty(ext)) ? ext : "") + "\n";
 
