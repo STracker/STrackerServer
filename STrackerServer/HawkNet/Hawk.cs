@@ -415,6 +415,7 @@ namespace HawkNet
 
         private static bool CheckTimestamp(string ts, int timestampSkewSec)
         {
+            timestampSkewSec = 120;
             double parsedTs;
             if(double.TryParse(ts, out parsedTs))
             {

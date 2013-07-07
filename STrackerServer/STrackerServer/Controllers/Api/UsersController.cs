@@ -9,6 +9,7 @@
 
 namespace STrackerServer.Controllers.Api
 {
+    using System.Net;
     using System.Net.Http;
     using System.Web.Http;
 
@@ -65,8 +66,18 @@ namespace STrackerServer.Controllers.Api
         [HawkAuthorize(CheckId = false)]
         public HttpResponseMessage Post([FromBody] ApiRegister register)
         {
+            if (!ModelState.IsValid)
+            {
+                this.Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid Body, missing required fields.");
+            }
+
             var user = new User(register.Id)
-                { Name = register.Name, Email = register.Email, Photo = new Artwork { ImageUrl = register.Photo } };
+                {
+                    Name = register.Name, 
+                    Email = register.Email, 
+                    Photo = new Artwork { ImageUrl = register.Photo }
+                };
+
             this.operations.VerifyAndSave(user);
             return this.BaseGet(this.operations.Read(register.Id));
         }
