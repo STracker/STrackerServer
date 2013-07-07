@@ -32,12 +32,17 @@ namespace STrackerServer.App_Start
             routes.MapRoute("User_Requests_Response", "User/Requests/{id}", new { controller = "UsersWeb", action = "RequestResponse" });
 
             routes.MapRoute("User_Suggestions", "User/Suggestions", new { controller = "UsersWeb", action = "Suggestions" });
+
+            routes.MapRoute("User_Suggestions_TvShow_Remove", "User/Suggestions/{tvshowId}/remove", new { controller = "UsersWeb", action = "RemoveTvShowSuggestions" });
+
             routes.MapRoute("User_Requests", "User/Requests", new { controller = "UsersWeb", action = "Requests" });
             routes.MapRoute("User_Invite", "User/Invite", new { controller = "UsersWeb", action = "Invite" });
             routes.MapRoute("User_Subscribe", "User/Subscribe", new { controller = "UsersWeb", action = "Subscribe" });
             routes.MapRoute("User_UnSubscribe", "User/UnSubscribe", new { controller = "UsersWeb", action = "UnSubscribe" });
 
-            routes.MapRoute("User_Friends_Remove", "User/Friends/{userid}/remove", new { controller = "UsersWeb", action = "RemoveFriend" });
+            routes.MapRoute("User_Friends_Public", "User/{id}/Friends", new { controller = "UsersWeb", action = "PublicFriends" });
+
+            routes.MapRoute("User_Friends_Remove", "User/Friends/{friendId}/Remove", new { controller = "UsersWeb", action = "RemoveFriend" });
 
             routes.MapRoute("User_Friends", "User/Friends", new { controller = "UsersWeb", action = "Friends" });
 

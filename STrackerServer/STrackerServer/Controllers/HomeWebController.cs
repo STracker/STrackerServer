@@ -9,8 +9,8 @@
 
 namespace STrackerServer.Controllers
 {
-    using System.Web.Mvc;
     using System.Linq;
+    using System.Web.Mvc;
 
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.Models.Home;
@@ -21,9 +21,19 @@ namespace STrackerServer.Controllers
     public class HomeWebController : Controller
     {
         /// <summary>
+        /// The max top rated.
+        /// </summary>
+        private const int MaxTopRated = 5;
+
+        /// <summary>
         /// The genres operations.
         /// </summary>
         private readonly IGenresOperations genresOperations;
+
+        /// <summary>
+        /// The television shows operations.
+        /// </summary>
+        private readonly ITvShowsOperations tvshowsOperations;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HomeWebController"/> class.
@@ -31,9 +41,13 @@ namespace STrackerServer.Controllers
         /// <param name="genresOperations">
         /// The genres operations.
         /// </param>
-        public HomeWebController(IGenresOperations genresOperations)
+        /// <param name="tvshowsOperations">
+        /// The television shows operations
+        ///  </param>
+        public HomeWebController(IGenresOperations genresOperations, ITvShowsOperations tvshowsOperations)
         {
             this.genresOperations = genresOperations;
+            this.tvshowsOperations = tvshowsOperations;
         }
 
         /// <summary>
@@ -45,7 +59,11 @@ namespace STrackerServer.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var view = new HomeView { Genres = this.genresOperations.GetAll().OrderBy(synopsis => synopsis.Id) };
+            var view = new HomeView
+                {
+                    Genres = this.genresOperations.GetAll().OrderBy(synopsis => synopsis.Id),
+                    TopRated = this.tvshowsOperations.GetTopRated(MaxTopRated)
+                };
 
             return this.View(view);
         }

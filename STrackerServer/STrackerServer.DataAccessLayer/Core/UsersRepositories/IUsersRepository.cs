@@ -156,5 +156,19 @@ namespace STrackerServer.DataAccessLayer.Core.UsersRepositories
         /// The <see cref="bool"/>.
         /// </returns>
         bool RemoveFriend(User userModel, User userFriend);
+
+        /// <summary>
+        /// The remove television show suggestions.
+        /// </summary>
+        /// <param name="user">
+        /// The user.
+        /// </param>
+        /// <param name="tvshow">
+        /// The television show.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool RemoveTvShowSuggestions(User user, TvShow tvshow);
     }
 }

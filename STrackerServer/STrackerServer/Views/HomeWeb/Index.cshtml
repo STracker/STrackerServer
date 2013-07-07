@@ -5,15 +5,50 @@
     Layout = "~/Views/Shared/MainLayout.cshtml";
 }
 
-
 <div class="container-fluid">
     <div class="row-fluid">
-        <div class="span12">
-            <div>
-                @foreach(var genre in Model.Genres)
-                {
-                    <div><a href="@Url.Action("Show","GenreWeb", new { name = genre.Id })">@genre.Id</a></div>
-                }          
+        <div class="span2">
+            <div style="text-align: center">
+                <ul class="nav nav-tabs nav-stacked">
+                    @foreach(var genre in Model.Genres)
+                    {
+                        <li class="navbar-link">
+                            <a href="@Url.Action("Show","GenreWeb", new { name = genre.Id })"><b>@genre.Id</b></a>
+                        </li>
+                    }
+                </ul>         
+            </div>
+        </div>
+        <div class="span3">
+            <div id="myCarousel" class="carousel slide">
+                <div class="carousel-inner">
+                    <div class="active item">
+                        <a href="@Url.Action("Show","TvShowsWeb", new { tvshowId = Model.TopRated[0].Id })">
+                        
+                                <img src="@Model.TopRated[0].Poster.ImageUrl" alt="No Poster"/>
+                           
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="@Url.Action("Show","TvShowsWeb", new { tvshowId = Model.TopRated[1].Id })">
+                            
+                                <img src="@Model.TopRated[1].Poster.ImageUrl" alt="No Poster"/>
+                            
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="@Url.Action("Show","TvShowsWeb", new { tvshowId = Model.TopRated[2].Id })">
+                            
+                                <img src="@Model.TopRated[2].Poster.ImageUrl" alt="No Poster"/>
+                            
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Carousel nav -->
+                
+                <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+                <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
             </div>
         </div>
     </div>

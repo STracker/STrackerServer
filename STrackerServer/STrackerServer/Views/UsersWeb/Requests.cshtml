@@ -10,9 +10,6 @@
         <div class="span3">
             <div class="box">
                 <div style="text-align: center">
-                    @Model.Name
-                </div>
-                <div style="text-align: center">
                     <img class="img-rounded" src="@Model.PictureUrl" alt="No Artwork"/>
                 </div> 
                 <div class="extra-padding"></div>
@@ -26,15 +23,6 @@
                 <h2>Friend Requests</h2> 
                 <br/>
                 <table class="table table-condensed">
-                    <tr>
-                        <th>
-                            Name  
-                        </th>
-                        <th>
-                        </th>
-                        <th>
-                        </th>
-                    </tr>
 
                     @if (Model.List.Count != 0)
                     {
@@ -42,7 +30,7 @@
                         {
                             <tr>
                                 <td>
-                                    @request.Name
+                                    <a href="@Url.Action("Show","UsersWeb", new { id = request.Id })">@request.Name</a>
                                 </td>
                                 <td>
                                     @using(Html.BeginForm("RequestResponse","UsersWeb", new {id = request.Id}))

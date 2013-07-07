@@ -190,6 +190,7 @@
     <Compile Include="Models\TvShow\TvShowRating.cs" />
     <Compile Include="Models\TvShow\TvShowSearchResult.cs" />
     <Compile Include="Models\User\FriendsView.cs" />
+    <Compile Include="Models\User\PublicFriendsView.cs" />
     <Compile Include="Models\User\SuggestFormValues.cs" />
     <Compile Include="Models\User\SuggestionsView.cs" />
     <Compile Include="Models\User\SuggestionView.cs" />
@@ -276,6 +277,7 @@
     <Content Include="Scripts\jquery-2.0.2.min.map" />
     <Content Include="Views\GenreWeb\Show.cshtml" />
     <Content Include="Views\UsersWeb\Suggestions.cshtml" />
+    <Content Include="Views\UsersWeb\PublicFriends.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

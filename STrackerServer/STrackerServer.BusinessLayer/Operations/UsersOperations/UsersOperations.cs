@@ -10,6 +10,7 @@
 namespace STrackerServer.BusinessLayer.Operations.UsersOperations
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
     using STrackerServer.BusinessLayer.Core.UsersOperations;
@@ -99,12 +100,7 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         {
             var user = this.Repository.Read(userId);
             var tvshow = this.tvshowsRepository.Read(tvshowId);
-            if (tvshow == null)
-            {
-                return false;
-            }
-
-            return !user.SubscriptionList.Any(sub => sub.Id.Equals(tvshowId)) && ((IUsersRepository)this.Repository).AddSubscription(user, tvshow.GetSynopsis());
+            return tvshow != null && ((IUsersRepository)this.Repository).AddSubscription(user, tvshow.GetSynopsis());
         }
 
         /// <summary>
@@ -319,6 +315,36 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
             }
 
             return ((IUsersRepository)this.Repository).RemoveFriend(userModel, userFriend);
+        }
+
+        /// <summary>
+        /// The remove television show suggestions.
+        /// </summary>
+        /// <param name="userId">
+        /// The user Id.
+        /// </param>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool RemoveTvShowSuggestions(string userId, string tvshowId)
+        {
+            TvShow tvshow;
+            User user;
+
+            if (!this.VerifyUserAndTvshow(userId, tvshowId, out user, out tvshow))
+            {
+                return false;
+            }
+
+            if (!user.Suggestions.Exists(suggestion => suggestion.TvShowId.Equals(tvshowId)))
+            {
+                return true;
+            }
+
+            return ((IUsersRepository)this.Repository).RemoveTvShowSuggestions(user, tvshow);
         }
 
         /// <summary>

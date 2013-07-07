@@ -13,12 +13,10 @@
         <div class="span3">
             <img class="img-rounded" src="@Model.Poster" alt="No Artwork"/>  
             <div class="extra-padding"></div>
-            @if(User.Identity.IsAuthenticated)
-            {
-                <p>
-                    <a class="btn btn-block btn-primary" href="@Url.Action("Rate","EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber })">Rate</a>
-                </p> 
-            }
+
+            <p>
+                <a class="btn btn-block btn-primary" href="@Url.Action("Rate","EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber })">Rate</a>
+            </p> 
             <p>
                 <a class="btn btn-block btn-primary" href="@Url.Action("Comments","EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber })">Comments</a>
             </p> 

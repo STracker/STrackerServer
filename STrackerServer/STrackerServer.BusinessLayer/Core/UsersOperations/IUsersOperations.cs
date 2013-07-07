@@ -173,5 +173,19 @@ namespace STrackerServer.BusinessLayer.Core.UsersOperations
         /// The <see cref="bool"/>.
         /// </returns>
         bool RemoveFriend(string userId, string friendId);
+
+        /// <summary>
+        /// The remove television show suggestions.
+        /// </summary>
+        /// <param name="userId">
+        /// The user Id.
+        /// </param>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool RemoveTvShowSuggestions(string userId, string tvshowId);
     }
 }

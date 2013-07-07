@@ -19,18 +19,13 @@ namespace STrackerServer.Models.Home
     public class HomeView
     {
         /// <summary>
-        /// Gets or sets the user name.
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Gets or sets the user picture url.
-        /// </summary>
-        public string PictureUrl { get; set; }
-
-        /// <summary>
         /// Gets or sets the genres.
         /// </summary>
         public IEnumerable<Genre.GenreSynopsis> Genres { get; set; }
+
+        /// <summary>
+        /// Gets or sets the top rated.
+        /// </summary>
+        public List<TvShow.TvShowSynopsis> TopRated { get; set; }
     }
 }

@@ -16,12 +16,9 @@
                 <a class="btn btn-block btn-primary" href="@Url.Action("Show","TvShowsWeb", new { tvshowId = Model.TvShowId })">@Model.TvShowName</a>
             </p> 
 
-            @if (User.Identity.IsAuthenticated)
-            {  
-                <p>
-                    <a class="btn btn-block btn-primary" href="@Url.Action("CreateComment","TvShowsWeb", new { tvshowId = Model.TvShowId })">Create Comment</a>
-                </p> 
-            }
+            <p>
+                <a class="btn btn-block btn-primary" href="@Url.Action("CreateComment","TvShowsWeb", new { tvshowId = Model.TvShowId })">Create Comment</a>
+            </p> 
         </div> 
         <div class="span6">
             <div class="box">

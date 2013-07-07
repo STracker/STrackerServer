@@ -31,6 +31,9 @@ namespace STrackerServer.Controllers
         /// </summary>
         private readonly IUsersOperations usersOperations;
 
+        /// <summary>
+        /// The television shows operations.
+        /// </summary>
         private readonly ITvShowsOperations tvshowsOperations;
 
         /// <summary>
@@ -39,7 +42,9 @@ namespace STrackerServer.Controllers
         /// <param name="usersOperations">
         /// The users operations.
         /// </param>
-        /// <param name="tvshowsOperations"> </param>
+        /// <param name="tvshowsOperations">
+        /// The television shows operations. 
+        /// </param>
         public UsersWebController(IUsersOperations usersOperations, ITvShowsOperations tvshowsOperations)
         {
             this.usersOperations = usersOperations;
@@ -181,6 +186,8 @@ namespace STrackerServer.Controllers
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View("Error", Response.StatusCode);
             }
+
+            this.usersOperations.RemoveTvShowSuggestions(User.Identity.Name, values.TvshowId);
 
             return new SeeOtherResult { Url = values.RedirectUrl };
         }
@@ -354,6 +361,64 @@ namespace STrackerServer.Controllers
             }
 
             return this.View(suggestionsView);
+        }
+
+        /// <summary>
+        /// The remove television show suggestions.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpPost]
+        [Authorize]
+        public ActionResult RemoveTvShowSuggestions(string tvshowId)
+        {
+            if (!this.usersOperations.RemoveTvShowSuggestions(User.Identity.Name, tvshowId))
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            return new SeeOtherResult { Url = Url.Action("Suggestions") };
+        }
+
+        /// <summary>
+        /// The public friends.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpGet]
+        [Authorize]
+        public ActionResult PublicFriends(string id)
+        {
+            if (User.Identity.Name.Equals(id))
+            {
+                return new SeeOtherResult { Url = Url.Action("Friends") };
+            }
+
+            var user = this.usersOperations.Read(id);
+
+            if (user == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            var view = new PublicFriendsView
+                {
+                    Id = id,
+                    Name = user.Name, 
+                    List = user.Friends, 
+                    PictureUrl = user.Photo.ImageUrl
+                };
+            return this.View(view);
         }
     }
 }

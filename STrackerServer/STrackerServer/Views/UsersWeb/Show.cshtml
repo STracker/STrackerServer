@@ -9,24 +9,27 @@
     <div class="row-fluid">
         <div class="span3">
             <div class="box">
-                <div style="text-align: center">
-                    @Model.Name
-                </div>
+
                 <div style="text-align: center">
                     <img class="img-rounded" src="@Model.PictureUrl" alt="No Artwork"/>
                 </div> 
-                
+                <br/>
+                <div style="text-align: center">
+                    @Model.Name
+                </div>
+                <div class="extra-padding">
+                </div>
                 @if (!Model.IsFriend)
                 {      
-                    <div class="extra-padding">
-                        @using(Html.BeginForm("Invite","UsersWeb"))
-                        {
-                            @Html.Hidden("id",Model.Id)
-                            <input class="btn btn-block btn-primary" type="submit" value="Invite"/>
-                        }
-                    </div>   
-                } 
-
+                    using(Html.BeginForm("Invite","UsersWeb"))
+                    {
+                        @Html.Hidden("id",Model.Id)
+                        <input class="btn btn-block btn-primary" type="submit" value="Invite"/>
+                    }
+                }
+                <p>
+                    <a class="btn btn-block btn-primary" href="@Url.Action("PublicFriends","UsersWeb", new { id = Model.Id })">Friends</a>
+                </p> 
             </div>
         </div>
 
@@ -35,20 +38,13 @@
                 <h2>Subscriptions</h2> 
                 <br/>
                 <table class="table table-condensed">
-                    
-                    <tr>
-                        <th>
-                            Name  
-                        </th>
-                    </tr>
-
                     @if (Model.SubscriptionList.Count != 0)
                     {
                         foreach (var sub in Model.SubscriptionList)
                         {
                             <tr>
                                 <td>
-                                    @sub.Name
+                                    <a href="@Url.Action("Show","TvShowsWeb", new { tvshowId = sub.Id })">@sub.Name</a>
                                 </td>
                             </tr>
                         }

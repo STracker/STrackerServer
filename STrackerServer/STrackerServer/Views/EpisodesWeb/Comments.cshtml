@@ -15,13 +15,9 @@
             <p>
                 <a class="btn btn-block btn-primary" href="@Url.Action("Show","EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber })">Season: @Model.SeasonNumber Episode: @Model.EpisodeNumber</a>
             </p> 
-
-            @if (User.Identity.IsAuthenticated)
-            {  
-                <p>
-                    <a class="btn btn-block btn-primary" href="@Url.Action("CreateComment","EpisodesWeb", new { tvshowId = Model.TvShowId })">Create Comment</a>
-                </p> 
-            }
+            <p>
+                <a class="btn btn-block btn-primary" href="@Url.Action("CreateComment","EpisodesWeb", new { tvshowId = Model.TvShowId })">Create Comment</a>
+            </p> 
         </div> 
         <div class="span6">
             <div class="box">

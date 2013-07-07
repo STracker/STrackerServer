@@ -31,14 +31,13 @@
                             <input class="btn btn-block btn-primary" type="submit" value="Subscribe"/>
                         }
                 }     
-                
-                <p>
-                    <a class="btn btn-block btn-primary" href="@Url.Action("Rate","TvShowsWeb", new { tvshowId = Model.TvShowId })">Rate</a>
-                </p> 
-                <p>
-                    <a class="btn btn-block btn-primary" href="@Url.Action("Suggest","TvShowsWeb", new { tvshowId = Model.TvShowId })">Suggest</a>
-                </p>  
             }
+            <p>
+                <a class="btn btn-block btn-primary" href="@Url.Action("Rate","TvShowsWeb", new { tvshowId = Model.TvShowId })">Rate</a>
+            </p> 
+            <p>
+                <a class="btn btn-block btn-primary" href="@Url.Action("Suggest","TvShowsWeb", new { tvshowId = Model.TvShowId })">Suggest</a>
+            </p>  
             <p>
                 <a class="btn btn-block btn-primary" href="@Url.Action("Comments","TvShowsWeb", new { tvshowId = Model.TvShowId })">Comments</a>
             </p>
@@ -47,7 +46,7 @@
             <div class="box">
                 <h2>@Model.Name</h2>
                 <p>@Model.Description</p> 
-                <p><b>Rating</b> @Model.Rating</p>
+                <p><b>Rating: </b> @Model.Rating</p>
                 <p><b>Air Day: </b> @Model.AirDay</p>
                 <p><b>Runtime: </b> @Model.Runtime min</p>              
                 <p><a href="http://www.imdb.com/title/@Model.TvShowId">IMDB</a></p>  
