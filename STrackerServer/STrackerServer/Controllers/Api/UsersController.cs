@@ -67,7 +67,7 @@ namespace STrackerServer.Controllers.Api
         {
             if (!ModelState.IsValid)
             {
-                this.Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid Body, missing required fields.");
+                return this.Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid Body, missing required fields.");
             }
 
             var user = new User(register.Id)

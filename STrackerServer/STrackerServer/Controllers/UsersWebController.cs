@@ -181,13 +181,33 @@ namespace STrackerServer.Controllers
         [Authorize]
         public ActionResult Subscribe(SubscribeFormValues values)
         {
-            if (!ModelState.IsValid || !this.usersOperations.AddSubscription(User.Identity.Name, values.TvshowId))
+            if (!ModelState.IsValid)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View("Error", Response.StatusCode);
             }
 
-            this.usersOperations.RemoveTvShowSuggestions(User.Identity.Name, values.TvshowId);
+            bool failed;
+
+            if (values.IsSubscribing)
+            {
+                failed = this.usersOperations.AddSubscription(User.Identity.Name, values.TvshowId);
+
+                if (!failed)
+                {
+                    this.usersOperations.RemoveTvShowSuggestions(User.Identity.Name, values.TvshowId);
+                }
+            }
+            else
+            {
+                failed = this.usersOperations.RemoveSubscription(User.Identity.Name, values.TvshowId);
+            }
+
+            if (failed)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return this.View("Error", Response.StatusCode);
+            }
 
             return new SeeOtherResult { Url = values.RedirectUrl };
         }
