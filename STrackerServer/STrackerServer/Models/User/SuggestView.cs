@@ -19,7 +19,7 @@ namespace STrackerServer.Models.User
         /// <summary>
         /// Gets or sets the friends.
         /// </summary>
-        public List<DataAccessLayer.DomainEntities.User.UserSynopsis> Friends { get; set; }
+        public List<SuggestFriendView> Friends { get; set; }
 
         /// <summary>
         /// Gets or sets the television show id.

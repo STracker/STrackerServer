@@ -97,17 +97,9 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         /// </returns>
         public List<TvShow.TvShowSynopsis> ReadByName(string name)
         {
-            try
-            {
-                var query = Query<TvShow.TvShowSynopsis>.Matches(e => e.Name, name);
-                var synopses = this.collectionAll.FindAs<TvShow.TvShowSynopsis>(query).ToList();
-                return synopses;
-            }
-            catch (Exception)
-            {
-                // TODO, add exception to Log mechanism.
-                return null;
-            }
+            var query = Query<TvShow.TvShowSynopsis>.Where(e => e.Name.ToUpper().Contains(name.ToUpper()));
+            var synopses = this.collectionAll.FindAs<TvShow.TvShowSynopsis>(query).ToList();
+            return synopses;
         }
 
         /// <summary>

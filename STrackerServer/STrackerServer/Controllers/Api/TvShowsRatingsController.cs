@@ -39,27 +39,6 @@ namespace STrackerServer.Controllers.Api
         }
 
         /// <summary>
-        /// The get.
-        /// </summary>
-        /// <param name="id">
-        /// The id.
-        /// </param>
-        /// <returns>
-        /// The <see cref="HttpResponseMessage"/>.
-        /// </returns>
-        [HttpGet]
-        public HttpResponseMessage Get(string id)
-        {
-            var ratings = this.operations.GetAllRatings(id);
-            if (ratings == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
-
-            return this.BaseGet(ratings.Ratings);
-        }
-
-        /// <summary>
         /// The post.
         /// </summary>
         /// <param name="id">
@@ -80,6 +59,27 @@ namespace STrackerServer.Controllers.Api
             }
 
             return this.BasePost(this.operations.AddRating(id, new Rating { UserId = rating.UserId, UserRating = int.Parse(rating.UserRating) }));
+        }
+
+        /// <summary>
+        /// The get.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="HttpResponseMessage"/>.
+        /// </returns>
+        [HttpGet]
+        public HttpResponseMessage Get(string id)
+        {
+            var ratings = this.operations.Read(id);
+            if (ratings == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            return this.BaseGet(new { Rating = ratings.Average });
         }
     }
 }

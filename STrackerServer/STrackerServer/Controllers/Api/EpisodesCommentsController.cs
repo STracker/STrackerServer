@@ -17,6 +17,7 @@ namespace STrackerServer.Controllers.Api
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.Controllers.Api.AuxiliaryObjects;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
+    using STrackerServer.Hawk;
 
     /// <summary>
     /// The episodes comments controller.

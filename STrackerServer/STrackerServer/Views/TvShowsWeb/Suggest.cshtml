@@ -34,11 +34,17 @@
                                 <a href="@Url.Action("Show","UsersWeb", new { id = friend.Id })">@friend.Name</a>
                             </td>
                             <td>
-                                @using(Html.BeginForm("Suggest","TvShowsWeb",FormMethod.Post))
+                                @if(friend.IsSubscribed)
                                 {
-                                    @Html.Hidden("FriendId",friend.Id)
-                                    @Html.Hidden("TvShowId",Model.TvShowId)
-                                    <input class="btn btn-block btn-mini btn-primary" type="submit" value="Suggest"/>
+                                    <div>Already Subscribed</div>
+                                }else
+                                {
+                                    using(Html.BeginForm("Suggest","TvShowsWeb",FormMethod.Post))
+                                    {
+                                        @Html.Hidden("FriendId",friend.Id)
+                                        @Html.Hidden("TvShowId",Model.TvShowId)
+                                        <input class="btn btn-block btn-mini btn-primary" type="submit" value="Suggest"/>
+                                    }
                                 }
                             </td>
                         </tr>  

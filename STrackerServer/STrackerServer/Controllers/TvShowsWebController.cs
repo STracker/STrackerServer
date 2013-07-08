@@ -321,9 +321,16 @@ namespace STrackerServer.Controllers
             }
 
             var user = this.userOperations.Read(User.Identity.Name);
+
+
             var view = new SuggestView
                 {
-                    Friends = user.Friends, 
+                    Friends = user.Friends.ConvertAll(input => new SuggestFriendView
+                        {
+                            Id = input.Id,
+                            Name = input.Name,
+                            IsSubscribed = this.userOperations.Read(input.Id).SubscriptionList.Exists(synopsis => synopsis.Id.Equals(tvshowId))
+                        }), 
                     TvShowId = tvshowId,
                     Poster = tvshow.Poster,
                     TvShowName = tvshow.Name

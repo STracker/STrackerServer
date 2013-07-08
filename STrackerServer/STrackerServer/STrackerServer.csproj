@@ -192,6 +192,7 @@
     <Compile Include="Models\User\FriendsView.cs" />
     <Compile Include="Models\User\PublicFriendsView.cs" />
     <Compile Include="Models\User\SuggestFormValues.cs" />
+    <Compile Include="Models\User\SuggestFriendView.cs" />
     <Compile Include="Models\User\SuggestionsView.cs" />
     <Compile Include="Models\User\SuggestionView.cs" />
     <Compile Include="Models\User\SuggestView.cs" />
