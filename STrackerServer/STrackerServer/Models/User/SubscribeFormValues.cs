@@ -27,5 +27,11 @@ namespace STrackerServer.Models.User
         /// </summary>
         [Required]
         public string RedirectUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether is subscribing.
+        /// </summary>
+        [Required]
+        public bool IsSubscribing { get; set; }
     }
 }

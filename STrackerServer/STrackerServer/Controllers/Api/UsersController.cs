@@ -16,7 +16,6 @@ namespace STrackerServer.Controllers.Api
     using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.Controllers.Api.AuxiliaryObjects;
     using STrackerServer.DataAccessLayer.DomainEntities;
-    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
     using STrackerServer.Hawk;
 
     /// <summary>

@@ -70,8 +70,8 @@ namespace HawkNet
             {
                 var task = request.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
                 var payload = task.GetAwaiter().GetResult();
-
-                return payload;
+                
+                return Encoding.UTF8.GetBytes(HttpUtility.UrlDecode(payload, Encoding.UTF8));
             };
 
             return Hawk.Authenticate(request.Headers.Authorization.Parameter,

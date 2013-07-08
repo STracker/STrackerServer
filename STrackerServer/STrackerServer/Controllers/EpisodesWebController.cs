@@ -392,5 +392,21 @@ namespace STrackerServer.Controllers
 
             return new SeeOtherResult { Url = Url.Action("Show", new { tvshowId = rating.TvShowId, seasonNumber = rating.SeasonNumber, episodeNumber = rating.EpisodeNumber }) };
         }
+
+        /// <summary>
+        /// The watch.
+        /// </summary>
+        /// <param name="rating">
+        /// The rating.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpPost]
+        [Authorize]
+        public ActionResult Watch(EpisodeRating rating)
+        {
+            return null;
+        }
     }
 }
