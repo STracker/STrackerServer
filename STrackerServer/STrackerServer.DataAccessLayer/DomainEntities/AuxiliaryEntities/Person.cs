@@ -22,6 +22,6 @@ namespace STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities
         /// <summary>
         /// Gets or sets the photo.
         /// </summary>
-        public Artwork Photo { get; set; }
+        public string Photo { get; set; }
     }
 }

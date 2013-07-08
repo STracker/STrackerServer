@@ -64,7 +64,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// <summary>
         /// Gets or sets the poster.
         /// </summary>
-        public Artwork Poster { get; set; }
+        public string Poster { get; set; }
 
         /// <summary>
         /// Gets or sets the first aired.
@@ -132,7 +132,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
             /// <summary>
             /// Gets or sets the poster.
             /// </summary>
-            public Artwork Poster { get; set; }
+            public string Poster { get; set; }
 
             /// <summary>
             /// Gets or sets the uri.

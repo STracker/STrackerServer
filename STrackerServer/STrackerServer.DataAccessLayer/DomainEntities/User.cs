@@ -83,7 +83,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         public bool Equals(User other)
         {
             // Compare name and photo for verify if is necessary update the information.
-            return Name.Equals(other.Name) && Photo.ImageUrl.Equals(other.Photo.ImageUrl);
+            return Name.Equals(other.Name) && Photo.Equals(other.Photo);
         }
 
         /// <summary>

@@ -78,7 +78,7 @@ namespace STrackerServer.Controllers
                 TvShowId = tvshowId,
                 EpisodeList = season.EpisodeSynopses.OrderBy(ep => ep.EpisodeNumber),
                 SeasonNumber = season.SeasonNumber,
-                Poster = tvshow.Poster.ImageUrl,
+                Poster = tvshow.Poster,
                 TvShowName = tvshow.Name   
             };
 

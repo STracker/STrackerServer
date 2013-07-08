@@ -83,7 +83,7 @@ namespace STrackerServer.Controllers
             {
                 Id = id,
                 Name = user.Name,
-                PictureUrl = user.Photo.ImageUrl,
+                PictureUrl = user.Photo,
                 SubscriptionList = user.SubscriptionList,
                 IsFriend = isFriend
             });
@@ -105,7 +105,7 @@ namespace STrackerServer.Controllers
             {
                 Id = User.Identity.Name,
                 Name = user.Name,
-                PictureUrl = user.Photo.ImageUrl,
+                PictureUrl = user.Photo,
                 SubscriptionList = user.SubscriptionList,
             });
         }
@@ -125,7 +125,7 @@ namespace STrackerServer.Controllers
             var requests = new Requests
                 {
                     Name = user.Name,
-                    PictureUrl = user.Photo.ImageUrl,
+                    PictureUrl = user.Photo,
                     List =
                         user.FriendRequests.ConvertAll(
                             input =>
@@ -133,7 +133,7 @@ namespace STrackerServer.Controllers
                                 {
                                     Id = input.Id,
                                     Name = input.Name,
-                                    Picture = this.usersOperations.Read(input.Id).Photo.ImageUrl
+                                    Picture = this.usersOperations.Read(input.Id).Photo
                                 })
                 };
 
@@ -304,7 +304,7 @@ namespace STrackerServer.Controllers
         public ActionResult Friends()
         {
             var user = this.usersOperations.Read(User.Identity.Name);
-            var view = new FriendsView { Name = user.Name, List = user.Friends, PictureUrl = user.Photo.ImageUrl };
+            var view = new FriendsView { Name = user.Name, List = user.Friends, PictureUrl = user.Photo };
             return this.View(view);
         }
 
@@ -344,7 +344,7 @@ namespace STrackerServer.Controllers
             var suggestionsView = new SuggestionsView
                 {
                     Name = user.Name,
-                    PictureUrl = user.Photo.ImageUrl,
+                    PictureUrl = user.Photo,
                 };
 
             foreach (var suggestion in user.Suggestions.OrderBy(su => su.TvShowId))
@@ -416,7 +416,7 @@ namespace STrackerServer.Controllers
                     Id = id,
                     Name = user.Name, 
                     List = user.Friends, 
-                    PictureUrl = user.Photo.ImageUrl
+                    PictureUrl = user.Photo
                 };
             return this.View(view);
         }

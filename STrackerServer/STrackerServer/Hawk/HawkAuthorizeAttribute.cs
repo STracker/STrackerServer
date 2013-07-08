@@ -69,6 +69,7 @@ namespace STrackerServer.Hawk
             if (request.Headers.Authorization == null || string.IsNullOrWhiteSpace(request.Headers.Authorization.Scheme))
             {
                 HandleResponse("Authorization header not found", HttpStatusCode.Unauthorized);
+                return;
             }
 
             if (!string.Equals(request.Headers.Authorization.Scheme, Scheme))

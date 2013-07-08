@@ -10,7 +10,6 @@
 namespace STrackerServer.Models.TvShow
 {
     using System.Collections.Generic;
-    using System.Linq;
 
     using DataAccessLayer.DomainEntities;
 
@@ -73,7 +72,7 @@ namespace STrackerServer.Models.TvShow
         /// <summary>
         /// Gets or sets the artworks.
         /// </summary>
-        public Artwork Artwork { get; set; }
+        public string Artwork { get; set; }
 
         /// <summary>
         /// Gets or sets the actors.

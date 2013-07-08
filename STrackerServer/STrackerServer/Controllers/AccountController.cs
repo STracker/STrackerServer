@@ -190,7 +190,7 @@ namespace STrackerServer.Controllers
                 fb.AccessToken = result.access_token;
 
                 dynamic me = fb.Get(UserInfoQuery);
-                user = new User(me.id) { Email = me.email, Name = me.name, Photo = new Artwork { ImageUrl = me.picture.data.url } };
+                user = new User(me.id) { Email = me.email, Name = me.name, Photo = me.picture.data.url };
             }
             catch (FacebookOAuthException)
             {

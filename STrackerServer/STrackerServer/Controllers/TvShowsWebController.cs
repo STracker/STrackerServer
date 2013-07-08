@@ -103,7 +103,7 @@ namespace STrackerServer.Controllers
             {
                 Rating = this.ratingsOperations.Read(tvshowId).Average,
                 IsSubscribed = isSubscribed,
-                Poster = tvshow.Poster.ImageUrl,
+                Poster = tvshow.Poster,
                 RedirectUrl = Url.Action("Show", new { tvshowId })
             };
 
@@ -163,7 +163,7 @@ namespace STrackerServer.Controllers
                 {
                     TvShowId = tvshowComments.TvShowId,
                     Comments = tvshowComments.Comments,
-                    Poster = tvshow.Poster.ImageUrl,
+                    Poster = tvshow.Poster,
                     TvShowName = tvshow.Name
                 };
             return this.View(view);
@@ -190,7 +190,7 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            var view = new TvShowCreateComment { TvShowId = tvshowId, Poster = tvshow.Poster.ImageUrl };
+            var view = new TvShowCreateComment { TvShowId = tvshowId, Poster = tvshow.Poster };
 
             return this.View(view);
         }
@@ -220,7 +220,7 @@ namespace STrackerServer.Controllers
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
 
-                create.Poster = tvshow.Poster.ImageUrl;
+                create.Poster = tvshow.Poster;
 
                 return this.View(create);
             }
@@ -271,7 +271,7 @@ namespace STrackerServer.Controllers
                     UserId = comment.UserId, 
                     Body = comment.Body, 
                     Id = comment.Id,
-                    Poster = tvshow.Poster.ImageUrl
+                    Poster = tvshow.Poster
                 };
 
             return this.View(commentView);
@@ -325,7 +325,7 @@ namespace STrackerServer.Controllers
                 {
                     Friends = user.Friends, 
                     TvShowId = tvshowId,
-                    Poster = tvshow.Poster.ImageUrl,
+                    Poster = tvshow.Poster,
                     TvShowName = tvshow.Name
                 };
 
@@ -379,7 +379,7 @@ namespace STrackerServer.Controllers
                         {
                             TvShowId = tvshowId,
                             TvShowName = tvshow.Name,
-                            Poster = tvshow.Poster.ImageUrl,
+                            Poster = tvshow.Poster,
                             Value = 1
                         });
         }
@@ -409,7 +409,7 @@ namespace STrackerServer.Controllers
                 }
 
                 rating.TvShowName = tvshow.Name;
-                rating.Poster = tvshow.Poster.ImageUrl;
+                rating.Poster = tvshow.Poster;
 
                 return this.View(rating);
             }

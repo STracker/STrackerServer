@@ -75,7 +75,7 @@ namespace STrackerServer.Controllers.Api
                 {
                     Name = register.Name, 
                     Email = register.Email, 
-                    Photo = new Artwork { ImageUrl = register.Photo }
+                    Photo = register.Photo
                 };
 
             this.operations.VerifyAndSave(user);

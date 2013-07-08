@@ -11,11 +11,12 @@
 namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
 {
     using System;
-    using System.Linq;
     using System.Collections.Generic;
     using System.Configuration;
+    using System.Linq;
 
     using global::MongoDB.Bson.Serialization;
+
     using global::MongoDB.Driver;
 
     using global::MongoDB.Driver.Builders;

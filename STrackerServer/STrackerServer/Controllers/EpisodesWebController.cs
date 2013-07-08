@@ -107,7 +107,7 @@ namespace STrackerServer.Controllers
                 Name = episode.Name,
                 GuestActors = episode.GuestActors,
                 Directors = episode.Directors,
-                Poster = episode.Poster == null ? tvshow.Poster.ImageUrl : episode.Poster.ImageUrl,
+                Poster = episode.Poster ?? tvshow.Poster,
                 TvShowName = tvshow.Name,
                 Date = episode.Date,
                 Rating = this.ratingsOperations.Read(key).Average
@@ -151,7 +151,7 @@ namespace STrackerServer.Controllers
                     SeasonNumber = seasonNumber,
                     EpisodeNumber = episodeNumber,
                     Comments = episodeComments.Comments,
-                    Poster = episode.Poster == null ? tvshow.Poster.ImageUrl : episode.Poster.ImageUrl,
+                    Poster = episode.Poster ?? tvshow.Poster,
                 };
 
             return this.View(view);
@@ -191,7 +191,7 @@ namespace STrackerServer.Controllers
                     TvShowId = tvshowId,
                     SeasonNumber = seasonNumber,
                     EpisodeNumber = episodeNumber,
-                    Poster = episode.Poster == null ? tvshow.Poster.ImageUrl : episode.Poster.ImageUrl,
+                    Poster = episode.Poster ?? tvshow.Poster,
                 };
 
             return this.View(view);
@@ -223,7 +223,7 @@ namespace STrackerServer.Controllers
             if (!ModelState.IsValid)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                create.Poster = episode.Poster == null ? tvshow.Poster.ImageUrl : episode.Poster.ImageUrl;
+                create.Poster = episode.Poster ?? tvshow.Poster;
                 return this.View(create);
             }
 
@@ -289,7 +289,7 @@ namespace STrackerServer.Controllers
                 UserId = comment.UserId,
                 Body = comment.Body,
                 Id = comment.Id,
-                Poster = episode.Poster == null ? tvshow.Poster.ImageUrl : episode.Poster.ImageUrl
+                Poster = episode.Poster ?? tvshow.Poster
             };
 
             return this.View(commentView);
@@ -349,7 +349,7 @@ namespace STrackerServer.Controllers
                 TvShowId = tvshowId,
                 SeasonNumber = seasonNumber,
                 EpisodeNumber = episodeNumber,
-                Poster = episode.Poster == null ? this.tvshowsOps.Read(tvshowId).Poster.ImageUrl : episode.Poster.ImageUrl,
+                Poster = episode.Poster ?? this.tvshowsOps.Read(tvshowId).Poster,
                 Value = 1
             });
         }
@@ -379,7 +379,7 @@ namespace STrackerServer.Controllers
 
             if (!ModelState.IsValid)
             {
-                rating.Poster = episode.Poster == null ? tvshow.Poster.ImageUrl : episode.Poster.ImageUrl;
+                rating.Poster = episode.Poster ?? tvshow.Poster;
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View(rating);
             }
