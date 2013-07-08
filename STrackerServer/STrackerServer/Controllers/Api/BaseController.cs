@@ -53,12 +53,7 @@ namespace STrackerServer.Controllers.Api
         /// </returns>
         protected HttpResponseMessage BasePost(bool state)
         {
-            if (!state)
-            {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
-            }
-
-            return this.Request.CreateResponse(HttpStatusCode.OK, true);
+            return this.Request.CreateResponse(state ? HttpStatusCode.OK : HttpStatusCode.BadRequest, new { Status = state });
         }
     }
 }

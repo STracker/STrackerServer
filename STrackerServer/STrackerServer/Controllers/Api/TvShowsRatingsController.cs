@@ -55,7 +55,7 @@ namespace STrackerServer.Controllers.Api
         [HawkAuthorize]
         public HttpResponseMessage Post(string id, [FromBody] string rating)
         {
-            if (!ModelState.IsValid)
+            if (rating == null)
             {
                 return this.BasePost(false);
             }
