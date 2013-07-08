@@ -117,7 +117,7 @@ namespace HawkNet
 
                 var hash = Convert.ToBase64String(hmac.ComputeHash(requestPayload()));
 
-                if (attributes["hash"] != hash)
+                if (!attributes["hash"].Equals(hash))
                 {
                     throw new SecurityException("Bad payload hash");
                 }

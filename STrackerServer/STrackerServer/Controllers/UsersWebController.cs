@@ -187,23 +187,23 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            bool failed;
+            bool success;
 
             if (values.IsSubscribing)
             {
-                failed = this.usersOperations.AddSubscription(User.Identity.Name, values.TvshowId);
+                success = this.usersOperations.AddSubscription(User.Identity.Name, values.TvshowId);
 
-                if (!failed)
+                if (success)
                 {
                     this.usersOperations.RemoveTvShowSuggestions(User.Identity.Name, values.TvshowId);
                 }
             }
             else
             {
-                failed = this.usersOperations.RemoveSubscription(User.Identity.Name, values.TvshowId);
+                success = this.usersOperations.RemoveSubscription(User.Identity.Name, values.TvshowId);
             }
 
-            if (failed)
+            if (!success)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View("Error", Response.StatusCode);
