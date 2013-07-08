@@ -26,6 +26,7 @@ namespace STrackerServer.Tests.Operations.Tests
     [TestFixture]
     public class SeasonsOperations
     {
+        /*
         /// <summary>
         /// The repository.
         /// </summary>

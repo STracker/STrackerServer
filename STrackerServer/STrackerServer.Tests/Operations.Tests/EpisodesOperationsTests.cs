@@ -26,6 +26,7 @@ namespace STrackerServer.Tests.Operations.Tests
     [TestFixture]
     public class EpisodesOperationsTests
     {
+        /*
         /// <summary>
         /// The television shows repository.
         /// </summary>

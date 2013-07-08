@@ -24,6 +24,7 @@ namespace STrackerServer.Tests.Operations.Tests
     [TestFixture]
     public class TvShowsOperations
     {
+        /*
         /// <summary>
         /// The repository.
         /// </summary>
@@ -100,4 +101,5 @@ namespace STrackerServer.Tests.Operations.Tests
         }
          */
     }
+    
 }
