@@ -59,6 +59,7 @@
     <Compile Include="Core\UsersRepositories\IUsersRepository.cs" />
     <Compile Include="DomainEntities\AuxiliaryEntities\Actor.cs" />
     <Compile Include="DomainEntities\AuxiliaryEntities\Comment.cs" />
+    <Compile Include="DomainEntities\AuxiliaryEntities\Subscription.cs" />
     <Compile Include="DomainEntities\AuxiliaryEntities\Suggestion.cs" />
     <Compile Include="DomainEntities\Comments\CommentsBase.cs" />
     <Compile Include="DomainEntities\Episode.cs" />

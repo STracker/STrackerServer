@@ -36,7 +36,7 @@
                             <td>
                                 @if(friend.IsSubscribed)
                                 {
-                                    <div>Already Subscribed</div>
+                                    <div style="text-align: right">Already Subscribed</div>
                                 }else
                                 {
                                     using(Html.BeginForm("Suggest","TvShowsWeb",FormMethod.Post))

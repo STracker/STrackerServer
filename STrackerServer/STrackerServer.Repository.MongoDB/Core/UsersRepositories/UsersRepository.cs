@@ -78,16 +78,16 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         /// <param name="user">
         /// The user.
         /// </param>
-        /// <param name="tvshow">
-        /// The television show.
+        /// <param name="subscription">
+        /// The subscription.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public bool AddSubscription(User user, TvShow.TvShowSynopsis tvshow)
+        public bool AddSubscription(User user, Subscription subscription)
         {
             var query = Query<User>.EQ(u => u.Key, user.Key);
-            var update = Update<User>.AddToSet(u => u.SubscriptionList, tvshow);
+            var update = Update<User>.AddToSet(u => u.SubscriptionList, subscription);
             return this.ModifyList(this.collection, query, update);
         }
 
@@ -97,16 +97,16 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         /// <param name="user">
         /// The user.
         /// </param>
-        /// <param name="tvshow">
-        /// The television show.
+        /// <param name="subscription">
+        /// The subscription.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public bool RemoveSubscription(User user, TvShow.TvShowSynopsis tvshow)
+        public bool RemoveSubscription(User user, Subscription subscription)
         {
             var query = Query<User>.EQ(u => u.Key, user.Key);
-            var update = Update<User>.Pull(u => u.SubscriptionList, tvshow);
+            var update = Update<User>.Pull(u => u.SubscriptionList, subscription);
             return this.ModifyList(this.collection, query, update);
         }
 

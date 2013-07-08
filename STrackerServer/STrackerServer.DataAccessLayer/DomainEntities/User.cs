@@ -26,7 +26,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         {    
             this.Friends = new List<UserSynopsis>();
             this.FriendRequests = new List<UserSynopsis>();
-            this.SubscriptionList = new List<TvShow.TvShowSynopsis>();
+            this.SubscriptionList = new List<Subscription>();
             this.Suggestions = new List<Suggestion>();
         }
 
@@ -64,7 +64,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// <summary>
         /// Gets or sets the subscription list.
         /// </summary>
-        public List<TvShow.TvShowSynopsis> SubscriptionList { get; set; }
+        public List<Subscription> SubscriptionList { get; set; }
 
         /// <summary>
         /// Gets or sets the suggestions.

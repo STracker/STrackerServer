@@ -25,13 +25,13 @@ namespace STrackerServer.DataAccessLayer.Core.UsersRepositories
         /// <param name="user">
         /// The user.
         /// </param>
-        /// <param name="tvshow">
-        /// The television show.
+        /// <param name="subscription">
+        /// The subscription.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool AddSubscription(User user, TvShow.TvShowSynopsis tvshow);
+        bool AddSubscription(User user, Subscription subscription);
 
         /// <summary>
         /// The remove subscription.
@@ -39,13 +39,13 @@ namespace STrackerServer.DataAccessLayer.Core.UsersRepositories
         /// <param name="user">
         /// The user.
         /// </param>
-        /// <param name="tvshow">
-        /// The television show.
+        /// <param name="subscription">
+        /// The subscription.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool RemoveSubscription(User user, TvShow.TvShowSynopsis tvshow);
+        bool RemoveSubscription(User user, Subscription subscription);
 
         /// <summary>
         /// The invite.

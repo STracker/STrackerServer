@@ -10,8 +10,6 @@
 namespace STrackerServer.BusinessLayer.Operations.UsersOperations
 {
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
 
     using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
@@ -100,7 +98,15 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         {
             var user = this.Repository.Read(userId);
             var tvshow = this.tvshowsRepository.Read(tvshowId);
-            return tvshow != null && ((IUsersRepository)this.Repository).AddSubscription(user, tvshow.GetSynopsis());
+            
+            if (tvshow == null)
+            {
+                return false;
+            }
+
+            var subscription = new Subscription { TvShow = tvshow.GetSynopsis() };
+
+            return ((IUsersRepository)this.Repository).AddSubscription(user, subscription);
         }
 
         /// <summary>
@@ -119,12 +125,14 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         {
             var user = this.Repository.Read(userId);
             var tvshow = this.tvshowsRepository.Read(tvshowId);
-            if (tvshow == null)
+            var subscription = user.SubscriptionList.Find(sub => sub.TvShow.Id.Equals(tvshowId));
+
+            if (tvshow == null || subscription == null)
             {
                 return false;
             }
 
-            return user.SubscriptionList.Any(sub => sub.Id.Equals(tvshowId)) && ((IUsersRepository)this.Repository).RemoveSubscription(user, tvshow.GetSynopsis());
+            return ((IUsersRepository)this.Repository).RemoveSubscription(user, subscription);
         }
 
         /// <summary>
@@ -204,7 +212,7 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         /// The user to.
         /// </param>
         /// <param name="tvshowId">
-        /// The tvshow id.
+        /// The television show id.
         /// </param>
         /// <param name="suggestion">
         /// The suggestion.
@@ -221,7 +229,6 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
             {
                 return false;
             }
-
 
             return user.Friends.Exists(synopsis => synopsis.Id.Equals(suggestion.UserId)) && ((IUsersRepository)this.Repository).SendSuggestion(user, suggestion);
         }

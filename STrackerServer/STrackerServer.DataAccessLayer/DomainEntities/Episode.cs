@@ -103,7 +103,15 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         {
             var uri = string.Format("tvshows/{0}/seasons/{1}/episodes/{2}", this.TvShowId, this.SeasonNumber, this.EpisodeNumber);
 
-            return new EpisodeSynopsis { EpisodeNumber = this.EpisodeNumber, Name = this.Name, Date = this.Date, Uri = uri };
+            return new EpisodeSynopsis
+                {
+                    TvShowId = this.TvShowId,
+                    SeasonNumber = this.SeasonNumber,
+                    EpisodeNumber = this.EpisodeNumber, 
+                    Name = this.Name, 
+                    Date = this.Date, 
+                    Uri = uri
+                };
         }
 
         /// <summary>
@@ -111,6 +119,16 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// </summary>
         public class EpisodeSynopsis : ISynopsis
         {
+            /// <summary>
+            /// Gets or sets the television show id.
+            /// </summary>
+            public string TvShowId { get; set; }
+
+            /// <summary>
+            /// Gets or sets the season number.
+            /// </summary>
+            public int SeasonNumber { get; set; }
+
             /// <summary>
             /// Gets or sets the episode number.
             /// </summary>

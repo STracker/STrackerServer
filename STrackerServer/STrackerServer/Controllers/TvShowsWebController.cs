@@ -96,7 +96,7 @@ namespace STrackerServer.Controllers
 
             if (user != null)
             {
-                isSubscribed = user.SubscriptionList.Any(synopsis => synopsis.Id.Equals(tvshow.TvShowId));
+                isSubscribed = user.SubscriptionList.Any(sub => sub.TvShow.Id.Equals(tvshow.TvShowId));
             }
 
             var model = new TvShowView(tvshow)
@@ -322,14 +322,13 @@ namespace STrackerServer.Controllers
 
             var user = this.userOperations.Read(User.Identity.Name);
 
-
             var view = new SuggestView
                 {
                     Friends = user.Friends.ConvertAll(input => new SuggestFriendView
                         {
                             Id = input.Id,
                             Name = input.Name,
-                            IsSubscribed = this.userOperations.Read(input.Id).SubscriptionList.Exists(synopsis => synopsis.Id.Equals(tvshowId))
+                            IsSubscribed = this.userOperations.Read(input.Id).SubscriptionList.Exists(sub => sub.TvShow.Id.Equals(tvshowId))
                         }), 
                     TvShowId = tvshowId,
                     Poster = tvshow.Poster,

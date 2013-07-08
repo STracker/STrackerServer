@@ -11,8 +11,7 @@ namespace STrackerServer.Models.User
 {
     using System.Collections.Generic;
 
-    using STrackerServer.DataAccessLayer.DomainEntities;
-    using STrackerServer.Models.TvShow;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
 
     /// <summary>
     /// The user view.
@@ -37,7 +36,7 @@ namespace STrackerServer.Models.User
         /// <summary>
         /// Gets or sets the subscription list.
         /// </summary>
-        public List<TvShow.TvShowSynopsis> SubscriptionList { get; set; }
+        public List<Subscription> SubscriptionList { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether is friend.

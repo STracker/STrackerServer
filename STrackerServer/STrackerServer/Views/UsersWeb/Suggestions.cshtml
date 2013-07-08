@@ -44,7 +44,7 @@
                                     {
                                         @Html.Hidden("tvshowId",tvshowId)
                                         @Html.Hidden("redirectUrl", Url.Action("Suggestions","UsersWeb"))
-                                        <button type="submit" class="btn btn-mini btn-block btn-success"><b class="icon-ok"></b></button>
+                                        <button type="submit" class="btn btn-mini btn-block btn-success">Subscribe</button>
                                     }
                                 </div>
                             </div>
@@ -52,14 +52,13 @@
                                 <div style="text-align: right">
                                     @using (Html.BeginForm("RemoveTvShowSuggestions", "UsersWeb", new { tvshowId }))
                                     {
-                                        <button type="submit" class="btn btn-mini btn-block btn-danger"><b class="icon-remove"></b></button>
+                                        <button type="submit" class="btn btn-mini btn-block btn-danger">Remove</button>
                                     }
                                 </div>
                             </div>   
                         </div>
                     </div>
-                
-                    <br/>
+               
                     <table class="table table-condensed">
                         @foreach (var friend in Model.Suggestions[tvshowId].Friends)
                         {

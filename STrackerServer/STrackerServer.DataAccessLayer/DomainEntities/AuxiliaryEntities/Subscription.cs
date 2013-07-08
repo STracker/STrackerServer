@@ -1,31 +1,37 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Suggestion.cs" company="STracker">
+// <copyright file="Subscription.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  Implementation of suggestion object.
+//   The subscription.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities
 {
+    using System.Collections.Generic;
+
     /// <summary>
-    /// The suggestion.
+    /// The subscription.
     /// </summary>
-    public class Suggestion
+    public class Subscription
     {
         /// <summary>
-        /// Gets or sets the user id.
+        /// Initializes a new instance of the <see cref="Subscription"/> class.
         /// </summary>
-        public string UserId { get; set; }
+        public Subscription()
+        {
+            this.EpisodesWatched = new List<Episode.EpisodeSynopsis>();
+        }
 
         /// <summary>
-        /// Gets or sets the television show id.
+        /// Gets or sets the television show.
         /// </summary>
-        public string TvShowId { get; set; }
+        public TvShow.TvShowSynopsis TvShow { get; set; }
 
         /// <summary>
-        /// Gets or sets the message.
+        /// Gets or sets the episodes watched.
         /// </summary>
-        public string Message { get; set; }
+        public List<Episode.EpisodeSynopsis> EpisodesWatched { get; set; }
     }
 }
