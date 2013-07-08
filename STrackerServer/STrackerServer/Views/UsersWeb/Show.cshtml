@@ -44,7 +44,7 @@
                         {
                             <tr>
                                 <td>
-                                    <a href="@Url.Action("Show","TvShowsWeb", new { tvshowId = sub.Id })">@sub.Name</a>
+                                    <a href="@Url.Action("Show","TvShowsWeb", new { tvshowId = sub.TvShow.Id })">@sub.TvShow.Name</a>
                                 </td>
                             </tr>
                         }
