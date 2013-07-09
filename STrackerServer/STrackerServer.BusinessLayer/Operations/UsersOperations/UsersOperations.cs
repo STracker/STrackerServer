@@ -9,8 +9,10 @@
 
 namespace STrackerServer.BusinessLayer.Operations.UsersOperations
 {
+    using System;
     using System.Collections.Generic;
 
+    using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
     using STrackerServer.DataAccessLayer.Core.UsersRepositories;
@@ -27,19 +29,13 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         /// </summary>
         private readonly ITvShowsRepository tvshowsRepository;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UsersOperations"/> class.
-        /// </summary>
-        /// <param name="repository">
-        /// The repository.
-        /// </param>
-        /// <param name="tvshowsRepository"> 
-        /// The television shows repository.
-        /// </param>
-        public UsersOperations(IUsersRepository repository, ITvShowsRepository tvshowsRepository)
+        private readonly IEpisodesOperations episodesOperations;
+
+        public UsersOperations(IUsersRepository repository, ITvShowsRepository tvshowsRepository, IEpisodesOperations episodesOperations)
             : base(repository)
         {
             this.tvshowsRepository = tvshowsRepository;
+            this.episodesOperations = episodesOperations;
         }
 
         /// <summary>
@@ -352,6 +348,60 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
             }
 
             return ((IUsersRepository)this.Repository).RemoveTvShowSuggestions(user, tvshow);
+        }
+
+        /// <summary>
+        /// The add watched episode.
+        /// </summary>
+        /// <param name="userId">
+        /// The user id.
+        /// </param>
+        /// <param name="tvshowId">
+        /// The television  show id.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// The season number.
+        /// </param>
+        /// <param name="episodeNumber">
+        /// The episode number.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool AddWatchedEpisode(string userId, string tvshowId, int seasonNumber, int episodeNumber)
+        {
+            var user = this.Repository.Read(userId);
+            var episode = this.episodesOperations.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber));
+
+            if (user == null || episode == null)
+            {
+                return false;
+            }
+
+            return
+        }
+
+        /// <summary>
+        /// The remove watched episode.
+        /// </summary>
+        /// <param name="userId">
+        /// The user id.
+        /// </param>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// The season number.
+        /// </param>
+        /// <param name="episodeNumber">
+        /// The episode number.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool RemoveWatchedEpisode(string userId, string tvshowId, int seasonNumber, int episodeNumber)
+        {
+            throw new System.NotImplementedException();
         }
 
         /// <summary>

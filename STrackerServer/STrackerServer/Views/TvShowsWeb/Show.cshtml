@@ -12,11 +12,9 @@
 
             <div class="extra-padding"></div> 
             @if (User.Identity.IsAuthenticated)
-            {   
-                using (Html.BeginForm("Subscribe", "UsersWeb"))
+            {
+                using (Html.BeginForm("Subscribe", "TvShowsWeb", new { tvshowId = Model.TvShowId }))
                 {
-
-                    @Html.Hidden("TvshowId", Model.TvShowId)
                     @Html.Hidden("RedirectUrl", Model.RedirectUrl)
 
                     if (Model.IsSubscribed)

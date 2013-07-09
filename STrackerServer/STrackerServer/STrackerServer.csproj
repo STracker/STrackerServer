@@ -184,6 +184,7 @@
     <Compile Include="Models\Episode\EpisodeRating.cs" />
     <Compile Include="Models\Episode\EpisodeRemoveComment.cs" />
     <Compile Include="Models\Episode\EpisodeView.cs" />
+    <Compile Include="Models\Episode\EpisodeWatched.cs" />
     <Compile Include="Models\Genre\GenreView.cs" />
     <Compile Include="Models\Home\HomeView.cs" />
     <Compile Include="Models\Season\SeasonView.cs" />

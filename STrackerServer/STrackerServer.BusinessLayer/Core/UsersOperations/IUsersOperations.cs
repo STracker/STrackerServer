@@ -187,5 +187,45 @@ namespace STrackerServer.BusinessLayer.Core.UsersOperations
         /// The <see cref="bool"/>.
         /// </returns>
         bool RemoveTvShowSuggestions(string userId, string tvshowId);
+
+        /// <summary>
+        /// The add watched episode.
+        /// </summary>
+        /// <param name="userId">
+        /// The user id.
+        /// </param>
+        /// <param name="tvshowId">
+        /// The television  show id.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// The season number.
+        /// </param>
+        /// <param name="episodeNumber">
+        /// The episode number.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool AddWatchedEpisode(string userId, string tvshowId, int seasonNumber, int episodeNumber);
+
+        /// <summary>
+        /// The remove watched episode.
+        /// </summary>
+        /// <param name="userId">
+        /// The user id.
+        /// </param>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// The season number.
+        /// </param>
+        /// <param name="episodeNumber">
+        /// The episode number.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool RemoveWatchedEpisode(string userId, string tvshowId, int seasonNumber, int episodeNumber);
     }
 }

@@ -17,6 +17,7 @@ namespace STrackerServer.Controllers
     using STrackerServer.Action_Results;
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
+    using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
     using STrackerServer.Models.Episode;
 
@@ -46,6 +47,11 @@ namespace STrackerServer.Controllers
         private readonly IEpisodesRatingsOperations ratingsOperations;
 
         /// <summary>
+        /// The users operations.
+        /// </summary>
+        private readonly IUsersOperations usersOperations;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="EpisodesWebController"/> class.
         /// </summary>
         /// <param name="episodesOps">
@@ -55,17 +61,21 @@ namespace STrackerServer.Controllers
         /// The television shows ops.
         /// </param>
         /// <param name="commentsOperations">
-        /// The comments Operations.
+        /// The comments operations.
         /// </param>
         /// <param name="ratingsOperations">
-        /// The ratings Operations.
+        /// The ratings operations.
         /// </param>
-        public EpisodesWebController(IEpisodesOperations episodesOps, ITvShowsOperations tvshowsOps, IEpisodesCommentsOperations commentsOperations, IEpisodesRatingsOperations ratingsOperations)
+        /// <param name="usersOperations">
+        /// The users operations.
+        /// </param>
+        public EpisodesWebController(IEpisodesOperations episodesOps, ITvShowsOperations tvshowsOps, IEpisodesCommentsOperations commentsOperations, IEpisodesRatingsOperations ratingsOperations, IUsersOperations usersOperations)
         {
             this.episodesOps = episodesOps;
             this.tvshowsOps = tvshowsOps;
             this.commentsOperations = commentsOperations;
             this.ratingsOperations = ratingsOperations;
+            this.usersOperations = usersOperations;
         }
 
         /// <summary>
@@ -394,19 +404,53 @@ namespace STrackerServer.Controllers
         }
 
         /// <summary>
-        /// The watch.
+        /// The watched.
         /// </summary>
-        /// <param name="rating">
-        /// The rating.
+        /// <param name="values">
+        /// The values.
         /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpPost]
         [Authorize]
-        public ActionResult Watch(EpisodeRating rating)
+        public ActionResult Watched(EpisodeWatched values)
         {
-            return null;
+            if (!ModelState.IsValid)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            bool success;
+
+            if (values.AsWatched)
+            {
+                success = this.usersOperations.AddWatchedEpisode(User.Identity.Name, values.TvShowId, values.SeasonNumber, values.EpisodeNumber);
+            }
+            else
+            {
+                success = this.usersOperations.RemoveWatchedEpisode(User.Identity.Name, values.TvShowId, values.SeasonNumber, values.EpisodeNumber);
+            }
+
+            if (!success)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            return new SeeOtherResult
+                {
+                    Url = Url.Action(
+                        "Show",
+                        "EpisodesWeb",
+                        new
+                            {
+                                tvshowId = values.TvShowId,
+                                seasonNumber = values.SeasonNumber,
+                                episodeNumber = values.EpisodeNumber
+                            })
+                };
         }
     }
 }

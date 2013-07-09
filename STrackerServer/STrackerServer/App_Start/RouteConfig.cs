@@ -36,8 +36,8 @@ namespace STrackerServer.App_Start
             routes.MapRoute("User_Suggestions_TvShow_Remove", "User/Suggestions/{tvshowId}/remove", new { controller = "UsersWeb", action = "RemoveTvShowSuggestions" });
 
             routes.MapRoute("User_Requests", "User/Requests", new { controller = "UsersWeb", action = "Requests" });
+
             routes.MapRoute("User_Invite", "User/Invite", new { controller = "UsersWeb", action = "Invite" });
-            routes.MapRoute("User_Subscribe", "User/Subscribe", new { controller = "UsersWeb", action = "Subscribe" });
 
             routes.MapRoute("User_Friends_Public", "User/{id}/Friends", new { controller = "UsersWeb", action = "PublicFriends" });
 
@@ -77,6 +77,8 @@ namespace STrackerServer.App_Start
             routes.MapRoute("TvShowsWeb_Comments", "TvShows/{tvshowId}/Comments", new { controller = "TvShowsWeb", action = "Comments" });
 
             routes.MapRoute("TvShowsWeb_Suggestion", "TvShows/{tvshowId}/Suggest", new { controller = "TvShowsWeb", action = "Suggest" });
+
+            routes.MapRoute("TvShowsWeb_Subscribe", "TvShows/{tvshowId}/Subscribe", new { controller = "TvShowsWeb", action = "Subscribe" });
 
             routes.MapRoute("TvShowsWeb_Rate", "TvShows/{tvshowId}/Rate", new { controller = "TvShowsWeb", action = "Rate" });
 

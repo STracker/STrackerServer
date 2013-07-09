@@ -35,7 +35,7 @@ namespace STrackerServer.Controllers
         /// <summary>
         /// The user operations.
         /// </summary>
-        private readonly IUsersOperations userOperations;
+        private readonly IUsersOperations usersOperations;
 
         /// <summary>
         /// The comments operations.
@@ -53,7 +53,7 @@ namespace STrackerServer.Controllers
         /// <param name="tvshowOperations">
         /// The television show operations.
         /// </param>
-        /// <param name="userOperations">
+        /// <param name="usersesOperations">
         /// The user operations.
         /// </param>
         /// <param name="commentsOperations">
@@ -62,10 +62,10 @@ namespace STrackerServer.Controllers
         /// <param name="ratingsOperations">
         /// The ratings Operations.
         /// </param>
-        public TvShowsWebController(ITvShowsOperations tvshowOperations, IUsersOperations userOperations, ITvShowsCommentsOperations commentsOperations, ITvShowsRatingsOperations ratingsOperations)
+        public TvShowsWebController(ITvShowsOperations tvshowOperations, IUsersOperations usersesOperations, ITvShowsCommentsOperations commentsOperations, ITvShowsRatingsOperations ratingsOperations)
         {
             this.tvshowOperations = tvshowOperations;
-            this.userOperations = userOperations;
+            this.usersOperations = usersesOperations;
             this.commentsOperations = commentsOperations;
             this.ratingsOperations = ratingsOperations;
         }
@@ -92,7 +92,7 @@ namespace STrackerServer.Controllers
 
             var isSubscribed = false;
 
-            var user = this.userOperations.Read(User.Identity.Name);
+            var user = this.usersOperations.Read(User.Identity.Name);
 
             if (user != null)
             {
@@ -320,7 +320,7 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            var user = this.userOperations.Read(User.Identity.Name);
+            var user = this.usersOperations.Read(User.Identity.Name);
 
             var view = new SuggestView
                 {
@@ -328,7 +328,7 @@ namespace STrackerServer.Controllers
                         {
                             Id = input.Id,
                             Name = input.Name,
-                            IsSubscribed = this.userOperations.Read(input.Id).SubscriptionList.Exists(sub => sub.TvShow.Id.Equals(tvshowId))
+                            IsSubscribed = this.usersOperations.Read(input.Id).SubscriptionList.Exists(sub => sub.TvShow.Id.Equals(tvshowId))
                         }), 
                     TvShowId = tvshowId,
                     Poster = tvshow.Poster,
@@ -351,7 +351,7 @@ namespace STrackerServer.Controllers
         [Authorize]
         public ActionResult Suggest(SuggestFormValues values)
         {
-            if (!ModelState.IsValid || !this.userOperations.SendSuggestion(values.FriendId, values.TvShowId, new Suggestion { TvShowId = values.TvShowId, UserId = User.Identity.Name }))
+            if (!ModelState.IsValid || !this.usersOperations.SendSuggestion(values.FriendId, values.TvShowId, new Suggestion { TvShowId = values.TvShowId, UserId = User.Identity.Name }))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View("Error", Response.StatusCode);
@@ -442,6 +442,50 @@ namespace STrackerServer.Controllers
         public ActionResult GetNames(string query)
         {
             return this.Json(query == null ? new string[0] : this.tvshowOperations.GetNames(query), JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// The subscribe.
+        /// </summary>
+        /// <param name="values">
+        /// The values.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpPost]
+        [Authorize]
+        public ActionResult Subscribe(SubscribeFormValues values)
+        {
+            if (!ModelState.IsValid)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            bool success;
+
+            if (values.IsSubscribing)
+            {
+                success = this.usersOperations.AddSubscription(User.Identity.Name, values.TvshowId);
+
+                if (success)
+                {
+                    this.usersOperations.RemoveTvShowSuggestions(User.Identity.Name, values.TvshowId);
+                }
+            }
+            else
+            {
+                success = this.usersOperations.RemoveSubscription(User.Identity.Name, values.TvshowId);
+            }
+
+            if (!success)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            return new SeeOtherResult { Url = values.RedirectUrl };
         }
     }
 }
