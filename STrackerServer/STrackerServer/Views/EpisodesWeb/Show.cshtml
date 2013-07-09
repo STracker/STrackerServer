@@ -13,6 +13,24 @@
         <div class="span3">
             <img class="img-rounded" src="@Model.Poster" alt="No Artwork"/>  
             <div class="extra-padding"></div>
+            
+            @if(User.Identity.IsAuthenticated && Model.IsSubscribed)
+            {
+                using (Html.BeginForm("Watched", "EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber }))
+                {
+                    @Html.Hidden("RedirectUrl", Url.Action("Show","EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber }))
+                    @Html.Hidden("AsWatched", Model.AsWatched)  
+                
+                    if(Model.AsWatched)
+                    {
+                         <input class="btn btn-block btn-danger" type="submit" value="Unwatched"/>
+                    }
+                    else
+                    {
+                        <input class="btn btn-block btn-success" type="submit" value="Watched"/>
+                    }
+                }  
+            }
 
             <p>
                 <a class="btn btn-block btn-primary" href="@Url.Action("Rate","EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber })">Rate</a>

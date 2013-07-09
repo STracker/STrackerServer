@@ -41,9 +41,9 @@ namespace STrackerServer.App_Start
             config.Routes.MapHttpRoute("api_episode_get", "api/tvshows/{tvshowId}/seasons/{seasonNumber}/episodes/{number}", new { controller = "episodes", action = "get" });
 
             // Routes for tvshows and episodes comments.
-            config.Routes.MapHttpRoute("api_tvshow_comments_delete", "api/tvshows/{id}/comments/{userId}/{timestamp}", new { controller = "tvshowscomments", action = "delete" });
+            config.Routes.MapHttpRoute("api_tvshow_comments_delete", "api/tvshows/{id}/comments/{commentId}", new { controller = "tvshowscomments", action = "delete" });
             config.Routes.MapHttpRoute("api_tvshow_comments", "api/tvshows/{id}/comments", new { controller = "tvshowscomments" });
-            config.Routes.MapHttpRoute("api_episode_comments_delete", "api/tvshows/{tvshowId}/seasons/{seasonNumber}/episodes/{number}/comments/{userId}/{timestamp}", new { controller = "episodescomments", action = "delete" });
+            config.Routes.MapHttpRoute("api_episode_comments_delete", "api/tvshows/{tvshowId}/seasons/{seasonNumber}/episodes/{number}/comments/{commentId}", new { controller = "episodescomments", action = "delete" });
             config.Routes.MapHttpRoute("api_episode_comments", "api/tvshows/{tvshowId}/seasons/{seasonNumber}/episodes/{number}/comments", new { controller = "episodescomments" });
 
             // Routes for tvshows and episodes ratings.

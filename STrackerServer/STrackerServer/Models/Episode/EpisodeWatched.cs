@@ -39,5 +39,11 @@ namespace STrackerServer.Models.Episode
         /// </summary>
         [Required]
         public bool AsWatched { get; set; }
+
+        /// <summary>
+        /// Gets or sets the redirect url.
+        /// </summary>
+        [Required]
+        public string RedirectUrl { get; set; }
     }
 }

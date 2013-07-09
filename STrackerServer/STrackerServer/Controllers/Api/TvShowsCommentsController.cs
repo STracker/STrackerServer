@@ -103,9 +103,6 @@ namespace STrackerServer.Controllers.Api
         /// <param name="id">
         /// The id.
         /// </param>
-        /// <param name="userId">
-        /// The user id.
-        /// </param>
         /// <param name="commentId">
         /// The comment Id.
         /// </param>
@@ -114,9 +111,9 @@ namespace STrackerServer.Controllers.Api
         /// </returns>
         [HttpDelete]
         [HawkAuthorize]
-        public HttpResponseMessage Delete(string id, string userId, string commentId)
+        public HttpResponseMessage Delete(string id, string commentId)
         {
-            return this.BasePost(this.operations.RemoveComment(id, userId, id));
+            return this.BasePost(this.operations.RemoveComment(id, User.Identity.Name, id));
         }
     }
 }

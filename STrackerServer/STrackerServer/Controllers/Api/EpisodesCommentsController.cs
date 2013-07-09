@@ -122,9 +122,6 @@ namespace STrackerServer.Controllers.Api
         /// <param name="number">
         /// The number.
         /// </param>
-        /// <param name="userId">
-        /// The user id.
-        /// </param>
         /// <param name="commentId">
         /// The comment id.
         /// </param>
@@ -133,9 +130,9 @@ namespace STrackerServer.Controllers.Api
         /// </returns>
         [HttpDelete]
         [HawkAuthorize]
-        public HttpResponseMessage Delete(string tvshowId, int seasonNumber, int number, string userId, string commentId)
+        public HttpResponseMessage Delete(string tvshowId, int seasonNumber, int number, string commentId)
         {
-            return this.BasePost(this.operations.RemoveComment(new Tuple<string, int, int>(tvshowId, seasonNumber, number), userId, commentId));
+            return this.BasePost(this.operations.RemoveComment(new Tuple<string, int, int>(tvshowId, seasonNumber, number), User.Identity.Name, commentId));
         }
     }
 }

@@ -183,6 +183,6 @@ namespace STrackerServer.DataAccessLayer.Core.UsersRepositories
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool AddWatchedEpisode(User user, Episode episode);
+        bool AddWatchedEpisode(User user, Episode.EpisodeSynopsis episode);
     }
 }

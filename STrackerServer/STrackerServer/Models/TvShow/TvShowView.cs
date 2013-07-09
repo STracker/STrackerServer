@@ -103,10 +103,5 @@ namespace STrackerServer.Models.TvShow
         /// Gets or sets the poster.
         /// </summary>
         public string Poster { get; set; }
-
-        /// <summary>
-        /// Gets or sets the redirect url.
-        /// </summary>
-        public string RedirectUrl { get; set; }
     }
 }

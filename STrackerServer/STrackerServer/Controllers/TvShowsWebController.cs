@@ -104,7 +104,6 @@ namespace STrackerServer.Controllers
                 Rating = this.ratingsOperations.Read(tvshowId).Average,
                 IsSubscribed = isSubscribed,
                 Poster = tvshow.Poster,
-                RedirectUrl = Url.Action("Show", new { tvshowId })
             };
 
             return this.View(model);

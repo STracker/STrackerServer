@@ -393,12 +393,19 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
                 return false;
             }
 
-            if (user.SubscriptionList.Exists(subscription => subscription.TvShow.Id.Equals(episode.TvShowId) && subscription.EpisodesWatched.Contains(episode.GetSynopsis())))
+            var subscription = user.SubscriptionList.Find(sub => sub.TvShow.Id.Equals(episode.TvShowId));
+
+            if (subscription == null)
+            {
+                return false;
+            }
+
+            if (subscription.EpisodesWatched.Exists(synopsis => synopsis.Equals(episode.GetSynopsis())))
             {
                 return true;
             }
 
-            return ((IUsersRepository)this.Repository).AddWatchedEpisode(user, episode);
+            return ((IUsersRepository)this.Repository).AddWatchedEpisode(user, episode.GetSynopsis());
         }
 
         /// <summary>

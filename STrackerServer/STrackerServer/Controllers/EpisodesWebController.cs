@@ -108,6 +108,21 @@ namespace STrackerServer.Controllers
 
             var tvshow = this.tvshowsOps.Read(tvshowId);
 
+            var isSubscribed = false;
+            var asWatched = false;
+
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = this.usersOperations.Read(User.Identity.Name);
+                var subscription = user.SubscriptionList.Find(subscription1 => subscription1.TvShow.Id.Equals(tvshowId));
+
+                if (subscription != null)
+                {
+                    isSubscribed = true;
+                    asWatched = subscription.EpisodesWatched.Exists(synopsis => synopsis.Equals(episode.GetSynopsis()));
+                }
+            }
+
             var model = new EpisodeView
             {
                 TvShowId = episode.TvShowId,
@@ -120,7 +135,9 @@ namespace STrackerServer.Controllers
                 Poster = episode.Poster ?? tvshow.Poster,
                 TvShowName = tvshow.Name,
                 Date = episode.Date,
-                Rating = this.ratingsOperations.Read(key).Average
+                Rating = this.ratingsOperations.Read(key).Average,
+                IsSubscribed = isSubscribed,
+                AsWatched = asWatched
             };
 
             return this.View(model);

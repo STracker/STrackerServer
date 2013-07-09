@@ -148,6 +148,22 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
             /// Gets or sets the uri.
             /// </summary>
             public string Uri { get; set; }
+
+            /// <summary>
+            /// The equals.
+            /// </summary>
+            /// <param name="episode">
+            /// The episode.
+            /// </param>
+            /// <returns>
+            /// The <see cref="bool"/>.
+            /// </returns>
+            public bool Equals(EpisodeSynopsis episode)
+            {
+                return this.TvShowId.Equals(episode.TvShowId) &&
+                       this.SeasonNumber.Equals(episode.SeasonNumber) &&
+                       this.EpisodeNumber.Equals(episode.EpisodeNumber);
+            }
         }
     }
 }

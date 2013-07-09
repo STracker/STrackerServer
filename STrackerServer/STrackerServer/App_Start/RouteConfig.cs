@@ -117,6 +117,11 @@ namespace STrackerServer.App_Start
                 new { controller = "EpisodesWeb", action = "Rate" });
 
             routes.MapRoute(
+                "EpisodeWeb_Watched",
+                "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}/Watched",
+                new { controller = "EpisodesWeb", action = "Watched" });
+
+            routes.MapRoute(
                 "EpisodeWeb_Create_Comment",
                 "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}/Comments/Create",
                 new { controller = "EpisodesWeb", action = "CreateComment" });

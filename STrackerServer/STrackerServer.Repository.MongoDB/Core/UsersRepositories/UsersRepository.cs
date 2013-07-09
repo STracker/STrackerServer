@@ -296,10 +296,12 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public bool AddWatchedEpisode(User user, Episode episode)
+        public bool AddWatchedEpisode(User user, Episode.EpisodeSynopsis episode)
         {
             var query = Query<User>.EQ(user1 => user1.Key, user.Key);
-            return false;
+            user.SubscriptionList.Find(subscription => subscription.TvShow.Id.Equals(episode.TvShowId)).EpisodesWatched.Add(episode);
+            var update = Update<User>.Set(user1 => user1.SubscriptionList, user.SubscriptionList);
+            return this.collection.Update(query, update).Ok;
         }
 
         /// <summary>
