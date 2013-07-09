@@ -151,7 +151,6 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Api\AuxiliaryObjects\ApiAddComment.cs" />
-    <Compile Include="Controllers\Api\AuxiliaryObjects\ApiAddRating.cs" />
     <Compile Include="Controllers\Api\AuxiliaryObjects\ApiAddUserSubscription.cs" />
     <Compile Include="Controllers\Api\AuxiliaryObjects\ApiRegister.cs" />
     <Compile Include="Controllers\Api\AuxiliaryObjects\TimeUtc.cs" />

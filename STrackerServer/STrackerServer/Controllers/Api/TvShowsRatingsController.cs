@@ -14,8 +14,8 @@ namespace STrackerServer.Controllers.Api
     using System.Web.Http;
 
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
-    using STrackerServer.Controllers.Api.AuxiliaryObjects;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
+    using STrackerServer.Hawk;
 
     /// <summary>
     /// The television shows ratings controller.
@@ -50,15 +50,17 @@ namespace STrackerServer.Controllers.Api
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
+        /// The type rating is string because web api validation don't validate value types.
         [HttpPost]
-        public HttpResponseMessage Post(string id, [FromBody] ApiAddRating rating)
+        [HawkAuthorize]
+        public HttpResponseMessage Post(string id, [FromBody] string rating)
         {
-            if (!ModelState.IsValid)
+            if (rating == null)
             {
                 return this.BasePost(false);
             }
 
-            return this.BasePost(this.operations.AddRating(id, new Rating { UserId = rating.UserId, UserRating = int.Parse(rating.UserRating) }));
+            return this.BasePost(this.operations.AddRating(id, new Rating { UserId = User.Identity.Name, UserRating = int.Parse(rating) }));
         }
 
         /// <summary>
