@@ -10,12 +10,12 @@
 namespace STrackerServer.Controllers.Api
 {
     using System;
+    using System.ComponentModel.DataAnnotations;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
 
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
-    using STrackerServer.Controllers.Api.AuxiliaryObjects;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
     using STrackerServer.Hawk;
 
@@ -88,7 +88,7 @@ namespace STrackerServer.Controllers.Api
         /// The type rating is string because web api validation don't validate value types.
         [HttpPost]
         [HawkAuthorize]
-        public HttpResponseMessage Post(string tvshowId, int seasonNumber, int number, [FromBody] string rating)
+        public HttpResponseMessage Post(string tvshowId, int seasonNumber, int number, [FromBody][Required] string rating)
         {
             if (!ModelState.IsValid)
             {

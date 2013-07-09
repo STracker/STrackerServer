@@ -225,7 +225,7 @@ namespace STrackerServer.Controllers
                 return this.View(create);
             }
 
-            var comment = new Comment { Body = create.Body, UserId = User.Identity.Name };
+            var comment = new Comment { Body = create.Body, User = this.usersOperations.Read(User.Identity.Name).GetSynopsis() };
 
             this.commentsOperations.AddComment(create.TvShowId, comment);
             return new SeeOtherResult { Url = Url.Action("Comments", "TvShowsWeb", new { create.TvShowId }) };
@@ -257,7 +257,7 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode); 
             }
 
-            if (!comment.UserId.Equals(User.Identity.Name))
+            if (!comment.User.Id.Equals(User.Identity.Name))
             {
                 Response.StatusCode = (int)HttpStatusCode.Forbidden;
                 return this.View("Error", Response.StatusCode); 
@@ -268,7 +268,7 @@ namespace STrackerServer.Controllers
             var commentView = new TvShowComment
                 {
                     TvShowId = tvshowId, 
-                    UserId = comment.UserId, 
+                    UserId = comment.User.Id, 
                     Body = comment.Body, 
                     Id = comment.Id,
                     Poster = tvshow.Poster

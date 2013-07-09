@@ -285,6 +285,24 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         }
 
         /// <summary>
+        /// The add watched episode.
+        /// </summary>
+        /// <param name="user">
+        /// The user.
+        /// </param>
+        /// <param name="episode">
+        /// The episode.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool AddWatchedEpisode(User user, Episode episode)
+        {
+            var query = Query<User>.EQ(user1 => user1.Key, user.Key);
+            return false;
+        }
+
+        /// <summary>
         /// Create one user.
         /// </summary>
         /// <param name="entity">

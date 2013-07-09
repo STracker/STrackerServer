@@ -170,5 +170,19 @@ namespace STrackerServer.DataAccessLayer.Core.UsersRepositories
         /// The <see cref="bool"/>.
         /// </returns>
         bool RemoveTvShowSuggestions(User user, TvShow tvshow);
+
+        /// <summary>
+        /// The add watched episode.
+        /// </summary>
+        /// <param name="user">
+        /// The user.
+        /// </param>
+        /// <param name="episode">
+        /// The episode.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool AddWatchedEpisode(User user, Episode episode);
     }
 }

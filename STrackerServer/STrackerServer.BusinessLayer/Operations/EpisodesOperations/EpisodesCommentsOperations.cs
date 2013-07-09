@@ -75,7 +75,7 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
                new Message
                {
                    CommandName = ConfigurationManager.AppSettings["EpisodeCommentCmd"],
-                   Arg = string.Format("{0}|{1}|{2}|{3}|{4}", key.Item1, key.Item2, key.Item3, comment.UserId, comment.Body)
+                   Arg = string.Format("{0}|{1}|{2}|{3}|{4}", key.Item1, key.Item2, key.Item3, comment.User.Id, comment.Body)
                });
         }
     }

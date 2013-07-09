@@ -393,7 +393,12 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
                 return false;
             }
 
-            return false;
+            if (user.SubscriptionList.Exists(subscription => subscription.TvShow.Id.Equals(episode.TvShowId) && subscription.EpisodesWatched.Contains(episode.GetSynopsis())))
+            {
+                return true;
+            }
+
+            return ((IUsersRepository)this.Repository).AddWatchedEpisode(user, episode);
         }
 
         /// <summary>

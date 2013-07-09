@@ -25,17 +25,17 @@ namespace STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities
         }
 
         /// <summary>
+        /// Gets or sets the user.
+        /// </summary>
+        public User.UserSynopsis User { get; set; }
+
+        /// <summary>
         /// Gets or sets the comment body.
         /// </summary>
         public string Body { get; set; }
 
         /// <summary>
-        /// Gets or sets the user id.
-        /// </summary>
-        public string UserId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the timestamp.
+        /// Gets or sets the Comment Id.
         /// </summary>
         public string Id { get; set; }
     }

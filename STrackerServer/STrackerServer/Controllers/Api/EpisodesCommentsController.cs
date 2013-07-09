@@ -10,12 +10,13 @@
 namespace STrackerServer.Controllers.Api
 {
     using System;
+    using System.ComponentModel.DataAnnotations;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
 
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
-    using STrackerServer.Controllers.Api.AuxiliaryObjects;
+    using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
     using STrackerServer.Hawk;
 
@@ -30,14 +31,23 @@ namespace STrackerServer.Controllers.Api
         private readonly IEpisodesCommentsOperations operations;
 
         /// <summary>
+        /// The users operations.
+        /// </summary>
+        private readonly IUsersOperations usersOperations;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="EpisodesCommentsController"/> class.
         /// </summary>
         /// <param name="operations">
         /// The operations.
         /// </param>
-        public EpisodesCommentsController(IEpisodesCommentsOperations operations)
+        /// <param name="usersOperations">
+        /// The users Operations.
+        /// </param>
+        public EpisodesCommentsController(IEpisodesCommentsOperations operations, IUsersOperations usersOperations)
         {
             this.operations = operations;
+            this.usersOperations = usersOperations;
         }
 
         /// <summary>
@@ -86,14 +96,17 @@ namespace STrackerServer.Controllers.Api
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
         [HttpPost]
-        public HttpResponseMessage Post(string tvshowId, int seasonNumber, int number, [FromBody] ApiAddComment comment)
+        [HawkAuthorize]
+        public HttpResponseMessage Post(string tvshowId, int seasonNumber, int number, [FromBody] [Required] string comment)
         {
             if (!ModelState.IsValid)
             {
                 return this.BasePost(false);
             }
 
-            this.operations.AddComment(new Tuple<string, int, int>(tvshowId, seasonNumber, number), new Comment { Body = comment.Body, UserId = comment.UserId });
+            var user = this.usersOperations.Read(User.Identity.Name);
+
+            this.operations.AddComment(new Tuple<string, int, int>(tvshowId, seasonNumber, number), new Comment { Body = comment, User = user.GetSynopsis() });
             return this.BasePost(true);
         }
 
@@ -112,16 +125,17 @@ namespace STrackerServer.Controllers.Api
         /// <param name="userId">
         /// The user id.
         /// </param>
-        /// <param name="timestamp">
-        /// The timestamp.
+        /// <param name="commentId">
+        /// The comment id.
         /// </param>
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
         [HttpDelete]
-        public HttpResponseMessage Delete(string tvshowId, int seasonNumber, int number, string userId, string timestamp)
+        [HawkAuthorize]
+        public HttpResponseMessage Delete(string tvshowId, int seasonNumber, int number, string userId, string commentId)
         {
-            return this.BasePost(this.operations.RemoveComment(new Tuple<string, int, int>(tvshowId, seasonNumber, number), userId, timestamp));
+            return this.BasePost(this.operations.RemoveComment(new Tuple<string, int, int>(tvshowId, seasonNumber, number), userId, commentId));
         }
     }
 }

@@ -132,7 +132,7 @@ namespace STrackerServer.BusinessLayer.Operations
                 return false;
             }
 
-            var commentR = this.CommentsRepository.Read(key).Comments.FirstOrDefault(c => c.UserId.Equals(userId) && c.Id.Equals(id));
+            var commentR = this.CommentsRepository.Read(key).Comments.FirstOrDefault(c => c.User.Id.Equals(userId) && c.Id.Equals(id));
 
             return commentR != null && this.RemoveCommentHook(key, commentR);
         }

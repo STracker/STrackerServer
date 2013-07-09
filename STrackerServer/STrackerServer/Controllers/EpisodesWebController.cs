@@ -237,7 +237,7 @@ namespace STrackerServer.Controllers
                 return this.View(create);
             }
 
-            var comment = new Comment { Body = create.Body, UserId = User.Identity.Name };
+            var comment = new Comment { Body = create.Body, User = this.usersOperations.Read(User.Identity.Name).GetSynopsis() };
 
             this.commentsOperations.AddComment(new Tuple<string, int, int>(create.TvShowId, create.SeasonNumber, create.EpisodeNumber), comment);
             return new SeeOtherResult { Url = Url.Action("Comments", "EpisodesWeb", new { tvshowId = create.TvShowId, seasonNumber = create.SeasonNumber, episodeNumber = create.EpisodeNumber }) };
@@ -282,7 +282,7 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            if (!comment.UserId.Equals(User.Identity.Name))
+            if (!comment.User.Id.Equals(User.Identity.Name))
             {
                 Response.StatusCode = (int)HttpStatusCode.Forbidden;
                 return this.View("Error", Response.StatusCode);
@@ -296,7 +296,7 @@ namespace STrackerServer.Controllers
                 TvShowId = tvshowId,
                 SeasonNumber = seasonNumber,
                 EpisodeNumber = episodeNumber,
-                UserId = comment.UserId,
+                UserId = comment.User.Id,
                 Body = comment.Body,
                 Id = comment.Id,
                 Poster = episode.Poster ?? tvshow.Poster

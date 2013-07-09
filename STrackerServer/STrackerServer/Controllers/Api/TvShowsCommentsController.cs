@@ -9,13 +9,15 @@
 
 namespace STrackerServer.Controllers.Api
 {
+    using System.ComponentModel.DataAnnotations;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
 
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
-    using STrackerServer.Controllers.Api.AuxiliaryObjects;
+    using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
+    using STrackerServer.Hawk;
 
     /// <summary>
     /// The television shows comments controller.
@@ -28,14 +30,23 @@ namespace STrackerServer.Controllers.Api
         private readonly ITvShowsCommentsOperations operations;
 
         /// <summary>
+        /// The users operations.
+        /// </summary>
+        private readonly IUsersOperations usersOperations;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TvShowsCommentsController"/> class.
         /// </summary>
         /// <param name="operations">
         /// The operations.
         /// </param>
-        public TvShowsCommentsController(ITvShowsCommentsOperations operations)
+        /// <param name="usersOperations">
+        /// The users Operations.
+        /// </param>
+        public TvShowsCommentsController(ITvShowsCommentsOperations operations, IUsersOperations usersOperations)
         {
             this.operations = operations;
+            this.usersOperations = usersOperations;
         }
 
         /// <summary>
@@ -72,14 +83,17 @@ namespace STrackerServer.Controllers.Api
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
         [HttpPost]
-        public HttpResponseMessage Post(string id, [FromBody] ApiAddComment comment)
+        [HawkAuthorize]
+        public HttpResponseMessage Post(string id, [FromBody][Required] string comment)
         {
             if (!ModelState.IsValid)
             {
                 return this.BasePost(false);
             }
 
-            this.operations.AddComment(id, new Comment { Body = comment.Body, UserId = comment.UserId });
+            var user = this.usersOperations.Read(User.Identity.Name);
+
+            this.operations.AddComment(id, new Comment { Body = comment, User = user.GetSynopsis() });
             return this.BasePost(true);
         }
 
@@ -92,16 +106,17 @@ namespace STrackerServer.Controllers.Api
         /// <param name="userId">
         /// The user id.
         /// </param>
-        /// <param name="timestamp">
-        /// The timestamp.
+        /// <param name="commentId">
+        /// The comment Id.
         /// </param>
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
         [HttpDelete]
-        public HttpResponseMessage Delete(string id, string userId, string timestamp)
+        [HawkAuthorize]
+        public HttpResponseMessage Delete(string id, string userId, string commentId)
         {
-            return this.BasePost(this.operations.RemoveComment(id, userId, timestamp));
+            return this.BasePost(this.operations.RemoveComment(id, userId, id));
         }
     }
 }

@@ -74,7 +74,7 @@ namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
                 new Message
                 {
                     CommandName = ConfigurationManager.AppSettings["TvShowCommentCmd"],
-                    Arg = string.Format("{0}|{1}|{2}", key, comment.UserId, comment.Body)
+                    Arg = string.Format("{0}|{1}|{2}", key, comment.User.Id, comment.Body)
                 });
         }
     }
