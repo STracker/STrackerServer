@@ -34,8 +34,9 @@
                                     <a href="@Url.Action("Show","TvShowsWeb", new { tvshowId = sub.TvShow.Id })">@sub.TvShow.Name</a>
                                 </td>
                                 <td>
-                                    @using (Html.BeginForm("UnSubscribe", "UsersWeb", new { tvshowId = sub.TvShow.Id, redirectUrl = Url.Action("Index", "UsersWeb") }))
+                                    @using (Html.BeginForm("Subscribe", "TvShowsWeb", new { tvshowId = sub.TvShow.Id, redirectUrl = Url.Action("Index", "UsersWeb") }))
                                     {
+                                        @Html.Hidden("IsSubscribing",false)
                                         <div style="text-align: right">
                                             <input class="btn btn-mini btn-danger" type="submit" value="Unsubscribe"/>
                                         </div>

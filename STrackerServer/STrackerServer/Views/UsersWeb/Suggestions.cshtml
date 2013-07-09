@@ -40,8 +40,9 @@
                             </div>
                             <div style="display: inline-block">
                                 <div style="text-align: right">
-                                    @using (Html.BeginForm("Subscribe", "UsersWeb"))
+                                    @using (Html.BeginForm("Subscribe", "TvShowsWeb"))
                                     {
+                                        @Html.Hidden("IsSubscribing",true)
                                         @Html.Hidden("tvshowId",tvshowId)
                                         @Html.Hidden("redirectUrl", Url.Action("Suggestions","UsersWeb"))
                                         <button type="submit" class="btn btn-mini btn-block btn-success">Subscribe</button>
