@@ -40,8 +40,8 @@ namespace STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities
         public string Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the url.
+        /// Gets or sets the uri.
         /// </summary>
-        public string Url { get; set; }
+        public string Uri { get; set; }
     }
 }
