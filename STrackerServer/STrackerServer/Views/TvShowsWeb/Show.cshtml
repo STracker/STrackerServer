@@ -29,9 +29,8 @@
                 }  
             }else
             {
-                <div class="extra-padding">
-                    <a class="btn btn-block btn-success" href="@Url.Action("Login","Account", new { returnUrl =  Url.Action("Show","TvShowsWeb", new { tvshowId = Model.TvShowId })})">Subscribe</a>
-                </div> 
+                <div class="extra-padding"></div> 
+                <a class="btn btn-block btn-success" href="@Url.Action("Login","Account", new { returnUrl =  Url.Action("Show","TvShowsWeb", new { tvshowId = Model.TvShowId })})">Subscribe</a>
             }
             
 

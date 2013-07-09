@@ -43,6 +43,7 @@ namespace STrackerServer.App_Start
             // Routes for tvshows and episodes comments.
             config.Routes.MapHttpRoute("api_tvshow_comments_delete", "api/tvshows/{id}/comments/{commentId}", new { controller = "tvshowscomments", action = "delete" });
             config.Routes.MapHttpRoute("api_tvshow_comments", "api/tvshows/{id}/comments", new { controller = "tvshowscomments" });
+
             config.Routes.MapHttpRoute("api_episode_comments_delete", "api/tvshows/{tvshowId}/seasons/{seasonNumber}/episodes/{number}/comments/{commentId}", new { controller = "episodescomments", action = "delete" });
             config.Routes.MapHttpRoute("api_episode_comments", "api/tvshows/{tvshowId}/seasons/{seasonNumber}/episodes/{number}/comments", new { controller = "episodescomments" });
 
@@ -55,7 +56,7 @@ namespace STrackerServer.App_Start
             config.Routes.MapHttpRoute("api_users_get", "api/users/{userId}", new { controller = "users", action = "get" });
 
             // Routes for users subscriptions.
-            config.Routes.MapHttpRoute("api_subscriptions", "api/user/subscriptions/", new { controller = "tvshowsubscriptions", action = "get" });
+            config.Routes.MapHttpRoute("api_subscriptions_get", "api/user/subscriptions/", new { controller = "tvshowsubscriptions", action = "get" });
             config.Routes.MapHttpRoute("api_subscriptions", "api/tvshows/{tvshowId}/subscriptions/", new { controller = "tvshowsubscriptions" });
 
             // Routes for system
