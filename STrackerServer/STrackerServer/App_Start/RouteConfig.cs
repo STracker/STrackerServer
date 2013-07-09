@@ -39,15 +39,15 @@ namespace STrackerServer.App_Start
 
             routes.MapRoute("User_Invite", "User/Invite", new { controller = "UsersWeb", action = "Invite" });
 
-            routes.MapRoute("User_Friends_Public", "User/{id}/Friends", new { controller = "UsersWeb", action = "PublicFriends" });
+            routes.MapRoute("User_Friends_Public", "Users/{id}/Friends", new { controller = "UsersWeb", action = "PublicFriends" });
 
             routes.MapRoute("User_Friends_Remove", "User/Friends/{friendId}/Remove", new { controller = "UsersWeb", action = "RemoveFriend" });
 
             routes.MapRoute("User_Friends", "User/Friends", new { controller = "UsersWeb", action = "Friends" });
 
-            routes.MapRoute("User_Search", "User/Search", new { controller = "UsersWeb", action = "GetByName" });
+            routes.MapRoute("User_Search", "Users", new { controller = "UsersWeb", action = "GetByName" });
 
-            routes.MapRoute("User_Show", "User/{id}", new { controller = "UsersWeb", action = "Show" });
+            routes.MapRoute("User_Show", "Users/{id}", new { controller = "UsersWeb", action = "Show" });
 
             routes.MapRoute("User_Index", "User", new { controller = "UsersWeb", action = "Index" });
 

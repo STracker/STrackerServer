@@ -113,7 +113,7 @@ namespace STrackerServer.Controllers.Api
         [HawkAuthorize]
         public HttpResponseMessage Delete(string id, string commentId)
         {
-            return this.BasePost(this.operations.RemoveComment(id, User.Identity.Name, id));
+            return this.BasePost(this.operations.RemoveComment(id, User.Identity.Name, commentId));
         }
     }
 }
