@@ -29,8 +29,23 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         /// </summary>
         private readonly ITvShowsRepository tvshowsRepository;
 
+        /// <summary>
+        /// The episodes operations.
+        /// </summary>
         private readonly IEpisodesOperations episodesOperations;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UsersOperations"/> class.
+        /// </summary>
+        /// <param name="repository">
+        /// The repository.
+        /// </param>
+        /// <param name="tvshowsRepository">
+        /// The television shows repository.
+        /// </param>
+        /// <param name="episodesOperations">
+        /// The episodes operations.
+        /// </param>
         public UsersOperations(IUsersRepository repository, ITvShowsRepository tvshowsRepository, IEpisodesOperations episodesOperations)
             : base(repository)
         {
@@ -378,7 +393,7 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
                 return false;
             }
 
-            return
+            return false;
         }
 
         /// <summary>
@@ -401,7 +416,7 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         /// </returns>
         public bool RemoveWatchedEpisode(string userId, string tvshowId, int seasonNumber, int episodeNumber)
         {
-            throw new System.NotImplementedException();
+            return false;
         }
 
         /// <summary>

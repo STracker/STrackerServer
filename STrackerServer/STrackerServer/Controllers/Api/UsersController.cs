@@ -42,14 +42,17 @@ namespace STrackerServer.Controllers.Api
         /// <summary>
         /// The get info.
         /// </summary>
+        /// <param name="userId">
+        /// The user Id.
+        /// </param>
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
         [HttpGet]
         [HawkAuthorize]
-        public HttpResponseMessage Get()
+        public HttpResponseMessage Get(string userId)
         {
-            return this.BaseGet(this.operations.Read(User.Identity.Name));
+            return this.BaseGet(this.operations.Read(userId));
         }
 
         /// <summary>
