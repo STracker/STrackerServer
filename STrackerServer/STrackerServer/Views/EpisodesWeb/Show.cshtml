@@ -14,22 +14,37 @@
             <img class="img-rounded" src="@Model.Poster" alt="No Artwork"/>  
             <div class="extra-padding"></div>
             
-            @if(User.Identity.IsAuthenticated && Model.IsSubscribed)
+            @if(User.Identity.IsAuthenticated)
             {
-                using (Html.BeginForm("Watched", "EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber }))
+                if (Model.IsSubscribed)
                 {
-                    @Html.Hidden("RedirectUrl", Url.Action("Show","EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber }))
-                    @Html.Hidden("AsWatched", Model.AsWatched)  
+                    using (Html.BeginForm("Watched", "EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber }))
+                    {
+                        @Html.Hidden("RedirectUrl", Url.Action("Show","EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber }))
+                        @Html.Hidden("AsWatched", !Model.AsWatched)  
                 
-                    if(Model.AsWatched)
-                    {
-                         <input class="btn btn-block btn-danger" type="submit" value="Unwatched"/>
+                        if(Model.AsWatched)
+                        {
+                            <input class="btn btn-block btn-danger" type="submit" value="Uncheck"/>
+                        }
+                        else
+                        {
+                            <input class="btn btn-block btn-success" type="submit" value="Check"/>
+                        }
                     }
-                    else
-                    {
-                        <input class="btn btn-block btn-success" type="submit" value="Watched"/>
-                    }
-                }  
+                }
+                else
+                {
+                    <p>
+                        <a class="btn btn-block btn-success" href="@Url.Action("Show","TvShowsWeb", new { tvshowId = Model.TvShowId })">Check(Need to be subscribed)</a>
+                    </p> 
+                } 
+            }
+            else
+            {
+                <p>
+                    <a class="btn btn-block btn-success" href="@Url.Action("Login", "Account", new { returnUrl = Url.Action("Show", "EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber })})">Check</a>
+                </p> 
             }
 
             <p>
