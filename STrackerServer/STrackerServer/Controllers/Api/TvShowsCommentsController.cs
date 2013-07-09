@@ -88,13 +88,13 @@ namespace STrackerServer.Controllers.Api
         {
             if (!ModelState.IsValid)
             {
-                return this.BasePost(false);
+                return this.BasePostDelete(false);
             }
 
             var user = this.usersOperations.Read(User.Identity.Name);
 
             this.operations.AddComment(id, new Comment { Body = comment, User = user.GetSynopsis() });
-            return this.BasePost(true);
+            return this.BasePostDelete(true);
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace STrackerServer.Controllers.Api
         [HawkAuthorize]
         public HttpResponseMessage Delete(string id, string commentId)
         {
-            return this.BasePost(this.operations.RemoveComment(id, User.Identity.Name, commentId));
+            return this.BasePostDelete(this.operations.RemoveComment(id, User.Identity.Name, commentId));
         }
     }
 }

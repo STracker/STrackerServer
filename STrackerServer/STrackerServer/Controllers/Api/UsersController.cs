@@ -81,7 +81,7 @@ namespace STrackerServer.Controllers.Api
                 };
 
             this.operations.VerifyAndSave(user);
-            return this.BasePost(this.operations.Read(register.Id) != null);
+            return this.BasePostDelete(this.operations.Read(register.Id) != null);
         }
     }
 }

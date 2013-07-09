@@ -101,13 +101,13 @@ namespace STrackerServer.Controllers.Api
         {
             if (!ModelState.IsValid)
             {
-                return this.BasePost(false);
+                return this.BasePostDelete(false);
             }
 
             var user = this.usersOperations.Read(User.Identity.Name);
 
             this.operations.AddComment(new Tuple<string, int, int>(tvshowId, seasonNumber, number), new Comment { Body = comment, User = user.GetSynopsis() });
-            return this.BasePost(true);
+            return this.BasePostDelete(true);
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace STrackerServer.Controllers.Api
         [HawkAuthorize]
         public HttpResponseMessage Delete(string tvshowId, int seasonNumber, int number, string commentId)
         {
-            return this.BasePost(this.operations.RemoveComment(new Tuple<string, int, int>(tvshowId, seasonNumber, number), User.Identity.Name, commentId));
+            return this.BasePostDelete(this.operations.RemoveComment(new Tuple<string, int, int>(tvshowId, seasonNumber, number), User.Identity.Name, commentId));
         }
     }
 }

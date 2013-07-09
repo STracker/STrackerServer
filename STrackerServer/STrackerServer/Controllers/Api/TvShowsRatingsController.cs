@@ -58,10 +58,10 @@ namespace STrackerServer.Controllers.Api
         {
             if (!ModelState.IsValid)
             {
-                return this.BasePost(false);
+                return this.BasePostDelete(false);
             }
 
-            return this.BasePost(this.operations.AddRating(id, new Rating { UserId = User.Identity.Name, UserRating = int.Parse(rating) }));
+            return this.BasePostDelete(this.operations.AddRating(id, new Rating { UserId = User.Identity.Name, UserRating = int.Parse(rating) }));
         }
 
         /// <summary>
