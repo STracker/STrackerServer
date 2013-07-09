@@ -109,7 +109,7 @@ namespace STrackerServer.Controllers
             var tvshow = this.tvshowsOps.Read(tvshowId);
 
             var isSubscribed = false;
-            var asWatched = false;
+            var watched = false;
 
             if (User.Identity.IsAuthenticated)
             {
@@ -119,7 +119,7 @@ namespace STrackerServer.Controllers
                 if (subscription != null)
                 {
                     isSubscribed = true;
-                    asWatched = subscription.EpisodesWatched.Exists(synopsis => synopsis.Equals(episode.GetSynopsis()));
+                    watched = subscription.EpisodesWatched.Exists(synopsis => synopsis.Equals(episode.GetSynopsis()));
                 }
             }
 
@@ -137,7 +137,7 @@ namespace STrackerServer.Controllers
                 Date = episode.Date,
                 Rating = this.ratingsOperations.Read(key).Average,
                 IsSubscribed = isSubscribed,
-                AsWatched = asWatched
+                Watched = watched
             };
 
             return this.View(model);
@@ -441,7 +441,7 @@ namespace STrackerServer.Controllers
 
             bool success;
 
-            if (values.AsWatched)
+            if (values.Watched)
             {
                 success = this.usersOperations.AddWatchedEpisode(User.Identity.Name, values.TvShowId, values.SeasonNumber, values.EpisodeNumber);
             }

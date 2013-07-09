@@ -38,5 +38,10 @@ namespace STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities
         /// Gets or sets the Comment Id.
         /// </summary>
         public string Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the url.
+        /// </summary>
+        public string Url { get; set; }
     }
 }

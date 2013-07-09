@@ -21,9 +21,9 @@
                     using (Html.BeginForm("Watched", "EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber }))
                     {
                         @Html.Hidden("RedirectUrl", Url.Action("Show","EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber }))
-                        @Html.Hidden("AsWatched", !Model.AsWatched)  
+                        @Html.Hidden("Watched", !Model.Watched)  
                 
-                        if(Model.AsWatched)
+                        if(Model.Watched)
                         {
                             <input class="btn btn-block btn-danger" type="submit" value="Uncheck"/>
                         }

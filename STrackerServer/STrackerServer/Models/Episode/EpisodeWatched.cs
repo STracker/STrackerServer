@@ -35,10 +35,10 @@ namespace STrackerServer.Models.Episode
         public int EpisodeNumber { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether as watched.
+        /// Gets or sets a value indicating whether the episode was watched.
         /// </summary>
         [Required]
-        public bool AsWatched { get; set; }
+        public bool Watched { get; set; }
 
         /// <summary>
         /// Gets or sets the redirect url.

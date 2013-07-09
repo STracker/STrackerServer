@@ -74,9 +74,9 @@ namespace STrackerServer.Models.Episode
         public string Date { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether as watched.
+        /// Gets or sets a value indicating whether the episode was watched.
         /// </summary>
-        public bool AsWatched { get; set; }
+        public bool Watched { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether is subscribed.

@@ -115,8 +115,12 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
                 return false;
             }
 
-            var subscription = new Subscription { TvShow = tvshow.GetSynopsis() };
+            if (user.SubscriptionList.Exists(sub => sub.TvShow.Id.Equals(tvshowId)))
+            {
+                return true;
+            }
 
+            var subscription = new Subscription { TvShow = tvshow.GetSynopsis() };
             return ((IUsersRepository)this.Repository).AddSubscription(user, subscription);
         }
 
@@ -136,14 +140,14 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         {
             var user = this.Repository.Read(userId);
             var tvshow = this.tvshowsRepository.Read(tvshowId);
-            var subscription = user.SubscriptionList.Find(sub => sub.TvShow.Id.Equals(tvshowId));
 
-            if (tvshow == null || subscription == null)
+            if (tvshow == null || user == null)
             {
                 return false;
             }
 
-            return ((IUsersRepository)this.Repository).RemoveSubscription(user, subscription);
+            var subscription = user.SubscriptionList.Find(sub => sub.TvShow.Id.Equals(tvshowId));
+            return subscription == null || ((IUsersRepository)this.Repository).RemoveSubscription(user, subscription);
         }
 
         /// <summary>
@@ -428,7 +432,29 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         /// </returns>
         public bool RemoveWatchedEpisode(string userId, string tvshowId, int seasonNumber, int episodeNumber)
         {
-            return false;
+            var user = this.Repository.Read(userId);
+            var episode = this.episodesOperations.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber));
+
+            if (user == null || episode == null)
+            {
+                return false;
+            }
+
+            var subscription = user.SubscriptionList.Find(sub => sub.TvShow.Id.Equals(episode.TvShowId));
+
+            if (subscription == null)
+            {
+                return false;
+            }
+
+            var sinopsys = subscription.EpisodesWatched.Find(synopsis => synopsis.Equals(episode.GetSynopsis()));
+
+            if (sinopsys == null)
+            {
+                return true;
+            }
+
+            return ((IUsersRepository)this.Repository).RemoveWatchedEpisode(user, sinopsys);
         }
 
         /// <summary>

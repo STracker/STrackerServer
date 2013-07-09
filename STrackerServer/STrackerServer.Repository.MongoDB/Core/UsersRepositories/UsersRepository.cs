@@ -305,6 +305,26 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         }
 
         /// <summary>
+        /// The remove watched episode.
+        /// </summary>
+        /// <param name="user">
+        /// The user.
+        /// </param>
+        /// <param name="episode">
+        /// The episode.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool RemoveWatchedEpisode(User user, Episode.EpisodeSynopsis episode)
+        {
+            var query = Query<User>.EQ(user1 => user1.Key, user.Key);
+            user.SubscriptionList.Find(subscription => subscription.TvShow.Id.Equals(episode.TvShowId)).EpisodesWatched.Remove(episode);
+            var update = Update<User>.Set(user2 => user2.SubscriptionList, user.SubscriptionList);
+            return this.collection.Update(query, update).Ok;
+        }
+
+        /// <summary>
         /// Create one user.
         /// </summary>
         /// <param name="entity">
