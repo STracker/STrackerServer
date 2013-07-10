@@ -386,8 +386,7 @@ namespace STrackerServer.Controllers
         public ActionResult EpisodesWatched()
         {
             var user = this.usersOperations.Read(User.Identity.Name);
-
-            return null;
+            return null;//this.View(new EpisodesWatchedView { Name = user.Name, PictureUrl = user.Photo, List = user.SubscriptionList });
         }
     }
 }
