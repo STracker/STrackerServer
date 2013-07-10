@@ -413,7 +413,7 @@ namespace STrackerServer.Controllers
                 viewModel.List.Add(subDetailView);
             }
 
-            return null;//this.View(viewModel);
+            return this.View(viewModel);
         }
     }
 }

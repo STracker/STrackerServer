@@ -10,10 +10,13 @@
         <div class="span3">
             <div class="box">
                 <div style="text-align: center">
-                    <img class="img-rounded" src="@Model.PictureUrl" alt="No Artwork"/>
+                    <a href="@Url.Action("Show","UsersWeb", new { id = Model.Id })">
+                       <img class="img-rounded" src="@Model.PictureUrl" alt="No Artwork"/> 
+                    </a>
                 </div> 
                 <div class="extra-padding"></div>
                 <p><a class="btn btn-block btn-primary" href="@Url.Action("Show","UsersWeb", new { id = Model.Id })">@Model.Name</a></p> 
+                <a class="btn btn-block btn-primary" href="@Url.Action("PublicFriends","UsersWeb", new { id = Model.Id })">Friends</a>
             </div>
         </div>
 

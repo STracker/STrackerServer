@@ -10,16 +10,20 @@
         <div class="span3">
             <div class="box">
                 <div style="text-align: center">
-                    <img class="img-rounded" src="@Model.PictureUrl" alt="No Artwork"/>
+                    <a href="@Url.Action("Index","UsersWeb")">
+                        <img class="img-rounded" src="@Model.PictureUrl" alt="No Artwork"/>
+                    </a>
                 </div> 
                 <div class="extra-padding"></div>
                 <p><a class="btn btn-block btn-primary" href="@Url.Action("Friends","UsersWeb")">Friends</a></p>
+                <p><a class="btn btn-block btn-primary" href="@Url.Action("Suggestions","UsersWeb")">Sugestions</a></p>
                 <p><a class="btn btn-block btn-primary" href="@Url.Action("Requests","UsersWeb")">Friend Requests</a></p> 
+                <p><a class="btn btn-block btn-primary" href="@Url.Action("EpisodesWatched","UsersWeb")">Episodes Watched</a></p>  
             </div>
         </div>
         <div class="span6">
             <div class="box" style="text-align: center">
-                <h3>Suggestions</h3>
+                <h2>Suggestions</h2>
             </div>
 
             @foreach (var tvshowId in Model.Suggestions.Keys)
@@ -31,11 +35,11 @@
                    
                             <div style="display: inline-block">
                                 <div>
-                                    <h4>
+                                    <h3>
                                         <a href="@Url.Action("Show","TvShowsWeb", new { tvshowId })">
                                             @Model.Suggestions[tvshowId].TvShowName
                                         </a>
-                                    </h4>
+                                    </h3>
                                 </div>
                             </div>
                             <div style="display: inline-block">

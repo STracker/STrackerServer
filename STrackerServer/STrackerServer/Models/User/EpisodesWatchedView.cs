@@ -11,6 +11,8 @@ namespace STrackerServer.Models.User
 {
     using System.Collections.Generic;
 
+    using STrackerServer.DataAccessLayer.DomainEntities;
+
     /// <summary>
     /// The episodes watched view.
     /// </summary>
@@ -45,14 +47,22 @@ namespace STrackerServer.Models.User
         public class SubscriptionDetailView
         {
             /// <summary>
+            /// Initializes a new instance of the <see cref="SubscriptionDetailView"/> class.
+            /// </summary>
+            public SubscriptionDetailView()
+            {
+                this.EpisodesWatched = new Dictionary<int, IList<Episode.EpisodeSynopsis>>();
+            }
+
+            /// <summary>
             /// Gets or sets the television show.
             /// </summary>
-            public DataAccessLayer.DomainEntities.TvShow.TvShowSynopsis TvShow { get; set; }
+            public TvShow.TvShowSynopsis TvShow { get; set; }
 
             /// <summary>
             /// Gets or sets the episodes watched.
             /// </summary>
-            public IDictionary<int, IList<DataAccessLayer.DomainEntities.Episode.EpisodeSynopsis>> EpisodesWatched { get; set; } 
+            public IDictionary<int, IList<Episode.EpisodeSynopsis>> EpisodesWatched { get; set; } 
         }
     }
 }

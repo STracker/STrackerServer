@@ -1,0 +1,69 @@
+﻿@model STrackerServer.Models.User.EpisodesWatchedView
+
+@{
+    ViewBag.Title = "Episodes Watched";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3">
+            <div class="box">
+                <div style="text-align: center">
+                    <a href="@Url.Action("Index","UsersWeb")">
+                        <img class="img-rounded" src="@Model.PictureUrl" alt="No Artwork"/>
+                    </a>
+                </div> 
+                <div class="extra-padding"></div>
+                <p><a class="btn btn-block btn-primary" href="@Url.Action("Friends","UsersWeb")">Friends</a></p>
+                <p><a class="btn btn-block btn-primary" href="@Url.Action("Suggestions","UsersWeb")">Sugestions</a></p>
+                <p><a class="btn btn-block btn-primary" href="@Url.Action("Requests","UsersWeb")">Friend Requests</a></p> 
+                <p><a class="btn btn-block btn-primary" href="@Url.Action("EpisodesWatched","UsersWeb")">Episodes Watched</a></p>  
+            </div>
+        </div>
+
+        <div class="span6">
+            <div class="box center">
+                <h2>Episodes Watched</h2> 
+            </div>
+            
+            @foreach(var sub in Model.List.Where(view => view.EpisodesWatched.Count != 0))
+            {
+                <div class="box">
+                    <h3>
+                        <a href="@Url.Action("Show", "TvShowsWeb", new { tvshowId = sub.TvShow.Id })">
+                           @sub.TvShow.Name 
+                        </a>
+                    </h3> 
+                    <br/>
+                    
+                    @foreach(var season in sub.EpisodesWatched.Keys.OrderBy(i => i))
+                    {           
+                        <div class="box-whiter">
+                            <h4>
+                                <a href="@Url.Action("Show", "SeasonsWeb", new { tvshowId = sub.TvShow.Id , seasonNumber = season })">
+                                    Season @season
+                                </a>
+                            </h4> 
+                            <br/>
+                            <table class="table table-condensed">
+                                @foreach(var episode in sub.EpisodesWatched[season].OrderBy(synopsis => synopsis.EpisodeNumber))
+                                {
+                                    <tr>
+                                        
+                                        <td>
+                                            <a href="@Url.Action("Show","EpisodesWeb", new { tvshowId = episode.TvShowId, seasonNumber = episode.SeasonNumber, episodeNumber = episode.EpisodeNumber })">
+                                                @episode.EpisodeNumber - @episode.Name
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
