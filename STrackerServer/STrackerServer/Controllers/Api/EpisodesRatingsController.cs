@@ -58,13 +58,13 @@ namespace STrackerServer.Controllers.Api
         [HttpGet]
         public HttpResponseMessage Get(string tvshowId, int seasonNumber, int number)
         {
-            var ratings = this.operations.GetAllRatings(new Tuple<string, int, int>(tvshowId, seasonNumber, number));
+            var ratings = this.operations.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, number));
             if (ratings == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            return this.BaseGet(ratings.Ratings);
+            return this.BaseGet(new { Rating = ratings.Average, Total = ratings.Ratings.Count });
         }
 
         /// <summary>
