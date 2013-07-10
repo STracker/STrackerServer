@@ -60,6 +60,7 @@ namespace STrackerServer.App_Start
             config.Routes.MapHttpRoute("api_subscriptions_delete_and_getexists", "api/usersubscriptions/{tvshowId}", new { controller = "usersubscriptions" });
 
             // Routes for user friends.
+            config.Routes.MapHttpRoute("api_friends_delete", "api/userfriends/{userId}", new { controller = "userfriends", action = "delete" });
             config.Routes.MapHttpRoute("api_friends", "api/userfriends", new { controller = "userfriends" });
 
             // Routes for user friend requests.

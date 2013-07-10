@@ -70,5 +70,21 @@ namespace STrackerServer.Controllers.Api
 
             return this.BasePostDelete(this.usersOperations.Invite(User.Identity.Name, userId));
         }
+
+        /// <summary>
+        /// The delete.
+        /// </summary>
+        /// <param name="userId">
+        /// The user id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="HttpResponseMessage"/>.
+        /// </returns>
+        [HttpDelete]
+        [HawkAuthorize]
+        public HttpResponseMessage Delete(string userId)
+        {
+            return this.BasePostDelete(this.usersOperations.RemoveFriend(User.Identity.Name, userId));
+        }
     }
 }
