@@ -43,7 +43,7 @@ namespace STrackerServer.Controllers.Api
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
-        [HttpPost]
+        [HttpGet]
         [HawkAuthorize]
         public HttpResponseMessage Get()
         {
