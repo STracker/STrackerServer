@@ -10,7 +10,6 @@
 namespace STrackerServer.Controllers.Api
 {
     using System;
-    using System.ComponentModel.DataAnnotations;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
@@ -88,14 +87,9 @@ namespace STrackerServer.Controllers.Api
         /// The type rating is string because web api validation don't validate value types.
         [HttpPost]
         [HawkAuthorize]
-        public HttpResponseMessage Post(string tvshowId, int seasonNumber, int number, [FromBody][Required] string rating)
+        public HttpResponseMessage Post(string tvshowId, int seasonNumber, int number, [FromBody] int rating)
         {
-            if (!ModelState.IsValid)
-            {
-                return this.BasePostDelete(false);
-            }
-
-            return this.BasePostDelete(this.operations.AddRating(new Tuple<string, int, int>(tvshowId, seasonNumber, number), new Rating { UserId = User.Identity.Name, UserRating = int.Parse(rating) }));
+            return this.BasePostDelete(this.operations.AddRating(new Tuple<string, int, int>(tvshowId, seasonNumber, number), new Rating { UserId = User.Identity.Name, UserRating = rating }));
         }
     }
 }

@@ -10,7 +10,6 @@
 namespace STrackerServer.Controllers.Api
 {
     using System;
-    using System.ComponentModel.DataAnnotations;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
@@ -97,9 +96,9 @@ namespace STrackerServer.Controllers.Api
         /// </returns>
         [HttpPost]
         [HawkAuthorize]
-        public HttpResponseMessage Post(string tvshowId, int seasonNumber, int number, [FromBody] [Required] string comment)
+        public HttpResponseMessage Post(string tvshowId, int seasonNumber, int number, [FromBody] string comment)
         {
-            if (!ModelState.IsValid)
+            if (comment == null)
             {
                 return this.BasePostDelete(false);
             }
