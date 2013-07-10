@@ -374,5 +374,20 @@ namespace STrackerServer.Controllers
                 };
             return this.View(view);
         }
+
+        /// <summary>
+        /// The episodes watched.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpGet]
+        [Authorize]
+        public ActionResult EpisodesWatched()
+        {
+            var user = this.usersOperations.Read(User.Identity.Name);
+
+            return null;
+        }
     }
 }

@@ -153,6 +153,7 @@
     <Compile Include="Controllers\Api\AuxiliaryObjects\ApiAddComment.cs" />
     <Compile Include="Controllers\Api\AuxiliaryObjects\ApiAddUserSubscription.cs" />
     <Compile Include="Controllers\Api\AuxiliaryObjects\ApiRegister.cs" />
+    <Compile Include="Controllers\Api\AuxiliaryObjects\ApiRequestResponse.cs" />
     <Compile Include="Controllers\Api\AuxiliaryObjects\TimeUtc.cs" />
     <Compile Include="Controllers\Api\EpisodesRatingsController.cs" />
     <Compile Include="Controllers\Api\EpisodesWatchedController.cs" />
@@ -162,6 +163,8 @@
     <Compile Include="Controllers\Api\EpisodesController.cs" />
     <Compile Include="Controllers\Api\GenresController.cs" />
     <Compile Include="Controllers\Api\TvShowsRatingsController.cs" />
+    <Compile Include="Controllers\Api\UserFriendRequestsController.cs" />
+    <Compile Include="Controllers\Api\UserFriendsController.cs" />
     <Compile Include="Controllers\Api\UserSubscriptionsController.cs" />
     <Compile Include="Controllers\Api\EpisodesCommentsController.cs" />
     <Compile Include="Controllers\EpisodesWebController.cs" />
@@ -190,6 +193,7 @@
     <Compile Include="Models\Season\SeasonView.cs" />
     <Compile Include="Models\TvShow\TvShowRating.cs" />
     <Compile Include="Models\TvShow\TvShowSearchResult.cs" />
+    <Compile Include="Models\User\EpisodesWatchedView.cs" />
     <Compile Include="Models\User\FriendsView.cs" />
     <Compile Include="Models\User\PublicFriendsView.cs" />
     <Compile Include="Models\User\SuggestFormValues.cs" />

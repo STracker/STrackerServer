@@ -58,6 +58,13 @@ namespace STrackerServer.App_Start
             // Routes for users subscriptions.
             config.Routes.MapHttpRoute("api_subscriptions_get", "api/usersubscriptions", new { controller = "usersubscriptions"/*, action = "get"*/ });
 
+            // Routes for user friends.
+            config.Routes.MapHttpRoute("api_friends", "api/userfriends", new { controller = "userfriends" });
+
+            // Routes for user friend requests.
+            config.Routes.MapHttpRoute("api_friend_requests_getall", "api/userfriendrequests", new { controller = "userfriendrequests", action = "get" });
+            config.Routes.MapHttpRoute("api_friends_requests_response", "api/userfriendrequests/{userId}", new { controller = "userfriendrequests", action = "post" });
+
             // config.Routes.MapHttpRoute("api_subscriptions", "api/tvshows/{tvshowId}/subscriptions/", new { controller = "userssubscriptions" });
 
             // Routes for system
