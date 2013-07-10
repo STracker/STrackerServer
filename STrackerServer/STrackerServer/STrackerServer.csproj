@@ -162,7 +162,7 @@
     <Compile Include="Controllers\Api\EpisodesController.cs" />
     <Compile Include="Controllers\Api\GenresController.cs" />
     <Compile Include="Controllers\Api\TvShowsRatingsController.cs" />
-    <Compile Include="Controllers\Api\TvShowSubscriptionsController.cs" />
+    <Compile Include="Controllers\Api\UsersSubscriptionsController.cs" />
     <Compile Include="Controllers\Api\EpisodesCommentsController.cs" />
     <Compile Include="Controllers\EpisodesWebController.cs" />
     <Compile Include="Controllers\GenreWebController.cs" />

@@ -56,8 +56,9 @@ namespace STrackerServer.App_Start
             config.Routes.MapHttpRoute("api_users_get", "api/users/{userId}", new { controller = "users", action = "get" });
 
             // Routes for users subscriptions.
-            config.Routes.MapHttpRoute("api_subscriptions_get", "api/user/subscriptions/", new { controller = "tvshowsubscriptions", action = "get" });
-            config.Routes.MapHttpRoute("api_subscriptions", "api/tvshows/{tvshowId}/subscriptions/", new { controller = "tvshowsubscriptions" });
+            config.Routes.MapHttpRoute("api_subscriptions_get", "api/users/subscriptions", new { controller = "userssubscriptions"/*, action = "get"*/ });
+
+            // config.Routes.MapHttpRoute("api_subscriptions", "api/tvshows/{tvshowId}/subscriptions/", new { controller = "userssubscriptions" });
 
             // Routes for system
             config.Routes.MapHttpRoute("api_system_time", "api/system/time", new { controller = "system", action = "GetTime" });

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TvShowSubscriptionsController.cs" company="STracker">
+// <copyright file="UsersSubscriptionsController.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
@@ -9,6 +9,7 @@
 
 namespace STrackerServer.Controllers.Api
 {
+    using System.ComponentModel.DataAnnotations;
     using System.Net.Http;
     using System.Web.Http;
 
@@ -18,7 +19,7 @@ namespace STrackerServer.Controllers.Api
     /// <summary>
     /// The television show subscription controller.
     /// </summary>
-    public class TvShowSubscriptionsController : BaseController
+    public class UsersSubscriptionsController : BaseController
     {
         /// <summary>
         /// The users operations.
@@ -26,12 +27,12 @@ namespace STrackerServer.Controllers.Api
         private readonly IUsersOperations usersOperations;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TvShowSubscriptionsController"/> class.
+        /// Initializes a new instance of the <see cref="UsersSubscriptionsController"/> class.
         /// </summary>
         /// <param name="usersOperations">
         /// The users operations.
         /// </param>
-        public TvShowSubscriptionsController(IUsersOperations usersOperations)
+        public UsersSubscriptionsController(IUsersOperations usersOperations)
         {
             this.usersOperations = usersOperations;
         }
@@ -60,8 +61,13 @@ namespace STrackerServer.Controllers.Api
         /// </returns>
         [HttpPost]
         [HawkAuthorize]
-        public HttpResponseMessage Post(string tvshowId)
+        public HttpResponseMessage Post([FromBody] [Required] string tvshowId)
         {
+            if (!ModelState.IsValid)
+            {
+                return this.BasePostDelete(false);
+            }
+
             return this.BasePostDelete(this.usersOperations.AddSubscription(User.Identity.Name, tvshowId));
         }
 
