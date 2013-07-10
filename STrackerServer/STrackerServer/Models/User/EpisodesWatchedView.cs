@@ -11,13 +11,19 @@ namespace STrackerServer.Models.User
 {
     using System.Collections.Generic;
 
-    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
-
     /// <summary>
     /// The episodes watched view.
     /// </summary>
     public class EpisodesWatchedView
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EpisodesWatchedView"/> class.
+        /// </summary>
+        public EpisodesWatchedView()
+        {
+            this.List = new List<SubscriptionDetailView>();
+        }
+
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
@@ -26,16 +32,27 @@ namespace STrackerServer.Models.User
         /// <summary>
         /// Gets or sets the list.
         /// </summary>
-        public List<Subscription> List { get; set; }
+        public List<SubscriptionDetailView> List { get; set; }
 
         /// <summary>
         /// Gets or sets the picture url.
         /// </summary>
         public string PictureUrl { get; set; }
-    }
 
-    public class SubscriptionDetailView
-    {
-        
+        /// <summary>
+        /// The subscription detail view.
+        /// </summary>
+        public class SubscriptionDetailView
+        {
+            /// <summary>
+            /// Gets or sets the television show.
+            /// </summary>
+            public DataAccessLayer.DomainEntities.TvShow.TvShowSynopsis TvShow { get; set; }
+
+            /// <summary>
+            /// Gets or sets the episodes watched.
+            /// </summary>
+            public IDictionary<int, IList<DataAccessLayer.DomainEntities.Episode.EpisodeSynopsis>> EpisodesWatched { get; set; } 
+        }
     }
 }

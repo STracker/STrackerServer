@@ -56,6 +56,22 @@ namespace STrackerServer.Controllers.Api
         }
 
         /// <summary>
+        /// The get by name.
+        /// </summary>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <returns>
+        /// The <see cref="HttpResponseMessage"/>.
+        /// </returns>
+        [HttpGet]
+        [HawkAuthorize]
+        public HttpResponseMessage GetByName(string name)
+        {
+            return this.BaseGet(this.operations.FindByName(name));
+        }
+
+        /// <summary>
         /// The post.
         /// </summary>
         /// <param name="register">

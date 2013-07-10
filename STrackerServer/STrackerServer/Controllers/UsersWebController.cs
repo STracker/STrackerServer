@@ -386,7 +386,34 @@ namespace STrackerServer.Controllers
         public ActionResult EpisodesWatched()
         {
             var user = this.usersOperations.Read(User.Identity.Name);
-            return null;//this.View(new EpisodesWatchedView { Name = user.Name, PictureUrl = user.Photo, List = user.SubscriptionList });
+
+            var viewModel = new EpisodesWatchedView { Name = user.Name, PictureUrl = user.Photo };
+
+            foreach (var subscription in user.SubscriptionList)
+            {
+                var subDetailView = new EpisodesWatchedView.SubscriptionDetailView { TvShow = subscription.TvShow };
+
+                foreach (var episode in subscription.EpisodesWatched)
+                {
+                    IList<Episode.EpisodeSynopsis> list;
+
+                    if (subDetailView.EpisodesWatched.ContainsKey(episode.SeasonNumber))
+                    {
+                        list = subDetailView.EpisodesWatched[episode.SeasonNumber];
+                    }
+                    else
+                    {
+                        list = new List<Episode.EpisodeSynopsis>();
+                        subDetailView.EpisodesWatched.Add(episode.SeasonNumber, list);
+                    }
+
+                    list.Add(episode);
+                }
+
+                viewModel.List.Add(subDetailView);
+            }
+
+            return null;//this.View(viewModel);
         }
     }
 }
