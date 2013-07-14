@@ -7,7 +7,6 @@
 
 <div class="container-fluid">
     <div class="row-fluid">
-
     </div>
     <div class="row-fluid">
         <div class="span3">
@@ -18,20 +17,28 @@
             {
                 if (Model.IsSubscribed)
                 {
-                    using (Html.BeginForm("Watched", "EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber }))
+                    if(Model.AsAired)
                     {
-                        @Html.Hidden("RedirectUrl", Url.Action("Show","EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber }))
-                        @Html.Hidden("Watched", !Model.Watched)  
+                        using (Html.BeginForm("Watched", "EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber }))
+                        {
+                            @Html.Hidden("RedirectUrl", Url.Action("Show","EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber }))
+                            @Html.Hidden("Watched", !Model.Watched)  
                 
-                        if(Model.Watched)
-                        {
-                            <input class="btn btn-block btn-danger" type="submit" value="Uncheck"/>
+                            if(Model.Watched)
+                            {
+                                <input class="btn btn-block btn-danger" type="submit" value="Uncheck"/>
+                            }
+                            else
+                            {
+                                <input class="btn btn-block btn-success" type="submit" value="Check"/>
+                            }
                         }
-                        else
-                        {
-                            <input class="btn btn-block btn-success" type="submit" value="Check"/>
-                        }
-                    }
+                    }else
+                    {
+                        <p>
+                            <button disabled="disabled" class="btn btn-block btn-success">Not aired</button>
+                        </p> 
+                    }  
                 }
                 else
                 {

@@ -135,7 +135,7 @@ namespace HawkNet
 
             if (!IsEqual(mac, attributes["mac"]))
             {
-                 var sanitizedHost = (host.IndexOf(':') > 0) ?
+                var sanitizedHost = (host.IndexOf(':') > 0) ?
                 host.Substring(0, host.IndexOf(':')) :
                 host;
                 throw new SecurityException(string.Format("Bad mac"));

@@ -10,6 +10,7 @@
 namespace STrackerServer.Controllers
 {
     using System;
+    using System.Globalization;
     using System.Linq;
     using System.Net;
     using System.Web.Mvc;
@@ -123,6 +124,11 @@ namespace STrackerServer.Controllers
                 }
             }
 
+            var episodeDate = DateTime.ParseExact(episode.Date, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            var systemDate = DateTime.Now;
+
+            bool asAired = !(DateTime.Compare(episodeDate, systemDate) > 0);
+
             var model = new EpisodeView
             {
                 TvShowId = episode.TvShowId,
@@ -137,7 +143,8 @@ namespace STrackerServer.Controllers
                 Date = episode.Date,
                 Rating = this.ratingsOperations.Read(key).Average,
                 IsSubscribed = isSubscribed,
-                Watched = watched
+                Watched = watched,
+                AsAired = asAired
             };
 
             return this.View(model);

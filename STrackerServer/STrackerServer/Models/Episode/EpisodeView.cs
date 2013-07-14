@@ -82,5 +82,10 @@ namespace STrackerServer.Models.Episode
         /// Gets or sets a value indicating whether is subscribed.
         /// </summary>
         public bool IsSubscribed { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether as aired.
+        /// </summary>
+        public bool AsAired { get; set; }
     }
 }

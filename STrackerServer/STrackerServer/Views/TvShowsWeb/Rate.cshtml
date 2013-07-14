@@ -18,12 +18,25 @@
         </div> 
         <div class="span6">
             <div class="box">
+                <h2>@Model.TvShowName</h2> 
+                <br/>
+                <p><b>Rating: </b> @Model.Rating/5 (from @Model.RatingsCount Users)</p>               
+
                 @Html.ValidationSummary()
                 @using (Html.BeginForm("Rate", "TvShowsWeb"))
                 {
                     @Html.HiddenFor(rating => rating.TvShowId)
-                    <p>@Html.EditorFor(rating => rating.Value)</p>
-                    <p><input class="btn btn-danger" type="submit" value="Rate"/></p>
+                    <div class="form-inline" style="display: inline">
+                        <div style="display: inline-block">
+                            <b>Your Rating: </b>
+                        </div>
+                        <div style="display: inline-block">
+                            @Html.EditorFor(rating => rating.Value)
+                        </div>
+                        <div style="display: inline-block">
+                            <input class="btn btn-danger" type="submit" value="Rate"/>
+                        </div>
+                    </div>  
                 }  
             </div>
         </div>

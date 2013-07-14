@@ -33,7 +33,6 @@
                 <div class="extra-padding"></div> 
             }
             
-
             <p>
                 <a class="btn btn-block btn-primary" href="@Url.Action("Rate","TvShowsWeb", new { tvshowId = Model.TvShowId })">Rate</a>
             </p> 
@@ -47,8 +46,14 @@
         <div class="span6">
             <div class="box">
                 <h2>@Model.Name</h2>
+                <br/>
                 <p>@Model.Description</p> 
-                <p><b>Rating: </b> @Model.Rating/5</p>
+                <p><b>Rating: </b> @Model.Rating/5 (from @Model.RatingsCount Users)</p>
+                @if (User.Identity.IsAuthenticated && Model.UserRating != -1)
+                {
+                    <p><b>Your Rating: </b> @Model.UserRating/5</p>
+                }
+
                 <p><b>Air Day: </b> @Model.AirDay</p>
                 <p><b>Runtime: </b> @Model.Runtime min</p>              
                 <p><a href="http://www.imdb.com/title/@Model.TvShowId">IMDB</a></p>  

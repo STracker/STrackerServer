@@ -94,16 +94,28 @@ namespace STrackerServer.Controllers
 
             var user = this.usersOperations.Read(User.Identity.Name);
 
+            var userRatingValue = -1;
+            var ratings = this.ratingsOperations.Read(tvshowId);
+
             if (user != null)
             {
                 isSubscribed = user.SubscriptionList.Any(sub => sub.TvShow.Id.Equals(tvshow.TvShowId));
-            }
+
+                var userRating = ratings.Ratings.Find(rating => rating.UserId.Equals(user.Key));
+                
+                if (userRating != null)
+                {
+                    userRatingValue = userRating.UserRating;
+                }
+            }       
 
             var model = new TvShowView(tvshow)
             {
-                Rating = this.ratingsOperations.Read(tvshowId).Average,
+                Rating = ratings.Average,
                 IsSubscribed = isSubscribed,
                 Poster = tvshow.Poster,
+                UserRating = userRatingValue,
+                RatingsCount = ratings.Ratings.Count
             };
 
             return this.View(model);
@@ -380,12 +392,27 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
+            var user = this.usersOperations.Read(User.Identity.Name);
+
+            var ratings = this.ratingsOperations.Read(tvshowId);
+
+            var userRating = ratings.Ratings.Find(rating => rating.UserId.Equals(user.Key));
+
+            int userRatingValue = -1;
+
+            if (userRating != null)
+            {
+                userRatingValue = userRating.UserRating;
+            } 
+
             return this.View(new TvShowRating
                         {
                             TvShowId = tvshowId,
                             TvShowName = tvshow.Name,
                             Poster = tvshow.Poster,
-                            Value = 1
+                            Value = userRatingValue != -1 ? userRatingValue : 1,
+                            Rating = ratings.Average,
+                            RatingsCount = ratings.Ratings.Count
                         });
         }
 

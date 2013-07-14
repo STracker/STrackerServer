@@ -69,7 +69,12 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// <summary>
         /// Gets or sets the suggestions.
         /// </summary>
-        public List<Suggestion> Suggestions { get; set; } 
+        public List<Suggestion> Suggestions { get; set; }
+
+        /// <summary>
+        /// Gets or sets the permission.
+        /// </summary>
+        public int Permission { get; set; }
 
         /// <summary>
         /// The compare to.

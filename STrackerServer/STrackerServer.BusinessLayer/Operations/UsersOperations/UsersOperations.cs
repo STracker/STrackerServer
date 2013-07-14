@@ -11,6 +11,7 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
 
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
@@ -393,6 +394,14 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
             var episode = this.episodesOperations.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber));
 
             if (user == null || episode == null)
+            {
+                return false;
+            }
+
+            var episodeDate = DateTime.ParseExact(episode.Date, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            var systemDate = DateTime.Now;
+
+            if (DateTime.Compare(episodeDate, systemDate) > 0)
             {
                 return false;
             }
