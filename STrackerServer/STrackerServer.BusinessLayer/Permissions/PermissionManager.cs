@@ -1,21 +1,18 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IPermissionProvider.cs" company="STracker">
+// <copyright file="PermissionManager.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//   Defines the IPermissionProvider type.
+//   The permission manager.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Permissions
+namespace STrackerServer.BusinessLayer.Permissions
 {
     /// <summary>
-    /// The PermissionProvider interface.
+    /// The permission manager.
     /// </summary>
-    /// <typeparam name="T">
-    /// Permission Type
-    /// </typeparam>
-    public interface IPermissionProvider<T>
+    public class PermissionManager : IPermissionManager<int>
     {
         /// <summary>
         /// The has permission.
@@ -29,6 +26,9 @@ namespace STrackerServer.Permissions
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool HasPermission(T permission, T currentPermission);
+        public bool HasPermission(int permission, int currentPermission)
+        {
+            return currentPermission >= permission;
+        }
     }
 }

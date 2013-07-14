@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Permissions
+namespace STrackerServer.BusinessLayer.Permissions
 {
     /// <summary>
     /// The permissions.

@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Permissions
+namespace STrackerServer.Attributes
 {
     using System.Web;
     using System.Web.Mvc;
@@ -15,6 +15,7 @@ namespace STrackerServer.Permissions
     using Ninject;
 
     using STrackerServer.BusinessLayer.Core.UsersOperations;
+    using STrackerServer.BusinessLayer.Permissions;
     using STrackerServer.NinjectDependencies;
 
     /// <summary>
@@ -23,9 +24,9 @@ namespace STrackerServer.Permissions
     public class STrackerAuthorizeAttribute : AuthorizeAttribute
     {
         /// <summary>
-        /// The provider.
+        /// The manager.
         /// </summary>
-        private readonly IPermissionProvider<int> provider;
+        private readonly IPermissionManager<int> manager;
 
         /// <summary>
         /// The users operations.
@@ -39,7 +40,7 @@ namespace STrackerServer.Permissions
         {
             using (IKernel kernel = new StandardKernel(new ModuleForSTracker()))
             {
-                this.provider = kernel.Get<IPermissionProvider<int>>();
+                this.manager = kernel.Get<IPermissionManager<int>>();
                 this.usersOperations = kernel.Get<IUsersOperations>();
             }
         }
@@ -61,7 +62,7 @@ namespace STrackerServer.Permissions
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             var user = this.usersOperations.Read(httpContext.User.Identity.Name);
-            return base.AuthorizeCore(httpContext) && this.provider.HasPermission((int)Permission, user.Permission);
+            return base.AuthorizeCore(httpContext) && this.manager.HasPermission((int)this.Permission, user.Permission);
         }
     }
 }

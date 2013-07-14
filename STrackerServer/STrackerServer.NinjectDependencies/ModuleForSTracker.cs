@@ -27,6 +27,7 @@ namespace STrackerServer.NinjectDependencies
     using STrackerServer.BusinessLayer.Operations.SeasonsOperations;
     using STrackerServer.BusinessLayer.Operations.TvShowsOperations;
     using STrackerServer.BusinessLayer.Operations.UsersOperations;
+    using STrackerServer.BusinessLayer.Permissions;
     using STrackerServer.DataAccessLayer.Core.EpisodesRepositories;
     using STrackerServer.DataAccessLayer.Core.SeasonsRepositories;
     using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
@@ -81,6 +82,9 @@ namespace STrackerServer.NinjectDependencies
             // Queue dependencies...
             this.Bind<ConnectionFactory>().ToSelf().InSingletonScope().WithPropertyValue("Uri", ConfigurationManager.AppSettings["RabbitMQUri"]);
             this.Bind<QueueManager>().ToSelf().InSingletonScope();
+
+            // PermissionProvider dependencies
+            this.Bind<IPermissionManager<int>>().To<PermissionManager>();
         }
     }
 }
