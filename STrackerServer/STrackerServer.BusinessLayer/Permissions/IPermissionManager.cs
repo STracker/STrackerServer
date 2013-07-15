@@ -12,10 +12,13 @@ namespace STrackerServer.BusinessLayer.Permissions
     /// <summary>
     /// The PermissionManager interface.
     /// </summary>
-    /// <typeparam name="T">
+    /// <typeparam name="PT">
     /// Permission Type
+    ///  </typeparam>
+    /// <typeparam name="P">
+    /// Permission return type
     /// </typeparam>
-    public interface IPermissionManager<T>
+    public interface IPermissionManager<PT, P>
     {
         /// <summary>
         /// The has permission.
@@ -29,6 +32,17 @@ namespace STrackerServer.BusinessLayer.Permissions
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool HasPermission(T permission, T currentPermission);
+        bool HasPermission(PT permission, PT currentPermission);
+
+        /// <summary>
+        /// The has permission.
+        /// </summary>
+        /// <param name="permission">
+        /// The permission.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        PT GetPermission(P permission);
     }
 }

@@ -182,7 +182,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Hawk\HawkAuthorizeAttribute.cs" />
+    <Compile Include="Attributes\HawkAuthorizeAttribute.cs" />
+    <Compile Include="Models\Admin\SetPermissionValues.cs" />
+    <Compile Include="Models\Admin\SetPermissionView.cs" />
     <Compile Include="Models\Episode\EpisodeComment.cs" />
     <Compile Include="Models\Episode\EpisodeComments.cs" />
     <Compile Include="Models\Episode\EpisodeCreateComment.cs" />
@@ -287,6 +289,7 @@
     <Content Include="Views\UsersWeb\Suggestions.cshtml" />
     <Content Include="Views\UsersWeb\PublicFriends.cshtml" />
     <Content Include="Views\UsersWeb\EpisodesWatched.cshtml" />
+    <Content Include="Views\AdminWeb\SetUserPermission.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -84,7 +84,7 @@ namespace STrackerServer.NinjectDependencies
             this.Bind<QueueManager>().ToSelf().InSingletonScope();
 
             // PermissionProvider dependencies
-            this.Bind<IPermissionManager<int>>().To<PermissionManager>();
+            this.Bind<IPermissionManager<Permission, int>>().To<PermissionManager>();
         }
     }
 }

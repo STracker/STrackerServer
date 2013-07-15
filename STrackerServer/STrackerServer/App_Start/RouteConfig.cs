@@ -143,6 +143,9 @@ namespace STrackerServer.App_Start
                 "GenreWeb_Show", 
                 "Genres/{name}",
                 new { controller = "GenreWeb", action = "Show" });
+
+            // Root Routes
+            routes.MapRoute("Admin", "Admin", new { controller = "AdminWeb", action = "Test" });
         }
     }
 }
