@@ -13,10 +13,12 @@ namespace STrackerServer.Controllers
     using System.Net;
     using System.Web.Mvc;
 
+    using STrackerServer.Action_Results;
     using STrackerServer.Attributes;
     using STrackerServer.BusinessLayer.Core.AdminOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.BusinessLayer.Permissions;
+    using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.Models.Admin;
 
     /// <summary>
@@ -61,17 +63,17 @@ namespace STrackerServer.Controllers
         /// <summary>
         /// The set user permission.
         /// </summary>
-        /// <param name="userId">
-        /// The user id.
+        /// <param name="id">
+        /// The id.
         /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpGet]
         [STrackerAuthorize(Permission = Permission.Admin)]
-        public ActionResult SetUserPermission(string userId)
+        public ActionResult SetUserPermission(string id)
         {
-            var user = this.usersOperations.Read(userId);
+            var user = this.usersOperations.Read(id);
 
             if (user == null)
             {
@@ -79,7 +81,7 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            if (!userId.Equals(User.Identity.Name) && (Permission)user.Permission == Permission.Admin)
+            if (!id.Equals(User.Identity.Name) && (Permission)user.Permission == Permission.Admin)
             {
                 Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                 return this.View("Error", Response.StatusCode);
@@ -91,7 +93,8 @@ namespace STrackerServer.Controllers
                     Name = user.Name,
                     PictureUrl = user.Photo,
                     PermissionName = Enum.GetName(typeof(Permission), user.Permission),
-                    Permission = user.Permission
+                    Permission = user.Permission,
+                    Permissions = this.permissionManager.GetPermissions()
                 };
 
             return this.View(viewModel);
@@ -110,19 +113,35 @@ namespace STrackerServer.Controllers
         [STrackerAuthorize(Permission = Permission.Admin)]
         public ActionResult SetUserPermission(SetPermissionView values)
         {
-            if (!ModelState.IsValid)
+            User user = this.usersOperations.Read(values.Id);
+
+            if (user != null)
+            {
+                values.Name = user.Name;
+                values.PermissionName = Enum.GetName(typeof(Permission), user.Permission);
+                values.PictureUrl = user.Photo;
+                values.Permissions = this.permissionManager.GetPermissions();
+            }
+            else
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return this.View("Error", Response.StatusCode);
+                return this.View("Error", this.Response.StatusCode);
             }
 
-            if (!this.adminOperations.SetUserPermission(User.Identity.Name, values.Id, this.permissionManager.GetPermission(values.Permission)))
+            if (!ModelState.IsValid)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View(values);
             }
 
-            return null;
+            if (!this.adminOperations.SetUserPermission(User.Identity.Name, values.Id, this.permissionManager.GetPermission(values.Permission)))
+            {
+                ModelState.AddModelError("Operation", "Failed to execute.");
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return this.View(values);
+            }
+
+            return new SeeOtherResult { Url = Url.Action("SetUserPermission", "AdminWeb", new { id = user.Key }) };
         }
     }
 }

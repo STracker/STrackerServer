@@ -37,5 +37,10 @@ namespace STrackerServer.Models.User
         /// Gets or sets the subscription list.
         /// </summary>
         public List<Subscription> SubscriptionList { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether is admin.
+        /// </summary>
+        public bool IsAdmin { get; set; }
     }
 }

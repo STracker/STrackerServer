@@ -38,11 +38,10 @@ namespace STrackerServer.Attributes
         /// </summary>
         public STrackerAuthorizeAttribute()
         {
-            using (IKernel kernel = new StandardKernel(new ModuleForSTracker()))
-            {
-                this.manager = kernel.Get<IPermissionManager<Permission, int>>();
-                this.usersOperations = kernel.Get<IUsersOperations>();
-            }
+            IKernel kernel = new StandardKernel(new ModuleForSTracker());
+            
+            this.manager = kernel.Get<IPermissionManager<Permission, int>>();
+            this.usersOperations = kernel.Get<IUsersOperations>();
         }
 
         /// <summary>

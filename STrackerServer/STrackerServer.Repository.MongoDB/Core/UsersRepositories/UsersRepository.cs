@@ -325,6 +325,25 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         }
 
         /// <summary>
+        /// The set user permission.
+        /// </summary>
+        /// <param name="user">
+        /// The user.
+        /// </param>
+        /// <param name="permission">
+        /// The permission.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool SetUserPermission(User user, int permission)
+        {
+            var query = Query<User>.EQ(user1 => user1.Key, user.Key);
+            var update = Update<User>.Set(user2 => user2.Permission, permission);
+            return this.collection.Update(query, update).Ok;
+        }
+
+        /// <summary>
         /// Create one user.
         /// </summary>
         /// <param name="entity">

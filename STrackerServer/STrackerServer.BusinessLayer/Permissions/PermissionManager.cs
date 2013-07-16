@@ -9,6 +9,8 @@
 
 namespace STrackerServer.BusinessLayer.Permissions
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// The permission manager.
     /// </summary>
@@ -43,6 +45,24 @@ namespace STrackerServer.BusinessLayer.Permissions
         public Permission GetPermission(int permission)
         {
             return (Permission)permission;
+        }
+
+        /// <summary>
+        /// The get permissions.
+        /// </summary>
+        /// <returns>
+        /// The <see>
+        ///       <cref>IDictionary</cref>
+        ///     </see> .
+        /// </returns>
+        public IDictionary<Permission, int> GetPermissions()
+        {
+            return new Dictionary<Permission, int>
+                {
+                    { Permission.Default, (int)Permission.Default },
+                    { Permission.Moderator, (int)Permission.Moderator },
+                    { Permission.Admin, (int)Permission.Admin }
+                };
         }
     }
 }

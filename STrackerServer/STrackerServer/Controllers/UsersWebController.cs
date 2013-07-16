@@ -17,6 +17,7 @@ namespace STrackerServer.Controllers
     using STrackerServer.Action_Results;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
+    using STrackerServer.BusinessLayer.Permissions;
     using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.Models.User;
 
@@ -37,6 +38,11 @@ namespace STrackerServer.Controllers
         private readonly ITvShowsOperations tvshowsOperations;
 
         /// <summary>
+        /// The permission manager.
+        /// </summary>
+        private readonly IPermissionManager<Permission, int> permissionManager;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="UsersWebController"/> class.
         /// </summary>
         /// <param name="usersOperations">
@@ -45,10 +51,14 @@ namespace STrackerServer.Controllers
         /// <param name="tvshowsOperations">
         /// The television shows operations. 
         /// </param>
-        public UsersWebController(IUsersOperations usersOperations, ITvShowsOperations tvshowsOperations)
+        /// <param name="permissionManager">
+        /// The permission Manager.
+        /// </param>
+        public UsersWebController(IUsersOperations usersOperations, ITvShowsOperations tvshowsOperations, IPermissionManager<Permission, int> permissionManager)
         {
             this.usersOperations = usersOperations;
             this.tvshowsOperations = tvshowsOperations;
+            this.permissionManager = permissionManager;
         }
 
         /// <summary>
@@ -77,7 +87,10 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
+            var currentUser = this.usersOperations.Read(User.Identity.Name);
+
             var isFriend = user.Friends.Any(synopsis => synopsis.Id.Equals(this.User.Identity.Name)) || user.FriendRequests.Any(synopsis => synopsis.Id.Equals(this.User.Identity.Name));
+            var adminMode = this.permissionManager.HasPermission(Permission.Admin, this.permissionManager.GetPermission(currentUser.Permission));
 
             return this.View(new UserPublicView
             {
@@ -85,7 +98,9 @@ namespace STrackerServer.Controllers
                 Name = user.Name,
                 PictureUrl = user.Photo,
                 SubscriptionList = user.SubscriptionList,
-                IsFriend = isFriend
+                IsFriend = isFriend,
+                IsAdmin = this.permissionManager.HasPermission(Permission.Admin, this.permissionManager.GetPermission(user.Permission)),
+                AdminMode = adminMode
             });
         }
 
@@ -107,6 +122,7 @@ namespace STrackerServer.Controllers
                 Name = user.Name,
                 PictureUrl = user.Photo,
                 SubscriptionList = user.SubscriptionList,
+                IsAdmin = this.permissionManager.HasPermission(Permission.Admin, this.permissionManager.GetPermission(user.Permission)),
             });
         }
 

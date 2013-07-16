@@ -20,6 +20,10 @@
                 <p><a class="btn btn-block btn-primary" href="@Url.Action("Suggestions","UsersWeb")">Sugestions</a></p>
                 <p><a class="btn btn-block btn-primary" href="@Url.Action("Requests","UsersWeb")">Friend Requests</a></p> 
                 <p><a class="btn btn-block btn-primary" href="@Url.Action("EpisodesWatched","UsersWeb")">Episodes Watched</a></p> 
+                @if(Model.IsAdmin)
+                {
+                    <a class="btn btn-block btn-primary" href="@Url.Action("SetUserPermission","AdminWeb", new { id = Model.Id })">Permission</a>
+                }
             </div>
         </div>
 

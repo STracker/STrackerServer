@@ -63,6 +63,7 @@
     <Compile Include="Core\TvShowsOperations\ITvShowsCommentsOperations.cs" />
     <Compile Include="Core\TvShowsOperations\ITvShowsOperations.cs" />
     <Compile Include="Core\UsersOperations\IUsersOperations.cs" />
+    <Compile Include="Operations\AdminOperations\AdminOperations.cs" />
     <Compile Include="Operations\BaseCrudOperations.cs" />
     <Compile Include="Operations\BaseCommentsOperations.cs" />
     <Compile Include="Operations\BaseRatingsOperations.cs" />
@@ -89,9 +90,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Operations\AdminOperations\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

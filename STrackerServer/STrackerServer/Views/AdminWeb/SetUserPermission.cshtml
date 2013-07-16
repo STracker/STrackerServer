@@ -1,7 +1,8 @@
-﻿@model STrackerServer.Models.Admin.SetPermissionView
+﻿@using STrackerServer.BusinessLayer.Permissions
+@model STrackerServer.Models.Admin.SetPermissionView
 
 @{
-    ViewBag.Title = "Set Permission";
+    ViewBag.Title = "Permission";
     Layout = "~/Views/Shared/MainLayout.cshtml";
 }
 
@@ -16,14 +17,40 @@
                 </div> 
                 <br/>
                 <div style="text-align: center">
-                    <a href="@Url.Action("Show","UsersWeb", new { id = Model.Id })">@Model.Name</a>
+                    <a class="btn btn-block btn-primary" href="@Url.Action("Show","UsersWeb", new { id = Model.Id })">@Model.Name</a>
                 </div>
             </div>
         </div>
 
         <div class="span6">
+            <div class="box" style="text-align: center">
+                <h2>Permission</h2>
+            </div>
+            
             <div class="box">
-                <h2>Permission</h2> 
+                <br/>
+                <p><b>Permission: </b>@Model.PermissionName</p>
+                <br/>
+                @Html.ValidationSummary()
+                @using(Html.BeginForm())
+                {
+                    @Html.HiddenFor(view => view.Id)
+
+                    foreach(var permission in Model.Permissions.Keys)
+                    {
+                        <label class="radio">
+                            @if(Model.Permission == (int)permission)
+                            {
+                                <input type="radio" checked="checked" name="permission" value="@Model.Permissions[permission]" /><span>@Enum.GetName(typeof(Permission), permission)</span>
+                            }else
+                            {
+                                <input type="radio" name="permission" value="@Model.Permissions[permission]" /><span>@Enum.GetName(typeof(Permission), permission)</span>
+                            }
+                        </label>
+                    }
+                    <br/>
+                    <input class="btn btn-primary" type="submit" value="Set Permission"/>
+                }
             </div>
         </div>
     </div>

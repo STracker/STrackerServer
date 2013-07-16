@@ -43,6 +43,8 @@ namespace STrackerServer.App_Start
 
             routes.MapRoute("User_Friends_Public", "Users/{id}/Friends", new { controller = "UsersWeb", action = "PublicFriends" });
 
+            routes.MapRoute("User_Permission", "Users/{id}/Permission", new { controller = "AdminWeb", action = "SetUserPermission" });
+
             routes.MapRoute("User_Friends_Remove", "User/Friends/{friendId}/Remove", new { controller = "UsersWeb", action = "RemoveFriend" });
 
             routes.MapRoute("User_Friends", "User/Friends", new { controller = "UsersWeb", action = "Friends" });
@@ -143,9 +145,6 @@ namespace STrackerServer.App_Start
                 "GenreWeb_Show", 
                 "Genres/{name}",
                 new { controller = "GenreWeb", action = "Show" });
-
-            // Root Routes
-            routes.MapRoute("Admin", "Admin", new { controller = "AdminWeb", action = "Test" });
         }
     }
 }

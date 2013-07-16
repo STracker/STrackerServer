@@ -19,10 +19,12 @@ namespace STrackerServer.NinjectDependencies
 
     using STrackerBackgroundWorker.RabbitMQ;
 
+    using STrackerServer.BusinessLayer.Core.AdminOperations;
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.BusinessLayer.Core.SeasonsOperations;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
+    using STrackerServer.BusinessLayer.Operations.AdminOperations;
     using STrackerServer.BusinessLayer.Operations.EpisodesOperations;
     using STrackerServer.BusinessLayer.Operations.SeasonsOperations;
     using STrackerServer.BusinessLayer.Operations.TvShowsOperations;
@@ -85,6 +87,9 @@ namespace STrackerServer.NinjectDependencies
 
             // PermissionProvider dependencies
             this.Bind<IPermissionManager<Permission, int>>().To<PermissionManager>();
+
+            // Admin dependencies
+            this.Bind<IAdminOperations>().To<AdminOperations>();
         }
     }
 }

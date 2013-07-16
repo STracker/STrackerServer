@@ -9,6 +9,8 @@
 
 namespace STrackerServer.BusinessLayer.Permissions
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// The PermissionManager interface.
     /// </summary>
@@ -44,5 +46,15 @@ namespace STrackerServer.BusinessLayer.Permissions
         /// The <see cref="bool"/>.
         /// </returns>
         PT GetPermission(P permission);
+
+        /// <summary>
+        /// The get permissions.
+        /// </summary>
+        /// <returns>
+        /// The <see>
+        ///       <cref>IDictionary</cref>
+        ///     </see> .
+        /// </returns>
+        IDictionary<PT,P> GetPermissions();
     }
 }

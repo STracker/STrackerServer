@@ -31,7 +31,20 @@
                 }
                 <p>
                     <a class="btn btn-block btn-primary" href="@Url.Action("PublicFriends","UsersWeb", new { id = Model.Id })">Friends</a>
-                </p> 
+                </p>
+                
+                @if(Model.AdminMode)
+                {
+                    <p>
+                        @if(Model.IsAdmin)
+                        {
+                            <button class="btn btn-block btn-primary" disabled="disabled">Permission</button>
+                        }else
+                        {
+                            <a class="btn btn-block btn-primary" href="@Url.Action("SetUserPermission","AdminWeb", new { id = Model.Id })">Permission</a>
+                        }
+                    </p>
+                } 
             </div>
         </div>
 

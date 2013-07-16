@@ -198,5 +198,19 @@ namespace STrackerServer.DataAccessLayer.Core.UsersRepositories
         /// The <see cref="bool"/>.
         /// </returns>
         bool RemoveWatchedEpisode(User user, Episode.EpisodeSynopsis episode);
+
+        /// <summary>
+        /// The set user permission.
+        /// </summary>
+        /// <param name="user">
+        /// The user.
+        /// </param>
+        /// <param name="permission">
+        /// The permission.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool SetUserPermission(User user, int permission);
     }
 }

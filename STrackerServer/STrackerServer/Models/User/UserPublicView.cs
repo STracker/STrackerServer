@@ -42,5 +42,15 @@ namespace STrackerServer.Models.User
         /// Gets or sets a value indicating whether is friend.
         /// </summary>
         public bool IsFriend { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether is admin.
+        /// </summary>
+        public bool IsAdmin { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether admin mode.
+        /// </summary>
+        public bool AdminMode { get; set; }
     }
 }
