@@ -18,14 +18,27 @@
         </div> 
         <div class="span6">
             <div class="box">
-                @Html.ValidationSummary()
+                <div class="alert-error">@Html.ValidationSummary()</div>
                 @using (Html.BeginForm("Rate", "EpisodesWeb"))
                 {
                     @Html.HiddenFor(rating => rating.TvShowId)
                     @Html.HiddenFor(rating => rating.SeasonNumber)
                     @Html.HiddenFor(rating => rating.EpisodeNumber)
-                    @Html.EditorFor(rating => rating.Value)
-                    <input class="btn btn-danger btn-mini" type="submit" value="Rate"/>
+
+                    for (int value = 1; value < 6; value++)
+                    {
+                        <label class="radio">
+                            @if(Model.Value == value)
+                            {
+                                <input type="radio" checked="checked" name="Value" value="@value" /><span>@value</span>
+                            }else
+                            {
+                                <input type="radio" name="Value" value="@value" /><span>@value</span>
+                            }
+                        </label>
+                    }
+                    <br/>
+                    <input class="btn btn-primary" type="submit" value="Rate"/>
                 }  
             </div>
         </div>

@@ -17,12 +17,6 @@ namespace STrackerServer.Controllers.Api.AuxiliaryObjects
     public class ApiRegister
     {
         /// <summary>
-        /// Gets or sets the id.
-        /// </summary>
-        [Required]
-        public string Id { get; set; }
-
-        /// <summary>
         /// Gets or sets the name.
         /// </summary>
         [Required]

@@ -370,7 +370,9 @@ namespace STrackerServer.Controllers
         [Authorize]
         public ActionResult Rate(string tvshowId, int seasonNumber, int episodeNumber)
         {
-            var episode = this.episodesOps.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber));
+            var key = new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber);
+
+            var episode = this.episodesOps.Read(key);
 
             if (episode == null)
             {
@@ -378,13 +380,17 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
+            var userRating =
+                this.ratingsOperations.GetAllRatings(key).Ratings.Find(
+                    rating => rating.UserId.Equals(User.Identity.Name));
+
             return this.View(new EpisodeRating
             {
                 TvShowId = tvshowId,
                 SeasonNumber = seasonNumber,
                 EpisodeNumber = episodeNumber,
                 Poster = episode.Poster ?? this.tvshowsOps.Read(tvshowId).Poster,
-                Value = 1
+                Value = userRating != null ? userRating.UserRating : 0
             });
         }
 
