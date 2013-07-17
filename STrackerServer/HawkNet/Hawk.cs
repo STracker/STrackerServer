@@ -376,7 +376,7 @@ namespace HawkNet
                 host.Substring(0, host.IndexOf(':')) :
                 host;
             // new
-            var port = (uri.Port > 0) ? uri.Port.ToString() + "\n": "";
+            var port = (uri.Port > 0 || uri.Port != 80) ? uri.Port.ToString() + "\n" : "";
 
             var normalized = "hawk.1." + type + "\n" + 
                         ts + "\n" +
