@@ -375,7 +375,20 @@ namespace HawkNet
             var sanitizedHost = (host.IndexOf(':') > 0) ?
                 host.Substring(0, host.IndexOf(':')) :
                 host;
+            // new
+            var port = (uri.Port > 0) ? uri.Port.ToString() : "";
 
+            var normalized = "hawk.1." + type + "\n" + 
+                        ts + "\n" +
+                        nonce + "\n" + 
+                        method.ToUpper() + "\n" +
+                        uri.PathAndQuery + "\n" +
+                        sanitizedHost.ToLower() + "\n" +
+                        port + "\n" +
+                        ((!string.IsNullOrEmpty(payloadHash)) ? payloadHash : "") + "\n" + 
+                        ((!string.IsNullOrEmpty(ext)) ? ext : "") + "\n";
+
+            /*
             var normalized = "hawk.1." + type + "\n" + 
                         ts + "\n" +
                         nonce + "\n" + 
@@ -384,7 +397,7 @@ namespace HawkNet
                         sanitizedHost.ToLower() + "\n" +
                         ((!string.IsNullOrEmpty(payloadHash)) ? payloadHash : "") + "\n" + 
                         ((!string.IsNullOrEmpty(ext)) ? ext : "") + "\n";
-
+            */
             TraceSource.TraceInformation(string.Format("Normalized String: {0}",
                 normalized));
 
