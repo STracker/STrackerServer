@@ -70,11 +70,20 @@
             </div>     
             <div class="box">
                 <b> Seasons:</b>
-                <a href="@Url.Action("Show", "SeasonsWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonSynopses[0].SeasonNumber })">@Model.SeasonSynopses[0].SeasonNumber</a> 
-                @for (var i = 1; i < Model.SeasonSynopses.Count; i++ )   
+                
+                @foreach (var season in this.Model.SeasonSynopses)
                 {
-                    <b>| </b><a href="@Url.Action("Show", "SeasonsWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonSynopses[i].SeasonNumber })">@Model.SeasonSynopses[i].SeasonNumber</a>  
+                    <a class="season" data-api="@Url.HttpRouteUrl("api_season_get", new { tvshowId = season.TvShowId, number = season.SeasonNumber})" href="@Url.Action("Show", "SeasonsWeb", new { tvshowId = season.TvShowId, seasonNumber = season.SeasonNumber })">@season.SeasonNumber</a><b> | </b>
                 }
+            </div>
+            <div id="display-season" class="box hide">
+                <div style="text-align: right">
+                    <button class="btn-link" id="display-hide">Close</button>    
+                </div>         
+                <br/>
+                <table id="display-table" class="table table-condensed">
+
+                </table>
             </div> 
             <div class="box">
                 <h2>Cast</h2>
