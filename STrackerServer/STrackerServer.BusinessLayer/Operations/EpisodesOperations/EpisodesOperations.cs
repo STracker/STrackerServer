@@ -133,12 +133,12 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        public IEnumerable<NewestEpisodes> GetNewestEpisodes(string date)
+        public IEnumerable<NewestEpisodes> GetNewestEpisodes(string date = null)
         {
             DateTime temp;
             if (!DateTime.TryParse(date, out temp))
             {
-                return null;
+                date = null;
             }
 
             var newEpisodes = ((IEpisodesRepository)this.Repository).GetNewestEpisodes();

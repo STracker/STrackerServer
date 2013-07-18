@@ -17,14 +17,9 @@ namespace STrackerServer.Models.Home
     public class NewestEpisodesView
     {
         /// <summary>
-        /// Gets or sets the television show Id.
+        /// Gets or sets the television show.
         /// </summary>
-        public string TvShowId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the television show name.
-        /// </summary>
-        public string TvShowName { get; set; }
+        public DataAccessLayer.DomainEntities.TvShow.TvShowSynopsis TvShow { get; set; }
 
         /// <summary>
         /// Gets or sets the episodes.

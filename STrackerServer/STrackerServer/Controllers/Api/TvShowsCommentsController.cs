@@ -92,8 +92,7 @@ namespace STrackerServer.Controllers.Api
 
             var user = this.usersOperations.Read(User.Identity.Name);
 
-            this.operations.AddComment(id, new Comment { Body = comment, User = user.GetSynopsis() });
-            return this.BasePostDelete(true);
+            return this.BasePostDelete(this.operations.AddComment(id, new Comment { Body = comment, User = user.GetSynopsis() }));
         }
 
         /// <summary>

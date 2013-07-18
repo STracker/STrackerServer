@@ -9,7 +9,6 @@
 
 namespace STrackerServer.Controllers
 {
-    using System;
     using System.Linq;
     using System.Web.Mvc;
 
@@ -74,10 +73,9 @@ namespace STrackerServer.Controllers
                 {
                     Genres = this.genresOperations.GetAll().OrderBy(synopsis => synopsis.Id),
                     TopRated = this.tvshowsOperations.GetTopRated(MaxTopRated),
-                    NewEpisodes = this.episodesOperations.GetNewestEpisodes(DateTime.Now.AddDays(7).ToString("yyyy-MM-dd")).Select(episodes => new NewestEpisodesView
+                    NewEpisodes = this.episodesOperations.GetNewestEpisodes().Select(episodes => new NewestEpisodesView
                         {
-                            TvShowId = episodes.Key,
-                            TvShowName = this.tvshowsOperations.Read(episodes.Key).Name,
+                            TvShow = this.tvshowsOperations.Read(episodes.Key).GetSynopsis(),
                             Episodes = episodes.Episodes
                         })
                 };

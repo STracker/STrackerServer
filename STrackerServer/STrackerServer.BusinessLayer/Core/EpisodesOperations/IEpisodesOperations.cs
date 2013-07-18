@@ -62,6 +62,6 @@ namespace STrackerServer.BusinessLayer.Core.EpisodesOperations
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        IEnumerable<NewestEpisodes> GetNewestEpisodes(string date);
+        IEnumerable<NewestEpisodes> GetNewestEpisodes(string date = null);
     }
 }

@@ -7,8 +7,11 @@
 
 <div class="container-fluid">
     <div class="row-fluid">
-        <div class="span3">
+        <div class="span3 box">
             <div style="text-align: center">
+                <h3>Genres</h3>
+                <br/>
+
                 <ul class="nav nav-tabs nav-stacked">
                     @foreach(var genre in Model.Genres)
                     {
@@ -24,19 +27,23 @@
                 <h2 style="text-align: center">New Episodes</h2>
                 <br/>
                 <div class="accordion" id="accordion">
-                    @foreach(var tvshow in Model.NewEpisodes)
+                    @foreach(var obj in Model.NewEpisodes)
                     {
                         <div class="accordion-group">
                             <div class="accordion-heading">
-                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                                    Collapsible Group Item #1
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#@obj.TvShow.Id">
+                                    @obj.TvShow.Name
                                 </a>
                             </div>
-                            <div id="collapseOne" class="accordion-body collapse">
+                            <div id="@obj.TvShow.Id" class="accordion-body collapse">
                                 <div class="accordion-inner">
-                                    Anim pariatur cliche...
+                                    
+                                    @foreach(var episode in obj.Episodes)
+                                    {
+                                        <p><a href="@episode.Uri">@episode.Name</a> - @episode.Date</p>
+                                    }  
                                 </div>
-                            </div>
+                            </div>     
                         </div>
                     }
                 </div>
