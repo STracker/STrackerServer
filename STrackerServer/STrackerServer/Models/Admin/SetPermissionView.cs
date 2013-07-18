@@ -39,7 +39,7 @@ namespace STrackerServer.Models.Admin
         /// Gets or sets the permission.
         /// </summary>
         [Required]
-        [Range(0, 1)]
+        [Range(0, 2)]
         public int Permission { get; set; }
 
         /// <summary>

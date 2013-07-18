@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = @Model.Name;
-    Layout = "~/Views/Shared/MainLayout.cshtml";
+    Layout = "~/Views/Shared/TvShowLayout.cshtml";
 }
 
 <div class="container-fluid">
@@ -78,7 +78,7 @@
             </div>
             <div id="display-season" class="box hide">
                 <div style="text-align: right">
-                    <button class="btn-link" id="display-hide">Close</button>    
+                    <button class="btn-link" id="display-hide">Close</button>
                 </div>         
                 <br/>
                 <table id="display-table" class="table table-condensed">
@@ -86,10 +86,16 @@
                 </table>
             </div> 
             <div class="box">
-                <h2>Cast</h2>
-                <br/>
-                  
-                <table class="table table-condensed">
+                <div style="display: inline">
+                    <div style="display: inline-block">
+                        <h3>Cast</h3>
+                    </div>
+                    <div id="cast-button" class="hide" style="display: inline-block">
+                        <button class="btn-link">(Open)</button>
+                    </div> 
+                </div>
+                <br/>              
+                <table id="cast-table" class="table table-condensed">
                     <tr>
                         <th>Photo</th>
                         <th>Name</th>

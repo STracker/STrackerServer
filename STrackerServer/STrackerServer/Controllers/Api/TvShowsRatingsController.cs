@@ -76,7 +76,7 @@ namespace STrackerServer.Controllers.Api
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            return this.BaseGet(new { Rating = ratings.Average, Total = ratings.Ratings.Count });
+            return this.BaseGet(new { Rating = (int)ratings.Average, Total = ratings.Ratings.Count });
         }
     }
 }

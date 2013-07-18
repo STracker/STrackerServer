@@ -121,5 +121,28 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
 
             return date == null ? episodes : episodes.Where(epi => DateTime.Parse(epi.Date) <= DateTime.Parse(date));
         }
+
+        /// <summary>
+        /// The get newest episodes.
+        /// </summary>
+        /// <param name="date">
+        /// The date.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>IEnumerable</cref>
+        ///     </see> .
+        /// </returns>
+        public IEnumerable<Episode.EpisodeSynopsis> GetNewestEpisodes(string date)
+        {
+            DateTime temp;
+            if (!DateTime.TryParse(date, out temp))
+            {
+                return null;
+            }
+
+            var episodes = ((IEpisodesRepository)this.Repository).GetNewestEpisodes();
+            return date == null ? episodes : episodes.Where(epi => DateTime.Parse(epi.Date) <= DateTime.Parse(date));
+        }
     }
 }

@@ -9,9 +9,11 @@
 
 namespace STrackerServer.Controllers
 {
+    using System;
     using System.Linq;
     using System.Web.Mvc;
 
+    using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.Models.Home;
 
@@ -36,6 +38,11 @@ namespace STrackerServer.Controllers
         private readonly ITvShowsOperations tvshowsOperations;
 
         /// <summary>
+        /// The episodes operations.
+        /// </summary>
+        private readonly IEpisodesOperations episodesOperations;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="HomeWebController"/> class.
         /// </summary>
         /// <param name="genresOperations">
@@ -44,10 +51,14 @@ namespace STrackerServer.Controllers
         /// <param name="tvshowsOperations">
         /// The television shows operations
         ///  </param>
-        public HomeWebController(IGenresOperations genresOperations, ITvShowsOperations tvshowsOperations)
+        /// <param name="episodesOperations">
+        /// The episodes Operations.
+        /// </param>
+        public HomeWebController(IGenresOperations genresOperations, ITvShowsOperations tvshowsOperations, IEpisodesOperations episodesOperations)
         {
             this.genresOperations = genresOperations;
             this.tvshowsOperations = tvshowsOperations;
+            this.episodesOperations = episodesOperations;
         }
 
         /// <summary>
@@ -63,6 +74,7 @@ namespace STrackerServer.Controllers
                 {
                     Genres = this.genresOperations.GetAll().OrderBy(synopsis => synopsis.Id),
                     TopRated = this.tvshowsOperations.GetTopRated(MaxTopRated)
+                    //NewEpisodes = this.episodesOperations.GetNewestEpisodes(DateTime.Now.AddDays(7).ToString("yyyy-MM-dd"))
                 };
 
             return this.View(view);

@@ -183,7 +183,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Attributes\HawkAuthorizeAttribute.cs" />
-    <Compile Include="Models\Admin\SetPermissionValues.cs" />
     <Compile Include="Models\Admin\SetPermissionView.cs" />
     <Compile Include="Models\Episode\EpisodeComment.cs" />
     <Compile Include="Models\Episode\EpisodeComments.cs" />
@@ -250,7 +249,9 @@
     <None Include="Scripts\jquery-2.0.2.intellisense.js" />
     <Content Include="Scripts\jquery-2.0.2.js" />
     <Content Include="Scripts\jquery-2.0.2.min.js" />
+    <Content Include="Scripts\STracker\CreateCommentModal.js" />
     <Content Include="Scripts\STracker\DisplaySeasonInfo.js" />
+    <Content Include="Scripts\STracker\TvShowHideCast.js" />
     <Content Include="Scripts\STracker\Typeahead.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -291,6 +292,8 @@
     <Content Include="Views\UsersWeb\PublicFriends.cshtml" />
     <Content Include="Views\UsersWeb\EpisodesWatched.cshtml" />
     <Content Include="Views\AdminWeb\SetUserPermission.cshtml" />
+    <Content Include="Views\Shared\TvShowLayout.cshtml" />
+    <Content Include="Views\Shared\CommentsLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

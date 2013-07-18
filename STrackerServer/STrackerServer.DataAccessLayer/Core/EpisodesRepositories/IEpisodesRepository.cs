@@ -60,5 +60,15 @@ namespace STrackerServer.DataAccessLayer.Core.EpisodesRepositories
         /// The Delete old episodes.
         /// </summary>
         void DeleteOldEpisodes();
+
+        /// <summary>
+        /// The get newest episodes.
+        /// </summary>
+        /// <returns>
+        /// The <see>
+        ///       <cref>IEnumerable</cref>
+        ///     </see> .
+        /// </returns>
+        IEnumerable<Episode.EpisodeSynopsis> GetNewestEpisodes();
     }
 }

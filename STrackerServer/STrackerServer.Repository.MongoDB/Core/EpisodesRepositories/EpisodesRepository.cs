@@ -200,6 +200,19 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         }
 
         /// <summary>
+        /// The get newest episodes.
+        /// </summary>
+        /// <returns>
+        /// The <see>
+        ///       <cref>IEnumerable</cref>
+        ///     </see> .
+        /// </returns>
+        public IEnumerable<Episode.EpisodeSynopsis> GetNewestEpisodes()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Create one episode.
         /// </summary>
         /// <param name="entity">

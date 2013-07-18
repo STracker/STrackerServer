@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Comments";
-    Layout = "~/Views/Shared/MainLayout.cshtml";
+    Layout = "~/Views/Shared/CommentsLayout.cshtml";
 }
 
 <div class="container-fluid">
@@ -17,8 +17,24 @@
             </p> 
 
             <p>
-                <a class="btn btn-block btn-primary" href="@Url.Action("CreateComment","TvShowsWeb", new { tvshowId = Model.TvShowId })">Create Comment</a>
+                <a id="create-comment" data-toggle="modal" class="btn btn-block btn-primary" href="@Url.Action("CreateComment","TvShowsWeb", new { tvshowId = Model.TvShowId })">Create Comment</a>
             </p> 
+            
+            <div id="myModal" class="modal hide fade" style="color: black">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3>Modal header</h3>
+                </div>
+              <div class="modal-body">
+                <p>One fine body…</p>
+              </div>
+              <div class="modal-footer">
+                <a href="#" class="btn">Close</a>
+                <a href="#" class="btn btn-primary">Save changes</a>
+              </div>
+            </div>
+
+            
         </div> 
         <div class="span6">
             <div class="box">
@@ -26,26 +42,15 @@
                 <br/>
                 @foreach(var comment in Model.Comments)
                 {
+                    <a href="@Url.Action("Show","UsersWeb", new { id = comment.User.Id })">@comment.User.Name</a>
                     <div class="box-whiter">
-                        <div style="display: inline">
-                            <div style="text-align: right">
-                                <div style="display: inline-block">
-                                    @if (User.Identity.IsAuthenticated && comment.User.Id.Equals(User.Identity.Name))
-                                    {
-                                        <a class="btn btn-primary" href="@Url.Action("Comment", "TvShowsWeb", new {tvshowId = Model.TvShowId, id = comment.Id })"><b class="icon-wrench"></b></a>
-                                    }
-                                </div>
-                            </div>
-                            <div style="display: inline-block">
-                                <a href="@Url.Action("Show","UsersWeb", new { id = comment.User.Id })">@comment.User.Name</a>
-                            </div>
-                            
+                        <div style="text-align: right">
+                            @if (User.Identity.IsAuthenticated && comment.User.Id.Equals(User.Identity.Name))
+                            {
+                                <a href="@Url.Action("Comment", "TvShowsWeb", new {tvshowId = Model.TvShowId, id = comment.Id })">Edit</a>
+                            }
                         </div>
-
-                        <div>
-                            <br/>
-                            @comment.Body
-                        </div>
+                        @comment.Body
                     </div> 
                 }   
             </div>

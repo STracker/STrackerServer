@@ -18,16 +18,14 @@
         <div class="span6">
             <h2>Comment</h2>
             <div class="box">
-
-                <p>@Model.UserId</p>
-                @Model.Body
-
-                @Html.ValidationSummary()
+                <div class="box-whiter">
+                     @Model.Body
+                </div>
                 @using (Html.BeginForm("RemoveComment", "TvShowsWeb"))
                 {
                     @Html.Hidden("tvshowId", Model.TvShowId)
                     @Html.Hidden("Id", Model.Id)
-                    <input class="btn btn-danger btn-mini" type="submit" value="Remove"/>
+                    <input class="btn btn-danger" type="submit" value="Remove"/>
                 }  
             </div>  
         </div>
