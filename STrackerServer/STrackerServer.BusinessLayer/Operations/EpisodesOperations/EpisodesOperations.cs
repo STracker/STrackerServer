@@ -133,7 +133,7 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        public IEnumerable<Episode.EpisodeSynopsis> GetNewestEpisodes(string date)
+        public IEnumerable<NewestEpisodes> GetNewestEpisodes(string date)
         {
             DateTime temp;
             if (!DateTime.TryParse(date, out temp))
@@ -141,8 +141,10 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
                 return null;
             }
 
-            var episodes = ((IEpisodesRepository)this.Repository).GetNewestEpisodes();
-            return date == null ? episodes : episodes.Where(epi => DateTime.Parse(epi.Date) <= DateTime.Parse(date));
+            var newEpisodes = ((IEpisodesRepository)this.Repository).GetNewestEpisodes();
+            return date == null
+                       ? newEpisodes
+                       : newEpisodes.Select(episodes => new NewestEpisodes(episodes.Key) { Episodes = episodes.Episodes.Where(epi => DateTime.Parse(epi.Date) <= DateTime.Parse(date)).ToList() });
         }
     }
 }

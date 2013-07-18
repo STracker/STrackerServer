@@ -85,7 +85,7 @@ namespace STrackerServer.Controllers.Api
         [HawkAuthorize]
         public HttpResponseMessage Post(string id, [FromBody] string comment)
         {
-            if (comment == null)
+            if (comment == null || comment.Equals(string.Empty))
             {
                 return this.BasePostDelete(false);
             }

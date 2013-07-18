@@ -69,6 +69,6 @@ namespace STrackerServer.DataAccessLayer.Core.EpisodesRepositories
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        IEnumerable<Episode.EpisodeSynopsis> GetNewestEpisodes();
+        IEnumerable<NewestEpisodes> GetNewestEpisodes();
     }
 }

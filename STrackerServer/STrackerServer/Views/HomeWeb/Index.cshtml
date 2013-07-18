@@ -7,7 +7,7 @@
 
 <div class="container-fluid">
     <div class="row-fluid">
-        <div class="span2">
+        <div class="span3">
             <div style="text-align: center">
                 <ul class="nav nav-tabs nav-stacked">
                     @foreach(var genre in Model.Genres)
@@ -19,9 +19,30 @@
                 </ul>         
             </div>
         </div>
-        <div class="span3">
-            
+        <div class="span6">
+            <div class="box">
+                <h2 style="text-align: center">New Episodes</h2>
+                <br/>
+                <div class="accordion" id="accordion">
+                    @foreach(var tvshow in Model.NewEpisodes)
+                    {
+                        <div class="accordion-group">
+                            <div class="accordion-heading">
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                    Collapsible Group Item #1
+                                </a>
+                            </div>
+                            <div id="collapseOne" class="accordion-body collapse">
+                                <div class="accordion-inner">
+                                    Anim pariatur cliche...
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
+        <div class="span3"></div>
     </div>
 </div>
 

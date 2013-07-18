@@ -25,7 +25,6 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
     /// </summary>
     public class EpisodeRatingsRepository : BaseRatingsRepository<RatingsEpisode, Tuple<string, int, int>>, IEpisodeRatingsRepository 
     {
-
         /// <summary>
         /// Initializes a new instance of the <see cref="EpisodeRatingsRepository"/> class.
         /// </summary>

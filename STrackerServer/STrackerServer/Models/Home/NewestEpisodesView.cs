@@ -1,9 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="HomeView.cs" company="STracker">
+// <copyright file="NewestEpisodesView.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  Account Controller.
+//   The newest episodes view.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -11,26 +11,24 @@ namespace STrackerServer.Models.Home
 {
     using System.Collections.Generic;
 
-    using STrackerServer.DataAccessLayer.DomainEntities;
-
     /// <summary>
-    /// The Home Web model.
+    /// The newest episodes view.
     /// </summary>
-    public class HomeView
+    public class NewestEpisodesView
     {
         /// <summary>
-        /// Gets or sets the genres.
+        /// Gets or sets the television show Id.
         /// </summary>
-        public IEnumerable<Genre.GenreSynopsis> Genres { get; set; }
+        public string TvShowId { get; set; }
 
         /// <summary>
-        /// Gets or sets the top rated.
+        /// Gets or sets the television show name.
         /// </summary>
-        public IEnumerable<TvShow.TvShowSynopsis> TopRated { get; set; }
+        public string TvShowName { get; set; }
 
         /// <summary>
-        /// Gets or sets the new episodes.
+        /// Gets or sets the episodes.
         /// </summary>
-        public IEnumerable<NewestEpisodesView> NewEpisodes { get; set; }
+        public List<DataAccessLayer.DomainEntities.Episode.EpisodeSynopsis> Episodes { get; set; } 
     }
 }

@@ -73,8 +73,13 @@ namespace STrackerServer.Controllers
             var view = new HomeView
                 {
                     Genres = this.genresOperations.GetAll().OrderBy(synopsis => synopsis.Id),
-                    TopRated = this.tvshowsOperations.GetTopRated(MaxTopRated)
-                    //NewEpisodes = this.episodesOperations.GetNewestEpisodes(DateTime.Now.AddDays(7).ToString("yyyy-MM-dd"))
+                    TopRated = this.tvshowsOperations.GetTopRated(MaxTopRated),
+                    NewEpisodes = this.episodesOperations.GetNewestEpisodes(DateTime.Now.AddDays(7).ToString("yyyy-MM-dd")).Select(episodes => new NewestEpisodesView
+                        {
+                            TvShowId = episodes.Key,
+                            TvShowName = this.tvshowsOperations.Read(episodes.Key).Name,
+                            Episodes = episodes.Episodes
+                        })
                 };
 
             return this.View(view);

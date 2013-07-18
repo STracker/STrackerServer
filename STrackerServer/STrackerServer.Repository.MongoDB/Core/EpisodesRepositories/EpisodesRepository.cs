@@ -207,9 +207,9 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        public IEnumerable<Episode.EpisodeSynopsis> GetNewestEpisodes()
+        public IEnumerable<NewestEpisodes> GetNewestEpisodes()
         {
-            throw new NotImplementedException();
+            return this.newestCollection.FindAllAs<NewestEpisodes>();
         }
 
         /// <summary>

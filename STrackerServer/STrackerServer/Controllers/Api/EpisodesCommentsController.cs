@@ -98,7 +98,7 @@ namespace STrackerServer.Controllers.Api
         [HawkAuthorize]
         public HttpResponseMessage Post(string tvshowId, int seasonNumber, int number, [FromBody] string comment)
         {
-            if (comment == null)
+            if (comment == null || comment.Equals(string.Empty))
             {
                 return this.BasePostDelete(false);
             }
