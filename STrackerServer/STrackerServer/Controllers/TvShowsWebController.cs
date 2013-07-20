@@ -17,6 +17,7 @@ namespace STrackerServer.Controllers
     using STrackerServer.Action_Results;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
+    using STrackerServer.BusinessLayer.Permissions;
     using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
     using STrackerServer.Models.TvShow;
@@ -48,12 +49,17 @@ namespace STrackerServer.Controllers
         private readonly ITvShowsRatingsOperations ratingsOperations;
 
         /// <summary>
+        /// The permission manager.
+        /// </summary>
+        private IPermissionManager<Permission, int> permissionManager;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TvShowsWebController"/> class.
         /// </summary>
         /// <param name="tvshowOperations">
         /// The television show operations.
         /// </param>
-        /// <param name="usersesOperations">
+        /// <param name="usersOperations">
         /// The user operations.
         /// </param>
         /// <param name="commentsOperations">
@@ -62,12 +68,16 @@ namespace STrackerServer.Controllers
         /// <param name="ratingsOperations">
         /// The ratings Operations.
         /// </param>
-        public TvShowsWebController(ITvShowsOperations tvshowOperations, IUsersOperations usersesOperations, ITvShowsCommentsOperations commentsOperations, ITvShowsRatingsOperations ratingsOperations)
+        /// <param name="permissionManager">
+        /// The permission Manager.
+        /// </param>
+        public TvShowsWebController(ITvShowsOperations tvshowOperations, IUsersOperations usersOperations, ITvShowsCommentsOperations commentsOperations, ITvShowsRatingsOperations ratingsOperations, IPermissionManager<Permission, int> permissionManager)
         {
             this.tvshowOperations = tvshowOperations;
-            this.usersOperations = usersesOperations;
+            this.usersOperations = usersOperations;
             this.commentsOperations = commentsOperations;
             this.ratingsOperations = ratingsOperations;
+            this.permissionManager = permissionManager;
         }
 
         /// <summary>
@@ -170,12 +180,22 @@ namespace STrackerServer.Controllers
 
             var tvshow = this.tvshowOperations.Read(tvshowId);
 
+            var isModerator = false;
+
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = this.usersOperations.Read(User.Identity.Name);
+
+                isModerator = this.permissionManager.HasPermission(Permission.Moderator, user.Permission);
+            }
+
             var view = new TvShowComments
                 {
                     TvShowId = tvshowComments.TvShowId,
                     Comments = tvshowComments.Comments,
                     Poster = tvshow.Poster,
-                    TvShowName = tvshow.Name
+                    TvShowName = tvshow.Name,
+                    IsModerator = isModerator
                 };
             return this.View(view);
         }
@@ -258,8 +278,9 @@ namespace STrackerServer.Controllers
         [Authorize]
         public ActionResult Comment(string tvshowId, string id)
         {
-            var comments = this.commentsOperations.GetComments(tvshowId).Comments;
+            var user = this.usersOperations.Read(User.Identity.Name);
 
+            var comments = this.commentsOperations.GetComments(tvshowId).Comments;
             var comment = comments.Find(comment1 => comment1.Id.Equals(id));
 
             if (comment == null)
@@ -268,7 +289,7 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode); 
             }
 
-            if (!comment.User.Id.Equals(User.Identity.Name))
+            if (!comment.User.Id.Equals(User.Identity.Name) && !this.permissionManager.HasPermission(Permission.Moderator, user.Permission))
             {
                 Response.StatusCode = (int)HttpStatusCode.Forbidden;
                 return this.View("Error", Response.StatusCode); 

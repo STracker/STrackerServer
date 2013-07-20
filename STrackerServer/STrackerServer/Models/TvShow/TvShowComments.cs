@@ -37,5 +37,10 @@ namespace STrackerServer.Models.TvShow
         /// Gets or sets the television show name.
         /// </summary>
         public string TvShowName { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether is moderator.
+        /// </summary>
+        public bool IsModerator { get; set; }
     }
 }

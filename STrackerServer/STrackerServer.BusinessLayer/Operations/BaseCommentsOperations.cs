@@ -15,6 +15,8 @@ namespace STrackerServer.BusinessLayer.Operations
     using STrackerBackgroundWorker.RabbitMQ;
 
     using STrackerServer.BusinessLayer.Core;
+    using STrackerServer.BusinessLayer.Core.UsersOperations;
+    using STrackerServer.BusinessLayer.Permissions;
     using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.Comments;
@@ -49,7 +51,17 @@ namespace STrackerServer.BusinessLayer.Operations
         protected readonly QueueManager QueueM;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseCommentsOperations{T,TC,TK}"/> class. 
+        /// The users operations.
+        /// </summary>
+        private readonly IUsersOperations usersOperations;
+
+        /// <summary>
+        /// The permission manager.
+        /// </summary>
+        private readonly IPermissionManager<Permission, int> permissionManager;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BaseCommentsOperations{T,TC,TK}"/> class.
         /// </summary>
         /// <param name="commentsRepository">
         /// The comments repository.
@@ -60,11 +72,19 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <param name="queueM">
         /// The queue m.
         /// </param>
-        protected BaseCommentsOperations(ICommentsRepository<TC, TK> commentsRepository, IRepository<T, TK> repository, QueueManager queueM)
+        /// <param name="usersOperations">
+        /// The users operations.
+        /// </param>
+        /// <param name="permissionManager">
+        /// The permission manager.
+        /// </param>
+        protected BaseCommentsOperations(ICommentsRepository<TC, TK> commentsRepository, IRepository<T, TK> repository, QueueManager queueM, IUsersOperations usersOperations, IPermissionManager<Permission, int> permissionManager)
         {
             this.CommentsRepository = commentsRepository;
             this.Repository = repository;
             this.QueueM = queueM;
+            this.usersOperations = usersOperations;
+            this.permissionManager = permissionManager;
         }
 
         /// <summary>
@@ -132,9 +152,20 @@ namespace STrackerServer.BusinessLayer.Operations
                 return false;
             }
 
-            var commentR = this.CommentsRepository.Read(key).Comments.FirstOrDefault(c => c.User.Id.Equals(userId) && c.Id.Equals(id));
+            var user = this.usersOperations.Read(userId);
 
-            return commentR != null && this.RemoveCommentHook(key, commentR);
+            Comment comment;
+
+            if (this.permissionManager.HasPermission(Permission.Moderator, user.Permission))
+            {
+                comment = this.CommentsRepository.Read(key).Comments.FirstOrDefault(c => c.Id.Equals(id));
+            }
+            else
+            {
+                comment = this.CommentsRepository.Read(key).Comments.FirstOrDefault(c => c.User.Id.Equals(userId) && c.Id.Equals(id));
+            }
+
+            return comment != null && this.RemoveCommentHook(key, comment);
         }
 
         /// <summary>

@@ -90,7 +90,7 @@ namespace STrackerServer.Controllers
             var currentUser = this.usersOperations.Read(User.Identity.Name);
 
             var isFriend = user.Friends.Any(synopsis => synopsis.Id.Equals(this.User.Identity.Name)) || user.FriendRequests.Any(synopsis => synopsis.Id.Equals(this.User.Identity.Name));
-            var adminMode = this.permissionManager.HasPermission(Permission.Admin, this.permissionManager.GetPermission(currentUser.Permission));
+            var adminMode = this.permissionManager.HasPermission(Permission.Admin, currentUser.Permission);
 
             return this.View(new UserPublicView
             {
@@ -99,7 +99,7 @@ namespace STrackerServer.Controllers
                 PictureUrl = user.Photo,
                 SubscriptionList = user.SubscriptionList,
                 IsFriend = isFriend,
-                IsAdmin = this.permissionManager.HasPermission(Permission.Admin, this.permissionManager.GetPermission(user.Permission)),
+                IsAdmin = this.permissionManager.HasPermission(Permission.Admin, user.Permission),
                 AdminMode = adminMode
             });
         }
@@ -122,7 +122,7 @@ namespace STrackerServer.Controllers
                 Name = user.Name,
                 PictureUrl = user.Photo,
                 SubscriptionList = user.SubscriptionList,
-                IsAdmin = this.permissionManager.HasPermission(Permission.Admin, this.permissionManager.GetPermission(user.Permission)),
+                IsAdmin = this.permissionManager.HasPermission(Permission.Admin, user.Permission),
             });
         }
 

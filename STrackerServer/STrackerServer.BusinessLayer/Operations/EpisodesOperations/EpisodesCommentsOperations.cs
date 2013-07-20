@@ -16,6 +16,8 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
     using STrackerBackgroundWorker.RabbitMQ.Core;
 
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
+    using STrackerServer.BusinessLayer.Core.UsersOperations;
+    using STrackerServer.BusinessLayer.Permissions;
     using STrackerServer.DataAccessLayer.Core.EpisodesRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
@@ -35,11 +37,17 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
         /// <param name="repository">
         /// The repository.
         /// </param>
+        /// <param name="usersOperations">
+        /// The users operations.
+        /// </param>
         /// <param name="queueM">
         /// The queue m.
         /// </param>
-        public EpisodesCommentsOperations(IEpisodeCommentsRepository commentsRepository, IEpisodesRepository repository, QueueManager queueM)
-            : base(commentsRepository, repository, queueM)
+        /// <param name="permissionManager">
+        /// The permission manager.
+        /// </param>
+        public EpisodesCommentsOperations(IEpisodeCommentsRepository commentsRepository, IEpisodesRepository repository, IUsersOperations usersOperations, QueueManager queueM, IPermissionManager<Permission, int> permissionManager)
+            : base(commentsRepository, repository, queueM, usersOperations, permissionManager)
         {
         }
 

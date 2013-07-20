@@ -34,7 +34,7 @@ namespace STrackerServer.BusinessLayer.Permissions
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool HasPermission(PT permission, PT currentPermission);
+        bool HasPermission(PT permission, P currentPermission);
 
         /// <summary>
         /// The has permission.
@@ -55,6 +55,6 @@ namespace STrackerServer.BusinessLayer.Permissions
         ///       <cref>IDictionary</cref>
         ///     </see> .
         /// </returns>
-        IDictionary<PT,P> GetPermissions();
+        IDictionary<PT, P> GetPermissions();
     }
 }

@@ -19,6 +19,7 @@ namespace STrackerServer.Controllers
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
+    using STrackerServer.BusinessLayer.Permissions;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
     using STrackerServer.Models.Episode;
 
@@ -53,6 +54,11 @@ namespace STrackerServer.Controllers
         private readonly IUsersOperations usersOperations;
 
         /// <summary>
+        /// The permission manager.
+        /// </summary>
+        private readonly IPermissionManager<Permission, int> permissionManager;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="EpisodesWebController"/> class.
         /// </summary>
         /// <param name="episodesOps">
@@ -70,13 +76,17 @@ namespace STrackerServer.Controllers
         /// <param name="usersOperations">
         /// The users operations.
         /// </param>
-        public EpisodesWebController(IEpisodesOperations episodesOps, ITvShowsOperations tvshowsOps, IEpisodesCommentsOperations commentsOperations, IEpisodesRatingsOperations ratingsOperations, IUsersOperations usersOperations)
+        /// <param name="permissionManager">
+        /// The permission manager.
+        /// </param>
+        public EpisodesWebController(IEpisodesOperations episodesOps, ITvShowsOperations tvshowsOps, IEpisodesCommentsOperations commentsOperations, IEpisodesRatingsOperations ratingsOperations, IUsersOperations usersOperations, IPermissionManager<Permission, int> permissionManager)
         {
             this.episodesOps = episodesOps;
             this.tvshowsOps = tvshowsOps;
             this.commentsOperations = commentsOperations;
             this.ratingsOperations = ratingsOperations;
             this.usersOperations = usersOperations;
+            this.permissionManager = permissionManager;
         }
 
         /// <summary>
@@ -179,6 +189,15 @@ namespace STrackerServer.Controllers
             var episode = this.episodesOps.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber));
             var tvshow = this.tvshowsOps.Read(tvshowId);
 
+            var isModerator = false;
+
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = this.usersOperations.Read(User.Identity.Name);
+
+                isModerator = this.permissionManager.HasPermission(Permission.Moderator, user.Permission);
+            }
+
             var view = new EpisodeComments
                 {
                     TvShowId = tvshowId,
@@ -186,6 +205,7 @@ namespace STrackerServer.Controllers
                     EpisodeNumber = episodeNumber,
                     Comments = episodeComments.Comments,
                     Poster = episode.Poster ?? tvshow.Poster,
+                    IsModerator = isModerator
                 };
 
             return this.View(view);
@@ -289,8 +309,7 @@ namespace STrackerServer.Controllers
         [Authorize]
         public ActionResult Comment(string tvshowId, int seasonNumber, int episodeNumber, string id)
         {
-            var comments =
-                this.commentsOperations.GetComments(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber));
+            var comments = this.commentsOperations.GetComments(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber));
 
             if (comments == null)
             {
@@ -306,7 +325,9 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            if (!comment.User.Id.Equals(User.Identity.Name))
+            var user = this.usersOperations.Read(User.Identity.Name);
+
+            if (!comment.User.Id.Equals(User.Identity.Name) && !this.permissionManager.HasPermission(Permission.Moderator, user.Permission))
             {
                 Response.StatusCode = (int)HttpStatusCode.Forbidden;
                 return this.View("Error", Response.StatusCode);

@@ -61,7 +61,7 @@ namespace STrackerServer.Attributes
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             var user = this.usersOperations.Read(httpContext.User.Identity.Name);
-            return base.AuthorizeCore(httpContext) && this.manager.HasPermission(this.Permission, this.manager.GetPermission(user.Permission));
+            return base.AuthorizeCore(httpContext) && this.manager.HasPermission(this.Permission, user.Permission);
         }
     }
 }

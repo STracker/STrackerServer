@@ -15,6 +15,8 @@ namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
     using STrackerBackgroundWorker.RabbitMQ.Core;
 
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
+    using STrackerServer.BusinessLayer.Core.UsersOperations;
+    using STrackerServer.BusinessLayer.Permissions;
     using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
@@ -34,11 +36,17 @@ namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
         /// <param name="repository">
         /// The repository.
         /// </param>
+        /// <param name="usersOperations">
+        /// The users Operations.
+        /// </param>
         /// <param name="queueM">
         /// The queue m.
         /// </param>
-        public TvShowsCommentsOperations(ITvShowCommentsRepository commentsRepository, ITvShowsRepository repository, QueueManager queueM)
-            : base(commentsRepository, repository, queueM)
+        /// <param name="permissionManager">
+        /// The permission Manager.
+        /// </param>
+        public TvShowsCommentsOperations(ITvShowCommentsRepository commentsRepository, ITvShowsRepository repository, IUsersOperations usersOperations, QueueManager queueM, IPermissionManager<Permission, int> permissionManager)
+            : base(commentsRepository, repository, queueM, usersOperations, permissionManager)
         {
         }
 

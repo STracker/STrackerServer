@@ -45,7 +45,7 @@
                     <a href="@Url.Action("Show","UsersWeb", new { id = comment.User.Id })">@comment.User.Name</a>
                     <div class="box-whiter">
                         <div style="text-align: right">
-                            @if (User.Identity.IsAuthenticated && comment.User.Id.Equals(User.Identity.Name))
+                            @if (User.Identity.IsAuthenticated && (Model.IsModerator || comment.User.Id.Equals(User.Identity.Name)))
                             {
                                 <a href="@Url.Action("Comment", "TvShowsWeb", new {tvshowId = Model.TvShowId, id = comment.Id })">Edit</a>
                             }

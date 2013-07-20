@@ -42,5 +42,10 @@ namespace STrackerServer.Models.Episode
         /// Gets or sets the comments.
         /// </summary>
         public List<Comment> Comments { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether is moderator.
+        /// </summary>
+        public bool IsModerator { get; set; }
     }
 }
