@@ -142,15 +142,7 @@ namespace STrackerServer.Controllers
                 {
                     Name = user.Name,
                     PictureUrl = user.Photo,
-                    List =
-                        user.FriendRequests.ConvertAll(
-                            input =>
-                            new Requests.FriendRequest
-                                {
-                                    Id = input.Id,
-                                    Name = input.Name,
-                                    Picture = this.usersOperations.Read(input.Id).Photo
-                                })
+                    List = user.FriendRequests       
                 };
 
             return this.View(requests);
@@ -241,14 +233,14 @@ namespace STrackerServer.Controllers
         {
             if (name == null || string.Empty.Equals(name.Trim()))
             {
-                return this.View(new UserSearchResult { Result = new List<User>(), SearchValue = string.Empty });
+                return this.View(new UserSearchResult { Result = new List<User.UserSynopsis>(), SearchValue = string.Empty });
             }
 
             var users = this.usersOperations.FindByName(name);
 
             if (users.Count != 0)
             {
-                var index = users.FindIndex(user => user.Key.Equals(User.Identity.Name));
+                var index = users.FindIndex(user => user.Id.Equals(User.Identity.Name));
                 if (index != -1)
                 {
                     users.RemoveAt(index); 

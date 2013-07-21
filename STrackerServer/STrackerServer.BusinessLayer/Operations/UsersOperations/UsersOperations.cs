@@ -84,7 +84,6 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
                 return;
             }
 
-            domainUser.Photo = user.Photo;
             domainUser.Name = user.Name;
             domainUser.Email = user.Email;
 
@@ -317,9 +316,9 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         ///       <cref>List</cref>
         ///     </see> .
         /// </returns>
-        public List<User> FindByName(string name)
+        public List<User.UserSynopsis> FindByName(string name)
         {
-            return ((IUsersRepository)this.Repository).FindByName(name);
+            return ((IUsersRepository)this.Repository).FindByName(name).ConvertAll(input => input.GetSynopsis());
         }
 
         /// <summary>

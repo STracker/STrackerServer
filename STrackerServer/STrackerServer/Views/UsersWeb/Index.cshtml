@@ -29,31 +29,33 @@
 
         <div class="span6">
             <div class="box">
-                <h2>Subscriptions</h2> 
-                <br/>
-                <table class="table table-condensed">
-                    @if (Model.SubscriptionList.Count != 0)
-                    {
-                        foreach (var sub in Model.SubscriptionList)
+                <h2 class="center">Subscriptions</h2> 
+            </div>
+            
+            @if (Model.SubscriptionList.Count != 0)
+            {
+                <div class="box">
+                    <table class="table table-condensed">
+                        @foreach (var sub in Model.SubscriptionList)
                         {
                             <tr>
                                 <td>
-                                    <a href="@Url.Action("Show","TvShowsWeb", new { tvshowId = sub.TvShow.Id })">@sub.TvShow.Name</a>
+                                    <a href="@Url.Action("Show", "TvShowsWeb", new { tvshowId = sub.TvShow.Id })">@sub.TvShow.Name</a>
                                 </td>
                                 <td>
                                     @using (Html.BeginForm("Subscribe", "TvShowsWeb", new { tvshowId = sub.TvShow.Id, redirectUrl = Url.Action("Index", "UsersWeb") }))
                                     {
-                                        @Html.Hidden("IsSubscribing",false)
+                                        @Html.Hidden("IsSubscribing", false)
                                         <div style="text-align: right">
                                             <input class="btn btn-mini btn-danger" type="submit" value="Unsubscribe"/>
                                         </div>
                                     }
                                 </td>
                             </tr>
-                        }
-                    }
-                </table>
-            </div>
+                        }        
+                    </table>
+                </div>
+            }
         </div>
     </div>
 </div>

@@ -40,7 +40,7 @@
                                     
                                     @foreach(var episode in obj.Episodes)
                                     {
-                                        <p><a href="@episode.Uri">@episode.Name</a> - @episode.Date</p>
+                                        <p>@episode.EpisodeNumber<span>. </span><a href="@episode.Uri">@episode.Name</a> - @episode.Date</p>
                                     }  
                                 </div>
                             </div>     

@@ -33,16 +33,10 @@
                     <a class="btn btn-block btn-primary" href="@Url.Action("PublicFriends","UsersWeb", new { id = Model.Id })">Friends</a>
                 </p>
                 
-                @if(Model.AdminMode)
+                @if (Model.AdminMode && !Model.IsAdmin)
                 {
                     <p>
-                        @if(Model.IsAdmin)
-                        {
-                            <button class="btn btn-block btn-primary" disabled="disabled">Permission</button>
-                        }else
-                        {
-                            <a class="btn btn-block btn-primary" href="@Url.Action("SetUserPermission","AdminWeb", new { id = Model.Id })">Permission</a>
-                        }
+                        <a class="btn btn-block btn-primary" href="@Url.Action("SetUserPermission","AdminWeb", new { id = Model.Id })">Permission</a>
                     </p>
                 } 
             </div>
@@ -50,22 +44,24 @@
 
         <div class="span6">
             <div class="box">
-                <h2>Subscriptions</h2> 
-                <br/>
-                <table class="table table-condensed">
-                    @if (Model.SubscriptionList.Count != 0)
-                    {
-                        foreach (var sub in Model.SubscriptionList)
+                <h2 class="center">Subscriptions</h2> 
+            </div>   
+            
+            @if (Model.SubscriptionList.Count != 0)
+            {
+                <div class="box">
+                    <table class="table table-condensed">
+                        @foreach (var sub in Model.SubscriptionList)
                         {
                             <tr>
                                 <td>
                                     <a href="@Url.Action("Show","TvShowsWeb", new { tvshowId = sub.TvShow.Id })">@sub.TvShow.Name</a>
                                 </td>
                             </tr>
-                        }
-                    }
-                </table>
-            </div>
+                        }   
+                    </table>
+                </div> 
+            }
         </div>
     </div>
 </div>

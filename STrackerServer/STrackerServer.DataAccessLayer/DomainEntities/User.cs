@@ -100,7 +100,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         public UserSynopsis GetSynopsis()
         {
             var uri = string.Format("users/{0}", this.Key);
-            return new UserSynopsis { Id = this.Key, Name = this.Name, Uri = uri };
+            return new UserSynopsis { Id = this.Key, Name = this.Name, Photo = this.Photo, Uri = uri };
         }
 
         /// <summary>
@@ -117,6 +117,11 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
             /// Gets or sets the name.
             /// </summary>
             public string Name { get; set; }
+
+            /// <summary>
+            /// Gets or sets the photo.
+            /// </summary>
+            public string Photo { get; set; }
 
             /// <summary>
             /// Gets or sets the uri.

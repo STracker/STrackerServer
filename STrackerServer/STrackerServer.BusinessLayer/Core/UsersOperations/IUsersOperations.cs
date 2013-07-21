@@ -158,7 +158,7 @@ namespace STrackerServer.BusinessLayer.Core.UsersOperations
         ///       <cref>List</cref>
         ///     </see> .
         /// </returns>
-        List<User> FindByName(string name);
+        List<User.UserSynopsis> FindByName(string name);
 
         /// <summary>
         /// The remove friend.

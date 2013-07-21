@@ -24,6 +24,6 @@ namespace STrackerServer.Models.User
         /// <summary>
         /// Gets or sets the result.
         /// </summary>
-        public List<DataAccessLayer.DomainEntities.User> Result { get; set; }
+        public List<DataAccessLayer.DomainEntities.User.UserSynopsis> Result { get; set; }
     }
 }

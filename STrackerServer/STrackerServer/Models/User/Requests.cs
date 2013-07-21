@@ -24,32 +24,11 @@ namespace STrackerServer.Models.User
         /// <summary>
         /// Gets or sets the list.
         /// </summary>
-        public List<FriendRequest> List { get; set; }
+        public List<DataAccessLayer.DomainEntities.User.UserSynopsis> List { get; set; }
 
         /// <summary>
         /// Gets or sets the picture url.
         /// </summary>
         public string PictureUrl { get; set; }
-
-        /// <summary>
-        /// The friend request.
-        /// </summary>
-        public class FriendRequest
-        {
-            /// <summary>
-            /// Gets or sets the id.
-            /// </summary>
-            public string Id { get; set; }
-
-            /// <summary>
-            /// Gets or sets the name.
-            /// </summary>
-            public string Name { get; set; }
-
-            /// <summary>
-            /// Gets or sets the picture.
-            /// </summary>
-            public string Picture { get; set; }
-        }
     }
 }

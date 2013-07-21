@@ -144,7 +144,7 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         public bool AcceptInvite(User from, User to)
         {
             var query = Query<User>.EQ(user => user.Key, to.Key);
-            var update = Update<User>.AddToSet(user => user.Friends, from.GetSynopsis()).Pull(user => user.FriendRequests, from.GetSynopsis());
+            var update = Update<User>.Pull(user => user.FriendRequests, from.GetSynopsis()).AddToSet(user => user.Friends, from.GetSynopsis());
             if (!this.ModifyList(this.collection, query, update))
             {
                 return false;
@@ -243,7 +243,7 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         /// </returns>
         public List<User> FindByName(string name)
         {
-            var query = Query<User>.Matches(user => user.Name, name);
+            var query = Query<User>.Where(user => user.Name.ToLower().Contains(name.ToLower()));
             return this.collection.FindAs<User>(query).ToList();
         }
 

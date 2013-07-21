@@ -83,7 +83,7 @@ namespace STrackerServer.Controllers
 
             if (!id.Equals(User.Identity.Name) && (Permission)user.Permission == Permission.Admin)
             {
-                Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                Response.StatusCode = (int)HttpStatusCode.Forbidden;
                 return this.View("Error", Response.StatusCode);
             }
 
@@ -139,6 +139,11 @@ namespace STrackerServer.Controllers
                 ModelState.AddModelError("Operation", "Failed to execute.");
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View(values);
+            }
+
+            if ((User.Identity.Name.Equals(values.Id) && values.Permission < (int)Permission.Admin) || (!User.Identity.Name.Equals(values.Id) && values.Permission == (int)Permission.Admin))
+            {
+                return new SeeOtherResult { Url = Url.Action("Show", "UsersWeb", new { id = user.Key }) };
             }
 
             return new SeeOtherResult { Url = Url.Action("SetUserPermission", "AdminWeb", new { id = user.Key }) };
