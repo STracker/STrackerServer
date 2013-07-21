@@ -239,6 +239,6 @@ namespace STrackerServer.BusinessLayer.Core.UsersOperations
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        IEnumerable<NewestEpisodes> GetNewestEpisodes(string userId);
+        IEnumerable<Episode.EpisodeSynopsis> GetNewestEpisodes(string userId);
     }
 }

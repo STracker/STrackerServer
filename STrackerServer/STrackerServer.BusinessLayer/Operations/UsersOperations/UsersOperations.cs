@@ -488,7 +488,7 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        public IEnumerable<NewestEpisodes> GetNewestEpisodes(string userId)
+        public IEnumerable<Episode.EpisodeSynopsis> GetNewestEpisodes(string userId)
         {
             var user = this.Repository.Read(userId);
 
@@ -499,15 +499,16 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
 
             var newEpisodes = this.episodesOperations.GetNewestEpisodes();
 
-            var retList = new List<NewestEpisodes>();
+            var retList = new List<Episode.EpisodeSynopsis>();
 
+            // Melhorar.
             foreach (var subscription in user.SubscriptionList)
             {
                 foreach(var tvShowNewEpisodes in newEpisodes)
                 {
                     if (subscription.TvShow.Id.Equals(tvShowNewEpisodes.Key))
                     {
-                        retList.Add(tvShowNewEpisodes);
+                        retList.AddRange(tvShowNewEpisodes.Episodes);
                         break;
                     }
                 }

@@ -9,6 +9,7 @@
 
 namespace STrackerServer.Controllers.Api
 {
+    using System.Linq;
     using System.Net.Http;
     using System.Web.Http;
 
@@ -46,7 +47,7 @@ namespace STrackerServer.Controllers.Api
         [HawkAuthorize]
         public HttpResponseMessage Get()
         {
-            return this.BaseGet(new { List = this.usersOperations.GetNewestEpisodes(User.Identity.Name) });
+            return this.BaseGet(this.usersOperations.GetNewestEpisodes(User.Identity.Name).OrderBy(synopsis => synopsis.Date).ToList());
         }
     }
 }
