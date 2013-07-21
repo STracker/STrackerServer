@@ -12,6 +12,7 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
 
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
@@ -84,7 +85,6 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
                 return;
             }
 
-            domainUser.Name = user.Name;
             domainUser.Email = user.Email;
 
             this.Update(domainUser);
@@ -475,6 +475,45 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
             }
 
             return ((IUsersRepository)this.Repository).RemoveWatchedEpisode(user, sinopsys);
+        }
+
+        /// <summary>
+        /// The get newest episodes of user.
+        /// </summary>
+        /// <param name="userId">
+        /// The user id.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>IEnumerable</cref>
+        ///     </see> .
+        /// </returns>
+        public IEnumerable<NewestEpisodes> GetNewestEpisodes(string userId)
+        {
+            var user = this.Repository.Read(userId);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            var newEpisodes = this.episodesOperations.GetNewestEpisodes();
+
+            var retList = new List<NewestEpisodes>();
+
+            foreach (var subscription in user.SubscriptionList)
+            {
+                foreach(var tvShowNewEpisodes in newEpisodes)
+                {
+                    if (subscription.TvShow.Id.Equals(tvShowNewEpisodes.Key))
+                    {
+                        retList.Add(tvShowNewEpisodes);
+                        break;
+                    }
+                }
+            }
+
+            return retList;
         }
 
         /// <summary>
