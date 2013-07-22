@@ -297,6 +297,7 @@
     <Content Include="Views\AdminWeb\SetUserPermission.cshtml" />
     <Content Include="Views\Shared\TvShowLayout.cshtml" />
     <Content Include="Views\Shared\CommentsLayout.cshtml" />
+    <Content Include="Views\Account\FacebookChannel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

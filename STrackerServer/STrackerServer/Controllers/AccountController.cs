@@ -23,7 +23,6 @@ namespace STrackerServer.Controllers
 
     using STrackerServer.Action_Results;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
-    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
 
     /// <summary>
     /// Account controller.
@@ -209,6 +208,18 @@ namespace STrackerServer.Controllers
                 new SeeOtherResult { Url = Url.Action("Index", "HomeWeb") } : 
                 new SeeOtherResult { Url = callbackCookie.ReturnUrl };
         }
+
+        /// <summary>
+        /// The facebook channel.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpGet]
+        public ActionResult FacebookChannel()
+        {
+            return this.View();
+        } 
 
         /// <summary>
         /// The callback cookie.

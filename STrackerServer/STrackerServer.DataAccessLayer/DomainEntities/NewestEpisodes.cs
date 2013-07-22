@@ -36,6 +36,11 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         public string Key { get; set; }
 
         /// <summary>
+        /// Gets or sets the television show.
+        /// </summary>
+        public TvShow.TvShowSynopsis TvShow { get; set; }
+
+        /// <summary>
         /// Gets or sets the episodes.
         /// </summary>
         public List<Episode.EpisodeSynopsis> Episodes { get; set; } 

@@ -23,6 +23,7 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
 
     using STrackerServer.DataAccessLayer.Core.EpisodesRepositories;
     using STrackerServer.DataAccessLayer.Core.SeasonsRepositories;
+    using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.Comments;
     using STrackerServer.DataAccessLayer.DomainEntities.Ratings;
@@ -53,6 +54,11 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         private readonly IEpisodeRatingsRepository ratingsRepository;
 
         /// <summary>
+        /// The television shows repository.
+        /// </summary>
+        private readonly ITvShowsRepository tvshowsRepository;
+
+        /// <summary>
         /// Initializes static members of the <see cref="EpisodesRepository"/> class.
         /// </summary>
         static EpisodesRepository()
@@ -73,6 +79,9 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         /// <summary>
         /// Initializes a new instance of the <see cref="EpisodesRepository"/> class.
         /// </summary>
+        /// <param name="tvshowsRepository">
+        /// The television show repository.
+        /// </param>
         /// <param name="seasonsRepository">
         /// The seasons repository.
         /// </param>
@@ -88,12 +97,13 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         /// <param name="url">
         /// MongoDB url.
         /// </param>
-        public EpisodesRepository(ISeasonsRepository seasonsRepository, IEpisodeCommentsRepository commentsRepository, IEpisodeRatingsRepository ratingsRepository, MongoClient client, MongoUrl url) 
+        public EpisodesRepository(ITvShowsRepository tvshowsRepository, ISeasonsRepository seasonsRepository, IEpisodeCommentsRepository commentsRepository, IEpisodeRatingsRepository ratingsRepository, MongoClient client, MongoUrl url) 
             : base(client, url)
         {
             this.seasonsRepository = seasonsRepository;
             this.commentsRepository = commentsRepository;
             this.ratingsRepository = ratingsRepository;
+            this.tvshowsRepository = tvshowsRepository;
 
             this.newestCollection = this.Database.GetCollection(ConfigurationManager.AppSettings["NewestEpisodes"]);
         }
@@ -309,11 +319,15 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
                     return;
                 }
 
-                var newwestDoc = this.newestCollection.FindOneByIdAs<NewestEpisodes>(episode.TvShowId);
-                if (newwestDoc == null)
+                var newestDoc = this.newestCollection.FindOneByIdAs<NewestEpisodes>(episode.TvShowId);
+                if (newestDoc == null)
                 {
-                    newwestDoc = new NewestEpisodes(episode.TvShowId);
-                    this.newestCollection.Insert(newwestDoc);
+                    newestDoc = new NewestEpisodes(episode.TvShowId)
+                        {
+                            TvShow = this.tvshowsRepository.Read(episode.TvShowId).GetSynopsis() 
+                        };
+
+                    this.newestCollection.Insert(newestDoc);
                 }
             }
             catch (Exception)
