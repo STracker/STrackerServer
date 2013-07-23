@@ -156,7 +156,6 @@
     <Compile Include="Controllers\Api\AuxiliaryObjects\ApiAddUserSubscription.cs" />
     <Compile Include="Controllers\Api\AuxiliaryObjects\ApiRegister.cs" />
     <Compile Include="Controllers\Api\AuxiliaryObjects\ApiRequestResponse.cs" />
-    <Compile Include="Controllers\Api\AuxiliaryObjects\ApiNewEpisodes.cs" />
     <Compile Include="Controllers\Api\AuxiliaryObjects\TimeUtc.cs" />
     <Compile Include="Controllers\Api\EpisodesRatingsController.cs" />
     <Compile Include="Controllers\Api\EpisodesWatchedController.cs" />

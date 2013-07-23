@@ -42,5 +42,10 @@ namespace STrackerServer.Models.User
         /// Gets or sets a value indicating whether is admin.
         /// </summary>
         public bool IsAdmin { get; set; }
+
+        /// <summary>
+        /// Gets or sets the new episodes.
+        /// </summary>
+        public IEnumerable<DataAccessLayer.DomainEntities.NewestEpisodes> NewEpisodes { get; set; }
     }
 }

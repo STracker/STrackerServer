@@ -497,20 +497,55 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
                 return null;
             }
 
-            var newEpisodes = this.episodesOperations.GetNewestEpisodes();
-
             var retList = new List<Episode.EpisodeSynopsis>();
 
-            // Melhorar.
             foreach (var subscription in user.SubscriptionList)
             {
-                foreach(var tvShowNewEpisodes in newEpisodes)
+                var episodes = this.episodesOperations.GetNewestEpisodes(subscription.TvShow.Id, null);
+
+                if (episodes != null)
                 {
-                    if (subscription.TvShow.Id.Equals(tvShowNewEpisodes.Key))
-                    {
-                        retList.AddRange(tvShowNewEpisodes.Episodes);
-                        break;
-                    }
+                    retList.AddRange(episodes);
+                }     
+            }
+
+            return retList;
+        }
+
+        /// <summary>
+        /// The get newest episodes.
+        /// </summary>
+        /// <param name="userId">
+        /// The user id.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>IEnumerable</cref>
+        ///     </see> .
+        /// </returns>
+        public IEnumerable<NewestEpisodes> GetNewestEpisodesModels(string userId)
+        {
+            var user = this.Repository.Read(userId);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            var retList = new List<NewestEpisodes>();
+
+            foreach (var subscription in user.SubscriptionList)
+            {
+                var episodes = this.episodesOperations.GetNewestEpisodes(subscription.TvShow.Id, DateTime.Now.AddDays(7).ToString("yyyy-MM-dd"));
+                var episodesList = episodes.ToList();
+
+                if (episodes != null && episodesList.Count != 0)
+                {
+                    retList.Add(new NewestEpisodes(subscription.TvShow.Id)
+                        {
+                            TvShow = subscription.TvShow,
+                            Episodes = episodesList
+                        });
                 }
             }
 

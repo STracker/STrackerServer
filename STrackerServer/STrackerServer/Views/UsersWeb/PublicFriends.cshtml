@@ -22,22 +22,23 @@
 
         <div class="span6">
             <div class="box">
-                <h2>Friends</h2> 
-                <br/>
-                <table class="table table-condensed">
-                    @if (Model.List.Count != 0)
-                    {
-                        foreach (var friend in Model.List)
+                <h2 class="center">Friends</h2> 
+            </div>
+            @if (Model.List.Count != 0)
+            {
+                <div class="box">
+                    <table class="table table-condensed">
+                        @foreach (var friend in Model.List)
                         {
                             <tr>
                                 <td>
                                     <a href="@Url.Action("Show","UsersWeb", new { id = friend.Id })">@friend.Name</a>
                                 </td>
                             </tr>
-                        }
-                    }
-                </table>
-            </div>
+                        }   
+                    </table>
+                </div> 
+            } 
         </div>
     </div>
 </div>

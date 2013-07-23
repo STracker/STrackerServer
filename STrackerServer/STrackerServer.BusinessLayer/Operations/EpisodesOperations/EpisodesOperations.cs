@@ -106,7 +106,7 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
         {
             // Verify date format.
             DateTime temp;
-            if (!DateTime.TryParse(date, out temp))
+            if (date != null && !DateTime.TryParse(date, out temp))
             {
                 return null;
             }
