@@ -51,7 +51,7 @@ namespace STrackerServer.Controllers
         /// <summary>
         /// The permission manager.
         /// </summary>
-        private IPermissionManager<Permission, int> permissionManager;
+        private readonly IPermissionManager<Permission, int> permissionManager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TvShowsWebController"/> class.
@@ -101,30 +101,23 @@ namespace STrackerServer.Controllers
             }
 
             var isSubscribed = false;
-
-            var user = this.usersOperations.Read(User.Identity.Name);
-
-            var userRatingValue = -1;
+            Rating userRating = null;
             var ratings = this.ratingsOperations.Read(tvshowId);
 
-            if (user != null)
+            if (User.Identity.IsAuthenticated)
             {
-                isSubscribed = user.SubscriptionList.Any(sub => sub.TvShow.Id.Equals(tvshow.TvShowId));
+                var user = this.usersOperations.Read(User.Identity.Name);
 
-                var userRating = ratings.Ratings.Find(rating => rating.UserId.Equals(user.Key));
-                
-                if (userRating != null)
-                {
-                    userRatingValue = userRating.UserRating;
-                }
-            }       
+                isSubscribed = user.SubscriptionList.Any(sub => sub.TvShow.Id.Equals(tvshow.TvShowId));
+                userRating = ratings.Ratings.Find(rating => rating.UserId.Equals(user.Key));
+            }
 
             var model = new TvShowView(tvshow)
             {
                 Rating = ratings.Average,
                 IsSubscribed = isSubscribed,
                 Poster = tvshow.Poster,
-                UserRating = userRatingValue,
+                UserRating = userRating != null ? userRating.UserRating : -1,
                 RatingsCount = ratings.Ratings.Count
             };
 
@@ -179,25 +172,22 @@ namespace STrackerServer.Controllers
             }
 
             var tvshow = this.tvshowOperations.Read(tvshowId);
-
             var isModerator = false;
 
             if (User.Identity.IsAuthenticated)
             {
                 var user = this.usersOperations.Read(User.Identity.Name);
-
                 isModerator = this.permissionManager.HasPermission(Permission.Moderator, user.Permission);
             }
 
-            var view = new TvShowComments
+            return this.View(new TvShowComments
                 {
                     TvShowId = tvshowComments.TvShowId,
                     Comments = tvshowComments.Comments,
                     Poster = tvshow.Poster,
                     TvShowName = tvshow.Name,
                     IsModerator = isModerator
-                };
-            return this.View(view);
+                });           
         }
 
         /// <summary>
@@ -221,9 +211,7 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            var view = new TvShowCreateComment { TvShowId = tvshowId, Poster = tvshow.Poster };
-
-            return this.View(view);
+            return this.View(new TvShowCreateComment { TvShowId = tvshowId, Poster = tvshow.Poster });
         }
 
         /// <summary>
@@ -250,15 +238,18 @@ namespace STrackerServer.Controllers
             if (!ModelState.IsValid)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-
                 create.Poster = tvshow.Poster;
-
                 return this.View(create);
             }
 
-            var comment = new Comment { Body = create.Body, User = this.usersOperations.Read(User.Identity.Name).GetSynopsis() };
+            this.commentsOperations.AddComment(
+                create.TvShowId,
+                new Comment
+                    {
+                        Body = create.Body, 
+                    User = this.usersOperations.Read(User.Identity.Name).GetSynopsis()
+                });
 
-            this.commentsOperations.AddComment(create.TvShowId, comment);
             return new SeeOtherResult { Url = Url.Action("Comments", "TvShowsWeb", new { create.TvShowId }) };
         }
 
@@ -354,20 +345,18 @@ namespace STrackerServer.Controllers
 
             var user = this.usersOperations.Read(User.Identity.Name);
 
-            var view = new SuggestView
-                {
-                    Friends = user.Friends.ConvertAll(input => new SuggestFriendView
-                        {
-                            Id = input.Id,
-                            Name = input.Name,
-                            IsSubscribed = this.usersOperations.Read(input.Id).SubscriptionList.Exists(sub => sub.TvShow.Id.Equals(tvshowId))
-                        }), 
-                    TvShowId = tvshowId,
-                    Poster = tvshow.Poster,
-                    TvShowName = tvshow.Name
-                };
-
-            return this.View(view);
+            return this.View(new SuggestView
+            {
+                Friends = user.Friends.ConvertAll(input => new SuggestFriendView
+                                        {
+                                            Id = input.Id,
+                                            Name = input.Name,
+                                            IsSubscribed = this.usersOperations.Read(input.Id).SubscriptionList.Exists(sub => sub.TvShow.Id.Equals(tvshowId))
+                                        }),
+                TvShowId = tvshowId,
+                Poster = tvshow.Poster,
+                TvShowName = tvshow.Name
+            });
         }
 
         /// <summary>
@@ -414,12 +403,9 @@ namespace STrackerServer.Controllers
             }
 
             var user = this.usersOperations.Read(User.Identity.Name);
-
             var ratings = this.ratingsOperations.Read(tvshowId);
-
             var userRating = ratings.Ratings.Find(rating => rating.UserId.Equals(user.Key));
-
-            int userRatingValue = -1;
+            var userRatingValue = -1;
 
             if (userRating != null)
             {

@@ -87,5 +87,15 @@ namespace STrackerServer.Models.Episode
         /// Gets or sets a value indicating whether as aired.
         /// </summary>
         public bool AsAired { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ratings count.
+        /// </summary>
+        public int RatingsCount { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user rating.
+        /// </summary>
+        public int UserRating { get; set; }
     }
 }

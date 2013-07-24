@@ -56,8 +56,7 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            var view = new GenreView { GenreName = genreModel.Key, TvShows = genreModel.TvshowsSynopses };
-            return this.View(view);
+            return this.View(new GenreView { GenreName = genreModel.Key, TvShows = genreModel.TvshowsSynopses });
         }
     }
 }

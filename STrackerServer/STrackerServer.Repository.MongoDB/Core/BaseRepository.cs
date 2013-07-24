@@ -11,6 +11,7 @@ namespace STrackerServer.Repository.MongoDB.Core
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
+    using System.Diagnostics.Contracts;
 
     using global::MongoDB.Driver;
 

@@ -118,9 +118,11 @@ namespace STrackerServer.Controllers
             }
 
             var tvshow = this.tvshowsOps.Read(tvshowId);
+            var episodeRating = this.ratingsOperations.Read(key);
 
             var isSubscribed = false;
             var watched = false;
+            Rating userRating = null;
 
             if (User.Identity.IsAuthenticated)
             {
@@ -132,14 +134,13 @@ namespace STrackerServer.Controllers
                     isSubscribed = true;
                     watched = subscription.EpisodesWatched.Exists(synopsis => synopsis.Equals(episode.GetSynopsis()));
                 }
+
+                userRating = episodeRating.Ratings.Find(rating => rating.UserId.Equals(user.Key));
             }
 
             var episodeDate = DateTime.ParseExact(episode.Date, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-            var systemDate = DateTime.Now;
 
-            bool asAired = !(DateTime.Compare(episodeDate, systemDate) > 0);
-
-            var model = new EpisodeView
+            return this.View(new EpisodeView
             {
                 TvShowId = episode.TvShowId,
                 SeasonNumber = episode.SeasonNumber,
@@ -148,16 +149,16 @@ namespace STrackerServer.Controllers
                 Name = episode.Name,
                 GuestActors = episode.GuestActors,
                 Directors = episode.Directors,
-                Poster = episode.Poster ?? tvshow.Poster,
+                Poster = episode.Poster,
                 TvShowName = tvshow.Name,
                 Date = episode.Date,
-                Rating = this.ratingsOperations.Read(key).Average,
+                Rating = episodeRating.Average,
                 IsSubscribed = isSubscribed,
                 Watched = watched,
-                AsAired = asAired
-            };
-
-            return this.View(model);
+                AsAired = !(DateTime.Compare(episodeDate, DateTime.Now) > 0),
+                RatingsCount = episodeRating.Ratings.Count,
+                UserRating = userRating != null ? userRating.UserRating : -1
+            });
         }
 
         /// <summary>
@@ -187,14 +188,12 @@ namespace STrackerServer.Controllers
             }
 
             var episode = this.episodesOps.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber));
-            var tvshow = this.tvshowsOps.Read(tvshowId);
 
             var isModerator = false;
 
             if (User.Identity.IsAuthenticated)
             {
                 var user = this.usersOperations.Read(User.Identity.Name);
-
                 isModerator = this.permissionManager.HasPermission(Permission.Moderator, user.Permission);
             }
 
@@ -204,7 +203,7 @@ namespace STrackerServer.Controllers
                     SeasonNumber = seasonNumber,
                     EpisodeNumber = episodeNumber,
                     Comments = episodeComments.Comments,
-                    Poster = episode.Poster ?? tvshow.Poster,
+                    Poster = episode.Poster,
                     IsModerator = isModerator
                 };
 
@@ -238,14 +237,12 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            var tvshow = this.tvshowsOps.Read(tvshowId);
-
             var view = new EpisodeCreateComment
                 {
                     TvShowId = tvshowId,
                     SeasonNumber = seasonNumber,
                     EpisodeNumber = episodeNumber,
-                    Poster = episode.Poster ?? tvshow.Poster,
+                    Poster = episode.Poster,
                 };
 
             return this.View(view);
@@ -264,7 +261,9 @@ namespace STrackerServer.Controllers
         [Authorize]
         public ActionResult CreateComment(EpisodeCreateComment create)
         {
-            var episode = this.episodesOps.Read(new Tuple<string, int, int>(create.TvShowId, create.SeasonNumber, create.EpisodeNumber));
+            var key = new Tuple<string, int, int>(create.TvShowId, create.SeasonNumber, create.EpisodeNumber);
+
+            var episode = this.episodesOps.Read(key);
 
             if (episode == null)
             {
@@ -272,18 +271,18 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            var tvshow = this.tvshowsOps.Read(create.TvShowId);
-
             if (!ModelState.IsValid)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                create.Poster = episode.Poster ?? tvshow.Poster;
+                create.Poster = episode.Poster;
                 return this.View(create);
             }
 
             var comment = new Comment { Body = create.Body, User = this.usersOperations.Read(User.Identity.Name).GetSynopsis() };
-
-            this.commentsOperations.AddComment(new Tuple<string, int, int>(create.TvShowId, create.SeasonNumber, create.EpisodeNumber), comment);
+            
+            // TODO Problemas
+            this.commentsOperations.AddComment(key, comment);
+       
             return new SeeOtherResult { Url = Url.Action("Comments", "EpisodesWeb", new { tvshowId = create.TvShowId, seasonNumber = create.SeasonNumber, episodeNumber = create.EpisodeNumber }) };
         }
 
@@ -309,7 +308,9 @@ namespace STrackerServer.Controllers
         [Authorize]
         public ActionResult Comment(string tvshowId, int seasonNumber, int episodeNumber, string id)
         {
-            var comments = this.commentsOperations.GetComments(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber));
+            var key = new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber);
+
+            var comments = this.commentsOperations.GetComments(key);
 
             if (comments == null)
             {
@@ -333,8 +334,7 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            var tvshow = this.tvshowsOps.Read(tvshowId);
-            var episode = this.episodesOps.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber));
+            var episode = this.episodesOps.Read(key);
 
             var commentView = new EpisodeComment
             {
@@ -344,7 +344,7 @@ namespace STrackerServer.Controllers
                 UserId = comment.User.Id,
                 Body = comment.Body,
                 Id = comment.Id,
-                Poster = episode.Poster ?? tvshow.Poster
+                Poster = episode.Poster
             };
 
             return this.View(commentView);
@@ -401,16 +401,14 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            var userRating =
-                this.ratingsOperations.GetAllRatings(key).Ratings.Find(
-                    rating => rating.UserId.Equals(User.Identity.Name));
+            var userRating = this.ratingsOperations.GetAllRatings(key).Ratings.Find(rating => rating.UserId.Equals(User.Identity.Name));
 
             return this.View(new EpisodeRating
             {
                 TvShowId = tvshowId,
                 SeasonNumber = seasonNumber,
                 EpisodeNumber = episodeNumber,
-                Poster = episode.Poster ?? this.tvshowsOps.Read(tvshowId).Poster,
+                Poster = episode.Poster,
                 Value = userRating != null ? userRating.UserRating : 0
             });
         }
@@ -428,7 +426,9 @@ namespace STrackerServer.Controllers
         [Authorize]
         public ActionResult Rate(EpisodeRating rating)
         {
-            var episode = this.episodesOps.Read(new Tuple<string, int, int>(rating.TvShowId, rating.SeasonNumber, rating.EpisodeNumber));
+            var key = new Tuple<string, int, int>(rating.TvShowId, rating.SeasonNumber, rating.EpisodeNumber);
+
+            var episode = this.episodesOps.Read(key);
 
             if (episode == null)
             {
@@ -436,16 +436,14 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            var tvshow = this.tvshowsOps.Read(rating.TvShowId);
-
             if (!ModelState.IsValid)
             {
-                rating.Poster = episode.Poster ?? tvshow.Poster;
+                rating.Poster = episode.Poster;
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View(rating);
             }
 
-            if (!this.ratingsOperations.AddRating(new Tuple<string, int, int>(rating.TvShowId, rating.SeasonNumber, rating.EpisodeNumber), new Rating { UserId = User.Identity.Name, UserRating = rating.Value }))
+            if (!this.ratingsOperations.AddRating(key, new Rating { UserId = User.Identity.Name, UserRating = rating.Value }))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View("Error", Response.StatusCode);
@@ -473,16 +471,9 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            bool success;
-
-            if (values.Watched)
-            {
-                success = this.usersOperations.AddWatchedEpisode(User.Identity.Name, values.TvShowId, values.SeasonNumber, values.EpisodeNumber);
-            }
-            else
-            {
-                success = this.usersOperations.RemoveWatchedEpisode(User.Identity.Name, values.TvShowId, values.SeasonNumber, values.EpisodeNumber);
-            }
+            var success = values.Watched ? 
+                this.usersOperations.AddWatchedEpisode(this.User.Identity.Name, values.TvShowId, values.SeasonNumber, values.EpisodeNumber) : 
+                this.usersOperations.RemoveWatchedEpisode(this.User.Identity.Name, values.TvShowId, values.SeasonNumber, values.EpisodeNumber);
 
             if (!success)
             {
@@ -490,18 +481,7 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            return new SeeOtherResult
-                {
-                    Url = Url.Action(
-                        "Show",
-                        "EpisodesWeb",
-                        new
-                            {
-                                tvshowId = values.TvShowId,
-                                seasonNumber = values.SeasonNumber,
-                                episodeNumber = values.EpisodeNumber
-                            })
-                };
+            return new SeeOtherResult { Url = Url.Action("Show", "EpisodesWeb", new { tvshowId = values.TvShowId, seasonNumber = values.SeasonNumber, episodeNumber = values.EpisodeNumber }) };
         }
     }
 }

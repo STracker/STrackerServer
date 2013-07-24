@@ -18,7 +18,6 @@ namespace STrackerServer.Controllers
     using STrackerServer.BusinessLayer.Core.AdminOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.BusinessLayer.Permissions;
-    using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.Models.Admin;
 
     /// <summary>
@@ -87,7 +86,7 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            var viewModel = new SetPermissionView
+            return this.View(new SetPermissionView
                 {
                     Id = user.Key,
                     Name = user.Name,
@@ -95,9 +94,7 @@ namespace STrackerServer.Controllers
                     PermissionName = Enum.GetName(typeof(Permission), user.Permission),
                     Permission = user.Permission,
                     Permissions = this.permissionManager.GetPermissions()
-                };
-
-            return this.View(viewModel);
+                });   
         }
 
         /// <summary>
@@ -113,7 +110,7 @@ namespace STrackerServer.Controllers
         [STrackerAuthorize(Permission = Permission.Admin)]
         public ActionResult SetUserPermission(SetPermissionView values)
         {
-            User user = this.usersOperations.Read(values.Id);
+            var user = this.usersOperations.Read(values.Id);
 
             if (user != null)
             {
@@ -136,7 +133,6 @@ namespace STrackerServer.Controllers
 
             if (!this.adminOperations.SetUserPermission(User.Identity.Name, values.Id, this.permissionManager.GetPermission(values.Permission)))
             {
-                ModelState.AddModelError("Operation", "Failed to execute.");
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View(values);
             }

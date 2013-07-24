@@ -73,8 +73,11 @@
                 <br/>
                 <p>@Model.Description</p>
                 <p><b>Date: </b>@Model.Date</p>
-                <p><b>Rating: </b>@Model.Rating/5</p>
-                            
+                <p><b>Rating: </b> @Model.Rating/5 (from @Model.RatingsCount Users)</p>
+                @if (User.Identity.IsAuthenticated && Model.UserRating != -1)
+                {
+                    <p><b>Your Rating: </b> @Model.UserRating/5</p>
+                }            
 
                 @if (Model.Directors.Count != 0)
                 {

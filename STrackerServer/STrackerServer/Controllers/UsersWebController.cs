@@ -88,7 +88,6 @@ namespace STrackerServer.Controllers
             }
 
             var currentUser = this.usersOperations.Read(User.Identity.Name);
-
             var isFriend = user.Friends.Any(synopsis => synopsis.Id.Equals(this.User.Identity.Name)) || user.FriendRequests.Any(synopsis => synopsis.Id.Equals(this.User.Identity.Name));
             var adminMode = this.permissionManager.HasPermission(Permission.Admin, currentUser.Permission);
 
@@ -139,14 +138,12 @@ namespace STrackerServer.Controllers
         {
             var user = this.usersOperations.Read(User.Identity.Name);
 
-            var requests = new Requests
+            return this.View(new Requests
                 {
                     Name = user.Name,
                     PictureUrl = user.Photo,
                     List = user.FriendRequests       
-                };
-
-            return this.View(requests);
+                });
         }
 
         /// <summary>
@@ -248,12 +245,11 @@ namespace STrackerServer.Controllers
                 }   
             }
 
-            var result = new UserSearchResult
-            {
-                Result = users,
-                SearchValue = name
-            };
-            return this.View(result);
+            return this.View(new UserSearchResult
+                {
+                    Result = users,
+                    SearchValue = name
+                });
         }
 
         /// <summary>
@@ -267,8 +263,7 @@ namespace STrackerServer.Controllers
         public ActionResult Friends()
         {
             var user = this.usersOperations.Read(User.Identity.Name);
-            var view = new FriendsView { Name = user.Name, List = user.Friends, PictureUrl = user.Photo };
-            return this.View(view);
+            return this.View(new FriendsView { Name = user.Name, List = user.Friends, PictureUrl = user.Photo });
         }
 
         /// <summary>
@@ -314,10 +309,7 @@ namespace STrackerServer.Controllers
             {
                 if (!suggestionsView.Suggestions.ContainsKey(suggestion.TvShowId))
                 {
-                    var suggestionView = new SuggestionView
-                        { TvShowName = this.tvshowsOperations.Read(suggestion.TvShowId).Name };
-
-                    suggestionsView.Suggestions.Add(suggestion.TvShowId, suggestionView);
+                    suggestionsView.Suggestions.Add(suggestion.TvShowId, new SuggestionView { TvShowName = this.tvshowsOperations.Read(suggestion.TvShowId).Name });
                 }
 
                 suggestionsView.Suggestions[suggestion.TvShowId].Friends.Add(this.usersOperations.Read(suggestion.UserId).GetSynopsis());
@@ -374,14 +366,13 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            var view = new PublicFriendsView
+            return this.View(new PublicFriendsView
                 {
                     Id = id,
                     Name = user.Name, 
                     List = user.Friends, 
                     PictureUrl = user.Photo
-                };
-            return this.View(view);
+                });
         }
 
         /// <summary>

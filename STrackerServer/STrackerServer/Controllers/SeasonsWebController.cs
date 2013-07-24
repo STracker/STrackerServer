@@ -73,16 +73,14 @@ namespace STrackerServer.Controllers
 
             var tvshow = this.tvshowsOps.Read(tvshowId);
 
-            var model = new SeasonView
+            return this.View(new SeasonView
             {
                 TvShowId = tvshowId,
                 EpisodeList = season.EpisodeSynopses.OrderBy(ep => ep.EpisodeNumber),
                 SeasonNumber = season.SeasonNumber,
                 Poster = tvshow.Poster,
                 TvShowName = tvshow.Name   
-            };
-
-            return this.View(model);
+            });
         }
     }
 }

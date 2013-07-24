@@ -73,14 +73,13 @@ namespace STrackerServer.Controllers
         /// <summary>
         /// Gets the callback uri.
         /// </summary>
-        /// Attention! This property must be called when exists one http request.
         private string CallbackUri
         {
             get { return "http://" + Request.Url.Host + Url.Action("Callback"); }
         }
         
         /*
-        // DEBUG
+        // DEBUG ONLY
         private string CallbackUri
         {
             get
@@ -115,13 +114,7 @@ namespace STrackerServer.Controllers
                     state
                 });
 
-            var jsonValue = new JavaScriptSerializer().Serialize(new CallbackCookie
-                                                                {
-                                                                    ReturnUrl = returnUrl,
-                                                                    State = state
-                                                                });
-
-            Response.Cookies.Add(new HttpCookie(StateCookie, jsonValue));
+            Response.Cookies.Add(new HttpCookie(StateCookie, new JavaScriptSerializer().Serialize(new CallbackCookie { ReturnUrl = returnUrl, State = state })));
             return new SeeOtherResult { Url = loginUrl.AbsoluteUri };
         }
 
@@ -174,16 +167,16 @@ namespace STrackerServer.Controllers
 
             try
             {
-                var fb = new FacebookClient(); 
+                var fb = new FacebookClient();
 
                 dynamic result = fb.Get(
                     "oauth/access_token",
                     new
-                    {
-                        client_id = FacebookClientId,
-                        client_secret = FacebookClientSecret,
-                        redirect_uri = this.CallbackUri,
-                        code
+                        {
+                            client_id = FacebookClientId,
+                    client_secret = FacebookClientSecret,
+                    redirect_uri = this.CallbackUri,
+                    code
                 });
 
                 fb.AccessToken = result.access_token;
@@ -208,18 +201,6 @@ namespace STrackerServer.Controllers
                 new SeeOtherResult { Url = Url.Action("Index", "HomeWeb") } : 
                 new SeeOtherResult { Url = callbackCookie.ReturnUrl };
         }
-
-        /// <summary>
-        /// The facebook channel.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="ActionResult"/>.
-        /// </returns>
-        [HttpGet]
-        public ActionResult FacebookChannel()
-        {
-            return this.View();
-        } 
 
         /// <summary>
         /// The callback cookie.
