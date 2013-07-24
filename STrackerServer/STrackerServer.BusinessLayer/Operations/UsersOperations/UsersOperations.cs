@@ -501,7 +501,7 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
 
             foreach (var subscription in user.SubscriptionList)
             {
-                var episodes = this.episodesOperations.GetNewestEpisodes(subscription.TvShow.Id, null);
+                var episodes = this.episodesOperations.GetNewestEpisodes(subscription.TvShow.Id, DateTime.Now.AddDays(7).ToString("yyyy-MM-dd"));
 
                 if (episodes != null)
                 {
