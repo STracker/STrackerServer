@@ -11,6 +11,7 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
 
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
@@ -136,15 +137,30 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
         public IEnumerable<NewestEpisodes> GetNewestEpisodes(string date = null)
         {
             DateTime temp;
-            if (!DateTime.TryParse(date, out temp))
+
+            if (date != null && !DateTime.TryParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out temp))
             {
-                date = null;
+                return null;
             }
 
             var newEpisodes = ((IEpisodesRepository)this.Repository).GetNewestEpisodes();
-            return date == null
-                       ? newEpisodes
-                       : newEpisodes.Select(episodes => new NewestEpisodes(episodes.Key) { Episodes = episodes.Episodes.Where(epi => DateTime.Parse(epi.Date) <= DateTime.Parse(date)).ToList() });
+
+            var retList = new List<NewestEpisodes>();
+
+            if (date != null)
+            {
+                foreach (var tvshow in newEpisodes)
+                {
+                    tvshow.Episodes = tvshow.Episodes.Where(epi => DateTime.Parse(epi.Date) <= DateTime.Parse(date)).ToList();
+
+                    if (tvshow.Episodes.Count > 0)
+                    {
+                        retList.Add(tvshow);
+                    }
+                }
+            }
+
+            return retList;
         }
     }
 }
