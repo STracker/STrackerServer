@@ -26,7 +26,7 @@ namespace STrackerServer.Controllers
     /// <summary>
     /// The episodes web controller.
     /// </summary>
-    public class EpisodesWebController : Controller
+    public class EpisodesWebController : ControllerExtensions
     {
         /// <summary>
         /// The episodes operations.
@@ -138,7 +138,17 @@ namespace STrackerServer.Controllers
                 userRating = episodeRating.Ratings.Find(rating => rating.UserId.Equals(user.Key));
             }
 
-            var episodeDate = DateTime.ParseExact(episode.Date, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            var asAired = false;
+
+            if (!episode.Date.Equals(NotAvailable))
+            {
+                DateTime date;
+
+                if (DateTime.TryParseExact(episode.Date, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
+                {
+                    asAired = !(DateTime.Compare(date, DateTime.Now) > 0);
+                }
+            }
 
             return this.View(new EpisodeView
             {
@@ -155,7 +165,7 @@ namespace STrackerServer.Controllers
                 Rating = (int)episodeRating.Average,
                 IsSubscribed = isSubscribed,
                 Watched = watched,
-                AsAired = !(DateTime.Compare(episodeDate, DateTime.Now) > 0),
+                AsAired = asAired,
                 RatingsCount = episodeRating.Ratings.Count,
                 UserRating = userRating != null ? userRating.UserRating : -1
             });

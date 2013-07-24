@@ -170,6 +170,7 @@
     <Compile Include="Controllers\Api\UserFriendsController.cs" />
     <Compile Include="Controllers\Api\UserSubscriptionsController.cs" />
     <Compile Include="Controllers\Api\EpisodesCommentsController.cs" />
+    <Compile Include="Controllers\ControllerExtensions.cs" />
     <Compile Include="Controllers\EpisodesWebController.cs" />
     <Compile Include="Controllers\GenreWebController.cs" />
     <Compile Include="Controllers\HomeWebController.cs" />
