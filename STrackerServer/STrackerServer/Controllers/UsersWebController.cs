@@ -123,7 +123,7 @@ namespace STrackerServer.Controllers
                 PictureUrl = user.Photo,
                 SubscriptionList = user.SubscriptionList,
                 IsAdmin = this.permissionManager.HasPermission(Permission.Admin, user.Permission),
-                NewEpisodes = this.usersOperations.GetNewestEpisodesModels(User.Identity.Name)
+                NewEpisodes = this.usersOperations.GetNewestEpisodes(User.Identity.Name)
             });
         }
 

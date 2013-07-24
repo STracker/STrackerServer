@@ -488,42 +488,7 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        public IEnumerable<Episode.EpisodeSynopsis> GetNewestEpisodes(string userId)
-        {
-            var user = this.Repository.Read(userId);
-
-            if (user == null)
-            {
-                return null;
-            }
-
-            var retList = new List<Episode.EpisodeSynopsis>();
-
-            foreach (var subscription in user.SubscriptionList)
-            {
-                var episodes = this.episodesOperations.GetNewestEpisodes(subscription.TvShow.Id, DateTime.Now.AddDays(7).ToString("yyyy-MM-dd"));
-
-                if (episodes != null)
-                {
-                    retList.AddRange(episodes);
-                }     
-            }
-
-            return retList;
-        }
-
-        /// <summary>
-        /// The get newest episodes.
-        /// </summary>
-        /// <param name="userId">
-        /// The user id.
-        /// </param>
-        /// <returns>
-        /// The <see>
-        ///       <cref>IEnumerable</cref>
-        ///     </see> .
-        /// </returns>
-        public IEnumerable<NewestEpisodes> GetNewestEpisodesModels(string userId)
+        public IEnumerable<NewestEpisodes> GetNewestEpisodes(string userId)
         {
             var user = this.Repository.Read(userId);
 
@@ -542,10 +507,10 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
                 if (episodes != null && episodesList.Count != 0)
                 {
                     retList.Add(new NewestEpisodes(subscription.TvShow.Id)
-                        {
-                            TvShow = subscription.TvShow,
-                            Episodes = episodesList
-                        });
+                    {
+                        TvShow = subscription.TvShow,
+                        Episodes = episodesList
+                    });
                 }
             }
 

@@ -239,19 +239,6 @@ namespace STrackerServer.BusinessLayer.Core.UsersOperations
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        IEnumerable<Episode.EpisodeSynopsis> GetNewestEpisodes(string userId);
-
-        /// <summary>
-        /// The get newest episodes.
-        /// </summary>
-        /// <param name="userId">
-        /// The user id.
-        /// </param>
-        /// <returns>
-        /// The <see>
-        ///       <cref>IEnumerable</cref>
-        ///     </see> .
-        /// </returns>
-        IEnumerable<NewestEpisodes> GetNewestEpisodesModels(string userId);
+        IEnumerable<NewestEpisodes> GetNewestEpisodes(string userId);
     }
 }
