@@ -114,7 +114,7 @@ namespace STrackerServer.Controllers
 
             var model = new TvShowView(tvshow)
             {
-                Rating = ratings.Average,
+                Rating = (int)ratings.Average,
                 IsSubscribed = isSubscribed,
                 Poster = tvshow.Poster,
                 UserRating = userRating != null ? userRating.UserRating : -1,
@@ -418,7 +418,7 @@ namespace STrackerServer.Controllers
                             TvShowName = tvshow.Name,
                             Poster = tvshow.Poster,
                             Value = userRatingValue != -1 ? userRatingValue : 1,
-                            Rating = ratings.Average,
+                            Rating = (int)ratings.Average,
                             RatingsCount = ratings.Ratings.Count
                         });
         }

@@ -42,7 +42,7 @@ namespace STrackerServer.Models.TvShow
         /// <summary>
         /// Gets or sets the rating.
         /// </summary>
-        public object Rating { get; set; }
+        public int Rating { get; set; }
 
         /// <summary>
         /// Gets or sets the ratings count.

@@ -152,7 +152,7 @@ namespace STrackerServer.Controllers
                 Poster = episode.Poster,
                 TvShowName = tvshow.Name,
                 Date = episode.Date,
-                Rating = episodeRating.Average,
+                Rating = (int)episodeRating.Average,
                 IsSubscribed = isSubscribed,
                 Watched = watched,
                 AsAired = !(DateTime.Compare(episodeDate, DateTime.Now) > 0),
