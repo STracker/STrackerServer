@@ -141,10 +141,9 @@ namespace STrackerServer.App_Start
                 new { controller = "EpisodesWeb", action = "RemoveComment" }); 
 
             // Genre Routes
-            routes.MapRoute(
-                "GenreWeb_Show", 
-                "Genres/{name}",
-                new { controller = "GenreWeb", action = "Show" });
+            routes.MapRoute("GenreWeb_Show", "Genres/{name}", new { controller = "GenreWeb", action = "Show" });
+
+            routes.MapRoute("GenreWeb_Get_TvShows", "Genres", new { controller = "GenreWeb", action = "GetTvShows" });
         }
     }
 }

@@ -10,6 +10,7 @@
 namespace STrackerServer.Controllers
 {
     using System.Net;
+    using System.Web.Helpers;
     using System.Web.Mvc;
 
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
@@ -57,6 +58,30 @@ namespace STrackerServer.Controllers
             }
 
             return this.View(new GenreView { GenreName = genreModel.Key, TvShows = genreModel.TvshowsSynopses });
+        }
+
+        /// <summary>
+        /// The get television shows.
+        /// </summary>
+        /// <param name="genres">
+        /// The genres.
+        /// </param>
+        /// <param name="max">
+        /// The max.
+        /// </param>
+        /// <returns>
+        /// The <see cref="JsonResult"/>.
+        /// </returns>
+        [HttpGet]
+        public JsonResult GetTvShows(string[] genres, int max)
+        {
+            if (genres == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return this.Json(null, JsonRequestBehavior.AllowGet);
+            }
+
+            return this.Json(this.genreOperations.GetTvShows(genres, max), JsonRequestBehavior.AllowGet);
         }
     }
 }

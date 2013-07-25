@@ -60,6 +60,8 @@ namespace STrackerServer.Controllers
         /// </summary>
         private readonly INewEpisodesOperations newEpisodesOperations;
 
+        private readonly IGenresOperations genresOperations;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TvShowsWebController"/> class.
         /// </summary>
@@ -81,7 +83,7 @@ namespace STrackerServer.Controllers
         /// <param name="newEpisodesOperations">
         /// The new Episodes Operations.
         /// </param>
-        public TvShowsWebController(ITvShowsOperations tvshowOperations, IUsersOperations usersOperations, ITvShowsCommentsOperations commentsOperations, ITvShowsRatingsOperations ratingsOperations, IPermissionManager<Permission, int> permissionManager, INewEpisodesOperations newEpisodesOperations)
+        public TvShowsWebController(ITvShowsOperations tvshowOperations, IUsersOperations usersOperations, ITvShowsCommentsOperations commentsOperations, ITvShowsRatingsOperations ratingsOperations, IPermissionManager<Permission, int> permissionManager, INewEpisodesOperations newEpisodesOperations, IGenresOperations genresOperations)
         {
             this.tvshowOperations = tvshowOperations;
             this.usersOperations = usersOperations;
@@ -89,6 +91,7 @@ namespace STrackerServer.Controllers
             this.ratingsOperations = ratingsOperations;
             this.permissionManager = permissionManager;
             this.newEpisodesOperations = newEpisodesOperations;
+            this.genresOperations = genresOperations;
         }
 
         /// <summary>

@@ -139,14 +139,29 @@
             <div class="box">
                 <h2 style="text-align: center">Next Episodes</h2>
                 <br/>
-                <div class="accordion" id="accordion">
-                    @foreach(var episode in Model.NewEpisodes)
-                    {
-                        <dl>              
-                            <dt>@episode.Date</dt>
-                            <dd><a href="@episode.Uri">@episode.Name</a></dd>           
-                        </dl>       
-                    }
+                @if(Model.NewEpisodes.Count() != 0)
+                {
+                    <div class="accordion" id="accordion">
+                        @foreach(var episode in Model.NewEpisodes)
+                        {
+                            <dl>              
+                                <dt>@episode.Date</dt>
+                                <dd><a href="@episode.Uri">@episode.Name</a></dd>           
+                            </dl>       
+                        }
+                    </div>
+                }else
+                {
+                    <div class="center">
+                        None
+                    </div>
+                }
+            </div>
+            <div id="othertvshows" class="box hide">
+                <h4 style="text-align: center">Other TV Shows</h4>
+                <br/>
+                <div class="container-fluid">
+                    
                 </div>
             </div>
         </div>

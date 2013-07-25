@@ -27,5 +27,21 @@ namespace STrackerServer.BusinessLayer.Core.TvShowsOperations
         ///     </see> .
         /// </returns>
         List<Genre.GenreSynopsis> GetAll();
+
+        /// <summary>
+        /// The get television shows.
+        /// </summary>
+        /// <param name="genres">
+        /// The genres.
+        /// </param>
+        /// <param name="maxtvShows">
+        /// The max television shows.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>IEnumerable</cref>
+        ///     </see> .
+        /// </returns>
+        IEnumerable<TvShow.TvShowSynopsis> GetTvShows(ICollection<string> genres, int maxtvShows);
     }
 }
