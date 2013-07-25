@@ -38,9 +38,9 @@ namespace STrackerServer.Controllers
         private readonly ITvShowsOperations tvshowsOperations;
 
         /// <summary>
-        /// The episodes operations.
+        /// The new episodes operations.
         /// </summary>
-        private readonly IEpisodesOperations episodesOperations;
+        private readonly INewEpisodesOperations newEpisodesOperations;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HomeWebController"/> class.
@@ -51,14 +51,14 @@ namespace STrackerServer.Controllers
         /// <param name="tvshowsOperations">
         /// The television shows operations
         ///  </param>
-        /// <param name="episodesOperations">
-        /// The episodes Operations.
+        /// <param name="newEpisodesOperations">
+        /// The new Episodes Operations.
         /// </param>
-        public HomeWebController(IGenresOperations genresOperations, ITvShowsOperations tvshowsOperations, IEpisodesOperations episodesOperations)
+        public HomeWebController(IGenresOperations genresOperations, ITvShowsOperations tvshowsOperations, INewEpisodesOperations newEpisodesOperations)
         {
             this.genresOperations = genresOperations;
             this.tvshowsOperations = tvshowsOperations;
-            this.episodesOperations = episodesOperations;
+            this.newEpisodesOperations = newEpisodesOperations;
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace STrackerServer.Controllers
                 {
                     Genres = this.genresOperations.GetAll().OrderBy(synopsis => synopsis.Id),
                     TopRated = this.tvshowsOperations.GetTopRated(MaxTopRated),
-                    NewEpisodes = this.episodesOperations.GetNewestEpisodes(DateTime.Now.AddDays(7).ToString("yyyy-MM-dd"))
+                    NewEpisodes = this.newEpisodesOperations.GetNewEpisodes(DateTime.Now.AddDays(7).ToString("yyyy-MM-dd"))
                 };
 
             return this.View(view);

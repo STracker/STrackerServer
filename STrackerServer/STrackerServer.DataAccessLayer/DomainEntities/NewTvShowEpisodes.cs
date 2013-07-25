@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="NewestEpisodes.cs" company="STracker">
+// <copyright file="NewTvShowEpisodes.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
@@ -16,15 +16,15 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
     /// <summary>
     /// The weekly episodes.
     /// </summary>
-    public class NewestEpisodes : IEntity<string>
+    public class NewTvShowEpisodes : IEntity<string>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="NewestEpisodes"/> class.
+        /// Initializes a new instance of the <see cref="NewTvShowEpisodes"/> class.
         /// </summary>
         /// <param name="key">
         /// The key.
         /// </param>
-        public NewestEpisodes(string key)
+        public NewTvShowEpisodes(string key)
         {
             this.Key = key;
             this.Episodes = new List<Episode.EpisodeSynopsis>();

@@ -227,18 +227,5 @@ namespace STrackerServer.BusinessLayer.Core.UsersOperations
         /// The <see cref="bool"/>.
         /// </returns>
         bool RemoveWatchedEpisode(string userId, string tvshowId, int seasonNumber, int episodeNumber);
-
-        /// <summary>
-        /// The get newest episodes.
-        /// </summary>
-        /// <param name="userId">
-        /// The user id.
-        /// </param>
-        /// <returns>
-        /// The <see>
-        ///       <cref>IEnumerable</cref>
-        ///     </see> .
-        /// </returns>
-        IEnumerable<NewestEpisodes> GetNewestEpisodes(string userId);
     }
 }

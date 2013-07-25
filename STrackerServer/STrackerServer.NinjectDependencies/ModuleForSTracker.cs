@@ -77,6 +77,9 @@ namespace STrackerServer.NinjectDependencies
             this.Bind<IEpisodeCommentsRepository>().To<EpisodeCommentsRepository>();
             this.Bind<IEpisodeRatingsRepository>().To<EpisodeRatingsRepository>();
 
+            // New Episodes dependencies
+            this.Bind<INewEpisodesOperations>().To<NewEpisodesOperations>();
+
             // Users stuff dependencies...
             this.Bind<IUsersOperations>().To<UsersOperations>();
             this.Bind<IUsersRepository>().To<UsersRepository>();

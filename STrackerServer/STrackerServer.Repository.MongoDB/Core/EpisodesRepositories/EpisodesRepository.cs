@@ -63,12 +63,12 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         /// </summary>
         static EpisodesRepository()
         {
-            if (BsonClassMap.IsClassMapRegistered(typeof(NewestEpisodes)))
+            if (BsonClassMap.IsClassMapRegistered(typeof(NewTvShowEpisodes)))
             {
                 return;
             }
 
-            BsonClassMap.RegisterClassMap<NewestEpisodes>(
+            BsonClassMap.RegisterClassMap<NewTvShowEpisodes>(
                 cm =>
                 {
                     cm.AutoMap();
@@ -162,7 +162,7 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         {
             try
             {
-                return this.newestCollection.FindOneByIdAs<NewestEpisodes>(tvshowId).Episodes;
+                return this.newestCollection.FindOneByIdAs<NewTvShowEpisodes>(tvshowId).Episodes;
             }
             catch (Exception)
             {
@@ -178,7 +178,7 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         {
             try
             {
-                var all = this.newestCollection.FindAllAs<NewestEpisodes>().ToList();
+                var all = this.newestCollection.FindAllAs<NewTvShowEpisodes>().ToList();
                 foreach (var episodes in all)
                 {
                     var count = episodes.Episodes.Count;
@@ -186,8 +186,8 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
                     var oldOnes = episodes.Episodes.Where(e => DateTime.Parse(e.Date) < DateTime.Parse(DateTime.UtcNow.ToString("yyyy-MM-dd")));
                     foreach (var oldOne in oldOnes)
                     {
-                        var query = Query<NewestEpisodes>.EQ(we => we.Key, episodes.Key);
-                        var update = Update<NewestEpisodes>.Pull(we => we.Episodes, oldOne);
+                        var query = Query<NewTvShowEpisodes>.EQ(we => we.Key, episodes.Key);
+                        var update = Update<NewTvShowEpisodes>.Pull(we => we.Episodes, oldOne);
                         this.ModifyList(this.newestCollection, query, update);
 
                         count--;
@@ -199,7 +199,7 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
                     }
 
                     // If don't exists any new episode to show, remove the document.
-                    var query2 = Query<NewestEpisodes>.EQ(we => we.Key, episodes.Key);
+                    var query2 = Query<NewTvShowEpisodes>.EQ(we => we.Key, episodes.Key);
                     this.newestCollection.FindAndRemove(query2, SortBy.Null);
                 }
             }
@@ -217,9 +217,9 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        public IEnumerable<NewestEpisodes> GetNewestEpisodes()
+        public IEnumerable<NewTvShowEpisodes> GetNewestEpisodes()
         {
-            return this.newestCollection.FindAllAs<NewestEpisodes>();
+            return this.newestCollection.FindAllAs<NewTvShowEpisodes>();
         }
 
         /// <summary>
@@ -319,10 +319,10 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
                     return;
                 }
 
-                var newestDoc = this.newestCollection.FindOneByIdAs<NewestEpisodes>(episode.TvShowId);
+                var newestDoc = this.newestCollection.FindOneByIdAs<NewTvShowEpisodes>(episode.TvShowId);
                 if (newestDoc == null)
                 {
-                    newestDoc = new NewestEpisodes(episode.TvShowId)
+                    newestDoc = new NewTvShowEpisodes(episode.TvShowId)
                         {
                             TvShow = this.tvshowsRepository.Read(episode.TvShowId).GetSynopsis() 
                         };
@@ -336,8 +336,8 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
                 return;
             }
 
-            var query = Query<NewestEpisodes>.EQ(we => we.Key, episode.TvShowId);
-            var update = Update<NewestEpisodes>.Push(we => we.Episodes, episode.GetSynopsis());
+            var query = Query<NewTvShowEpisodes>.EQ(we => we.Key, episode.TvShowId);
+            var update = Update<NewTvShowEpisodes>.Push(we => we.Episodes, episode.GetSynopsis());
             this.ModifyList(this.newestCollection, query, update);
         }
     }

@@ -9,12 +9,14 @@
 
 namespace STrackerServer.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
     using System.Web.Mvc;
 
     using STrackerServer.Action_Results;
+    using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.BusinessLayer.Permissions;
@@ -54,6 +56,11 @@ namespace STrackerServer.Controllers
         private readonly IPermissionManager<Permission, int> permissionManager;
 
         /// <summary>
+        /// The new episodes operations.
+        /// </summary>
+        private readonly INewEpisodesOperations newEpisodesOperations;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TvShowsWebController"/> class.
         /// </summary>
         /// <param name="tvshowOperations">
@@ -71,13 +78,17 @@ namespace STrackerServer.Controllers
         /// <param name="permissionManager">
         /// The permission Manager.
         /// </param>
-        public TvShowsWebController(ITvShowsOperations tvshowOperations, IUsersOperations usersOperations, ITvShowsCommentsOperations commentsOperations, ITvShowsRatingsOperations ratingsOperations, IPermissionManager<Permission, int> permissionManager)
+        /// <param name="newEpisodesOperations">
+        /// The new Episodes Operations.
+        /// </param>
+        public TvShowsWebController(ITvShowsOperations tvshowOperations, IUsersOperations usersOperations, ITvShowsCommentsOperations commentsOperations, ITvShowsRatingsOperations ratingsOperations, IPermissionManager<Permission, int> permissionManager, INewEpisodesOperations newEpisodesOperations)
         {
             this.tvshowOperations = tvshowOperations;
             this.usersOperations = usersOperations;
             this.commentsOperations = commentsOperations;
             this.ratingsOperations = ratingsOperations;
             this.permissionManager = permissionManager;
+            this.newEpisodesOperations = newEpisodesOperations;
         }
 
         /// <summary>
@@ -118,7 +129,8 @@ namespace STrackerServer.Controllers
                 IsSubscribed = isSubscribed,
                 Poster = tvshow.Poster,
                 UserRating = userRating != null ? userRating.UserRating : -1,
-                RatingsCount = ratings.Ratings.Count
+                RatingsCount = ratings.Ratings.Count,
+                NewEpisodes = this.newEpisodesOperations.GetNewEpisodes(tvshow.TvShowId, DateTime.Now.AddDays(7).ToString("yyyy-MM-dd"))
             };
 
             return this.View(model);

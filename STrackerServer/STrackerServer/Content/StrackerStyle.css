@@ -89,14 +89,3 @@
 .stracker-breadcrumb > .active {
   color: #999999;
 }
-
-.left {
-    text-align: left;
-}
-.right {
-    text-align: right;
-}
-.left, .right {
-    display: inline-block;
-    width: 50%;
-}

@@ -1,74 +1,63 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IEpisodesRepository.cs" company="STracker">
+// <copyright file="INewEpisodesOperations.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  Interface that defines the contract of episodes repositories.
+//   Defines the INewEpisodesOperations type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.DataAccessLayer.Core.EpisodesRepositories
+namespace STrackerServer.BusinessLayer.Core.EpisodesOperations
 {
-    using System;
     using System.Collections.Generic;
 
     using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
-    /// Episodes repository interface.
+    /// The interface of new episodes operations.
     /// </summary>
-    public interface IEpisodesRepository : IRepository<Episode, Tuple<string, int, int>>
+    public interface INewEpisodesOperations
     {
         /// <summary>
-        /// Create several episodes.
-        /// </summary>
-        /// <param name="episodes">
-        /// The episodes.
-        /// </param>
-        void CreateAll(IEnumerable<Episode> episodes);
-
-        /// <summary>
-        /// The get all from one season.
-        /// </summary>
-        /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <param name="seasonNumber">
-        /// The season number.
-        /// </param>
-        /// <returns>
-        /// The <see>
-        ///       <cref>IEnumerable</cref>
-        ///     </see> .
-        /// </returns>
-        IEnumerable<Episode.EpisodeSynopsis> GetAllFromOneSeason(string tvshowId, int seasonNumber);
-
-        /// <summary>
         /// The get newest episodes.
         /// </summary>
         /// <param name="tvshowId">
         /// The television show id.
         /// </param>
+        /// <param name="date">
+        /// The date.
+        /// </param>
         /// <returns>
         /// The <see>
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        IEnumerable<Episode.EpisodeSynopsis> GetNewestEpisodes(string tvshowId); 
-
-        /// <summary>
-        /// The Delete old episodes.
-        /// </summary>
-        void DeleteOldEpisodes();
+        IEnumerable<Episode.EpisodeSynopsis> GetNewEpisodes(string tvshowId, string date);
 
         /// <summary>
         /// The get newest episodes.
         /// </summary>
+        /// <param name="date">
+        /// The date.
+        /// </param>
         /// <returns>
         /// The <see>
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        IEnumerable<NewTvShowEpisodes> GetNewestEpisodes();
+        IEnumerable<NewTvShowEpisodes> GetNewEpisodes(string date = null);
+
+        /// <summary>
+        /// The get newest episodes.
+        /// </summary>
+        /// <param name="userId">
+        /// The user id.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>IEnumerable</cref>
+        ///     </see> .
+        /// </returns>
+        IEnumerable<NewTvShowEpisodes> GetUserNewEpisodes(string userId);
     }
 }

@@ -15,6 +15,7 @@ namespace STrackerServer.Controllers
     using System.Web.Mvc;
 
     using STrackerServer.Action_Results;
+    using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.BusinessLayer.Permissions;
@@ -43,6 +44,11 @@ namespace STrackerServer.Controllers
         private readonly IPermissionManager<Permission, int> permissionManager;
 
         /// <summary>
+        /// The new episodes operations.
+        /// </summary>
+        private readonly INewEpisodesOperations newEpisodesOperations;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="UsersWebController"/> class.
         /// </summary>
         /// <param name="usersOperations">
@@ -54,11 +60,15 @@ namespace STrackerServer.Controllers
         /// <param name="permissionManager">
         /// The permission Manager.
         /// </param>
-        public UsersWebController(IUsersOperations usersOperations, ITvShowsOperations tvshowsOperations, IPermissionManager<Permission, int> permissionManager)
+        /// <param name="newEpisodesOperations">
+        /// The new Episodes Operations.
+        /// </param>
+        public UsersWebController(IUsersOperations usersOperations, ITvShowsOperations tvshowsOperations, IPermissionManager<Permission, int> permissionManager, INewEpisodesOperations newEpisodesOperations)
         {
             this.usersOperations = usersOperations;
             this.tvshowsOperations = tvshowsOperations;
             this.permissionManager = permissionManager;
+            this.newEpisodesOperations = newEpisodesOperations;
         }
 
         /// <summary>
@@ -122,7 +132,7 @@ namespace STrackerServer.Controllers
                 PictureUrl = user.Photo,
                 SubscriptionList = user.SubscriptionList,
                 IsAdmin = this.permissionManager.HasPermission(Permission.Admin, user.Permission),
-                NewEpisodes = this.usersOperations.GetNewestEpisodes(User.Identity.Name)
+                NewEpisodes = this.newEpisodesOperations.GetUserNewEpisodes(User.Identity.Name)
             });
         }
 

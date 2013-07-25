@@ -31,6 +31,6 @@ namespace STrackerServer.Models.Home
         /// <summary>
         /// Gets or sets the new episodes.
         /// </summary>
-        public IEnumerable<NewestEpisodes> NewEpisodes { get; set; }
+        public IEnumerable<NewTvShowEpisodes> NewEpisodes { get; set; }
     }
 }

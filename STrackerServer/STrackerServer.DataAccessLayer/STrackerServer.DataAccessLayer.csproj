@@ -74,7 +74,7 @@
     <Compile Include="DomainEntities\Comments\CommentsTvShow.cs" />
     <Compile Include="DomainEntities\Ratings\RatingsTvShow.cs" />
     <Compile Include="DomainEntities\User.cs" />
-    <Compile Include="DomainEntities\NewestEpisodes.cs" />
+    <Compile Include="DomainEntities\NewTvShowEpisodes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

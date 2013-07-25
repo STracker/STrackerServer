@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\AdminOperations\IAdminOperations.cs" />
+    <Compile Include="Core\EpisodesOperations\INewEpisodesOperations.cs" />
     <Compile Include="Core\ICommentsOperations.cs" />
     <Compile Include="Core\ICrudOperations.cs" />
     <Compile Include="Core\EpisodesOperations\IEpisodesCommentsOperations.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Operations\EpisodesOperations\EpisodesCommentsOperations.cs" />
     <Compile Include="Operations\EpisodesOperations\EpisodesOperations.cs" />
     <Compile Include="Operations\EpisodesOperations\EpisodesRatingsOperations.cs" />
+    <Compile Include="Operations\EpisodesOperations\NewEpisodesOperations.cs" />
     <Compile Include="Operations\SeasonsOperations\SeasonsOperations.cs" />
     <Compile Include="Operations\TvShowsOperations\GenresOperations.cs" />
     <Compile Include="Operations\TvShowsOperations\TvShowsCommentsOperations.cs" />

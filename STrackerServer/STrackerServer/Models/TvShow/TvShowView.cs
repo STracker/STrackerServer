@@ -113,5 +113,10 @@ namespace STrackerServer.Models.TvShow
         /// Gets or sets the ratings count.
         /// </summary>
         public int RatingsCount { get; set; }
+
+        /// <summary>
+        /// Gets or sets the new episodes.
+        /// </summary>
+        public IEnumerable<Episode.EpisodeSynopsis> NewEpisodes { get; set; }
     }
 }
