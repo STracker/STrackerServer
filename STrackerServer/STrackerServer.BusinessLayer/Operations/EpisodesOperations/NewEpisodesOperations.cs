@@ -88,9 +88,14 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
                 return null;
             }
 
-            var episodes = this.episodesRepository.GetNewestEpisodes(tvshowId);
+            var newTvShowEpisodes = this.episodesRepository.GetNewestEpisodes(tvshowId);
 
-            return date == null ? episodes : episodes.Where(epi => DateTime.Parse(epi.Date) <= DateTime.Parse(date));
+            if (newTvShowEpisodes == null)
+            {
+                return null;
+            }
+
+            return date == null ? newTvShowEpisodes.Episodes : newTvShowEpisodes.Episodes.Where(epi => DateTime.Parse(epi.Date) <= DateTime.Parse(date));
         }
 
         /// <summary>
@@ -158,9 +163,15 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
             foreach (var subscription in user.SubscriptionList)
             {
                 var episodes = this.GetNewEpisodes(subscription.TvShow.Id, DateTime.Now.AddDays(7).ToString("yyyy-MM-dd"));
+                
+                if (episodes == null)
+                {
+                   continue; 
+                }
+                
                 var episodesList = episodes.ToList();
 
-                if (episodes != null && episodesList.Count != 0)
+                if (episodesList.Count != 0)
                 {
                     retList.Add(new NewTvShowEpisodes(subscription.TvShow.Id)
                     {

@@ -158,17 +158,9 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        public IEnumerable<Episode.EpisodeSynopsis> GetNewestEpisodes(string tvshowId)
+        public NewTvShowEpisodes GetNewestEpisodes(string tvshowId)
         {
-            try
-            {
-                return this.newestCollection.FindOneByIdAs<NewTvShowEpisodes>(tvshowId).Episodes;
-            }
-            catch (Exception)
-            {
-                // TODO, add to log mechanism.
-                return null;
-            }
+            return this.newestCollection.FindOneByIdAs<NewTvShowEpisodes>(tvshowId);
         }
 
         /// <summary>

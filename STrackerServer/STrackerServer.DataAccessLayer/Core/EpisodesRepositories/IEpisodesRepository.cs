@@ -47,14 +47,12 @@ namespace STrackerServer.DataAccessLayer.Core.EpisodesRepositories
         /// The get newest episodes.
         /// </summary>
         /// <param name="tvshowId">
-        /// The television show id.
+        /// The tvshow id.
         /// </param>
         /// <returns>
-        /// The <see>
-        ///       <cref>IEnumerable</cref>
-        ///     </see> .
+        /// The <see cref="NewTvShowEpisodes"/>.
         /// </returns>
-        IEnumerable<Episode.EpisodeSynopsis> GetNewestEpisodes(string tvshowId); 
+        NewTvShowEpisodes GetNewestEpisodes(string tvshowId); 
 
         /// <summary>
         /// The Delete old episodes.

@@ -115,14 +115,7 @@
                     {
                         <tr>
                             <td>
-                                @if(actor.Photo != null)
-                                {
-                                    <img class="icon-actor" src="@actor.Photo" alt="No Artwork"/>
-                                }
-                                else
-                                {
-                                    <img class="icon-actor" src="https://dl.dropboxusercontent.com/u/2696848/default-profile-pic.jpg" alt="No Artwork"/>
-                                }
+                                <img class="icon-actor" src="@actor.Photo" alt="No Artwork"/>
                             </td>
                             <td>
                                 @actor.Name
@@ -136,27 +129,23 @@
             </div>     
         </div>
         <div class="span3">
-            <div class="box">
-                <h2 style="text-align: center">Next Episodes</h2>
-                <br/>
-                @if(Model.NewEpisodes.Count() != 0)
-                {
-                    <div class="accordion" id="accordion">
-                        @foreach(var episode in Model.NewEpisodes)
-                        {
-                            <dl>              
-                                <dt>@episode.Date</dt>
-                                <dd><a href="@Url.Action("Show","EpisodesWeb", new { tvshowId = episode.TvShowId, seasonNumber = episode.SeasonNumber, episodeNumber = episode.EpisodeNumber })">@episode.Name</a></dd>           
-                            </dl>       
-                        }
-                    </div>
-                }else
-                {
-                    <div class="center">
-                        None
-                    </div>
-                }
-            </div>
+            
+            @if(Model.NewEpisodes != null && Model.NewEpisodes.Count() != 0)
+            {
+                <div class="box">
+                    <h2 style="text-align: center">Next Episodes</h2>
+                    <br/>       
+                    
+                    @foreach(var episode in Model.NewEpisodes)
+                    {
+                        <dl>              
+                            <dt>@episode.Date</dt>
+                            <dd><a href="@Url.Action("Show","EpisodesWeb", new { tvshowId = episode.TvShowId, seasonNumber = episode.SeasonNumber, episodeNumber = episode.EpisodeNumber })">@episode.Name</a></dd>           
+                        </dl>       
+                    }
+                </div>
+            }
+
             <div id="othertvshows" class="box hide">
                 <h4 style="text-align: center">Other TV Shows</h4>
                 <br/>
