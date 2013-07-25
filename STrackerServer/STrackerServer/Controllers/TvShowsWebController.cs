@@ -60,6 +60,9 @@ namespace STrackerServer.Controllers
         /// </summary>
         private readonly INewEpisodesOperations newEpisodesOperations;
 
+        /// <summary>
+        /// The genres operations.
+        /// </summary>
         private readonly IGenresOperations genresOperations;
 
         /// <summary>
@@ -82,6 +85,9 @@ namespace STrackerServer.Controllers
         /// </param>
         /// <param name="newEpisodesOperations">
         /// The new Episodes Operations.
+        /// </param>
+        /// <param name="genresOperations">
+        /// The genres Operations.
         /// </param>
         public TvShowsWebController(ITvShowsOperations tvshowOperations, IUsersOperations usersOperations, ITvShowsCommentsOperations commentsOperations, ITvShowsRatingsOperations ratingsOperations, IPermissionManager<Permission, int> permissionManager, INewEpisodesOperations newEpisodesOperations, IGenresOperations genresOperations)
         {
@@ -133,7 +139,7 @@ namespace STrackerServer.Controllers
                 Poster = tvshow.Poster,
                 UserRating = userRating != null ? userRating.UserRating : -1,
                 RatingsCount = ratings.Ratings.Count,
-                NewEpisodes = this.newEpisodesOperations.GetNewEpisodes(tvshow.TvShowId, DateTime.Now.AddDays(7).ToString("yyyy-MM-dd"))
+                NewEpisodes = this.newEpisodesOperations.GetNewEpisodes(tvshow.TvShowId, null)
             };
 
             return this.View(model);

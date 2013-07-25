@@ -20,20 +20,25 @@
             </div>
         </div>
     </div>
-    <div class="row-fluid">
-        @foreach(var user in Model.Result)
+    @{
+        for (var i = 0; i < Math.Ceiling(Model.Result.Count / (double)6); i++)
         {
-            <div class="span2" style="text-align: center">
-                <div class="box-whiter">
-                    <div class="row-fluid">
-                        <img src="@user.Photo" alt="No Image"/>
+            <div class="row-fluid">
+                @for (var index = 6*i; (index < (6 * (i+1))) && index < Model.Result.Count; index++)
+                {
+                    <div class="span2" style="text-align: center">
+                        <div class="box-whiter">
+                            <div class="row-fluid">
+                                <img src="@Model.Result[index].Photo" alt="No Image"/>
+                            </div>
+                            <br/>
+                            <div class="row-fluid">
+                                 <a class="btn btn-block btn-primary" href="@Url.Action("Show","UsersWeb", new { id = Model.Result[index].Id })">@Model.Result[index].Name</a>
+                            </div>
+                        </div>
                     </div>
-                    <br/>
-                    <div class="row-fluid">
-                         <a class="btn btn-block btn-primary" href="@Url.Action("Show","UsersWeb", new { id = user.Id })">@user.Name</a>
-                    </div>
-                </div>
+                }     
             </div>
         }
-    </div>
+    }
 </div>
