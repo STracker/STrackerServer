@@ -157,12 +157,24 @@ namespace STrackerServer.Controllers
         [HttpGet]
         public ActionResult GetByName(string name)
         {
-            if (name == null || string.Empty.Equals(name.Trim()))
+            string nameNormalized;
+
+            if (name == null || string.Empty.Equals(nameNormalized = name.Trim().ToLower()))
             {
+                // TODO Retornar outra vista 
                 return this.View(new TvShowSearchResult { Result = new List<TvShow.TvShowSynopsis>(), SearchValue = string.Empty });
             }
 
             var tvshows = this.tvshowOperations.ReadByName(name);
+
+            foreach (var tvshow in tvshows)
+            {
+                if (tvshow.Name.Equals(nameNormalized))
+                {
+                    return new SeeOtherResult { Url = Url.Action("Show", "TvShowsWeb", new { tvshowId = tvshow.Id }) };
+                }
+            }
+
             var result = new TvShowSearchResult
                 {
                     Result = tvshows,
