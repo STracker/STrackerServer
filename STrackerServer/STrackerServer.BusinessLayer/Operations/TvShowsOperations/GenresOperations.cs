@@ -85,7 +85,7 @@ namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
 
             foreach (var genre in genres.Select(this.Read).Where(genre => genre != null))
             {
-                foreach (var tvshow in genre.TvshowsSynopses)
+                foreach (var tvshow in genre.TvshowsSynopsis)
                 {
                     TvShowGenreResult result;
 

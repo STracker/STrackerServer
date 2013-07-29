@@ -59,7 +59,7 @@ namespace STrackerServer.Tests.Operations.Tests
 
             Assert.AreEqual(season.SeasonNumber, 1);
             Assert.AreEqual(season.TvShowId, "tt0098904");
-            Assert.AreEqual(season.EpisodeSynopses.Count, 5);
+            Assert.AreEqual(season.EpisodeSynopsis.Count, 5);
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace STrackerServer.Tests.Operations.Tests
 
             tvshow = this.tvshowsRepo.Read("tt12345");
 
-            Assert.AreEqual(tvshow.SeasonSynopses.Count, 0);
+            Assert.AreEqual(tvshow.SeasonSynopsis.Count, 0);
 
             this.tvshowsRepo.Delete("tt12345");
             tvshow = this.tvshowsRepo.Read("tt12345");

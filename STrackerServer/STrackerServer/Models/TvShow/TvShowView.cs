@@ -36,7 +36,7 @@ namespace STrackerServer.Models.TvShow
             this.Actors = tvshow.Actors;
             this.Runtime = tvshow.Runtime;
             this.AirDay = tvshow.AirDay;
-            this.SeasonSynopses = tvshow.SeasonSynopses;
+            this.SeasonSynopses = tvshow.SeasonSynopsis;
         }
 
         /// <summary>

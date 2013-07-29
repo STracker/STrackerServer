@@ -112,12 +112,12 @@ namespace STrackerServer.Tests.Operations.Tests
 
             season = this.seasonsRepo.Read(new Tuple<string, int>("tt12345", 1));
 
-            Assert.AreEqual(season.EpisodeSynopses.Count, 0);
+            Assert.AreEqual(season.EpisodeSynopsis.Count, 0);
 
             this.seasonsRepo.Delete(new Tuple<string, int>("tt12345", 1));
             tvshow = this.tvshowsRepo.Read("tt12345");
 
-            Assert.AreEqual(tvshow.SeasonSynopses.Count, 0);
+            Assert.AreEqual(tvshow.SeasonSynopsis.Count, 0);
 
             this.tvshowsRepo.Delete("tt12345");
             tvshow = this.tvshowsRepo.Read("tt12345");

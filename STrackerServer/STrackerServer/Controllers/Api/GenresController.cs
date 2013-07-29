@@ -67,7 +67,7 @@ namespace STrackerServer.Controllers.Api
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            return this.BaseGet(genre.TvshowsSynopses);
+            return this.BaseGet(genre.TvshowsSynopsis);
         }
     }
 }

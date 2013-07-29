@@ -144,7 +144,7 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         /// </returns>
         public IEnumerable<Episode.EpisodeSynopsis> GetAllFromOneSeason(string tvshowId, int seasonNumber)
         {
-            return this.seasonsRepository.Read(new Tuple<string, int>(tvshowId, seasonNumber)).EpisodeSynopses;
+            return this.seasonsRepository.Read(new Tuple<string, int>(tvshowId, seasonNumber)).EpisodeSynopsis;
         }
 
         /// <summary>

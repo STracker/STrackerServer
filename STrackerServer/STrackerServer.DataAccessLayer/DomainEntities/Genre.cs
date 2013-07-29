@@ -23,7 +23,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// </summary>
         public Genre()
         {
-            this.TvshowsSynopses = new List<TvShow.TvShowSynopsis>();
+            this.TvshowsSynopsis = new List<TvShow.TvShowSynopsis>();
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// <summary>
         /// Gets or sets the television shows synopses associated to this genre.
         /// </summary>
-        public List<TvShow.TvShowSynopsis> TvshowsSynopses { get; set; }
+        public List<TvShow.TvShowSynopsis> TvshowsSynopsis { get; set; }
 
         /// <summary>
         /// The get synopsis.

@@ -72,7 +72,7 @@ namespace STrackerServer.App_Start
             config.Routes.MapHttpRoute("api_system_time", "api/system/time", new { controller = "system", action = "GetTime" });
 
             // Routes for new episodes
-            config.Routes.MapHttpRoute("api_newepisodes", "api/newepisodes", new { controller = "newepisodes" });
+            config.Routes.MapHttpRoute("api_newepisodes", "api/usernewepisodes", new { controller = "newepisodes", action = "get" });
             config.Routes.MapHttpRoute("api_episode_newest", "api/tvshows/{tvshowId}/newestepisodes", new { controller = "newepisodes", action = "get", date = UrlParameter.Optional });
 
             // Default route.

@@ -83,7 +83,7 @@ namespace STrackerServer.Repository.MongoDB.Core.SeasonsRepositories
         /// </returns>
         public IEnumerable<Season.SeasonSynopsis> GetAllFromOneTvShow(string tvshowId)
         {
-            return this.tvshowsRepository.Read(tvshowId).SeasonSynopses;
+            return this.tvshowsRepository.Read(tvshowId).SeasonSynopsis;
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace STrackerServer.Repository.MongoDB.Core.SeasonsRepositories
         {
             var collection = this.Database.GetCollection(tvshowId);
             var query = Query.And(Query<Season>.EQ(s => s.TvShowId, tvshowId), Query<Season>.EQ(s => s.SeasonNumber, seasonNumber));
-            var update = Update<Season>.Push(s => s.EpisodeSynopses, episode);
+            var update = Update<Season>.Push(s => s.EpisodeSynopsis, episode);
 
             this.ModifyList(collection, query, update);
         }
@@ -123,7 +123,7 @@ namespace STrackerServer.Repository.MongoDB.Core.SeasonsRepositories
         {
             var collection = this.Database.GetCollection(tvshowId);
             var query = Query.And(Query<Season>.EQ(s => s.TvShowId, tvshowId), Query<Season>.EQ(s => s.SeasonNumber, seasonNumber));
-            var update = Update<Season>.Pull(s => s.EpisodeSynopses, episode);
+            var update = Update<Season>.Pull(s => s.EpisodeSynopsis, episode);
 
             this.ModifyList(collection, query, update);
         }

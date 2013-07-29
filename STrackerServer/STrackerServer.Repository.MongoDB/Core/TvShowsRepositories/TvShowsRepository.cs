@@ -115,7 +115,7 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         {
             var collection = this.Database.GetCollection(tvshowId);
             var query = Query<TvShow>.EQ(tv => tv.TvShowId, tvshowId);
-            var update = Update<TvShow>.Push(tv => tv.SeasonSynopses, season);
+            var update = Update<TvShow>.Push(tv => tv.SeasonSynopsis, season);
 
             this.ModifyList(collection, query, update);
         }
@@ -133,7 +133,7 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         {
             var collection = this.Database.GetCollection(tvshowId);
             var query = Query<TvShow>.EQ(tv => tv.TvShowId, tvshowId);
-            var update = Update<TvShow>.Pull(tv => tv.SeasonSynopses, season);
+            var update = Update<TvShow>.Pull(tv => tv.SeasonSynopsis, season);
 
             this.ModifyList(collection, query, update);
         }

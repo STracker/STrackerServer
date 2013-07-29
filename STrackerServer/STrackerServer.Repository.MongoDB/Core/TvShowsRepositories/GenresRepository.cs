@@ -90,14 +90,14 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
             if (g == null)
             {
                 g = new Genre { Key = genre.Id };
-                g.TvshowsSynopses.Add(tvshow);
+                g.TvshowsSynopsis.Add(tvshow);
 
                 this.Create(g);
                 return;
             }
 
             var query = Query<Genre>.EQ(gq => gq.Key, genre.Id.ToLower());
-            var update = Update<Genre>.Push(gq => gq.TvshowsSynopses, tvshow);
+            var update = Update<Genre>.Push(gq => gq.TvshowsSynopsis, tvshow);
 
             this.ModifyList(this.collection, query, update);
         }
@@ -114,7 +114,7 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         public void RemoveTvShowFromGenre(TvShow.TvShowSynopsis tvshow, Genre.GenreSynopsis genre)
         {
             var query = Query<Genre>.EQ(gq => gq.Key, genre.Id.ToLower());
-            var update = Update<Genre>.Pull(gq => gq.TvshowsSynopses, tvshow);
+            var update = Update<Genre>.Pull(gq => gq.TvshowsSynopsis, tvshow);
 
             this.ModifyList(this.collection, query, update);
         }

@@ -26,7 +26,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         {
             this.Actors = new List<Actor>();
             this.Genres = new List<Genre.GenreSynopsis>();
-            this.SeasonSynopses = new List<Season.SeasonSynopsis>();    
+            this.SeasonSynopsis = new List<Season.SeasonSynopsis>();    
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// <summary>
         /// Gets or sets the season synopses.
         /// </summary>
-        public List<Season.SeasonSynopsis> SeasonSynopses { get; set; }
+        public List<Season.SeasonSynopsis> SeasonSynopsis { get; set; }
 
         /// <summary>
         /// Get the television show synopsis.
