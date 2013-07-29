@@ -40,6 +40,16 @@ namespace STrackerServer.Controllers
         private const string Permissions = "email";
 
         /// <summary>
+        /// The facebook photo left.
+        /// </summary>
+        private const string FacebookPhotoLeft = "http://graph.facebook.com/";
+
+        /// <summary>
+        /// The facebook photo right.
+        /// </summary>
+        private const string FacebookPhotoRight = "/picture?type=large";
+
+        /// <summary>
         /// The user info query.
         /// </summary>
         private const string UserInfoQuery = "me?fields=id,name,email,picture.type(large)";
@@ -182,7 +192,7 @@ namespace STrackerServer.Controllers
                 fb.AccessToken = result.access_token;
 
                 dynamic me = fb.Get(UserInfoQuery);
-                user = new User(me.id) { Email = me.email, Name = me.name, Photo = me.picture.data.url };
+                user = new User(me.id) { Email = me.email, Name = me.name, Photo = GetFacebookPhoto(me.id) };
             }
             catch (FacebookOAuthException)
             {
@@ -200,6 +210,20 @@ namespace STrackerServer.Controllers
             return callbackCookie.ReturnUrl == null ? 
                 new SeeOtherResult { Url = Url.Action("Index", "HomeWeb") } : 
                 new SeeOtherResult { Url = callbackCookie.ReturnUrl };
+        }
+
+        /// <summary>
+        /// The get facebook photo.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        private static string GetFacebookPhoto(string id)
+        {
+            return FacebookPhotoLeft + id + FacebookPhotoRight;
         }
 
         /// <summary>
