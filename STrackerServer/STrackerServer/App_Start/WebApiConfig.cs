@@ -58,6 +58,10 @@ namespace STrackerServer.App_Start
             config.Routes.MapHttpRoute("api_subscriptions", "api/usersubscriptions", new { controller = "usersubscriptions" });
             config.Routes.MapHttpRoute("api_subscriptions_delete_and_getexists", "api/usersubscriptions/{tvshowId}", new { controller = "usersubscriptions" });
 
+            // Routes for users suggestions.
+            config.Routes.MapHttpRoute("api_suggestions", "api/usersuggestions", new { controller = "usersuggestions" });
+            config.Routes.MapHttpRoute("api_suggestion_delete", "api/usersuggestions/{tvshowId}", new { controller = "usersuggestions", action = "delete" });
+
             // Routes for user friends.
             config.Routes.MapHttpRoute("api_friends_delete", "api/userfriends/{userId}", new { controller = "userfriends", action = "delete" });
             config.Routes.MapHttpRoute("api_friends", "api/userfriends", new { controller = "userfriends" });

@@ -392,7 +392,7 @@ namespace STrackerServer.Controllers
         [Authorize]
         public ActionResult Suggest(SuggestFormValues values)
         {
-            if (!ModelState.IsValid || !this.usersOperations.SendSuggestion(values.FriendId, values.TvShowId, new Suggestion { TvShowId = values.TvShowId, UserId = User.Identity.Name }))
+            if (!ModelState.IsValid || !this.usersOperations.SendSuggestion(User.Identity.Name, values.FriendId, values.TvShowId))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View("Error", Response.StatusCode);

@@ -12,7 +12,6 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
     using System;
     using System.Collections.Generic;
     using System.Globalization;
-    using System.Linq;
 
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
@@ -235,29 +234,30 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         /// <summary>
         /// The send suggestion.
         /// </summary>
+        /// <param name="userFrom">
+        /// The user From.
+        /// </param>
         /// <param name="userTo">
         /// The user to.
         /// </param>
         /// <param name="tvshowId">
         /// The television show id.
         /// </param>
-        /// <param name="suggestion">
-        /// The suggestion.
-        /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public bool SendSuggestion(string userTo, string tvshowId, Suggestion suggestion)
+        public bool SendSuggestion(string userFrom, string userTo, string tvshowId)
         {
-            TvShow tvshow;
-            User user;
+            var userFromModel = this.Repository.Read(userFrom);
+            var userToModel = this.Repository.Read(userTo);
+            var tvshow = this.tvshowsRepository.Read(tvshowId);
 
-            if (!this.VerifyUserAndTvshow(userTo, tvshowId, out user, out tvshow))
+            if (userFromModel == null || userToModel == null || tvshow == null)
             {
                 return false;
             }
 
-            return user.Friends.Exists(synopsis => synopsis.Id.Equals(suggestion.UserId)) && ((IUsersRepository)this.Repository).SendSuggestion(user, suggestion);
+            return userToModel.Friends.Exists(synopsis => synopsis.Id.Equals(userFromModel.Key)) && ((IUsersRepository)this.Repository).SendSuggestion(userToModel, new Suggestion { TvShowId = tvshowId, UserId = userFrom });
         }
 
         /// <summary>
@@ -266,21 +266,27 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         /// <param name="userFrom">
         /// The user from.
         /// </param>
+        /// <param name="userTo">
+        /// The user To.
+        /// </param>
         /// <param name="tvshowId">
         /// The television show id.
-        /// </param>
-        /// <param name="suggestion">
-        /// The suggestion.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public bool RemoveSuggestion(string userFrom, string tvshowId, Suggestion suggestion)
+        public bool RemoveSuggestion(string userFrom, string userTo, string tvshowId)
         {
-            TvShow tvshow;
-            User user;
+            var userFromModel = this.Repository.Read(userFrom);
+            var userToModel = this.Repository.Read(userTo);
+            var tvshow = this.tvshowsRepository.Read(tvshowId);
 
-            return this.VerifyUserAndTvshow(userFrom, tvshowId, out user, out tvshow) && ((IUsersRepository)this.Repository).RemoveSuggestion(user, suggestion);
+            if (userFromModel == null || userToModel == null || tvshow == null)
+            {
+                return false;
+            }
+
+            return ((IUsersRepository)this.Repository).RemoveSuggestion(userToModel, new Suggestion { TvShowId = tvshowId, UserId = userFrom });
         }
 
         /// <summary>
