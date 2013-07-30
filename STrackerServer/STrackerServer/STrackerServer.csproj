@@ -240,10 +240,12 @@
     <Content Include="Content\images\noisy_net.png" />
     <Content Include="Content\images\pinstriped_suit.png" />
     <Content Include="Content\images\subtle_grunge.png" />
+    <Content Include="Content\images\tv-notfound.png" />
     <Content Include="Content\images\tv.png" />
     <Content Include="Content\images\wild_oliva.png" />
     <Content Include="Content\StrackerStyle.css" />
     <Content Include="Global.asax" />
+    <Content Include="Content\images\tv-base.psd" />
     <None Include="Scripts\jquery-2.0.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -298,6 +300,7 @@
     <Content Include="Views\Shared\TvShowLayout.cshtml" />
     <Content Include="Views\Shared\CommentsLayout.cshtml" />
     <Content Include="Views\Account\FacebookChannel.cshtml" />
+    <Content Include="Views\Shared\NotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -9,8 +9,6 @@
 
 namespace STrackerServer.Controllers
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Net;
     using System.Web.Mvc;
@@ -20,7 +18,6 @@ namespace STrackerServer.Controllers
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.BusinessLayer.Permissions;
-    using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
     using STrackerServer.Models.TvShow;
     using STrackerServer.Models.User;
@@ -61,11 +58,6 @@ namespace STrackerServer.Controllers
         private readonly INewEpisodesOperations newEpisodesOperations;
 
         /// <summary>
-        /// The genres operations.
-        /// </summary>
-        private readonly IGenresOperations genresOperations;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="TvShowsWebController"/> class.
         /// </summary>
         /// <param name="tvshowOperations">
@@ -86,10 +78,7 @@ namespace STrackerServer.Controllers
         /// <param name="newEpisodesOperations">
         /// The new Episodes Operations.
         /// </param>
-        /// <param name="genresOperations">
-        /// The genres Operations.
-        /// </param>
-        public TvShowsWebController(ITvShowsOperations tvshowOperations, IUsersOperations usersOperations, ITvShowsCommentsOperations commentsOperations, ITvShowsRatingsOperations ratingsOperations, IPermissionManager<Permission, int> permissionManager, INewEpisodesOperations newEpisodesOperations, IGenresOperations genresOperations)
+        public TvShowsWebController(ITvShowsOperations tvshowOperations, IUsersOperations usersOperations, ITvShowsCommentsOperations commentsOperations, ITvShowsRatingsOperations ratingsOperations, IPermissionManager<Permission, int> permissionManager, INewEpisodesOperations newEpisodesOperations)
         {
             this.tvshowOperations = tvshowOperations;
             this.usersOperations = usersOperations;
@@ -97,7 +86,6 @@ namespace STrackerServer.Controllers
             this.ratingsOperations = ratingsOperations;
             this.permissionManager = permissionManager;
             this.newEpisodesOperations = newEpisodesOperations;
-            this.genresOperations = genresOperations;
         }
 
         /// <summary>
@@ -157,15 +145,14 @@ namespace STrackerServer.Controllers
         [HttpGet]
         public ActionResult GetByName(string name)
         {
-            string nameNormalized;
+            var nameNormalized  = name != null ? name.Trim().ToLower() : null;
 
-            if (name == null || string.Empty.Equals(nameNormalized = name.Trim().ToLower()))
+            var tvshows = this.tvshowOperations.ReadByName(nameNormalized);
+
+            if (tvshows.Count == 0)
             {
-                // TODO Retornar outra vista 
-                return this.View(new TvShowSearchResult { Result = new List<TvShow.TvShowSynopsis>(), SearchValue = string.Empty });
+                return this.View("NotFound");
             }
-
-            var tvshows = this.tvshowOperations.ReadByName(name);
 
             foreach (var tvshow in tvshows)
             {

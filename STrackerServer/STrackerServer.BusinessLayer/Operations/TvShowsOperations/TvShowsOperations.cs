@@ -78,6 +78,11 @@ namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
         /// </returns>
         public List<TvShow.TvShowSynopsis> ReadByName(string name)
         {
+            if (name == null || string.Empty.Equals(name))
+            {
+                return new List<TvShow.TvShowSynopsis>();
+            }
+
             var tvshows = ((ITvShowsRepository)this.Repository).ReadByName(name);
             
             if (tvshows.Count == 0)
