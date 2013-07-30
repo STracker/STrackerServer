@@ -169,7 +169,7 @@ namespace STrackerServer.Controllers
 
             foreach (var tvshow in tvshows)
             {
-                if (tvshow.Name.Equals(nameNormalized))
+                if (tvshow.Name.ToLower().Equals(nameNormalized))
                 {
                     return new SeeOtherResult { Url = Url.Action("Show", "TvShowsWeb", new { tvshowId = tvshow.Id }) };
                 }
