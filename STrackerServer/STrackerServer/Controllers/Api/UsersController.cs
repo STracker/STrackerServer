@@ -81,7 +81,7 @@ namespace STrackerServer.Controllers.Api
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
         [HttpPost]
-        [HawkAuthorize(CheckId = false)]
+        [HawkAuthorize]
         public HttpResponseMessage Post([FromBody] ApiRegister register)
         {
             if (!ModelState.IsValid)
@@ -97,7 +97,7 @@ namespace STrackerServer.Controllers.Api
                 };
 
             this.operations.VerifyAndSave(user);
-            return this.BasePostDelete(this.operations.Read(User.Identity.Name) != null);
+            return this.BaseGet(this.operations.Read(User.Identity.Name));
         }
     }
 }
