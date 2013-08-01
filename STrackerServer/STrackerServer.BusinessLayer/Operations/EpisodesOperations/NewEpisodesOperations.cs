@@ -149,7 +149,7 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        public IEnumerable<NewTvShowEpisodes> GetUserNewEpisodes(string userId)
+        public ICollection<NewTvShowEpisodes> GetUserNewEpisodes(string userId)
         {
             var user = this.usersOperations.Read(userId);
 

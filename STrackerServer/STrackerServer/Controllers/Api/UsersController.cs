@@ -81,7 +81,7 @@ namespace STrackerServer.Controllers.Api
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
         [HttpPost]
-        [HawkAuthorize]
+        [HawkAuthorize(CheckId = false)]
         public HttpResponseMessage Post([FromBody] ApiRegister register)
         {
             if (!ModelState.IsValid)

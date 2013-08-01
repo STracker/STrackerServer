@@ -61,28 +61,32 @@
             <div class="box">
                 <h2 style="text-align: center">Next Episodes</h2>
             </div>
-            <div class="box">
-            <div class="accordion" id="accordion">
-                @foreach(var obj in Model.NewEpisodes)
-                {
-                <div class="accordion-group">
-                    <div class="accordion-heading">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#@obj.TvShow.Id">
-                            @obj.TvShow.Name
-                        </a>
+            
+            @if(Model.NewEpisodes.Count != 0)
+            {
+                <div class="box">
+                    <div class="accordion" id="accordion">
+                        @foreach(var obj in Model.NewEpisodes)
+                        {
+                        <div class="accordion-group">
+                            <div class="accordion-heading">
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#@obj.TvShow.Id">
+                                    @obj.TvShow.Name
+                                </a>
+                            </div>
+                            <div id="@obj.TvShow.Id" class="accordion-body collapse">
+                                <div class="accordion-inner">
+                                     @foreach(var episode in obj.Episodes)
+                                     {
+                                         <p>S<span>@episode.SeasonNumber</span>E<span>@episode.EpisodeNumber</span> <a href="@episode.Uri">@episode.Name</a> - @episode.Date</p>
+                                     }  
+                                </div>
+                            </div>     
+                        </div>        
+                        }
                     </div>
-                    <div id="@obj.TvShow.Id" class="accordion-body collapse">
-                        <div class="accordion-inner">
-                             @foreach(var episode in obj.Episodes)
-                             {
-                                 <p>S<span>@episode.SeasonNumber</span>E<span>@episode.EpisodeNumber</span> <a href="@episode.Uri">@episode.Name</a> - @episode.Date</p>
-                             }  
-                        </div>
-                    </div>     
-                </div>        
-                }
-             </div>
-        </div>
+                </div>
+            }
         </div>
     </div>
 </div>

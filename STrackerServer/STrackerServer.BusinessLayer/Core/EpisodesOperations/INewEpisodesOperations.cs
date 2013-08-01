@@ -58,6 +58,6 @@ namespace STrackerServer.BusinessLayer.Core.EpisodesOperations
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        IEnumerable<NewTvShowEpisodes> GetUserNewEpisodes(string userId);
+        ICollection<NewTvShowEpisodes> GetUserNewEpisodes(string userId);
     }
 }

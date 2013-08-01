@@ -129,13 +129,13 @@
             </div>     
         </div>
         <div class="span3">
-            
+            <div class="box">
+                <h2 style="text-align: center">Next Episodes</h2>
+            </div>
+
             @if(Model.NewEpisodes != null && Model.NewEpisodes.Count() != 0)
             {
-                <div class="box">
-                    <h2 style="text-align: center">Next Episodes</h2>
-                    <br/>       
-                    
+                <div class="box">                        
                     @foreach(var episode in Model.NewEpisodes)
                     {
                         <dl>              
