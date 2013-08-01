@@ -42,7 +42,9 @@
                                 <div class="span3" style="text-align: center">
                                     <div class="box-whiter">
                                         <div class="row-fluid">
-                                            <img src="@Model.SubscriptionList[index].TvShow.Poster" alt="No Image"/>
+                                            <a href="@Url.Action("Show","TvShowsWeb", new { tvshowId = Model.SubscriptionList[index].TvShow.Id })">
+                                                <img src="@Model.SubscriptionList[index].TvShow.Poster" alt="No Image"/>
+                                            </a>
                                         </div>
                                         <div class="row-fluid">
                                             @using (Html.BeginForm("Subscribe", "TvShowsWeb", new { tvshowId = Model.SubscriptionList[index].TvShow.Id, redirectUrl = Url.Action("Index", "UsersWeb") }))
