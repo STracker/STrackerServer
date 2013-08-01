@@ -1,6 +1,6 @@
 ﻿(function () {
     window.addEventListener('DOMContentLoaded', function () {
-        setupTvShowCastDisplay();
+        //setupTvShowCastDisplay();
     });
 
     var buttonOpen;

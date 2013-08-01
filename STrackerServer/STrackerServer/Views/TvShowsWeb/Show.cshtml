@@ -95,14 +95,7 @@
                 </table>
             </div> 
             <div class="box">
-                <div style="display: inline">
-                    <div style="display: inline-block">
-                        <h3>Cast</h3>
-                    </div>
-                    <div id="cast-button" class="hide" style="display: inline-block">
-                        <button class="btn-link">(Open)</button>
-                    </div> 
-                </div>
+                <h3>Cast</h3>
                 <br/>              
                 <table id="cast-table" class="table table-condensed">
                     <tr>
@@ -129,13 +122,13 @@
             </div>     
         </div>
         <div class="span3">
-            <div class="box">
+            <div class="box blue-border">
                 <h2 style="text-align: center">Next Episodes</h2>
             </div>
 
             @if(Model.NewEpisodes != null && Model.NewEpisodes.Count() != 0)
             {
-                <div class="box">                        
+                <div class="box blue-border">                        
                     @foreach(var episode in Model.NewEpisodes)
                     {
                         <dl>              

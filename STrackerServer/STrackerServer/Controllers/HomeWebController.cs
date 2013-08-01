@@ -25,7 +25,7 @@ namespace STrackerServer.Controllers
         /// <summary>
         /// The max top rated.
         /// </summary>
-        private const int MaxTopRated = 3;
+        private const int MaxTopRated = 8;
 
         /// <summary>
         /// The genres operations.
