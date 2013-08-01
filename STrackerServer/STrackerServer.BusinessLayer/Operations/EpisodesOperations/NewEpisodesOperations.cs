@@ -73,7 +73,7 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        public IEnumerable<Episode.EpisodeSynopsis> GetNewEpisodes(string tvshowId, string date)
+        public ICollection<Episode.EpisodeSynopsis> GetNewEpisodes(string tvshowId, string date)
         {
             // Verify date format.
             DateTime temp;
@@ -95,7 +95,7 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
                 return null;
             }
 
-            return date == null ? newTvShowEpisodes.Episodes : newTvShowEpisodes.Episodes.Where(epi => DateTime.Parse(epi.Date) <= DateTime.Parse(date));
+            return date == null ? newTvShowEpisodes.Episodes : newTvShowEpisodes.Episodes.Where(epi => DateTime.Parse(epi.Date) <= DateTime.Parse(date)).ToList();
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        public IEnumerable<NewTvShowEpisodes> GetNewEpisodes(string date = null)
+        public ICollection<NewTvShowEpisodes> GetNewEpisodes(string date = null)
         {
             DateTime temp;
 

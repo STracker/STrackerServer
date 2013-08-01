@@ -26,11 +26,11 @@ namespace STrackerServer.Models.Home
         /// <summary>
         /// Gets or sets the top rated.
         /// </summary>
-        public IEnumerable<TvShow.TvShowSynopsis> TopRated { get; set; }
+        public IList<TvShow.TvShowSynopsis> TopRated { get; set; }
 
         /// <summary>
         /// Gets or sets the new episodes.
         /// </summary>
-        public IEnumerable<NewTvShowEpisodes> NewEpisodes { get; set; }
+        public ICollection<NewTvShowEpisodes> NewEpisodes { get; set; }
     }
 }

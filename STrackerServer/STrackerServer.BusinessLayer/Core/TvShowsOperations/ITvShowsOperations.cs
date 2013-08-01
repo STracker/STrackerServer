@@ -42,7 +42,7 @@ namespace STrackerServer.BusinessLayer.Core.TvShowsOperations
         ///       <cref>List</cref>
         ///     </see> .
         /// </returns>
-        List<TvShow.TvShowSynopsis> GetTopRated(int max);
+        IList<TvShow.TvShowSynopsis> GetTopRated(int max);
 
         /// <summary>
         /// The get names.

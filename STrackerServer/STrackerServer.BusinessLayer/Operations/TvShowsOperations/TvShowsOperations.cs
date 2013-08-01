@@ -104,7 +104,7 @@ namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
         ///       <cref>List</cref>
         ///     </see> .
         /// </returns>
-        public List<TvShow.TvShowSynopsis> GetTopRated(int max)
+        public IList<TvShow.TvShowSynopsis> GetTopRated(int max)
         {
             return ((ITvShowsRepository)this.Repository).GetTopRated(max);
         }

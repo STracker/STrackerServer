@@ -32,7 +32,7 @@ namespace STrackerServer.BusinessLayer.Core.EpisodesOperations
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        IEnumerable<Episode.EpisodeSynopsis> GetNewEpisodes(string tvshowId, string date);
+        ICollection<Episode.EpisodeSynopsis> GetNewEpisodes(string tvshowId, string date);
 
         /// <summary>
         /// The get newest episodes.
@@ -45,7 +45,7 @@ namespace STrackerServer.BusinessLayer.Core.EpisodesOperations
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        IEnumerable<NewTvShowEpisodes> GetNewEpisodes(string date = null);
+        ICollection<NewTvShowEpisodes> GetNewEpisodes(string date = null);
 
         /// <summary>
         /// The get newest episodes.

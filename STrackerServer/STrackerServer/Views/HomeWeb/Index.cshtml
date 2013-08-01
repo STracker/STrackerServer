@@ -24,40 +24,68 @@
         </div>
         <div class="span6">
             <div class="box">
-               <h2 style="text-align: center">Next Episodes</h2>
-               <br/>
+                <h2 style="text-align: center">Top Rated Shows</h2>
             </div>
+            
+            @if(Model.TopRated.Count != 0)
+            {
+                    {
+                        for (var i = 0; i < Math.Ceiling(Model.TopRated.Count / (double)3); i++)
+                        {
+                            <div class="row-fluid">
+                                @for (var index = 3 * i; (index < (3 * (i + 1))) && index < Model.TopRated.Count; index++)
+                                {
+                                    <div class="span4" style="text-align: center">
+                                        <div class="box-whiter">
+                                            <div class="row-fluid">
+                                                <a href="@Url.Action("Show", "TvShowsWeb", new { tvshowId = @Model.TopRated[index].Id })">
+                                                    <img src="@Model.TopRated[index].Poster" alt="No Image"/>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }     
+                            </div>
+                        }
+                    }
+                
+            }
         </div>
         <div class="span3">
             <div class="box">
                 <h2 style="text-align: center">Next Episodes</h2>
-                <br/>
-                <div class="accordion" id="accordion">
-                    @foreach(var obj in Model.NewEpisodes)
-                    {
-                        <div class="accordion-group">
-                            <div class="accordion-heading">
-                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#@obj.TvShow.Id">
-                                    @obj.TvShow.Name
-                                </a>
-                            </div>
-                            <div id="@obj.TvShow.Id" class="accordion-body collapse">
-                                <div class="accordion-inner">
-                                    
-                                    <dl>
-                                        @foreach(var episode in obj.Episodes)
-                                        {
-                                            <dt>@episode.Date</dt>
-                                            <dd><a href="@episode.Uri">@episode.Name</a></dd>
-                                        } 
-                                    </dl>
-                                     
+            </div>    
+            
+            @if (Model.NewEpisodes.Count != 0)
+            {
+                <div class="box">
+                    <div class="accordion" id="accordion">
+                        @foreach(var obj in Model.NewEpisodes)
+                        {
+                            <div class="accordion-group">
+                                <div class="accordion-heading">
+                                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#@obj.TvShow.Id">
+                                        @obj.TvShow.Name
+                                    </a>
                                 </div>
-                            </div>     
-                        </div>        
-                    }
+                                <div id="@obj.TvShow.Id" class="accordion-body collapse">
+                                    <div class="accordion-inner">
+                                    
+                                        <dl>
+                                            @foreach(var episode in obj.Episodes)
+                                            {
+                                                <dt>@episode.Date</dt>
+                                                <dd><a href="@episode.Uri">@episode.Name</a></dd>
+                                            } 
+                                        </dl>
+                                     
+                                    </div>
+                                </div>     
+                            </div>        
+                        }
+                    </div>
                 </div>
-            </div>
+            }
         </div>
     </div>
 </div>

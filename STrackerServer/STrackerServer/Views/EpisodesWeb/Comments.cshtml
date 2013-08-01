@@ -22,21 +22,26 @@
         <div class="span6">
             <div class="box">
                 <h2>Comments</h2>
-                <br/>
-                @foreach(var comment in Model.Comments)
-                {
-                    <a href="@Url.Action("Show","UsersWeb", new { id = comment.User.Id })">@comment.User.Name</a>
-                    <div class="box-whiter">
-                        <div style="text-align: right">
-                            @if (Model.IsModerator || User.Identity.IsAuthenticated && comment.User.Id.Equals(User.Identity.Name))
-                            {
-                                <a href="@Url.Action("Comment", "TvShowsWeb", new {tvshowId = Model.TvShowId, id = comment.Id })">Edit</a>
-                            }
-                        </div>
-                        @comment.Body
-                    </div> 
-                }    
             </div>
+            
+            @if(Model.Comments.Count != 0)
+            {
+                <div class="box">
+                    @foreach(var comment in Model.Comments)
+                    {
+                        <a href="@Url.Action("Show","UsersWeb", new { id = comment.User.Id })">@comment.User.Name</a>
+                        <div class="box-whiter">
+                            <div style="text-align: right">
+                                @if (Model.IsModerator || User.Identity.IsAuthenticated && comment.User.Id.Equals(User.Identity.Name))
+                                {
+                                    <a href="@Url.Action("Comment", "TvShowsWeb", new {tvshowId = Model.TvShowId, id = comment.Id })">Edit</a>
+                                }
+                            </div>
+                            @comment.Body
+                        </div> 
+                    }    
+                </div>
+            }
         </div>
     </div>
 </div>
