@@ -34,12 +34,12 @@
             <div class="container-fluid">
                 @if (Model.SubscriptionList.Count != 0)
                 {
-                    for (var i = 0; i < Math.Ceiling(Model.SubscriptionList.Count / (double)6); i++)
+                    for (var i = 0; i < Math.Ceiling(Model.SubscriptionList.Count / (double)4); i++)
                     {
                         <div class="row-fluid">
-                            @for (var index = 6 * i; (index < (6 * (i + 1))) && index < Model.SubscriptionList.Count; index++)
+                            @for (var index = 4 * i; (index < (4* (i + 1))) && index < Model.SubscriptionList.Count; index++)
                             {
-                                <div class="span2" style="text-align: center">
+                                <div class="span3" style="text-align: center">
                                     <div class="box-whiter">
                                         <div class="row-fluid">
                                             <img src="@Model.SubscriptionList[index].TvShow.Poster" alt="No Image"/>
