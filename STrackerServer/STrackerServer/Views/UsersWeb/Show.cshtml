@@ -47,21 +47,26 @@
                 <h2 class="center">Subscriptions</h2> 
             </div>   
             
-            @if (Model.SubscriptionList.Count != 0)
-            {
-                <div class="box">
-                    <table class="table table-condensed">
-                        @foreach (var sub in Model.SubscriptionList)
-                        {
-                            <tr>
-                                <td>
-                                    <a href="@Url.Action("Show","TvShowsWeb", new { tvshowId = sub.TvShow.Id })">@sub.TvShow.Name</a>
-                                </td>
-                            </tr>
-                        }   
-                    </table>
-                </div> 
-            }
+            <div class="container-fluid">
+                @if (Model.SubscriptionList.Count != 0)
+                {
+                    for (var i = 0; i < Math.Ceiling(Model.SubscriptionList.Count / (double)4); i++)
+                    {
+                        <div class="row-fluid">
+                            @for (var index = 4 * i; (index < (4* (i + 1))) && index < Model.SubscriptionList.Count; index++)
+                            {
+                                <div class="span3" style="text-align: center">
+                                    <div class="box-whiter">
+                                        <div class="row-fluid">
+                                            <img src="@Model.SubscriptionList[index].TvShow.Poster" alt="No Image"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            }     
+                        </div>
+                    }
+                }
+            </div> 
         </div>
     </div>
 </div>
