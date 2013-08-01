@@ -117,7 +117,7 @@ namespace STrackerServer.Controllers
                 var user = this.usersOperations.Read(User.Identity.Name);
 
                 isSubscribed = user.SubscriptionList.Any(sub => sub.TvShow.Id.Equals(tvshow.TvShowId));
-                userRating = ratings.Ratings.Find(rating => rating.UserId.Equals(user.Key));
+                userRating = ratings.Ratings.Find(rating => rating.User.Id.Equals(user.Key));
             }
 
             var model = new TvShowView(tvshow)
@@ -424,7 +424,7 @@ namespace STrackerServer.Controllers
 
             var user = this.usersOperations.Read(User.Identity.Name);
             var ratings = this.ratingsOperations.Read(tvshowId);
-            var userRating = ratings.Ratings.Find(rating => rating.UserId.Equals(user.Key));
+            var userRating = ratings.Ratings.Find(rating => rating.User.Id.Equals(user.Key));
             var userRatingValue = -1;
 
             if (userRating != null)
@@ -473,7 +473,7 @@ namespace STrackerServer.Controllers
                 return this.View(rating);
             }
 
-            if (tvshow == null || !this.ratingsOperations.AddRating(tvshow.TvShowId, new Rating { UserId = User.Identity.Name, UserRating = rating.Value }))
+            if (tvshow == null || !this.ratingsOperations.AddRating(tvshow.TvShowId, new Rating { User = this.usersOperations.Read(User.Identity.Name).GetSynopsis(), UserRating = rating.Value }))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View("Error", Response.StatusCode);

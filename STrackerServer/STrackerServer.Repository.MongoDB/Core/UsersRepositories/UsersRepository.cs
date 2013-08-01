@@ -279,7 +279,7 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         public bool RemoveTvShowSuggestions(User user, TvShow tvshow)
         {
             var query = Query<User>.EQ(user1 => user1.Key, user.Key);
-            var update = Update<User>.PullAll(user1 => user1.Suggestions, user.Suggestions.Where(suggestion => suggestion.TvShowId.Equals(tvshow.Key)));
+            var update = Update<User>.PullAll(user1 => user1.Suggestions, user.Suggestions.Where(suggestion => suggestion.TvShow.Id.Equals(tvshow.Key)));
 
             return this.ModifyList(this.collection, query, update);
         }
@@ -410,7 +410,7 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
             var query = Query<User>.EQ(user => user.Key, userModel.Key);
             var update = Update<User>
                 .Pull(user => user.Friends, userFriend.GetSynopsis())
-                .PullAll(user => user.Suggestions, userModel.Suggestions.Where(suggestion => suggestion.UserId.Equals(userFriend.Key)));
+                .PullAll(user => user.Suggestions, userModel.Suggestions.Where(suggestion => suggestion.User.Id.Equals(userFriend.Key)));
 
             return this.ModifyList(this.collection, query, update);
         }
@@ -432,7 +432,7 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
             var query = Query<User>.EQ(user => user.Key, userFriend.Key);
             var update = Update<User>
                 .Pull(user => user.Friends, userModel.GetSynopsis())
-                .PullAll(user => user.Suggestions, userFriend.Suggestions.Where(suggestion => suggestion.UserId.Equals(userModel.Key)));
+                .PullAll(user => user.Suggestions, userFriend.Suggestions.Where(suggestion => suggestion.User.Id.Equals(userModel.Key)));
 
             return this.ModifyList(this.collection, query, update);
         }

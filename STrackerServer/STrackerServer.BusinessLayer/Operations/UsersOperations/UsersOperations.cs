@@ -257,7 +257,7 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
                 return false;
             }
 
-            return userToModel.Friends.Exists(synopsis => synopsis.Id.Equals(userFromModel.Key)) && ((IUsersRepository)this.Repository).SendSuggestion(userToModel, new Suggestion { TvShowId = tvshowId, UserId = userFrom });
+            return userToModel.Friends.Exists(synopsis => synopsis.Id.Equals(userFromModel.Key)) && ((IUsersRepository)this.Repository).SendSuggestion(userToModel, new Suggestion { TvShow = tvshow.GetSynopsis(), User = userFromModel.GetSynopsis() });
         }
 
         /// <summary>
@@ -286,7 +286,7 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
                 return false;
             }
 
-            return ((IUsersRepository)this.Repository).RemoveSuggestion(userToModel, new Suggestion { TvShowId = tvshowId, UserId = userFrom });
+            return ((IUsersRepository)this.Repository).RemoveSuggestion(userToModel, new Suggestion { TvShow = tvshow.GetSynopsis(), User = userFromModel.GetSynopsis() });
         }
 
         /// <summary>
@@ -379,7 +379,7 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
                 return false;
             }
 
-            if (!user.Suggestions.Exists(suggestion => suggestion.TvShowId.Equals(tvshowId)))
+            if (!user.Suggestions.Exists(suggestion => suggestion.TvShow.Id.Equals(tvshowId)))
             {
                 return true;
             }

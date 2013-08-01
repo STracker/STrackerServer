@@ -135,7 +135,7 @@ namespace STrackerServer.Controllers
                     watched = subscription.EpisodesWatched.Exists(synopsis => synopsis.Equals(episode.GetSynopsis()));
                 }
 
-                userRating = episodeRating.Ratings.Find(rating => rating.UserId.Equals(user.Key));
+                userRating = episodeRating.Ratings.Find(rating => rating.User.Id.Equals(user.Key));
             }
 
             var asAired = false;
@@ -411,7 +411,7 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            var userRating = this.ratingsOperations.GetAllRatings(key).Ratings.Find(rating => rating.UserId.Equals(User.Identity.Name));
+            var userRating = this.ratingsOperations.GetAllRatings(key).Ratings.Find(rating => rating.User.Id.Equals(User.Identity.Name));
 
             return this.View(new EpisodeRating
             {
@@ -453,7 +453,7 @@ namespace STrackerServer.Controllers
                 return this.View(rating);
             }
 
-            if (!this.ratingsOperations.AddRating(key, new Rating { UserId = User.Identity.Name, UserRating = rating.Value }))
+            if (!this.ratingsOperations.AddRating(key, new Rating { User = this.usersOperations.Read(User.Identity.Name).GetSynopsis(), UserRating = rating.Value }))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View("Error", Response.StatusCode);

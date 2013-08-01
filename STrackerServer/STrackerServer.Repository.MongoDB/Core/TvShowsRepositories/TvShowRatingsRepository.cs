@@ -58,7 +58,7 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
 
             var update = Update<RatingsTvShow>.Push(tvr => tvr.Ratings, rating);
 
-            var removeRating = this.Read(id).Ratings.Find(r => r.UserId.Equals(rating.UserId));
+            var removeRating = this.Read(id).Ratings.Find(r => r.User.Id.Equals(rating.User.Id));
 
             // If already have a rating for the user, need to remove it before insert the new one.
             if (this.RemoveRating(id, removeRating) && this.ModifyList(collection, query, update))

@@ -315,14 +315,14 @@ namespace STrackerServer.Controllers
                     PictureUrl = user.Photo,
                 };
 
-            foreach (var suggestion in user.Suggestions.OrderBy(su => su.TvShowId))
+            foreach (var suggestion in user.Suggestions.OrderBy(su => su.TvShow.Id))
             {
-                if (!suggestionsView.Suggestions.ContainsKey(suggestion.TvShowId))
+                if (!suggestionsView.Suggestions.ContainsKey(suggestion.TvShow.Id))
                 {
-                    suggestionsView.Suggestions.Add(suggestion.TvShowId, new SuggestionView { TvShowName = this.tvshowsOperations.Read(suggestion.TvShowId).Name });
+                    suggestionsView.Suggestions.Add(suggestion.TvShow.Id, new SuggestionView { TvShowName = this.tvshowsOperations.Read(suggestion.TvShow.Id).Name });
                 }
 
-                suggestionsView.Suggestions[suggestion.TvShowId].Friends.Add(this.usersOperations.Read(suggestion.UserId).GetSynopsis());
+                suggestionsView.Suggestions[suggestion.TvShow.Id].Friends.Add(this.usersOperations.Read(suggestion.User.Id).GetSynopsis());
             }
 
             return this.View(suggestionsView);

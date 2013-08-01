@@ -16,12 +16,12 @@ namespace STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities
         /// <summary>
         /// Gets or sets the user id.
         /// </summary>
-        public string UserId { get; set; }
+        public User.UserSynopsis User { get; set; }
 
         /// <summary>
         /// Gets or sets the television show id.
         /// </summary>
-        public string TvShowId { get; set; }
+        public TvShow.TvShowSynopsis TvShow { get; set; }
 
         /// <summary>
         /// Gets or sets the message.

@@ -15,6 +15,7 @@ namespace STrackerServer.Controllers.Api
     using System.Web.Http;
 
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
+    using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
     using STrackerServer.Hawk;
 
@@ -29,14 +30,23 @@ namespace STrackerServer.Controllers.Api
         private readonly IEpisodesRatingsOperations operations;
 
         /// <summary>
+        /// The users operations.
+        /// </summary>
+        private readonly IUsersOperations usersOperations;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="EpisodesRatingsController"/> class.
         /// </summary>
         /// <param name="operations">
         /// The operations.
         /// </param>
-        public EpisodesRatingsController(IEpisodesRatingsOperations operations)
+        /// <param name="usersOperations">
+        /// The users Operations.
+        /// </param>
+        public EpisodesRatingsController(IEpisodesRatingsOperations operations, IUsersOperations usersOperations)
         {
             this.operations = operations;
+            this.usersOperations = usersOperations;
         }
 
         /// <summary>
@@ -89,7 +99,7 @@ namespace STrackerServer.Controllers.Api
         [HawkAuthorize]
         public HttpResponseMessage Post(string tvshowId, int seasonNumber, int number, [FromBody] int rating)
         {
-            return this.BasePostDelete(this.operations.AddRating(new Tuple<string, int, int>(tvshowId, seasonNumber, number), new Rating { UserId = User.Identity.Name, UserRating = rating }));
+            return this.BasePostDelete(this.operations.AddRating(new Tuple<string, int, int>(tvshowId, seasonNumber, number), new Rating { User = this.usersOperations.Read(User.Identity.Name).GetSynopsis(), UserRating = rating }));
         }
     }
 }

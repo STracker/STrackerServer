@@ -89,14 +89,13 @@ namespace STrackerServer.Controllers.Api
                 return this.Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid Body, missing required fields.");
             }
 
-            var user = new User(User.Identity.Name)
-                {
-                    Name = register.Name, 
-                    Email = register.Email, 
-                    Photo = register.Photo
-                };
+            this.operations.VerifyAndSave(new User(User.Identity.Name)
+            {
+                Name = register.Name, 
+                Email = register.Email, 
+                Photo = register.Photo
+            });
 
-            this.operations.VerifyAndSave(user);
             return this.BaseGet(this.operations.Read(User.Identity.Name));
         }
     }
