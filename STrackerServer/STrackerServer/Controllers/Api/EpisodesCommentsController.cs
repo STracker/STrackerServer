@@ -9,13 +9,13 @@
 
 namespace STrackerServer.Controllers.Api
 {
-    using System;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
 
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
+    using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
     using STrackerServer.Hawk;
 
@@ -67,7 +67,7 @@ namespace STrackerServer.Controllers.Api
         [HttpGet]
         public HttpResponseMessage Get(string tvshowId, int seasonNumber, int number)
         {
-            var comments = this.operations.GetComments(new Tuple<string, int, int>(tvshowId, seasonNumber, number));
+            var comments = this.operations.GetComments(new Episode.EpisodeKey { TvshowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = number });
             if (comments == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -105,7 +105,7 @@ namespace STrackerServer.Controllers.Api
 
             var user = this.usersOperations.Read(User.Identity.Name);
 
-            return this.BasePostDelete(this.operations.AddComment(new Tuple<string, int, int>(tvshowId, seasonNumber, number), new Comment { Body = comment, User = user.GetSynopsis() }));
+            return this.BasePostDelete(this.operations.AddComment(new Episode.EpisodeKey { TvshowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = number }, new Comment { Body = comment, User = user.GetSynopsis() }));
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace STrackerServer.Controllers.Api
         [HawkAuthorize]
         public HttpResponseMessage Delete(string tvshowId, int seasonNumber, int number, string commentId)
         {
-            return this.BasePostDelete(this.operations.RemoveComment(new Tuple<string, int, int>(tvshowId, seasonNumber, number), User.Identity.Name, commentId));
+            return this.BasePostDelete(this.operations.RemoveComment(new Episode.EpisodeKey { TvshowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = number }, User.Identity.Name, commentId));
         }
     }
 }

@@ -18,8 +18,13 @@ namespace STrackerServer.DataAccessLayer.Core
     public interface IEntity<TK>
     {
         /// <summary>
-        /// Gets or sets the key.
+        /// Gets or sets the id.
         /// </summary>
-        TK Key { get; set; }
+        TK Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the version of the entity.
+        /// </summary>
+        int Version { get; set; }
     }
 }

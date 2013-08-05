@@ -132,7 +132,7 @@ namespace STrackerServer.Controllers
                 PictureUrl = user.Photo,
                 SubscriptionList = user.SubscriptionList,
                 IsAdmin = this.permissionManager.HasPermission(Permission.Admin, user.Permission),
-                NewEpisodes = this.newEpisodesOperations.GetUserNewEpisodes(User.Identity.Name)
+                NewEpisodes = this.usersOperations.GetUserNewEpisodes(User.Identity.Name)
             });
         }
 
@@ -244,7 +244,7 @@ namespace STrackerServer.Controllers
                 return this.View(new UserSearchResult { Result = new List<User.UserSynopsis>(), SearchValue = string.Empty });
             }
 
-            var users = this.usersOperations.FindByName(name);
+            var users = this.usersOperations.FindByName(name).ToList();
 
             if (users.Count != 0)
             {
@@ -407,14 +407,14 @@ namespace STrackerServer.Controllers
                 {
                     IList<Episode.EpisodeSynopsis> list;
 
-                    if (subDetailView.EpisodesWatched.ContainsKey(episode.SeasonNumber))
+                    if (subDetailView.EpisodesWatched.ContainsKey(episode.Id.SeasonNumber))
                     {
-                        list = subDetailView.EpisodesWatched[episode.SeasonNumber];
+                        list = subDetailView.EpisodesWatched[episode.Id.SeasonNumber];
                     }
                     else
                     {
                         list = new List<Episode.EpisodeSynopsis>();
-                        subDetailView.EpisodesWatched.Add(episode.SeasonNumber, list);
+                        subDetailView.EpisodesWatched.Add(episode.Id.SeasonNumber, list);
                     }
 
                     list.Add(episode);

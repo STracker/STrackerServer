@@ -11,18 +11,21 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
 {
     using System;
 
+    using global::MongoDB.Bson;
+
     using global::MongoDB.Driver;
 
     using global::MongoDB.Driver.Builders;
 
     using STrackerServer.DataAccessLayer.Core.EpisodesRepositories;
+    using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.Comments;
 
     /// <summary>
     /// The episode comments repository.
     /// </summary>
-    public class EpisodeCommentsRepository : BaseCommentsRepository<CommentsEpisode, Tuple<string, int, int>>, IEpisodeCommentsRepository
+    public class EpisodeCommentsRepository : BaseCommentsRepository<CommentsEpisode, Episode.EpisodeKey>, IEpisodeCommentsRepository
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EpisodeCommentsRepository"/> class.
@@ -50,18 +53,12 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public bool AddComment(Tuple<string, int, int> id, Comment comment)
+        public override bool AddComment(Episode.EpisodeKey id, Comment comment)
         {
-            var collection = this.Database.GetCollection(string.Format("{0}-{1}", id.Item1, CollectionPrefix));
-
-            var query = Query.And(
-                Query<CommentsEpisode>.EQ(c => c.TvShowId, id.Item1),
-                Query<CommentsEpisode>.EQ(c => c.SeasonNumber, id.Item2),
-                Query<CommentsEpisode>.EQ(c => c.EpisodeNumber, id.Item3));
-
+            var collection = this.Database.GetCollection(string.Format("{0}-{1}", id.TvshowId, CollectionPrefix));
+            var query = Query<CommentsEpisode>.EQ(c => c.Id, id);
             var update = Update<CommentsEpisode>.Push(c => c.Comments, comment);
-
-            return this.ModifyList(collection, query, update);
+            return this.ModifyList(collection, query, update, this.Read(id));
         }
 
         /// <summary>
@@ -76,18 +73,12 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public bool RemoveComment(Tuple<string, int, int> id, Comment comment)
+        public override bool RemoveComment(Episode.EpisodeKey id, Comment comment)
         {
-            var collection = this.Database.GetCollection(string.Format("{0}-{1}", id.Item1, CollectionPrefix));
-
-            var query = Query.And(
-                Query<CommentsEpisode>.EQ(c => c.TvShowId, id.Item1),
-                Query<CommentsEpisode>.EQ(c => c.SeasonNumber, id.Item2),
-                Query<CommentsEpisode>.EQ(c => c.EpisodeNumber, id.Item3));
-
+            var collection = this.Database.GetCollection(string.Format("{0}-{1}", id.TvshowId, CollectionPrefix));
+            var query = Query<CommentsEpisode>.EQ(c => c.Id, id);
             var update = Update<CommentsEpisode>.Pull(c => c.Comments, comment);
-
-            return this.ModifyList(collection, query, update);
+            return this.ModifyList(collection, query, update, this.Read(id));
         }
 
         /// <summary>
@@ -98,13 +89,12 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         /// </param>
         protected override void HookCreate(CommentsEpisode entity)
         {
-            var collection = this.Database.GetCollection(string.Format("{0}-{1}", entity.TvShowId, CollectionPrefix));
-            this.SetupIndexes(collection);
+            var collection = this.Database.GetCollection(string.Format("{0}-{1}", entity.Id.TvshowId, CollectionPrefix));
             collection.Insert(entity);
         }
 
         /// <summary>
-        /// The hook read.
+        /// Hook method for Read operation.
         /// </summary>
         /// <param name="id">
         /// The id.
@@ -112,16 +102,10 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         /// <returns>
         /// The <see cref="CommentsEpisode"/>.
         /// </returns>
-        protected override CommentsEpisode HookRead(Tuple<string, int, int> id)
+        protected override CommentsEpisode HookRead(Episode.EpisodeKey id)
         {
-            var collection = this.Database.GetCollection(string.Format("{0}-{1}", id.Item1, CollectionPrefix));
-
-            var query = Query.And(
-                Query<CommentsEpisode>.EQ(comments => comments.TvShowId, id.Item1),
-                Query<CommentsEpisode>.EQ(comments => comments.SeasonNumber, id.Item2),
-                Query<CommentsEpisode>.EQ(comments => comments.EpisodeNumber, id.Item3));
-
-            return collection.FindOne<CommentsEpisode>(query, "_id");
+            var collection = this.Database.GetCollection(string.Format("{0}-{1}", id.TvshowId, CollectionPrefix));
+            return collection.FindOneByIdAs<CommentsEpisode>(id.ToBsonDocument());
         }
 
         /// <summary>
@@ -141,15 +125,10 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         /// <param name="id">
         /// The id.
         /// </param>
-        protected override void HookDelete(Tuple<string, int, int> id)
+        protected override void HookDelete(Episode.EpisodeKey id)
         {
-            var collection = this.Database.GetCollection(string.Format("{0}-{1}", id.Item1, CollectionPrefix));
-
-            var query = Query.And(
-                Query<CommentsEpisode>.EQ(c => c.TvShowId, id.Item1),
-                Query<CommentsEpisode>.EQ(c => c.SeasonNumber, id.Item2),
-                Query<CommentsEpisode>.EQ(c => c.EpisodeNumber, id.Item3));
-
+            var collection = this.Database.GetCollection(string.Format("{0}-{1}", id.TvshowId, CollectionPrefix));
+            var query = Query<CommentsEpisode>.EQ(c => c.Id, id);
             collection.FindAndRemove(query, SortBy.Null);
         }
     }

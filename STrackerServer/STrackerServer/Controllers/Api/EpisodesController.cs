@@ -9,11 +9,11 @@
 
 namespace STrackerServer.Controllers.Api
 {
-    using System;
     using System.Net.Http;
     using System.Web.Http;
 
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
+    using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
     /// Episodes API controller.
@@ -54,7 +54,7 @@ namespace STrackerServer.Controllers.Api
         [HttpGet]
         public HttpResponseMessage Get(string tvshowId, int seasonNumber, int number)
         {
-            return this.BaseGet(this.operations.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, number)));
+            return this.BaseGet(this.operations.Read(new Episode.EpisodeKey { TvshowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = number }));
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace STrackerServer.Controllers.Api
         [HttpGet]
         public HttpResponseMessage GetAll(string tvshowId, int seasonNumber)
         {
-            return this.BaseGet(this.operations.GetAllFromOneSeason(tvshowId, seasonNumber));
+            return this.BaseGet(this.operations.GetAllFromOneSeason(new Season.SeasonKey { TvshowId = tvshowId, SeasonNumber = seasonNumber }));
         }
     }
 }

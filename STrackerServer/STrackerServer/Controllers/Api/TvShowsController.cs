@@ -32,14 +32,23 @@ namespace STrackerServer.Controllers.Api
         private readonly ITvShowsOperations operations;
 
         /// <summary>
+        /// The ratings operations.
+        /// </summary>
+        private readonly ITvShowsRatingsOperations ratingsOperations;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TvShowsController"/> class.
         /// </summary>
         /// <param name="tvshowsOperations">
         /// Television shows operations.
         /// </param>
-        public TvShowsController(ITvShowsOperations tvshowsOperations)
+        /// <param name="ratingsOperations">
+        /// The ratings Operations.
+        /// </param>
+        public TvShowsController(ITvShowsOperations tvshowsOperations, ITvShowsRatingsOperations ratingsOperations)
         {
             this.operations = tvshowsOperations;
+            this.ratingsOperations = ratingsOperations;
         }
 
         /// <summary>
@@ -81,7 +90,7 @@ namespace STrackerServer.Controllers.Api
         /// </returns>
         public HttpResponseMessage GetTopRated()
         {
-            return this.BaseGet(this.operations.GetTopRated(MaxTopRatedTvShows));
+            return this.BaseGet(this.ratingsOperations.GetTopRated(MaxTopRatedTvShows));
         }
     }
 }

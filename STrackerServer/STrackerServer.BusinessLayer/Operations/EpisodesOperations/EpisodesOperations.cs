@@ -9,7 +9,6 @@
 
 namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
 {
-    using System;
     using System.Collections.Generic;
 
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
@@ -20,7 +19,7 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
     /// <summary>
     /// Episodes operations.
     /// </summary>
-    public class EpisodesOperations : BaseCrudOperations<Episode, Tuple<string, int, int>>, IEpisodesOperations
+    public class EpisodesOperations : BaseCrudOperations<Episode, Episode.EpisodeKey>, IEpisodesOperations
     {
         /// <summary>
         /// The seasons operations.
@@ -51,30 +50,27 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
         /// <returns>
         /// The <see cref="STrackerServer.DataAccessLayer.DomainEntities.Episode"/>.
         /// </returns>
-        public override Episode Read(Tuple<string, int, int> id)
+        public override Episode Read(Episode.EpisodeKey id)
         {
-            var season = this.seasonsOperations.Read(new Tuple<string, int>(id.Item1, id.Item2));
+            var season = this.seasonsOperations.Read(new Season.SeasonKey { TvshowId = id.TvshowId, SeasonNumber = id.SeasonNumber });
             return (season == null) ? null : this.Repository.Read(id);
         }
 
         /// <summary>
         /// The get all from one season.
         /// </summary>
-        /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <param name="seasonNumber">
-        /// The season number.
+        /// <param name="id">
+        /// The id.
         /// </param>
         /// <returns>
         /// The <see>
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        public IEnumerable<Episode.EpisodeSynopsis> GetAllFromOneSeason(string tvshowId, int seasonNumber)
+        public ICollection<Episode.EpisodeSynopsis> GetAllFromOneSeason(Season.SeasonKey id)
         {
-            var season = this.seasonsOperations.Read(new Tuple<string, int>(tvshowId, seasonNumber));
-            return season == null ? null : ((IEpisodesRepository)this.Repository).GetAllFromOneSeason(tvshowId, seasonNumber);
+            var season = this.seasonsOperations.Read(id);
+            return season == null ? null : ((IEpisodesRepository)this.Repository).GetAllFromOneSeason(id);
         }
     }
 }

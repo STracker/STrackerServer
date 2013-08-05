@@ -9,12 +9,13 @@
 
 namespace STrackerServer.Repository.MongoDB.Core
 {
+    using System;
     using System.Configuration;
 
     using global::MongoDB.Driver;
 
-    using global::MongoDB.Driver.Builders;
-
+    using STrackerServer.DataAccessLayer.Core;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.Ratings;
 
     /// <summary>
@@ -26,7 +27,8 @@ namespace STrackerServer.Repository.MongoDB.Core
     /// <typeparam name="TK">
     /// Type of the rating key.
     /// </typeparam>
-    public abstract class BaseRatingsRepository<TR, TK> : BaseRepository<TR, TK> where TR : RatingsBase<TK>
+    public abstract class BaseRatingsRepository<TR, TK> : BaseRepository<TR, TK>, IRatingsRepository<TR, TK>
+        where TR : RatingsBase<TK>
     {
         /// <summary>
         /// The collection prefix.
@@ -49,27 +51,55 @@ namespace STrackerServer.Repository.MongoDB.Core
         }
 
         /// <summary>
-        /// The drop comments.
+        /// The remove all ratings.
         /// </summary>
         /// <param name="id">
         /// The id.
         /// </param>
-        public void DropRatings(string id)
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool RemoveAllRatings(TK id)
         {
-            var collection = this.Database.GetCollection(string.Format("{0}-{1}", this.CollectionPrefix, id));
-            collection.Drop();
+            try
+            {
+                var collection = this.Database.GetCollection(string.Format("{0}-{1}", this.CollectionPrefix, id));
+                collection.Drop();
+                return true;
+            }
+            catch (Exception)
+            {
+                // TODO, add to log mechanism.
+                return false;
+            }
         }
 
         /// <summary>
-        /// The setup indexes.
+        /// The add rating.
         /// </summary>
-        /// <param name="collection">
-        /// The collection.
+        /// <param name="id">
+        /// The id.
         /// </param>
-        protected void SetupIndexes(MongoCollection collection)
-        {
-            // Ensure index.
-            collection.EnsureIndex(new IndexKeysBuilder().Ascending("TvShowId", "SeasonNumber", "EpisodeNumber"), IndexOptions.SetUnique(true));
-        }
+        /// <param name="rating">
+        /// The rating.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public abstract bool AddRating(TK id, Rating rating);
+
+        /// <summary>
+        /// The remove rating.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <param name="rating">
+        /// The rating.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public abstract bool RemoveRating(TK id, Rating rating);
     }
 }

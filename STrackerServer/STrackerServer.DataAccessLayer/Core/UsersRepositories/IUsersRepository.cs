@@ -104,31 +104,31 @@ namespace STrackerServer.DataAccessLayer.Core.UsersRepositories
         bool SendSuggestion(User userTo, Suggestion suggestion);
 
         /// <summary>
-        /// The remove suggestion.
+        /// The remove television show suggestions.
         /// </summary>
-        /// <param name="userFrom">
-        /// The user from.
+        /// <param name="user">
+        /// The user.
         /// </param>
-        /// <param name="suggestion">
-        /// The suggestion.
+        /// <param name="tvshowId">
+        /// The television show Id.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool RemoveSuggestion(User userFrom, Suggestion suggestion);
+        bool RemoveTvShowSuggestions(User user, string tvshowId);
 
         /// <summary>
         /// The get suggestions.
         /// </summary>
-        /// <param name="userFrom">
-        /// The user from.
+        /// <param name="user">
+        /// The user.
         /// </param>
         /// <returns>
         /// The <see>
         ///       <cref>List</cref>
         ///     </see> .
         /// </returns>
-        List<Suggestion> GetSuggestions(User userFrom);
+        ICollection<Suggestion> GetSuggestions(User user);
 
         /// <summary>
         /// The find by name.
@@ -141,7 +141,7 @@ namespace STrackerServer.DataAccessLayer.Core.UsersRepositories
         ///       <cref>List</cref>
         ///     </see> .
         /// </returns>
-        List<User> FindByName(string name);
+        ICollection<User.UserSynopsis> FindByName(string name);
 
         /// <summary>
         /// The remove friend.
@@ -156,20 +156,6 @@ namespace STrackerServer.DataAccessLayer.Core.UsersRepositories
         /// The <see cref="bool"/>.
         /// </returns>
         bool RemoveFriend(User userModel, User userFriend);
-
-        /// <summary>
-        /// The remove television show suggestions.
-        /// </summary>
-        /// <param name="user">
-        /// The user.
-        /// </param>
-        /// <param name="tvshow">
-        /// The television show.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        bool RemoveTvShowSuggestions(User user, TvShow tvshow);
 
         /// <summary>
         /// The add watched episode.

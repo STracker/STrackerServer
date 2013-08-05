@@ -11,7 +11,6 @@ namespace STrackerServer.Repository.MongoDB.Core
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
-    using System.Diagnostics.Contracts;
 
     using global::MongoDB.Driver;
 
@@ -87,13 +86,7 @@ namespace STrackerServer.Repository.MongoDB.Core
             try
             {
                 var entity = this.HookRead(id);
-                if (Equals(entity, default(T)))
-                {
-                    return default(T);
-                }
-
-                entity.Key = id;
-                return entity;
+                return Equals(entity, default(T)) ? default(T) : entity;
             }
             catch (Exception)
             {
@@ -108,15 +101,20 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <param name="entity">
         /// The entity.
         /// </param>
-        public void Update(T entity)
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool Update(T entity)
         {
             try
             {
                 this.HookUpdate(entity);
+                return true;
             }
             catch (Exception)
             {
                 // TODO, add exception to Log mechanism.
+                return false;
             }
         }
 
@@ -126,15 +124,20 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <param name="id">
         /// The id.
         /// </param>
-        public void Delete(TK id)
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool Delete(TK id)
         {
             try
             {
                 this.HookDelete(id);
+                return true;
             }
             catch (Exception)
             {
                 // TODO, add exception to Log mechanism.
+                return false;
             }
         }
 
@@ -150,14 +153,22 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <param name="update">
         /// The update.
         /// </param>
+        /// <param name="entity">
+        /// The entity.
+        /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        protected bool ModifyList(MongoCollection collection, IMongoQuery query, IMongoUpdate update)
+        protected bool ModifyList(MongoCollection collection, IMongoQuery query, IMongoUpdate update, T entity)
         {
             try
             {
-                return collection.FindAndModify(query, SortBy.Null, update).Ok;
+                collection.FindAndModify(query, SortBy.Null, update);
+
+                // Update version.
+                update = Update<T>.Set(t => t.Version, entity.Version + 1);
+                collection.FindAndModify(query, SortBy.Null, update);
+                return true;
             }
             catch (Exception)
             {

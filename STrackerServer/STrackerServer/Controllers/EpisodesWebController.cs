@@ -10,6 +10,7 @@
 namespace STrackerServer.Controllers
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
     using System.Net;
@@ -20,6 +21,7 @@ namespace STrackerServer.Controllers
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.BusinessLayer.Permissions;
+    using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
     using STrackerServer.Models.Episode;
 
@@ -104,10 +106,12 @@ namespace STrackerServer.Controllers
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly",Justification = "Reviewed. Suppression is OK here.")]
         [HttpGet]
         public ActionResult Show(string tvshowId, int seasonNumber, int episodeNumber)
         {
-            var key = new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber);
+            var key = new Episode.EpisodeKey
+                { TvshowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = episodeNumber };
 
             var episode = this.episodesOps.Read(key);
 
@@ -135,7 +139,7 @@ namespace STrackerServer.Controllers
                     watched = subscription.EpisodesWatched.Exists(synopsis => synopsis.Equals(episode.GetSynopsis()));
                 }
 
-                userRating = episodeRating.Ratings.Find(rating => rating.User.Id.Equals(user.Key));
+                userRating = episodeRating.Ratings.Find(rating => rating.User.Id.Equals(user.Id));
             }
 
             var asAired = false;
@@ -152,9 +156,9 @@ namespace STrackerServer.Controllers
 
             return this.View(new EpisodeView
             {
-                TvShowId = episode.TvShowId,
-                SeasonNumber = episode.SeasonNumber,
-                EpisodeNumber = episode.EpisodeNumber,
+                TvShowId = episode.Id.TvshowId,
+                SeasonNumber = episode.Id.SeasonNumber,
+                EpisodeNumber = episode.Id.EpisodeNumber,
                 Description = episode.Description,
                 Name = episode.Name,
                 GuestActors = episode.GuestActors,
@@ -189,7 +193,7 @@ namespace STrackerServer.Controllers
         [HttpGet]
         public ActionResult Comments(string tvshowId, int seasonNumber, int episodeNumber)
         {
-            var episodeComments = this.commentsOperations.GetComments(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber));
+            var episodeComments = this.commentsOperations.GetComments(new Episode.EpisodeKey { TvshowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = episodeNumber });
             
             if (episodeComments == null)
             {
@@ -197,7 +201,7 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            var episode = this.episodesOps.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber));
+            var episode = this.episodesOps.Read(new Episode.EpisodeKey { TvshowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = episodeNumber });
 
             var isModerator = false;
 
@@ -239,7 +243,7 @@ namespace STrackerServer.Controllers
         [Authorize]
         public ActionResult CreateComment(string tvshowId, int seasonNumber, int episodeNumber)
         {
-            var episode = this.episodesOps.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber));
+            var episode = this.episodesOps.Read(new Episode.EpisodeKey { TvshowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = episodeNumber });
 
             if (episode == null)
             {
@@ -271,7 +275,7 @@ namespace STrackerServer.Controllers
         [Authorize]
         public ActionResult CreateComment(EpisodeCreateComment create)
         {
-            var key = new Tuple<string, int, int>(create.TvShowId, create.SeasonNumber, create.EpisodeNumber);
+            var key = new Episode.EpisodeKey { TvshowId = create.TvShowId, SeasonNumber = create.SeasonNumber, EpisodeNumber = create.EpisodeNumber };
 
             var episode = this.episodesOps.Read(key);
 
@@ -318,7 +322,7 @@ namespace STrackerServer.Controllers
         [Authorize]
         public ActionResult Comment(string tvshowId, int seasonNumber, int episodeNumber, string id)
         {
-            var key = new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber);
+            var key = new Episode.EpisodeKey { TvshowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = episodeNumber };
 
             var comments = this.commentsOperations.GetComments(key);
 
@@ -373,7 +377,7 @@ namespace STrackerServer.Controllers
         [Authorize]
         public ActionResult RemoveComment(EpisodeRemoveComment remove)
         {
-            if (!ModelState.IsValid || !this.commentsOperations.RemoveComment(new Tuple<string, int, int>(remove.TvShowId, remove.SeasonNumber, remove.EpisodeNumber), User.Identity.Name, remove.Id))
+            if (!ModelState.IsValid || !this.commentsOperations.RemoveComment(new Episode.EpisodeKey { TvshowId = remove.TvShowId, SeasonNumber = remove.SeasonNumber, EpisodeNumber = remove.EpisodeNumber }, User.Identity.Name, remove.Id))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View("Error", Response.StatusCode);
@@ -401,7 +405,7 @@ namespace STrackerServer.Controllers
         [Authorize]
         public ActionResult Rate(string tvshowId, int seasonNumber, int episodeNumber)
         {
-            var key = new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber);
+            var key = new Episode.EpisodeKey { TvshowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = episodeNumber };
 
             var episode = this.episodesOps.Read(key);
 
@@ -436,7 +440,7 @@ namespace STrackerServer.Controllers
         [Authorize]
         public ActionResult Rate(EpisodeRating rating)
         {
-            var key = new Tuple<string, int, int>(rating.TvShowId, rating.SeasonNumber, rating.EpisodeNumber);
+            var key = new Episode.EpisodeKey { TvshowId = rating.TvShowId, SeasonNumber = rating.SeasonNumber, EpisodeNumber = rating.EpisodeNumber };
 
             var episode = this.episodesOps.Read(key);
 
@@ -482,8 +486,8 @@ namespace STrackerServer.Controllers
             }
 
             var success = values.Watched ? 
-                this.usersOperations.AddWatchedEpisode(this.User.Identity.Name, values.TvShowId, values.SeasonNumber, values.EpisodeNumber) : 
-                this.usersOperations.RemoveWatchedEpisode(this.User.Identity.Name, values.TvShowId, values.SeasonNumber, values.EpisodeNumber);
+                this.usersOperations.AddWatchedEpisode(this.User.Identity.Name, new Episode.EpisodeKey { TvshowId = values.TvShowId, SeasonNumber = values.SeasonNumber, EpisodeNumber = values.EpisodeNumber }) :
+                this.usersOperations.RemoveWatchedEpisode(this.User.Identity.Name, new Episode.EpisodeKey { TvshowId = values.TvShowId, SeasonNumber = values.SeasonNumber, EpisodeNumber = values.EpisodeNumber });
 
             if (!success)
             {
