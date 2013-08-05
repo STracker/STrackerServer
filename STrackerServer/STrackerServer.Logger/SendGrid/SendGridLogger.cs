@@ -9,6 +9,7 @@
 
 namespace STrackerServer.Logger.SendGrid
 {
+    using System.Configuration;
     using System.Net.Mail;
     using System.Text;
 
@@ -26,6 +27,11 @@ namespace STrackerServer.Logger.SendGrid
         /// The SMTP client.
         /// </summary>
         private readonly SmtpClient smtpClient;
+
+        /// <summary>
+        /// The STracker email.
+        /// </summary>
+        private readonly string strackerEmail = ConfigurationManager.AppSettings["STracker:Email"];
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SendGridLogger{T}"/> class.
@@ -105,7 +111,7 @@ namespace STrackerServer.Logger.SendGrid
         private void SendMail(string type, string message)
         {
             var mailMsg = new MailMessage();
-            mailMsg.To.Add(new MailAddress("strackerdev@gmail.com"));
+            mailMsg.To.Add(new MailAddress(this.strackerEmail));
             mailMsg.Subject = "Log type: " + type;
             mailMsg.Body = message;
             mailMsg.BodyEncoding = Encoding.ASCII;

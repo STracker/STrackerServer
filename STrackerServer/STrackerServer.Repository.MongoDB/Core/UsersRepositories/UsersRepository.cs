@@ -151,8 +151,8 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         /// <summary>
         /// The send suggestion.
         /// </summary>
-        /// <param name="userTo">
-        /// The user To.
+        /// <param name="user">
+        /// The user.
         /// </param>
         /// <param name="suggestion">
         /// The suggestion.
@@ -160,11 +160,11 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public bool SendSuggestion(User userTo, Suggestion suggestion)
+        public bool SendSuggestion(User user, Suggestion suggestion)
         {
-            var query = Query<User>.EQ(user => user.Id, userTo.Id);
-            var update = Update<User>.AddToSet(user => user.Suggestions, suggestion);
-            return this.ModifyList(this.collection, query, update, userTo);
+            var query = Query<User>.EQ(userInput => userInput.Id, user.Id);
+            var update = Update<User>.AddToSet(userInput => userInput.Suggestions, suggestion);
+            return this.ModifyList(this.collection, query, update, user);
         }
 
         /// <summary>
@@ -189,17 +189,17 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         /// <summary>
         /// The get suggestions.
         /// </summary>
-        /// <param name="userFrom">
-        /// The user from.
+        /// <param name="user">
+        /// The user.
         /// </param>
         /// <returns>
         /// The <see>
         ///       <cref>List</cref>
         ///     </see> .
         /// </returns>
-        public ICollection<Suggestion> GetSuggestions(User userFrom)
+        public ICollection<Suggestion> GetSuggestions(User user)
         {
-            return this.Read(userFrom.Id).Suggestions;
+            return this.Read(user.Id).Suggestions;
         }
 
         /// <summary>
@@ -222,18 +222,18 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         /// <summary>
         /// The remove friend.
         /// </summary>
-        /// <param name="userModel">
-        /// The user model.
+        /// <param name="user">
+        /// The user.
         /// </param>
-        /// <param name="userFriend">
-        /// The user friend.
+        /// <param name="friend">
+        /// The friend.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public bool RemoveFriend(User userModel, User userFriend)
+        public bool RemoveFriend(User user, User friend)
         {
-            return this.RemoveFriendInfoFromUser(userModel, userFriend) && this.RemoveUserInfoFromFriend(userModel, userFriend);
+            return this.RemoveFriendFromUser(user, friend) && this.RemoveFriendFromUser(friend, user);
         }
 
         /// <summary>
@@ -348,45 +348,23 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         /// <summary>
         /// The remove friend info from user.
         /// </summary>
-        /// <param name="userModel">
-        /// The user model.
+        /// <param name="user">
+        /// The user.
         /// </param>
-        /// <param name="userFriend">
-        /// The user friend.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        private bool RemoveFriendInfoFromUser(User userModel, User userFriend)
-        {
-            var query = Query<User>.EQ(user => user.Id, userModel.Id);
-            var update = Update<User>
-                .Pull(user => user.Friends, userFriend.GetSynopsis())
-                .PullAll(user => user.Suggestions, userModel.Suggestions.Where(suggestion => suggestion.User.Id.Equals(userFriend.Id)));
-
-            return this.ModifyList(this.collection, query, update, userModel);
-        }
-
-        /// <summary>
-        /// The remove user info from friend.
-        /// </summary>
-        /// <param name="userModel">
-        /// The user model.
-        /// </param>
-        /// <param name="userFriend">
-        /// The user friend.
+        /// <param name="friend">
+        /// The friend.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        private bool RemoveUserInfoFromFriend(User userModel, User userFriend)
+        private bool RemoveFriendFromUser(User user, User friend)
         {
-            var query = Query<User>.EQ(user => user.Id, userFriend.Id);
+            var query = Query<User>.EQ(userInput => userInput.Id, user.Id);
             var update = Update<User>
-                .Pull(user => user.Friends, userModel.GetSynopsis())
-                .PullAll(user => user.Suggestions, userFriend.Suggestions.Where(suggestion => suggestion.User.Id.Equals(userModel.Id)));
+                .Pull(userInput => userInput.Friends, friend.GetSynopsis())
+                .PullAll(userInput => userInput.Suggestions, user.Suggestions.Where(suggestion => suggestion.User.Id.Equals(friend.Id)));
 
-            return this.ModifyList(this.collection, query, update, userFriend);
+            return this.ModifyList(this.collection, query, update, user);
         }
     }
 }

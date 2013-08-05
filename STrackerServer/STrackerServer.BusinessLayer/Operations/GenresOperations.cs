@@ -73,17 +73,20 @@ namespace STrackerServer.BusinessLayer.Operations
         /// </returns>
         public ICollection<TvShow.TvShowSynopsis> GetTvShows(ICollection<string> genres, int maxtvShows)
         {
-            var retList = new List<TvShow.TvShowSynopsis>();
-
-            if (maxtvShows == 0)
+            if (maxtvShows == 0 || genres == null || genres.Count == 0)
             {
-                return retList;
+                return new TvShow.TvShowSynopsis[0];
             }
 
             var results = new Dictionary<string, TvShowGenreResult>();
 
-            foreach (var genre in genres.Select(this.Read).Where(genre => genre != null))
+            foreach (var genre in genres.Select(this.Read))
             {
+                if (genre == null)
+                {
+                    return new TvShow.TvShowSynopsis[0];
+                }
+
                 foreach (var tvshow in genre.TvshowsSynopsis)
                 {
                     TvShowGenreResult result;
@@ -102,20 +105,11 @@ namespace STrackerServer.BusinessLayer.Operations
                 }
             }
 
-            var orderedResults = results.OrderByDescending(pair => pair.Value.Percentage);
-
-            var count = 0;
-            foreach (var result in orderedResults)
-            {
-                if (count++ == maxtvShows)
-                {
-                    break;
-                }
-
-                retList.Add(result.Value.TvShow);
-            }
-
-            return retList;
+            return results
+                .OrderByDescending(pair => pair.Value.Percentage)
+                .Take(maxtvShows)
+                .Select(pair => pair.Value.TvShow)
+                .ToList();
         }
 
         /// <summary>

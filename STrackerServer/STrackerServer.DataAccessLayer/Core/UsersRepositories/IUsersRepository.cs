@@ -92,8 +92,8 @@ namespace STrackerServer.DataAccessLayer.Core.UsersRepositories
         /// <summary>
         /// The send suggestion.
         /// </summary>
-        /// <param name="userTo">
-        /// The user To.
+        /// <param name="user">
+        /// The user.
         /// </param>
         /// <param name="suggestion">
         /// The suggestion.
@@ -101,7 +101,7 @@ namespace STrackerServer.DataAccessLayer.Core.UsersRepositories
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool SendSuggestion(User userTo, Suggestion suggestion);
+        bool SendSuggestion(User user, Suggestion suggestion);
 
         /// <summary>
         /// The remove television show suggestions.
@@ -146,16 +146,16 @@ namespace STrackerServer.DataAccessLayer.Core.UsersRepositories
         /// <summary>
         /// The remove friend.
         /// </summary>
-        /// <param name="userModel">
-        /// The user model.
+        /// <param name="user">
+        /// The user.
         /// </param>
-        /// <param name="userFriend">
-        /// The user friend.
+        /// <param name="friend">
+        /// The friend.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool RemoveFriend(User userModel, User userFriend);
+        bool RemoveFriend(User user, User friend);
 
         /// <summary>
         /// The add watched episode.
