@@ -29,20 +29,7 @@ namespace STrackerServer.BusinessLayer.Core.TvShowsOperations
         ///       <cref>List</cref>
         ///     </see> .
         /// </returns>
-        List<TvShow.TvShowSynopsis> ReadByName(string name);
-
-        /// <summary>
-        /// The get top rated.
-        /// </summary>
-        /// <param name="max">
-        /// The max.
-        /// </param>
-        /// <returns>
-        /// The <see>
-        ///       <cref>List</cref>
-        ///     </see> .
-        /// </returns>
-        IList<TvShow.TvShowSynopsis> GetTopRated(int max);
+        ICollection<TvShow.TvShowSynopsis> ReadByName(string name);
 
         /// <summary>
         /// The get names.

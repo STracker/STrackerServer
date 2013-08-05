@@ -11,7 +11,6 @@ namespace STrackerServer.Controllers.Api
 {
     using System;
     using System.Web.Http;
-    using System.Web.Mvc;
 
     using STrackerServer.Controllers.Api.AuxiliaryObjects;
 

@@ -7,13 +7,13 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
+namespace STrackerServer.BusinessLayer.Operations
 {
     using System.Collections.Generic;
     using System.Linq;
 
-    using STrackerServer.BusinessLayer.Core.TvShowsOperations;
-    using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
+    using STrackerServer.BusinessLayer.Core;
+    using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
@@ -52,10 +52,9 @@ namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
         /// <returns>
         /// The <see cref="List{T}"/>.
         /// </returns>
-        public List<Genre.GenreSynopsis> GetAll()
+        public ICollection<Genre.GenreSynopsis> GetAll()
         {
-            var list = ((IGenresRepository)Repository).GetAll();
-            return list.Select(genre => genre.GetSynopsis()).ToList();
+            return ((IGenresRepository)this.Repository).GetAll();
         }
 
         /// <summary>
@@ -72,7 +71,7 @@ namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        public IEnumerable<TvShow.TvShowSynopsis> GetTvShows(ICollection<string> genres, int maxtvShows)
+        public ICollection<TvShow.TvShowSynopsis> GetTvShows(ICollection<string> genres, int maxtvShows)
         {
             var retList = new List<TvShow.TvShowSynopsis>();
 

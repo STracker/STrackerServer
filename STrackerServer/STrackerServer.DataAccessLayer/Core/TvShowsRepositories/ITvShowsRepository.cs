@@ -29,42 +29,7 @@ namespace STrackerServer.DataAccessLayer.Core.TvShowsRepositories
         ///       <cref>List</cref>
         ///     </see> .
         /// </returns>
-        List<TvShow.TvShowSynopsis> ReadByName(string name);
-
-        /// <summary>
-        /// The add season synopsis.
-        /// </summary>
-        /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <param name="season">
-        /// The season.
-        /// </param>
-        void AddSeasonSynopsis(string tvshowId, Season.SeasonSynopsis season);
-
-        /// <summary>
-        /// The remove season synopsis.
-        /// </summary>
-        /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <param name="season">
-        /// The season.
-        /// </param>
-        void RemoveSeasonSynopsis(string tvshowId, Season.SeasonSynopsis season);
-
-        /// <summary>
-        /// The get top rated.
-        /// </summary>
-        /// <param name="max">
-        /// The max.
-        /// </param>
-        /// <returns>
-        /// The <see>
-        ///       <cref>List</cref>
-        ///     </see> .
-        /// </returns>
-        List<TvShow.TvShowSynopsis> GetTopRated(int max);
+        ICollection<TvShow.TvShowSynopsis> ReadByName(string name);
 
         /// <summary>
         /// The get names.
@@ -78,5 +43,33 @@ namespace STrackerServer.DataAccessLayer.Core.TvShowsRepositories
         ///     </see> .
         /// </returns>
         string[] GetNames(string query);
+
+        /// <summary>
+        /// The add season synopsis.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="season">
+        /// The season.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool AddSeasonSynopsis(string tvshowId, Season.SeasonSynopsis season);
+
+        /// <summary>
+        /// The remove season synopsis.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="season">
+        /// The season.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool RemoveSeasonSynopsis(string tvshowId, Season.SeasonSynopsis season);
     }
 }

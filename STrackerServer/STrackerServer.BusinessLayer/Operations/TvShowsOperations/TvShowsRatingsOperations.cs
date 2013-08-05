@@ -9,6 +9,8 @@
 
 namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
 {
+    using System.Collections.Generic;
+
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
@@ -31,6 +33,22 @@ namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
         public TvShowsRatingsOperations(ITvShowRatingsRepository ratingsRepository, ITvShowsRepository repository)
             : base(ratingsRepository, repository)
         {
+        }
+
+        /// <summary>
+        /// The get top rated.
+        /// </summary>
+        /// <param name="max">
+        /// The max.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>List</cref>
+        ///     </see> .
+        /// </returns>
+        public ICollection<TvShow.TvShowSynopsis> GetTopRated(int max)
+        {
+            return ((ITvShowRatingsRepository)this.RatingsRepository).GetTopRated(max);
         }
     }
 }

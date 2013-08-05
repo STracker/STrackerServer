@@ -47,14 +47,14 @@
                             </h4> 
                             <br/>
                             <table class="table table-condensed">
-                                @foreach(var episode in sub.EpisodesWatched[season].OrderBy(synopsis => synopsis.EpisodeNumber))
+                                @foreach(var episode in sub.EpisodesWatched[season].OrderBy(synopsis => synopsis.Id.EpisodeNumber))
                                 {
                                     <tr>
                                         
                                         <td>
-                                            @episode.EpisodeNumber
+                                            @episode.Id.EpisodeNumber
                                             <span> - </span>
-                                            <a href="@Url.Action("Show","EpisodesWeb", new { tvshowId = episode.TvShowId, seasonNumber = episode.SeasonNumber, episodeNumber = episode.EpisodeNumber })">
+                                            <a href="@Url.Action("Show","EpisodesWeb", new { tvshowId = episode.Id.TvshowId, seasonNumber = episode.Id.SeasonNumber, episodeNumber = episode.Id.EpisodeNumber })">
                                                 @episode.Name
                                             </a>
                                         </td>

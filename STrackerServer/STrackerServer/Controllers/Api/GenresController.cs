@@ -13,7 +13,7 @@ namespace STrackerServer.Controllers.Api
     using System.Net.Http;
     using System.Web.Http;
 
-    using STrackerServer.BusinessLayer.Core.TvShowsOperations;
+    using STrackerServer.BusinessLayer.Core;
 
     /// <summary>
     /// The genres controller.

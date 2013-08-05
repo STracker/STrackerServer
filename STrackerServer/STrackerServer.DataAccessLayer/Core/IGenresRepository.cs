@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.DataAccessLayer.Core.TvShowsRepositories
+namespace STrackerServer.DataAccessLayer.Core
 {
     using System.Collections.Generic;
 
@@ -21,24 +21,30 @@ namespace STrackerServer.DataAccessLayer.Core.TvShowsRepositories
         /// <summary>
         /// Add television show synopsis to genre.
         /// </summary>
-        /// <param name="tvshow">
-        /// The television show.
-        /// </param>
         /// <param name="genre">
         /// The genre.
         /// </param>
-        void AddTvShowToGenre(TvShow.TvShowSynopsis tvshow, Genre.GenreSynopsis genre);
+        /// <param name="tvshow">
+        /// The television show.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool AddTvShowToGenre(string genre, TvShow.TvShowSynopsis tvshow);
 
         /// <summary>
         /// The remove television show from genre.
         /// </summary>
-        /// <param name="tvshow">
-        /// The television show.
-        /// </param>
         /// <param name="genre">
         /// The genre.
         /// </param>
-        void RemoveTvShowFromGenre(TvShow.TvShowSynopsis tvshow, Genre.GenreSynopsis genre);
+        /// <param name="tvshow">
+        /// The television show.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool RemoveTvShowFromGenre(string genre, TvShow.TvShowSynopsis tvshow);
 
         /// <summary>
         /// Get all genres.
@@ -48,6 +54,6 @@ namespace STrackerServer.DataAccessLayer.Core.TvShowsRepositories
         ///       <cref>List</cref>
         ///     </see> .
         /// </returns>
-        List<Genre> GetAll();
+        ICollection<Genre.GenreSynopsis> GetAll();
     }
 }

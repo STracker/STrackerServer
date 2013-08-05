@@ -9,21 +9,23 @@
 
 namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
 {
-    using System;
     using System.Linq;
+
+    using global::MongoDB.Bson;
 
     using global::MongoDB.Driver;
 
     using global::MongoDB.Driver.Builders;
 
     using STrackerServer.DataAccessLayer.Core.EpisodesRepositories;
+    using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.Ratings;
 
     /// <summary>
     /// The episode ratings repository.
     /// </summary>
-    public class EpisodeRatingsRepository : BaseRatingsRepository<RatingsEpisode, Tuple<string, int, int>>, IEpisodeRatingsRepository 
+    public class EpisodeRatingsRepository : BaseRatingsRepository<RatingsEpisode, Episode.EpisodeKey>, IEpisodeRatingsRepository 
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EpisodeRatingsRepository"/> class.
@@ -51,23 +53,19 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public bool AddRating(Tuple<string, int, int> id, Rating rating)
+        public override bool AddRating(Episode.EpisodeKey id, Rating rating)
         {
-            var collection = this.Database.GetCollection(string.Format("{0}-{1}", id.Item1, CollectionPrefix));
-            var query = Query.And(
-                Query<RatingsEpisode>.EQ(ratings => ratings.TvShowId, id.Item1),
-                Query<RatingsEpisode>.EQ(ratings => ratings.SeasonNumber, id.Item2),
-                Query<RatingsEpisode>.EQ(ratings => ratings.EpisodeNumber, id.Item3));
-
+            var collection = this.Database.GetCollection(string.Format("{0}-{1}", id.TvshowId, CollectionPrefix));
+            var query = Query<RatingsEpisode>.EQ(r => r.Id, id);
             var update = Update<RatingsEpisode>.Push(er => er.Ratings, rating);
 
             var removeRating = this.Read(id).Ratings.Find(r => r.User.Id.Equals(rating.User.Id));
 
             // If already have a rating for the user, need to remove it before insert the new one.
-            if (this.RemoveRating(id, removeRating) && this.ModifyList(collection, query, update))
+            if (this.RemoveRating(id, removeRating) && this.ModifyList(collection, query, update, this.Read(id)))
             {
-                update = Update<RatingsEpisode>.Set(episode => episode.Average, this.Read(id).Ratings.Average(rating1 => rating1.UserRating));
-                return collection.Update(query, update).Ok;
+                // Update average rating.
+                return this.Update(this.Read(id));
             }
 
             return false;
@@ -85,17 +83,12 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public bool RemoveRating(Tuple<string, int, int> id, Rating rating)
+        public override bool RemoveRating(Episode.EpisodeKey id, Rating rating)
         {
-            var collection = this.Database.GetCollection(string.Format("{0}-{1}", id.Item1, CollectionPrefix));
-            var query = Query.And(
-                Query<RatingsEpisode>.EQ(ratings => ratings.TvShowId, id.Item1),
-                Query<RatingsEpisode>.EQ(ratings => ratings.SeasonNumber, id.Item2),
-                Query<RatingsEpisode>.EQ(ratings => ratings.EpisodeNumber, id.Item3));
-
+            var collection = this.Database.GetCollection(string.Format("{0}-{1}", id.TvshowId, CollectionPrefix));
+            var query = Query<RatingsEpisode>.EQ(r => r.Id, id);
             var update = Update<RatingsEpisode>.Pull(er => er.Ratings, rating);
-
-            return this.ModifyList(collection, query, update);
+            return this.ModifyList(collection, query, update, this.Read(id));
         }
 
         /// <summary>
@@ -106,13 +99,12 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         /// </param>
         protected override void HookCreate(RatingsEpisode entity)
         {
-            var collection = this.Database.GetCollection(string.Format("{0}-{1}", entity.TvShowId, CollectionPrefix));
-            this.SetupIndexes(collection);
+            var collection = this.Database.GetCollection(string.Format("{0}-{1}", entity.Id.TvshowId, CollectionPrefix));
             collection.Insert(entity);
         }
 
         /// <summary>
-        /// The hook read.
+        /// Hook method for Read operation.
         /// </summary>
         /// <param name="id">
         /// The id.
@@ -120,15 +112,10 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         /// <returns>
         /// The <see cref="RatingsEpisode"/>.
         /// </returns>
-        protected override RatingsEpisode HookRead(Tuple<string, int, int> id)
+        protected override RatingsEpisode HookRead(Episode.EpisodeKey id)
         {
-            var collection = this.Database.GetCollection(string.Format("{0}-{1}", id.Item1, CollectionPrefix));
-            var query = Query.And(
-                Query<RatingsEpisode>.EQ(ratings => ratings.TvShowId, id.Item1),
-                Query<RatingsEpisode>.EQ(ratings => ratings.SeasonNumber, id.Item2),
-                Query<RatingsEpisode>.EQ(ratings => ratings.EpisodeNumber, id.Item3));
-
-            return collection.FindOne<RatingsEpisode>(query, "_id");
+            var collection = this.Database.GetCollection(string.Format("{0}-{1}", id.TvshowId, CollectionPrefix));
+            return collection.FindOneByIdAs<RatingsEpisode>(id.ToBsonDocument());
         }
 
         /// <summary>
@@ -139,7 +126,11 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         /// </param>
         protected override void HookUpdate(RatingsEpisode entity)
         {
-            throw new NotSupportedException("this method currently is not supported.");
+            var collection = this.Database.GetCollection(string.Format("{0}-{1}", entity.Id, CollectionPrefix));
+            var update = Update<RatingsEpisode>.Set(e => e.Average, entity.Ratings.Average(rating => rating.UserRating)).Set(e => e.Version, entity.Version + 1);
+            var query = Query<RatingsEpisode>.EQ(ratings => ratings.Id, entity.Id);
+
+            collection.FindAndModify(query, SortBy.Null, update);
         }
 
         /// <summary>
@@ -148,14 +139,10 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         /// <param name="id">
         /// The id.
         /// </param>
-        protected override void HookDelete(Tuple<string, int, int> id)
+        protected override void HookDelete(Episode.EpisodeKey id)
         {
-            var collection = this.Database.GetCollection(string.Format("{0}-{1}", id.Item1, CollectionPrefix));
-            var query = Query.And(
-                Query<RatingsEpisode>.EQ(ratings => ratings.TvShowId, id.Item1),
-                Query<RatingsEpisode>.EQ(ratings => ratings.SeasonNumber, id.Item2),
-                Query<RatingsEpisode>.EQ(ratings => ratings.EpisodeNumber, id.Item3));
-
+            var collection = this.Database.GetCollection(string.Format("{0}-{1}", id.TvshowId, CollectionPrefix));
+            var query = Query<RatingsEpisode>.EQ(r => r.Id, id);
             collection.FindAndRemove(query, SortBy.Null);
         }
     }

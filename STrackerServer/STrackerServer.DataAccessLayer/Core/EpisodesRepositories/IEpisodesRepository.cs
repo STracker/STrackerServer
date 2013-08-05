@@ -9,7 +9,6 @@
 
 namespace STrackerServer.DataAccessLayer.Core.EpisodesRepositories
 {
-    using System;
     using System.Collections.Generic;
 
     using STrackerServer.DataAccessLayer.DomainEntities;
@@ -17,7 +16,7 @@ namespace STrackerServer.DataAccessLayer.Core.EpisodesRepositories
     /// <summary>
     /// Episodes repository interface.
     /// </summary>
-    public interface IEpisodesRepository : IRepository<Episode, Tuple<string, int, int>>
+    public interface IEpisodesRepository : IRepository<Episode, Episode.EpisodeKey>
     {
         /// <summary>
         /// Create several episodes.
@@ -25,48 +24,19 @@ namespace STrackerServer.DataAccessLayer.Core.EpisodesRepositories
         /// <param name="episodes">
         /// The episodes.
         /// </param>
-        void CreateAll(IEnumerable<Episode> episodes);
+        void CreateAll(ICollection<Episode> episodes);
 
         /// <summary>
         /// The get all from one season.
         /// </summary>
-        /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <param name="seasonNumber">
-        /// The season number.
+        /// <param name="id">
+        /// The id.
         /// </param>
         /// <returns>
         /// The <see>
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        IEnumerable<Episode.EpisodeSynopsis> GetAllFromOneSeason(string tvshowId, int seasonNumber);
-
-        /// <summary>
-        /// The get newest episodes.
-        /// </summary>
-        /// <param name="tvshowId">
-        /// The tvshow id.
-        /// </param>
-        /// <returns>
-        /// The <see cref="NewTvShowEpisodes"/>.
-        /// </returns>
-        NewTvShowEpisodes GetNewestEpisodes(string tvshowId); 
-
-        /// <summary>
-        /// The Delete old episodes.
-        /// </summary>
-        void DeleteOldEpisodes();
-
-        /// <summary>
-        /// The get newest episodes.
-        /// </summary>
-        /// <returns>
-        /// The <see>
-        ///       <cref>IEnumerable</cref>
-        ///     </see> .
-        /// </returns>
-        IEnumerable<NewTvShowEpisodes> GetNewestEpisodes();
+        ICollection<Episode.EpisodeSynopsis> GetAllFromOneSeason(Season.SeasonKey id);
     }
 }

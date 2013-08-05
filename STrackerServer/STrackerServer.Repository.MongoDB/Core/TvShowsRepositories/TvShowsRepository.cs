@@ -10,7 +10,6 @@
 
 namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
 {
-    using System;
     using System.Collections.Generic;
     using System.Configuration;
     using System.Linq;
@@ -19,6 +18,8 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
 
     using global::MongoDB.Driver.Builders;
 
+    using STrackerServer.DataAccessLayer.Core;
+    using STrackerServer.DataAccessLayer.Core.EpisodesRepositories;
     using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.Comments;
@@ -29,11 +30,6 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
     /// </summary>
     public class TvShowsRepository : BaseRepository<TvShow, string>, ITvShowsRepository
     {
-        /// <summary>
-        /// The collection name for television show synopsis documents.
-        /// </summary>
-        private readonly string collectionNameForSynopsis;
-
         /// <summary>
         /// The collection of all television shows synopsis. In this case the 
         /// collection is always the same.
@@ -56,6 +52,11 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         private readonly ITvShowRatingsRepository ratingsRepository;
 
         /// <summary>
+        /// The newest episodes repository.
+        /// </summary>
+        private readonly INewestEpisodesRepository newestEpisodesRepository;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TvShowsRepository"/> class.
         /// </summary>
         /// <param name="client">
@@ -73,15 +74,18 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         /// <param name="ratingsRepository">
         /// The ratings Repository.
         /// </param>
-        public TvShowsRepository(MongoClient client, MongoUrl url, IGenresRepository genresRepository, ITvShowCommentsRepository commentsRepository, ITvShowRatingsRepository ratingsRepository)
+        /// <param name="newestEpisodesRepository">
+        /// The newest Episodes Repository.
+        /// </param>
+        public TvShowsRepository(MongoClient client, MongoUrl url, IGenresRepository genresRepository, ITvShowCommentsRepository commentsRepository, ITvShowRatingsRepository ratingsRepository, INewestEpisodesRepository newestEpisodesRepository)
             : base(client, url)
         {
             this.genresRepository = genresRepository;
             this.commentsRepository = commentsRepository;
             this.ratingsRepository = ratingsRepository;
+            this.newestEpisodesRepository = newestEpisodesRepository;
 
-            this.collectionNameForSynopsis = ConfigurationManager.AppSettings["AllTvShowsCollection"];
-            this.collectionAll = this.Database.GetCollection(this.collectionNameForSynopsis);
+            this.collectionAll = this.Database.GetCollection(ConfigurationManager.AppSettings["AllTvShowsCollection"]);
         }
 
         /// <summary>
@@ -95,79 +99,10 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         ///       <cref>List</cref>
         ///     </see> .
         /// </returns>
-        public List<TvShow.TvShowSynopsis> ReadByName(string name)
+        public ICollection<TvShow.TvShowSynopsis> ReadByName(string name)
         {
             var query = Query<TvShow.TvShowSynopsis>.Where(e => e.Name.ToUpper().Contains(name.ToUpper()));
-            var synopses = this.collectionAll.FindAs<TvShow.TvShowSynopsis>(query).ToList();
-            return synopses;
-        }
-
-        /// <summary>
-        /// The add season synopsis.
-        /// </summary>
-        /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <param name="season">
-        /// The season.
-        /// </param>
-        public void AddSeasonSynopsis(string tvshowId, Season.SeasonSynopsis season)
-        {
-            var collection = this.Database.GetCollection(tvshowId);
-            var query = Query<TvShow>.EQ(tv => tv.TvShowId, tvshowId);
-            var update = Update<TvShow>.Push(tv => tv.SeasonSynopsis, season);
-
-            this.ModifyList(collection, query, update);
-        }
-
-        /// <summary>
-        /// The remove season synopsis.
-        /// </summary>
-        /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <param name="season">
-        /// The season.
-        /// </param>
-        public void RemoveSeasonSynopsis(string tvshowId, Season.SeasonSynopsis season)
-        {
-            var collection = this.Database.GetCollection(tvshowId);
-            var query = Query<TvShow>.EQ(tv => tv.TvShowId, tvshowId);
-            var update = Update<TvShow>.Pull(tv => tv.SeasonSynopsis, season);
-
-            this.ModifyList(collection, query, update);
-        }
-
-        /// <summary>
-        /// The get top rated.
-        /// </summary>
-        /// <param name="max">
-        /// The max.
-        /// </param>
-        /// <returns>
-        /// The <see>
-        ///       <cref>List</cref>
-        ///     </see> .
-        /// </returns>
-        public List<TvShow.TvShowSynopsis> GetTopRated(int max)
-        {
-            var list = this.collectionAll
-                .FindAllAs<TvShow.TvShowSynopsis>()
-                .OrderByDescending(tvshow => this.ratingsRepository.Read(tvshow.Id).Average).ToList();
-
-            if (list.Count < max)
-            {
-                return list;
-            }
-
-            var top = new List<TvShow.TvShowSynopsis>(max);
-
-            for (var i = 0; i < max; i++)
-            {
-                top.Add(list.ElementAt(i));
-            }
-
-            return top;
+            return this.collectionAll.FindAs<TvShow.TvShowSynopsis>(query).ToList();
         }
 
         /// <summary>
@@ -183,10 +118,49 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         /// </returns>
         public string[] GetNames(string query)
         {
-            var collection = this.Database.GetCollection(this.collectionNameForSynopsis);
-            return collection.FindAllAs<TvShow.TvShowSynopsis>()
-                .Select(synopsis => synopsis.Name)
-                .Where(s => s.ToUpper().Contains(query.ToUpper())).ToArray();
+            return this.collectionAll.FindAllAs<TvShow.TvShowSynopsis>().Select(synopsis => synopsis.Name).Where(s => s.ToUpper().Contains(query.ToUpper())).ToArray();
+        }
+
+        /// <summary>
+        /// The add season synopsis.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="season">
+        /// The season.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool AddSeasonSynopsis(string tvshowId, Season.SeasonSynopsis season)
+        {
+            var collection = this.Database.GetCollection(tvshowId);
+            var query = Query<TvShow>.EQ(tv => tv.Id, tvshowId);
+            var update = Update<TvShow>.Push(tv => tv.SeasonSynopsis, season);
+
+            return this.ModifyList(collection, query, update, this.Read(tvshowId));
+        }
+
+        /// <summary>
+        /// The remove season synopsis.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="season">
+        /// The season.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool RemoveSeasonSynopsis(string tvshowId, Season.SeasonSynopsis season)
+        {
+            var collection = this.Database.GetCollection(tvshowId);
+            var query = Query<TvShow>.EQ(tv => tv.Id, tvshowId);
+            var update = Update<TvShow>.Pull(tv => tv.SeasonSynopsis, season);
+
+            return this.ModifyList(collection, query, update, this.Read(tvshowId));
         }
 
         /// <summary>
@@ -197,10 +171,9 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         /// </param>
         protected override void HookCreate(TvShow entity)
         {
-            var collection = this.Database.GetCollection(entity.TvShowId);
+            var collection = this.Database.GetCollection(entity.Id);
 
-            // Setup the indexes.
-            collection.EnsureIndex(new IndexKeysBuilder().Ascending("TvShowId", "SeasonNumber", "EpisodeNumber"), IndexOptions.SetUnique(true));
+            // Setup the index for name in collection that have all tv shows synopsis.
             this.collectionAll.EnsureIndex(new IndexKeysBuilder().Ascending("Name"));
 
             // The order is relevant because mongo don't ensure transactions.
@@ -210,12 +183,12 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
             // Add the genres into collection of genres.
             foreach (var genre in entity.Genres)
             {
-                this.genresRepository.AddTvShowToGenre(entity.GetSynopsis(), genre);
+                this.genresRepository.AddTvShowToGenre(genre.Id, entity.GetSynopsis());
             }
 
             // Create the documents for comments and ratings.
-            this.commentsRepository.Create(new CommentsTvShow(entity.Key));
-            this.ratingsRepository.Create(new RatingsTvShow(entity.Key));
+            this.commentsRepository.Create(new CommentsTvShow(entity.Id));
+            this.ratingsRepository.Create(new RatingsTvShow(entity.Id));
         }
 
         /// <summary>
@@ -230,8 +203,7 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         protected override TvShow HookRead(string id)
         {
             var collection = this.Database.GetCollection(id);
-            var query = Query<TvShow>.EQ(tv => tv.TvShowId, id);
-            return collection.FindOne<TvShow>(query, "_id");
+            return collection.FindOneByIdAs<TvShow>(id);
         }
 
         /// <summary>
@@ -242,7 +214,27 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         /// </param>
         protected override void HookUpdate(TvShow entity)
         {
-            throw new NotSupportedException("this method currently is not supported.");
+            // First change the synopsis.
+            // Find to remove then insert the synopsis object in all collection.
+            var query = Query<TvShow.TvShowSynopsis>.EQ(tv => tv.Id, entity.Id);
+            this.collectionAll.FindAndRemove(query, SortBy.Null);
+            this.collectionAll.Insert(entity.GetSynopsis());
+
+            var collection = this.Database.GetCollection(entity.Id);
+
+            var update = Update<TvShow>.Set(tv => tv.Name, entity.Name)
+                .Set(tv => tv.Description, entity.Description)
+                .Set(tv => tv.AirDay, entity.AirDay)
+                .Set(tv => tv.AirTime, entity.AirTime)
+                .Set(tv => tv.FirstAired, entity.FirstAired)
+                .Set(tv => tv.Runtime, entity.Runtime)
+                .Set(tv => tv.Poster, entity.Poster)
+                .Set(tv => tv.Actors, entity.Actors)
+                .Set(tv => tv.Version, entity.Version + 1);
+
+            query = Query<TvShow>.EQ(tv => tv.Id, entity.Id);
+
+            collection.FindAndModify(query, SortBy.Null, update);
         }
 
         /// <summary>
@@ -255,16 +247,25 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         /// television show.
         protected override void HookDelete(string id)
         {
+            // Remove television show information from genres.
             var tvshow = this.Read(id);
             foreach (var genre in tvshow.Genres)
             {
-                this.genresRepository.RemoveTvShowFromGenre(tvshow.GetSynopsis(), genre);
+                this.genresRepository.RemoveTvShowFromGenre(genre.Id, tvshow.GetSynopsis());
             }
 
+            // Remove from collection that contains all.
             var query = Query<TvShow.TvShowSynopsis>.EQ(tv => tv.Id, id);
             this.collectionAll.FindAndRemove(query, SortBy.Null);
-            ((BaseCommentsRepository<CommentsTvShow, string>)this.commentsRepository).DropComments(id);
-            ((BaseRatingsRepository<RatingsTvShow, string>)this.ratingsRepository).DropRatings(id);
+
+            // Remove comments and ratings.
+            this.commentsRepository.RemoveAllComments(id);
+            this.ratingsRepository.RemoveAllRatings(id);
+
+            // Remove the newest episodes document from this tvshow.
+            this.newestEpisodesRepository.Delete(id);
+
+            // Drop the collection.
             this.Database.DropCollection(id); 
         }
     }

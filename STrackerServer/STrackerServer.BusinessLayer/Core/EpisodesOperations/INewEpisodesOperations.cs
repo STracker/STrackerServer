@@ -46,18 +46,5 @@ namespace STrackerServer.BusinessLayer.Core.EpisodesOperations
         ///     </see> .
         /// </returns>
         ICollection<NewTvShowEpisodes> GetNewEpisodes(string date = null);
-
-        /// <summary>
-        /// The get newest episodes.
-        /// </summary>
-        /// <param name="userId">
-        /// The user id.
-        /// </param>
-        /// <returns>
-        /// The <see>
-        ///       <cref>IEnumerable</cref>
-        ///     </see> .
-        /// </returns>
-        ICollection<NewTvShowEpisodes> GetUserNewEpisodes(string userId);
     }
 }

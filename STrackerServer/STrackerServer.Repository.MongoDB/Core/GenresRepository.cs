@@ -8,20 +8,18 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
+namespace STrackerServer.Repository.MongoDB.Core
 {
     using System;
     using System.Collections.Generic;
     using System.Configuration;
     using System.Linq;
 
-    using global::MongoDB.Bson.Serialization;
-
     using global::MongoDB.Driver;
 
     using global::MongoDB.Driver.Builders;
 
-    using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
+    using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
@@ -30,32 +28,9 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
     public class GenresRepository : BaseRepository<Genre, string>, IGenresRepository
     {
         /// <summary>
-        /// The collection name.
-        /// </summary>
-        private readonly string collectionName;
-
-        /// <summary>
         /// The collection. In this case the collection is always the same.
         /// </summary>
         private readonly MongoCollection collection;
-
-        /// <summary>
-        /// Initializes static members of the <see cref="GenresRepository"/> class.
-        /// </summary>
-        static GenresRepository()
-        {
-            if (BsonClassMap.IsClassMapRegistered(typeof(Genre)))
-            {
-                return;
-            }
-
-            BsonClassMap.RegisterClassMap<Genre>(
-                cm =>
-                {
-                    cm.AutoMap();
-                    cm.SetIdMember(cm.GetMemberMap(user => user.Key));
-                });
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GenresRepository"/> class.
@@ -69,54 +44,58 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         public GenresRepository(MongoClient client, MongoUrl url)
             : base(client, url)
         {
-            this.collectionName = ConfigurationManager.AppSettings["GenresCollection"];
-            this.collection = this.Database.GetCollection(this.collectionName);
+            this.collection = this.Database.GetCollection(ConfigurationManager.AppSettings["GenresCollection"]);
         }
 
         /// <summary>
         /// Add television show synopsis to genre.
         /// </summary>
-        /// <param name="tvshow">
-        /// The television show.
-        /// </param>
         /// <param name="genre">
         /// The genre.
         /// </param>
-        public void AddTvShowToGenre(TvShow.TvShowSynopsis tvshow, Genre.GenreSynopsis genre)
+        /// <param name="tvshow">
+        /// The television show.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool AddTvShowToGenre(string genre, TvShow.TvShowSynopsis tvshow)
         {
-            var g = this.Read(genre.Id);
+            var g = this.Read(genre);
 
             // If the genre not yet exists, create.
             if (g == null)
             {
-                g = new Genre { Key = genre.Id };
+                g = new Genre { Id = genre };
                 g.TvshowsSynopsis.Add(tvshow);
 
-                this.Create(g);
-                return;
+                return this.Create(g);
             }
 
-            var query = Query<Genre>.EQ(gq => gq.Key, genre.Id.ToLower());
+            var query = Query<Genre>.EQ(gq => gq.Id, genre.ToLower());
             var update = Update<Genre>.Push(gq => gq.TvshowsSynopsis, tvshow);
 
-            this.ModifyList(this.collection, query, update);
+            return this.ModifyList(this.collection, query, update, this.Read(genre));
         }
 
         /// <summary>
         /// The remove television show from genre.
         /// </summary>
-        /// <param name="tvshow">
-        /// The television show.
-        /// </param>
         /// <param name="genre">
         /// The genre.
         /// </param>
-        public void RemoveTvShowFromGenre(TvShow.TvShowSynopsis tvshow, Genre.GenreSynopsis genre)
+        /// <param name="tvshow">
+        /// The television show.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool RemoveTvShowFromGenre(string genre, TvShow.TvShowSynopsis tvshow)
         {
-            var query = Query<Genre>.EQ(gq => gq.Key, genre.Id.ToLower());
+            var query = Query<Genre>.EQ(g => g.Id, genre.ToLower());
             var update = Update<Genre>.Pull(gq => gq.TvshowsSynopsis, tvshow);
 
-            this.ModifyList(this.collection, query, update);
+            return this.ModifyList(this.collection, query, update, this.Read(genre));
         }
 
         /// <summary>
@@ -127,9 +106,10 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         ///       <cref>List</cref>
         ///     </see> .
         /// </returns>
-        public List<Genre> GetAll()
+        public ICollection<Genre.GenreSynopsis> GetAll()
         {
-            return this.collection.FindAllAs<Genre>().ToList();
+            var list = this.collection.FindAllAs<Genre>().ToList();
+            return list.Select(genre => genre.GetSynopsis()).ToList();
         }
 
         /// <summary>
@@ -140,7 +120,7 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         /// </param>
         protected override void HookCreate(Genre entity)
         {
-            entity.Key = entity.Key.ToLower();
+            entity.Id = entity.Id.ToLower();
             this.collection.Insert(entity);
         }
 
@@ -177,7 +157,7 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         /// </param>
         protected override void HookDelete(string id)
         {
-            var query = Query<Genre>.EQ(g => g.Key, id.ToLower());
+            var query = Query<Genre>.EQ(g => g.Id, id.ToLower());
             this.collection.FindAndRemove(query, SortBy.Null);
         }
     }

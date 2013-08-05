@@ -115,13 +115,10 @@ namespace STrackerServer.BusinessLayer.Core.UsersOperations
         bool SendSuggestion(string userFrom, string userTo, string tvshowId);
 
         /// <summary>
-        /// The remove suggestion.
+        /// The remove television show suggestions.
         /// </summary>
-        /// <param name="userFrom">
-        /// The user From.
-        /// </param>
-        /// <param name="userTo">
-        /// The user to.
+        /// <param name="userId">
+        /// The user Id.
         /// </param>
         /// <param name="tvshowId">
         /// The television show id.
@@ -129,7 +126,7 @@ namespace STrackerServer.BusinessLayer.Core.UsersOperations
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool RemoveSuggestion(string userFrom, string userTo, string tvshowId);
+        bool RemoveTvShowSuggestions(string userId, string tvshowId);
 
         /// <summary>
         /// The get suggestions.
@@ -145,7 +142,7 @@ namespace STrackerServer.BusinessLayer.Core.UsersOperations
         ///       <cref>List</cref>
         ///     </see> .
         /// </returns>
-        List<Suggestion> GetSuggestions(string userFrom, string tvshowId);
+        ICollection<Suggestion> GetSuggestions(string userFrom, string tvshowId);
 
         /// <summary>
         /// The find by name.
@@ -158,7 +155,7 @@ namespace STrackerServer.BusinessLayer.Core.UsersOperations
         ///       <cref>List</cref>
         ///     </see> .
         /// </returns>
-        List<User.UserSynopsis> FindByName(string name);
+        ICollection<User.UserSynopsis> FindByName(string name);
 
         /// <summary>
         /// The remove friend.
@@ -175,38 +172,18 @@ namespace STrackerServer.BusinessLayer.Core.UsersOperations
         bool RemoveFriend(string userId, string friendId);
 
         /// <summary>
-        /// The remove television show suggestions.
-        /// </summary>
-        /// <param name="userId">
-        /// The user Id.
-        /// </param>
-        /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        bool RemoveTvShowSuggestions(string userId, string tvshowId);
-
-        /// <summary>
         /// The add watched episode.
         /// </summary>
         /// <param name="userId">
         /// The user id.
         /// </param>
-        /// <param name="tvshowId">
-        /// The television  show id.
-        /// </param>
-        /// <param name="seasonNumber">
-        /// The season number.
-        /// </param>
-        /// <param name="episodeNumber">
-        /// The episode number.
+        /// <param name="id">
+        /// The id.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool AddWatchedEpisode(string userId, string tvshowId, int seasonNumber, int episodeNumber);
+        bool AddWatchedEpisode(string userId, Episode.EpisodeKey id);
 
         /// <summary>
         /// The remove watched episode.
@@ -214,18 +191,25 @@ namespace STrackerServer.BusinessLayer.Core.UsersOperations
         /// <param name="userId">
         /// The user id.
         /// </param>
-        /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <param name="seasonNumber">
-        /// The season number.
-        /// </param>
-        /// <param name="episodeNumber">
-        /// The episode number.
+        /// <param name="id">
+        /// The id.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool RemoveWatchedEpisode(string userId, string tvshowId, int seasonNumber, int episodeNumber);
+        bool RemoveWatchedEpisode(string userId, Episode.EpisodeKey id);
+
+        /// <summary>
+        /// The get newest episodes.
+        /// </summary>
+        /// <param name="userId">
+        /// The user id.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>IEnumerable</cref>
+        ///     </see> .
+        /// </returns>
+        ICollection<NewTvShowEpisodes> GetUserNewEpisodes(string userId);
     }
 }

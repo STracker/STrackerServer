@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.BusinessLayer.Core.TvShowsOperations
+namespace STrackerServer.BusinessLayer.Core
 {
     using System.Collections.Generic;
 
@@ -26,7 +26,7 @@ namespace STrackerServer.BusinessLayer.Core.TvShowsOperations
         ///       <cref>List</cref>
         ///     </see> .
         /// </returns>
-        List<Genre.GenreSynopsis> GetAll();
+        ICollection<Genre.GenreSynopsis> GetAll();
 
         /// <summary>
         /// The get television shows.
@@ -42,6 +42,6 @@ namespace STrackerServer.BusinessLayer.Core.TvShowsOperations
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        IEnumerable<TvShow.TvShowSynopsis> GetTvShows(ICollection<string> genres, int maxtvShows);
+        ICollection<TvShow.TvShowSynopsis> GetTvShows(ICollection<string> genres, int maxtvShows);
     }
 }

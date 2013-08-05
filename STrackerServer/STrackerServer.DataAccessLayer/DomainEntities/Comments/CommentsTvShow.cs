@@ -22,12 +22,6 @@ namespace STrackerServer.DataAccessLayer.DomainEntities.Comments
         /// </param>
         public CommentsTvShow(string id) : base(id)
         {
-            this.TvShowId = id;
         }
-
-        /// <summary>
-        /// Gets or sets the television show id.
-        /// </summary>
-        public string TvShowId { get; set; }
     }
 }

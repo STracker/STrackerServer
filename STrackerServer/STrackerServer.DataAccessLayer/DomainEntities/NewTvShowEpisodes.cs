@@ -21,19 +21,32 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// <summary>
         /// Initializes a new instance of the <see cref="NewTvShowEpisodes"/> class.
         /// </summary>
-        /// <param name="key">
-        /// The key.
-        /// </param>
-        public NewTvShowEpisodes(string key)
+        public NewTvShowEpisodes()
         {
-            this.Key = key;
             this.Episodes = new List<Episode.EpisodeSynopsis>();
         }
 
         /// <summary>
-        /// Gets or sets the key.
+        /// Initializes a new instance of the <see cref="NewTvShowEpisodes"/> class.
         /// </summary>
-        public string Key { get; set; }
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        public NewTvShowEpisodes(string id)
+            : this()
+        {
+            this.Id = id;
+        }
+
+        /// <summary>
+        /// Gets or sets the id. In this case the id is the television show id.
+        /// </summary>
+        public string Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the version of the entity.
+        /// </summary>
+        public int Version { get; set; }
 
         /// <summary>
         /// Gets or sets the television show.

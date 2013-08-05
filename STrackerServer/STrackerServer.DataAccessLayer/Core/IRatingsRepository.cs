@@ -50,5 +50,16 @@ namespace STrackerServer.DataAccessLayer.Core
         /// The <see cref="bool"/>.
         /// </returns>
         bool RemoveRating(TK id, Rating rating);
+
+        /// <summary>
+        /// The remove all ratings.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool RemoveAllRatings(TK id);
     }
 }

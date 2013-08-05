@@ -13,6 +13,7 @@ namespace STrackerServer.Controllers.Api
     using System.Web.Http;
 
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
+    using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.Hawk;
 
     /// <summary>
@@ -26,14 +27,23 @@ namespace STrackerServer.Controllers.Api
         private readonly INewEpisodesOperations newEpisodesOperations;
 
         /// <summary>
+        /// The users operations.
+        /// </summary>
+        private readonly IUsersOperations usersOperations;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="NewEpisodesController"/> class.
         /// </summary>
         /// <param name="newEpisodesOperations">
         /// The new Episodes Operations.
         /// </param>
-        public NewEpisodesController(INewEpisodesOperations newEpisodesOperations)
+        /// <param name="usersOperations">
+        /// The users Operations.
+        /// </param>
+        public NewEpisodesController(INewEpisodesOperations newEpisodesOperations, IUsersOperations usersOperations)
         {
             this.newEpisodesOperations = newEpisodesOperations;
+            this.usersOperations = usersOperations;
         }
 
         /// <summary>
@@ -46,7 +56,7 @@ namespace STrackerServer.Controllers.Api
         [HawkAuthorize]
         public HttpResponseMessage Get()
         {
-            return this.BaseGet(this.newEpisodesOperations.GetUserNewEpisodes(User.Identity.Name));
+            return this.BaseGet(this.usersOperations.GetUserNewEpisodes(User.Identity.Name));
         }
 
         /// <summary>
