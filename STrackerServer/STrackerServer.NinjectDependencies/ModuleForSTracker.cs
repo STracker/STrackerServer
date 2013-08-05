@@ -34,6 +34,8 @@ namespace STrackerServer.NinjectDependencies
     using STrackerServer.DataAccessLayer.Core.SeasonsRepositories;
     using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
     using STrackerServer.DataAccessLayer.Core.UsersRepositories;
+    using STrackerServer.Logger.Core;
+    using STrackerServer.Logger.SendGrid;
     using STrackerServer.Repository.MongoDB.Core.EpisodesRepositories;
     using STrackerServer.Repository.MongoDB.Core.SeasonsRepositories;
     using STrackerServer.Repository.MongoDB.Core.TvShowsRepositories;
@@ -93,6 +95,9 @@ namespace STrackerServer.NinjectDependencies
 
             // Admin dependencies
             this.Bind<IAdminOperations>().To<AdminOperations>();
+
+            // Logger dependecies
+            this.Bind(typeof(ILogger<>)).To(typeof(SendGridLogger<>));
         }
     }
 }
