@@ -14,6 +14,8 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
     using System.Configuration;
     using System.Linq;
 
+    using global::MongoDB.Bson.Serialization;
+
     using global::MongoDB.Driver;
 
     using global::MongoDB.Driver.Builders;
@@ -28,9 +30,32 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
     public class UsersRepository : BaseRepository<User, string>, IUsersRepository
     {
         /// <summary>
+        /// The collection name.
+        /// </summary>
+        private readonly string collectioneName;
+
+        /// <summary>
         /// The collection. In this case the collection is always the same (collection with name "Users").
         /// </summary>
         private readonly MongoCollection collection;
+
+        /// <summary>
+        /// Initializes static members of the <see cref="UsersRepository"/> class.
+        /// </summary>
+        static UsersRepository()
+        {
+            if (BsonClassMap.IsClassMapRegistered(typeof(User)))
+            {
+                return;
+            }
+
+            BsonClassMap.RegisterClassMap<User>(
+                cm =>
+                {
+                    cm.AutoMap();
+                    cm.SetIdMember(cm.GetMemberMap(user => user.Key));
+                });
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UsersRepository"/> class.
@@ -43,7 +68,8 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         /// </param>
         public UsersRepository(MongoClient client, MongoUrl url) : base(client, url)
         {
-            this.collection = this.Database.GetCollection<User>(ConfigurationManager.AppSettings["UsersCollection"]);
+            this.collectioneName = ConfigurationManager.AppSettings["UsersCollection"];
+            this.collection = this.Database.GetCollection<User>(this.collectioneName);
         }
 
         /// <summary>
@@ -60,9 +86,9 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         /// </returns>
         public bool AddSubscription(User user, Subscription subscription)
         {
-            var query = Query<User>.EQ(u => u.Id, user.Id);
+            var query = Query<User>.EQ(u => u.Key, user.Key);
             var update = Update<User>.AddToSet(u => u.SubscriptionList, subscription);
-            return this.ModifyList(this.collection, query, update, user);
+            return this.ModifyList(this.collection, query, update);
         }
 
         /// <summary>
@@ -79,9 +105,9 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         /// </returns>
         public bool RemoveSubscription(User user, Subscription subscription)
         {
-            var query = Query<User>.EQ(u => u.Id, user.Id);
+            var query = Query<User>.EQ(u => u.Key, user.Key);
             var update = Update<User>.Pull(u => u.SubscriptionList, subscription);
-            return this.ModifyList(this.collection, query, update, user);
+            return this.ModifyList(this.collection, query, update);
         }
 
         /// <summary>
@@ -98,9 +124,9 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         /// </returns>
         public bool Invite(User from, User to)
         {
-            var query = Query<User>.EQ(user => user.Id, to.Id);
+            var query = Query<User>.EQ(user => user.Key, to.Key);
             var update = Update<User>.AddToSet(user => user.FriendRequests, from.GetSynopsis());
-            return this.ModifyList(this.collection, query, update, to);
+            return this.ModifyList(this.collection, query, update);
         }
 
         /// <summary>
@@ -117,16 +143,16 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         /// </returns>
         public bool AcceptInvite(User from, User to)
         {
-            var query = Query<User>.EQ(user => user.Id, to.Id);
+            var query = Query<User>.EQ(user => user.Key, to.Key);
             var update = Update<User>.Pull(user => user.FriendRequests, from.GetSynopsis()).AddToSet(user => user.Friends, from.GetSynopsis());
-            if (!this.ModifyList(this.collection, query, update, to))
+            if (!this.ModifyList(this.collection, query, update))
             {
                 return false;
             }
 
-            query = Query<User>.EQ(user => user.Id, from.Id);
+            query = Query<User>.EQ(user => user.Key, from.Key);
             update = Update<User>.AddToSet(user => user.Friends, to.GetSynopsis());
-            return this.ModifyList(this.collection, query, update, from);
+            return this.ModifyList(this.collection, query, update);
         }
 
         /// <summary>
@@ -143,16 +169,16 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         /// </returns>
         public bool RejectInvite(User from, User to)
         {
-            var query = Query<User>.EQ(user => user.Id, to.Id);
+            var query = Query<User>.EQ(user => user.Key, to.Key);
             var update = Update<User>.Pull(user => user.FriendRequests, from.GetSynopsis());
-            return this.ModifyList(this.collection, query, update, to);
+            return this.ModifyList(this.collection, query, update);
         }
 
         /// <summary>
         /// The send suggestion.
         /// </summary>
-        /// <param name="user">
-        /// The user.
+        /// <param name="userTo">
+        /// The user To.
         /// </param>
         /// <param name="suggestion">
         /// The suggestion.
@@ -160,46 +186,48 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public bool SendSuggestion(User user, Suggestion suggestion)
+        public bool SendSuggestion(User userTo, Suggestion suggestion)
         {
-            var query = Query<User>.EQ(userInput => userInput.Id, user.Id);
-            var update = Update<User>.AddToSet(userInput => userInput.Suggestions, suggestion);
-            return this.ModifyList(this.collection, query, update, user);
+            var query = Query<User>.EQ(user => user.Key, userTo.Key);
+            var update = Update<User>.AddToSet(user => user.Suggestions, suggestion);
+
+            return this.ModifyList(this.collection, query, update);
         }
 
         /// <summary>
-        /// The remove television show suggestions.
+        /// The remove suggestion.
         /// </summary>
-        /// <param name="user">
-        /// The user.
+        /// <param name="userFrom">
+        /// The user from.
         /// </param>
-        /// <param name="tvshowId">
-        /// The television show Id.
+        /// <param name="suggestion">
+        /// The suggestion.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public bool RemoveTvShowSuggestions(User user, string tvshowId)
+        public bool RemoveSuggestion(User userFrom, Suggestion suggestion)
         {
-            var query = Query<User>.EQ(user1 => user1.Id, user.Id);
-            var update = Update<User>.PullAll(user1 => user1.Suggestions, user.Suggestions.Where(suggestion => suggestion.TvShow.Id.Equals(tvshowId)));
-            return this.ModifyList(this.collection, query, update, user);
+            var query = Query<User>.EQ(user => user.Key, userFrom.Key);
+            var update = Update<User>.Pull(user => user.Suggestions, suggestion);
+
+            return this.ModifyList(this.collection, query, update);
         }
 
         /// <summary>
         /// The get suggestions.
         /// </summary>
-        /// <param name="user">
-        /// The user.
+        /// <param name="userFrom">
+        /// The user from.
         /// </param>
         /// <returns>
         /// The <see>
         ///       <cref>List</cref>
         ///     </see> .
         /// </returns>
-        public ICollection<Suggestion> GetSuggestions(User user)
+        public List<Suggestion> GetSuggestions(User userFrom)
         {
-            return this.Read(user.Id).Suggestions;
+            return this.Read(userFrom.Key).Suggestions;
         }
 
         /// <summary>
@@ -213,27 +241,47 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         ///       <cref>List</cref>
         ///     </see> .
         /// </returns>
-        public ICollection<User.UserSynopsis> FindByName(string name)
+        public List<User> FindByName(string name)
         {
             var query = Query<User>.Where(user => user.Name.ToLower().Contains(name.ToLower()));
-            return this.collection.FindAs<User>(query).Select(user => user.GetSynopsis()).ToList();
+            return this.collection.FindAs<User>(query).ToList();
         }
 
         /// <summary>
         /// The remove friend.
         /// </summary>
-        /// <param name="user">
-        /// The user.
+        /// <param name="userModel">
+        /// The user model.
         /// </param>
-        /// <param name="friend">
-        /// The friend.
+        /// <param name="userFriend">
+        /// The user friend.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public bool RemoveFriend(User user, User friend)
+        public bool RemoveFriend(User userModel, User userFriend)
         {
-            return this.RemoveFriendFromUser(user, friend) && this.RemoveFriendFromUser(friend, user);
+            return this.RemoveFriendInfoFromUser(userModel, userFriend) && this.RemoveUserInfoFromFriend(userModel, userFriend);
+        }
+
+        /// <summary>
+        /// The remove television show suggestions.
+        /// </summary>
+        /// <param name="user">
+        /// The user.
+        /// </param>
+        /// <param name="tvshow">
+        /// The television show.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool RemoveTvShowSuggestions(User user, TvShow tvshow)
+        {
+            var query = Query<User>.EQ(user1 => user1.Key, user.Key);
+            var update = Update<User>.PullAll(user1 => user1.Suggestions, user.Suggestions.Where(suggestion => suggestion.TvShow.Id.Equals(tvshow.Key)));
+
+            return this.ModifyList(this.collection, query, update);
         }
 
         /// <summary>
@@ -250,8 +298,8 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         /// </returns>
         public bool AddWatchedEpisode(User user, Episode.EpisodeSynopsis episode)
         {
-            var query = Query<User>.EQ(user1 => user1.Id, user.Id);
-            user.SubscriptionList.Find(subscription => subscription.TvShow.Id.Equals(episode.Id.TvshowId)).EpisodesWatched.Add(episode);
+            var query = Query<User>.EQ(user1 => user1.Key, user.Key);
+            user.SubscriptionList.Find(subscription => subscription.TvShow.Id.Equals(episode.TvShowId)).EpisodesWatched.Add(episode);
             var update = Update<User>.Set(user1 => user1.SubscriptionList, user.SubscriptionList);
             return this.collection.Update(query, update).Ok;
         }
@@ -270,8 +318,8 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         /// </returns>
         public bool RemoveWatchedEpisode(User user, Episode.EpisodeSynopsis episode)
         {
-            var query = Query<User>.EQ(user1 => user1.Id, user.Id);
-            user.SubscriptionList.Find(subscription => subscription.TvShow.Id.Equals(episode.Id.TvshowId)).EpisodesWatched.Remove(episode);
+            var query = Query<User>.EQ(user1 => user1.Key, user.Key);
+            user.SubscriptionList.Find(subscription => subscription.TvShow.Id.Equals(episode.TvShowId)).EpisodesWatched.Remove(episode);
             var update = Update<User>.Set(user2 => user2.SubscriptionList, user.SubscriptionList);
             return this.collection.Update(query, update).Ok;
         }
@@ -290,7 +338,7 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         /// </returns>
         public bool SetUserPermission(User user, int permission)
         {
-            var query = Query<User>.EQ(user1 => user1.Id, user.Id);
+            var query = Query<User>.EQ(user1 => user1.Key, user.Key);
             var update = Update<User>.Set(user2 => user2.Permission, permission);
             return this.collection.Update(query, update).Ok;
         }
@@ -328,8 +376,8 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         /// </param>
         protected override void HookUpdate(User entity)
         {
-            var query = Query<User>.EQ(user => user.Id, entity.Id);
-            var update = Update<User>.Set(user => user.Name, entity.Name).Set(user => user.Photo, entity.Photo).Set(user => user.Version, entity.Version + 1);
+            var query = Query<User>.EQ(user => user.Key, entity.Key);
+            var update = Update<User>.Set(user => user.Name, entity.Name).Set(user => user.Photo, entity.Photo);
             this.collection.FindAndModify(query, SortBy.Null, update);
         }
 
@@ -341,30 +389,52 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         /// </param>
         protected override void HookDelete(string id)
         {
-            var query = Query<User>.EQ(user => user.Id, id);
+            var query = Query<User>.EQ(user => user.Key, id);
             this.collection.FindAndRemove(query, SortBy.Null);
         }
 
         /// <summary>
         /// The remove friend info from user.
         /// </summary>
-        /// <param name="user">
-        /// The user.
+        /// <param name="userModel">
+        /// The user model.
         /// </param>
-        /// <param name="friend">
-        /// The friend.
+        /// <param name="userFriend">
+        /// The user friend.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        private bool RemoveFriendFromUser(User user, User friend)
+        private bool RemoveFriendInfoFromUser(User userModel, User userFriend)
         {
-            var query = Query<User>.EQ(userInput => userInput.Id, user.Id);
+            var query = Query<User>.EQ(user => user.Key, userModel.Key);
             var update = Update<User>
-                .Pull(userInput => userInput.Friends, friend.GetSynopsis())
-                .PullAll(userInput => userInput.Suggestions, user.Suggestions.Where(suggestion => suggestion.User.Id.Equals(friend.Id)));
+                .Pull(user => user.Friends, userFriend.GetSynopsis())
+                .PullAll(user => user.Suggestions, userModel.Suggestions.Where(suggestion => suggestion.User.Id.Equals(userFriend.Key)));
 
-            return this.ModifyList(this.collection, query, update, user);
+            return this.ModifyList(this.collection, query, update);
+        }
+
+        /// <summary>
+        /// The remove user info from friend.
+        /// </summary>
+        /// <param name="userModel">
+        /// The user model.
+        /// </param>
+        /// <param name="userFriend">
+        /// The user friend.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        private bool RemoveUserInfoFromFriend(User userModel, User userFriend)
+        {
+            var query = Query<User>.EQ(user => user.Key, userFriend.Key);
+            var update = Update<User>
+                .Pull(user => user.Friends, userModel.GetSynopsis())
+                .PullAll(user => user.Suggestions, userFriend.Suggestions.Where(suggestion => suggestion.User.Id.Equals(userModel.Key)));
+
+            return this.ModifyList(this.collection, query, update);
         }
     }
 }

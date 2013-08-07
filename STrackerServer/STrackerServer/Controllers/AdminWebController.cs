@@ -88,7 +88,7 @@ namespace STrackerServer.Controllers
 
             return this.View(new SetPermissionView
                 {
-                    Id = user.Id,
+                    Id = user.Key,
                     Name = user.Name,
                     PictureUrl = user.Photo,
                     PermissionName = Enum.GetName(typeof(Permission), user.Permission),
@@ -139,10 +139,10 @@ namespace STrackerServer.Controllers
 
             if ((User.Identity.Name.Equals(values.Id) && values.Permission < (int)Permission.Admin) || (!User.Identity.Name.Equals(values.Id) && values.Permission == (int)Permission.Admin))
             {
-                return new SeeOtherResult { Url = Url.Action("Show", "UsersWeb", new { id = user.Id }) };
+                return new SeeOtherResult { Url = Url.Action("Show", "UsersWeb", new { id = user.Key }) };
             }
 
-            return new SeeOtherResult { Url = Url.Action("SetUserPermission", "AdminWeb", new { id = user.Id }) };
+            return new SeeOtherResult { Url = Url.Action("SetUserPermission", "AdminWeb", new { id = user.Key }) };
         }
     }
 }

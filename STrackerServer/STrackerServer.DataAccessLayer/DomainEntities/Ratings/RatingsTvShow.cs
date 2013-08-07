@@ -22,6 +22,12 @@ namespace STrackerServer.DataAccessLayer.DomainEntities.Ratings
         /// </param>
         public RatingsTvShow(string id) : base(id)
         {
+            this.TvShowId = id;
         }
+
+        /// <summary>
+        /// Gets or sets the television show id.
+        /// </summary>
+        public string TvShowId { get; set; }
     }
 }

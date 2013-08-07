@@ -205,7 +205,7 @@ namespace STrackerServer.Controllers
             cookie.Expires = DateTime.Now.AddDays(-1d);
             Response.Cookies.Add(cookie);
             
-            FormsAuthentication.SetAuthCookie(user.Id, false);
+            FormsAuthentication.SetAuthCookie(user.Key, false);
 
             return callbackCookie.ReturnUrl == null ? 
                 new SeeOtherResult { Url = Url.Action("Index", "HomeWeb") } : 

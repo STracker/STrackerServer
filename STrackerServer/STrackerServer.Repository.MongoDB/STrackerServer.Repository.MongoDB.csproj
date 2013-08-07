@@ -54,11 +54,11 @@
     <Compile Include="Core\EpisodesRepositories\EpisodeCommentsRepository.cs" />
     <Compile Include="Core\EpisodesRepositories\EpisodeRatingsRepository.cs" />
     <Compile Include="Core\EpisodesRepositories\EpisodesRepository.cs" />
-    <Compile Include="Core\EpisodesRepositories\NewestEpisodesRepository.cs" />
+    <Compile Include="Core\MongoDbExtensions.cs" />
     <Compile Include="Core\SeasonsRepositories\SeasonsRepository.cs" />
     <Compile Include="Core\TvShowsRepositories\TvShowCommentsRepository.cs" />
     <Compile Include="Core\TvShowsRepositories\TvShowRatingsRepository.cs" />
-    <Compile Include="Core\GenresRepository.cs" />
+    <Compile Include="Core\TvShowsRepositories\GenresRepository.cs" />
     <Compile Include="Core\TvShowsRepositories\TvShowsRepository.cs" />
     <Compile Include="Core\UsersRepositories\UsersRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

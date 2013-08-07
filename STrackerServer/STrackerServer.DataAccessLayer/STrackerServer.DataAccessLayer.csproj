@@ -43,7 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\EpisodesRepositories\INewestEpisodesRepository.cs" />
     <Compile Include="Core\ICommentsRepository.cs" />
     <Compile Include="Core\IEntity.cs" />
     <Compile Include="Core\ISynopsis.cs" />
@@ -53,7 +52,7 @@
     <Compile Include="Core\IRatingsRepository.cs" />
     <Compile Include="Core\IRepository.cs" />
     <Compile Include="Core\SeasonsRepositories\ISeasonsRepository.cs" />
-    <Compile Include="Core\IGenresRepository.cs" />
+    <Compile Include="Core\TvShowsRepositories\IGenresRepository.cs" />
     <Compile Include="Core\TvShowsRepositories\ITvShowCommentsRepository.cs" />
     <Compile Include="Core\TvShowsRepositories\ITvShowRatingsRepository.cs" />
     <Compile Include="Core\TvShowsRepositories\ITvShowsRepository.cs" />
@@ -76,7 +75,6 @@
     <Compile Include="DomainEntities\Ratings\RatingsTvShow.cs" />
     <Compile Include="DomainEntities\User.cs" />
     <Compile Include="DomainEntities\NewTvShowEpisodes.cs" />
-    <Compile Include="Exception\STrackerDatabaseException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

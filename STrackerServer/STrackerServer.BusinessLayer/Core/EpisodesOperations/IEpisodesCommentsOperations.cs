@@ -9,13 +9,14 @@
 
 namespace STrackerServer.BusinessLayer.Core.EpisodesOperations
 {
-    using STrackerServer.DataAccessLayer.DomainEntities;
+    using System;
+
     using STrackerServer.DataAccessLayer.DomainEntities.Comments;
 
     /// <summary>
     /// The episodes comments operations interface.
     /// </summary>
-    public interface IEpisodesCommentsOperations : ICommentsOperations<CommentsEpisode, Episode.EpisodeKey>
+    public interface IEpisodesCommentsOperations : ICommentsOperations<CommentsEpisode, Tuple<string, int, int>>
     {
     }
 }

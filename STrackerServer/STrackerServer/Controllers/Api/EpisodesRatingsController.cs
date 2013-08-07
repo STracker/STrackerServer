@@ -9,13 +9,13 @@
 
 namespace STrackerServer.Controllers.Api
 {
+    using System;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
 
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
-    using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
     using STrackerServer.Hawk;
 
@@ -67,7 +67,7 @@ namespace STrackerServer.Controllers.Api
         [HttpGet]
         public HttpResponseMessage Get(string tvshowId, int seasonNumber, int number)
         {
-            var ratings = this.operations.Read(new Episode.EpisodeKey { TvshowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = number });
+            var ratings = this.operations.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, number));
             if (ratings == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -99,7 +99,7 @@ namespace STrackerServer.Controllers.Api
         [HawkAuthorize]
         public HttpResponseMessage Post(string tvshowId, int seasonNumber, int number, [FromBody] int rating)
         {
-            return this.BasePostDelete(this.operations.AddRating(new Episode.EpisodeKey { TvshowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = number }, new Rating { User = this.usersOperations.Read(User.Identity.Name).GetSynopsis(), UserRating = rating }));
+            return this.BasePostDelete(this.operations.AddRating(new Tuple<string, int, int>(tvshowId, seasonNumber, number), new Rating { User = this.usersOperations.Read(User.Identity.Name).GetSynopsis(), UserRating = rating }));
         }
     }
 }

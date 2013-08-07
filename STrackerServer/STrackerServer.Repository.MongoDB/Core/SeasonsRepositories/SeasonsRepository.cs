@@ -14,7 +14,6 @@ namespace STrackerServer.Repository.MongoDB.Core.SeasonsRepositories
     using System.Collections.Generic;
     using System.Linq;
 
-    using global::MongoDB.Bson;
     using global::MongoDB.Driver;
 
     using global::MongoDB.Driver.Builders;
@@ -26,7 +25,7 @@ namespace STrackerServer.Repository.MongoDB.Core.SeasonsRepositories
     /// <summary>
     /// Seasons repository for MongoDB database.
     /// </summary>
-    public class SeasonsRepository : BaseRepository<Season, Season.SeasonKey>, ISeasonsRepository
+    public class SeasonsRepository : BaseRepository<Season, Tuple<string, int>>, ISeasonsRepository
     {
         /// <summary>
         /// Television shows repository.
@@ -57,7 +56,7 @@ namespace STrackerServer.Repository.MongoDB.Core.SeasonsRepositories
         /// <param name="seasons">
         /// The seasons.
         /// </param>
-        public void CreateAll(ICollection<Season> seasons)
+        public void CreateAll(IEnumerable<Season> seasons)
         {
             var enumerable = seasons as List<Season> ?? seasons.ToList();
             if (!enumerable.Any())
@@ -82,7 +81,7 @@ namespace STrackerServer.Repository.MongoDB.Core.SeasonsRepositories
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        public ICollection<Season.SeasonSynopsis> GetAllFromOneTvShow(string tvshowId)
+        public IEnumerable<Season.SeasonSynopsis> GetAllFromOneTvShow(string tvshowId)
         {
             return this.tvshowsRepository.Read(tvshowId).SeasonSynopsis;
         }
@@ -90,43 +89,43 @@ namespace STrackerServer.Repository.MongoDB.Core.SeasonsRepositories
         /// <summary>
         /// The add episode synopsis.
         /// </summary>
-        /// <param name="id">
-        /// The id.
+        /// <param name="tvshowId">
+        /// Television show id.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// The season number.
         /// </param>
         /// <param name="episode">
         /// The episode.
         /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public bool AddEpisodeSynopsis(Season.SeasonKey id, Episode.EpisodeSynopsis episode)
+        public void AddEpisodeSynopsis(string tvshowId, int seasonNumber, Episode.EpisodeSynopsis episode)
         {
-            var collection = this.Database.GetCollection(id.TvshowId);
-            var query = Query<Season>.EQ(s => s.Id, id);
+            var collection = this.Database.GetCollection(tvshowId);
+            var query = Query.And(Query<Season>.EQ(s => s.TvShowId, tvshowId), Query<Season>.EQ(s => s.SeasonNumber, seasonNumber));
             var update = Update<Season>.Push(s => s.EpisodeSynopsis, episode);
 
-            return this.ModifyList(collection, query, update, this.Read(id));
+            this.ModifyList(collection, query, update);
         }
 
         /// <summary>
         /// The remove episode synopsis.
         /// </summary>
-        /// <param name="id">
-        /// The id.
+        /// <param name="tvshowId">
+        /// Television show id.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// The season number.
         /// </param>
         /// <param name="episode">
         /// The episode.
         /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public bool RemoveEpisodeSynopsis(Season.SeasonKey id, Episode.EpisodeSynopsis episode)
+        public void RemoveEpisodeSynopsis(string tvshowId, int seasonNumber, Episode.EpisodeSynopsis episode)
         {
-            var collection = this.Database.GetCollection(id.TvshowId);
-            var query = Query<Season>.EQ(s => s.Id, id);
+            var collection = this.Database.GetCollection(tvshowId);
+            var query = Query.And(Query<Season>.EQ(s => s.TvShowId, tvshowId), Query<Season>.EQ(s => s.SeasonNumber, seasonNumber));
             var update = Update<Season>.Pull(s => s.EpisodeSynopsis, episode);
 
-            return this.ModifyList(collection, query, update, this.Read(id));
+            this.ModifyList(collection, query, update);
         }
 
         /// <summary>
@@ -138,15 +137,15 @@ namespace STrackerServer.Repository.MongoDB.Core.SeasonsRepositories
         /// Needs to create also the object synopse in television show seasons list.
         protected override void HookCreate(Season entity)
         {
-            var collection = this.Database.GetCollection(entity.Id.TvshowId);
+            var collection = this.Database.GetCollection(entity.TvShowId);
             collection.Insert(entity);
 
             // Add the synospis object to television show document.
-            this.tvshowsRepository.AddSeasonSynopsis(entity.Id.TvshowId, entity.GetSynopsis());
+            this.tvshowsRepository.AddSeasonSynopsis(entity.TvShowId, entity.GetSynopsis());
         }
 
         /// <summary>
-        /// Hook method for Read operation.
+        /// Get one season.
         /// </summary>
         /// <param name="id">
         /// The id.
@@ -154,10 +153,11 @@ namespace STrackerServer.Repository.MongoDB.Core.SeasonsRepositories
         /// <returns>
         /// The <see cref="Season"/>.
         /// </returns>
-        protected override Season HookRead(Season.SeasonKey id)
+        protected override Season HookRead(Tuple<string, int> id)
         {
-            var collection = this.Database.GetCollection(id.TvshowId);
-            return collection.FindOneByIdAs<Season>(id.ToBsonDocument());
+            var collection = this.Database.GetCollection(id.Item1);
+            var query = Query.And(Query<Season>.EQ(s => s.TvShowId, id.Item1), Query<Season>.EQ(s => s.SeasonNumber, id.Item2));
+            return collection.FindOne<Season>(query, "_id");
         }
 
         /// <summary>
@@ -172,21 +172,22 @@ namespace STrackerServer.Repository.MongoDB.Core.SeasonsRepositories
         }
 
         /// <summary>
-        /// Hook method for Delete operation.
+        /// Delete one season.
         /// </summary>
         /// <param name="id">
         /// The id.
         /// </param>
-        protected override void HookDelete(Season.SeasonKey id)
+        /// Needs to delete also the object synopse in television show seasons list.
+        protected override void HookDelete(Tuple<string, int> id)
         {
-            var collection = this.Database.GetCollection(id.TvshowId);
-            var query = Query<Season>.EQ(s => s.Id, id);
+            var collection = this.Database.GetCollection(id.Item1);
+            var query = Query.And(Query<Season>.EQ(s => s.TvShowId, id.Item1), Query<Season>.EQ(s => s.SeasonNumber, id.Item2));
 
             var synopsis = this.Read(id).GetSynopsis();
 
             // In this case first remove the object synopse than remove the season, because can not have
             // one synopse for one season that not exists.
-            this.tvshowsRepository.RemoveSeasonSynopsis(id.TvshowId, synopsis);
+            this.tvshowsRepository.RemoveSeasonSynopsis(id.Item1, synopsis);
             collection.FindAndRemove(query, SortBy.Null);
         }
     }

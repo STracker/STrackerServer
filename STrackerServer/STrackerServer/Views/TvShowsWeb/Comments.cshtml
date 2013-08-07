@@ -47,7 +47,7 @@
                     @foreach(var comment in Model.Comments)
                     {
                         <a href="@Url.Action("Show","UsersWeb", new { id = comment.User.Id })">@comment.User.Name</a>
-                        <div class="box-whiter blue-border">
+                        <div class="box-whiter">
                             <div style="text-align: right">
                                 @if (User.Identity.IsAuthenticated && (Model.IsModerator || comment.User.Id.Equals(User.Identity.Name)))
                                 {

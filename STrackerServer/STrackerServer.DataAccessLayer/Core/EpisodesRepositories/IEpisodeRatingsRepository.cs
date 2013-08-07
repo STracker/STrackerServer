@@ -9,13 +9,14 @@
 
 namespace STrackerServer.DataAccessLayer.Core.EpisodesRepositories
 {
-    using STrackerServer.DataAccessLayer.DomainEntities;
+    using System;
+
     using STrackerServer.DataAccessLayer.DomainEntities.Ratings;
 
     /// <summary>
     /// The Television Show Ratings Repository interface.
     /// </summary>
-    public interface IEpisodeRatingsRepository : IRatingsRepository<RatingsEpisode, Episode.EpisodeKey>
+    public interface IEpisodeRatingsRepository : IRatingsRepository<RatingsEpisode, Tuple<string, int, int>>
     {
     }
 }

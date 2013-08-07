@@ -92,8 +92,8 @@ namespace STrackerServer.DataAccessLayer.Core.UsersRepositories
         /// <summary>
         /// The send suggestion.
         /// </summary>
-        /// <param name="user">
-        /// The user.
+        /// <param name="userTo">
+        /// The user To.
         /// </param>
         /// <param name="suggestion">
         /// The suggestion.
@@ -101,34 +101,34 @@ namespace STrackerServer.DataAccessLayer.Core.UsersRepositories
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool SendSuggestion(User user, Suggestion suggestion);
+        bool SendSuggestion(User userTo, Suggestion suggestion);
 
         /// <summary>
-        /// The remove television show suggestions.
+        /// The remove suggestion.
         /// </summary>
-        /// <param name="user">
-        /// The user.
+        /// <param name="userFrom">
+        /// The user from.
         /// </param>
-        /// <param name="tvshowId">
-        /// The television show Id.
+        /// <param name="suggestion">
+        /// The suggestion.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool RemoveTvShowSuggestions(User user, string tvshowId);
+        bool RemoveSuggestion(User userFrom, Suggestion suggestion);
 
         /// <summary>
         /// The get suggestions.
         /// </summary>
-        /// <param name="user">
-        /// The user.
+        /// <param name="userFrom">
+        /// The user from.
         /// </param>
         /// <returns>
         /// The <see>
         ///       <cref>List</cref>
         ///     </see> .
         /// </returns>
-        ICollection<Suggestion> GetSuggestions(User user);
+        List<Suggestion> GetSuggestions(User userFrom);
 
         /// <summary>
         /// The find by name.
@@ -141,21 +141,35 @@ namespace STrackerServer.DataAccessLayer.Core.UsersRepositories
         ///       <cref>List</cref>
         ///     </see> .
         /// </returns>
-        ICollection<User.UserSynopsis> FindByName(string name);
+        List<User> FindByName(string name);
 
         /// <summary>
         /// The remove friend.
         /// </summary>
-        /// <param name="user">
-        /// The user.
+        /// <param name="userModel">
+        /// The user model.
         /// </param>
-        /// <param name="friend">
-        /// The friend.
+        /// <param name="userFriend">
+        /// The user friend.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool RemoveFriend(User user, User friend);
+        bool RemoveFriend(User userModel, User userFriend);
+
+        /// <summary>
+        /// The remove television show suggestions.
+        /// </summary>
+        /// <param name="user">
+        /// The user.
+        /// </param>
+        /// <param name="tvshow">
+        /// The television show.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool RemoveTvShowSuggestions(User user, TvShow tvshow);
 
         /// <summary>
         /// The add watched episode.

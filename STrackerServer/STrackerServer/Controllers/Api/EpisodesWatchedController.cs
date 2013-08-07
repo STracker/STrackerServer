@@ -13,7 +13,6 @@ namespace STrackerServer.Controllers.Api
     using System.Web.Http;
 
     using STrackerServer.BusinessLayer.Core.UsersOperations;
-    using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.Hawk;
 
     /// <summary>
@@ -56,7 +55,7 @@ namespace STrackerServer.Controllers.Api
         [HawkAuthorize]
         public HttpResponseMessage Post(string tvshowId, int seasonNumber, int episodeNumber)
         {
-            return this.BasePostDelete(this.usersOperations.AddWatchedEpisode(User.Identity.Name, new Episode.EpisodeKey { TvshowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = episodeNumber }));
+            return this.BasePostDelete(this.usersOperations.AddWatchedEpisode(User.Identity.Name, tvshowId, seasonNumber, episodeNumber));
         }
 
         /// <summary>
@@ -78,7 +77,7 @@ namespace STrackerServer.Controllers.Api
         [HawkAuthorize]
         public HttpResponseMessage Delete(string tvshowId, int seasonNumber, int episodeNumber)
         {
-            return this.BasePostDelete(this.usersOperations.RemoveWatchedEpisode(User.Identity.Name, new Episode.EpisodeKey { TvshowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = episodeNumber }));
+            return this.BasePostDelete(this.usersOperations.RemoveWatchedEpisode(User.Identity.Name, tvshowId, seasonNumber, episodeNumber));
         }
     }
 }

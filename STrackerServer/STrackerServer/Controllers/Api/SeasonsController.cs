@@ -9,11 +9,11 @@
 
 namespace STrackerServer.Controllers.Api
 {
+    using System;
     using System.Net.Http;
     using System.Web.Http;
 
     using STrackerServer.BusinessLayer.Core.SeasonsOperations;
-    using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
     /// Seasons API Controller.
@@ -51,7 +51,7 @@ namespace STrackerServer.Controllers.Api
         [HttpGet]
         public HttpResponseMessage Get(string tvshowId, int number)
         {
-            return this.BaseGet(this.operations.Read(new Season.SeasonKey { TvshowId = tvshowId, SeasonNumber = number }));
+            return this.BaseGet(this.operations.Read(new Tuple<string, int>(tvshowId, number)));
         }
 
         /// <summary>

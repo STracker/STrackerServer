@@ -38,18 +38,13 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// </param>
         public User(string id) : this()
         {
-            this.Id = id;
+            this.Key = id;
         }
 
         /// <summary>
-        /// Gets or sets the id.
+        /// Gets or sets the key.
         /// </summary>
-        public string Id { get; set; }
-
-        /// <summary>
-        /// Gets or sets the version of the entity.
-        /// </summary>
-        public int Version { get; set; }
+        public string Key { get; set; }
 
         /// <summary>
         /// Gets or sets the email.
@@ -104,8 +99,8 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// </returns>
         public UserSynopsis GetSynopsis()
         {
-            var uri = string.Format("users/{0}", this.Id);
-            return new UserSynopsis { Id = this.Id, Name = this.Name, Photo = this.Photo, Uri = uri };
+            var uri = string.Format("users/{0}", this.Key);
+            return new UserSynopsis { Id = this.Key, Name = this.Name, Photo = this.Photo, Uri = uri };
         }
 
         /// <summary>

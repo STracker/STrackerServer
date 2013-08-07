@@ -28,7 +28,7 @@ namespace STrackerServer.Models.TvShow
         /// </param>
         public TvShowView(TvShow tvshow)
         {
-            this.TvShowId = tvshow.Id;
+            this.TvShowId = tvshow.TvShowId;
             this.Name = tvshow.Name;
             this.Description = tvshow.Description;
             this.Genres = tvshow.Genres;

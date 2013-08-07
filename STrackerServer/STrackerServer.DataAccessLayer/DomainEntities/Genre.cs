@@ -34,18 +34,13 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// </param>
         public Genre(string id) : this()
         {
-            this.Id = id;
+            this.Key = id;
         }
 
         /// <summary>
-        /// Gets or sets the id.
+        /// Gets or sets the key.
         /// </summary>
-        public string Id { get; set; }
-
-        /// <summary>
-        /// Gets or sets the version of the entity.
-        /// </summary>
-        public int Version { get; set; }
+        public string Key { get; set; }
 
         /// <summary>
         /// Gets or sets the television shows synopses associated to this genre.
@@ -60,8 +55,8 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// </returns>
         public GenreSynopsis GetSynopsis()
         {
-            var uri = string.Format("genres/{0}", this.Id);
-            return new GenreSynopsis { Id = this.Id, Uri = uri };
+            var uri = string.Format("genres/{0}", this.Key);
+            return new GenreSynopsis { Id = this.Key, Uri = uri };
         }
 
         /// <summary>

@@ -9,6 +9,7 @@
 
 namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
 {
+    using System;
     using System.Configuration;
 
     using STrackerBackgroundWorker.RabbitMQ;
@@ -25,7 +26,7 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
     /// <summary>
     /// The episodes comments operations.
     /// </summary>
-    public class EpisodesCommentsOperations : BaseCommentsOperations<Episode, CommentsEpisode, Episode.EpisodeKey>, IEpisodesCommentsOperations 
+    public class EpisodesCommentsOperations : BaseCommentsOperations<Episode, CommentsEpisode, Tuple<string, int, int>>, IEpisodesCommentsOperations 
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EpisodesCommentsOperations"/> class.
@@ -62,7 +63,7 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        protected override bool RemoveCommentHook(Episode.EpisodeKey key, Comment comment)
+        protected override bool RemoveCommentHook(Tuple<string, int, int> key, Comment comment)
         {
             return this.CommentsRepository.RemoveComment(key, comment);
         }
@@ -76,13 +77,13 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
         /// <param name="comment">
         /// The comment.
         /// </param>
-        protected override void AddCommentHook(Episode.EpisodeKey key, Comment comment)
+        protected override void AddCommentHook(Tuple<string, int, int> key, Comment comment)
         {
             this.QueueM.Push(
                new Message
                {
                    CommandName = ConfigurationManager.AppSettings["EpisodeCommentCmd"],
-                   Arg = string.Format("{0}|{1}|{2}|{3}|{4}", key.TvshowId, key.SeasonNumber, key.EpisodeNumber, comment.User.Id, comment.Body)
+                   Arg = string.Format("{0}|{1}|{2}|{3}|{4}", key.Item1, key.Item2, key.Item3, comment.User.Id, comment.Body)
                });
         }
     }

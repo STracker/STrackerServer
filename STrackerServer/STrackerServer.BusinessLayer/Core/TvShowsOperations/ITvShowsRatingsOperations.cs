@@ -19,17 +19,5 @@ namespace STrackerServer.BusinessLayer.Core.TvShowsOperations
     /// </summary>
     public interface ITvShowsRatingsOperations : IRatingsOperations<RatingsTvShow, string>
     {
-        /// <summary>
-        /// The get top rated.
-        /// </summary>
-        /// <param name="max">
-        /// The max.
-        /// </param>
-        /// <returns>
-        /// The <see>
-        ///       <cref>List</cref>
-        ///     </see> .
-        /// </returns>
-        ICollection<TvShow.TvShowSynopsis> GetTopRated(int max);
     }
 }

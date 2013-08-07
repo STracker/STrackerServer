@@ -9,6 +9,8 @@
 
 namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
 {
+    using System;
+
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.DataAccessLayer.Core.EpisodesRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
@@ -17,7 +19,7 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
     /// <summary>
     /// The episodes ratings operations.
     /// </summary>
-    public class EpisodesRatingsOperations : BaseRatingsOperations<Episode, RatingsEpisode, Episode.EpisodeKey>, IEpisodesRatingsOperations 
+    public class EpisodesRatingsOperations : BaseRatingsOperations<Episode, RatingsEpisode, Tuple<string, int, int>>, IEpisodesRatingsOperations 
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EpisodesRatingsOperations"/> class.

@@ -12,7 +12,6 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
     using System;
     using System.Collections.Generic;
     using System.Globalization;
-    using System.Linq;
 
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
@@ -37,11 +36,6 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         private readonly IEpisodesOperations episodesOperations;
 
         /// <summary>
-        /// The new episodes operations.
-        /// </summary>
-        private readonly INewEpisodesOperations newEpisodesOperations;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="UsersOperations"/> class.
         /// </summary>
         /// <param name="repository">
@@ -53,15 +47,11 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         /// <param name="episodesOperations">
         /// The episodes operations.
         /// </param>
-        /// <param name="newEpisodesOperations">
-        /// The new Episodes Operations.
-        /// </param>
-        public UsersOperations(IUsersRepository repository, ITvShowsRepository tvshowsRepository, IEpisodesOperations episodesOperations, INewEpisodesOperations newEpisodesOperations)
+        public UsersOperations(IUsersRepository repository, ITvShowsRepository tvshowsRepository, IEpisodesOperations episodesOperations)
             : base(repository)
         {
             this.tvshowsRepository = tvshowsRepository;
             this.episodesOperations = episodesOperations;
-            this.newEpisodesOperations = newEpisodesOperations;
         }
 
         /// <summary>
@@ -86,7 +76,7 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         /// </param>
         public void VerifyAndSave(User user)
         {
-            var domainUser = this.Repository.Read(user.Id);
+            var domainUser = this.Repository.Read(user.Key);
 
             if (domainUser == null)
             {
@@ -267,14 +257,17 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
                 return false;
             }
 
-            return userToModel.Friends.Exists(synopsis => synopsis.Id.Equals(userFromModel.Id)) && ((IUsersRepository)this.Repository).SendSuggestion(userToModel, new Suggestion { TvShow = tvshow.GetSynopsis(), User = userFromModel.GetSynopsis() });
+            return userToModel.Friends.Exists(synopsis => synopsis.Id.Equals(userFromModel.Key)) && ((IUsersRepository)this.Repository).SendSuggestion(userToModel, new Suggestion { TvShow = tvshow.GetSynopsis(), User = userFromModel.GetSynopsis() });
         }
 
         /// <summary>
-        /// The remove television show suggestions.
+        /// The remove suggestion.
         /// </summary>
-        /// <param name="userId">
-        /// The user Id.
+        /// <param name="userFrom">
+        /// The user from.
+        /// </param>
+        /// <param name="userTo">
+        /// The user To.
         /// </param>
         /// <param name="tvshowId">
         /// The television show id.
@@ -282,17 +275,18 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public bool RemoveTvShowSuggestions(string userId, string tvshowId)
+        public bool RemoveSuggestion(string userFrom, string userTo, string tvshowId)
         {
-            TvShow tvshow;
-            User user;
+            var userFromModel = this.Repository.Read(userFrom);
+            var userToModel = this.Repository.Read(userTo);
+            var tvshow = this.tvshowsRepository.Read(tvshowId);
 
-            if (!this.VerifyUserAndTvshow(userId, tvshowId, out user, out tvshow))
+            if (userFromModel == null || userToModel == null || tvshow == null)
             {
                 return false;
             }
 
-            return !user.Suggestions.Exists(suggestion => suggestion.TvShow.Id.Equals(tvshowId)) || ((IUsersRepository)this.Repository).RemoveTvShowSuggestions(user, tvshowId);
+            return ((IUsersRepository)this.Repository).RemoveSuggestion(userToModel, new Suggestion { TvShow = tvshow.GetSynopsis(), User = userFromModel.GetSynopsis() });
         }
 
         /// <summary>
@@ -309,7 +303,7 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         ///       <cref>List</cref>
         ///     </see> .
         /// </returns>
-        public ICollection<Suggestion> GetSuggestions(string userFrom, string tvshowId)
+        public List<Suggestion> GetSuggestions(string userFrom, string tvshowId)
         {
             TvShow tvshow;
             User user;
@@ -328,9 +322,9 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         ///       <cref>List</cref>
         ///     </see> .
         /// </returns>
-        public ICollection<User.UserSynopsis> FindByName(string name)
+        public List<User.UserSynopsis> FindByName(string name)
         {
-            return ((IUsersRepository)this.Repository).FindByName(name);
+            return ((IUsersRepository)this.Repository).FindByName(name).ConvertAll(input => input.GetSynopsis());
         }
 
         /// <summary>
@@ -355,7 +349,42 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
                 return false;
             }
 
-            return userModel.Friends.Exists(synopsis => synopsis.Id.Equals(friendId)) && ((IUsersRepository)this.Repository).RemoveFriend(userModel, userFriend);
+            if (!userModel.Friends.Exists(synopsis => synopsis.Id.Equals(friendId)))
+            {
+                return false;
+            }
+
+            return ((IUsersRepository)this.Repository).RemoveFriend(userModel, userFriend);
+        }
+
+        /// <summary>
+        /// The remove television show suggestions.
+        /// </summary>
+        /// <param name="userId">
+        /// The user Id.
+        /// </param>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool RemoveTvShowSuggestions(string userId, string tvshowId)
+        {
+            TvShow tvshow;
+            User user;
+
+            if (!this.VerifyUserAndTvshow(userId, tvshowId, out user, out tvshow))
+            {
+                return false;
+            }
+
+            if (!user.Suggestions.Exists(suggestion => suggestion.TvShow.Id.Equals(tvshowId)))
+            {
+                return true;
+            }
+
+            return ((IUsersRepository)this.Repository).RemoveTvShowSuggestions(user, tvshow);
         }
 
         /// <summary>
@@ -364,16 +393,22 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         /// <param name="userId">
         /// The user id.
         /// </param>
-        /// <param name="id">
-        /// The id.
+        /// <param name="tvshowId">
+        /// The television  show id.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// The season number.
+        /// </param>
+        /// <param name="episodeNumber">
+        /// The episode number.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public bool AddWatchedEpisode(string userId, Episode.EpisodeKey id)
+        public bool AddWatchedEpisode(string userId, string tvshowId, int seasonNumber, int episodeNumber)
         {
             var user = this.Repository.Read(userId);
-            var episode = this.episodesOperations.Read(id);
+            var episode = this.episodesOperations.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber));
 
             if (user == null || episode == null)
             {
@@ -381,20 +416,26 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
             }
 
             var episodeDate = DateTime.ParseExact(episode.Date, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-            var systemDate = DateTime.UtcNow;
+            var systemDate = DateTime.Now;
 
             if (DateTime.Compare(episodeDate, systemDate) > 0)
             {
                 return false;
             }
 
-            var subscription = user.SubscriptionList.Find(sub => sub.TvShow.Id.Equals(id.TvshowId));
+            var subscription = user.SubscriptionList.Find(sub => sub.TvShow.Id.Equals(episode.TvShowId));
+
             if (subscription == null)
             {
                 return false;
             }
 
-            return subscription.EpisodesWatched.Exists(synopsis => synopsis.Equals(episode.GetSynopsis())) || ((IUsersRepository)this.Repository).AddWatchedEpisode(user, episode.GetSynopsis());
+            if (subscription.EpisodesWatched.Exists(synopsis => synopsis.Equals(episode.GetSynopsis())))
+            {
+                return true;
+            }
+
+            return ((IUsersRepository)this.Repository).AddWatchedEpisode(user, episode.GetSynopsis());
         }
 
         /// <summary>
@@ -403,76 +444,43 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         /// <param name="userId">
         /// The user id.
         /// </param>
-        /// <param name="id">
-        /// The id.
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// The season number.
+        /// </param>
+        /// <param name="episodeNumber">
+        /// The episode number.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public bool RemoveWatchedEpisode(string userId, Episode.EpisodeKey id)
+        public bool RemoveWatchedEpisode(string userId, string tvshowId, int seasonNumber, int episodeNumber)
         {
             var user = this.Repository.Read(userId);
-            var episode = this.episodesOperations.Read(id);
+            var episode = this.episodesOperations.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, episodeNumber));
 
             if (user == null || episode == null)
             {
                 return false;
             }
 
-            var subscription = user.SubscriptionList.Find(sub => sub.TvShow.Id.Equals(id.TvshowId));
+            var subscription = user.SubscriptionList.Find(sub => sub.TvShow.Id.Equals(episode.TvShowId));
+
             if (subscription == null)
             {
                 return false;
             }
 
             var sinopsys = subscription.EpisodesWatched.Find(synopsis => synopsis.Equals(episode.GetSynopsis()));
-            return sinopsys == null || ((IUsersRepository)this.Repository).RemoveWatchedEpisode(user, sinopsys);
-        }
 
-        /// <summary>
-        /// The get newest episodes.
-        /// </summary>
-        /// <param name="userId">
-        /// The user id.
-        /// </param>
-        /// <returns>
-        /// The <see>
-        ///       <cref>IEnumerable</cref>
-        ///     </see> .
-        /// </returns>
-        public ICollection<NewTvShowEpisodes> GetUserNewEpisodes(string userId)
-        {
-            var user = this.Repository.Read(userId);
-
-            if (user == null)
+            if (sinopsys == null)
             {
-                return null;
+                return true;
             }
 
-            var retList = new List<NewTvShowEpisodes>();
-
-            foreach (var subscription in user.SubscriptionList)
-            {
-                var episodes = this.newEpisodesOperations.GetNewEpisodes(subscription.TvShow.Id, DateTime.Now.AddDays(7).ToString("yyyy-MM-dd"));
-
-                if (episodes == null)
-                {
-                    continue;
-                }
-
-                var episodesList = episodes.ToList();
-
-                if (episodesList.Count != 0)
-                {
-                    retList.Add(new NewTvShowEpisodes(subscription.TvShow.Id)
-                    {
-                        TvShow = subscription.TvShow,
-                        Episodes = episodesList
-                    });
-                }
-            }
-
-            return retList;
+            return ((IUsersRepository)this.Repository).RemoveWatchedEpisode(user, sinopsys);
         }
 
         /// <summary>

@@ -322,10 +322,6 @@
       <Project>{f7946d64-169e-437b-9d4c-69d56f4c32f4}</Project>
       <Name>STrackerServer.DataAccessLayer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\STrackerServer.Logger\STrackerServer.Logger.csproj">
-      <Project>{42225651-A274-420D-934E-45DB9250FCF9}</Project>
-      <Name>STrackerServer.Logger</Name>
-    </ProjectReference>
     <ProjectReference Include="..\STrackerServer.NinjectDependencies\STrackerServer.NinjectDependencies.csproj">
       <Project>{8ebc7ae5-4f9c-4c2c-b2fa-6629ea485a92}</Project>
       <Name>STrackerServer.NinjectDependencies</Name>

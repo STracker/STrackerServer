@@ -37,18 +37,19 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// </param>
         public TvShow(string id) : this()
         {
-            this.Id = id;
+            this.Key = id;
+            this.TvShowId = id;
         }
 
         /// <summary>
-        /// Gets or sets the id.
+        /// Gets or sets the key.
         /// </summary>
-        public string Id { get; set; }
+        public string Key { get; set; }
 
         /// <summary>
-        /// Gets or sets the version of the entity.
+        /// Gets or sets the television show IMDB id.
         /// </summary>
-        public int Version { get; set; }
+        public string TvShowId { get; set; }
 
         /// <summary>
         /// Gets or sets the name.
@@ -108,9 +109,9 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// </returns>
         public TvShowSynopsis GetSynopsis()
         {
-            var uri = string.Format("tvshows/{0}", this.Id);
+            var uri = string.Format("tvshows/{0}", this.TvShowId);
             
-            return new TvShowSynopsis { Id = this.Id, Name = this.Name, Poster = this.Poster, Uri = uri };
+            return new TvShowSynopsis { Id = this.TvShowId, Name = this.Name, Poster = this.Poster, Uri = uri };
         }
 
         /// <summary>

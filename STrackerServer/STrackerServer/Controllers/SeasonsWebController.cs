@@ -17,7 +17,6 @@ namespace STrackerServer.Controllers
 
     using STrackerServer.BusinessLayer.Core.SeasonsOperations;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
-    using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
     /// The season web controller.
@@ -64,7 +63,7 @@ namespace STrackerServer.Controllers
         [HttpGet]
         public ActionResult Show(string tvshowId, int seasonNumber)
         {
-            var season = this.seasonOps.Read(new Season.SeasonKey { TvshowId = tvshowId, SeasonNumber = seasonNumber });
+            var season = this.seasonOps.Read(new Tuple<string, int>(tvshowId, seasonNumber));
 
             if (season == null)
             {
@@ -77,8 +76,8 @@ namespace STrackerServer.Controllers
             return this.View(new SeasonView
             {
                 TvShowId = tvshowId,
-                EpisodeList = season.EpisodeSynopsis.OrderBy(ep => ep.Id.EpisodeNumber),
-                SeasonNumber = season.Id.SeasonNumber,
+                EpisodeList = season.EpisodeSynopsis.OrderBy(ep => ep.EpisodeNumber),
+                SeasonNumber = season.SeasonNumber,
                 Poster = tvshow.Poster,
                 TvShowName = tvshow.Name   
             });

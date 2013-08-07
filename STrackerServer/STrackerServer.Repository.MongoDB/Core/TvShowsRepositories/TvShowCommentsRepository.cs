@@ -50,13 +50,13 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public override bool AddComment(string key, Comment comment)
+        public bool AddComment(string key, Comment comment)
         {
             var collection = this.Database.GetCollection(string.Format("{0}-{1}", key, CollectionPrefix));
-            var query = Query<CommentsTvShow>.EQ(comments => comments.Id, key);
+            var query = Query<CommentsTvShow>.EQ(comments => comments.TvShowId, key);
             var update = Update<CommentsTvShow>.Push(c => c.Comments, comment);
 
-            return this.ModifyList(collection, query, update, this.Read(key));
+            return this.ModifyList(collection, query, update);
         }
 
         /// <summary>
@@ -71,13 +71,13 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public override bool RemoveComment(string key, Comment comment)
+        public bool RemoveComment(string key, Comment comment)
         {
             var collection = this.Database.GetCollection(string.Format("{0}-{1}", key, CollectionPrefix));
-            var query = Query<CommentsTvShow>.EQ(comments => comments.Id, key);
+            var query = Query<CommentsTvShow>.EQ(comments => comments.TvShowId, key);
             var update = Update<CommentsTvShow>.Pull(c => c.Comments, comment);
 
-            return this.ModifyList(collection, query, update, this.Read(key));
+            return this.ModifyList(collection, query, update);
         }
 
         /// <summary>
@@ -88,7 +88,8 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         /// </param>
         protected override void HookCreate(CommentsTvShow entity)
         {
-            var collection = this.Database.GetCollection(string.Format("{0}-{1}", entity.Id, CollectionPrefix));
+            var collection = this.Database.GetCollection(string.Format("{0}-{1}", entity.TvShowId, CollectionPrefix));
+            this.SetupIndexes(collection);
             collection.Insert(entity);
         }
 
@@ -104,7 +105,8 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         protected override CommentsTvShow HookRead(string id)
         {
             var collection = this.Database.GetCollection(string.Format("{0}-{1}", id, CollectionPrefix));
-            return collection.FindOneByIdAs<CommentsTvShow>(id);
+            var query = Query<CommentsTvShow>.EQ(c => c.TvShowId, id);
+            return collection.FindOne<CommentsTvShow>(query, "_id");
         }
 
         /// <summary>
@@ -127,7 +129,7 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         protected override void HookDelete(string id)
         {
             var collection = this.Database.GetCollection(string.Format("{0}-{1}", id, CollectionPrefix));
-            var query = Query<CommentsTvShow>.EQ(c => c.Id, id);
+            var query = Query<CommentsTvShow>.EQ(c => c.TvShowId, id);
 
             collection.FindAndRemove(query, SortBy.Null);
         }

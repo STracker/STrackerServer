@@ -50,16 +50,5 @@ namespace STrackerServer.DataAccessLayer.Core
         /// The <see cref="bool"/>.
         /// </returns>
         bool RemoveComment(TK id, Comment comment);
-
-        /// <summary>
-        /// The remove all comments.
-        /// </summary>
-        /// <param name="id">
-        /// The id.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        bool RemoveAllComments(TK id);
     }
 }

@@ -1,9 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ITvShowsOperations.cs" company="STracker">
+// <copyright file="IGenresOperations.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  Interface that defines the contract of operations over television shows.
+//   The GenresOperations interface.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -14,47 +14,34 @@ namespace STrackerServer.BusinessLayer.Core.TvShowsOperations
     using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
-    /// Television shows operations interface.
+    /// The Genres Operations interface.
     /// </summary>
-    public interface ITvShowsOperations : ICrudOperations<TvShow, string>
+    public interface IGenresOperations : ICrudOperations<Genre, string>
     {
         /// <summary>
-        /// The read by name.
+        /// Get all genres.
         /// </summary>
-        /// <param name="name">
-        /// The name.
-        /// </param>
         /// <returns>
         /// The <see>
         ///       <cref>List</cref>
         ///     </see> .
         /// </returns>
-        List<TvShow.TvShowSynopsis> ReadByName(string name);
+        List<Genre.GenreSynopsis> GetAll();
 
         /// <summary>
-        /// The get top rated.
+        /// The get television shows.
         /// </summary>
-        /// <param name="max">
-        /// The max.
+        /// <param name="genres">
+        /// The genres.
+        /// </param>
+        /// <param name="maxtvShows">
+        /// The max television shows.
         /// </param>
         /// <returns>
         /// The <see>
-        ///       <cref>List</cref>
+        ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        IList<TvShow.TvShowSynopsis> GetTopRated(int max);
-
-        /// <summary>
-        /// The get names.
-        /// </summary>
-        /// <param name="query">
-        /// The query.
-        /// </param>
-        /// <returns>
-        /// The <see>
-        ///       <cref>string[]</cref>
-        ///     </see> .
-        /// </returns>
-        string[] GetNames(string query);
+        IEnumerable<TvShow.TvShowSynopsis> GetTvShows(ICollection<string> genres, int maxtvShows);
     }
 }

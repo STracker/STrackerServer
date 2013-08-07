@@ -9,10 +9,12 @@
 
 namespace STrackerServer.DataAccessLayer.DomainEntities.Ratings
 {
+    using System;
+
     /// <summary>
     /// The episode ratings.
     /// </summary>
-    public class RatingsEpisode : RatingsBase<Episode.EpisodeKey>
+    public class RatingsEpisode : RatingsBase<Tuple<string, int, int>>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RatingsEpisode"/> class.
@@ -20,8 +22,26 @@ namespace STrackerServer.DataAccessLayer.DomainEntities.Ratings
         /// <param name="id">
         /// The id.
         /// </param>
-        public RatingsEpisode(Episode.EpisodeKey id) : base(id)
+        public RatingsEpisode(Tuple<string, int, int> id) : base(id)
         {
+            this.TvShowId = id.Item1;
+            this.SeasonNumber = id.Item2;
+            this.EpisodeNumber = id.Item3;
         }
+
+        /// <summary>
+        /// Gets or sets the television show id.
+        /// </summary>
+        public string TvShowId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the season number.
+        /// </summary>
+        public int SeasonNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets the episode number.
+        /// </summary>
+        public int EpisodeNumber { get; set; }
     }
 }

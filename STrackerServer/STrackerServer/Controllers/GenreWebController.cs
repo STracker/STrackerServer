@@ -10,9 +10,10 @@
 namespace STrackerServer.Controllers
 {
     using System.Net;
+    using System.Web.Helpers;
     using System.Web.Mvc;
 
-    using STrackerServer.BusinessLayer.Core;
+    using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.Models.Genre;
 
     /// <summary>
@@ -56,7 +57,7 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            return this.View(new GenreView { GenreName = genreModel.Id, TvShows = genreModel.TvshowsSynopsis });
+            return this.View(new GenreView { GenreName = genreModel.Key, TvShows = genreModel.TvshowsSynopsis });
         }
 
         /// <summary>

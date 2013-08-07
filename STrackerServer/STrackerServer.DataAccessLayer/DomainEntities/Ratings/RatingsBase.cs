@@ -38,18 +38,13 @@ namespace STrackerServer.DataAccessLayer.DomainEntities.Ratings
         /// </param>
         public RatingsBase(T id) : this()
         {
-            this.Id = id;
+            this.Key = id;
         } 
 
         /// <summary>
-        /// Gets or sets the id.
+        /// Gets or sets the key.
         /// </summary>
-        public T Id { get; set; }
-
-        /// <summary>
-        /// Gets or sets the version of the entity.
-        /// </summary>
-        public int Version { get; set; }
+        public T Key { get; set; }
 
         /// <summary>
         /// Gets or sets the average.

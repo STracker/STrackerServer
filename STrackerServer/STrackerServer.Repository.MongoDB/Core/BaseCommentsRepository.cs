@@ -9,13 +9,12 @@
 
 namespace STrackerServer.Repository.MongoDB.Core
 {
-    using System;
     using System.Configuration;
 
     using global::MongoDB.Driver;
 
-    using STrackerServer.DataAccessLayer.Core;
-    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
+    using global::MongoDB.Driver.Builders;
+
     using STrackerServer.DataAccessLayer.DomainEntities.Comments;
 
     /// <summary>
@@ -27,8 +26,7 @@ namespace STrackerServer.Repository.MongoDB.Core
     /// <typeparam name="TK">
     /// Type of comment key.
     /// </typeparam>
-    public abstract class BaseCommentsRepository<TC, TK> : BaseRepository<TC, TK>, ICommentsRepository<TC, TK>
-        where TC : CommentsBase<TK>
+    public abstract class BaseCommentsRepository<TC, TK> : BaseRepository<TC, TK> where TC : CommentsBase<TK>
     {
         /// <summary>
         /// The collection prefix.
@@ -51,55 +49,27 @@ namespace STrackerServer.Repository.MongoDB.Core
         }
 
         /// <summary>
-        /// The remove all comments.
+        /// The drop comments.
         /// </summary>
         /// <param name="id">
         /// The id.
         /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public bool RemoveAllComments(TK id)
+        public void DropComments(string id)
         {
-            try
-            {
-                var collection = this.Database.GetCollection(string.Format("{0}-{1}", this.CollectionPrefix, id));
-                collection.Drop();
-                return true;
-            }
-            catch (Exception)
-            {
-                // TODO, add to log mechanism.
-                return false;
-            }
+            var collection = this.Database.GetCollection(string.Format("{0}-{1}", this.CollectionPrefix, id));
+            collection.Drop();
         }
 
         /// <summary>
-        /// The add comment.
+        /// The setup indexes.
         /// </summary>
-        /// <param name="id">
-        /// The id.
+        /// <param name="collection">
+        /// The collection.
         /// </param>
-        /// <param name="comment">
-        /// The comment.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public abstract bool AddComment(TK id, Comment comment);
-
-        /// <summary>
-        /// The remove comment.
-        /// </summary>
-        /// <param name="id">
-        /// The id.
-        /// </param>
-        /// <param name="comment">
-        /// The comment.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public abstract bool RemoveComment(TK id, Comment comment);
+        protected void SetupIndexes(MongoCollection collection)
+        {
+            // Ensure index.
+            collection.EnsureIndex(new IndexKeysBuilder().Ascending("TvShowId", "SeasonNumber", "EpisodeNumber"), IndexOptions.SetUnique(true));
+        }
     }
 }

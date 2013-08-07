@@ -21,7 +21,7 @@ namespace STrackerServer.Models.Home
         /// <summary>
         /// Gets or sets the genres.
         /// </summary>
-        public IList<Genre.GenreSynopsis> Genres { get; set; }
+        public IEnumerable<Genre.GenreSynopsis> Genres { get; set; }
 
         /// <summary>
         /// Gets or sets the top rated.
@@ -31,6 +31,6 @@ namespace STrackerServer.Models.Home
         /// <summary>
         /// Gets or sets the new episodes.
         /// </summary>
-        public IList<NewTvShowEpisodes> NewEpisodes { get; set; }
+        public ICollection<NewTvShowEpisodes> NewEpisodes { get; set; }
     }
 }

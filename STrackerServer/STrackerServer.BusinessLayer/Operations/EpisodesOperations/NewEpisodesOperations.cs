@@ -16,6 +16,7 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
 
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
+    using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.DataAccessLayer.Core.EpisodesRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
 
@@ -30,9 +31,14 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
         private readonly ITvShowsOperations tvshowsOperations;
 
         /// <summary>
-        /// The newest episodes repository.
+        /// The users operations.
         /// </summary>
-        private readonly INewestEpisodesRepository newestEpisodesRepository;
+        private readonly IUsersOperations usersOperations;
+
+        /// <summary>
+        /// The episodes repository.
+        /// </summary>
+        private readonly IEpisodesRepository episodesRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NewEpisodesOperations"/> class.
@@ -40,13 +46,17 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
         /// <param name="tvshowsOperations">
         /// The television shows operations.
         /// </param>
-        /// <param name="newestEpisodesRepository">
-        /// The newest Episodes Repository.
+        /// <param name="usersOperations">
+        /// The users Operations.
         /// </param>
-        public NewEpisodesOperations(ITvShowsOperations tvshowsOperations, INewestEpisodesRepository newestEpisodesRepository)
+        /// <param name="episodesRepository">
+        /// The episodes Repository.
+        /// </param>
+        public NewEpisodesOperations(ITvShowsOperations tvshowsOperations, IUsersOperations usersOperations, IEpisodesRepository episodesRepository)
         {
             this.tvshowsOperations = tvshowsOperations;
-            this.newestEpisodesRepository = newestEpisodesRepository;
+            this.usersOperations = usersOperations;
+            this.episodesRepository = episodesRepository;
         }
 
         /// <summary>
@@ -78,7 +88,8 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
                 return null;
             }
 
-            var newTvShowEpisodes = this.newestEpisodesRepository.Read(tvshowId);
+            var newTvShowEpisodes = this.episodesRepository.GetNewestEpisodes(tvshowId);
+
             if (newTvShowEpisodes == null)
             {
                 return null;
@@ -107,8 +118,10 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
                 return null;
             }
 
-            var newEpisodes = this.newestEpisodesRepository.GetAll();
+            var newEpisodes = this.episodesRepository.GetNewestEpisodes();
+
             var retList = new List<NewTvShowEpisodes>();
+
             if (date != null)
             {
                 foreach (var tvshow in newEpisodes)
@@ -119,6 +132,52 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
                     {
                         retList.Add(tvshow);
                     }
+                }
+            }
+
+            return retList;
+        }
+
+        /// <summary>
+        /// The get newest episodes.
+        /// </summary>
+        /// <param name="userId">
+        /// The user id.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///       <cref>IEnumerable</cref>
+        ///     </see> .
+        /// </returns>
+        public ICollection<NewTvShowEpisodes> GetUserNewEpisodes(string userId)
+        {
+            var user = this.usersOperations.Read(userId);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            var retList = new List<NewTvShowEpisodes>();
+
+            foreach (var subscription in user.SubscriptionList)
+            {
+                var episodes = this.GetNewEpisodes(subscription.TvShow.Id, DateTime.Now.AddDays(7).ToString("yyyy-MM-dd"));
+                
+                if (episodes == null)
+                {
+                   continue; 
+                }
+                
+                var episodesList = episodes.ToList();
+
+                if (episodesList.Count != 0)
+                {
+                    retList.Add(new NewTvShowEpisodes(subscription.TvShow.Id)
+                    {
+                        TvShow = subscription.TvShow,
+                        Episodes = episodesList
+                    });
                 }
             }
 
