@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="GenresController.cs" company="">
-//   
+// <copyright file="GenresController.cs" company="STracker">
+//  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
 //   The genre web controller.

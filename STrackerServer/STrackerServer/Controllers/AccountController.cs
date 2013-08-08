@@ -146,20 +146,29 @@ namespace STrackerServer.Controllers
         /// The callback.
         /// </summary>
         /// <param name="code">
-        /// The code.
+        /// The authorization code.
         /// </param>
         /// <param name="state">
         /// The state.
+        /// </param>
+        /// <param name="error">
+        /// The facebook error.
+        /// </param>
+        /// <param name="error_reason">
+        /// The facebook error reason.
+        /// </param>
+        /// <param name="error_description">
+        /// The facebook error description.
         /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpGet]
-        public ActionResult Callback(string code, string state)
+        public ActionResult Callback(string code, string state, string error, string error_reason, string error_description)
         {
             var cookie = Request.Cookies[StateCookie];
 
-            if (code == null || cookie == null)
+            if (code == null || cookie == null || state == null)
             {
                 this.Response.StatusCode = (int)HttpStatusCode.Forbidden;
                 return this.View("Error", (int)HttpStatusCode.Forbidden);

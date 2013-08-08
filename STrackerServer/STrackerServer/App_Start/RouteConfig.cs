@@ -55,26 +55,6 @@ namespace STrackerServer.App_Start
 
             routes.MapRoute("User_Index", "User", new { controller = "UsersWeb", action = "Index" });
 
-            // Account Routes
-            routes.MapRoute(
-                "Account_Login", "Account/Login", new { controller = "Account", action = "Login" });
-
-            routes.MapRoute(
-                "Account_Callback",
-                "Account/Callback",
-                new
-                    {
-                        controller = "Account",
-                        action = "Callback",
-                        code = UrlParameter.Optional,
-                        error = UrlParameter.Optional,
-                        error_code = UrlParameter.Optional,
-                        error_description = UrlParameter.Optional,
-                        error_reason = UrlParameter.Optional
-                    });
-
-            routes.MapRoute("Account_Logout", "Account/Logout", new { controller = "Account", action = "Logout" });
-
             // TvShow Routes
             routes.MapRoute("TvShowsWeb_Names", "TvShows/Names", new { controller = "TvShowsWeb", action = "GetNames" });
 
@@ -138,18 +118,12 @@ namespace STrackerServer.App_Start
             routes.MapRoute(
                 "EpisodeWeb_Comment_Remove",
                 "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}/Comments/{id}/Remove",
-                new { controller = "EpisodesWeb", action = "RemoveComment" }); 
+                new { controller = "EpisodesWeb", action = "RemoveComment" });
 
 
-
-            // Genre Routes
-            //routes.MapRoute("Genres", "genres/{name}", new { controller = "genres", action = "get", id = UrlParameter.Optional});
-            routes.MapRoute("Default", "{controller}/{id}", new { action="Get", id = UrlParameter.Optional });
-            /*
-            routes.MapRoute("GenreWeb_Show", "Genres/{name}", new { controller = "GenreWeb", action = "Show" });
-
-            routes.MapRoute("GenreWeb_Get_TvShows", "Genres", new { controller = "GenreWeb", action = "GetTvShows" });
-             */
+            // Defaults
+            routes.MapRoute("Default_2", "{controller}/{action}/{id}", new { id = UrlParameter.Optional });
+            routes.MapRoute("Default_1", "{controller}/{id}", new { action = "Get", id = UrlParameter.Optional });
         }
     }
 }
