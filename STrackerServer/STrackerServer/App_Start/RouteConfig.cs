@@ -140,10 +140,16 @@ namespace STrackerServer.App_Start
                 "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}/Comments/{id}/Remove",
                 new { controller = "EpisodesWeb", action = "RemoveComment" }); 
 
+
+
             // Genre Routes
+            //routes.MapRoute("Genres", "genres/{name}", new { controller = "genres", action = "get", id = UrlParameter.Optional});
+            routes.MapRoute("Default", "{controller}/{id}", new { action="Get", id = UrlParameter.Optional });
+            /*
             routes.MapRoute("GenreWeb_Show", "Genres/{name}", new { controller = "GenreWeb", action = "Show" });
 
             routes.MapRoute("GenreWeb_Get_TvShows", "Genres", new { controller = "GenreWeb", action = "GetTvShows" });
+             */
         }
     }
 }

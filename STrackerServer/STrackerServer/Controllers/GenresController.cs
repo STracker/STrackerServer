@@ -1,16 +1,15 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="GenreWebController.cs" company="STracker">
-//   Copyright (c) STracker Developers. All rights reserved.
+// <copyright file="GenresController.cs" company="">
+//   
 // </copyright>
 // <summary>
-//   Defines the GenreWebController type.
+//   The genre web controller.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace STrackerServer.Controllers
 {
     using System.Net;
-    using System.Web.Helpers;
     using System.Web.Mvc;
 
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
@@ -19,7 +18,7 @@ namespace STrackerServer.Controllers
     /// <summary>
     /// The genre web controller.
     /// </summary>
-    public class GenreWebController : Controller
+    public class GenresController : Controller
     {
         /// <summary>
         /// The genre operations.
@@ -27,29 +26,29 @@ namespace STrackerServer.Controllers
         private readonly IGenresOperations genreOperations;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GenreWebController"/> class.
+        /// Initializes a new instance of the <see cref="GenresController"/> class. 
         /// </summary>
         /// <param name="genreOperations">
         /// The genre operations.
         /// </param>
-        public GenreWebController(IGenresOperations genreOperations)
+        public GenresController(IGenresOperations genreOperations)
         {
             this.genreOperations = genreOperations;
         }
 
         /// <summary>
-        /// The show.
+        /// Represents all the television shows in the specific genre.
         /// </summary>
-        /// <param name="name">
-        /// The name.
+        /// <param name="id">
+        /// The genre name.
         /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpGet]
-        public ActionResult Show(string name)
+        public ActionResult Get(string id)
         {
-            var genreModel = this.genreOperations.Read(name);
+            var genreModel = this.genreOperations.Read(id);
 
             if (genreModel == null)
             {
@@ -58,30 +57,6 @@ namespace STrackerServer.Controllers
             }
 
             return this.View(new GenreView { GenreName = genreModel.Key, TvShows = genreModel.TvshowsSynopsis });
-        }
-
-        /// <summary>
-        /// The get television shows.
-        /// </summary>
-        /// <param name="genres">
-        /// The genres.
-        /// </param>
-        /// <param name="max">
-        /// The max.
-        /// </param>
-        /// <returns>
-        /// The <see cref="JsonResult"/>.
-        /// </returns>
-        [HttpGet]
-        public JsonResult GetTvShows(string[] genres, int max)
-        {
-            if (genres == null)
-            {
-                Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return this.Json(null, JsonRequestBehavior.AllowGet);
-            }
-
-            return this.Json(this.genreOperations.GetTvShows(genres, max), JsonRequestBehavior.AllowGet);
         }
     }
 }

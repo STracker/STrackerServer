@@ -13,10 +13,10 @@ namespace STrackerServer.Controllers.Api
     using System.Net.Http;
     using System.Web.Http;
 
+    using STrackerServer.Attributes;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.Controllers.Api.AuxiliaryObjects;
     using STrackerServer.DataAccessLayer.DomainEntities;
-    using STrackerServer.Hawk;
 
     /// <summary>
     /// The users controller.

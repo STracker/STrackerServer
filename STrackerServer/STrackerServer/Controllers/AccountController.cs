@@ -80,6 +80,7 @@ namespace STrackerServer.Controllers
             this.usersOperations = usersOperations;
         }
 
+        /*
         /// <summary>
         /// Gets the callback uri.
         /// </summary>
@@ -87,18 +88,17 @@ namespace STrackerServer.Controllers
         {
             get { return "http://" + Request.Url.Host + Url.Action("Callback"); }
         }
+        */
         
-        /*
         // DEBUG ONLY
         private string CallbackUri
         {
             get
             {
-                var url = this.Request.Url;
-                return url == null ? null : url.GetLeftPart(UriPartial.Authority) + this.Url.Action("Callback");
+                return Request.Url.GetLeftPart(UriPartial.Authority) + this.Url.Action("Callback");
             }
         }
-        */
+        
 
         /// <summary>
         /// The login.

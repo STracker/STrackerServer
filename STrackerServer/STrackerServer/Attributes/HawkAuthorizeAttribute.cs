@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Hawk
+namespace STrackerServer.Attributes
 {
     using System.Configuration;
     using System.Net;

@@ -72,7 +72,7 @@
                     @foreach(var genre in Model.Genres)
                     {
                         <li>
-                            <a href="@Url.Action("Show","GenreWeb", new { name = genre.Id })">@genre.Id</a>
+                            <a href="@Url.Action("Get","Genres", new { id = genre.Id })">@genre.Id</a>
                         </li>            
                     }
                 </ul>

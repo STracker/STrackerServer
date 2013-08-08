@@ -13,9 +13,9 @@ namespace STrackerServer.Controllers.Api
     using System.Net.Http;
     using System.Web.Http;
 
+    using STrackerServer.Attributes;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
-    using STrackerServer.Hawk;
 
     /// <summary>
     /// The television show subscription controller.

@@ -14,10 +14,10 @@ namespace STrackerServer.Controllers.Api
     using System.Net.Http;
     using System.Web.Http;
 
+    using STrackerServer.Attributes;
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
-    using STrackerServer.Hawk;
 
     /// <summary>
     /// The episodes comments controller.
