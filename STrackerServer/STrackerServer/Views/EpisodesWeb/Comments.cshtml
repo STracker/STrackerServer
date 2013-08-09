@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Comments";
-    Layout = "~/Views/Shared/CommentsLayout.cshtml";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
 }
 
 <div class="container-fluid">
@@ -29,7 +29,7 @@
                 <div class="box">
                     @foreach(var comment in Model.Comments)
                     {
-                        <a href="@Url.Action("Show","UsersWeb", new { id = comment.User.Id })">@comment.User.Name</a>
+                        <a href="@Url.Action("Index","Users", new { id = comment.User.Id })">@comment.User.Name</a>
                         <div class="box-whiter">
                             <div style="text-align: right">
                                 @if (Model.IsModerator || User.Identity.IsAuthenticated && comment.User.Id.Equals(User.Identity.Name))

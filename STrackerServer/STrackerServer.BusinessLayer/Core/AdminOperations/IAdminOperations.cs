@@ -25,12 +25,12 @@ namespace STrackerServer.BusinessLayer.Core.AdminOperations
         /// <param name="userId">
         /// The user id.
         /// </param>
-        /// <param name="permission">
+        /// <param name="permissions">
         /// The permission.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool SetUserPermission(string adminId, string userId, Permission permission);
+        bool SetUserPermission(string adminId, string userId, Permissions permissions);
     }
 }

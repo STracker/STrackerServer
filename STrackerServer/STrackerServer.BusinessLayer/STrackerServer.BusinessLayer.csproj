@@ -79,7 +79,7 @@
     <Compile Include="Operations\TvShowsOperations\TvShowsRatingsOperations.cs" />
     <Compile Include="Operations\UsersOperations\UsersOperations.cs" />
     <Compile Include="Permissions\IPermissionManager.cs" />
-    <Compile Include="Permissions\Permission.cs" />
+    <Compile Include="Permissions\Permissions.cs" />
     <Compile Include="Permissions\PermissionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

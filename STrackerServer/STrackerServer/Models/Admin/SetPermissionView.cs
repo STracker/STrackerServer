@@ -50,6 +50,6 @@ namespace STrackerServer.Models.Admin
         /// <summary>
         /// Gets or sets the permissions.
         /// </summary>
-        public IDictionary<Permission, int> Permissions { get; set; }
+        public IDictionary<Permissions, int> Permissions { get; set; }
     }
 }

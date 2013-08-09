@@ -25,7 +25,7 @@ namespace STrackerServer.BusinessLayer.Permissions
         /// <summary>
         /// The has permission.
         /// </summary>
-        /// <param name="permission">
+        /// <param name="permissions">
         /// The permission.
         /// </param>
         /// <param name="currentPermission">
@@ -34,7 +34,7 @@ namespace STrackerServer.BusinessLayer.Permissions
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool HasPermission(PT permission, P currentPermission);
+        bool HasPermission(PT permissions, P currentPermission);
 
         /// <summary>
         /// The has permission.

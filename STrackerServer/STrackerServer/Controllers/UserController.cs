@@ -3,18 +3,23 @@
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//   The user controller.
+//   The user web controller.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace STrackerServer.Controllers
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
     using System.Web.Mvc;
 
+    using STrackerServer.Action_Results;
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.BusinessLayer.Permissions;
+    using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.Models.User;
 
     /// <summary>
@@ -35,7 +40,7 @@ namespace STrackerServer.Controllers
         /// <summary>
         /// The permission manager.
         /// </summary>
-        private readonly IPermissionManager<Permission, int> permissionManager;
+        private readonly IPermissionManager<Permissions, int> permissionManager;
 
         /// <summary>
         /// The new episodes operations.
@@ -52,12 +57,12 @@ namespace STrackerServer.Controllers
         /// The television shows operations. 
         /// </param>
         /// <param name="permissionManager">
-        /// The permission Manager.
+        /// The permission manager.
         /// </param>
         /// <param name="newEpisodesOperations">
-        /// The new Episodes Operations.
+        /// The new episodes operations.
         /// </param>
-        public UserController(IUsersOperations usersOperations, ITvShowsOperations tvshowsOperations, IPermissionManager<Permission, int> permissionManager, INewEpisodesOperations newEpisodesOperations)
+        public UserController(IUsersOperations usersOperations, ITvShowsOperations tvshowsOperations, IPermissionManager<Permissions, int> permissionManager, INewEpisodesOperations newEpisodesOperations)
         {
             this.usersOperations = usersOperations;
             this.tvshowsOperations = tvshowsOperations;
@@ -66,7 +71,7 @@ namespace STrackerServer.Controllers
         }
 
         /// <summary>
-        /// The index.
+        /// The authenticated user's profile.
         /// </summary>
         /// <returns>
         /// The <see cref="ActionResult"/>.
@@ -83,9 +88,219 @@ namespace STrackerServer.Controllers
                 Name = user.Name,
                 PictureUrl = user.Photo,
                 SubscriptionList = user.SubscriptionList,
-                IsAdmin = this.permissionManager.HasPermission(Permission.Admin, user.Permission),
+                IsAdmin = this.permissionManager.HasPermission(Permissions.Admin, user.Permission),
                 NewEpisodes = this.newEpisodesOperations.GetUserNewEpisodes(User.Identity.Name)
             });
+        }
+
+        /// <summary>
+        /// Invite a user to become his friend.
+        /// </summary>
+        /// <param name="values">
+        /// The form values.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpPost]
+        [Authorize]
+        public ActionResult Invite(InviteFormValues values)
+        {
+            if (!ModelState.IsValid || !this.usersOperations.Invite(User.Identity.Name, values.UserId))
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            return new SeeOtherResult { Url = Url.Action("Index", "Users", new { id = values.UserId }) };
+        }
+
+        /// <summary>
+        /// The authenticated user's friend requests.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpGet]
+        [Authorize]
+        public ActionResult FriendRequests()
+        {
+            var user = this.usersOperations.Read(User.Identity.Name);
+
+            return this.View(new Requests
+            {
+                Name = user.Name,
+                PictureUrl = user.Photo,
+                List = user.FriendRequests
+            });
+        }
+
+        /// <summary>
+        /// The authenticated user's friend request response.
+        /// </summary>
+        /// <param name="values">
+        /// The form values.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpPost]
+        [Authorize]
+        public ActionResult FriendRequests(RequestResponseFormValues values)
+        {
+            if (!ModelState.IsValid)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            if (values.Accept)
+            {
+                if (!this.usersOperations.AcceptInvite(values.UserId, User.Identity.Name))
+                {
+                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return this.View("Error", Response.StatusCode);
+                }
+            }
+            else
+            {
+                if (!this.usersOperations.RejectInvite(values.UserId, User.Identity.Name))
+                {
+                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return this.View("Error", Response.StatusCode);
+                }
+            }
+
+            return new SeeOtherResult { Url = Url.Action("FriendRequests") };
+        }
+
+        /// <summary>
+        /// The authenticated user's friends.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpGet]
+        [Authorize]
+        public ActionResult Friends()
+        {
+            var user = this.usersOperations.Read(User.Identity.Name);
+            return this.View(new FriendsView { Name = user.Name, List = user.Friends, PictureUrl = user.Photo });
+        }
+
+        /// <summary>
+        /// Remove specific friend.
+        /// </summary>
+        /// <param name="id">
+        /// The friend id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpPost]
+        [Authorize]
+        public ActionResult Friends(string id)
+        {
+            if (!this.usersOperations.RemoveFriend(User.Identity.Name, id))
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            return new SeeOtherResult { Url = Url.Action("Friends") };
+        }
+
+        /// <summary>
+        /// The authenticated user's suggestions.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpGet]
+        [Authorize]
+        public ActionResult Suggestions()
+        {
+            var user = this.usersOperations.Read(User.Identity.Name);
+            var suggestionsView = new SuggestionsView
+            {
+                Name = user.Name,
+                PictureUrl = user.Photo,
+            };
+
+            foreach (var suggestion in user.Suggestions.OrderBy(su => su.TvShow.Id))
+            {
+                if (!suggestionsView.Suggestions.ContainsKey(suggestion.TvShow.Id))
+                {
+                    suggestionsView.Suggestions.Add(suggestion.TvShow.Id, new SuggestionView { TvShowName = this.tvshowsOperations.Read(suggestion.TvShow.Id).Name });
+                }
+
+                suggestionsView.Suggestions[suggestion.TvShow.Id].Friends.Add(this.usersOperations.Read(suggestion.User.Id).GetSynopsis());
+            }
+
+            return this.View(suggestionsView);
+        }
+
+        /// <summary>
+        /// Remove television show suggestions.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpPost]
+        [Authorize]
+        public ActionResult Suggestions(string tvshowId)
+        {
+            if (!this.usersOperations.RemoveTvShowSuggestions(User.Identity.Name, tvshowId))
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            return new SeeOtherResult { Url = Url.Action("Suggestions") };
+        }
+
+        /// <summary>
+        /// The authenticated user's watched episodes.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpGet]
+        [Authorize]
+        public ActionResult WatchedEpisodes()
+        {
+            var user = this.usersOperations.Read(User.Identity.Name);
+
+            var viewModel = new EpisodesWatchedView { Name = user.Name, PictureUrl = user.Photo };
+
+            foreach (var subscription in user.SubscriptionList)
+            {
+                var subDetailView = new EpisodesWatchedView.SubscriptionDetailView { TvShow = subscription.TvShow };
+
+                foreach (var episode in subscription.EpisodesWatched)
+                {
+                    IList<Episode.EpisodeSynopsis> list;
+
+                    if (subDetailView.EpisodesWatched.ContainsKey(episode.SeasonNumber))
+                    {
+                        list = subDetailView.EpisodesWatched[episode.SeasonNumber];
+                    }
+                    else
+                    {
+                        list = new List<Episode.EpisodeSynopsis>();
+                        subDetailView.EpisodesWatched.Add(episode.SeasonNumber, list);
+                    }
+
+                    list.Add(episode);
+                }
+
+                viewModel.List.Add(subDetailView);
+            }
+
+            return this.View(viewModel);
         }
     }
 }

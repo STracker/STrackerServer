@@ -10,15 +10,12 @@
         <div class="span3">
             <div class="box">
                 <div style="text-align: center">
-                    <a href="@Url.Action("Index","UsersWeb")">
+                    <a href="@Url.Action("Index","User")">
                         <img class="img-rounded" src="@Model.PictureUrl" alt="No Artwork"/>
                     </a>
                 </div> 
                 <div class="extra-padding"></div>
-                <p><a class="btn btn-block btn-primary" href="@Url.Action("Friends","UsersWeb")">Friends</a></p>
-                <p><a class="btn btn-block btn-primary" href="@Url.Action("Suggestions","UsersWeb")">Sugestions</a></p>
-                <p><a class="btn btn-block btn-primary" href="@Url.Action("Requests","UsersWeb")">Friend Requests</a></p> 
-                <p><a class="btn btn-block btn-primary" href="@Url.Action("EpisodesWatched","UsersWeb")">Episodes Watched</a></p>  
+                @Html.Partial("User/Nav") 
             </div>
         </div>
         <div class="span6">
@@ -44,20 +41,9 @@
                             </div>
                             <div style="display: inline-block">
                                 <div style="text-align: right">
-                                    @using (Html.BeginForm("Subscribe", "TvShowsWeb"))
+                                    @using (Html.BeginForm("Suggestions", "User", new { tvshowId }))
                                     {
-                                        @Html.Hidden("IsSubscribing",true)
-                                        @Html.Hidden("tvshowId",tvshowId)
-                                        @Html.Hidden("redirectUrl", Url.Action("Suggestions","UsersWeb"))
-                                        <button type="submit" class="btn btn-mini btn-block btn-success">Subscribe</button>
-                                    }
-                                </div>
-                            </div>
-                            <div style="display: inline-block">
-                                <div style="text-align: right">
-                                    @using (Html.BeginForm("RemoveTvShowSuggestions", "UsersWeb", new { tvshowId }))
-                                    {
-                                        <button type="submit" class="btn btn-mini btn-block btn-danger">Remove</button>
+                                        <button type="submit" class="btn-small btn-link" style="color: red">(Remove)</button>
                                     }
                                 </div>
                             </div>   
@@ -69,7 +55,7 @@
                         {
                             <tr>
                                 <td>
-                                    <a href="@Url.Action("Show","UsersWeb", new { id = friend.Id })">@friend.Name</a>
+                                    <a href="@Url.Action("Index","Users", new { id = friend.Id })">@friend.Name</a>
                                 </td>
                             </tr>
                         }

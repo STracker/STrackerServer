@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = @Model.Name;
-    Layout = "~/Views/Shared/TvShowLayout.cshtml";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
 }
 
 <div class="container-fluid">
@@ -72,7 +72,7 @@
                     @foreach(var genre in Model.Genres)
                     {
                         <li>
-                            <a href="@Url.Action("Get","Genres", new { id = genre.Id })">@genre.Id</a>
+                            <a href="@Url.Action("Index","Genres", new { id = genre.Id })">@genre.Id</a>
                         </li>            
                     }
                 </ul>

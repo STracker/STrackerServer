@@ -20,6 +20,6 @@ namespace STrackerServer.Models.User
         /// Gets or sets the user id.
         /// </summary>
         [Required]
-        public string Id { get; set; }
+        public string UserId { get; set; }
     }
 }

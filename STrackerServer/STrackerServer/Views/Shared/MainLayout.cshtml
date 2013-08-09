@@ -20,13 +20,13 @@
                 <div class="container">
                     <ul class="nav">
                         <li class="divider-vertical"></li>  
-                        <li><a href="@Url.Action("Index","HomeWeb")"> Home </a></li>
+                        <li><a href="@Url.Action("Index","Home")"> Home </a></li>
                         <li class="divider-vertical"></li>    
-                        <li><a href="@Url.Action("Api","HomeWeb")"> API </a></li>
+                        <li><a href="@Url.Action("Api","Home")"> API </a></li>
                         <li class="divider-vertical"></li>
                         <li>
                             <form action="@Url.Action("GetByName","TvShowsWeb")" method="GET" class="navbar-form pull-left">
-                                <input id="TvShowSearch" type="text" name="name" placeholder="Tv Show" autocomplete="off" class="typeahead"/>
+                                <input id="TvShowSearch" type="text" name="name" placeholder="Find TV Show" autocomplete="off" class="typeahead"/>
                                 <button type="submit" class="btn btn-primary"><b class="icon-search"></b></button>
                             </form>
                         </li>
@@ -35,9 +35,9 @@
                         @if (HttpContext.Current.User.Identity.IsAuthenticated)
                         {   
                             <li class="divider-vertical"></li>
-                            <li><a href="@Url.Action("GetByName","UsersWeb")"> Find Buddy </a></li>
+                            <li>@Html.ActionLink("Find Buddy","Search","Users")</li>
                             <li class="divider-vertical"></li> 
-                            <li>@Html.ActionLink("Profile","Index","UsersWeb")</li>
+                            <li>@Html.ActionLink("Profile","Index","User")</li>
                             <li class="divider-vertical"></li>
                             <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
                             <li class="divider-vertical"></li>

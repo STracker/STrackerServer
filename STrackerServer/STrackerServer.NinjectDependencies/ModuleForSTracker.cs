@@ -89,7 +89,7 @@ namespace STrackerServer.NinjectDependencies
             this.Bind<QueueManager>().ToSelf().InSingletonScope();
 
             // PermissionProvider dependencies
-            this.Bind<IPermissionManager<Permission, int>>().To<PermissionManager>();
+            this.Bind<IPermissionManager<Permissions, int>>().To<PermissionManager>();
 
             // Admin dependencies
             this.Bind<IAdminOperations>().To<AdminOperations>();

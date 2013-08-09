@@ -14,12 +14,12 @@ namespace STrackerServer.BusinessLayer.Permissions
     /// <summary>
     /// The permission manager.
     /// </summary>
-    public class PermissionManager : IPermissionManager<Permission, int>
+    public class PermissionManager : IPermissionManager<Permissions, int>
     {
         /// <summary>
         /// The has permission.
         /// </summary>
-        /// <param name="permission">
+        /// <param name="permissions">
         /// The permission.
         /// </param>
         /// <param name="currentPermission">
@@ -28,9 +28,9 @@ namespace STrackerServer.BusinessLayer.Permissions
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public bool HasPermission(Permission permission, int currentPermission)
+        public bool HasPermission(Permissions permissions, int currentPermission)
         {
-            return this.GetPermission(currentPermission) >= permission;
+            return this.GetPermission(currentPermission) >= permissions;
         }
 
         /// <summary>
@@ -42,9 +42,9 @@ namespace STrackerServer.BusinessLayer.Permissions
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public Permission GetPermission(int permission)
+        public Permissions GetPermission(int permission)
         {
-            return (Permission)permission;
+            return (Permissions)permission;
         }
 
         /// <summary>
@@ -55,13 +55,13 @@ namespace STrackerServer.BusinessLayer.Permissions
         ///       <cref>IDictionary</cref>
         ///     </see> .
         /// </returns>
-        public IDictionary<Permission, int> GetPermissions()
+        public IDictionary<Permissions, int> GetPermissions()
         {
-            return new Dictionary<Permission, int>
+            return new Dictionary<Permissions, int>
                 {
-                    { Permission.Default, (int)Permission.Default },
-                    { Permission.Moderator, (int)Permission.Moderator },
-                    { Permission.Admin, (int)Permission.Admin }
+                    { Permissions.Default, (int)Permissions.Default },
+                    { Permissions.Moderator, (int)Permissions.Moderator },
+                    { Permissions.Admin, (int)Permissions.Admin }
                 };
         }
     }

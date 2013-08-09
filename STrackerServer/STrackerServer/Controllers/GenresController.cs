@@ -46,7 +46,7 @@ namespace STrackerServer.Controllers
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpGet]
-        public ActionResult Get(string id)
+        public ActionResult Index(string id)
         {
             var genreModel = this.genreOperations.Read(id);
 

@@ -46,7 +46,7 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
         /// <param name="permissionManager">
         /// The permission manager.
         /// </param>
-        public EpisodesCommentsOperations(IEpisodeCommentsRepository commentsRepository, IEpisodesRepository repository, IUsersOperations usersOperations, QueueManager queueM, IPermissionManager<Permission, int> permissionManager)
+        public EpisodesCommentsOperations(IEpisodeCommentsRepository commentsRepository, IEpisodesRepository repository, IUsersOperations usersOperations, QueueManager queueM, IPermissionManager<Permissions, int> permissionManager)
             : base(commentsRepository, repository, queueM, usersOperations, permissionManager)
         {
         }

@@ -9,11 +9,10 @@
     <div class="row-fluid">
         <div class="span12">
             <div class="row center">
-                @using (Html.BeginForm("GetByName", "UsersWeb", FormMethod.Get))
+                @using (Html.BeginForm("Search", "Users", FormMethod.Get))
                 {
                     <div class="form-inline">
-                        <span>Name:</span> 
-                        <input id="UserSearch" type="text" name="name" value="@Model.SearchValue" class="input-large"/>
+                        <input id="UserSearch" type="text" name="name" value="@Model.SearchValue" placeholder="Name" class="input-large"/>
                         <button type="submit" class="btn btn-primary"><b class="icon-search"></b></button>
                     </div>                 
                 }
@@ -33,7 +32,7 @@
                             </div>
                             <br/>
                             <div class="row-fluid">
-                                 <a class="btn btn-block btn-primary" href="@Url.Action("Show","UsersWeb", new { id = Model.Result[index].Id })">@Model.Result[index].Name</a>
+                                <a class="btn btn-block btn-primary" href="@Url.Action("Index","Users", new { id = Model.Result[index].Id })">@Model.Result[index].Name</a>
                             </div>
                         </div>
                     </div>

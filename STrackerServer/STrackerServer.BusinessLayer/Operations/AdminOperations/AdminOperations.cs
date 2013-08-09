@@ -43,13 +43,13 @@ namespace STrackerServer.BusinessLayer.Operations.AdminOperations
         /// <param name="userId">
         /// The user id.
         /// </param>
-        /// <param name="permission">
+        /// <param name="permissions">
         /// The permission.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public bool SetUserPermission(string adminId, string userId, Permission permission)
+        public bool SetUserPermission(string adminId, string userId, Permissions permissions)
         {
             var admin = this.usersRepository.Read(adminId);
             var user = this.usersRepository.Read(userId);
@@ -59,12 +59,12 @@ namespace STrackerServer.BusinessLayer.Operations.AdminOperations
                 return false;
             }
 
-            if (admin.Permission != (int)Permission.Admin || (user.Permission == (int)Permission.Admin && !adminId.Equals(userId)))
+            if (admin.Permission != (int)Permissions.Admin || (user.Permission == (int)Permissions.Admin && !adminId.Equals(userId)))
             {
                 return false;
             }
 
-            return this.usersRepository.SetUserPermission(user, (int)permission);
+            return this.usersRepository.SetUserPermission(user, (int)permissions);
         }
     }
 }

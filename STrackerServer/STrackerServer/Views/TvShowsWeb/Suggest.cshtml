@@ -31,7 +31,7 @@
                     {
                         <tr>
                             <td>
-                                <a href="@Url.Action("Show","UsersWeb", new { id = friend.Id })">@friend.Name</a>
+                                <a href="@Url.Action("Index","Users", new { id = friend.Id })">@friend.Name</a>
                             </td>
                             <td>
                                 @if(friend.IsSubscribed)

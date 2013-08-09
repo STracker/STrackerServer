@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Permission.cs" company="STracker">
+// <copyright file="Permissions.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
@@ -12,7 +12,7 @@ namespace STrackerServer.BusinessLayer.Permissions
     /// <summary>
     /// The permissions.
     /// </summary>
-    public enum Permission
+    public enum Permissions
     {
         /// <summary>
         /// The default.

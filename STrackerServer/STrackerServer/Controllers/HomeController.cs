@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="HomeWebController.cs" company="STracker">
+// <copyright file="HomeController.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
@@ -20,7 +20,7 @@ namespace STrackerServer.Controllers
     /// <summary>
     /// The home web controller.
     /// </summary>
-    public class HomeWebController : Controller
+    public class HomeController : Controller
     {
         /// <summary>
         /// The max top rated.
@@ -43,7 +43,7 @@ namespace STrackerServer.Controllers
         private readonly INewEpisodesOperations newEpisodesOperations;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="HomeWebController"/> class.
+        /// Initializes a new instance of the <see cref="HomeController"/> class.
         /// </summary>
         /// <param name="genresOperations">
         /// The genres operations.
@@ -54,7 +54,7 @@ namespace STrackerServer.Controllers
         /// <param name="newEpisodesOperations">
         /// The new Episodes Operations.
         /// </param>
-        public HomeWebController(IGenresOperations genresOperations, ITvShowsOperations tvshowsOperations, INewEpisodesOperations newEpisodesOperations)
+        public HomeController(IGenresOperations genresOperations, ITvShowsOperations tvshowsOperations, INewEpisodesOperations newEpisodesOperations)
         {
             this.genresOperations = genresOperations;
             this.tvshowsOperations = tvshowsOperations;
@@ -71,17 +71,17 @@ namespace STrackerServer.Controllers
         public ActionResult Index()
         {
             var view = new HomeView
-                {
-                    Genres = this.genresOperations.GetAll().OrderBy(synopsis => synopsis.Id),
-                    TopRated = this.tvshowsOperations.GetTopRated(MaxTopRated),
-                    NewEpisodes = this.newEpisodesOperations.GetNewEpisodes(DateTime.Now.AddDays(7).ToString("yyyy-MM-dd"))
-                };
+            {
+                Genres = this.genresOperations.GetAll().OrderBy(synopsis => synopsis.Id),
+                TopRated = this.tvshowsOperations.GetTopRated(MaxTopRated),
+                NewEpisodes = this.newEpisodesOperations.GetNewEpisodes(DateTime.Now.AddDays(7).ToString("yyyy-MM-dd"))
+            };
 
             return this.View(view);
         }
 
         /// <summary>
-        /// The contact.
+        /// API information.
         /// </summary>
         /// <returns>
         /// The <see cref="ActionResult"/>.

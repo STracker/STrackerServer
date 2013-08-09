@@ -10,15 +10,12 @@
         <div class="span3">
             <div class="box">
                 <div style="text-align: center">
-                    <a href="@Url.Action("Index","UsersWeb")">
+                    <a href="@Url.Action("Index","User")">
                         <img class="img-rounded" src="@Model.PictureUrl" alt="No Artwork"/>
                     </a>
                 </div> 
                 <div class="extra-padding"></div>
-                <p><a class="btn btn-block btn-primary" href="@Url.Action("Friends","UsersWeb")">Friends</a></p>
-                <p><a class="btn btn-block btn-primary" href="@Url.Action("Suggestions","UsersWeb")">Sugestions</a></p>
-                <p><a class="btn btn-block btn-primary" href="@Url.Action("Requests","UsersWeb")">Friend Requests</a></p> 
-                <p><a class="btn btn-block btn-primary" href="@Url.Action("EpisodesWatched","UsersWeb")">Episodes Watched</a></p>  
+                @Html.Partial("User/Nav")
             </div>
         </div>
 
@@ -35,18 +32,20 @@
                         {
                             <tr>
                                 <td>
-                                    <a href="@Url.Action("Show","UsersWeb", new { id = request.Id })">@request.Name</a>
+                                    <a href="@Url.Action("Index","Users", new { id = request.Id })">@request.Name</a>
                                 </td>
                                 <td>
-                                    @using(Html.BeginForm("RequestResponse","UsersWeb", new {id = request.Id}))
+                                    @using (Html.BeginForm("FriendRequests", "User"))
                                     {
+                                        @Html.Hidden("UserId", request.Id)
                                         @Html.Hidden("accept", true)
                                         <input class="btn btn-mini btn-block btn-success" type="submit" value="Accept" />
                                     }
                                 </td>
                                 <td>
-                                    @using (Html.BeginForm("RequestResponse", "UsersWeb", new { id = request.Id }))
+                                    @using (Html.BeginForm("FriendRequests", "User"))
                                     {
+                                        @Html.Hidden("UserId", request.Id)
                                         @Html.Hidden("accept", false)
                                         <input class="btn btn-mini btn-block btn-danger" type="submit"  value="Reject"/>
                                     }

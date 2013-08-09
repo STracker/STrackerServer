@@ -139,7 +139,7 @@ namespace STrackerServer.Controllers
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
-            return new SeeOtherResult { Url = Url.Action("Index", "HomeWeb") };
+            return new SeeOtherResult { Url = Url.Action("Index", "Home") };
         }
 
         /// <summary>
@@ -217,7 +217,7 @@ namespace STrackerServer.Controllers
             FormsAuthentication.SetAuthCookie(user.Key, false);
 
             return callbackCookie.ReturnUrl == null ? 
-                new SeeOtherResult { Url = Url.Action("Index", "HomeWeb") } : 
+                new SeeOtherResult { Url = Url.Action("Index", "Home") } : 
                 new SeeOtherResult { Url = callbackCookie.ReturnUrl };
         }
 

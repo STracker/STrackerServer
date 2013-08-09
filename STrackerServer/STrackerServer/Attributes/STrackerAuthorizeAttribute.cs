@@ -26,7 +26,7 @@ namespace STrackerServer.Attributes
         /// <summary>
         /// The manager.
         /// </summary>
-        private readonly IPermissionManager<Permission, int> manager;
+        private readonly IPermissionManager<Permissions, int> manager;
 
         /// <summary>
         /// The users operations.
@@ -40,14 +40,14 @@ namespace STrackerServer.Attributes
         {
             IKernel kernel = new StandardKernel(new ModuleForSTracker());
             
-            this.manager = kernel.Get<IPermissionManager<Permission, int>>();
+            this.manager = kernel.Get<IPermissionManager<Permissions, int>>();
             this.usersOperations = kernel.Get<IUsersOperations>();
         }
 
         /// <summary>
         /// Gets or sets the permission.
         /// </summary>
-        public Permission Permission { get; set; }
+        public Permissions Permissions { get; set; }
 
         /// <summary>
         /// The authorize core.
@@ -61,7 +61,7 @@ namespace STrackerServer.Attributes
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             var user = this.usersOperations.Read(httpContext.User.Identity.Name);
-            return base.AuthorizeCore(httpContext) && this.manager.HasPermission(this.Permission, user.Permission);
+            return base.AuthorizeCore(httpContext) && this.manager.HasPermission(this.Permissions, user.Permission);
         }
     }
 }

@@ -24,37 +24,6 @@ namespace STrackerServer.App_Start
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            // Root Routes
-            routes.MapRoute("Home", string.Empty, new { controller = "HomeWeb", action = "Index" });
-            routes.MapRoute("Contact", "Api", new { controller = "HomeWeb", action = "Api" });
-
-            // User Routes
-            routes.MapRoute("User_Requests_Response", "User/Requests/{id}", new { controller = "UsersWeb", action = "RequestResponse" });
-
-            routes.MapRoute("User_Episodes_Watched", "User/EpisodesWatched", new { controller = "UsersWeb", action = "EpisodesWatched" });
-
-            routes.MapRoute("User_Suggestions", "User/Suggestions", new { controller = "UsersWeb", action = "Suggestions" });
-
-            routes.MapRoute("User_Suggestions_TvShow_Remove", "User/Suggestions/{tvshowId}/remove", new { controller = "UsersWeb", action = "RemoveTvShowSuggestions" });
-
-            routes.MapRoute("User_Requests", "User/Requests", new { controller = "UsersWeb", action = "Requests" });
-
-            routes.MapRoute("User_Invite", "User/Invite", new { controller = "UsersWeb", action = "Invite" });
-
-            routes.MapRoute("User_Friends_Public", "Users/{id}/Friends", new { controller = "UsersWeb", action = "PublicFriends" });
-
-            routes.MapRoute("User_Permission", "Users/{id}/Permission", new { controller = "AdminWeb", action = "SetUserPermission" });
-
-            routes.MapRoute("User_Friends_Remove", "User/Friends/{friendId}/Remove", new { controller = "UsersWeb", action = "RemoveFriend" });
-
-            routes.MapRoute("User_Friends", "User/Friends", new { controller = "UsersWeb", action = "Friends" });
-
-            routes.MapRoute("User_Search", "Users", new { controller = "UsersWeb", action = "GetByName" });
-
-            routes.MapRoute("User_Show", "Users/{id}", new { controller = "UsersWeb", action = "Show" });
-
-            routes.MapRoute("User_Index", "User", new { controller = "UsersWeb", action = "Index" });
-
             // TvShow Routes
             routes.MapRoute("TvShowsWeb_Names", "TvShows/Names", new { controller = "TvShowsWeb", action = "GetNames" });
 
@@ -120,10 +89,18 @@ namespace STrackerServer.App_Start
                 "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}/Comments/{id}/Remove",
                 new { controller = "EpisodesWeb", action = "RemoveComment" });
 
-
             // Defaults
-            routes.MapRoute("Default_2", "{controller}/{action}/{id}", new { id = UrlParameter.Optional });
-            routes.MapRoute("Default_1", "{controller}/{id}", new { action = "Get", id = UrlParameter.Optional });
+            routes.MapRoute("Home_Main", string.Empty, new { action = "Index", controller = "Home" });
+            routes.MapRoute("Home_Api", "Api", new { action = "Api",  controller = "Home" });
+
+            routes.MapRoute("User_Main", "User", new { controller = "User", action = "Index" });
+            routes.MapRoute("Users_Search", "Users/Search", new { controller = "Users", action = "Search" });
+
+            routes.MapRoute("Default_2", "{controller}/{action}/{id}", new { }, new { controller = "User|Account" });
+            routes.MapRoute("Default_3", "{controller}/{action}", new { }, new { controller = "User|Account" });
+            routes.MapRoute("Default_1", "{controller}/{id}", new { action = "Index", id = UrlParameter.Optional });
+
+            routes.MapRoute("Users_Default", "Users/{id}/{action}", new { controller = "Users" });
         }
     }
 }

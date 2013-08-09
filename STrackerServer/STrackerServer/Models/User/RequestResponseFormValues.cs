@@ -21,5 +21,11 @@ namespace STrackerServer.Models.User
         /// </summary>
         [Required]
         public bool Accept { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user id that made the request.
+        /// </summary>
+        [Required]
+        public string UserId { get; set; }
     }
 }

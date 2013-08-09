@@ -56,7 +56,7 @@ namespace STrackerServer.Controllers
         /// <summary>
         /// The permission manager.
         /// </summary>
-        private readonly IPermissionManager<Permission, int> permissionManager;
+        private readonly IPermissionManager<Permissions, int> permissionManager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EpisodesWebController"/> class.
@@ -79,7 +79,7 @@ namespace STrackerServer.Controllers
         /// <param name="permissionManager">
         /// The permission manager.
         /// </param>
-        public EpisodesWebController(IEpisodesOperations episodesOps, ITvShowsOperations tvshowsOps, IEpisodesCommentsOperations commentsOperations, IEpisodesRatingsOperations ratingsOperations, IUsersOperations usersOperations, IPermissionManager<Permission, int> permissionManager)
+        public EpisodesWebController(IEpisodesOperations episodesOps, ITvShowsOperations tvshowsOps, IEpisodesCommentsOperations commentsOperations, IEpisodesRatingsOperations ratingsOperations, IUsersOperations usersOperations, IPermissionManager<Permissions, int> permissionManager)
         {
             this.episodesOps = episodesOps;
             this.tvshowsOps = tvshowsOps;
@@ -204,7 +204,7 @@ namespace STrackerServer.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 var user = this.usersOperations.Read(User.Identity.Name);
-                isModerator = this.permissionManager.HasPermission(Permission.Moderator, user.Permission);
+                isModerator = this.permissionManager.HasPermission(Permissions.Moderator, user.Permission);
             }
 
             var view = new EpisodeComments
@@ -338,7 +338,7 @@ namespace STrackerServer.Controllers
 
             var user = this.usersOperations.Read(User.Identity.Name);
 
-            if (!comment.User.Id.Equals(User.Identity.Name) && !this.permissionManager.HasPermission(Permission.Moderator, user.Permission))
+            if (!comment.User.Id.Equals(User.Identity.Name) && !this.permissionManager.HasPermission(Permissions.Moderator, user.Permission))
             {
                 Response.StatusCode = (int)HttpStatusCode.Forbidden;
                 return this.View("Error", Response.StatusCode);

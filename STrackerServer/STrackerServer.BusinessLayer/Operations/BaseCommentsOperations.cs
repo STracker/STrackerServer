@@ -58,7 +58,7 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <summary>
         /// The permission manager.
         /// </summary>
-        private readonly IPermissionManager<Permission, int> permissionManager;
+        private readonly IPermissionManager<Permissions, int> permissionManager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseCommentsOperations{T,TC,TK}"/> class.
@@ -78,7 +78,7 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <param name="permissionManager">
         /// The permission manager.
         /// </param>
-        protected BaseCommentsOperations(ICommentsRepository<TC, TK> commentsRepository, IRepository<T, TK> repository, QueueManager queueM, IUsersOperations usersOperations, IPermissionManager<Permission, int> permissionManager)
+        protected BaseCommentsOperations(ICommentsRepository<TC, TK> commentsRepository, IRepository<T, TK> repository, QueueManager queueM, IUsersOperations usersOperations, IPermissionManager<Permissions, int> permissionManager)
         {
             this.CommentsRepository = commentsRepository;
             this.Repository = repository;
@@ -156,7 +156,7 @@ namespace STrackerServer.BusinessLayer.Operations
 
             Comment comment;
 
-            if (this.permissionManager.HasPermission(Permission.Moderator, user.Permission))
+            if (this.permissionManager.HasPermission(Permissions.Moderator, user.Permission))
             {
                 comment = this.CommentsRepository.Read(key).Comments.FirstOrDefault(c => c.Id.Equals(id));
             }

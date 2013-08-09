@@ -151,7 +151,6 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="Attributes\STrackerAuthorizeAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AdminWebController.cs" />
     <Compile Include="Controllers\Api\AuxiliaryObjects\ApiAddComment.cs" />
     <Compile Include="Controllers\Api\AuxiliaryObjects\ApiAddUserSubscription.cs" />
     <Compile Include="Controllers\Api\AuxiliaryObjects\ApiRegister.cs" />
@@ -173,7 +172,7 @@
     <Compile Include="Controllers\Api\UserSuggestionsController.cs" />
     <Compile Include="Controllers\ControllerExtensions.cs" />
     <Compile Include="Controllers\EpisodesWebController.cs" />
-    <Compile Include="Controllers\HomeWebController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Api\SeasonsController.cs" />
     <Compile Include="Controllers\SeasonsWebController.cs" />
     <Compile Include="Controllers\Api\TvShowsController.cs" />
@@ -181,7 +180,7 @@
     <Compile Include="Controllers\Api\UsersController.cs" />
     <Compile Include="Controllers\GenresController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Controllers\UsersWebController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Action_Results\SeeOtherResult.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -269,41 +268,38 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\HomeWeb\Contact.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\SeasonsWeb\Show.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\MainLayout.cshtml" />
     <Content Include="Views\TvShowsWeb\Show.cshtml" />
     <Content Include="Views\Web.config" />
-    <Content Include="Views\UsersWeb\Show.cshtml" />
-    <Content Include="Views\UsersWeb\Requests.cshtml" />
-    <Content Include="Views\UsersWeb\Index.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\EpisodesWeb\Show.cshtml" />
     <Content Include="Views\TvShowsWeb\Comments.cshtml" />
     <Content Include="Views\TvShowsWeb\Comment.cshtml" />
     <Content Include="Views\TvShowsWeb\CreateComment.cshtml" />
     <Content Include="Views\TvShowsWeb\Suggest.cshtml" />
-    <Content Include="Views\HomeWeb\Index.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\TvShowsWeb\Rate.cshtml" />
     <Content Include="Views\EpisodesWeb\Comments.cshtml" />
     <Content Include="Views\EpisodesWeb\CreateComment.cshtml" />
     <Content Include="Views\EpisodesWeb\Comment.cshtml" />
     <Content Include="Views\EpisodesWeb\Rate.cshtml" />
     <Content Include="Views\TvShowsWeb\GetByName.cshtml" />
-    <Content Include="Views\UsersWeb\GetByName.cshtml" />
-    <Content Include="Views\UsersWeb\Friends.cshtml" />
-    <Content Include="Views\HomeWeb\Api.cshtml" />
+    <Content Include="Views\Users\Search.cshtml" />
+    <Content Include="Views\Home\Api.cshtml" />
     <Content Include="Scripts\jquery-2.0.2.min.map" />
-    <Content Include="Views\UsersWeb\Suggestions.cshtml" />
-    <Content Include="Views\UsersWeb\PublicFriends.cshtml" />
-    <Content Include="Views\UsersWeb\EpisodesWatched.cshtml" />
-    <Content Include="Views\AdminWeb\SetUserPermission.cshtml" />
-    <Content Include="Views\Shared\TvShowLayout.cshtml" />
-    <Content Include="Views\Shared\CommentsLayout.cshtml" />
-    <Content Include="Views\Account\FacebookChannel.cshtml" />
+    <Content Include="Views\Users\Friends.cshtml" />
+    <Content Include="Views\Users\Permission.cshtml" />
     <Content Include="Views\Shared\NotFound.cshtml" />
-    <Content Include="Views\Genres\Get.cshtml" />
+    <Content Include="Views\Genres\Index.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\User\FriendRequests.cshtml" />
+    <Content Include="Views\User\Friends.cshtml" />
+    <Content Include="Views\User\Suggestions.cshtml" />
+    <Content Include="Views\User\WatchedEpisodes.cshtml" />
+    <Content Include="Views\Shared\User\Nav.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

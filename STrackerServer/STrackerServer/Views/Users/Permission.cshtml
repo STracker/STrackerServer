@@ -11,14 +11,18 @@
         <div class="span3">
             <div class="box">
                 <div style="text-align: center">
-                    <a href="@Url.Action("Show","UsersWeb", new { id = Model.Id })">
-                       <img class="img-rounded" src="@Model.PictureUrl" alt="No Artwork"/> 
+                    <a href="@Url.Action("Index","Users", new { id = Model.Id })">
+                        <img class="img-rounded" src="@Model.PictureUrl" alt="No Artwork"/> 
                     </a>
-                </div> 
-                <br/>
-                <div style="text-align: center">
-                    <a class="btn btn-block btn-primary" href="@Url.Action("Show","UsersWeb", new { id = Model.Id })">@Model.Name</a>
                 </div>
+                <div style="text-align: center">
+                    <a href="@Url.Action("Index","Users", new { id = Model.Id })">@Model.Name</a>
+                </div>
+                <div class="extra-padding"></div> 
+                <br/>
+                <p>
+                    <a class="btn btn-block btn-primary" href="@Url.Action("Friends","Users", new { id = Model.Id })">Friends</a>
+                </p>
             </div>
         </div>
 
@@ -41,10 +45,10 @@
                         <label class="radio">
                             @if(Model.Permission == (int)permission)
                             {
-                                <input type="radio" checked="checked" name="permission" value="@Model.Permissions[permission]" /><span>@Enum.GetName(typeof(Permission), permission)</span>
+                                <input type="radio" checked="checked" name="permission" value="@Model.Permissions[permission]" /><span>@Enum.GetName(typeof(Permissions), permission)</span>
                             }else
                             {
-                                <input type="radio" name="permission" value="@Model.Permissions[permission]" /><span>@Enum.GetName(typeof(Permission), permission)</span>
+                                <input type="radio" name="permission" value="@Model.Permissions[permission]" /><span>@Enum.GetName(typeof(Permissions), permission)</span>
                             }
                         </label>
                     }
