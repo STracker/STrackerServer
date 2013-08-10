@@ -24,7 +24,7 @@ namespace STrackerServer.DataAccessLayer.Core
     public interface ICommentsRepository<T, in TK> : IRepository<T, TK> where T : CommentsBase<TK>
     {
         /// <summary>
-        /// The add comment.
+        /// Add one comment.
         /// </summary>
         /// <param name="id">
         /// The id.
@@ -38,7 +38,7 @@ namespace STrackerServer.DataAccessLayer.Core
         bool AddComment(TK id, Comment comment);
 
         /// <summary>
-        /// The remove comment.
+        /// Remove one comment.
         /// </summary>
         /// <param name="id">
         /// The id.

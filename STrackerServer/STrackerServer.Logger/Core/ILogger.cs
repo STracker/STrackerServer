@@ -12,10 +12,7 @@ namespace STrackerServer.Logger.Core
     /// <summary>
     /// The Logger interface.
     /// </summary>
-    /// <typeparam name="T">
-    /// The class type for log.
-    /// </typeparam>
-    public interface ILogger<T> 
+    public interface ILogger
     {
         /// <summary>
         /// Send debug log.

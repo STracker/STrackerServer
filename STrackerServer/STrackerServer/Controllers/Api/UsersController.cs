@@ -68,7 +68,8 @@ namespace STrackerServer.Controllers.Api
         [HawkAuthorize]
         public HttpResponseMessage GetByName(string name)
         {
-            return this.BaseGet(this.operations.FindByName(name));
+            //return this.BaseGet(this.operations.FindByName(name));
+            return null;
         }
 
         /// <summary>

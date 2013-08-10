@@ -21,7 +21,7 @@
                 <div class="box-whiter">
                      @Model.Body
                 </div>
-                @using (Html.BeginForm("RemoveComment", "TvShowsWeb"))
+                @using (Html.BeginForm("RemoveComment", "TvShows"))
                 {
                     @Html.Hidden("tvshowId", Model.TvShowId)
                     @Html.Hidden("Id", Model.Id)

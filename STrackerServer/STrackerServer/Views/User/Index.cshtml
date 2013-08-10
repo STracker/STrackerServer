@@ -18,7 +18,7 @@
                 @Html.Partial("User/Nav")
                 @if(Model.IsAdmin)
                 {
-                    <a class="btn btn-block btn-primary" href="@Url.Action("Permission","Users", new { id = Model.Id })">Permission</a>
+                    <a class="btn btn-block btn-primary" href="@Url.Action("Permission","Users", new { id = Model.Id })">Permissions</a>
                 }
             </div>
         </div>
@@ -38,7 +38,7 @@
                                 <div class="span3" style="text-align: center">
                                     <div class="box-whiter">
                                         <div class="row-fluid">
-                                            <a href="@Url.Action("Show","TvShowsWeb", new { tvshowId = Model.SubscriptionList[index].TvShow.Id })">
+                                            <a href="@Url.Action("Index","TvShows", new { id = Model.SubscriptionList[index].TvShow.Id })">
                                                 <img src="@Model.SubscriptionList[index].TvShow.Poster" alt="No Image"/>
                                             </a>
                                         </div>
@@ -54,8 +54,9 @@
             <div class="box blue-border">
                 <h2 style="text-align: center">Next Episodes</h2>
             </div>
-            
-            @if(Model.NewEpisodes.Count != 0)
+            @{
+                /*
+                if(Model.NewEpisodes.Count != 0)
             {
                 <div class="box blue-border">
                     <div class="accordion" id="accordion">
@@ -79,7 +80,9 @@
                         }
                     </div>
                 </div>
+            }*/
             }
+            
         </div>
     </div>
 </div>

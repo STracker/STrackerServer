@@ -9,7 +9,6 @@
 
 namespace STrackerServer.DataAccessLayer.DomainEntities
 {
-    using System;
     using System.Collections.Generic;
 
     using STrackerServer.DataAccessLayer.Core;
@@ -17,14 +16,14 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
     /// <summary>
     /// Season domain entity.
     /// </summary>
-    public class Season : IEntity<Tuple<string, int>>
+    public class Season : IEntity<Season.SeasonId>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Season"/> class.
         /// </summary>
         public Season()
         {
-            this.EpisodeSynopsis = new List<Episode.EpisodeSynopsis>();
+            this.Episodes = new List<Episode.EpisodeSynopsis>();
         }
 
         /// <summary>
@@ -33,32 +32,25 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// <param name="id">
         /// The id.
         /// </param>
-        public Season(Tuple<string, int> id) : this()
+        public Season(SeasonId id) : this()
         {
-            this.Key = id;
-            this.TvShowId = id.Item1;
-            this.SeasonNumber = id.Item2;
+            this.Id = id;
         }
 
         /// <summary>
-        /// Gets or sets the key.
+        /// Gets or sets the id.
         /// </summary>
-        public Tuple<string, int> Key { get; set; }
+        public SeasonId Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the television show id.
+        /// Gets or sets the version of the entity.
         /// </summary>
-        public string TvShowId { get; set; }
+        public int Version { get; set; }
 
         /// <summary>
-        /// Gets or sets the season number.
+        /// Gets or sets the episodes synopses.
         /// </summary>
-        public int SeasonNumber { get; set; }
-
-        /// <summary>
-        /// Gets or sets the episode synopses.
-        /// </summary>
-        public List<Episode.EpisodeSynopsis> EpisodeSynopsis { get; set; }
+        public List<Episode.EpisodeSynopsis> Episodes { get; set; }
 
         /// <summary>
         /// Get the season synopsis.
@@ -68,12 +60,11 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// </returns>
         public SeasonSynopsis GetSynopsis()
         {
-            var uri = string.Format("tvshows/{0}/seasons/{1}", this.TvShowId, this.SeasonNumber);
+            var uri = string.Format("tvshows/{0}/seasons/{1}", this.Id.TvShowId, this.Id.SeasonNumber);
 
             return new SeasonSynopsis
                 {
-                    TvShowId = this.TvShowId,
-                    SeasonNumber = this.SeasonNumber, 
+                    Id = this.Id,
                     Uri = uri
                 };
         }
@@ -84,6 +75,22 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         public class SeasonSynopsis : ISynopsis
         {
             /// <summary>
+            /// Gets or sets the id.
+            /// </summary>
+            public SeasonId Id { get; set; }
+
+            /// <summary>
+            /// Gets or sets the uri.
+            /// </summary>
+            public string Uri { get; set; }
+        }
+
+        /// <summary>
+        /// The season id.
+        /// </summary>
+        public class SeasonId
+        {
+            /// <summary>
             /// Gets or sets the television show id.
             /// </summary>
             public string TvShowId { get; set; }
@@ -92,11 +99,6 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
             /// Gets or sets the season number.
             /// </summary>
             public int SeasonNumber { get; set; }
-
-            /// <summary>
-            /// Gets or sets the uri.
-            /// </summary>
-            public string Uri { get; set; }
         }
     }
 }

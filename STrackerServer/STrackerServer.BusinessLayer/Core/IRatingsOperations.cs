@@ -21,19 +21,8 @@ namespace STrackerServer.BusinessLayer.Core
     /// <typeparam name="TK">
     /// Type of entity key.
     /// </typeparam>
-    public interface IRatingsOperations<out TR, in TK> where TR : RatingsBase<TK>
+    public interface IRatingsOperations<TR, in TK> : ICrudOperations<TR, TK> where TR : RatingsBase<TK>
     {
-        /// <summary>
-        /// The read.
-        /// </summary>
-        /// <param name="key">
-        /// The key.
-        /// </param>
-        /// <returns>
-        /// The <see cref="TR"/>.
-        /// </returns>
-        TR Read(TK key);
-
         /// <summary>
         /// The add rating.
         /// </summary>
@@ -47,16 +36,5 @@ namespace STrackerServer.BusinessLayer.Core
         /// The <see cref="bool"/>.
         /// </returns>
         bool AddRating(TK id, Rating rating);
-
-        /// <summary>
-        /// The get all ratings.
-        /// </summary>
-        /// <param name="id">
-        /// The id.
-        /// </param>
-        /// <returns>
-        /// The <see cref="TR"/>.
-        /// </returns>
-        TR GetAllRatings(TK id);
     }
 }

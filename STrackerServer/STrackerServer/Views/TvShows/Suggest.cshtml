@@ -13,7 +13,7 @@
             <div class="extra-padding"></div> 
 
             <p>
-                <a class="btn btn-block btn-primary" href="@Url.Action("Show","TvShowsWeb", new { tvshowId = Model.TvShowId })">@Model.TvShowName</a>
+                <a class="btn btn-block btn-primary" href="@Url.Action("Index","TvShows", new { id = Model.TvShowId })">@Model.TvShowName</a>
             </p> 
         </div> 
 
@@ -39,10 +39,10 @@
                                     <div style="text-align: right">Already Subscribed</div>
                                 }else
                                 {
-                                    using(Html.BeginForm("Suggest","TvShowsWeb",FormMethod.Post))
+                                    using(Html.BeginForm("Suggest","TvShows",FormMethod.Post))
                                     {
                                         @Html.Hidden("FriendId",friend.Id)
-                                        @Html.Hidden("TvShowId",Model.TvShowId)
+                                        @Html.Hidden("id",Model.TvShowId)
                                         <input class="btn btn-block btn-mini btn-primary" type="submit" value="Suggest"/>
                                     }
                                 }

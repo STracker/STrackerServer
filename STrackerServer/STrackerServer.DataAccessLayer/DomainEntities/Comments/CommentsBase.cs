@@ -38,13 +38,18 @@ namespace STrackerServer.DataAccessLayer.DomainEntities.Comments
         /// </param>
         public CommentsBase(T id) : this()
         {
-            this.Key = id;
+            this.Id = id;
         } 
 
         /// <summary>
         /// Gets or sets the key.
         /// </summary>
-        public T Key { get; set; }
+        public T Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the version of the entity.
+        /// </summary>
+        public int Version { get; set; }
 
         /// <summary>
         /// Gets or sets the comments.

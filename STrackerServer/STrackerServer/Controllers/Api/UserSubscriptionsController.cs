@@ -57,7 +57,8 @@ namespace STrackerServer.Controllers.Api
         [HawkAuthorize]
         public HttpResponseMessage Get()
         {
-            return this.BaseGet(this.usersOperations.Read(User.Identity.Name).SubscriptionList);
+            //return this.BaseGet(this.usersOperations.Read(User.Identity.Name).SubscriptionList);
+            return null;
         }
 
         /// <summary>
@@ -73,6 +74,7 @@ namespace STrackerServer.Controllers.Api
         [HawkAuthorize]
         public HttpResponseMessage GetExists(string tvshowId)
         {
+            /*
             var tvshow = this.tvshowsOperations.Read(tvshowId);
 
             if (tvshow == null)
@@ -81,6 +83,8 @@ namespace STrackerServer.Controllers.Api
             }
 
             return this.BaseGet(new { Exist = this.usersOperations.Read(User.Identity.Name).SubscriptionList.Exists(sub => sub.TvShow.Id.Equals(tvshowId)) });
+             * */
+            return null;
         }
 
         /// <summary>

@@ -26,7 +26,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         {
             this.Actors = new List<Actor>();
             this.Genres = new List<Genre.GenreSynopsis>();
-            this.SeasonSynopsis = new List<Season.SeasonSynopsis>();    
+            this.Seasons = new List<Season.SeasonSynopsis>();    
         }
 
         /// <summary>
@@ -37,19 +37,18 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// </param>
         public TvShow(string id) : this()
         {
-            this.Key = id;
-            this.TvShowId = id;
+            this.Id = id;
         }
 
         /// <summary>
-        /// Gets or sets the key.
+        /// Gets or sets the id.
         /// </summary>
-        public string Key { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the television show IMDB id.
+        /// Gets or sets the version of the entity.
         /// </summary>
-        public string TvShowId { get; set; }
+        public int Version { get; set; }
 
         /// <summary>
         /// Gets or sets the name.
@@ -97,9 +96,9 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         public List<Genre.GenreSynopsis> Genres { get; set; }
 
         /// <summary>
-        /// Gets or sets the season synopses.
+        /// Gets or sets the seasons synopses.
         /// </summary>
-        public List<Season.SeasonSynopsis> SeasonSynopsis { get; set; }
+        public List<Season.SeasonSynopsis> Seasons { get; set; }
 
         /// <summary>
         /// Get the television show synopsis.
@@ -109,9 +108,9 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// </returns>
         public TvShowSynopsis GetSynopsis()
         {
-            var uri = string.Format("tvshows/{0}", this.TvShowId);
+            var uri = string.Format("tvshows/{0}", this.Id);
             
-            return new TvShowSynopsis { Id = this.TvShowId, Name = this.Name, Poster = this.Poster, Uri = uri };
+            return new TvShowSynopsis { Id = this.Id, Name = this.Name, Poster = this.Poster, Uri = uri };
         }
 
         /// <summary>

@@ -12,20 +12,12 @@ namespace STrackerServer.Logger.Core
     /// <summary>
     /// The abstract base logger.
     /// </summary>
-    /// <typeparam name="T">
-    /// The class type for log.
-    /// </typeparam>
-    public abstract class BaseLogger<T> : ILogger<T>
+    public abstract class BaseLogger : ILogger
     {
-        /// <summary>
-        /// The class name.
-        /// </summary>
-        protected readonly string ClassName = typeof(T).Name;
-
         /// <summary>
         /// The log format.
         /// </summary>
-        private const string LogFormat = "Class: {0} - Method: {1} - Exception: {2} - Message: {3}";
+        private const string LogFormat = "Method: {0} - Exception: {1} - Message: {2}";
 
         /// <summary>
         /// Send debug log.
@@ -41,7 +33,7 @@ namespace STrackerServer.Logger.Core
         /// </param>
         public void Debug(string method, string exception, string message)
         {
-            this.Debug(string.Format(LogFormat, this.ClassName, method, exception, message));
+            this.Debug(string.Format(LogFormat, method, exception, message));
         }
 
         /// <summary>
@@ -58,7 +50,7 @@ namespace STrackerServer.Logger.Core
         /// </param>
         public void Info(string method, string exception, string message)
         {
-            this.Info(string.Format(LogFormat, this.ClassName, method, exception, message));
+            this.Info(string.Format(LogFormat, method, exception, message));
         }
 
         /// <summary>
@@ -75,7 +67,7 @@ namespace STrackerServer.Logger.Core
         /// </param>
         public void Warn(string method, string exception, string message)
         {
-            this.Warn(string.Format(LogFormat, this.ClassName, method, exception, message));
+            this.Warn(string.Format(LogFormat, method, exception, message));
         }
 
         /// <summary>
@@ -92,7 +84,7 @@ namespace STrackerServer.Logger.Core
         /// </param>
         public void Error(string method, string exception, string message)
         {
-            this.Error(string.Format(LogFormat, this.ClassName, method, exception, message));
+            this.Error(string.Format(LogFormat, method, exception, message));
         }
 
         /// <summary>
@@ -109,7 +101,7 @@ namespace STrackerServer.Logger.Core
         /// </param>
         public void Fatal(string method, string exception, string message)
         {
-            this.Fatal(string.Format(LogFormat, this.ClassName, method, exception, message));
+            this.Fatal(string.Format(LogFormat, method, exception, message));
         }
 
         /// <summary>

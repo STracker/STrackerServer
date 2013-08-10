@@ -18,11 +18,12 @@ namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
 
     /// <summary>
     /// Television shows operations.
     /// </summary>
-    public class TvShowsOperations : BaseCrudOperations<TvShow, string>, ITvShowsOperations
+    public class TvShowsOperations : BaseCrudOperations<ITvShowsRepository, TvShow, string>, ITvShowsOperations
     {
         /// <summary>
         /// The queue manager.
@@ -71,58 +72,47 @@ namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
         /// <param name="name">
         /// The name.
         /// </param>
+        /// <param name="range">
+        /// The range.
+        /// </param>
         /// <returns>
-        /// The <see>
-        ///       <cref>List</cref>
-        ///     </see> .
+        /// The <see cref="ICollection{T}"/>.
         /// </returns>
-        public List<TvShow.TvShowSynopsis> ReadByName(string name)
+        public ICollection<TvShow.TvShowSynopsis> ReadByName(string name, Range range = null)
         {
             if (name == null || string.Empty.Equals(name))
             {
                 return new List<TvShow.TvShowSynopsis>();
             }
 
-            var tvshows = ((ITvShowsRepository)this.Repository).ReadByName(name);
-            
+            var tvshows = this.Repository.ReadByName(name);
+
             if (tvshows.Count == 0)
             {
                 this.queueM.Push(new Message { CommandName = ConfigurationManager.AppSettings["TvShowAddByNameCmd"], Arg = name });
             }
 
-            return tvshows;
+            return tvshows.ApplyRange(range);
         }
 
         /// <summary>
-        /// The get top rated.
+        /// Get a list of television shows with name equals to name in parameters directly to the database
+        /// to avoid calls to the background worker.
         /// </summary>
-        /// <param name="max">
-        /// The max.
+        /// <param name="name">
+        /// The name.
         /// </param>
         /// <returns>
-        /// The <see>
-        ///       <cref>List</cref>
-        ///     </see> .
+        /// The <see cref="ICollection{T}"/>.
         /// </returns>
-        public IList<TvShow.TvShowSynopsis> GetTopRated(int max)
+        public ICollection<TvShow.TvShowSynopsis> DirectReadByName(string name)
         {
-            return ((ITvShowsRepository)this.Repository).GetTopRated(max);
-        }
+            if (name == null || string.Empty.Equals(name))
+            {
+                return new List<TvShow.TvShowSynopsis>();
+            }
 
-        /// <summary>
-        /// The get names.
-        /// </summary>
-        /// <param name="query">
-        /// The query.
-        /// </param>
-        /// <returns>
-        /// The <see>
-        ///       <cref>List</cref>
-        ///     </see> .
-        /// </returns>
-        public string[] GetNames(string query)
-        {
-            return ((ITvShowsRepository)this.Repository).GetNames(query);
+            return this.Repository.ReadByName(name);
         }
     }
 }

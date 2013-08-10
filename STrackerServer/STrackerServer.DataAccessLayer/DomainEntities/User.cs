@@ -3,7 +3,7 @@
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  Implementation of user domain entity. The Key is the email of the user.
+//  Implementation of user domain entity. The Id is the email of the user.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -26,7 +26,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         {    
             this.Friends = new List<UserSynopsis>();
             this.FriendRequests = new List<UserSynopsis>();
-            this.SubscriptionList = new List<Subscription>();
+            this.Subscriptions = new List<Subscription>();
             this.Suggestions = new List<Suggestion>();
         }
 
@@ -38,13 +38,18 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// </param>
         public User(string id) : this()
         {
-            this.Key = id;
+            this.Id = id;
         }
 
         /// <summary>
         /// Gets or sets the key.
         /// </summary>
-        public string Key { get; set; }
+        public string Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the version of the entity.
+        /// </summary>
+        public int Version { get; set; }
 
         /// <summary>
         /// Gets or sets the email.
@@ -64,7 +69,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// <summary>
         /// Gets or sets the subscription list.
         /// </summary>
-        public List<Subscription> SubscriptionList { get; set; }
+        public List<Subscription> Subscriptions { get; set; }
 
         /// <summary>
         /// Gets or sets the suggestions.
@@ -87,7 +92,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// </returns>
         public bool Equals(User other)
         {
-            // Compare name and photo for verify if is necessary update the information.
+            // Compare name and photo for verify if is necessary to update the information.
             return Name.Equals(other.Name) && Photo.Equals(other.Photo);
         }
 
@@ -99,8 +104,8 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// </returns>
         public UserSynopsis GetSynopsis()
         {
-            var uri = string.Format("users/{0}", this.Key);
-            return new UserSynopsis { Id = this.Key, Name = this.Name, Photo = this.Photo, Uri = uri };
+            var uri = string.Format("users/{0}", this.Id);
+            return new UserSynopsis { Id = this.Id, Name = this.Name, Photo = this.Photo, Uri = uri };
         }
 
         /// <summary>

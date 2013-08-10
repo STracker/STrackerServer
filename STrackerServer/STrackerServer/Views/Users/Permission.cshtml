@@ -2,7 +2,7 @@
 @model STrackerServer.Models.Admin.SetPermissionView
 
 @{
-    ViewBag.Title = "Permission";
+    ViewBag.Title = "Permissions";
     Layout = "~/Views/Shared/MainLayout.cshtml";
 }
 
@@ -28,12 +28,12 @@
 
         <div class="span6">
             <div class="box" style="text-align: center">
-                <h2>Permission</h2>
+                <h2>Permissions</h2>
             </div>
             
             <div class="box">
                 <br/>
-                <p><b>Permission: </b>@Model.PermissionName</p>
+                <p><b>Permissions: </b>@Model.PermissionName</p>
                 <br/>
                 @Html.ValidationSummary()
                 @using(Html.BeginForm())
@@ -53,7 +53,7 @@
                         </label>
                     }
                     <br/>
-                    <input class="btn btn-primary" type="submit" value="Set Permission"/>
+                    <input class="btn btn-primary" type="submit" value="Set Permissions"/>
                 }
             </div>
         </div>

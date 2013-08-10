@@ -46,6 +46,6 @@ namespace STrackerServer.Models.User
         /// <summary>
         /// Gets or sets the new episodes.
         /// </summary>
-        public ICollection<DataAccessLayer.DomainEntities.NewTvShowEpisodes> NewEpisodes { get; set; }
+        public ICollection<TvShowCalendar> NewEpisodes { get; set; }
     }
 }

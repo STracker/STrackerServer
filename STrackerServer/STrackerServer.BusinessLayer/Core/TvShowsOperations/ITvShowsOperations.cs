@@ -12,6 +12,7 @@ namespace STrackerServer.BusinessLayer.Core.TvShowsOperations
     using System.Collections.Generic;
 
     using STrackerServer.DataAccessLayer.DomainEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
 
     /// <summary>
     /// Television shows operations interface.
@@ -19,42 +20,29 @@ namespace STrackerServer.BusinessLayer.Core.TvShowsOperations
     public interface ITvShowsOperations : ICrudOperations<TvShow, string>
     {
         /// <summary>
-        /// The read by name.
+        /// Get a list of television shows with name equals to name in parameters.
+        /// </summary>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <param name="range">
+        /// The range.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ICollection"/>.
+        /// </returns>
+        ICollection<TvShow.TvShowSynopsis> ReadByName(string name, Range range = null);
+
+        /// <summary>
+        /// Get a list of television shows with name equals to name in parameters directly to the database
+        /// to avoid calls to the background worker.
         /// </summary>
         /// <param name="name">
         /// The name.
         /// </param>
         /// <returns>
-        /// The <see>
-        ///       <cref>List</cref>
-        ///     </see> .
+        /// The <see cref="ICollection"/>.
         /// </returns>
-        List<TvShow.TvShowSynopsis> ReadByName(string name);
-
-        /// <summary>
-        /// The get top rated.
-        /// </summary>
-        /// <param name="max">
-        /// The max.
-        /// </param>
-        /// <returns>
-        /// The <see>
-        ///       <cref>List</cref>
-        ///     </see> .
-        /// </returns>
-        IList<TvShow.TvShowSynopsis> GetTopRated(int max);
-
-        /// <summary>
-        /// The get names.
-        /// </summary>
-        /// <param name="query">
-        /// The query.
-        /// </param>
-        /// <returns>
-        /// The <see>
-        ///       <cref>string[]</cref>
-        ///     </see> .
-        /// </returns>
-        string[] GetNames(string query);
+        ICollection<TvShow.TvShowSynopsis> DirectReadByName(string name);
     }
 }

@@ -174,9 +174,9 @@
     <Compile Include="Controllers\EpisodesWebController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Api\SeasonsController.cs" />
-    <Compile Include="Controllers\SeasonsWebController.cs" />
+    <Compile Include="Controllers\SeasonsController.cs" />
     <Compile Include="Controllers\Api\TvShowsController.cs" />
-    <Compile Include="Controllers\TvShowsWebController.cs" />
+    <Compile Include="Controllers\TvShowsController.cs" />
     <Compile Include="Controllers\Api\UsersController.cs" />
     <Compile Include="Controllers\GenresController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -269,24 +269,24 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\SeasonsWeb\Show.cshtml" />
+    <Content Include="Views\Seasons\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\MainLayout.cshtml" />
-    <Content Include="Views\TvShowsWeb\Show.cshtml" />
+    <Content Include="Views\TvShows\Index.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\EpisodesWeb\Show.cshtml" />
-    <Content Include="Views\TvShowsWeb\Comments.cshtml" />
-    <Content Include="Views\TvShowsWeb\Comment.cshtml" />
-    <Content Include="Views\TvShowsWeb\CreateComment.cshtml" />
-    <Content Include="Views\TvShowsWeb\Suggest.cshtml" />
+    <Content Include="Views\TvShows\Comments.cshtml" />
+    <Content Include="Views\TvShows\Comment.cshtml" />
+    <Content Include="Views\TvShows\CreateComment.cshtml" />
+    <Content Include="Views\TvShows\Suggest.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\TvShowsWeb\Rate.cshtml" />
+    <Content Include="Views\TvShows\Rate.cshtml" />
     <Content Include="Views\EpisodesWeb\Comments.cshtml" />
     <Content Include="Views\EpisodesWeb\CreateComment.cshtml" />
     <Content Include="Views\EpisodesWeb\Comment.cshtml" />
     <Content Include="Views\EpisodesWeb\Rate.cshtml" />
-    <Content Include="Views\TvShowsWeb\GetByName.cshtml" />
+    <Content Include="Views\TvShows\GetByName.cshtml" />
     <Content Include="Views\Users\Search.cshtml" />
     <Content Include="Views\Home\Api.cshtml" />
     <Content Include="Scripts\jquery-2.0.2.min.map" />

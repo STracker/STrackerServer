@@ -13,13 +13,13 @@ namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
     using System.Linq;
 
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
-    using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
+    using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
     /// The genre operations.
     /// </summary>
-    public class GenresOperations : BaseCrudOperations<Genre, string>, IGenresOperations
+    public class GenresOperations : BaseCrudOperations<IGenresRepository, Genre, string>, IGenresOperations
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GenresOperations"/> class.
@@ -47,108 +47,15 @@ namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
         }
 
         /// <summary>
-        /// Get all genres.
+        /// Get all synopsis from all genres.
         /// </summary>
         /// <returns>
-        /// The <see cref="List{T}"/>.
+        /// The <see cref="ICollection{T}"/>.
         /// </returns>
-        public List<Genre.GenreSynopsis> GetAll()
+        public ICollection<Genre.GenreSynopsis> ReadAllSynopsis()
         {
-            var list = ((IGenresRepository)Repository).GetAll();
+            var list = Repository.ReadAll();
             return list.Select(genre => genre.GetSynopsis()).ToList();
-        }
-
-        /// <summary>
-        /// The get television shows.
-        /// </summary>
-        /// <param name="genres">
-        /// The genres.
-        /// </param>
-        /// <param name="maxtvShows">
-        /// The max television shows.
-        /// </param>
-        /// <returns>
-        /// The <see>
-        ///       <cref>IEnumerable</cref>
-        ///     </see> .
-        /// </returns>
-        public IEnumerable<TvShow.TvShowSynopsis> GetTvShows(ICollection<string> genres, int maxtvShows)
-        {
-            var retList = new List<TvShow.TvShowSynopsis>();
-
-            if (maxtvShows == 0)
-            {
-                return retList;
-            }
-
-            var results = new Dictionary<string, TvShowGenreResult>();
-
-            foreach (var genre in genres.Select(this.Read).Where(genre => genre != null))
-            {
-                foreach (var tvshow in genre.TvshowsSynopsis)
-                {
-                    TvShowGenreResult result;
-
-                    if (results.ContainsKey(tvshow.Id))
-                    {
-                        result = results[tvshow.Id];
-                    }
-                    else
-                    {
-                        result = new TvShowGenreResult { TvShow = tvshow, TotalGenres = genres.Count };
-                        results.Add(tvshow.Id, result);
-                    }
-
-                    result.GenreCount++;
-                }
-            }
-
-            var orderedResults = results.OrderByDescending(pair => pair.Value.Percentage);
-
-            var count = 0;
-            foreach (var result in orderedResults)
-            {
-                if (count++ == maxtvShows)
-                {
-                    break;
-                }
-
-                retList.Add(result.Value.TvShow);
-            }
-
-            return retList;
-        }
-
-        /// <summary>
-        /// The television show genre result.
-        /// </summary>
-        private class TvShowGenreResult
-        {
-            /// <summary>
-            /// Gets or sets the television show.
-            /// </summary>
-            public TvShow.TvShowSynopsis TvShow { get; set; }
-
-            /// <summary>
-            /// Gets or sets the total genres.
-            /// </summary>
-            public int TotalGenres { private get; set; }
-
-            /// <summary>
-            /// Gets or sets the genre count.
-            /// </summary>
-            public int GenreCount { get; set; }
-
-            /// <summary>
-            /// Gets the percentage.
-            /// </summary>
-            public double Percentage
-            {
-                get
-                {
-                    return this.GenreCount / (double)this.TotalGenres;
-                }
-            }
         }
     }
 }

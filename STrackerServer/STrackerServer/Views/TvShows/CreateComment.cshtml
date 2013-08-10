@@ -1,4 +1,5 @@
-﻿@model STrackerServer.Models.TvShow.TvShowCreateComment
+﻿
+@model STrackerServer.Models.TvShow.TvShowCreateComment
 
 @{
     ViewBag.Title = "Create Comment";
@@ -12,7 +13,7 @@
 
             <div class="extra-padding"></div>
             <p>
-                <a class="btn btn-block btn-primary" href="@Url.Action("Comments","TvShowsWeb", new { tvshowId = Model.TvShowId })">Comments</a>
+                <a class="btn btn-block btn-primary" href="@Url.Action("Comments","TvShows", new { id = Model.TvShowId })">Comments</a>
             </p> 
         </div> 
         <div class="span6">
@@ -25,7 +26,7 @@
                 <div class="alert-error">
                     @Html.ValidationSummary()  
                 </div>     
-                @using (Html.BeginForm("CreateComment", "TvShowsWeb"))
+                @using (Html.BeginForm("CreateComment", "TvShows"))
                 {
                     @Html.HiddenFor(comment => comment.TvShowId)
                     <textarea class="btn-block comments-textarea" id="Body" name="Body"></textarea>

@@ -19,20 +19,18 @@ namespace STrackerServer.DataAccessLayer.Core.TvShowsRepositories
     public interface ITvShowsRepository : IRepository<TvShow, string>
     {
         /// <summary>
-        /// The read by name.
+        /// Get one television show by is name.
         /// </summary>
         /// <param name="name">
-        /// The name.
+        /// The name of the television show.
         /// </param>
         /// <returns>
-        /// The <see>
-        ///       <cref>List</cref>
-        ///     </see> .
+        /// The <see cref="ICollection"/>.
         /// </returns>
-        List<TvShow.TvShowSynopsis> ReadByName(string name);
+        ICollection<TvShow.TvShowSynopsis> ReadByName(string name);
 
         /// <summary>
-        /// The add season synopsis.
+        /// Add one season to television show's seasons synopsis.
         /// </summary>
         /// <param name="tvshowId">
         /// The television show id.
@@ -40,10 +38,13 @@ namespace STrackerServer.DataAccessLayer.Core.TvShowsRepositories
         /// <param name="season">
         /// The season.
         /// </param>
-        void AddSeasonSynopsis(string tvshowId, Season.SeasonSynopsis season);
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool AddSeason(string tvshowId, Season.SeasonSynopsis season);
 
         /// <summary>
-        /// The remove season synopsis.
+        /// Remove one season from television show's seasons synopsis.
         /// </summary>
         /// <param name="tvshowId">
         /// The television show id.
@@ -51,32 +52,9 @@ namespace STrackerServer.DataAccessLayer.Core.TvShowsRepositories
         /// <param name="season">
         /// The season.
         /// </param>
-        void RemoveSeasonSynopsis(string tvshowId, Season.SeasonSynopsis season);
-
-        /// <summary>
-        /// The get top rated.
-        /// </summary>
-        /// <param name="max">
-        /// The max.
-        /// </param>
         /// <returns>
-        /// The <see>
-        ///       <cref>List</cref>
-        ///     </see> .
+        /// The <see cref="bool"/>.
         /// </returns>
-        List<TvShow.TvShowSynopsis> GetTopRated(int max);
-
-        /// <summary>
-        /// The get names.
-        /// </summary>
-        /// <param name="query">
-        /// The query.
-        /// </param>
-        /// <returns>
-        /// The <see>
-        ///       <cref>string[]</cref>
-        ///     </see> .
-        /// </returns>
-        string[] GetNames(string query);
+        bool RemoveSeason(string tvshowId, Season.SeasonSynopsis season);
     }
 }

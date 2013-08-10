@@ -9,14 +9,9 @@
 
 namespace STrackerServer.BusinessLayer.Operations
 {
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
-
     using STrackerBackgroundWorker.RabbitMQ;
 
     using STrackerServer.BusinessLayer.Core;
-    using STrackerServer.BusinessLayer.Core.UsersOperations;
-    using STrackerServer.BusinessLayer.Permissions;
     using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.Comments;
@@ -33,17 +28,12 @@ namespace STrackerServer.BusinessLayer.Operations
     /// <typeparam name="TK">
     /// Type of the key.
     /// </typeparam>
-    public abstract class BaseCommentsOperations<T, TC, TK> : ICommentsOperations<TC, TK> where T : IEntity<TK> where TC : CommentsBase<TK> 
+    public abstract class BaseCommentsOperations<T, TC, TK> : BaseCrudOperations<ICommentsRepository<TC, TK>, TC, TK>, ICommentsOperations<TC, TK> where T : IEntity<TK> where TC : CommentsBase<TK> 
     {
-        /// <summary>
-        /// The comments repository.
-        /// </summary>
-        protected readonly ICommentsRepository<TC, TK> CommentsRepository;
-
         /// <summary>
         /// The entity repository.
         /// </summary>
-        protected readonly IRepository<T, TK> Repository;
+        protected readonly IRepository<T, TK> EntityRepository;
 
         /// <summary>
         /// The queue manager.
@@ -51,40 +41,22 @@ namespace STrackerServer.BusinessLayer.Operations
         protected readonly QueueManager QueueM;
 
         /// <summary>
-        /// The users operations.
-        /// </summary>
-        private readonly IUsersOperations usersOperations;
-
-        /// <summary>
-        /// The permission manager.
-        /// </summary>
-        private readonly IPermissionManager<Permissions, int> permissionManager;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="BaseCommentsOperations{T,TC,TK}"/> class.
         /// </summary>
         /// <param name="commentsRepository">
         /// The comments repository.
         /// </param>
-        /// <param name="repository">
-        /// The repository.
+        /// <param name="entityRepository">
+        /// The entity Repository.
         /// </param>
         /// <param name="queueM">
         /// The queue m.
         /// </param>
-        /// <param name="usersOperations">
-        /// The users operations.
-        /// </param>
-        /// <param name="permissionManager">
-        /// The permission manager.
-        /// </param>
-        protected BaseCommentsOperations(ICommentsRepository<TC, TK> commentsRepository, IRepository<T, TK> repository, QueueManager queueM, IUsersOperations usersOperations, IPermissionManager<Permissions, int> permissionManager)
+        protected BaseCommentsOperations(ICommentsRepository<TC, TK> commentsRepository, IRepository<T, TK> entityRepository, QueueManager queueM)
+            : base(commentsRepository)
         {
-            this.CommentsRepository = commentsRepository;
-            this.Repository = repository;
+            this.EntityRepository = entityRepository;
             this.QueueM = queueM;
-            this.usersOperations = usersOperations;
-            this.permissionManager = permissionManager;
         }
 
         /// <summary>
@@ -99,7 +71,6 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public bool AddComment(TK key, Comment comment)
         {
             var entity = this.Repository.Read(key);
@@ -113,74 +84,46 @@ namespace STrackerServer.BusinessLayer.Operations
         }
 
         /// <summary>
-        /// The get comments.
-        /// </summary>
-        /// <param name="key">
-        /// The key.
-        /// </param>
-        /// <returns>
-        /// The <see cref="TC"/>.
-        /// </returns>
-        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
-        public TC GetComments(TK key)
-        {
-            var entity = this.Repository.Read(key);
-            return Equals(entity, null) ? default(TC) : this.CommentsRepository.Read(key);
-        }
-
-        /// <summary>
         /// The remove comment.
         /// </summary>
-        /// <param name="key">
-        /// The key.
-        /// </param>
-        /// <param name="userId">
-        /// The user Key.
-        /// </param>
         /// <param name="id">
         /// The id.
+        /// </param>
+        /// <param name="userId">
+        /// The user Id.
+        /// </param>
+        /// <param name="commentId">
+        /// The comment Id.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
-        public bool RemoveComment(TK key, string userId, string id)
+        public bool RemoveComment(TK id, string userId, string commentId)
         {
-            var entity = this.Repository.Read(key);
+            var entity = this.EntityRepository.Read(id);
             if (Equals(entity, default(T)))
             {
                 return false;
             }
 
-            var user = this.usersOperations.Read(userId);
+            var comment = this.Repository.Read(id).Comments.Find(c => c.Id.Equals(commentId));
 
-            Comment comment;
-
-            if (this.permissionManager.HasPermission(Permissions.Moderator, user.Permission))
-            {
-                comment = this.CommentsRepository.Read(key).Comments.FirstOrDefault(c => c.Id.Equals(id));
-            }
-            else
-            {
-                comment = this.CommentsRepository.Read(key).Comments.FirstOrDefault(c => c.User.Id.Equals(userId) && c.Id.Equals(id));
-            }
-
-            return comment != null && this.RemoveCommentHook(key, comment);
+            return comment != null && this.Repository.RemoveComment(id, comment);
         }
 
         /// <summary>
-        /// The remove comment hook.
+        /// The read.
         /// </summary>
-        /// <param name="key">
-        /// The key.
-        /// </param>
-        /// <param name="comment">
-        /// The comment.
+        /// <param name="id">
+        /// The id.
         /// </param>
         /// <returns>
-        /// The <see cref="bool"/>.
+        /// The <see cref="TC"/>.
         /// </returns>
-        protected abstract bool RemoveCommentHook(TK key, Comment comment);
+        public override TC Read(TK id)
+        {
+            return this.Repository.Read(id);
+        }
 
         /// <summary>
         /// The add comment hook method.

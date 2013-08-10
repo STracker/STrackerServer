@@ -33,7 +33,7 @@
                             <div style="display: inline-block">
                                 <div>
                                     <h3>
-                                        <a href="@Url.Action("Show","TvShowsWeb", new { tvshowId })">
+                                        <a href="@Url.Action("Index","TvShows", new { id = tvshowId })">
                                             @Model.Suggestions[tvshowId].TvShowName
                                         </a>
                                     </h3>

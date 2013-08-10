@@ -28,7 +28,7 @@
             {
                 <div class="box">
                     <h3>
-                        <a href="@Url.Action("Show", "TvShowsWeb", new { tvshowId = sub.TvShow.Id })">
+                        <a href="@Url.Action("Index", "TvShows", new { id = sub.TvShow.Id })">
                            @sub.TvShow.Name 
                         </a>
                     </h3> 
@@ -38,20 +38,20 @@
                     {           
                         <div class="box-whiter">
                             <h4>
-                                <a href="@Url.Action("Show", "SeasonsWeb", new { tvshowId = sub.TvShow.Id , seasonNumber = season })">
+                                <a href="@Url.Action("Index", "Seasons", new { tvshowId = sub.TvShow.Id , seasonNumber = season })">
                                     Season @season
                                 </a>
                             </h4> 
                             <br/>
                             <table class="table table-condensed">
-                                @foreach(var episode in sub.EpisodesWatched[season].OrderBy(synopsis => synopsis.EpisodeNumber))
+                                @foreach(var episode in sub.EpisodesWatched[season].OrderBy(synopsis => synopsis.Id.EpisodeNumber))
                                 {
                                     <tr>
                                         
                                         <td>
-                                            @episode.EpisodeNumber
+                                            @episode.Id.EpisodeNumber
                                             <span> - </span>
-                                            <a href="@Url.Action("Show","EpisodesWeb", new { tvshowId = episode.TvShowId, seasonNumber = episode.SeasonNumber, episodeNumber = episode.EpisodeNumber })">
+                                            <a href="@Url.Action("Show","EpisodesWeb", new { tvshowId = episode.Id.TvShowId, seasonNumber = episode.Id.SeasonNumber, episodeNumber = episode.Id.EpisodeNumber })">
                                                 @episode.Name
                                             </a>
                                         </td>

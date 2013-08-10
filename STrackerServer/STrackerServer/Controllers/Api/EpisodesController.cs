@@ -54,7 +54,8 @@ namespace STrackerServer.Controllers.Api
         [HttpGet]
         public HttpResponseMessage Get(string tvshowId, int seasonNumber, int number)
         {
-            return this.BaseGet(this.operations.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, number)));
+            //return this.BaseGet(this.operations.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, number)));
+            return null;
         }
 
         /// <summary>
@@ -72,7 +73,8 @@ namespace STrackerServer.Controllers.Api
         [HttpGet]
         public HttpResponseMessage GetAll(string tvshowId, int seasonNumber)
         {
-            return this.BaseGet(this.operations.GetAllFromOneSeason(tvshowId, seasonNumber));
+            //return this.BaseGet(this.operations.GetAllFromOneSeason(tvshowId, seasonNumber));
+            return null;
         }
     }
 }

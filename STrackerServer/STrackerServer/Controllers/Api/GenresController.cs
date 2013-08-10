@@ -45,7 +45,8 @@ namespace STrackerServer.Controllers.Api
         [HttpGet]
         public HttpResponseMessage GetAll()
         {
-            return this.BaseGet(this.operations.GetAll());
+            //return this.BaseGet(this.operations.GetAll());
+            return null;
         }
 
         /// <summary>
@@ -60,6 +61,7 @@ namespace STrackerServer.Controllers.Api
         [HttpGet]
         public HttpResponseMessage Get(string id)
         {
+            /*
             var genre = this.operations.Read(id);
 
             if (genre == null)
@@ -68,6 +70,8 @@ namespace STrackerServer.Controllers.Api
             }
 
             return this.BaseGet(genre.TvshowsSynopsis);
+             */
+            return null;
         }
     }
 }

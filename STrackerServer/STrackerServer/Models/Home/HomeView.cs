@@ -26,7 +26,7 @@ namespace STrackerServer.Models.Home
         /// <summary>
         /// Gets or sets the top rated.
         /// </summary>
-        public IList<TvShow.TvShowSynopsis> TopRated { get; set; }
+        public ICollection<TvShow.TvShowSynopsis> TopRated { get; set; }
 
         /// <summary>
         /// Gets or sets the new episodes.

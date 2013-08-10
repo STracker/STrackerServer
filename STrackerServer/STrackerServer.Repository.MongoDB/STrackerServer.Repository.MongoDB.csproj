@@ -54,11 +54,11 @@
     <Compile Include="Core\EpisodesRepositories\EpisodeCommentsRepository.cs" />
     <Compile Include="Core\EpisodesRepositories\EpisodeRatingsRepository.cs" />
     <Compile Include="Core\EpisodesRepositories\EpisodesRepository.cs" />
-    <Compile Include="Core\MongoDbExtensions.cs" />
+    <Compile Include="Core\EpisodesRepositories\TvShowNewEpisodesRepository.cs" />
     <Compile Include="Core\SeasonsRepositories\SeasonsRepository.cs" />
     <Compile Include="Core\TvShowsRepositories\TvShowCommentsRepository.cs" />
     <Compile Include="Core\TvShowsRepositories\TvShowRatingsRepository.cs" />
-    <Compile Include="Core\TvShowsRepositories\GenresRepository.cs" />
+    <Compile Include="Core\GenresRepository.cs" />
     <Compile Include="Core\TvShowsRepositories\TvShowsRepository.cs" />
     <Compile Include="Core\UsersRepositories\UsersRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -70,6 +70,10 @@
     <ProjectReference Include="..\STrackerServer.DataAccessLayer\STrackerServer.DataAccessLayer.csproj">
       <Project>{F7946D64-169E-437B-9D4C-69D56F4C32F4}</Project>
       <Name>STrackerServer.DataAccessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\STrackerServer.Logger\STrackerServer.Logger.csproj">
+      <Project>{ED626762-744B-429E-A087-DC819DB24E0E}</Project>
+      <Name>STrackerServer.Logger</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

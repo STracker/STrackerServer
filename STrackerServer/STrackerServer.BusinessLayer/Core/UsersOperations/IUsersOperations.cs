@@ -28,142 +28,93 @@ namespace STrackerServer.BusinessLayer.Core.UsersOperations
         void VerifyAndSave(User user);
 
         /// <summary>
-        /// The add subscription.
-        /// </summary>
-        /// <param name="userId">
-        /// The user id.
-        /// </param>
-        /// <param name="tvshowId">
-        /// The television show.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        bool AddSubscription(string userId, string tvshowId);
-
-        /// <summary>
-        /// The remove subscription.
-        /// </summary>
-        /// <param name="userId">
-        /// The name.
-        /// </param>
-        /// <param name="tvshowId">
-        /// The television show.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        bool RemoveSubscription(string userId, string tvshowId);
-
-        /// <summary>
-        /// The invite.
-        /// </summary>
-        /// <param name="from">
-        /// The from.
-        /// </param>
-        /// <param name="to">
-        /// The to.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        bool Invite(string from, string to);
-
-        /// <summary>
-        /// The accept invite.
-        /// </summary>
-        /// <param name="from">
-        /// The from.
-        /// </param>
-        /// <param name="to">
-        /// The to.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        bool AcceptInvite(string from, string to);
-
-        /// <summary>
-        /// The reject invite.
-        /// </summary>
-        /// <param name="from">
-        /// The from.
-        /// </param>
-        /// <param name="to">
-        /// The to.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        bool RejectInvite(string from, string to);
-
-        /// <summary>
-        /// The send suggestion.
-        /// </summary>
-        /// <param name="userFrom">
-        /// The user From.
-        /// </param>
-        /// <param name="userTo">
-        /// The user to.
-        /// </param>
-        /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        bool SendSuggestion(string userFrom, string userTo, string tvshowId);
-
-        /// <summary>
-        /// The remove suggestion.
-        /// </summary>
-        /// <param name="userFrom">
-        /// The user From.
-        /// </param>
-        /// <param name="userTo">
-        /// The user to.
-        /// </param>
-        /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        bool RemoveSuggestion(string userFrom, string userTo, string tvshowId);
-
-        /// <summary>
-        /// The get suggestions.
-        /// </summary>
-        /// <param name="userFrom">
-        /// The user from.
-        /// </param>
-        /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <returns>
-        /// The <see>
-        ///       <cref>List</cref>
-        ///     </see> .
-        /// </returns>
-        List<Suggestion> GetSuggestions(string userFrom, string tvshowId);
-
-        /// <summary>
-        /// The find by name.
+        /// Get all users that have the same name of the name passed in parameters.
         /// </summary>
         /// <param name="name">
-        /// The name.
+        /// The name for search.
+        /// </param>
+        /// <param name="range">
+        /// The range.
         /// </param>
         /// <returns>
-        /// The <see>
-        ///       <cref>List</cref>
-        ///     </see> .
+        /// The <see cref="ICollection"/>.
         /// </returns>
-        List<User.UserSynopsis> FindByName(string name);
+        ICollection<User> ReadByName(string name, Range range = null);
 
         /// <summary>
-        /// The remove friend.
+        /// Add one subscription to user's subscription list.
         /// </summary>
-        /// <param name="userId">
+        /// <param name="id">
+        /// The id of the user.
+        /// </param>
+        /// <param name="tvshowId">
+        /// The television show Id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool AddSubscription(string id, string tvshowId);
+
+        /// <summary>
+        /// Remove one subscription from user's subscription list.
+        /// </summary>
+        /// <param name="id">
+        /// The id of the user.
+        /// </param>
+        /// <param name="tvshowId">
+        /// The television show Id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool RemoveSubscription(string id, string tvshowId);
+
+        /// <summary>
+        /// Invite one user to make part of the friends list.
+        /// </summary>
+        /// <param name="userFromId">
+        /// The user, that invites, id.
+        /// </param>
+        /// <param name="userToId">
+        /// The user, that receive the invite, id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool InviteFriend(string userFromId, string userToId);
+
+        /// <summary>
+        /// Accept invitation from one user to be part of the friends list.
+        /// </summary>
+        /// <param name="userFromId">
+        /// The user, that invites, id.
+        /// </param>
+        /// <param name="userToId">
+        /// The user, that receive the invite, id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool AcceptInvite(string userFromId, string userToId);
+
+        /// <summary>
+        /// Reject invitation from one user.
+        /// </summary>
+        /// <param name="userFromId">
+        /// The user, that invites, id.
+        /// </param>
+        /// <param name="userToId">
+        /// The user, that receive the invite, id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool RejectInvite(string userFromId, string userToId);
+
+        /// <summary>
+        /// Remove one friend from user's friends list.
+        /// </summary>
+        /// <param name="id">
         /// The user id.
         /// </param>
         /// <param name="friendId">
@@ -172,60 +123,96 @@ namespace STrackerServer.BusinessLayer.Core.UsersOperations
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool RemoveFriend(string userId, string friendId);
+        bool RemoveFriend(string id, string friendId);
 
         /// <summary>
-        /// The remove television show suggestions.
+        /// Send one television show suggestion to one user.
         /// </summary>
-        /// <param name="userId">
-        /// The user Id.
+        /// <param name="userFrom">
+        /// The user that sends the suggestion.
+        /// </param>
+        /// <param name="userTo">
+        /// The user that receives the suggestion.
         /// </param>
         /// <param name="tvshowId">
         /// The television show id.
+        ///  </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool SendSuggestion(string userFrom, string userTo, string tvshowId);
+
+        /// <summary>
+        /// Remove all suggestions of one television show.
+        /// </summary>
+        /// <param name="id">
+        /// The user id.
+        /// </param>
+        /// <param name="tvshowId">
+        /// The television show Id.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool RemoveTvShowSuggestions(string userId, string tvshowId);
+        bool RemoveTvShowSuggestions(string id, string tvshowId);
 
         /// <summary>
-        /// The add watched episode.
+        /// Add one new watched episode to episodes watched list in the television show 
+        /// subscription.
+        /// </summary>
+        /// <param name="id">
+        /// The user id.
+        /// </param>
+        /// <param name="episodeId">
+        /// The episode id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool AddWatchedEpisode(string id, Episode.EpisodeId episodeId);
+
+        /// <summary>
+        /// Remove one new watched episode from episodes watched list in the television show 
+        /// subscription.
+        /// </summary>
+        /// <param name="id">
+        /// The user id.
+        /// </param>
+        /// <param name="episodeId">
+        /// The episode id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool RemoveWatchedEpisode(string id, Episode.EpisodeId episodeId);
+
+        /// <summary>
+        /// Get the new episodes from user's subscription list.
+        /// If the date is null, return all new episodes from all television shows in subscription list.
         /// </summary>
         /// <param name="userId">
         /// The user id.
         /// </param>
-        /// <param name="tvshowId">
-        /// The television  show id.
-        /// </param>
-        /// <param name="seasonNumber">
-        /// The season number.
-        /// </param>
-        /// <param name="episodeNumber">
-        /// The episode number.
+        /// <param name="date">
+        /// The date.
         /// </param>
         /// <returns>
-        /// The <see cref="bool"/>.
+        /// The <see cref="ICollection"/>.
         /// </returns>
-        bool AddWatchedEpisode(string userId, string tvshowId, int seasonNumber, int episodeNumber);
+        ICollection<TvShowCalendar> GetUserNewEpisodes(string userId, string date);
 
         /// <summary>
-        /// The remove watched episode.
+        /// Change user permission.
         /// </summary>
         /// <param name="userId">
         /// The user id.
         /// </param>
-        /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <param name="seasonNumber">
-        /// The season number.
-        /// </param>
-        /// <param name="episodeNumber">
-        /// The episode number.
+        /// <param name="permission">
+        /// The permission value.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        bool RemoveWatchedEpisode(string userId, string tvshowId, int seasonNumber, int episodeNumber);
+        bool SetUserPermission(string userId, int permission);
     }
 }

@@ -9,14 +9,13 @@
 
 namespace STrackerServer.DataAccessLayer.Core.EpisodesRepositories
 {
-    using System;
-
+    using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.Comments;
 
     /// <summary>
     /// The CommentsEpisode CommentsBase Repository interface.
     /// </summary>
-    public interface IEpisodeCommentsRepository : ICommentsRepository<CommentsEpisode, Tuple<string, int, int>>
+    public interface IEpisodeCommentsRepository : ICommentsRepository<CommentsEpisode, Episode.EpisodeId>
     {
     }
 }

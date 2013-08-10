@@ -3,7 +3,7 @@
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  Implementation of IEpisodesRepository interface. This repository connects with MongoDB 
+//  Implementation of IEpisodesRepository interface.
 // database.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
@@ -12,10 +12,8 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
 {
     using System;
     using System.Collections.Generic;
-    using System.Configuration;
-    using System.Linq;
 
-    using global::MongoDB.Bson.Serialization;
+    using global::MongoDB.Bson;
 
     using global::MongoDB.Driver;
 
@@ -23,21 +21,16 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
 
     using STrackerServer.DataAccessLayer.Core.EpisodesRepositories;
     using STrackerServer.DataAccessLayer.Core.SeasonsRepositories;
-    using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.Comments;
     using STrackerServer.DataAccessLayer.DomainEntities.Ratings;
+    using STrackerServer.Logger.Core;
 
     /// <summary>
     /// Episodes repository for MongoDB database.
     /// </summary>
-    public class EpisodesRepository : BaseRepository<Episode, Tuple<string, int, int>>, IEpisodesRepository
+    public class EpisodesRepository : BaseRepository<Episode, Episode.EpisodeId>, IEpisodesRepository
     {
-        /// <summary>
-        /// The collection.
-        /// </summary>
-        private readonly MongoCollection newestCollection;
-
         /// <summary>
         /// Seasons repository.
         /// </summary>
@@ -54,34 +47,13 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         private readonly IEpisodeRatingsRepository ratingsRepository;
 
         /// <summary>
-        /// The television shows repository.
+        /// The new episodes repository.
         /// </summary>
-        private readonly ITvShowsRepository tvshowsRepository;
-
-        /// <summary>
-        /// Initializes static members of the <see cref="EpisodesRepository"/> class.
-        /// </summary>
-        static EpisodesRepository()
-        {
-            if (BsonClassMap.IsClassMapRegistered(typeof(NewTvShowEpisodes)))
-            {
-                return;
-            }
-
-            BsonClassMap.RegisterClassMap<NewTvShowEpisodes>(
-                cm =>
-                {
-                    cm.AutoMap();
-                    cm.SetIdMember(cm.GetMemberMap(user => user.Key));
-                });
-        }
+        private readonly ITvShowNewEpisodesRepository newEpisodesRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EpisodesRepository"/> class.
         /// </summary>
-        /// <param name="tvshowsRepository">
-        /// The television show repository.
-        /// </param>
         /// <param name="seasonsRepository">
         /// The seasons repository.
         /// </param>
@@ -91,21 +63,25 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         /// <param name="ratingsRepository">
         /// The ratings Repository.
         /// </param>
+        /// <param name="newEpisodesRepository">
+        /// The new Episodes Repository.
+        /// </param>
         /// <param name="client">
         /// MongoDB client.
         /// </param>
         /// <param name="url">
         /// MongoDB url.
         /// </param>
-        public EpisodesRepository(ITvShowsRepository tvshowsRepository, ISeasonsRepository seasonsRepository, IEpisodeCommentsRepository commentsRepository, IEpisodeRatingsRepository ratingsRepository, MongoClient client, MongoUrl url) 
-            : base(client, url)
+        /// <param name="logger">
+        /// The logger.
+        /// </param>
+        public EpisodesRepository(ISeasonsRepository seasonsRepository, IEpisodeCommentsRepository commentsRepository, IEpisodeRatingsRepository ratingsRepository, ITvShowNewEpisodesRepository newEpisodesRepository, MongoClient client, MongoUrl url, ILogger logger) 
+            : base(client, url, logger)
         {
             this.seasonsRepository = seasonsRepository;
             this.commentsRepository = commentsRepository;
             this.ratingsRepository = ratingsRepository;
-            this.tvshowsRepository = tvshowsRepository;
-
-            this.newestCollection = this.Database.GetCollection(ConfigurationManager.AppSettings["NewestEpisodes"]);
+            this.newEpisodesRepository = newEpisodesRepository;
         }
 
         /// <summary>
@@ -114,223 +90,105 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         /// <param name="episodes">
         /// The episodes.
         /// </param>
-        public void CreateAll(IEnumerable<Episode> episodes)
+        public void CreateAll(ICollection<Episode> episodes)
         {
-            var enumerable = episodes as List<Episode> ?? episodes.ToList();
-            if (!enumerable.Any())
-            {
-                return;
-            }
-
-            foreach (var episode in enumerable)
+            foreach (var episode in episodes)
             {
                 this.Create(episode);
             }
         }
 
         /// <summary>
-        /// The get all from one season.
-        /// </summary>
-        /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <param name="seasonNumber">
-        /// The season number.
-        /// </param>
-        /// <returns>
-        /// The <see>
-        ///       <cref>IEnumerable</cref>
-        ///     </see> .
-        /// </returns>
-        public IEnumerable<Episode.EpisodeSynopsis> GetAllFromOneSeason(string tvshowId, int seasonNumber)
-        {
-            return this.seasonsRepository.Read(new Tuple<string, int>(tvshowId, seasonNumber)).EpisodeSynopsis;
-        }
-
-        /// <summary>
-        /// The get newest episodes.
-        /// </summary>
-        /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <returns>
-        /// The <see>
-        ///       <cref>IEnumerable</cref>
-        ///     </see> .
-        /// </returns>
-        public NewTvShowEpisodes GetNewestEpisodes(string tvshowId)
-        {
-            return this.newestCollection.FindOneByIdAs<NewTvShowEpisodes>(tvshowId);
-        }
-
-        /// <summary>
-        /// The Delete old episodes.
-        /// </summary>
-        public void DeleteOldEpisodes()
-        {
-            try
-            {
-                var all = this.newestCollection.FindAllAs<NewTvShowEpisodes>().ToList();
-                foreach (var episodes in all)
-                {
-                    var count = episodes.Episodes.Count;
-
-                    var oldOnes = episodes.Episodes.Where(e => DateTime.Parse(e.Date) < DateTime.Parse(DateTime.UtcNow.ToString("yyyy-MM-dd")));
-                    foreach (var oldOne in oldOnes)
-                    {
-                        var query = Query<NewTvShowEpisodes>.EQ(we => we.Key, episodes.Key);
-                        var update = Update<NewTvShowEpisodes>.Pull(we => we.Episodes, oldOne);
-                        this.ModifyList(this.newestCollection, query, update);
-
-                        count--;
-                    }
-
-                    if (count > 0)
-                    {
-                        continue;
-                    }
-
-                    // If don't exists any new episode to show, remove the document.
-                    var query2 = Query<NewTvShowEpisodes>.EQ(we => we.Key, episodes.Key);
-                    this.newestCollection.FindAndRemove(query2, SortBy.Null);
-                }
-            }
-            catch (Exception)
-            {
-                // TODO, add to log mechanism.
-            }
-        }
-
-        /// <summary>
-        /// The get newest episodes.
-        /// </summary>
-        /// <returns>
-        /// The <see>
-        ///       <cref>IEnumerable</cref>
-        ///     </see> .
-        /// </returns>
-        public IEnumerable<NewTvShowEpisodes> GetNewestEpisodes()
-        {
-            return this.newestCollection.FindAllAs<NewTvShowEpisodes>();
-        }
-
-        /// <summary>
-        /// Create one episode.
+        /// Hook method for Create operation.
         /// </summary>
         /// <param name="entity">
         /// The entity.
         /// </param>
-        /// Needs to create also the object synopse in season episodes list.
         protected override void HookCreate(Episode entity)
         {
-            var collection = this.Database.GetCollection(entity.TvShowId);
+            var collection = this.Database.GetCollection(entity.Id.TvShowId);
             collection.Insert(entity);
 
             // Add the synopse of the entity to season.
-            this.seasonsRepository.AddEpisodeSynopsis(entity.TvShowId, entity.SeasonNumber, entity.GetSynopsis());
+            this.seasonsRepository.AddEpisode(new Season.SeasonId { TvShowId = entity.Id.TvShowId, SeasonNumber = entity.Id.SeasonNumber }, entity.GetSynopsis());
 
             // Try add to newest document.
-            this.TryAddToNewestDocument(entity);
+            this.newEpisodesRepository.AddEpisode(entity.Id.TvShowId, entity.GetSynopsis());
 
             // Also create the documents for comments and ratings.
-            this.commentsRepository.Create(new CommentsEpisode(entity.Key));
-            this.ratingsRepository.Create(new RatingsEpisode(entity.Key));
+            this.commentsRepository.Create(new CommentsEpisode(entity.Id));
+            this.ratingsRepository.Create(new RatingsEpisode(entity.Id));
         }
 
         /// <summary>
-        /// Get one episode.
+        /// Hook method for Read operation.
         /// </summary>
         /// <param name="id">
         /// The id.
         /// </param>
         /// <returns>
-        /// The <see cref="STrackerServer.DataAccessLayer.DomainEntities.Episode"/>.
+        /// The <see cref="Episode"/>.
         /// </returns>
-        protected override Episode HookRead(Tuple<string, int, int> id)
+        protected override Episode HookRead(Episode.EpisodeId id)
         {
-            var collection = this.Database.GetCollection(id.Item1);
-            var query = Query.And(Query<Episode>.EQ(e => e.TvShowId, id.Item1), Query<Episode>.EQ(e => e.SeasonNumber, id.Item2), Query<Episode>.EQ(e => e.EpisodeNumber, id.Item3));
-            return collection.FindOne<Episode>(query, "_id");
+            var collection = this.Database.GetCollection(id.TvShowId);
+            return collection.FindOneByIdAs<Episode>(id.ToBsonDocument());
         }
 
         /// <summary>
-        /// Update one episode.
+        /// Hook method for Update operation.
         /// </summary>
         /// <param name="entity">
         /// The entity.
         /// </param>
-        /// Needs to update also the object synopse in season episodes list.
         protected override void HookUpdate(Episode entity)
         {
-            // Try add to newest document.
-            this.TryAddToNewestDocument(entity);
+            // Update the synopsis in new episodes.
+            this.newEpisodesRepository.RemoveEpisode(entity.Id.TvShowId, entity.GetSynopsis());
+            this.newEpisodesRepository.AddEpisode(entity.Id.TvShowId, entity.GetSynopsis());
 
-            var collection = this.Database.GetCollection(entity.TvShowId);
+            // Update the synopsis in season.
+            this.seasonsRepository.RemoveEpisode(new Season.SeasonId { TvShowId = entity.Id.TvShowId, SeasonNumber = entity.Id.SeasonNumber }, entity.GetSynopsis());
+            this.seasonsRepository.AddEpisode(new Season.SeasonId { TvShowId = entity.Id.TvShowId, SeasonNumber = entity.Id.SeasonNumber }, entity.GetSynopsis());
 
-            var query = Query.And(Query<Episode>.EQ(e => e.TvShowId, entity.TvShowId), Query<Episode>.EQ(e => e.SeasonNumber, entity.SeasonNumber), Query<Episode>.EQ(e => e.EpisodeNumber, entity.EpisodeNumber));
-            var update = Update<Episode>.Set(e => e.SeasonNumber, entity.SeasonNumber)
-                                        .Set(e => e.EpisodeNumber, entity.EpisodeNumber).Set(e => e.Name, entity.Name)
-                                        .Set(e => e.Description, entity.Description).Set(e => e.Poster, entity.Poster)
-                                        .Set(e => e.GuestActors, entity.GuestActors).Set(e => e.Directors, entity.Directors);
-
+            // Update the document of the episode.
+            var collection = this.Database.GetCollection(entity.Id.TvShowId);
+            var query = Query<Episode>.EQ(e => e.Id, entity.Id);
+            var update = Update<Episode>.Replace(entity);
             collection.FindAndModify(query, SortBy.Null, update);
         }
 
         /// <summary>
-        /// Delete one episode.
+        /// Hook method for Delete operation.
         /// </summary>
         /// <param name="id">
         /// The id.
         /// </param>
-        /// Needs to delete also the object synopse in season episodes list.
-        protected override void HookDelete(Tuple<string, int, int> id)
+        protected override void HookDelete(Episode.EpisodeId id)
         {
-            var collection = this.Database.GetCollection(id.Item1);
-            var query = Query.And(Query<Episode>.EQ(e => e.TvShowId, id.Item1), Query<Episode>.EQ(e => e.SeasonNumber, id.Item2), Query<Episode>.EQ(e => e.EpisodeNumber, id.Item3));
+            var episode = this.Read(id).GetSynopsis();
 
-            var synopsis = this.Read(id).GetSynopsis();
+            // Remove the synopsis in new episodes.
+            this.newEpisodesRepository.RemoveEpisode(id.TvShowId, episode);
 
-            // In this case first remove the object synopse than remove the episode, because can not have
-            // one synopse for one episode that not exists.
-            this.seasonsRepository.RemoveEpisodeSynopsis(id.Item1, id.Item2, synopsis);
+            // Remove the synpopsis in season.
+            this.seasonsRepository.RemoveEpisode(new Season.SeasonId { TvShowId = id.TvShowId, SeasonNumber = id.SeasonNumber }, episode);
+
+            // Remove the document of episode.
+            var collection = this.Database.GetCollection(id.TvShowId);
+            var query = Query<Episode>.EQ(e => e.Id, id);
             collection.FindAndRemove(query, SortBy.Null);
         }
 
         /// <summary>
-        /// The try add to newest document.
+        /// Hook method for Read all operation.
         /// </summary>
-        /// <param name="episode">
-        /// The episode.
-        /// </param>
-        private void TryAddToNewestDocument(Episode episode)
+        /// <returns>
+        /// The <see cref="ICollection{T}"/>.
+        /// </returns>
+        protected override ICollection<Episode> HookReadAll()
         {
-            try
-            {
-                if (episode.Date == null || (DateTime.Parse(episode.Date) < DateTime.Parse(DateTime.UtcNow.ToString("yyyy-MM-dd"))))
-                {
-                    return;
-                }
-
-                var newestDoc = this.newestCollection.FindOneByIdAs<NewTvShowEpisodes>(episode.TvShowId);
-                if (newestDoc == null)
-                {
-                    newestDoc = new NewTvShowEpisodes(episode.TvShowId)
-                        {
-                            TvShow = this.tvshowsRepository.Read(episode.TvShowId).GetSynopsis() 
-                        };
-
-                    this.newestCollection.Insert(newestDoc);
-                }
-            }
-            catch (Exception)
-            {
-                // TODO, add to log mechanism.
-                return;
-            }
-
-            var query = Query<NewTvShowEpisodes>.EQ(we => we.Key, episode.TvShowId);
-            var update = Update<NewTvShowEpisodes>.Push(we => we.Episodes, episode.GetSynopsis());
-            this.ModifyList(this.newestCollection, query, update);
+            throw new NotSupportedException("this method currently is not supported.");
         }
     }
 }

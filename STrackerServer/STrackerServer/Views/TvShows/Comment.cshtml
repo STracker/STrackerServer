@@ -12,7 +12,7 @@
 
             <div class="extra-padding"></div>
             <p>
-                <a class="btn btn-block btn-primary" href="@Url.Action("Comments","TvShowsWeb", new { tvshowId = Model.TvShowId })">Comments</a>
+                <a class="btn btn-block btn-primary" href="@Url.Action("Comments","TvShows", new { id = Model.TvShowId })">Comments</a>
             </p>
         </div> 
         <div class="span6">
@@ -21,7 +21,7 @@
                 <div class="box-whiter">
                      @Model.Body
                 </div>
-                @using (Html.BeginForm("RemoveComment", "TvShowsWeb"))
+                @using (Html.BeginForm("RemoveComment", "TvShows"))
                 {
                     @Html.Hidden("tvshowId", Model.TvShowId)
                     @Html.Hidden("Id", Model.Id)

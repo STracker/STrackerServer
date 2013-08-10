@@ -21,7 +21,7 @@ namespace STrackerServer.BusinessLayer.Core
     /// <typeparam name="TK">
     /// Type of the key.
     /// </typeparam>
-    public interface ICommentsOperations<out TC, in TK> where TC : CommentsBase<TK>
+    public interface ICommentsOperations<TC, in TK> : ICrudOperations<TC, TK> where TC : CommentsBase<TK>
     {
         /// <summary>
         /// The add comment.
@@ -38,24 +38,13 @@ namespace STrackerServer.BusinessLayer.Core
         bool AddComment(TK key, Comment comment);
 
         /// <summary>
-        /// The get comments.
-        /// </summary>
-        /// <param name="id">
-        /// The id.
-        /// </param>
-        /// <returns>
-        /// The <see cref="TC"/>.
-        /// </returns>
-        TC GetComments(TK id);
-
-        /// <summary>
         /// The remove comment.
         /// </summary>
         /// <param name="id">
         /// The id.
         /// </param>
         /// <param name="userId">
-        /// The user Key.
+        /// The user Id.
         /// </param>
         /// <param name="commentId">
         /// The comment Id.

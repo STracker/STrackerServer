@@ -9,15 +9,15 @@
 
 namespace STrackerServer.Repository.MongoDB.Core
 {
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Diagnostics.Contracts;
+    using System.Collections.Generic;
 
     using global::MongoDB.Driver;
 
     using global::MongoDB.Driver.Builders;
 
     using STrackerServer.DataAccessLayer.Core;
+    using STrackerServer.DataAccessLayer.Exception;
+    using STrackerServer.Logger.Core;
 
     /// <summary>
     /// Base repository for MongoDB database.
@@ -26,7 +26,7 @@ namespace STrackerServer.Repository.MongoDB.Core
     /// Type of entity.
     /// </typeparam>
     /// <typeparam name="TK">
-    /// Type of entity's Key.
+    /// Type of entity's Id.
     /// </typeparam>
     public abstract class BaseRepository<T, TK> : IRepository<T, TK> where T : IEntity<TK>
     {
@@ -34,6 +34,11 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// MongoDB database object.
         /// </summary>
         protected readonly MongoDatabase Database;
+
+        /// <summary>
+        /// The STracker error logger.
+        /// </summary>
+        private readonly ILogger logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseRepository{T,TK}"/> class.
@@ -44,9 +49,13 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <param name="url">
         /// MongoDB url.
         /// </param>
-        protected BaseRepository(MongoClient client, MongoUrl url)
+        /// <param name="logger">
+        /// The STracker error logger.
+        /// </param>
+        protected BaseRepository(MongoClient client, MongoUrl url, ILogger logger)
         {
             this.Database = client.GetServer().GetDatabase(url.DatabaseName);
+            this.logger = logger;
         }
 
         /// <summary>
@@ -65,10 +74,15 @@ namespace STrackerServer.Repository.MongoDB.Core
                 this.HookCreate(entity);
                 return true;
             }
-            catch (Exception)
+            catch (WriteConcernException exception)
             {
-                // TODO, add exception to Log mechanism.
+                this.logger.Error("Update", exception.GetType().Name, exception.Message);
                 return false;
+            }
+            catch (MongoException exception)
+            {
+                this.logger.Error("Update", exception.GetType().Name, exception.Message);
+                throw new STrackerDatabaseException(exception.Message, exception);
             }
         }
 
@@ -81,7 +95,6 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <returns>
         /// The <see cref="T"/>.
         /// </returns>
-        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public T Read(TK id)
         {
             try
@@ -92,13 +105,13 @@ namespace STrackerServer.Repository.MongoDB.Core
                     return default(T);
                 }
 
-                entity.Key = id;
+                entity.Id = id;
                 return entity;
             }
-            catch (Exception)
+            catch (MongoException exception)
             {
-                // TODO, add exception to Log mechanism.
-                return default(T);
+                this.logger.Error("Update", exception.GetType().Name, exception.Message);
+                throw new STrackerDatabaseException(exception.Message, exception);
             }
         }
 
@@ -108,15 +121,22 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <param name="entity">
         /// The entity.
         /// </param>
-        public void Update(T entity)
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool Update(T entity)
         {
             try
             {
+                // Increments the version number.
+                entity.Version++;
                 this.HookUpdate(entity);
+                return true;
             }
-            catch (Exception)
+            catch (MongoException exception)
             {
-                // TODO, add exception to Log mechanism.
+                this.logger.Error("Update", exception.GetType().Name, exception.Message);
+                throw new STrackerDatabaseException(exception.Message, exception);
             }
         }
 
@@ -126,15 +146,39 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <param name="id">
         /// The id.
         /// </param>
-        public void Delete(TK id)
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool Delete(TK id)
         {
             try
             {
                 this.HookDelete(id);
+                return true;
             }
-            catch (Exception)
+            catch (MongoException exception)
             {
-                // TODO, add exception to Log mechanism.
+                this.logger.Error("Delete", exception.GetType().Name, exception.Message);
+                throw new STrackerDatabaseException(exception.Message, exception);
+            }
+        }
+
+        /// <summary>
+        /// The read all.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ICollection{T}"/>.
+        /// </returns>
+        public ICollection<T> ReadAll()
+        {
+            try
+            {
+                return this.HookReadAll();
+            }
+            catch (MongoException exception)
+            {
+                this.logger.Error("ReadAll", exception.GetType().Name, exception.Message);
+                throw new STrackerDatabaseException(exception.Message, exception);
             }
         }
 
@@ -150,19 +194,26 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <param name="update">
         /// The update.
         /// </param>
+        /// <param name="entity">
+        /// The entity that have an modification in one of his lists.
+        /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        protected bool ModifyList(MongoCollection collection, IMongoQuery query, IMongoUpdate update)
+        protected bool ModifyList(MongoCollection collection, IMongoQuery query, IMongoUpdate update, T entity)
         {
             try
             {
-                return collection.FindAndModify(query, SortBy.Null, update).Ok;
+                collection.FindAndModify(query, SortBy.Null, update);
+                
+                // Call Update for update entity's version number.
+                this.Update(entity);
+                return true;
             }
-            catch (Exception)
+            catch (MongoException exception)
             {
-                // TODO, add exception to Log mechanism.
-                return false;
+                this.logger.Error("Modifylist", exception.GetType().Name, exception.Message);
+                throw new STrackerDatabaseException(exception.Message, exception);
             }
         }
 
@@ -184,6 +235,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <returns>
         /// The <see cref="T"/>.
         /// </returns>
+        /// Is abstract because his implementation is diferent from repository to repository.
         protected abstract T HookRead(TK id);
 
         /// <summary>
@@ -203,5 +255,14 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </param>
         /// Is abstract because his implementation is diferent from repository to repository.
         protected abstract void HookDelete(TK id);
+
+        /// <summary>
+        /// Hook method for Read all operation.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ICollection{T}"/>.
+        /// </returns>
+        /// Is abstract because his implementation is diferent from repository to repository.
+        protected abstract ICollection<T> HookReadAll();
     }
 }

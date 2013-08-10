@@ -9,6 +9,8 @@
 
 namespace STrackerServer.BusinessLayer.Core
 {
+    using System.Collections.Generic;
+
     using STrackerServer.DataAccessLayer.Core;
 
     /// <summary>
@@ -18,7 +20,7 @@ namespace STrackerServer.BusinessLayer.Core
     /// Type of entity.
     /// </typeparam>
     /// <typeparam name="TK">
-    /// Type of entity's Key.
+    /// Type of entity's Id.
     /// </typeparam>
     public interface ICrudOperations<T, in TK> where T : IEntity<TK>
     {
@@ -50,7 +52,10 @@ namespace STrackerServer.BusinessLayer.Core
         /// <param name="entity">
         /// The entity.
         /// </param>
-        void Update(T entity);
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool Update(T entity);
 
         /// <summary>
         /// Delete operation.
@@ -58,6 +63,17 @@ namespace STrackerServer.BusinessLayer.Core
         /// <param name="id">
         /// The id.
         /// </param>
-        void Delete(TK id);
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool Delete(TK id);
+
+        /// <summary>
+        /// The read all.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ICollection"/>.
+        /// </returns>
+        ICollection<T> ReadAll();
     }
 }

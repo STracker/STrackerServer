@@ -3,7 +3,7 @@
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//   The subscription.
+//  Implementation of subscription object.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 

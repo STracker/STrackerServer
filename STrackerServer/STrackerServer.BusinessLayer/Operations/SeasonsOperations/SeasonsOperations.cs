@@ -9,7 +9,6 @@
 
 namespace STrackerServer.BusinessLayer.Operations.SeasonsOperations
 {
-    using System;
     using System.Collections.Generic;
 
     using STrackerServer.BusinessLayer.Core.SeasonsOperations;
@@ -20,7 +19,7 @@ namespace STrackerServer.BusinessLayer.Operations.SeasonsOperations
     /// <summary>
     /// Seasons operations.
     /// </summary>
-    public class SeasonsOperations : BaseCrudOperations<Season, Tuple<string, int>>, ISeasonsOperations
+    public class SeasonsOperations : BaseCrudOperations<ISeasonsRepository, Season, Season.SeasonId>, ISeasonsOperations
     {
         /// <summary>
         /// Television shows operations.
@@ -51,9 +50,9 @@ namespace STrackerServer.BusinessLayer.Operations.SeasonsOperations
         /// <returns>
         /// The <see cref="Season"/>.
         /// </returns>
-        public override Season Read(Tuple<string, int> id)
+        public override Season Read(Season.SeasonId id)
         {
-            var tvshow = this.tvshowsOperations.Read(id.Item1);
+            var tvshow = this.tvshowsOperations.Read(id.TvShowId);
             return (tvshow == null) ? null : this.Repository.Read(id);
         }
 
@@ -68,10 +67,10 @@ namespace STrackerServer.BusinessLayer.Operations.SeasonsOperations
         ///       <cref>IEnumerable</cref>
         ///     </see> .
         /// </returns>
-        public IEnumerable<Season.SeasonSynopsis> GetAllFromOneTvShow(string tvshowId)
+        public ICollection<Season.SeasonSynopsis> GetAllFromOneTvShow(string tvshowId)
         {
             var tvshow = this.tvshowsOperations.Read(tvshowId);
-            return tvshow == null ? null : ((ISeasonsRepository)this.Repository).GetAllFromOneTvShow(tvshowId);
+            return tvshow == null ? null : tvshow.Seasons;
         }
     }
 }

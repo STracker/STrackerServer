@@ -28,11 +28,11 @@
                     <div class="span2" style="text-align: center">
                         <div class="box-whiter">
                             <div class="row-fluid">
-                                <img src="@Model.Result[index].Photo" alt="No Image"/>
+                                <img src="@Model.Result.ElementAt(index).Photo" alt="No Image"/>
                             </div>
                             <br/>
                             <div class="row-fluid">
-                                <a class="btn btn-block btn-primary" href="@Url.Action("Index","Users", new { id = Model.Result[index].Id })">@Model.Result[index].Name</a>
+                                <a class="btn btn-block btn-primary" href="@Url.Action("Index","Users", new { id = Model.Result.ElementAt(index).Id })">@Model.Result.ElementAt(index).Name</a>
                             </div>
                         </div>
                     </div>

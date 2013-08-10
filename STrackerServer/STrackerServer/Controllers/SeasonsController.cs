@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SeasonsWebController.cs" company="STracker">
+// <copyright file="SeasonsController.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
@@ -9,7 +9,6 @@
 
 namespace STrackerServer.Controllers
 {
-    using System;
     using System.Linq;
     using System.Net;
     using System.Web.Mvc;
@@ -17,53 +16,56 @@ namespace STrackerServer.Controllers
 
     using STrackerServer.BusinessLayer.Core.SeasonsOperations;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
+    using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
     /// The season web controller.
     /// </summary>
-    public class SeasonsWebController : Controller
+    public class SeasonsController : Controller
     {
         /// <summary>
         /// The season operations.
         /// </summary>
-        private readonly ISeasonsOperations seasonOps;
+        private readonly ISeasonsOperations seasonsOperations;
 
         /// <summary>
-        /// The television shows ops.
+        /// The television shows operations.
         /// </summary>
-        private readonly ITvShowsOperations tvshowsOps;
+        private readonly ITvShowsOperations tvshowsOperations;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SeasonsWebController"/> class.
+        /// Initializes a new instance of the <see cref="STrackerServer.Controllers.SeasonsController"/> class.
         /// </summary>
-        /// <param name="seasonOps">
+        /// <param name="seasonsOperations">
         /// The season ops.
         /// </param>
-        /// <param name="tvshowsOps">
+        /// <param name="tvshowsOperations">
         /// The television shows ops.
         /// </param>
-        public SeasonsWebController(ISeasonsOperations seasonOps, ITvShowsOperations tvshowsOps)
+        public SeasonsController(ISeasonsOperations seasonsOperations, ITvShowsOperations tvshowsOperations)
         {
-            this.seasonOps = seasonOps;
-            this.tvshowsOps = tvshowsOps;
+            this.seasonsOperations = seasonsOperations;
+            this.tvshowsOperations = tvshowsOperations;
         }
 
         /// <summary>
-        /// The show.
+        /// The television show season view.
         /// </summary>
         /// <param name="tvshowId">
         /// The television show id.
         /// </param>
         /// <param name="seasonNumber">
-        /// The season Number.
+        /// The season number.
         /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpGet]
-        public ActionResult Show(string tvshowId, int seasonNumber)
+        public ActionResult Index(string tvshowId, int seasonNumber)
         {
-            var season = this.seasonOps.Read(new Tuple<string, int>(tvshowId, seasonNumber));
+            var key = new Season.SeasonId { TvShowId = tvshowId, SeasonNumber = seasonNumber };
+
+            var season = this.seasonsOperations.Read(key);
 
             if (season == null)
             {
@@ -71,15 +73,15 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            var tvshow = this.tvshowsOps.Read(tvshowId);
+            var tvshow = this.tvshowsOperations.Read(tvshowId);
 
             return this.View(new SeasonView
             {
                 TvShowId = tvshowId,
-                EpisodeList = season.EpisodeSynopsis.OrderBy(ep => ep.EpisodeNumber),
-                SeasonNumber = season.SeasonNumber,
+                EpisodeList = season.Episodes.OrderBy(ep => ep.Id.EpisodeNumber),
+                SeasonNumber = season.Id.SeasonNumber,
                 Poster = tvshow.Poster,
-                TvShowName = tvshow.Name   
+                TvShowName = tvshow.Name
             });
         }
     }

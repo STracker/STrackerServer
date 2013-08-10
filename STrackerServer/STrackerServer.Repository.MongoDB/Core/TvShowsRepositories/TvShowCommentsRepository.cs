@@ -10,6 +10,7 @@
 namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
 {
     using System;
+    using System.Collections.Generic;
 
     using global::MongoDB.Driver;
 
@@ -18,6 +19,7 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
     using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.Comments;
+    using STrackerServer.Logger.Core;
 
     /// <summary>
     /// The television show comments repository.
@@ -33,16 +35,19 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         /// <param name="url">
         /// The url.
         /// </param>
-        public TvShowCommentsRepository(MongoClient client, MongoUrl url)
-            : base(client, url)
+        /// <param name="logger">
+        /// The logger.
+        /// </param>
+        public TvShowCommentsRepository(MongoClient client, MongoUrl url, ILogger logger)
+            : base(client, url, logger)
         {
         }
 
         /// <summary>
-        /// The add comment.
+        /// Add one comment.
         /// </summary>
-        /// <param name="key">
-        /// The key.
+        /// <param name="id">
+        /// The id.
         /// </param>
         /// <param name="comment">
         /// The comment.
@@ -50,20 +55,21 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public bool AddComment(string key, Comment comment)
+        public bool AddComment(string id, Comment comment)
         {
-            var collection = this.Database.GetCollection(string.Format("{0}-{1}", key, CollectionPrefix));
-            var query = Query<CommentsTvShow>.EQ(comments => comments.TvShowId, key);
+            var collection = this.Database.GetCollection(string.Format("{0}-{1}", id, CollectionPrefix));
+            var query = Query<CommentsTvShow>.EQ(comments => comments.Id, id);
+
+            // Using Push insted of AddToSet because one user can write two or more equals comments.
             var update = Update<CommentsTvShow>.Push(c => c.Comments, comment);
-
-            return this.ModifyList(collection, query, update);
+            return this.ModifyList(collection, query, update, this.Read(id));
         }
 
         /// <summary>
-        /// The remove comment.
+        /// Remove one comment.
         /// </summary>
-        /// <param name="key">
-        /// The key.
+        /// <param name="id">
+        /// The id.
         /// </param>
         /// <param name="comment">
         /// The comment.
@@ -71,13 +77,13 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public bool RemoveComment(string key, Comment comment)
+        public bool RemoveComment(string id, Comment comment)
         {
-            var collection = this.Database.GetCollection(string.Format("{0}-{1}", key, CollectionPrefix));
-            var query = Query<CommentsTvShow>.EQ(comments => comments.TvShowId, key);
+            var collection = this.Database.GetCollection(string.Format("{0}-{1}", id, CollectionPrefix));
+            var query = Query<CommentsTvShow>.EQ(comments => comments.Id, id);
             var update = Update<CommentsTvShow>.Pull(c => c.Comments, comment);
 
-            return this.ModifyList(collection, query, update);
+            return this.ModifyList(collection, query, update, this.Read(id));
         }
 
         /// <summary>
@@ -88,8 +94,7 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         /// </param>
         protected override void HookCreate(CommentsTvShow entity)
         {
-            var collection = this.Database.GetCollection(string.Format("{0}-{1}", entity.TvShowId, CollectionPrefix));
-            this.SetupIndexes(collection);
+            var collection = this.Database.GetCollection(string.Format("{0}-{1}", entity.Id, CollectionPrefix));
             collection.Insert(entity);
         }
 
@@ -105,8 +110,7 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         protected override CommentsTvShow HookRead(string id)
         {
             var collection = this.Database.GetCollection(string.Format("{0}-{1}", id, CollectionPrefix));
-            var query = Query<CommentsTvShow>.EQ(c => c.TvShowId, id);
-            return collection.FindOne<CommentsTvShow>(query, "_id");
+            return collection.FindOneByIdAs<CommentsTvShow>(id);
         }
 
         /// <summary>
@@ -117,7 +121,7 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         /// </param>
         protected override void HookUpdate(CommentsTvShow entity)
         {
-            throw new NotSupportedException("this method currently is not supported.");
+            // Nothing to do...
         }
 
         /// <summary>
@@ -128,10 +132,18 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         /// </param>
         protected override void HookDelete(string id)
         {
-            var collection = this.Database.GetCollection(string.Format("{0}-{1}", id, CollectionPrefix));
-            var query = Query<CommentsTvShow>.EQ(c => c.TvShowId, id);
+            throw new NotSupportedException("this method currently is not supported.");
+        }
 
-            collection.FindAndRemove(query, SortBy.Null);
+        /// <summary>
+        /// Hook method for Read all operation.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ICollection{T}"/>.
+        /// </returns>
+        protected override ICollection<CommentsTvShow> HookReadAll()
+        {
+            throw new NotSupportedException("this method currently is not supported.");
         }
     }
 }

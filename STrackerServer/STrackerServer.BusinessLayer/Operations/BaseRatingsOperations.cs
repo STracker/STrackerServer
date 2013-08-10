@@ -10,7 +10,6 @@
 namespace STrackerServer.BusinessLayer.Operations
 {
     using System.Configuration;
-    using System.Diagnostics.CodeAnalysis;
 
     using STrackerServer.BusinessLayer.Core;
     using STrackerServer.DataAccessLayer.Core;
@@ -29,7 +28,7 @@ namespace STrackerServer.BusinessLayer.Operations
     /// <typeparam name="TK">
     /// Type of the key.
     /// </typeparam>
-    public class BaseRatingsOperations<T, TR, TK> : IRatingsOperations<TR, TK> where T : IEntity<TK> where TR : RatingsBase<TK>
+    public class BaseRatingsOperations<T, TR, TK> : BaseCrudOperations<IRatingsRepository<TR, TK>, TR, TK>, IRatingsOperations<TR, TK> where T : IEntity<TK> where TR : RatingsBase<TK>
     {
         /// <summary>
         /// The min rating.
@@ -42,14 +41,9 @@ namespace STrackerServer.BusinessLayer.Operations
         protected readonly int MaxRating;
 
         /// <summary>
-        /// The ratings repository.
-        /// </summary>
-        protected readonly IRatingsRepository<TR, TK> RatingsRepository;
-
-        /// <summary>
         /// The entity repository.
         /// </summary>
-        protected readonly IRepository<T, TK> Repository;
+        protected readonly IRepository<T, TK> EntityRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseRatingsOperations{T,TR,TK}"/> class.
@@ -57,13 +51,13 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <param name="ratingsRepository">
         /// The ratings repository.
         /// </param>
-        /// <param name="repository">
-        /// The repository.
+        /// <param name="entityRepository">
+        /// The entity Repository.
         /// </param>
-        public BaseRatingsOperations(IRatingsRepository<TR, TK> ratingsRepository, IRepository<T, TK> repository)
+        public BaseRatingsOperations(IRatingsRepository<TR, TK> ratingsRepository, IRepository<T, TK> entityRepository)
+            : base(ratingsRepository)
         {
-            this.RatingsRepository = ratingsRepository;
-            this.Repository = repository;
+            this.EntityRepository = entityRepository;
 
             this.MinRating = int.Parse(ConfigurationManager.AppSettings["RatingMinValue"]);
             this.MaxRating = int.Parse(ConfigurationManager.AppSettings["RatingMaxValue"]);
@@ -72,24 +66,22 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <summary>
         /// The read.
         /// </summary>
-        /// <param name="key">
-        /// The key.
+        /// <param name="id">
+        /// The id.
         /// </param>
         /// <returns>
-        /// The <see cref="TR"/>.
+        /// The <see cref="T"/>.
         /// </returns>
-        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
-        public TR Read(TK key)
+        public override TR Read(TK id)
         {
-            var entity = this.Repository.Read(key);
-            return !Equals(entity, default(T)) ? this.RatingsRepository.Read(key) : default(TR);
+            return this.Repository.Read(id);
         }
 
         /// <summary>
         /// The add rating.
         /// </summary>
-        /// <param name="key">
-        /// The key.
+        /// <param name="id">
+        /// The id.
         /// </param>
         /// <param name="rating">
         /// The rating.
@@ -97,32 +89,15 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
-        public bool AddRating(TK key, Rating rating)
+        public bool AddRating(TK id, Rating rating)
         {
             if (rating.UserRating < this.MinRating || rating.UserRating > this.MaxRating)
             {
                 return false;
             }
 
-            var entity = this.Repository.Read(key);
-            return !Equals(entity, default(T)) && this.RatingsRepository.AddRating(key, rating);
-        }
-
-        /// <summary>
-        /// The get all ratings.
-        /// </summary>
-        /// <param name="key">
-        /// The key.
-        /// </param>
-        /// <returns>
-        /// The <see cref="TR"/>.
-        /// </returns>
-        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
-        public TR GetAllRatings(TK key)
-        {
-            var entity = this.Repository.Read(key);
-            return Equals(entity, default(T)) ? default(TR) : this.RatingsRepository.Read(key);
+            var entity = this.EntityRepository.Read(id);
+            return !Equals(entity, default(T)) && this.Repository.AddRating(id, rating);
         }
     }
 }

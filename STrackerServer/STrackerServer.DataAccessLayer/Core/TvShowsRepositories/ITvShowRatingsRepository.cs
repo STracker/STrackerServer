@@ -9,6 +9,9 @@
 
 namespace STrackerServer.DataAccessLayer.Core.TvShowsRepositories
 {
+    using System.Collections.Generic;
+
+    using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.Ratings;
 
     /// <summary>
@@ -16,5 +19,15 @@ namespace STrackerServer.DataAccessLayer.Core.TvShowsRepositories
     /// </summary>
     public interface ITvShowRatingsRepository : IRatingsRepository<RatingsTvShow, string>
     {
+        /// <summary>
+        /// Get the top rated television shows in STracker.
+        /// </summary>
+        /// <param name="max">
+        /// The limit of television shows, in the other words, the number of the top.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ICollection{T}"/>.
+        /// </returns>
+        ICollection<TvShow.TvShowSynopsis> ReadTopRated(int max);
     }
 }

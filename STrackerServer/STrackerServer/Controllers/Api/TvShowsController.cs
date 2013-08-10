@@ -81,7 +81,8 @@ namespace STrackerServer.Controllers.Api
         /// </returns>
         public HttpResponseMessage GetTopRated()
         {
-            return this.BaseGet(this.operations.GetTopRated(MaxTopRatedTvShows));
+            //return this.BaseGet(this.operations.GetTopRated(MaxTopRatedTvShows));
+            return null;
         }
     }
 }

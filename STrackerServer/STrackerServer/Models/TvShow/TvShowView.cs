@@ -28,7 +28,7 @@ namespace STrackerServer.Models.TvShow
         /// </param>
         public TvShowView(TvShow tvshow)
         {
-            this.TvShowId = tvshow.TvShowId;
+            this.TvShowId = tvshow.Id;
             this.Name = tvshow.Name;
             this.Description = tvshow.Description;
             this.Genres = tvshow.Genres;
@@ -36,7 +36,7 @@ namespace STrackerServer.Models.TvShow
             this.Actors = tvshow.Actors;
             this.Runtime = tvshow.Runtime;
             this.AirDay = tvshow.AirDay;
-            this.SeasonSynopses = tvshow.SeasonSynopsis;
+            this.SeasonSynopses = tvshow.Seasons;
         }
 
         /// <summary>

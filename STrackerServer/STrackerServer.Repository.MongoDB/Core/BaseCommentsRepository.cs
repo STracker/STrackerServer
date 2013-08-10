@@ -13,9 +13,8 @@ namespace STrackerServer.Repository.MongoDB.Core
 
     using global::MongoDB.Driver;
 
-    using global::MongoDB.Driver.Builders;
-
     using STrackerServer.DataAccessLayer.DomainEntities.Comments;
+    using STrackerServer.Logger.Core;
 
     /// <summary>
     /// The base comments repository.
@@ -42,34 +41,13 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// <param name="url">
         /// The url.
         /// </param>
-        protected BaseCommentsRepository(MongoClient client, MongoUrl url)
-            : base(client, url)
+        /// <param name="logger">
+        /// The logger.
+        /// </param>
+        protected BaseCommentsRepository(MongoClient client, MongoUrl url, ILogger logger)
+            : base(client, url, logger)
         {
             this.CollectionPrefix = ConfigurationManager.AppSettings["CommentsCollection"];
-        }
-
-        /// <summary>
-        /// The drop comments.
-        /// </summary>
-        /// <param name="id">
-        /// The id.
-        /// </param>
-        public void DropComments(string id)
-        {
-            var collection = this.Database.GetCollection(string.Format("{0}-{1}", this.CollectionPrefix, id));
-            collection.Drop();
-        }
-
-        /// <summary>
-        /// The setup indexes.
-        /// </summary>
-        /// <param name="collection">
-        /// The collection.
-        /// </param>
-        protected void SetupIndexes(MongoCollection collection)
-        {
-            // Ensure index.
-            collection.EnsureIndex(new IndexKeysBuilder().Ascending("TvShowId", "SeasonNumber", "EpisodeNumber"), IndexOptions.SetUnique(true));
         }
     }
 }

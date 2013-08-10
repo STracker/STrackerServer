@@ -9,7 +9,6 @@
 
 namespace STrackerServer.BusinessLayer.Core.EpisodesOperations
 {
-    using System;
     using System.Collections.Generic;
 
     using STrackerServer.DataAccessLayer.DomainEntities;
@@ -17,22 +16,17 @@ namespace STrackerServer.BusinessLayer.Core.EpisodesOperations
     /// <summary>
     /// Episodes operations interface.
     /// </summary>
-    public interface IEpisodesOperations : ICrudOperations<Episode, Tuple<string, int, int>>
+    public interface IEpisodesOperations : ICrudOperations<Episode, Episode.EpisodeId>
     {
         /// <summary>
-        /// The get all from one season.
+        /// Get all episodes from one season.
         /// </summary>
-        /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <param name="seasonNumber">
-        /// The season number.
+        /// <param name="id">
+        /// The id of the season.
         /// </param>
         /// <returns>
-        /// The <see>
-        ///       <cref>IEnumerable</cref>
-        ///     </see> .
+        /// The <see cref="IEnumerable"/>.
         /// </returns>
-        IEnumerable<Episode.EpisodeSynopsis> GetAllFromOneSeason(string tvshowId, int seasonNumber);
+        ICollection<Episode.EpisodeSynopsis> GetAllFromOneSeason(Season.SeasonId id);
     }
 }

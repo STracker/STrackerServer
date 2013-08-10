@@ -3,7 +3,7 @@
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  Implementation of actor domain entity.
+//  Implementation of actor object.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 

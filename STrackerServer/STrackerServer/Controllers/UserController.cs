@@ -15,7 +15,6 @@ namespace STrackerServer.Controllers
     using System.Web.Mvc;
 
     using STrackerServer.Action_Results;
-    using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.BusinessLayer.Permissions;
@@ -43,11 +42,6 @@ namespace STrackerServer.Controllers
         private readonly IPermissionManager<Permissions, int> permissionManager;
 
         /// <summary>
-        /// The new episodes operations.
-        /// </summary>
-        private readonly INewEpisodesOperations newEpisodesOperations;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="UserController"/> class.
         /// </summary>
         /// <param name="usersOperations">
@@ -59,15 +53,11 @@ namespace STrackerServer.Controllers
         /// <param name="permissionManager">
         /// The permission manager.
         /// </param>
-        /// <param name="newEpisodesOperations">
-        /// The new episodes operations.
-        /// </param>
-        public UserController(IUsersOperations usersOperations, ITvShowsOperations tvshowsOperations, IPermissionManager<Permissions, int> permissionManager, INewEpisodesOperations newEpisodesOperations)
+        public UserController(IUsersOperations usersOperations, ITvShowsOperations tvshowsOperations, IPermissionManager<Permissions, int> permissionManager)
         {
             this.usersOperations = usersOperations;
             this.tvshowsOperations = tvshowsOperations;
             this.permissionManager = permissionManager;
-            this.newEpisodesOperations = newEpisodesOperations;
         }
 
         /// <summary>
@@ -87,9 +77,9 @@ namespace STrackerServer.Controllers
                 Id = User.Identity.Name,
                 Name = user.Name,
                 PictureUrl = user.Photo,
-                SubscriptionList = user.SubscriptionList,
+                SubscriptionList = user.Subscriptions,
                 IsAdmin = this.permissionManager.HasPermission(Permissions.Admin, user.Permission),
-                NewEpisodes = this.newEpisodesOperations.GetUserNewEpisodes(User.Identity.Name)
+                NewEpisodes = this.usersOperations.GetUserNewEpisodes(User.Identity.Name, null)
             });
         }
 
@@ -106,7 +96,7 @@ namespace STrackerServer.Controllers
         [Authorize]
         public ActionResult Invite(InviteFormValues values)
         {
-            if (!ModelState.IsValid || !this.usersOperations.Invite(User.Identity.Name, values.UserId))
+            if (!ModelState.IsValid || !this.usersOperations.InviteFriend(User.Identity.Name, values.UserId))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View("Error", Response.StatusCode);
@@ -276,7 +266,7 @@ namespace STrackerServer.Controllers
 
             var viewModel = new EpisodesWatchedView { Name = user.Name, PictureUrl = user.Photo };
 
-            foreach (var subscription in user.SubscriptionList)
+            foreach (var subscription in user.Subscriptions)
             {
                 var subDetailView = new EpisodesWatchedView.SubscriptionDetailView { TvShow = subscription.TvShow };
 
@@ -284,14 +274,14 @@ namespace STrackerServer.Controllers
                 {
                     IList<Episode.EpisodeSynopsis> list;
 
-                    if (subDetailView.EpisodesWatched.ContainsKey(episode.SeasonNumber))
+                    if (subDetailView.EpisodesWatched.ContainsKey(episode.Id.SeasonNumber))
                     {
-                        list = subDetailView.EpisodesWatched[episode.SeasonNumber];
+                        list = subDetailView.EpisodesWatched[episode.Id.SeasonNumber];
                     }
                     else
                     {
                         list = new List<Episode.EpisodeSynopsis>();
-                        subDetailView.EpisodesWatched.Add(episode.SeasonNumber, list);
+                        subDetailView.EpisodesWatched.Add(episode.Id.SeasonNumber, list);
                     }
 
                     list.Add(episode);

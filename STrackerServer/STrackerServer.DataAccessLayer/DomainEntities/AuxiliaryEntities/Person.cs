@@ -3,7 +3,7 @@
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  Implementation of person domain entity.
+//  Implementation of person object.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 

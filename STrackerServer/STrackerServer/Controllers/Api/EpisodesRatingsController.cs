@@ -67,13 +67,15 @@ namespace STrackerServer.Controllers.Api
         [HttpGet]
         public HttpResponseMessage Get(string tvshowId, int seasonNumber, int number)
         {
+            /*
             var ratings = this.operations.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, number));
             if (ratings == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            return this.BaseGet(new { Rating = (int)ratings.Average, Total = ratings.Ratings.Count });
+            return this.BaseGet(new { Rating = (int)ratings.Average, Total = ratings.Ratings.Count });*/
+            return null;
         }
 
         /// <summary>
@@ -99,7 +101,8 @@ namespace STrackerServer.Controllers.Api
         [HawkAuthorize]
         public HttpResponseMessage Post(string tvshowId, int seasonNumber, int number, [FromBody] int rating)
         {
-            return this.BasePostDelete(this.operations.AddRating(new Tuple<string, int, int>(tvshowId, seasonNumber, number), new Rating { User = this.usersOperations.Read(User.Identity.Name).GetSynopsis(), UserRating = rating }));
+            //return this.BasePostDelete(this.operations.AddRating(new Tuple<string, int, int>(tvshowId, seasonNumber, number), new Rating { User = this.usersOperations.Read(User.Identity.Name).GetSynopsis(), UserRating = rating }));
+            return null;
         }
     }
 }

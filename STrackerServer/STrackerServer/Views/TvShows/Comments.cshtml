@@ -13,11 +13,11 @@
             <div class="extra-padding"></div> 
 
             <p>
-                <a class="btn btn-block btn-primary" href="@Url.Action("Show","TvShowsWeb", new { tvshowId = Model.TvShowId })">@Model.TvShowName</a>
+                <a class="btn btn-block btn-primary" href="@Url.Action("Index","TvShows", new { id = Model.TvShowId })">@Model.TvShowName</a>
             </p> 
 
             <p>
-                <a id="create-comment" data-toggle="modal" class="btn btn-block btn-primary" href="@Url.Action("CreateComment","TvShowsWeb", new { tvshowId = Model.TvShowId })">Create Comment</a>
+                <a id="create-comment" data-toggle="modal" class="btn btn-block btn-primary" href="@Url.Action("CreateComment","TvShows", new { tvshowId = Model.TvShowId })">Create Comment</a>
             </p> 
             
             <div id="myModal" class="modal hide fade" style="color: black">
@@ -51,7 +51,7 @@
                             <div style="text-align: right">
                                 @if (User.Identity.IsAuthenticated && (Model.IsModerator || comment.User.Id.Equals(User.Identity.Name)))
                                 {
-                                    <a href="@Url.Action("Comment", "TvShowsWeb", new {tvshowId = Model.TvShowId, id = comment.Id })">Edit</a>
+                                    <a href="@Url.Action("Comment", "TvShows", new {tvshowId = Model.TvShowId, id = comment.Id })">Edit</a>
                                 }
                             </div>
                             @comment.Body

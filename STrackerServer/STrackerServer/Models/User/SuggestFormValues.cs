@@ -26,6 +26,6 @@ namespace STrackerServer.Models.User
         /// Gets or sets the television show id.
         /// </summary>
         [Required]
-        public string TvShowId { get; set; }
+        public string Id { get; set; }
     }
 }

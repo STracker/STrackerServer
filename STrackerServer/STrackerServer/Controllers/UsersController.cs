@@ -17,7 +17,6 @@ namespace STrackerServer.Controllers
 
     using STrackerServer.Action_Results;
     using STrackerServer.Attributes;
-    using STrackerServer.BusinessLayer.Core.AdminOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.BusinessLayer.Permissions;
     using STrackerServer.DataAccessLayer.DomainEntities;
@@ -41,11 +40,6 @@ namespace STrackerServer.Controllers
         private readonly IPermissionManager<Permissions, int> permissionManager;
 
         /// <summary>
-        /// The admin operations.
-        /// </summary>
-        private readonly IAdminOperations adminOperations;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="UsersController"/> class.
         /// </summary>
         /// <param name="usersOperations">
@@ -54,14 +48,10 @@ namespace STrackerServer.Controllers
         /// <param name="permissionManager">
         /// The permission Manager.
         /// </param>
-        /// <param name="adminOperations">
-        /// The admin Operations.
-        /// </param>
-        public UsersController(IUsersOperations usersOperations, IPermissionManager<Permissions, int> permissionManager, IAdminOperations adminOperations)
+        public UsersController(IUsersOperations usersOperations, IPermissionManager<Permissions, int> permissionManager)
         {
             this.usersOperations = usersOperations;
             this.permissionManager = permissionManager;
-            this.adminOperations = adminOperations;
         }
 
         /// <summary>
@@ -99,7 +89,7 @@ namespace STrackerServer.Controllers
                 Id = id,
                 Name = user.Name,
                 PictureUrl = user.Photo,
-                SubscriptionList = user.SubscriptionList,
+                SubscriptionList = user.Subscriptions,
                 IsFriend = isFriend,
                 IsAdmin = this.permissionManager.HasPermission(Permissions.Admin, user.Permission),
                 AdminMode = adminMode
@@ -124,7 +114,7 @@ namespace STrackerServer.Controllers
                 return this.View(new UserSearchResult { Result = new List<User.UserSynopsis>(), SearchValue = string.Empty });
             }
 
-            var users = this.usersOperations.FindByName(name);
+            var users = this.usersOperations.ReadByName(name).Select(user => user.GetSynopsis()).ToList();
 
             if (users.Count != 0)
             {
@@ -206,7 +196,7 @@ namespace STrackerServer.Controllers
 
             return this.View(new SetPermissionView
             {
-                Id = user.Key,
+                Id = user.Id,
                 Name = user.Name,
                 PictureUrl = user.Photo,
                 PermissionName = Enum.GetName(typeof(Permissions), user.Permission),
@@ -249,7 +239,7 @@ namespace STrackerServer.Controllers
                 return this.View(values);
             }
 
-            if (!this.adminOperations.SetUserPermission(User.Identity.Name, values.Id, this.permissionManager.GetPermission(values.Permission)))
+            if (!this.usersOperations.SetUserPermission(values.Id, values.Permission))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View(values);
@@ -257,10 +247,10 @@ namespace STrackerServer.Controllers
 
             if ((User.Identity.Name.Equals(values.Id) && values.Permission < (int)Permissions.Admin) || (!User.Identity.Name.Equals(values.Id) && values.Permission == (int)Permissions.Admin))
             {
-                return new SeeOtherResult { Url = Url.Action("Index", new { id = user.Key }) };
+                return new SeeOtherResult { Url = Url.Action("Index", new { id = user.Id }) };
             }
 
-            return new SeeOtherResult { Url = Url.Action("Permission", new { id = user.Key }) };
+            return new SeeOtherResult { Url = Url.Action("Permission", new { id = user.Id }) };
         }
     }
 }

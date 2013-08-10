@@ -9,27 +9,32 @@
 
 namespace STrackerServer.BusinessLayer.Operations
 {
+    using System.Collections.Generic;
+
     using STrackerServer.BusinessLayer.Core;
     using STrackerServer.DataAccessLayer.Core;
 
     /// <summary>
     /// Base crud operations.
     /// </summary>
+    /// <typeparam name="TI">
+    /// The interface of the property Repository.
+    /// </typeparam>
     /// <typeparam name="T">
     /// Type of entity.
     /// </typeparam>
     /// <typeparam name="TK">
-    /// Type of entity's Key.
+    /// Type of entity's Id.
     /// </typeparam>
-    public abstract class BaseCrudOperations<T, TK> : ICrudOperations<T, TK> where T : IEntity<TK>
+    public abstract class BaseCrudOperations<TI, T, TK> : ICrudOperations<T, TK> where T : IEntity<TK> where TI : IRepository<T, TK>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseCrudOperations{T,TK}"/> class.
+        /// Initializes a new instance of the <see cref="BaseCrudOperations{TI,T,TK}"/> class.
         /// </summary>
         /// <param name="repository">
         /// The repository.
         /// </param>
-        protected BaseCrudOperations(IRepository<T, TK> repository)
+        protected BaseCrudOperations(TI repository)
         {
             this.Repository = repository;
         }
@@ -37,7 +42,7 @@ namespace STrackerServer.BusinessLayer.Operations
         /// <summary>
         /// Gets the repository.
         /// </summary>
-        protected IRepository<T, TK> Repository { get; private set; }
+        protected TI Repository { get; private set; }
 
         /// <summary>
         /// Create method.
@@ -74,9 +79,12 @@ namespace STrackerServer.BusinessLayer.Operations
         /// </param>
         /// Don't need to validate fields, because only administrator can use this 
         /// operation.
-        public void Update(T entity)
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool Update(T entity)
         {
-            this.Repository.Update(entity);
+            return this.Repository.Update(entity);
         }
 
         /// <summary>
@@ -87,9 +95,23 @@ namespace STrackerServer.BusinessLayer.Operations
         /// </param>
         /// Don't need to validate fields, because only administrator can use this 
         /// operation.
-        public void Delete(TK id)
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool Delete(TK id)
         {
-            this.Repository.Delete(id);
+            return this.Repository.Delete(id);
+        }
+
+        /// <summary>
+        /// The read all.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ICollection{T}"/>.
+        /// </returns>
+        public ICollection<T> ReadAll()
+        {
+            return this.Repository.ReadAll();
         }
     }
 }

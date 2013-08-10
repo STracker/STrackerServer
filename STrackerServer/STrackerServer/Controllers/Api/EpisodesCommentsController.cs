@@ -67,6 +67,7 @@ namespace STrackerServer.Controllers.Api
         [HttpGet]
         public HttpResponseMessage Get(string tvshowId, int seasonNumber, int number)
         {
+            /*
             var comments = this.operations.GetComments(new Tuple<string, int, int>(tvshowId, seasonNumber, number));
             if (comments == null)
             {
@@ -74,6 +75,8 @@ namespace STrackerServer.Controllers.Api
             }
 
             return this.BaseGet(comments.Comments);
+             * */
+            return null;
         }
 
         /// <summary>
@@ -98,6 +101,7 @@ namespace STrackerServer.Controllers.Api
         [HawkAuthorize]
         public HttpResponseMessage Post(string tvshowId, int seasonNumber, int number, [FromBody] string comment)
         {
+            /*
             if (comment == null || comment.Equals(string.Empty))
             {
                 return this.BasePostDelete(false);
@@ -106,6 +110,8 @@ namespace STrackerServer.Controllers.Api
             var user = this.usersOperations.Read(User.Identity.Name);
 
             return this.BasePostDelete(this.operations.AddComment(new Tuple<string, int, int>(tvshowId, seasonNumber, number), new Comment { Body = comment, User = user.GetSynopsis() }));
+            */
+            return null;
         }
 
         /// <summary>
@@ -130,7 +136,8 @@ namespace STrackerServer.Controllers.Api
         [HawkAuthorize]
         public HttpResponseMessage Delete(string tvshowId, int seasonNumber, int number, string commentId)
         {
-            return this.BasePostDelete(this.operations.RemoveComment(new Tuple<string, int, int>(tvshowId, seasonNumber, number), User.Identity.Name, commentId));
+            //return this.BasePostDelete(this.operations.RemoveComment(new Tuple<string, int, int>(tvshowId, seasonNumber, number), User.Identity.Name, commentId));
+            return null;
         }
     }
 }

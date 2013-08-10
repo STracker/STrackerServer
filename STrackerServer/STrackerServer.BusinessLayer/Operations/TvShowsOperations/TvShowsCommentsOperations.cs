@@ -15,8 +15,6 @@ namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
     using STrackerBackgroundWorker.RabbitMQ.Core;
 
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
-    using STrackerServer.BusinessLayer.Core.UsersOperations;
-    using STrackerServer.BusinessLayer.Permissions;
     using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
@@ -36,35 +34,12 @@ namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
         /// <param name="repository">
         /// The repository.
         /// </param>
-        /// <param name="usersOperations">
-        /// The users Operations.
-        /// </param>
         /// <param name="queueM">
         /// The queue m.
         /// </param>
-        /// <param name="permissionManager">
-        /// The permission Manager.
-        /// </param>
-        public TvShowsCommentsOperations(ITvShowCommentsRepository commentsRepository, ITvShowsRepository repository, IUsersOperations usersOperations, QueueManager queueM, IPermissionManager<Permissions, int> permissionManager)
-            : base(commentsRepository, repository, queueM, usersOperations, permissionManager)
+        public TvShowsCommentsOperations(ITvShowCommentsRepository commentsRepository, ITvShowsRepository repository, QueueManager queueM)
+            : base(commentsRepository, repository, queueM)
         {
-        }
-
-        /// <summary>
-        /// The remove comment hook.
-        /// </summary>
-        /// <param name="key">
-        /// The key.
-        /// </param>
-        /// <param name="comment">
-        /// The comment.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        protected override bool RemoveCommentHook(string key, Comment comment)
-        {
-            return this.CommentsRepository.RemoveComment(key, comment);
         }
 
         /// <summary>

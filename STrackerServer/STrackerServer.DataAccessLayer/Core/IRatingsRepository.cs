@@ -24,7 +24,7 @@ namespace STrackerServer.DataAccessLayer.Core
     public interface IRatingsRepository<T, in TK> : IRepository<T, TK> where T : RatingsBase<TK>
     {
         /// <summary>
-        /// The add rating.
+        /// Add one rating.
         /// </summary>
         /// <param name="id">
         /// The id.
@@ -38,7 +38,7 @@ namespace STrackerServer.DataAccessLayer.Core
         bool AddRating(TK id, Rating rating);
 
         /// <summary>
-        /// The remove rating.
+        /// Remove one rating.
         /// </summary>
         /// <param name="id">
         /// The id.

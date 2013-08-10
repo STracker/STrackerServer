@@ -63,12 +63,14 @@ namespace STrackerServer.Controllers.Api
         [HawkAuthorize]
         public HttpResponseMessage Post([FromBody] string userId)
         {
+            /*
             if (userId == null)
             {
                 return this.Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid Body, Missing required fields.");
             }
 
-            return this.BasePostDelete(this.usersOperations.Invite(User.Identity.Name, userId));
+            return this.BasePostDelete(this.usersOperations.Invite(User.Identity.Name, userId));*/
+            return null;
         }
 
         /// <summary>

@@ -26,6 +26,6 @@ namespace STrackerServer.Models.TvShow
         /// <summary>
         /// Gets or sets the result.
         /// </summary>
-        public List<TvShow.TvShowSynopsis> Result { get; set; }
+        public ICollection<TvShow.TvShowSynopsis> Result { get; set; }
     }
 }

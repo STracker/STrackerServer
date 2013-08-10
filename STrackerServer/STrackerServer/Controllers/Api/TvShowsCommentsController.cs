@@ -60,13 +60,15 @@ namespace STrackerServer.Controllers.Api
         [HttpGet]
         public HttpResponseMessage Get(string id)
         {
+            /*
             var comments = this.operations.GetComments(id);
             if (comments == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            return this.BaseGet(comments.Comments);
+            return this.BaseGet(comments.Comments);*/
+            return null;
         }
 
         /// <summary>

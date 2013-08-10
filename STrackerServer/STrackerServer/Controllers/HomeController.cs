@@ -33,14 +33,14 @@ namespace STrackerServer.Controllers
         private readonly IGenresOperations genresOperations;
 
         /// <summary>
-        /// The television shows operations.
+        /// The new television show episodes operations.
         /// </summary>
-        private readonly ITvShowsOperations tvshowsOperations;
+        private readonly ITvShowNewEpisodesOperations tvshowNewEpisodesOperations;
 
         /// <summary>
-        /// The new episodes operations.
+        /// The television shows ratings operations.
         /// </summary>
-        private readonly INewEpisodesOperations newEpisodesOperations;
+        private readonly ITvShowsRatingsOperations tvshowsRatingsOperations;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HomeController"/> class.
@@ -48,17 +48,17 @@ namespace STrackerServer.Controllers
         /// <param name="genresOperations">
         /// The genres operations.
         /// </param>
-        /// <param name="tvshowsOperations">
-        /// The television shows operations
-        ///  </param>
-        /// <param name="newEpisodesOperations">
-        /// The new Episodes Operations.
+        /// <param name="tvshowsRatingsOperations">
+        /// The television shows ratings operations.
         /// </param>
-        public HomeController(IGenresOperations genresOperations, ITvShowsOperations tvshowsOperations, INewEpisodesOperations newEpisodesOperations)
+        /// <param name="tvshowNewEpisodesOperations">
+        /// The new television show episodes operations.
+        /// </param>
+        public HomeController(IGenresOperations genresOperations, ITvShowsRatingsOperations tvshowsRatingsOperations, ITvShowNewEpisodesOperations tvshowNewEpisodesOperations)
         {
             this.genresOperations = genresOperations;
-            this.tvshowsOperations = tvshowsOperations;
-            this.newEpisodesOperations = newEpisodesOperations;
+            this.tvshowNewEpisodesOperations = tvshowNewEpisodesOperations;
+            this.tvshowsRatingsOperations = tvshowsRatingsOperations;
         }
 
         /// <summary>
@@ -72,9 +72,9 @@ namespace STrackerServer.Controllers
         {
             var view = new HomeView
             {
-                Genres = this.genresOperations.GetAll().OrderBy(synopsis => synopsis.Id),
-                TopRated = this.tvshowsOperations.GetTopRated(MaxTopRated),
-                NewEpisodes = this.newEpisodesOperations.GetNewEpisodes(DateTime.Now.AddDays(7).ToString("yyyy-MM-dd"))
+                Genres = this.genresOperations.ReadAllSynopsis().OrderBy(synopsis => synopsis),
+                TopRated = this.tvshowsRatingsOperations.GetTopRated(MaxTopRated),
+                NewEpisodes = this.tvshowNewEpisodesOperations.GetNewEpisodes(DateTime.Now.AddDays(7).ToString("yyyy-MM-dd"))
             };
 
             return this.View(view);

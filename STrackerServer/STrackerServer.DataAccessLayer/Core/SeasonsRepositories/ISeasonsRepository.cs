@@ -9,7 +9,6 @@
 
 namespace STrackerServer.DataAccessLayer.Core.SeasonsRepositories
 {
-    using System;
     using System.Collections.Generic;
 
     using STrackerServer.DataAccessLayer.DomainEntities;
@@ -17,7 +16,7 @@ namespace STrackerServer.DataAccessLayer.Core.SeasonsRepositories
     /// <summary>
     /// Seasons repository interface.
     /// </summary>
-    public interface ISeasonsRepository : IRepository<Season, Tuple<string, int>>
+    public interface ISeasonsRepository : IRepository<Season, Season.SeasonId>
     {
         /// <summary>
         /// Create several seasons.
@@ -25,47 +24,34 @@ namespace STrackerServer.DataAccessLayer.Core.SeasonsRepositories
         /// <param name="seasons">
         /// The seasons.
         /// </param>
-        void CreateAll(IEnumerable<Season> seasons);
+        void CreateAll(ICollection<Season> seasons);
 
         /// <summary>
-        /// Get all seasons synopsis from one television show.
+        /// Add one episode synopsis to season's episodes list.
         /// </summary>
-        /// <param name="tvshowId">
-        /// Television show id.
+        /// <param name="id">
+        /// The id of the season.
+        /// </param>
+        /// <param name="episode">
+        /// The episode.
         /// </param>
         /// <returns>
-        /// The <see>
-        ///       <cref>IEnumerable</cref>
-        ///     </see> .
+        /// The <see cref="bool"/>.
         /// </returns>
-        IEnumerable<Season.SeasonSynopsis> GetAllFromOneTvShow(string tvshowId);
+        bool AddEpisode(Season.SeasonId id, Episode.EpisodeSynopsis episode);
 
         /// <summary>
-        /// The add episode synopsis.
+        /// Remove one episode synopsis from season's episodes list.
         /// </summary>
-        /// <param name="tvshowId">
-        /// Television show id.
-        /// </param>
-        /// <param name="seasonNumber">
-        /// The season number.
+        /// <param name="id">
+        /// The id of the season.
         /// </param>
         /// <param name="episode">
         /// The episode.
         /// </param>
-        void AddEpisodeSynopsis(string tvshowId, int seasonNumber, Episode.EpisodeSynopsis episode);
-
-        /// <summary>
-        /// The remove episode synopsis.
-        /// </summary>
-        /// <param name="tvshowId">
-        /// Television show id.
-        /// </param>
-        /// <param name="seasonNumber">
-        /// The season number.
-        /// </param>
-        /// <param name="episode">
-        /// The episode.
-        /// </param>
-        void RemoveEpisodeSynopsis(string tvshowId, int seasonNumber, Episode.EpisodeSynopsis episode);
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool RemoveEpisode(Season.SeasonId id, Episode.EpisodeSynopsis episode);
     }
 }

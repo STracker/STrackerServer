@@ -43,7 +43,7 @@
                 else
                 {
                     <p>
-                        <a class="btn btn-block btn-success" href="@Url.Action("Show","TvShowsWeb", new { tvshowId = Model.TvShowId })">Need to be subscribed</a>
+                        <a class="btn btn-block btn-success" href="@Url.Action("Index","TvShows", new { id = Model.TvShowId })">Need to be subscribed</a>
                     </p> 
                 } 
             }
@@ -66,8 +66,8 @@
                 
                 <h3>@Model.Name</h3> 
                 <ul class="stracker-breadcrumb">
-                    <li><a href="@Url.Action("Show","TvShowsWeb", new { tvshowId = Model.TvShowId })">@Model.TvShowName</a> <span class="divider">/</span></li>
-                    <li><a href="@Url.Action("Show","SeasonsWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber })">Season @Model.SeasonNumber</a> <span class="divider">/</span></li>
+                    <li><a href="@Url.Action("Index","TvShows", new { id = Model.TvShowId })">@Model.TvShowName</a> <span class="divider">/</span></li>
+                    <li><a href="@Url.Action("Index","Seasons", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber })">Season @Model.SeasonNumber</a> <span class="divider">/</span></li>
                     <li class="active">Episode @Model.EpisodeNumber</li>
                 </ul>
                 <br/>

@@ -48,15 +48,15 @@ namespace STrackerServer.Controllers
         [HttpGet]
         public ActionResult Index(string id)
         {
-            var genreModel = this.genreOperations.Read(id);
+            var genre = this.genreOperations.Read(id);
 
-            if (genreModel == null)
+            if (genre == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
                 return this.View("Error", Response.StatusCode);
             }
 
-            return this.View(new GenreView { GenreName = genreModel.Key, TvShows = genreModel.TvshowsSynopsis });
+            return this.View(new GenreView { GenreName = genre.Id, TvShows = genre.Tvshows });
         }
     }
 }

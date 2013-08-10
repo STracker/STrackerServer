@@ -13,9 +13,9 @@
             <div class="extra-padding"></div> 
             @if (User.Identity.IsAuthenticated)
             {
-                using (Html.BeginForm("Subscribe", "TvShowsWeb", new { tvshowId = Model.TvShowId }))
+                using (Html.BeginForm("Subscribe", "TvShows", new { id = Model.TvShowId }))
                 {
-                    @Html.Hidden("RedirectUrl", Url.Action("Show","TvShowsWeb", new { tvshowId = Model.TvShowId }))
+                    @Html.Hidden("RedirectUrl", Url.Action("Index","TvShows", new { id = Model.TvShowId }))
 
                     if (Model.IsSubscribed)
                     {
@@ -29,18 +29,18 @@
                 }  
             }else
             { 
-                <a class="btn btn-block btn-success" href="@Url.Action("Login","Account", new { returnUrl =  Url.Action("Show","TvShowsWeb", new { tvshowId = Model.TvShowId })})">Subscribe</a>
+                <a class="btn btn-block btn-success" href="@Url.Action("Login","Account", new { returnUrl =  Url.Action("Index","TvShows", new { id = Model.TvShowId })})">Subscribe</a>
                 <div class="extra-padding"></div> 
             }
             
             <p>
-                <a class="btn btn-block btn-primary" href="@Url.Action("Rate","TvShowsWeb", new { tvshowId = Model.TvShowId })">Rate</a>
+                <a class="btn btn-block btn-primary" href="@Url.Action("Rate","TvShows", new { id = Model.TvShowId })">Rate</a>
             </p> 
             <p>
-                <a class="btn btn-block btn-primary" href="@Url.Action("Suggest","TvShowsWeb", new { tvshowId = Model.TvShowId })">Suggest</a>
+                <a class="btn btn-block btn-primary" href="@Url.Action("Suggest","TvShows", new { id = Model.TvShowId })">Suggest</a>
             </p>  
             <p>
-                <a class="btn btn-block btn-primary" href="@Url.Action("Comments","TvShowsWeb", new { tvshowId = Model.TvShowId })">Comments</a>
+                <a class="btn btn-block btn-primary" href="@Url.Action("Comments","TvShows", new { id = Model.TvShowId })">Comments</a>
             </p>
         </div> 
         <div class="span6">
@@ -82,7 +82,7 @@
                 
                 @foreach (var season in this.Model.SeasonSynopses)
                 {
-                    <a class="season" data-api="@Url.HttpRouteUrl("api_season_get", new { tvshowId = season.TvShowId, number = season.SeasonNumber})" href="@Url.Action("Show", "SeasonsWeb", new { tvshowId = season.TvShowId, seasonNumber = season.SeasonNumber })">@season.SeasonNumber</a><b> | </b>
+                    <a class="season" data-api="@Url.HttpRouteUrl("api_season_get", new { tvshowId = season.Id.TvShowId, number = season.Id.SeasonNumber})" href="@Url.Action("Index", "Seasons", new { tvshowId = season.Id.TvShowId, seasonNumber = season.Id.SeasonNumber })">@season.Id.SeasonNumber</a><b> | </b>
                 }
             </div>
             <div id="display-season" class="box hide">
@@ -133,7 +133,7 @@
                     {
                         <dl>              
                             <dt>@episode.Date</dt>
-                            <dd><a href="@Url.Action("Show","EpisodesWeb", new { tvshowId = episode.TvShowId, seasonNumber = episode.SeasonNumber, episodeNumber = episode.EpisodeNumber })">@episode.Name</a></dd>           
+                            <dd><a href="@Url.Action("Show","EpisodesWeb", new { tvshowId = episode.Id.TvShowId, seasonNumber = episode.Id.SeasonNumber, episodeNumber = episode.Id.EpisodeNumber })">@episode.Name</a></dd>           
                         </dl>       
                     }
                 </div>

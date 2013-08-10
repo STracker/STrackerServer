@@ -18,10 +18,7 @@ namespace STrackerServer.Logger.SendGrid
     /// <summary>
     /// The SendGrid logger.
     /// </summary>
-    /// <typeparam name="T">
-    /// The class type for log.
-    /// </typeparam>
-    public class SendGridLogger<T> : BaseLogger<T>
+    public class SendGridLogger : BaseLogger
     {
         /// <summary>
         /// The SMTP client.
@@ -34,7 +31,7 @@ namespace STrackerServer.Logger.SendGrid
         private readonly string strackerEmail = ConfigurationManager.AppSettings["STracker:Email"];
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SendGridLogger{T}"/> class.
+        /// Initializes a new instance of the <see cref="SendGridLogger"/> class.
         /// </summary>
         /// <param name="smtpClient">
         /// The SMTP client.

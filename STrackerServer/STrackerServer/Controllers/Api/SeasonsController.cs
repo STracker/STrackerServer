@@ -51,7 +51,8 @@ namespace STrackerServer.Controllers.Api
         [HttpGet]
         public HttpResponseMessage Get(string tvshowId, int number)
         {
-            return this.BaseGet(this.operations.Read(new Tuple<string, int>(tvshowId, number)));
+            //return this.BaseGet(this.operations.Read(new Tuple<string, int>(tvshowId, number)));
+            return null;
         }
 
         /// <summary>

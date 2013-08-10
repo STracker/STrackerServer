@@ -19,8 +19,8 @@
                                     <div class="span3" style="text-align: center">
                                         <div class="box-whiter">
                                             <div class="row-fluid">
-                                                <a href="@Url.Action("Show", "TvShowsWeb", new { tvshowId = @Model.TopRated[index].Id })">
-                                                    <img src="@Model.TopRated[index].Poster" alt="No Image"/>
+                                                <a href="@Url.Action("Index", "TvShows", new { id = @Model.TopRated.ElementAt(index).Id })">
+                                                    <img src="@Model.TopRated.ElementAt(index).Poster" alt="No Image"/>
                                                 </a>
                                             </div>
                                         </div>

@@ -9,6 +9,8 @@
 
 namespace STrackerServer.DataAccessLayer.Core
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// Repositories interface.
     /// </summary>
@@ -16,7 +18,7 @@ namespace STrackerServer.DataAccessLayer.Core
     /// Type of entity.
     /// </typeparam>
     /// <typeparam name="TK">
-    /// Type of entity's Key.
+    /// Type of entity's Id.
     /// </typeparam>
     public interface IRepository<T, in TK>
     {
@@ -48,7 +50,10 @@ namespace STrackerServer.DataAccessLayer.Core
         /// <param name="entity">
         /// The entity.
         /// </param>
-        void Update(T entity);
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool Update(T entity);
 
         /// <summary>
         /// The delete.
@@ -56,6 +61,17 @@ namespace STrackerServer.DataAccessLayer.Core
         /// <param name="id">
         /// The id.
         /// </param>
-        void Delete(TK id);
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool Delete(TK id);
+
+        /// <summary>
+        /// The read all.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ICollection"/>.
+        /// </returns>
+        ICollection<T> ReadAll();
     }
 }

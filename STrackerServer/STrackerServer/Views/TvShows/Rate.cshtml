@@ -13,7 +13,7 @@
             <div class="extra-padding"></div> 
 
             <p>
-                <a class="btn btn-block btn-primary" href="@Url.Action("Show","TvShowsWeb", new { tvshowId = Model.TvShowId })">@Model.TvShowName</a>
+                <a class="btn btn-block btn-primary" href="@Url.Action("Index","TvShows", new { id = Model.Id })">@Model.TvShowName</a>
             </p> 
         </div> 
         <div class="span6">
@@ -23,9 +23,9 @@
                 <p><b>Rating: </b> @Model.Rating/5 (from @Model.RatingsCount Users)</p>               
 
                 @Html.ValidationSummary()
-                @using (Html.BeginForm("Rate", "TvShowsWeb"))
+                @using (Html.BeginForm("Rate", "TvShows"))
                 {
-                    @Html.HiddenFor(rating => rating.TvShowId)
+                    @Html.HiddenFor(rating => rating.Id)
                     <div class="form-inline" style="display: inline">
                         <div style="display: inline-block">
                             <b>Your Rating: </b>

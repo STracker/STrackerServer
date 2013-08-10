@@ -3,7 +3,7 @@
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  Implementation of weekly episodes domain entity.
+//  Implementation of new episodes domain entity.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -21,19 +21,24 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// <summary>
         /// Initializes a new instance of the <see cref="NewTvShowEpisodes"/> class.
         /// </summary>
-        /// <param name="key">
-        /// The key.
+        /// <param name="id">
+        /// The id.
         /// </param>
-        public NewTvShowEpisodes(string key)
+        public NewTvShowEpisodes(string id)
         {
-            this.Key = key;
+            this.Id = id;
             this.Episodes = new List<Episode.EpisodeSynopsis>();
         }
 
         /// <summary>
-        /// Gets or sets the key.
+        /// Gets or sets the id.
         /// </summary>
-        public string Key { get; set; }
+        public string Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the version of the entity.
+        /// </summary>
+        public int Version { get; set; }
 
         /// <summary>
         /// Gets or sets the television show.
