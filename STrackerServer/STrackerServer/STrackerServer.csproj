@@ -149,7 +149,7 @@
   <ItemGroup>
     <Compile Include="App_Start\BootstrapBundleConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
-    <Compile Include="Attributes\EpisodeCommentAuthorize.cs" />
+    <Compile Include="Attributes\EpisodeCommentAuthorizeAttribute.cs" />
     <Compile Include="Attributes\CachingAttribute.cs" />
     <Compile Include="Attributes\STrackerAuthorizeAttribute.cs" />
     <Compile Include="Attributes\TvShowCommentAuthorizeAttribute.cs" />

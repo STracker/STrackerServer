@@ -341,14 +341,6 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            var user = this.usersOperations.Read(User.Identity.Name);
-
-            if (!comment.User.Id.Equals(User.Identity.Name) && !this.permissionManager.HasPermission(Permissions.Moderator, user.Permission))
-            {
-                Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                return this.View("Error", Response.StatusCode);
-            }
-
             var episode = this.episodesOps.Read(key);
 
             var commentView = new EpisodeComment

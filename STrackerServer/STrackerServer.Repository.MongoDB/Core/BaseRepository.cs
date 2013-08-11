@@ -99,13 +99,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         {
             try
             {
-                var entity = this.HookRead(id);
-                if (Equals(entity, default(T)))
-                {
-                    return default(T);
-                }
-
-                return entity;
+                return this.HookRead(id);
             }
             catch (MongoException exception)
             {

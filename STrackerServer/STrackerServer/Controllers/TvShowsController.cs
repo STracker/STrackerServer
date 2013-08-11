@@ -290,20 +290,12 @@ namespace STrackerServer.Controllers
         [TvShowCommentAuthorize(Permissions = Permissions.Moderator, Owner = true)]
         public ActionResult Comment(string tvshowId, string id)
         {
-            var user = this.usersOperations.Read(User.Identity.Name);
-
             var comments = this.commentsOperations.Read(tvshowId).Comments;
             var comment = comments.Find(com => com.Id.Equals(id));
 
             if (comment == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return this.View("Error", Response.StatusCode);
-            }
-
-            if (!comment.User.Id.Equals(User.Identity.Name) && !this.permissionManager.HasPermission(Permissions.Moderator, user.Permission))
-            {
-                Response.StatusCode = (int)HttpStatusCode.Forbidden;
                 return this.View("Error", Response.StatusCode);
             }
 

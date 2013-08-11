@@ -34,7 +34,7 @@
                             <div style="text-align: right">
                                 @if (Model.IsModerator || User.Identity.IsAuthenticated && comment.User.Id.Equals(User.Identity.Name))
                                 {
-                                    <a href="@Url.Action("Comment", "TvShows", new {tvshowId = Model.TvShowId, id = comment.Id })">Edit</a>
+                                    <a href="@Url.Action("Comment", "EpisodesWeb", new {tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber, id = comment.Id })">Edit</a>
                                 }
                             </div>
                             @comment.Body

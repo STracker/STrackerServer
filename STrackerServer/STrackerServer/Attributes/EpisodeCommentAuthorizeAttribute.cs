@@ -89,8 +89,8 @@ namespace STrackerServer.Attributes
             var key = new Episode.EpisodeId
             {
                 TvShowId = (string)httpContext.Request.RequestContext.RouteData.Values["tvshowId"],
-                SeasonNumber = (int)httpContext.Request.RequestContext.RouteData.Values["seasonNumber"],
-                EpisodeNumber = (int)httpContext.Request.RequestContext.RouteData.Values["episodeNumber"]
+                SeasonNumber = int.Parse((string)httpContext.Request.RequestContext.RouteData.Values["seasonNumber"]),
+                EpisodeNumber = int.Parse((string)httpContext.Request.RequestContext.RouteData.Values["episodeNumber"])
             };
 
             var comments = this.commentsOperations.Read(key);
