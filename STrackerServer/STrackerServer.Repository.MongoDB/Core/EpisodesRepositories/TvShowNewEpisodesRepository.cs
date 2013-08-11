@@ -152,7 +152,7 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         /// </param>
         protected override void HookUpdate(NewTvShowEpisodes entity)
         {
-            // Nothing to do...
+            throw new NotSupportedException("this method currently is not supported.");
         }
 
         /// <summary>

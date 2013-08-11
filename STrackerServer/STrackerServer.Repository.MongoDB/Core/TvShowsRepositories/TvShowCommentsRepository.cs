@@ -121,7 +121,7 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         /// </param>
         protected override void HookUpdate(CommentsTvShow entity)
         {
-            // Nothing to do...
+            throw new NotSupportedException("this method currently is not supported.");
         }
 
         /// <summary>

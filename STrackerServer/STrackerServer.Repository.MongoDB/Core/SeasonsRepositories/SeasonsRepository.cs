@@ -147,7 +147,7 @@ namespace STrackerServer.Repository.MongoDB.Core.SeasonsRepositories
         /// </param>
         protected override void HookUpdate(Season entity)
         {
-            // Nothing to do...
+            throw new NotSupportedException("this method currently is not supported.");
         }
 
         /// <summary>

@@ -239,7 +239,7 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
                 this.genresRepository.RemoveTvShow(genre.Id, tvshow.GetSynopsis());
             }
 
-            // Remove new episodes documents.
+            // Remove new episodes document.
             this.newEpisodesRepository.Delete(id);
 
             // Remove ratings.

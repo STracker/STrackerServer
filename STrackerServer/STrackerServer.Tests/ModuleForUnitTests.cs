@@ -23,10 +23,12 @@ namespace STrackerServer.Tests
     using STrackerServer.BusinessLayer.Operations.SeasonsOperations;
     using STrackerServer.BusinessLayer.Operations.TvShowsOperations;
     using STrackerServer.BusinessLayer.Operations.UsersOperations;
+    using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.Core.EpisodesRepositories;
     using STrackerServer.DataAccessLayer.Core.SeasonsRepositories;
     using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
     using STrackerServer.DataAccessLayer.Core.UsersRepositories;
+    using STrackerServer.Repository.MongoDB.Core;
     using STrackerServer.Repository.MongoDB.Core.EpisodesRepositories;
     using STrackerServer.Repository.MongoDB.Core.SeasonsRepositories;
     using STrackerServer.Repository.MongoDB.Core.TvShowsRepositories;

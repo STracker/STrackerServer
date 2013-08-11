@@ -42,6 +42,9 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         /// </summary>
         private readonly ITvShowNewEpisodesOperations newEpisodesOperations;
 
+        /// <summary>
+        /// The permission manager.
+        /// </summary>
         private readonly IPermissionManager<Permissions, int> permissionManager;
 
         /// <summary>
@@ -59,7 +62,15 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         /// <param name="newEpisodesOperations">
         /// The new Episodes Operations.
         /// </param>
-        public UsersOperations(IUsersRepository repository, ITvShowsOperations tvshowsRepository, IEpisodesOperations episodesOperations, ITvShowNewEpisodesOperations newEpisodesOperations, IPermissionManager<Permissions,int> permissionManager)
+        /// <param name="permissionManager">
+        /// The permission Manager.
+        /// </param>
+        public UsersOperations(
+            IUsersRepository repository,
+            ITvShowsOperations tvshowsRepository,
+            IEpisodesOperations episodesOperations,
+            ITvShowNewEpisodesOperations newEpisodesOperations,
+            IPermissionManager<Permissions, int> permissionManager)
             : base(repository)
         {
             this.tvshowsRepository = tvshowsRepository;

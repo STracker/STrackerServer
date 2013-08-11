@@ -134,7 +134,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </param>
         protected override void HookUpdate(Genre entity)
         {
-            // Nothing to do...
+            throw new NotSupportedException("this method currently is not supported.");
         }
 
         /// <summary>

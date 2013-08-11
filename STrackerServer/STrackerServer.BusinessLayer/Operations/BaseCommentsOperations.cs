@@ -107,7 +107,6 @@ namespace STrackerServer.BusinessLayer.Operations
             }
 
             var comment = this.Repository.Read(id).Comments.Find(c => c.Id.Equals(commentId));
-
             return comment != null && this.Repository.RemoveComment(id, comment);
         }
 

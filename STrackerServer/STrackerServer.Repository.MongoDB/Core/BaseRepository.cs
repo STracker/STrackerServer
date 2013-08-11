@@ -76,12 +76,12 @@ namespace STrackerServer.Repository.MongoDB.Core
             }
             catch (WriteConcernException exception)
             {
-                this.logger.Error("Update", exception.GetType().Name, exception.Message);
+                this.logger.Error("Create", exception.GetType().Name, exception.Message);
                 return false;
             }
             catch (MongoException exception)
             {
-                this.logger.Error("Update", exception.GetType().Name, exception.Message);
+                this.logger.Error("Create", exception.GetType().Name, exception.Message);
                 throw new STrackerDatabaseException(exception.Message, exception);
             }
         }
@@ -105,12 +105,11 @@ namespace STrackerServer.Repository.MongoDB.Core
                     return default(T);
                 }
 
-                entity.Id = id;
                 return entity;
             }
             catch (MongoException exception)
             {
-                this.logger.Error("Update", exception.GetType().Name, exception.Message);
+                this.logger.Error("Create", exception.GetType().Name, exception.Message);
                 throw new STrackerDatabaseException(exception.Message, exception);
             }
         }
@@ -132,6 +131,11 @@ namespace STrackerServer.Repository.MongoDB.Core
                 entity.Version++;
                 this.HookUpdate(entity);
                 return true;
+            }
+            catch (WriteConcernException exception)
+            {
+                this.logger.Error("Update", exception.GetType().Name, exception.Message);
+                return false;
             }
             catch (MongoException exception)
             {
@@ -206,8 +210,10 @@ namespace STrackerServer.Repository.MongoDB.Core
             {
                 collection.FindAndModify(query, SortBy.Null, update);
                 
-                // Call Update for update entity's version number.
-                this.Update(entity);
+                // Update the entity version number.
+                update = Update<T>.Set(e => e.Version, entity.Version + 1);
+                collection.FindAndModify(query, SortBy.Null, update);
+                
                 return true;
             }
             catch (MongoException exception)
