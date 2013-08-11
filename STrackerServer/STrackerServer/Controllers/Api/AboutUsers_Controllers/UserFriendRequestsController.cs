@@ -3,11 +3,11 @@
 //   Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//   The user friend requests controller.
+//   Api controller for user's friend requests.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Controllers.Api
+namespace STrackerServer.Controllers.Api.AboutUsers_Controllers
 {
     using System.Net;
     using System.Net.Http;
@@ -22,7 +22,7 @@ namespace STrackerServer.Controllers.Api
     /// </summary>
     public class UserFriendRequestsController : BaseController
     {
-                /// <summary>
+        /// <summary>
         /// The operations.
         /// </summary>
         private readonly IUsersOperations usersOperations;
@@ -39,7 +39,7 @@ namespace STrackerServer.Controllers.Api
         }
 
         /// <summary>
-        /// The get info.
+        /// Get all user's friend requests.
         /// </summary>
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
@@ -48,36 +48,37 @@ namespace STrackerServer.Controllers.Api
         [HawkAuthorize]
         public HttpResponseMessage Get()
         {
-            return this.BaseGet(this.usersOperations.Read(User.Identity.Name).FriendRequests);
+            return this.BaseGet(this.usersOperations.Read(this.User.Identity.Name).FriendRequests);
         }
 
         /// <summary>
-        /// The post.
+        /// Accept one user friend request.
         /// </summary>
         /// <param name="userId">
-        /// The user Id.
+        /// The user Id that send the request.
         /// </param>
-        /// <param name="response">
-        /// The response.
+        /// <param name="accept">
+        /// The value, reject or accept the request.
         /// </param>
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
         [HttpPost]
         [HawkAuthorize]
-        public HttpResponseMessage Post(string userId, [FromBody] ApiRequestResponse response)
+        public HttpResponseMessage Post(string userId, [FromBody] ApiRequestResponse accept)
         {
-            if (!ModelState.IsValid)
+            // Test if null instead of the use model state, because the Accept field is primitive type.
+            if (accept == null)
             {
                 return this.Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid Body, Missing required fields.");
             }
 
-            if (response.Accept)
+            if (accept.Accept)
             {
-                return this.BasePostDelete(this.usersOperations.AcceptInvite(userId, User.Identity.Name));
+                return this.BasePostDelete(this.usersOperations.AcceptInvite(userId, this.User.Identity.Name));
             }
             
-            return this.BasePostDelete(this.usersOperations.RejectInvite(userId, User.Identity.Name));
+            return this.BasePostDelete(this.usersOperations.RejectInvite(userId, this.User.Identity.Name));
         }
     }
 }

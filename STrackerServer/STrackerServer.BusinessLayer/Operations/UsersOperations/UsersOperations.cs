@@ -454,12 +454,7 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         {
             // Verify date format.
             DateTime temp;
-            if (date != null && !DateTime.TryParse(date, out temp))
-            {
-                return null;
-            }
-
-            if (DateTime.Parse(date) < DateTime.Parse(DateTime.UtcNow.ToString("yyyy-MM-dd")))
+            if (date != null && !DateTime.TryParse(date, out temp) && DateTime.Parse(date) < DateTime.Parse(DateTime.UtcNow.ToString("yyyy-MM-dd")))
             {
                 return null;
             }

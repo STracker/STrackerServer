@@ -1,24 +1,25 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EpisodesWatchedController.cs" company="STracker">
+// <copyright file="UserWatechedEpisodesController.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//   The episodes watched controller.
+//  Api controller for user's watched episodes.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Controllers.Api
+namespace STrackerServer.Controllers.Api.AboutUsers_Controllers
 {
     using System.Net.Http;
     using System.Web.Http;
 
     using STrackerServer.Attributes;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
+    using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
     /// The episodes watched controller.
     /// </summary>
-    public class EpisodesWatchedController : BaseController
+    public class UserWatechedEpisodesController : BaseController
     {
         /// <summary>
         /// The users operations.
@@ -26,18 +27,18 @@ namespace STrackerServer.Controllers.Api
         private readonly IUsersOperations usersOperations;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EpisodesWatchedController"/> class.
+        /// Initializes a new instance of the <see cref="UserWatechedEpisodesController"/> class.
         /// </summary>
         /// <param name="usersOperations">
         /// The users operations.
         /// </param>
-        public EpisodesWatchedController(IUsersOperations usersOperations)
+        public UserWatechedEpisodesController(IUsersOperations usersOperations)
         {
             this.usersOperations = usersOperations;
         }
 
         /// <summary>
-        /// The post.
+        /// Add one episode to user's watched episodes list in user's subscription.
         /// </summary>
         /// <param name="tvshowId">
         /// The television show id.
@@ -55,12 +56,11 @@ namespace STrackerServer.Controllers.Api
         [HawkAuthorize]
         public HttpResponseMessage Post(string tvshowId, int seasonNumber, int episodeNumber)
         {
-            //return this.BasePostDelete(this.usersOperations.AddWatchedEpisode(User.Identity.Name, tvshowId, seasonNumber, episodeNumber));
-            return null;
+            return this.BasePostDelete(this.usersOperations.AddWatchedEpisode(this.User.Identity.Name, new Episode.EpisodeId { TvShowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = episodeNumber }));
         }
 
         /// <summary>
-        /// The delete.
+        /// Add one episode from user's watched episodes list in user's subscription.
         /// </summary>
         /// <param name="tvshowId">
         /// The television show id.
@@ -78,8 +78,7 @@ namespace STrackerServer.Controllers.Api
         [HawkAuthorize]
         public HttpResponseMessage Delete(string tvshowId, int seasonNumber, int episodeNumber)
         {
-            //return this.BasePostDelete(this.usersOperations.RemoveWatchedEpisode(User.Identity.Name, tvshowId, seasonNumber, episodeNumber));
-            return null;
+            return this.BasePostDelete(this.usersOperations.RemoveWatchedEpisode(this.User.Identity.Name, new Episode.EpisodeId { TvShowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = episodeNumber }));
         }
     }
 }

@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Controllers.Api
+namespace STrackerServer.Controllers.Api.AboutTvShows_Controllers
 {
     using System.Net;
     using System.Net.Http;
@@ -24,12 +24,12 @@ namespace STrackerServer.Controllers.Api
     public class TvShowsRatingsController : BaseController
     {
         /// <summary>
-        /// The operations.
+        /// Operations object.
         /// </summary>
         private readonly ITvShowsRatingsOperations operations;
 
         /// <summary>
-        /// The users operations.
+        /// Users operations object.
         /// </summary>
         private readonly IUsersOperations usersOperations;
 
@@ -49,30 +49,10 @@ namespace STrackerServer.Controllers.Api
         }
 
         /// <summary>
-        /// The post.
+        /// Get the rating information about one television show.
         /// </summary>
         /// <param name="id">
-        /// The id.
-        /// </param>
-        /// <param name="rating">
-        /// The rating.
-        /// </param>
-        /// <returns>
-        /// The <see cref="HttpResponseMessage"/>.
-        /// </returns>
-        /// The type rating is string because web api validation don't validate value types.
-        [HttpPost]
-        [HawkAuthorize]
-        public HttpResponseMessage Post(string id, [FromBody] int rating)
-        {
-            return this.BasePostDelete(this.operations.AddRating(id, new Rating { User = this.usersOperations.Read(User.Identity.Name).GetSynopsis(), UserRating = rating }));
-        }
-
-        /// <summary>
-        /// The get.
-        /// </summary>
-        /// <param name="id">
-        /// The id.
+        /// The id of the television show.
         /// </param>
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
@@ -87,6 +67,26 @@ namespace STrackerServer.Controllers.Api
             }
 
             return this.BaseGet(new { Rating = (int)ratings.Average, Total = ratings.Ratings.Count });
+        }
+
+        /// <summary>
+        /// Creates one user rating from one television show.
+        /// </summary>
+        /// <param name="id">
+        /// The id of the television show.
+        /// </param>
+        /// <param name="rating">
+        /// The user's rating.
+        /// </param>
+        /// <returns>
+        /// The <see cref="HttpResponseMessage"/>.
+        /// </returns>
+        /// The type rating is string because web api validation don't validate value types.
+        [HttpPost]
+        [HawkAuthorize]
+        public HttpResponseMessage Post(string id, [FromBody] int rating)
+        {
+            return this.BasePostDelete(this.operations.AddRating(id, new Rating { User = this.usersOperations.Read(this.User.Identity.Name).GetSynopsis(), UserRating = rating }));
         }
     }
 }

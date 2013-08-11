@@ -3,14 +3,12 @@
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  Controller for television shows.
+//  Api Controller for television shows.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Controllers.Api
+namespace STrackerServer.Controllers.Api.AboutTvShows_Controllers
 {
-    using System;
-    using System.Configuration;
     using System.Net.Http;
     using System.Web.Http;
 
@@ -22,12 +20,7 @@ namespace STrackerServer.Controllers.Api
     public class TvShowsController : BaseController
     {
         /// <summary>
-        /// The max top rated television shows.
-        /// </summary>
-        private static readonly int MaxTopRatedTvShows = Convert.ToInt32(ConfigurationManager.AppSettings["MaxTopRatedTvShows"]);
-
-        /// <summary>
-        /// The operations.
+        /// Operations object.
         /// </summary>
         private readonly ITvShowsOperations operations;
 
@@ -43,7 +36,7 @@ namespace STrackerServer.Controllers.Api
         }
 
         /// <summary>
-        /// Get information from the television show with id.
+        /// Get one television show by id.
         /// </summary>
         /// <param name="id">
         /// The id.
@@ -58,31 +51,18 @@ namespace STrackerServer.Controllers.Api
         }
 
         /// <summary>
-        /// Get one television show by name.
+        /// Get one or more television shows by name.
         /// </summary>
         /// <param name="name">
-        /// The name.
+        /// The name for search.
         /// </param>
-        /// <returns>
-        /// The <see>
-        ///       <cref>IEnumerable</cref>
-        ///     </see> .
-        /// </returns>
-        public HttpResponseMessage GetByName(string name)
-        {
-            return this.BaseGet(this.operations.ReadByName(name));
-        }
-
-        /// <summary>
-        /// The get top rated.
-        /// </summary>
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
-        public HttpResponseMessage GetTopRated()
+        [HttpGet]
+        public HttpResponseMessage GetByName(string name)
         {
-            //return this.BaseGet(this.operations.GetTopRated(MaxTopRatedTvShows));
-            return null;
+            return this.BaseGet(this.operations.ReadByName(name));
         }
     }
 }

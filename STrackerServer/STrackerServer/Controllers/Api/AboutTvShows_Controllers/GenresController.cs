@@ -7,9 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Controllers.Api
+namespace STrackerServer.Controllers.Api.AboutTvShows_Controllers
 {
-    using System.Net;
     using System.Net.Http;
     using System.Web.Http;
 
@@ -21,7 +20,7 @@ namespace STrackerServer.Controllers.Api
     public class GenresController : BaseController
     {
         /// <summary>
-        /// The operations.
+        /// Operations object.
         /// </summary>
         private readonly IGenresOperations operations;
 
@@ -37,20 +36,7 @@ namespace STrackerServer.Controllers.Api
         }
 
         /// <summary>
-        /// The get all.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="HttpResponseMessage"/>.
-        /// </returns>
-        [HttpGet]
-        public HttpResponseMessage GetAll()
-        {
-            //return this.BaseGet(this.operations.GetAll());
-            return null;
-        }
-
-        /// <summary>
-        /// The get.
+        /// Get one genre by is name (identifier).
         /// </summary>
         /// <param name="id">
         /// The id.
@@ -61,17 +47,20 @@ namespace STrackerServer.Controllers.Api
         [HttpGet]
         public HttpResponseMessage Get(string id)
         {
-            /*
             var genre = this.operations.Read(id);
+            return this.BaseGet(genre);
+        }
 
-            if (genre == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
-
-            return this.BaseGet(genre.TvshowsSynopsis);
-             */
-            return null;
+        /// <summary>
+        /// Get all the genres available in the STracker.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="HttpResponseMessage"/>.
+        /// </returns>
+        [HttpGet]
+        public HttpResponseMessage Get()
+        {
+            return this.BaseGet(this.operations.ReadAllSynopsis());
         }
     }
 }

@@ -1,10 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ApiAddUserSubscription.cs" company="STracker">
-//  Copyright (c) STracker Developers. All rights reserved.
+// <copyright file="ApiSuggestionRequest.cs" company="STracker">
+//   Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  This object encapsulates the necessary value for add a new 
-//  subscription.
+//   The Api object for suggestions post.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -13,10 +12,16 @@ namespace STrackerServer.Controllers.Api.AuxiliaryObjects
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
-    /// The API add user subscription.
+    /// The API suggestion request.
     /// </summary>
-    public class ApiAddUserSubscription
+    public class ApiSuggestionRequest
     {
+        /// <summary>
+        /// Gets or sets the user id.
+        /// </summary>
+        [Required]
+        public string UserId { get; set; }
+
         /// <summary>
         /// Gets or sets the television show id.
         /// </summary>

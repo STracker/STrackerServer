@@ -63,7 +63,7 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
         {
             // Verify date format.
             DateTime temp;
-            if (date != null && !DateTime.TryParse(date, out temp))
+            if (date != null && !DateTime.TryParse(date, out temp) && (DateTime.Parse(date) < DateTime.Parse(DateTime.UtcNow.ToString("yyyy-MM-dd"))))
             {
                 return null;
             }
@@ -74,7 +74,7 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
                 return ne;
             }
 
-            ne.RemoveAll(e => DateTime.Parse(e.Date) < DateTime.Parse(date));
+            ne.RemoveAll(e => DateTime.Parse(e.Date) > DateTime.Parse(date));
             return ne;
         }
 
@@ -92,12 +92,7 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
         {
             // Verify date format.
             DateTime temp;
-            if (date != null && !DateTime.TryParse(date, out temp))
-            {
-                return null;
-            }
-
-            if (DateTime.Parse(date) < DateTime.Parse(DateTime.UtcNow.ToString("yyyy-MM-dd")))
+            if (date != null && !DateTime.TryParse(date, out temp) && (DateTime.Parse(date) < DateTime.Parse(DateTime.UtcNow.ToString("yyyy-MM-dd"))))
             {
                 return null;
             }
@@ -112,8 +107,11 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
             foreach (var entry in all)
             {
                 var ne = entry;
-                ne.Episodes.RemoveAll(e => DateTime.Parse(e.Date) < DateTime.Parse(date));
-                allEpis.Add(ne);
+                ne.Episodes.RemoveAll(e => DateTime.Parse(e.Date) > DateTime.Parse(date));
+                if (ne.Episodes.Count > 0)
+                {
+                    allEpis.Add(ne);
+                }
             }
 
             return allEpis;

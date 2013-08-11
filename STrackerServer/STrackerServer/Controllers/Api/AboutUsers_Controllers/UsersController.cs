@@ -3,11 +3,11 @@
 //   Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//   Account Api Controller.
+//   Users Api Controller.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Controllers.Api
+namespace STrackerServer.Controllers.Api.AboutUsers_Controllers
 {
     using System.Net;
     using System.Net.Http;
@@ -40,26 +40,26 @@ namespace STrackerServer.Controllers.Api
         }
 
         /// <summary>
-        /// The get info.
+        /// Get one user information.
         /// </summary>
-        /// <param name="userId">
-        /// The user Id.
+        /// <param name="id">
+        /// The user id.
         /// </param>
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
         [HttpGet]
         [HawkAuthorize]
-        public HttpResponseMessage Get(string userId)
+        public HttpResponseMessage Get(string id)
         {
-            return this.BaseGet(this.operations.Read(userId));
+            return this.BaseGet(this.operations.Read(id));
         }
 
         /// <summary>
-        /// The get by name.
+        /// Get users synopsis with the name equals to name in parameters.
         /// </summary>
         /// <param name="name">
-        /// The name.
+        /// The name for search.
         /// </param>
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
@@ -68,15 +68,14 @@ namespace STrackerServer.Controllers.Api
         [HawkAuthorize]
         public HttpResponseMessage GetByName(string name)
         {
-            //return this.BaseGet(this.operations.FindByName(name));
-            return null;
+            return this.BaseGet(this.operations.ReadByName(name));
         }
 
         /// <summary>
-        /// The post.
+        /// Register one user into STracker system.
         /// </summary>
         /// <param name="register">
-        /// The register.
+        /// The register object with all required fields.
         /// </param>
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
@@ -85,19 +84,19 @@ namespace STrackerServer.Controllers.Api
         [HawkAuthorize(CheckId = false)]
         public HttpResponseMessage Post([FromBody] ApiRegister register)
         {
-            if (!ModelState.IsValid)
+            if (register == null || !this.ModelState.IsValid)
             {
                 return this.Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid Body, missing required fields.");
             }
 
-            this.operations.VerifyAndSave(new User(User.Identity.Name)
+            this.operations.VerifyAndSave(new User(this.User.Identity.Name)
             {
                 Name = register.Name, 
                 Email = register.Email, 
                 Photo = register.Photo
             });
 
-            return this.BaseGet(this.operations.Read(User.Identity.Name));
+            return this.BaseGet(this.operations.Read(this.User.Identity.Name));
         }
     }
 }

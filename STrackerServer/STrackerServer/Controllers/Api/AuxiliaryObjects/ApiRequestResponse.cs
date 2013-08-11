@@ -9,8 +9,6 @@
 
 namespace STrackerServer.Controllers.Api.AuxiliaryObjects
 {
-    using System.ComponentModel.DataAnnotations;
-
     /// <summary>
     /// The API request response.
     /// </summary>
@@ -19,7 +17,6 @@ namespace STrackerServer.Controllers.Api.AuxiliaryObjects
         /// <summary>
         /// Gets or sets a value indicating whether accept.
         /// </summary>
-        [Required]
         public bool Accept { get; set; }
     }
 }

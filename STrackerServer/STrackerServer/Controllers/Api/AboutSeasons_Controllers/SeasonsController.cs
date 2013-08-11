@@ -3,17 +3,17 @@
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  Controller for seasons.
+//  Api Controller for seasons.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Controllers.Api
+namespace STrackerServer.Controllers.Api.AboutSeasons_Controllers
 {
-    using System;
     using System.Net.Http;
     using System.Web.Http;
 
     using STrackerServer.BusinessLayer.Core.SeasonsOperations;
+    using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
     /// Seasons API Controller.
@@ -21,7 +21,7 @@ namespace STrackerServer.Controllers.Api
     public class SeasonsController : BaseController
     {
         /// <summary>
-        /// The operations.
+        /// Operations object.
         /// </summary>
         private readonly ISeasonsOperations operations;
 
@@ -37,13 +37,13 @@ namespace STrackerServer.Controllers.Api
         }
 
         /// <summary>
-        /// Get information from the season from one television show.
+        /// Get one season by is number from one television show by is id.
         /// </summary>
         /// <param name="tvshowId">
         /// Television show id.
         /// </param>
         /// <param name="number">
-        /// The number.
+        /// The season number.
         /// </param>
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
@@ -51,25 +51,22 @@ namespace STrackerServer.Controllers.Api
         [HttpGet]
         public HttpResponseMessage Get(string tvshowId, int number)
         {
-            //return this.BaseGet(this.operations.Read(new Tuple<string, int>(tvshowId, number)));
-            return null;
+            return this.BaseGet(this.operations.Read(new Season.SeasonId { TvShowId = tvshowId, SeasonNumber = number }));
         }
 
         /// <summary>
-        /// Get all seasons synopsis from one television show.
+        /// Get all seasons from one television show.
         /// </summary>
         /// <param name="tvshowId">
         /// Television show id.
         /// </param>
         /// <returns>
-        /// The <see>
-        ///       <cref>IEnumerable</cref>
-        ///     </see> .
+        /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
         [HttpGet]
-        public HttpResponseMessage GetAll(string tvshowId)
+        public HttpResponseMessage Get(string tvshowId)
         {
             return this.BaseGet(this.operations.GetAllFromOneTvShow(tvshowId));
-        }   
+        }
     }
 }

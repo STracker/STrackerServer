@@ -1,15 +1,14 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EpisodesCommentsController.cs" company="STracker">
+// <copyright file="EpisodesRatingsController.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  Api Controller for episodes comments.
+//  Api Controller for episodes ratings.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Controllers.Api
+namespace STrackerServer.Controllers.Api.AboutEpisodes_Controllers
 {
-    using System;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
@@ -17,17 +16,18 @@ namespace STrackerServer.Controllers.Api
     using STrackerServer.Attributes;
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
+    using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
 
     /// <summary>
-    /// The episodes comments controller.
+    /// The episodes ratings controller.
     /// </summary>
-    public class EpisodesCommentsController : BaseController
+    public class EpisodesRatingsController : BaseController
     {
         /// <summary>
         /// The operations.
         /// </summary>
-        private readonly IEpisodesCommentsOperations operations;
+        private readonly IEpisodesRatingsOperations operations;
 
         /// <summary>
         /// The users operations.
@@ -35,7 +35,7 @@ namespace STrackerServer.Controllers.Api
         private readonly IUsersOperations usersOperations;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EpisodesCommentsController"/> class.
+        /// Initializes a new instance of the <see cref="EpisodesRatingsController"/> class.
         /// </summary>
         /// <param name="operations">
         /// The operations.
@@ -43,14 +43,14 @@ namespace STrackerServer.Controllers.Api
         /// <param name="usersOperations">
         /// The users Operations.
         /// </param>
-        public EpisodesCommentsController(IEpisodesCommentsOperations operations, IUsersOperations usersOperations)
+        public EpisodesRatingsController(IEpisodesRatingsOperations operations, IUsersOperations usersOperations)
         {
             this.operations = operations;
             this.usersOperations = usersOperations;
         }
 
         /// <summary>
-        /// The get.
+        /// Get the average rating from one episode.
         /// </summary>
         /// <param name="tvshowId">
         /// The television show id.
@@ -67,20 +67,17 @@ namespace STrackerServer.Controllers.Api
         [HttpGet]
         public HttpResponseMessage Get(string tvshowId, int seasonNumber, int number)
         {
-            /*
-            var comments = this.operations.GetComments(new Tuple<string, int, int>(tvshowId, seasonNumber, number));
-            if (comments == null)
+            var ratings = this.operations.Read(new Episode.EpisodeId { TvShowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = number });
+            if (ratings == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            return this.BaseGet(comments.Comments);
-             * */
-            return null;
+            return this.BaseGet(new { Rating = (int)ratings.Average, Total = ratings.Ratings.Count });
         }
 
         /// <summary>
-        /// The post.
+        /// Create one user's rating to episode.
         /// </summary>
         /// <param name="tvshowId">
         /// The television show id.
@@ -91,53 +88,18 @@ namespace STrackerServer.Controllers.Api
         /// <param name="number">
         /// The number.
         /// </param>
-        /// <param name="comment">
-        /// The comment.
+        /// <param name="rating">
+        /// The rating.
         /// </param>
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
+        /// The type rating is string because web api validation don't validate value types.
         [HttpPost]
         [HawkAuthorize]
-        public HttpResponseMessage Post(string tvshowId, int seasonNumber, int number, [FromBody] string comment)
+        public HttpResponseMessage Post(string tvshowId, int seasonNumber, int number, [FromBody] int rating)
         {
-            /*
-            if (comment == null || comment.Equals(string.Empty))
-            {
-                return this.BasePostDelete(false);
-            }
-
-            var user = this.usersOperations.Read(User.Identity.Name);
-
-            return this.BasePostDelete(this.operations.AddComment(new Tuple<string, int, int>(tvshowId, seasonNumber, number), new Comment { Body = comment, User = user.GetSynopsis() }));
-            */
-            return null;
-        }
-
-        /// <summary>
-        /// The delete.
-        /// </summary>
-        /// <param name="tvshowId">
-        /// The television show id.
-        /// </param>
-        /// <param name="seasonNumber">
-        /// The season number.
-        /// </param>
-        /// <param name="number">
-        /// The number.
-        /// </param>
-        /// <param name="commentId">
-        /// The comment id.
-        /// </param>
-        /// <returns>
-        /// The <see cref="HttpResponseMessage"/>.
-        /// </returns>
-        [HttpDelete]
-        [HawkAuthorize]
-        public HttpResponseMessage Delete(string tvshowId, int seasonNumber, int number, string commentId)
-        {
-            //return this.BasePostDelete(this.operations.RemoveComment(new Tuple<string, int, int>(tvshowId, seasonNumber, number), User.Identity.Name, commentId));
-            return null;
+            return this.BasePostDelete(this.operations.AddRating(new Episode.EpisodeId { TvShowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = number }, new Rating { User = this.usersOperations.Read(this.User.Identity.Name).GetSynopsis(), UserRating = rating }));
         }
     }
 }

@@ -1,15 +1,14 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="UserFriendsController.cs" company="STracker">
-//   Copyright (c) STracker Developers. All rights reserved.
+// <copyright file="UserSubscriptionsController.cs" company="STracker">
+//  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//   Defines the UserFriendsController type.
+//  Api controller for user's subscriptions.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Controllers.Api
+namespace STrackerServer.Controllers.Api.AboutUsers_Controllers
 {
-    using System.Net;
     using System.Net.Http;
     using System.Web.Http;
 
@@ -17,28 +16,28 @@ namespace STrackerServer.Controllers.Api
     using STrackerServer.BusinessLayer.Core.UsersOperations;
 
     /// <summary>
-    /// The user friends controller.
+    /// The television show subscription controller.
     /// </summary>
-    public class UserFriendsController : BaseController
+    public class UserSubscriptionsController : BaseController
     {
         /// <summary>
-        /// The operations.
+        /// The users operations.
         /// </summary>
         private readonly IUsersOperations usersOperations;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserFriendsController"/> class. 
+        /// Initializes a new instance of the <see cref="UserSubscriptionsController"/> class.
         /// </summary>
         /// <param name="usersOperations">
         /// The users operations.
         /// </param>
-        public UserFriendsController(IUsersOperations usersOperations)
+        public UserSubscriptionsController(IUsersOperations usersOperations)
         {
             this.usersOperations = usersOperations;
         }
 
         /// <summary>
-        /// The get info.
+        /// Get all user's subscriptions.
         /// </summary>
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
@@ -47,46 +46,44 @@ namespace STrackerServer.Controllers.Api
         [HawkAuthorize]
         public HttpResponseMessage Get()
         {
-            return this.BaseGet(this.usersOperations.Read(User.Identity.Name).Friends);
+            return this.BaseGet(this.usersOperations.Read(this.User.Identity.Name).Subscriptions);
         }
 
         /// <summary>
-        /// The post.
+        /// Create one subscription to user's subscriptions list.
         /// </summary>
-        /// <param name="userId">
-        /// The user Id.
+        /// <param name="tvshowId">
+        /// The television show id to add to subscriptions list.
         /// </param>
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
         [HttpPost]
         [HawkAuthorize]
-        public HttpResponseMessage Post([FromBody] string userId)
+        public HttpResponseMessage Post([FromBody] string tvshowId)
         {
-            /*
-            if (userId == null)
+            if (tvshowId == null)
             {
-                return this.Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid Body, Missing required fields.");
+                return this.BasePostDelete(false);
             }
 
-            return this.BasePostDelete(this.usersOperations.Invite(User.Identity.Name, userId));*/
-            return null;
+            return this.BasePostDelete(this.usersOperations.AddSubscription(this.User.Identity.Name, tvshowId));
         }
 
         /// <summary>
-        /// The delete.
+        /// Remove one subscription from user's subscriptions list.
         /// </summary>
-        /// <param name="userId">
-        /// The user id.
+        /// <param name="tvshowId">
+        /// The television show id for remove.
         /// </param>
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
         [HttpDelete]
         [HawkAuthorize]
-        public HttpResponseMessage Delete(string userId)
+        public HttpResponseMessage Delete(string tvshowId)
         {
-            return this.BasePostDelete(this.usersOperations.RemoveFriend(User.Identity.Name, userId));
+            return this.BasePostDelete(this.usersOperations.RemoveSubscription(this.User.Identity.Name, tvshowId));
         }
     }
 }

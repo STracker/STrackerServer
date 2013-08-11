@@ -3,20 +3,20 @@
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//  Controller for episodes.
+//  Api controller for episodes.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Controllers.Api
+namespace STrackerServer.Controllers.Api.AboutEpisodes_Controllers
 {
-    using System;
     using System.Net.Http;
     using System.Web.Http;
 
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
+    using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
-    /// Episodes API controller.
+    /// Episodes controller.
     /// </summary>
     public class EpisodesController : BaseController
     {
@@ -54,8 +54,7 @@ namespace STrackerServer.Controllers.Api
         [HttpGet]
         public HttpResponseMessage Get(string tvshowId, int seasonNumber, int number)
         {
-            //return this.BaseGet(this.operations.Read(new Tuple<string, int, int>(tvshowId, seasonNumber, number)));
-            return null;
+            return this.BaseGet(this.operations.Read(new Episode.EpisodeId { TvShowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = number }));
         }
 
         /// <summary>
@@ -73,8 +72,7 @@ namespace STrackerServer.Controllers.Api
         [HttpGet]
         public HttpResponseMessage GetAll(string tvshowId, int seasonNumber)
         {
-            //return this.BaseGet(this.operations.GetAllFromOneSeason(tvshowId, seasonNumber));
-            return null;
+            return this.BaseGet(this.operations.GetAllFromOneSeason(new Season.SeasonId { TvShowId = tvshowId, SeasonNumber = seasonNumber }));
         }
     }
 }

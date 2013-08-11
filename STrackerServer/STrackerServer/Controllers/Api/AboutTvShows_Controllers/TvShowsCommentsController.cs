@@ -7,9 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Controllers.Api
+namespace STrackerServer.Controllers.Api.AboutTvShows_Controllers
 {
-    using System.Net;
     using System.Net.Http;
     using System.Web.Http;
 
@@ -24,12 +23,12 @@ namespace STrackerServer.Controllers.Api
     public class TvShowsCommentsController : BaseController
     {
         /// <summary>
-        /// The operations.
+        /// Operations object.
         /// </summary>
         private readonly ITvShowsCommentsOperations operations;
 
         /// <summary>
-        /// The users operations.
+        /// Users operations object.
         /// </summary>
         private readonly IUsersOperations usersOperations;
 
@@ -49,10 +48,10 @@ namespace STrackerServer.Controllers.Api
         }
 
         /// <summary>
-        /// The get.
+        /// Get all comments from one television show.
         /// </summary>
         /// <param name="id">
-        /// The id.
+        /// The id of the television show.
         /// </param>
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
@@ -60,25 +59,18 @@ namespace STrackerServer.Controllers.Api
         [HttpGet]
         public HttpResponseMessage Get(string id)
         {
-            /*
-            var comments = this.operations.GetComments(id);
-            if (comments == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
-
-            return this.BaseGet(comments.Comments);*/
-            return null;
+            var comments = this.operations.Read(id);
+            return this.BaseGet(comments);
         }
 
         /// <summary>
-        /// The post.
+        /// Create one comment for the television show.
         /// </summary>
         /// <param name="id">
-        /// The id.
+        /// The id of the television show.
         /// </param>
         /// <param name="comment">
-        /// The comment.
+        /// The user's comment.
         /// </param>
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
@@ -92,16 +84,15 @@ namespace STrackerServer.Controllers.Api
                 return this.BasePostDelete(false);
             }
 
-            var user = this.usersOperations.Read(User.Identity.Name);
-
+            var user = this.usersOperations.Read(this.User.Identity.Name);
             return this.BasePostDelete(this.operations.AddComment(id, new Comment { Body = comment, User = user.GetSynopsis() }));
         }
 
         /// <summary>
-        /// The delete.
+        /// Deletes one comment from television show.
         /// </summary>
         /// <param name="id">
-        /// The id.
+        /// The id of the television show.
         /// </param>
         /// <param name="commentId">
         /// The comment Id.
@@ -113,7 +104,7 @@ namespace STrackerServer.Controllers.Api
         [HawkAuthorize]
         public HttpResponseMessage Delete(string id, string commentId)
         {
-            return this.BasePostDelete(this.operations.RemoveComment(id, User.Identity.Name, commentId));
+            return this.BasePostDelete(this.operations.RemoveComment(id, this.User.Identity.Name, commentId));
         }
     }
 }

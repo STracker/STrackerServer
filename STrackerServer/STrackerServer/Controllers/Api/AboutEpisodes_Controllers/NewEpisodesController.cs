@@ -3,16 +3,15 @@
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//   The new episodes controller.
+//  Api controller for new episodes.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Controllers.Api
+namespace STrackerServer.Controllers.Api.AboutEpisodes_Controllers
 {
     using System.Net.Http;
     using System.Web.Http;
 
-    using STrackerServer.Attributes;
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
 
     /// <summary>
@@ -21,37 +20,24 @@ namespace STrackerServer.Controllers.Api
     public class NewEpisodesController : BaseController
     {
         /// <summary>
-        /// The episodes operations.
+        /// The new episodes operations.
         /// </summary>
-        //private readonly INewEpisodesOperations newEpisodesOperations;
+        private readonly ITvShowNewEpisodesOperations operations;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NewEpisodesController"/> class.
         /// </summary>
-        /// <param name="newEpisodesOperations">
-        /// The new Episodes Operations.
+        /// <param name="operations">
+        /// The operations.
         /// </param>
-        public NewEpisodesController()//INewEpisodesOperations newEpisodesOperations)
+        public NewEpisodesController(ITvShowNewEpisodesOperations operations)
         {
-        //    this.newEpisodesOperations = newEpisodesOperations;
+            this.operations = operations;
         }
 
         /// <summary>
-        /// Get the new episodes from user's subscribed television show.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="HttpResponseMessage"/>.
-        /// </returns>
-        [HttpGet]
-        [HawkAuthorize]
-        public HttpResponseMessage Get()
-        {
-            //return this.BaseGet(this.newEpisodesOperations.GetUserNewEpisodes(User.Identity.Name));
-            return null;
-        }
-
-        /// <summary>
-        /// The get newest episodes.
+        /// Get new episodes from one television show until date passed in parameters,
+        /// if the date in parameters is null, return all episodes.
         /// </summary>
         /// <param name="tvshowId">
         /// The television show id.
@@ -65,8 +51,7 @@ namespace STrackerServer.Controllers.Api
         [HttpGet]
         public HttpResponseMessage Get(string tvshowId, string date)
         {
-            //return this.BaseGet(this.newEpisodesOperations.GetNewEpisodes(tvshowId, date));
-            return null;
+            return this.BaseGet(this.operations.GetNewEpisodes(tvshowId, date));
         }
     }
 }
