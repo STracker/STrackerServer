@@ -69,7 +69,7 @@ namespace STrackerServer.App_Start
             config.Routes.MapHttpRoute("api_user_subscriptions", "api/user/subscriptions/{tvshowId}", new { controller = "usersubscriptions", tvshowId = RouteParameter.Optional });
 
             // Routes for user watched episodes.
-            config.Routes.MapHttpRoute("api_user_watechedepisodes", "api/user/subscriptions/{tvshowId}/", new { controller = "usersuggestions", tvshowId = RouteParameter.Optional });
+            //config.Routes.MapHttpRoute("api_user_watechedepisodes", "api/user/subscriptions/{tvshowId}/", new { controller = "usersuggestions", tvshowId = RouteParameter.Optional });
 
             // Routes for user watched episodes from the suggestions.
             config.Routes.MapHttpRoute("api_user_suggestions", "api/user/suggestions/{tvshowId}/watechedepisodes/{seasonNumber}/{episodeNumber}", new { controller = "userwatechedepisodes" });
