@@ -9,7 +9,6 @@
 
 namespace STrackerServer.Controllers.Api.AboutEpisodes_Controllers
 {
-    using System.Net;
     using System.Net.Http;
     using System.Web.Http;
 
@@ -65,15 +64,10 @@ namespace STrackerServer.Controllers.Api.AboutEpisodes_Controllers
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
         [HttpGet]
+        [Caching]
         public HttpResponseMessage Get(string tvshowId, int seasonNumber, int number)
         {
-            var comments = this.operations.Read(new Episode.EpisodeId { TvShowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = number });
-            if (comments == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
-
-            return this.BaseGet(comments.Comments);
+            return this.BaseGetForEntities(this.operations.Read(new Episode.EpisodeId { TvShowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = number }));
         }
 
         /// <summary>

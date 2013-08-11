@@ -12,6 +12,7 @@ namespace STrackerServer.Controllers.Api.AboutEpisodes_Controllers
     using System.Net.Http;
     using System.Web.Http;
 
+    using STrackerServer.Attributes;
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
 
     /// <summary>
@@ -49,9 +50,10 @@ namespace STrackerServer.Controllers.Api.AboutEpisodes_Controllers
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
         [HttpGet]
+        [Caching]
         public HttpResponseMessage Get(string tvshowId, string date)
         {
-            return this.BaseGet(this.operations.GetNewEpisodes(tvshowId, date));
+            return this.BaseGetForEntities(this.operations.GetNewEpisodes(tvshowId, date));
         }
     }
 }

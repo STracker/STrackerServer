@@ -469,7 +469,7 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
             foreach (var subscription in user.Subscriptions)
             {
                 var episodes = this.newEpisodesOperations.GetNewEpisodes(subscription.TvShow.Id, date);
-                foreach (var episode in episodes)
+                foreach (var episode in episodes.Episodes)
                 {
                     var day = calendar.FirstOrDefault(c => c.Date.Equals(episode.Date));
                     if (day != null)

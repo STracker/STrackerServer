@@ -57,9 +57,9 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
         /// The date.
         /// </param>
         /// <returns>
-        /// The <see cref="ICollection{T}"/>.
+        /// The <see cref="NewTvShowEpisodes"/>.
         /// </returns>
-        public ICollection<Episode.EpisodeSynopsis> GetNewEpisodes(string tvshowId, string date)
+        public NewTvShowEpisodes GetNewEpisodes(string tvshowId, string date)
         {
             // Verify date format.
             DateTime temp;
@@ -68,13 +68,13 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
                 return null;
             }
 
-            var ne = this.Repository.Read(tvshowId).Episodes;
+            var ne = this.Repository.Read(tvshowId);
             if (date == null)
             {
                 return ne;
             }
 
-            ne.RemoveAll(e => DateTime.Parse(e.Date) > DateTime.Parse(date));
+            ne.Episodes.RemoveAll(e => DateTime.Parse(e.Date) > DateTime.Parse(date));
             return ne;
         }
 

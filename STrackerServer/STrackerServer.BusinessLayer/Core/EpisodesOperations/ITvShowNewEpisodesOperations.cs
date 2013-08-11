@@ -29,9 +29,9 @@ namespace STrackerServer.BusinessLayer.Core.EpisodesOperations
         /// The date.
         /// </param>
         /// <returns>
-        /// The <see cref="ICollection"/>.
+        /// The <see cref="NewTvShowEpisodes"/>.
         /// </returns>
-        ICollection<Episode.EpisodeSynopsis> GetNewEpisodes(string tvshowId, string date);
+        NewTvShowEpisodes GetNewEpisodes(string tvshowId, string date);
 
         /// <summary>
         /// Get new episodes from all television shows.

@@ -9,10 +9,12 @@
 
 namespace STrackerServer.Controllers.Api
 {
-    using System.Diagnostics.CodeAnalysis;
     using System.Net;
     using System.Net.Http;
+    using System.Net.Http.Headers;
     using System.Web.Http;
+
+    using STrackerServer.DataAccessLayer.Core;
 
     /// <summary>
     /// Base controller.
@@ -31,7 +33,6 @@ namespace STrackerServer.Controllers.Api
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
-        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         protected HttpResponseMessage BaseGet<TT>(TT obj)
         {
             if (Equals(obj, default(TT)))
@@ -40,6 +41,32 @@ namespace STrackerServer.Controllers.Api
             }
 
             return this.Request.CreateResponse(HttpStatusCode.OK, obj);
+        }
+
+        /// <summary>
+        /// Auxiliary methods for Get operations over entities domains objects.
+        /// Sets the HTTP ETag header value for caching proposes in Clients.
+        /// </summary>
+        /// <param name="entity">
+        /// The entity.
+        /// </param>
+        /// <typeparam name="T">
+        /// The type of the entity id.
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="HttpResponseMessage"/>.
+        /// </returns>
+        protected HttpResponseMessage BaseGetForEntities<T>(IEntity<T> entity)
+        {
+            if (Equals(entity, default(IEntity<T>)))
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+            
+            // Create response and set ETag header value.
+            var response = this.Request.CreateResponse(HttpStatusCode.OK, entity);
+            response.Headers.ETag = new EntityTagHeaderValue(string.Format("\"{0}\"", entity.Version));
+            return response;
         }
 
         /// <summary>
