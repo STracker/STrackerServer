@@ -80,9 +80,9 @@
             <div class="box">
                 <b> Seasons:</b>
                 
-                @foreach (var season in this.Model.SeasonSynopses)
+                @foreach (var season in Model.SeasonSynopses)
                 {
-                    <a class="season" data-api="@Url.HttpRouteUrl("api_seasons", new { tvshowId = season.Id.TvShowId, number = season.Id.SeasonNumber})" href="@Url.Action("Index", "Seasons", new { tvshowId = season.Id.TvShowId, seasonNumber = season.Id.SeasonNumber })">@season.Id.SeasonNumber</a><b> | </b>
+                    <a href="@Url.Action("Index", "Seasons", new { tvshowId = season.Id.TvShowId, seasonNumber = season.Id.SeasonNumber })">@season.Id.SeasonNumber</a><b> | </b>
                 }
             </div>
             <div id="display-season" class="box hide">

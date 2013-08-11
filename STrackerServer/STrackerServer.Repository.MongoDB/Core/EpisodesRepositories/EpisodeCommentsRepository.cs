@@ -109,7 +109,7 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         /// </returns>
         protected override CommentsEpisode HookRead(Episode.EpisodeId id)
         {
-            var collection = this.Database.GetCollection(string.Format("{0}-{1}", id, CollectionPrefix));
+            var collection = this.Database.GetCollection(string.Format("{0}-{1}", id.TvShowId, CollectionPrefix));
             return collection.FindOneByIdAs<CommentsEpisode>(id.ToBsonDocument());
         }
 

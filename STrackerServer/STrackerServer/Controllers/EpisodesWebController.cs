@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using STrackerServer.Attributes;
+
 namespace STrackerServer.Controllers
 {
     using System;
@@ -318,7 +320,7 @@ namespace STrackerServer.Controllers
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpGet]
-        [Authorize]
+        [EpisodeCommentAuthorize(Permissions = Permissions.Moderator, Owner = true)]
         public ActionResult Comment(string tvshowId, int seasonNumber, int episodeNumber, string id)
         {
             var key = new Episode.EpisodeId { TvShowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = episodeNumber };
@@ -373,7 +375,7 @@ namespace STrackerServer.Controllers
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpPost]
-        [Authorize]
+        [EpisodeCommentAuthorize(Permissions = Permissions.Moderator, Owner = true)]
         public ActionResult RemoveComment(EpisodeRemoveComment remove)
         {
             var key = new Episode.EpisodeId { TvShowId = remove.TvShowId, SeasonNumber = remove.SeasonNumber, EpisodeNumber = remove.EpisodeNumber };

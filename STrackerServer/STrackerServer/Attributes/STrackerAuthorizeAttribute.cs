@@ -47,7 +47,7 @@ namespace STrackerServer.Attributes
         /// <summary>
         /// Gets or sets the permission.
         /// </summary>
-        public Permissions Permissions { get; set; }
+        public Permissions Permission { get; set; }
 
         /// <summary>
         /// The authorize core.
@@ -61,7 +61,7 @@ namespace STrackerServer.Attributes
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             var user = this.usersOperations.Read(httpContext.User.Identity.Name);
-            return base.AuthorizeCore(httpContext) && this.manager.HasPermission(this.Permissions, user.Permission);
+            return base.AuthorizeCore(httpContext) && this.manager.HasPermission(this.Permission, user.Permission);
         }
     }
 }

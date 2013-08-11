@@ -177,7 +177,7 @@ namespace STrackerServer.Controllers
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpGet]
-        [STrackerAuthorize(Permissions = Permissions.Admin)]
+        [STrackerAuthorize(Permission = Permissions.Admin)]
         public ActionResult Permission(string id)
         {
             var user = this.usersOperations.Read(id);
@@ -215,7 +215,7 @@ namespace STrackerServer.Controllers
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpPost]
-        [STrackerAuthorize(Permissions = Permissions.Admin)]
+        [STrackerAuthorize(Permission = Permissions.Admin)]
         public ActionResult Permission(SetPermissionView values)
         {
             var user = this.usersOperations.Read(values.Id);

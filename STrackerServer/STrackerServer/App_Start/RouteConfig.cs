@@ -63,7 +63,6 @@ namespace STrackerServer.App_Start
 
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-
             routes.MapRoute("SeasonWeb_Show", "TvShows/{tvshowId}/Seasons/{seasonNumber}", new { controller = "Seasons", action = "Index" });
 
             routes.MapRoute("TvShows_Names", "TvShows/Names", new { controller = "TvShows", action = "GetNames" });

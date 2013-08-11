@@ -14,6 +14,7 @@ namespace STrackerServer.Controllers
     using System.Web.Mvc;
 
     using STrackerServer.Action_Results;
+    using STrackerServer.Attributes;
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
@@ -286,7 +287,7 @@ namespace STrackerServer.Controllers
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpGet]
-        [Authorize]
+        [TvShowCommentAuthorize(Permissions = Permissions.Moderator, Owner = true)]
         public ActionResult Comment(string tvshowId, string id)
         {
             var user = this.usersOperations.Read(User.Identity.Name);
@@ -330,7 +331,7 @@ namespace STrackerServer.Controllers
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpPost]
-        [Authorize]
+        [TvShowCommentAuthorize(Permissions = Permissions.Moderator, Owner = true)]
         public ActionResult RemoveComment(TvShowRemoveComment removeView)
         {
             if (!ModelState.IsValid || !this.commentsOperations.RemoveComment(removeView.TvShowId, User.Identity.Name, removeView.Id))
