@@ -57,10 +57,10 @@ namespace STrackerServer.Controllers.Api.AboutTvShows_Controllers
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
         [HttpGet]
+        [Caching]
         public HttpResponseMessage Get(string id)
         {
-            var comments = this.operations.Read(id);
-            return this.BaseGet(comments);
+            return this.BaseGetForEntities(this.operations.Read(id));
         }
 
         /// <summary>

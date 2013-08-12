@@ -127,7 +127,7 @@ namespace STrackerServer.Controllers
                 Poster = tvshow.Poster,
                 UserRating = userRating != null ? userRating.UserRating : -1,
                 RatingsCount = ratings.Ratings.Count,
-                NewEpisodes = this.tvshowNewEpisodesOperations.GetNewEpisodes(tvshow.Id, null)
+                NewEpisodes = this.tvshowNewEpisodesOperations.GetNewEpisodes(tvshow.Id, null).Episodes
             };
 
             return this.View(model);

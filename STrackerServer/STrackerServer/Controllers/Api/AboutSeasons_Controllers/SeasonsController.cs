@@ -12,6 +12,7 @@ namespace STrackerServer.Controllers.Api.AboutSeasons_Controllers
     using System.Net.Http;
     using System.Web.Http;
 
+    using STrackerServer.Attributes;
     using STrackerServer.BusinessLayer.Core.SeasonsOperations;
     using STrackerServer.DataAccessLayer.DomainEntities;
 
@@ -49,9 +50,10 @@ namespace STrackerServer.Controllers.Api.AboutSeasons_Controllers
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
         [HttpGet]
+        [Caching]
         public HttpResponseMessage Get(string tvshowId, int number)
         {
-            return this.BaseGet(this.operations.Read(new Season.SeasonId { TvShowId = tvshowId, SeasonNumber = number }));
+            return this.BaseGetForEntities(this.operations.Read(new Season.SeasonId { TvShowId = tvshowId, SeasonNumber = number }));
         }
 
         /// <summary>

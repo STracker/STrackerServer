@@ -50,9 +50,10 @@ namespace STrackerServer.Controllers.Api.AboutUsers_Controllers
         /// </returns>
         [HttpGet]
         [HawkAuthorize]
+        [Caching]
         public HttpResponseMessage Get(string id)
         {
-            return this.BaseGet(this.operations.Read(id));
+            return this.BaseGetForEntities(this.operations.Read(id));
         }
 
         /// <summary>

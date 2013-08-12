@@ -12,6 +12,7 @@ namespace STrackerServer.Controllers.Api.AboutTvShows_Controllers
     using System.Net.Http;
     using System.Web.Http;
 
+    using STrackerServer.Attributes;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
 
     /// <summary>
@@ -45,10 +46,10 @@ namespace STrackerServer.Controllers.Api.AboutTvShows_Controllers
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
         [HttpGet]
+        [Caching]
         public HttpResponseMessage Get(string id)
         {
-            var genre = this.operations.Read(id);
-            return this.BaseGet(genre);
+            return this.BaseGetForEntities(this.operations.Read(id));
         }
 
         /// <summary>
