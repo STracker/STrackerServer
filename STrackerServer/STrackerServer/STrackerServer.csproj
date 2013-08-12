@@ -279,7 +279,7 @@
     <Content Include="Views\TvShows\Index.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Users\Index.cshtml" />
-    <Content Include="Views\EpisodesWeb\Show.cshtml" />
+    <Content Include="Views\EpisodesWeb\Index.cshtml" />
     <Content Include="Views\TvShows\Comments.cshtml" />
     <Content Include="Views\TvShows\Comment.cshtml" />
     <Content Include="Views\TvShows\CreateComment.cshtml" />

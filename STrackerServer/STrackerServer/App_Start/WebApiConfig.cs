@@ -22,9 +22,6 @@ namespace STrackerServer.App_Start
         /// </param>
         public static void Register(HttpConfiguration config)
         {
-            // Default route.
-            config.Routes.MapHttpRoute("api_default", "api/{controller}/{id}", new { id = RouteParameter.Optional });
-
             /*
               * Custom routes.
               * These routes are explicitly defined to have an overview of all available routes in Api.
@@ -79,6 +76,9 @@ namespace STrackerServer.App_Start
 
             // Routes for system
             // config.Routes.MapHttpRoute("api_system_time", "api/system/time", new { controller = "system", action = "GetTime" });
+
+            // Default route.
+            config.Routes.MapHttpRoute("api_default", "api/{controller}/{id}", new { id = RouteParameter.Optional });
         }
     }
 }

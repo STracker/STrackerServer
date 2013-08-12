@@ -21,7 +21,7 @@
                     {
                         using (Html.BeginForm("Watched", "EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber }))
                         {
-                            @Html.Hidden("RedirectUrl", Url.Action("Show","EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber }))
+                            @Html.Hidden("RedirectUrl", Url.Action("Index","EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber }))
                             @Html.Hidden("Watched", !Model.Watched)  
                 
                             if(Model.Watched)
@@ -50,7 +50,7 @@
             else
             {
                 <p>
-                    <a class="btn btn-block btn-success" href="@Url.Action("Login", "Account", new { returnUrl = Url.Action("Show", "EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber })})">Check</a>
+                    <a class="btn btn-block btn-success" href="@Url.Action("Login", "Account", new { returnUrl = Url.Action("Index", "EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber })})">Check</a>
                 </p> 
             }
 

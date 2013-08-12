@@ -51,7 +51,7 @@
                                         <td>
                                             @episode.Id.EpisodeNumber
                                             <span> - </span>
-                                            <a href="@Url.Action("Show","EpisodesWeb", new { tvshowId = episode.Id.TvShowId, seasonNumber = episode.Id.SeasonNumber, episodeNumber = episode.Id.EpisodeNumber })">
+                                            <a href="@Url.Action("Index","EpisodesWeb", new { tvshowId = episode.Id.TvShowId, seasonNumber = episode.Id.SeasonNumber, episodeNumber = episode.Id.EpisodeNumber })">
                                                 @episode.Name
                                             </a>
                                         </td>

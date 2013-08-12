@@ -133,7 +133,7 @@
                     {
                         <dl>              
                             <dt>@episode.Date</dt>
-                            <dd><a href="@Url.Action("Show","EpisodesWeb", new { tvshowId = episode.Id.TvShowId, seasonNumber = episode.Id.SeasonNumber, episodeNumber = episode.Id.EpisodeNumber })">@episode.Name</a></dd>           
+                            <dd><a href="@Url.Action("Index","EpisodesWeb", new { tvshowId = episode.Id.TvShowId, seasonNumber = episode.Id.SeasonNumber, episodeNumber = episode.Id.EpisodeNumber })">@episode.Name</a></dd>           
                         </dl>       
                     }
                 </div>

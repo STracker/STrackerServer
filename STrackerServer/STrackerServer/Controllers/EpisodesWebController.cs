@@ -108,7 +108,7 @@ namespace STrackerServer.Controllers
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpGet]
-        public ActionResult Show(string tvshowId, int seasonNumber, int episodeNumber)
+        public ActionResult Index(string tvshowId, int seasonNumber, int episodeNumber)
         {
             var key = new Episode.EpisodeId { TvShowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = episodeNumber };
 
@@ -457,7 +457,7 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            return new SeeOtherResult { Url = Url.Action("Show", new { tvshowId = rating.TvShowId, seasonNumber = rating.SeasonNumber, episodeNumber = rating.EpisodeNumber }) };
+            return new SeeOtherResult { Url = Url.Action("Index", new { tvshowId = rating.TvShowId, seasonNumber = rating.SeasonNumber, episodeNumber = rating.EpisodeNumber }) };
         }
 
         /// <summary>
@@ -491,7 +491,7 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            return new SeeOtherResult { Url = Url.Action("Show", "EpisodesWeb", new { tvshowId = values.TvShowId, seasonNumber = values.SeasonNumber, episodeNumber = values.EpisodeNumber }) };
+            return new SeeOtherResult { Url = Url.Action("Index", "EpisodesWeb", new { tvshowId = values.TvShowId, seasonNumber = values.SeasonNumber, episodeNumber = values.EpisodeNumber }) };
         }
     }
 }

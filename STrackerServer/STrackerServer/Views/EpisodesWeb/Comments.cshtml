@@ -13,7 +13,7 @@
             <div class="extra-padding"></div> 
 
             <p>
-                <a class="btn btn-block btn-primary" href="@Url.Action("Show","EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber })">Season: @Model.SeasonNumber Episode: @Model.EpisodeNumber</a>
+                <a class="btn btn-block btn-primary" href="@Url.Action("Index","EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber })">Season: @Model.SeasonNumber Episode: @Model.EpisodeNumber</a>
             </p> 
             <p>
                 <a id="create-comment" class="btn btn-block btn-primary" href="@Url.Action("CreateComment","EpisodesWeb", new { tvshowId = Model.TvShowId })">Create Comment</a>

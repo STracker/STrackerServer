@@ -26,7 +26,7 @@ namespace STrackerServer.App_Start
             routes.MapRoute(
                 "EpisodeWeb_Show",
                 "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}",
-                new { controller = "EpisodesWeb", action = "Show" });
+                new { controller = "EpisodesWeb", action = "Index" });
 
             routes.MapRoute(
                 "EpisodeWeb_Comments",
