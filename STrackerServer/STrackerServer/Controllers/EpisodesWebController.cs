@@ -7,8 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using STrackerServer.Attributes;
-
 namespace STrackerServer.Controllers
 {
     using System;
@@ -18,6 +16,7 @@ namespace STrackerServer.Controllers
     using System.Web.Mvc;
 
     using STrackerServer.Action_Results;
+    using STrackerServer.Attributes;
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
@@ -93,7 +92,7 @@ namespace STrackerServer.Controllers
         }
 
         /// <summary>
-        /// The show.
+        /// The episode main view.
         /// </summary>
         /// <param name="tvshowId">
         /// The television show id.
@@ -175,7 +174,7 @@ namespace STrackerServer.Controllers
         }
 
         /// <summary>
-        /// The comments.
+        /// The comments of the episode.
         /// </summary>
         /// <param name="tvshowId">
         /// The television show id.
@@ -302,7 +301,7 @@ namespace STrackerServer.Controllers
         }
 
         /// <summary>
-        /// The comment.
+        /// Episode comment.
         /// </summary>
         /// <param name="tvshowId">
         /// The television show id.

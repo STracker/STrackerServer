@@ -15,8 +15,8 @@ namespace STrackerServer.Attributes
 
     using Ninject;
 
-    using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
+    using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.BusinessLayer.Permissions;
     using STrackerServer.NinjectDependencies;
 
@@ -42,7 +42,7 @@ namespace STrackerServer.Attributes
         private readonly ITvShowsCommentsOperations commentsOperations;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="STrackerAuthorizeAttribute"/> class.
+        /// Initializes a new instance of the <see cref="TvShowCommentAuthorizeAttribute"/> class. 
         /// </summary>
         public TvShowCommentAuthorizeAttribute()
         {
@@ -59,7 +59,7 @@ namespace STrackerServer.Attributes
         public Permissions Permissions { get; set; }
 
         /// <summary>
-        /// Gets or sets the value that indicates that the user 
+        /// Gets or sets a value indicating whether that the user 
         /// can have the permissions or be owner of the resource.
         /// </summary>
         public bool Owner { get; set; }
@@ -102,7 +102,7 @@ namespace STrackerServer.Attributes
 
             var isOwner = comment.User.Id.Equals(httpContext.User.Identity.Name);
 
-            return this.Owner && isOwner || this.manager.HasPermission(this.Permissions, user.Permission);
+            return (this.Owner && isOwner) || this.manager.HasPermission(this.Permissions, user.Permission);
         }
     }
 }

@@ -8,8 +8,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using STrackerServer.DataAccessLayer.DomainEntities;
-
 namespace STrackerServer.Attributes
 {
     using System.Web;
@@ -17,9 +15,10 @@ namespace STrackerServer.Attributes
 
     using Ninject;
 
+    using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.BusinessLayer.Permissions;
-    using STrackerServer.BusinessLayer.Core.EpisodesOperations;
+    using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.NinjectDependencies;
 
     /// <summary>
@@ -44,7 +43,7 @@ namespace STrackerServer.Attributes
         private readonly IEpisodesCommentsOperations commentsOperations;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="STrackerAuthorizeAttribute"/> class.
+        /// Initializes a new instance of the <see cref="EpisodeCommentAuthorizeAttribute"/> class. 
         /// </summary>
         public EpisodeCommentAuthorizeAttribute()
         {
@@ -61,7 +60,7 @@ namespace STrackerServer.Attributes
         public Permissions Permissions { get; set; }
 
         /// <summary>
-        /// Gets or sets the value that indicates that the user 
+        /// Gets or sets a value indicating whether that the user 
         /// can have the permissions or be owner of the resource.
         /// </summary>
         public bool Owner { get; set; }
@@ -111,7 +110,7 @@ namespace STrackerServer.Attributes
 
             var isOwner = comment.User.Id.Equals(httpContext.User.Identity.Name);
 
-            return this.Owner && isOwner || this.manager.HasPermission(this.Permissions, user.Permission);
+            return (this.Owner && isOwner) || this.manager.HasPermission(this.Permissions, user.Permission);
         }
     }
 }
