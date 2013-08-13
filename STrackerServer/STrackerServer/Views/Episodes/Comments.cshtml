@@ -13,15 +13,15 @@
             <div class="extra-padding"></div> 
 
             <p>
-                <a class="btn btn-block btn-primary" href="@Url.Action("Index","EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber })">Season: @Model.SeasonNumber Episode: @Model.EpisodeNumber</a>
+                <a class="btn btn-block btn-primary" href="@Url.Action("Index","Episodes", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber })">Season: @Model.SeasonNumber Episode: @Model.EpisodeNumber</a>
             </p> 
             <p>
-                <a id="create-comment" class="btn btn-block btn-primary" href="@Url.Action("CreateComment","EpisodesWeb", new { tvshowId = Model.TvShowId })">Create Comment</a>
+                <a id="create-comment" class="btn btn-block btn-primary" href="@Url.Action("CreateComment","Episodes", new { tvshowId = Model.TvShowId })">Create Comment</a>
             </p>   
         </div> 
         <div class="span6">
             <div class="box">
-                <h2>Comments</h2>
+                <h2 class="center">Comments</h2>
             </div>
             
             @if(Model.Comments.Count != 0)
@@ -34,7 +34,7 @@
                             <div style="text-align: right">
                                 @if (Model.IsModerator || User.Identity.IsAuthenticated && comment.User.Id.Equals(User.Identity.Name))
                                 {
-                                    <a href="@Url.Action("Comment", "EpisodesWeb", new {tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber, id = comment.Id })">Edit</a>
+                                    <a href="@Url.Action("Comment", "Episodes", new {tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber, id = comment.Id })">Edit</a>
                                 }
                             </div>
                             @comment.Body

@@ -13,13 +13,13 @@
             <div class="extra-padding"></div> 
 
             <p>
-                <a class="btn btn-block btn-primary" href="@Url.Action("Index","EpisodesWeb", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber })">Season: @Model.SeasonNumber Episode: @Model.EpisodeNumber</a>
+                <a class="btn btn-block btn-primary" href="@Url.Action("Index","Episodes", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber })">Season: @Model.SeasonNumber Episode: @Model.EpisodeNumber</a>
             </p> 
         </div> 
         <div class="span6">
             <div class="box">
                 <div class="alert-error">@Html.ValidationSummary()</div>
-                @using (Html.BeginForm("Rate", "EpisodesWeb"))
+                @using (Html.BeginForm("Rate", "Episodes"))
                 {
                     @Html.HiddenFor(rating => rating.TvShowId)
                     @Html.HiddenFor(rating => rating.SeasonNumber)

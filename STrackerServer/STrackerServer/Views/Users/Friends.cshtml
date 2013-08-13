@@ -14,10 +14,6 @@
                        <img class="img-rounded" src="@Model.PictureUrl" alt="No Artwork"/> 
                     </a>
                 </div> 
-                <br/>
-                <div style="text-align: center">
-                    <a href="@Url.Action("Index","Users", new { id = Model.Id })">@Model.Name</a>
-                </div>
                 <div class="extra-padding"></div>
                 <a class="btn btn-block btn-primary" href="@Url.Action("Friends","Users", new { id = Model.Id })">Friends</a>
             </div>

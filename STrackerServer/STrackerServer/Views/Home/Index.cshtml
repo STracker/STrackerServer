@@ -10,24 +10,22 @@
         <div class="span9">
                 @if(Model.TopRated.Count != 0)
                 {
+                    for (var i = 0; i < Math.Ceiling(Model.TopRated.Count / (double)4); i++)
                     {
-                        for (var i = 0; i < Math.Ceiling(Model.TopRated.Count / (double)4); i++)
-                        {
-                            <div class="row-fluid">
-                                @for (var index = 4 * i; (index < (4 * (i + 1))) && index < Model.TopRated.Count; index++)
-                                {
-                                    <div class="span3" style="text-align: center">
-                                        <div class="box-whiter">
-                                            <div class="row-fluid">
-                                                <a href="@Url.Action("Index", "TvShows", new { id = @Model.TopRated.ElementAt(index).Id })">
-                                                    <img src="@Model.TopRated.ElementAt(index).Poster" alt="No Image"/>
-                                                </a>
-                                            </div>
+                        <div class="row-fluid">
+                            @for (var index = 4 * i; (index < (4 * (i + 1))) && index < Model.TopRated.Count; index++)
+                            {
+                                <div class="span3" style="text-align: center">
+                                    <div class="box-whiter">
+                                        <div class="row-fluid">
+                                            <a href="@Url.Action("Index", "TvShows", new { id = @Model.TopRated.ElementAt(index).Id })">
+                                                <img src="@Model.TopRated.ElementAt(index).Poster" alt="No Image"/>
+                                            </a>
                                         </div>
                                     </div>
-                                }     
-                            </div>
-                        }
+                                </div>
+                            }     
+                        </div>   
                     }
                 }   
         </div>
@@ -54,7 +52,12 @@
                                             @foreach(var episode in obj.Episodes)
                                             {
                                                 <dt>@episode.Date</dt>
-                                                <dd><a href="@episode.Uri">@episode.Name</a></dd>
+                                                <dd>
+                                                    <span>S</span>@episode.Id.SeasonNumber
+                                                    <span>E</span>@episode.Id.EpisodeNumber
+                                                    <span> - </span>
+                                                    <a href="@episode.Uri">@episode.Name</a>
+                                                </dd>
                                             } 
                                         </dl>
                                                                          </div>

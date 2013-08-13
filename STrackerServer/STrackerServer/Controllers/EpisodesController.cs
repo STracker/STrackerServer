@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EpisodesWebController.cs" company="STracker">
+// <copyright file="EpisodesController.cs" company="STracker">
 //   Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
@@ -28,7 +28,7 @@ namespace STrackerServer.Controllers
     /// <summary>
     /// The episodes web controller.
     /// </summary>
-    public class EpisodesWebController : ControllerExtensions
+    public class EpisodesController : ControllerExtensions
     {
         /// <summary>
         /// The episodes operations.
@@ -61,7 +61,7 @@ namespace STrackerServer.Controllers
         private readonly IPermissionManager<Permissions, int> permissionManager;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EpisodesWebController"/> class.
+        /// Initializes a new instance of the <see cref="EpisodesController"/> class.
         /// </summary>
         /// <param name="episodesOps">
         /// The episodes ops.
@@ -81,7 +81,7 @@ namespace STrackerServer.Controllers
         /// <param name="permissionManager">
         /// The permission manager.
         /// </param>
-        public EpisodesWebController(IEpisodesOperations episodesOps, ITvShowsOperations tvshowsOps, IEpisodesCommentsOperations commentsOperations, IEpisodesRatingsOperations ratingsOperations, IUsersOperations usersOperations, IPermissionManager<Permissions, int> permissionManager)
+        public EpisodesController(IEpisodesOperations episodesOps, ITvShowsOperations tvshowsOps, IEpisodesCommentsOperations commentsOperations, IEpisodesRatingsOperations ratingsOperations, IUsersOperations usersOperations, IPermissionManager<Permissions, int> permissionManager)
         {
             this.episodesOps = episodesOps;
             this.tvshowsOps = tvshowsOps;
@@ -297,7 +297,7 @@ namespace STrackerServer.Controllers
             // TODO Problemas
             this.commentsOperations.AddComment(key, comment);
        
-            return new SeeOtherResult { Url = Url.Action("Comments", "EpisodesWeb", new { tvshowId = create.TvShowId, seasonNumber = create.SeasonNumber, episodeNumber = create.EpisodeNumber }) };
+            return new SeeOtherResult { Url = Url.Action("Comments", "Episodes", new { tvshowId = create.TvShowId, seasonNumber = create.SeasonNumber, episodeNumber = create.EpisodeNumber }) };
         }
 
         /// <summary>
@@ -319,7 +319,8 @@ namespace STrackerServer.Controllers
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpGet]
-        [EpisodeCommentAuthorize(Permissions = Permissions.Moderator, Owner = true)]
+        [Authorize]
+        [EpisodeCommentPermissionValidation(Permissions = Permissions.Moderator, Owner = true)]
         public ActionResult Comment(string tvshowId, int seasonNumber, int episodeNumber, string id)
         {
             var key = new Episode.EpisodeId { TvShowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = episodeNumber };
@@ -366,7 +367,8 @@ namespace STrackerServer.Controllers
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpPost]
-        [EpisodeCommentAuthorize(Permissions = Permissions.Moderator, Owner = true)]
+        [Authorize]
+        [EpisodeCommentPermissionValidation(Permissions = Permissions.Moderator, Owner = true)]
         public ActionResult RemoveComment(EpisodeRemoveComment remove)
         {
             var key = new Episode.EpisodeId { TvShowId = remove.TvShowId, SeasonNumber = remove.SeasonNumber, EpisodeNumber = remove.EpisodeNumber };
@@ -376,7 +378,7 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            return new SeeOtherResult { Url = Url.Action("Comments", "EpisodesWeb", new { tvshowId = remove.TvShowId, seasonNumber = remove.SeasonNumber, episodeNumber = remove.EpisodeNumber }) };
+            return new SeeOtherResult { Url = Url.Action("Comments", "Episodes", new { tvshowId = remove.TvShowId, seasonNumber = remove.SeasonNumber, episodeNumber = remove.EpisodeNumber }) };
         }
 
         /// <summary>
@@ -456,7 +458,7 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            return new SeeOtherResult { Url = Url.Action("Index", new { tvshowId = rating.TvShowId, seasonNumber = rating.SeasonNumber, episodeNumber = rating.EpisodeNumber }) };
+            return new SeeOtherResult { Url = Url.Action("Index", "Episodes", new { tvshowId = rating.TvShowId, seasonNumber = rating.SeasonNumber, episodeNumber = rating.EpisodeNumber }) };
         }
 
         /// <summary>
@@ -490,7 +492,7 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            return new SeeOtherResult { Url = Url.Action("Index", "EpisodesWeb", new { tvshowId = values.TvShowId, seasonNumber = values.SeasonNumber, episodeNumber = values.EpisodeNumber }) };
+            return new SeeOtherResult { Url = Url.Action("Index", "Episodes", new { tvshowId = values.TvShowId, seasonNumber = values.SeasonNumber, episodeNumber = values.EpisodeNumber }) };
         }
     }
 }

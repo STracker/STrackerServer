@@ -54,9 +54,8 @@
             <div class="box blue-border">
                 <h2 style="text-align: center">Next Episodes</h2>
             </div>
-            @{
-                /*
-                if(Model.NewEpisodes.Count != 0)
+            
+            @if(Model.NewEpisodes.Count != 0)
             {
                 <div class="box blue-border">
                     <div class="accordion" id="accordion">
@@ -64,23 +63,35 @@
                         {
                         <div class="accordion-group">
                             <div class="accordion-heading">
-                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#@obj.TvShow.Id">
-                                    @obj.TvShow.Name
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#@obj.Date">
+                                    @obj.Date
                                 </a>
                             </div>
-                            <div id="@obj.TvShow.Id" class="accordion-body collapse">
+                            <div id="@obj.Date" class="accordion-body collapse">
                                 <div class="accordion-inner">
-                                     @foreach(var episode in obj.Episodes)
-                                     {
-                                         <p>S<span>@episode.SeasonNumber</span>E<span>@episode.EpisodeNumber</span> <a href="@episode.Uri">@episode.Name</a> - @episode.Date</p>
-                                     }  
+                                    
+                                    @foreach(var entrie in obj.Entries)
+                                    {
+                                        <dl>
+                                            <dt>@entrie.TvShow.Name</dt>
+                                            @foreach (var episode in entrie.Episodes)
+                                            {
+                                                
+                                                <dd>
+                                                    <span>S</span>@episode.Id.SeasonNumber
+                                                    <span>E</span>@episode.Id.EpisodeNumber
+                                                    <span> - </span>
+                                                    <a href="@episode.Uri">@episode.Name</a>
+                                                </dd>
+                                            } 
+                                        </dl>
+                                    }  
                                 </div>
                             </div>     
                         </div>        
                         }
                     </div>
                 </div>
-            }*/
             }
             
         </div>

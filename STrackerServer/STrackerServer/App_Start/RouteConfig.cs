@@ -26,41 +26,39 @@ namespace STrackerServer.App_Start
             routes.MapRoute(
                 "EpisodeWeb_Show",
                 "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}",
-                new { controller = "EpisodesWeb", action = "Index" });
+                new { controller = "Episodes", action = "Index" });
 
             routes.MapRoute(
                 "EpisodeWeb_Comments",
                 "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}/Comments",
-                new { controller = "EpisodesWeb", action = "Comments" });
+                new { controller = "Episodes", action = "Comments" });
 
             routes.MapRoute(
                 "EpisodeWeb_Rate",
                 "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}/Rate",
-                new { controller = "EpisodesWeb", action = "Rate" });
-
-            routes.MapRoute(
-                "EpisodeWeb_Watched",
-                "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}/Watched",
-                new { controller = "EpisodesWeb", action = "Watched" });
+                new { controller = "Episodes", action = "Rate" });
 
             routes.MapRoute(
                 "EpisodeWeb_Create_Comment",
                 "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}/Comments/Create",
-                new { controller = "EpisodesWeb", action = "CreateComment" });
+                new { controller = "Episodes", action = "CreateComment" });
 
             routes.MapRoute(
                 "EpisodeWeb_Comment",
                 "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}/Comments/{id}",
-                new { controller = "EpisodesWeb", action = "Comment" });
+                new { controller = "Episodes", action = "Comment" });
 
             routes.MapRoute(
                 "EpisodeWeb_Comment_Remove",
                 "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}/Comments/{id}/Remove",
-                new { controller = "EpisodesWeb", action = "RemoveComment" });
+                new { controller = "Episodes", action = "RemoveComment" });
 
+            routes.MapRoute(
+                "Episodes_Default",
+                "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}/{action}",
+                new { controller = "Episodes" });
 
             // Defaults
-
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute("SeasonWeb_Show", "TvShows/{tvshowId}/Seasons/{seasonNumber}", new { controller = "Seasons", action = "Index" });

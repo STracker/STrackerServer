@@ -32,8 +32,6 @@
                            @sub.TvShow.Name 
                         </a>
                     </h3> 
-                    <br/>
-                    
                     @foreach(var season in sub.EpisodesWatched.Keys.OrderBy(i => i))
                     {           
                         <div class="box-whiter">
@@ -42,16 +40,14 @@
                                     Season @season
                                 </a>
                             </h4> 
-                            <br/>
                             <table class="table table-condensed">
                                 @foreach(var episode in sub.EpisodesWatched[season].OrderBy(synopsis => synopsis.Id.EpisodeNumber))
                                 {
                                     <tr>
                                         
                                         <td>
-                                            @episode.Id.EpisodeNumber
-                                            <span> - </span>
-                                            <a href="@Url.Action("Index","EpisodesWeb", new { tvshowId = episode.Id.TvShowId, seasonNumber = episode.Id.SeasonNumber, episodeNumber = episode.Id.EpisodeNumber })">
+                                            Episode @episode.Id.EpisodeNumber -
+                                            <a href="@Url.Action("Index","Episodes", new { tvshowId = episode.Id.TvShowId, seasonNumber = episode.Id.SeasonNumber, episodeNumber = episode.Id.EpisodeNumber })">
                                                 @episode.Name
                                             </a>
                                         </td>

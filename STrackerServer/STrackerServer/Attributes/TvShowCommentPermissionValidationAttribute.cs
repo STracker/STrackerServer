@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TvShowCommentAuthorizeAttribute.cs" company="STracker">
+// <copyright file="TvShowCommentPermissionValidationAttribute.cs" company="STracker">
 //   Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
@@ -10,7 +10,7 @@
 
 namespace STrackerServer.Attributes
 {
-    using System.Web;
+    using System.Net;
     using System.Web.Mvc;
 
     using Ninject;
@@ -24,7 +24,7 @@ namespace STrackerServer.Attributes
     /// The comment authorize attribute, verifies if the user is has the permissions
     /// or is the owner of the comment.
     /// </summary>
-    public class TvShowCommentAuthorizeAttribute : AuthorizeAttribute
+    public class TvShowCommentPermissionValidationAttribute : ActionFilterAttribute
     {
         /// <summary>
         /// The manager.
@@ -42,9 +42,9 @@ namespace STrackerServer.Attributes
         private readonly ITvShowsCommentsOperations commentsOperations;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TvShowCommentAuthorizeAttribute"/> class. 
+        /// Initializes a new instance of the <see cref="TvShowCommentPermissionValidationAttribute"/> class. 
         /// </summary>
-        public TvShowCommentAuthorizeAttribute()
+        public TvShowCommentPermissionValidationAttribute()
         {
             IKernel kernel = new StandardKernel(new ModuleForSTracker());
             
@@ -65,31 +65,24 @@ namespace STrackerServer.Attributes
         public bool Owner { get; set; }
 
         /// <summary>
-        /// Verifies if the user is has the permissions
-        /// or is the owner of the comment.
+        /// Action executing.
         /// </summary>
-        /// <param name="httpContext">
-        /// The http context.
+        /// <param name="filterContext">
+        /// The filter context.
         /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        protected override bool AuthorizeCore(HttpContextBase httpContext)
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if (!base.AuthorizeCore(httpContext))
-            {
-                return false;
-            }
+            base.OnActionExecuting(filterContext);
 
-            var user = this.usersOperations.Read(httpContext.User.Identity.Name);
-            var id = httpContext.Request.RequestContext.RouteData.Values["id"];
+            var user = this.usersOperations.Read(filterContext.HttpContext.User.Identity.Name);
+            var id = filterContext.HttpContext.Request.RequestContext.RouteData.Values["id"];
 
-            var comments = this.commentsOperations.Read((string)httpContext.Request.RequestContext.RouteData.Values["tvshowId"]);
+            var comments = this.commentsOperations.Read((string)filterContext.HttpContext.Request.RequestContext.RouteData.Values["tvshowId"]);
 
             // Ignore and let the action responde correctly.
             if (comments == null)
             {
-                return true;
+                return;
             }
 
             var comment = comments.Comments.Find(com => com.Id.Equals(id));
@@ -97,12 +90,22 @@ namespace STrackerServer.Attributes
             // Ignore and let the action responde correctly.
             if (comment == null)
             {
-                return true;
+                return;
             }
 
-            var isOwner = comment.User.Id.Equals(httpContext.User.Identity.Name);
+            var isOwner = comment.User.Id.Equals(filterContext.HttpContext.User.Identity.Name);
 
-            return (this.Owner && isOwner) || this.manager.HasPermission(this.Permissions, user.Permission);
+            if ((this.Owner && isOwner) || this.manager.HasPermission(this.Permissions, user.Permission))
+            {
+                return;
+            }
+
+            filterContext.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+            filterContext.Result = new ViewResult
+            {
+                ViewName = @"~/Views/Shared/Error.cshtml",
+                ViewData = new ViewDataDictionary((int)HttpStatusCode.Forbidden)
+            };
         }
     }
 }

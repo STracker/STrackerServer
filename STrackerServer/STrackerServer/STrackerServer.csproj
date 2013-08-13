@@ -149,10 +149,10 @@
   <ItemGroup>
     <Compile Include="App_Start\BootstrapBundleConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
-    <Compile Include="Attributes\EpisodeCommentAuthorizeAttribute.cs" />
+    <Compile Include="Attributes\EpisodeCommentPermissionValidationAttribute.cs" />
     <Compile Include="Attributes\CachingAttribute.cs" />
     <Compile Include="Attributes\STrackerAuthorizeAttribute.cs" />
-    <Compile Include="Attributes\TvShowCommentAuthorizeAttribute.cs" />
+    <Compile Include="Attributes\TvShowCommentPermissionValidationAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Api\AboutTvShows_Controllers\TopRatedTvShowsController.cs" />
     <Compile Include="Controllers\Api\AboutUsers_Controllers\UserCalendarController.cs" />
@@ -175,7 +175,7 @@
     <Compile Include="Controllers\Api\AboutEpisodes_Controllers\EpisodesCommentsController.cs" />
     <Compile Include="Controllers\Api\AboutUsers_Controllers\UserSuggestionsController.cs" />
     <Compile Include="Controllers\ControllerExtensions.cs" />
-    <Compile Include="Controllers\EpisodesWebController.cs" />
+    <Compile Include="Controllers\EpisodesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Api\AboutSeasons_Controllers\SeasonsController.cs" />
     <Compile Include="Controllers\SeasonsController.cs" />
@@ -261,7 +261,7 @@
     <Content Include="Scripts\jquery-2.0.2.min.js" />
     <Content Include="Scripts\STracker\CreateCommentModal.js" />
     <Content Include="Scripts\STracker\OtherSimilarTvShows.js" />
-    <Content Include="Scripts\STracker\TvShowHideCast.js" />
+    <Content Include="Scripts\STracker\SuggestResponse.js" />
     <Content Include="Scripts\STracker\Typeahead.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -279,17 +279,17 @@
     <Content Include="Views\TvShows\Index.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Users\Index.cshtml" />
-    <Content Include="Views\EpisodesWeb\Index.cshtml" />
+    <Content Include="Views\Episodes\Index.cshtml" />
     <Content Include="Views\TvShows\Comments.cshtml" />
     <Content Include="Views\TvShows\Comment.cshtml" />
     <Content Include="Views\TvShows\CreateComment.cshtml" />
     <Content Include="Views\TvShows\Suggest.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\TvShows\Rate.cshtml" />
-    <Content Include="Views\EpisodesWeb\Comments.cshtml" />
-    <Content Include="Views\EpisodesWeb\CreateComment.cshtml" />
-    <Content Include="Views\EpisodesWeb\Comment.cshtml" />
-    <Content Include="Views\EpisodesWeb\Rate.cshtml" />
+    <Content Include="Views\Episodes\Comments.cshtml" />
+    <Content Include="Views\Episodes\CreateComment.cshtml" />
+    <Content Include="Views\Episodes\Comment.cshtml" />
+    <Content Include="Views\Episodes\Rate.cshtml" />
     <Content Include="Views\TvShows\GetByName.cshtml" />
     <Content Include="Views\Users\Search.cshtml" />
     <Content Include="Views\Home\Api.cshtml" />

@@ -287,7 +287,8 @@ namespace STrackerServer.Controllers
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpGet]
-        [TvShowCommentAuthorize(Permissions = Permissions.Moderator, Owner = true)]
+        [Authorize]
+        [TvShowCommentPermissionValidation(Permissions = Permissions.Moderator, Owner = true)]
         public ActionResult Comment(string tvshowId, string id)
         {
             var comments = this.commentsOperations.Read(tvshowId).Comments;
@@ -323,7 +324,8 @@ namespace STrackerServer.Controllers
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpPost]
-        [TvShowCommentAuthorize(Permissions = Permissions.Moderator, Owner = true)]
+        [Authorize]
+        [TvShowCommentPermissionValidation(Permissions = Permissions.Moderator, Owner = true)]
         public ActionResult RemoveComment(TvShowRemoveComment removeView)
         {
             if (!ModelState.IsValid || !this.commentsOperations.RemoveComment(removeView.TvShowId, User.Identity.Name, removeView.Id))

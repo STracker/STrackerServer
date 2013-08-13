@@ -79,7 +79,7 @@ namespace STrackerServer.Controllers
                 PictureUrl = user.Photo,
                 SubscriptionList = user.Subscriptions,
                 IsAdmin = this.permissionManager.HasPermission(Permissions.Admin, user.Permission),
-                NewEpisodes = this.usersOperations.GetUserNewEpisodes(User.Identity.Name, null)
+                NewEpisodes = this.usersOperations.GetUserNewEpisodes(User.Identity.Name, null).OrderBy(calendar => calendar.Date).ToList()
             });
         }
 

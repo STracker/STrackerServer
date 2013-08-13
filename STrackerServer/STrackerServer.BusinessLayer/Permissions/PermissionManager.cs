@@ -28,9 +28,9 @@ namespace STrackerServer.BusinessLayer.Permissions
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public bool HasPermission(Permissions permissions, int currentPermission)
+        public bool HasPermission(Permissions permission, int currentPermission)
         {
-            return this.GetPermission(currentPermission) >= permissions;
+            return this.GetPermission(currentPermission) >= permission;
         }
 
         /// <summary>
