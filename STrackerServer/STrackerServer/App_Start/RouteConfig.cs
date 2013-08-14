@@ -22,6 +22,8 @@ namespace STrackerServer.App_Start
         /// </param>
         public static void RegisterRoutes(RouteCollection routes)
         {
+            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
             // Episode Routes
             routes.MapRoute(
                 "Episode_Show",
@@ -48,10 +50,9 @@ namespace STrackerServer.App_Start
                 "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}/{action}",
                 new { controller = "Episodes" });
 
-            // Defaults
-            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.MapRoute("Genre_Search_Similar", "Genres/Search", new { controller = "Genres", action = "GetSimilar" });
 
-            routes.MapRoute("SeasonWeb_Show", "TvShows/{tvshowId}/Seasons/{seasonNumber}", new { controller = "Seasons", action = "Index" });
+            routes.MapRoute("Season_Index", "TvShows/{tvshowId}/Seasons/{seasonNumber}", new { controller = "Seasons", action = "Index" });
 
             routes.MapRoute("TvShows_Names", "TvShows/Names", new { controller = "TvShows", action = "GetNames" });
             routes.MapRoute("TvShows_Create_Comments", "TvShows/{tvshowId}/Comments/Create", new { controller = "TvShows", action = "CreateComment" });

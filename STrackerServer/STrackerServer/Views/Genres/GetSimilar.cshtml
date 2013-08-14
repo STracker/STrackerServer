@@ -1,9 +1,9 @@
 ﻿@model STrackerServer.Models.Genre.SimilarTvShowsView
 
-@for (var i = 0; i < Math.Ceiling(Model.TvShows.Count / (double)6); i++)
+@for (var i = 0; i < Math.Ceiling(Model.TvShows.Count / (double)2); i++)
 {
     <div class="row-fluid">
-        @for (var index = 6 * i; (index < (6 * (i + 1))) && index < Model.TvShows.Count; index++)
+        @for (var index = 2 * i; (index < (2 * (i + 1))) && index < Model.TvShows.Count; index++)
         {
             <div class="span2" style="text-align: center">
                 <div class="box-whiter blue-border">
