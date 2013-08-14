@@ -28,7 +28,7 @@ namespace STrackerServer.DataAccessLayer.Core.UsersRepositories
         /// <returns>
         /// The <see cref="ICollection"/>.
         /// </returns>
-        ICollection<User> ReadByName(string name);
+        ICollection<User.UserSynopsis> ReadByName(string name);
 
         /// <summary>
         /// Add one subscription to user's subscription list.

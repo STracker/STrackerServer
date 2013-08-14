@@ -16,6 +16,7 @@ namespace STrackerServer.Controllers.Api.AboutTvShows_Controllers
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.Comments;
 
     /// <summary>
     /// The television shows comments controller.
@@ -60,7 +61,7 @@ namespace STrackerServer.Controllers.Api.AboutTvShows_Controllers
         [Caching]
         public HttpResponseMessage Get(string id)
         {
-            return this.BaseGetForEntities(this.operations.Read(id));
+            return this.BaseGetForEntities<CommentsTvShow, string>(this.operations.Read(id));
         }
 
         /// <summary>

@@ -7,12 +7,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
+namespace STrackerServer.BusinessLayer.Operations
 {
     using System.Collections.Generic;
-    using System.Linq;
 
-    using STrackerServer.BusinessLayer.Core.TvShowsOperations;
+    using STrackerServer.BusinessLayer.Core;
     using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.DomainEntities;
 
@@ -54,8 +53,7 @@ namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
         /// </returns>
         public ICollection<Genre.GenreSynopsis> ReadAllSynopsis()
         {
-            var list = Repository.ReadAll();
-            return list.Select(genre => genre.GetSynopsis()).ToList();
+            return this.Repository.ReadAllSynopsis();
         }
     }
 }

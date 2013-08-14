@@ -14,6 +14,7 @@ namespace STrackerServer.Controllers.Api.AboutEpisodes_Controllers
 
     using STrackerServer.Attributes;
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
+    using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
     /// The new episodes controller.
@@ -53,7 +54,7 @@ namespace STrackerServer.Controllers.Api.AboutEpisodes_Controllers
         [Caching]
         public HttpResponseMessage Get(string tvshowId, string date)
         {
-            return this.BaseGetForEntities(this.operations.GetNewEpisodes(tvshowId, date));
+            return this.BaseGetForEntities<NewTvShowEpisodes, string>(this.operations.GetNewEpisodes(tvshowId, date));
         }
     }
 }

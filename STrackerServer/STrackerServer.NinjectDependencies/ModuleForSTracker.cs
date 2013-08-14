@@ -19,10 +19,12 @@ namespace STrackerServer.NinjectDependencies
 
     using STrackerBackgroundWorker.RabbitMQ;
 
+    using STrackerServer.BusinessLayer.Core;
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.BusinessLayer.Core.SeasonsOperations;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
+    using STrackerServer.BusinessLayer.Operations;
     using STrackerServer.BusinessLayer.Operations.EpisodesOperations;
     using STrackerServer.BusinessLayer.Operations.SeasonsOperations;
     using STrackerServer.BusinessLayer.Operations.TvShowsOperations;

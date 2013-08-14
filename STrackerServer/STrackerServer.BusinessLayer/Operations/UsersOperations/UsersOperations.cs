@@ -126,7 +126,7 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         /// <returns>
         /// The <see cref="ICollection{T}"/>.
         /// </returns>
-        public ICollection<User> ReadByName(string name, Range range = null)
+        public ICollection<User.UserSynopsis> ReadByName(string name, Range range = null)
         {
             return this.Repository.ReadByName(name).ApplyRange(range);
         }

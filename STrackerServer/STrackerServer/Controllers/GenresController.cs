@@ -12,6 +12,7 @@ namespace STrackerServer.Controllers
     using System.Net;
     using System.Web.Mvc;
 
+    using STrackerServer.BusinessLayer.Core;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.Models.Genre;
 

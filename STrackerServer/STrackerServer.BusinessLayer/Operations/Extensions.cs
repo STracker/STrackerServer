@@ -32,7 +32,7 @@ namespace STrackerServer.BusinessLayer.Operations
         /// Enumerable elements Type
         /// </typeparam>
         /// <returns>
-        /// The <see cref="IEnumerable"/>.
+        /// The <see cref="ICollection"/>.
         /// </returns>
         public static ICollection<T> ApplyRange<T>(this ICollection<T> enumerable, Range range)
         {

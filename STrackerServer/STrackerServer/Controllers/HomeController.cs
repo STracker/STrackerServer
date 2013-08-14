@@ -13,6 +13,7 @@ namespace STrackerServer.Controllers
     using System.Linq;
     using System.Web.Mvc;
 
+    using STrackerServer.BusinessLayer.Core;
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.Models.Home;

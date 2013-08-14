@@ -53,7 +53,7 @@ namespace STrackerServer.Controllers.Api.AboutSeasons_Controllers
         [Caching]
         public HttpResponseMessage Get(string tvshowId, int number)
         {
-            return this.BaseGetForEntities(this.operations.Read(new Season.SeasonId { TvShowId = tvshowId, SeasonNumber = number }));
+            return this.BaseGetForEntities<Season, Season.SeasonId>(this.operations.Read(new Season.SeasonId { TvShowId = tvshowId, SeasonNumber = number }));
         }
 
         /// <summary>

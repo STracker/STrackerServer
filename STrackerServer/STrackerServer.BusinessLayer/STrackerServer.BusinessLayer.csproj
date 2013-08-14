@@ -58,7 +58,7 @@
     <Compile Include="Core\EpisodesOperations\IEpisodesRatingsOperations.cs" />
     <Compile Include="Core\IRatingsOperations.cs" />
     <Compile Include="Core\SeasonsOperations\ISeasonsOperations.cs" />
-    <Compile Include="Core\TvShowsOperations\IGenresOperations.cs" />
+    <Compile Include="Core\IGenresOperations.cs" />
     <Compile Include="Core\TvShowsOperations\ITvShowsRatingsOperations.cs" />
     <Compile Include="Core\TvShowsOperations\ITvShowsCommentsOperations.cs" />
     <Compile Include="Core\TvShowsOperations\ITvShowsOperations.cs" />
@@ -72,7 +72,7 @@
     <Compile Include="Operations\EpisodesOperations\TvShowNewEpisodesOperations.cs" />
     <Compile Include="Operations\Extensions.cs" />
     <Compile Include="Operations\SeasonsOperations\SeasonsOperations.cs" />
-    <Compile Include="Operations\TvShowsOperations\GenresOperations.cs" />
+    <Compile Include="Operations\GenresOperations.cs" />
     <Compile Include="Operations\TvShowsOperations\TvShowsCommentsOperations.cs" />
     <Compile Include="Operations\TvShowsOperations\TvShowsOperations.cs" />
     <Compile Include="Operations\TvShowsOperations\TvShowsRatingsOperations.cs" />

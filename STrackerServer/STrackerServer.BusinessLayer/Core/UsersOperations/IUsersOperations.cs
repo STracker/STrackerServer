@@ -39,7 +39,7 @@ namespace STrackerServer.BusinessLayer.Core.UsersOperations
         /// <returns>
         /// The <see cref="ICollection"/>.
         /// </returns>
-        ICollection<User> ReadByName(string name, Range range = null);
+        ICollection<User.UserSynopsis> ReadByName(string name, Range range = null);
 
         /// <summary>
         /// Add one subscription to user's subscription list.

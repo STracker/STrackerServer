@@ -114,7 +114,7 @@ namespace STrackerServer.Controllers
                 return this.View(new UserSearchResult { Result = new List<User.UserSynopsis>(), SearchValue = string.Empty });
             }
 
-            var users = this.usersOperations.ReadByName(name).Select(user => user.GetSynopsis()).ToList();
+            var users = this.usersOperations.ReadByName(name).ToList();
 
             if (users.Count != 0)
             {

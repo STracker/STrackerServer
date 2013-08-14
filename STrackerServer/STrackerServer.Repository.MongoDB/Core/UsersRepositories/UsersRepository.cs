@@ -35,6 +35,11 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         private readonly MongoCollection collection;
 
         /// <summary>
+        /// The collection of all genres synopsis.
+        /// </summary>
+        private readonly MongoCollection collectionOfSynopsis;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="UsersRepository"/> class.
         /// </summary>
         /// <param name="client">
@@ -50,6 +55,7 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
             : base(client, url, logger)
         {
             this.collection = this.Database.GetCollection<User>(ConfigurationManager.AppSettings["UsersCollection"]);
+            this.collectionOfSynopsis = this.Database.GetCollection<User>(ConfigurationManager.AppSettings["UsersSynopsisCollection"]);
         }
 
         /// <summary>
@@ -61,10 +67,10 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         /// <returns>
         /// The <see cref="ICollection{T}"/>.
         /// </returns>
-        public ICollection<User> ReadByName(string name)
+        public ICollection<User.UserSynopsis> ReadByName(string name)
         {
             var query = Query<User>.Where(user => user.Name.ToLower().Contains(name.ToLower()));
-            return this.collection.FindAs<User>(query).ToList();
+            return this.collectionOfSynopsis.FindAs<User.UserSynopsis>(query).ToList();
         }
 
         /// <summary>
@@ -279,8 +285,11 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         /// </param>
         protected override void HookCreate(User entity)
         {
-            // Ensure index.
-            this.collection.EnsureIndex(new IndexKeysBuilder().Ascending("Name"));
+            // Ensure index, for search by name.
+            this.collectionOfSynopsis.EnsureIndex(new IndexKeysBuilder().Ascending("Name"));
+
+            // Create document in synpsis collection.
+            this.collectionOfSynopsis.Insert(entity.GetSynopsis());
             
             this.collection.Insert(entity);
         }
@@ -308,7 +317,13 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         protected override void HookUpdate(User entity)
         {
             var query = Query<User>.EQ(u => u.Id, entity.Id);
-            var update = Update<User>.Replace(entity);
+            
+            // Update the synopsis in the synopsis collection.
+            var update = Update<User.UserSynopsis>.Replace(entity.GetSynopsis());
+            this.collectionOfSynopsis.FindAndModify(query, SortBy.Null, update);
+
+            // Update the user document.
+            update = Update<User>.Replace(entity);
             this.collection.FindAndModify(query, SortBy.Null, update);
         }
 
@@ -331,7 +346,7 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         /// </returns>
         protected override ICollection<User> HookReadAll()
         {
-            return this.collection.FindAllAs<User>().ToList();
+            throw new NotSupportedException("this method currently is not supported.");
         }
 
         /// <summary>

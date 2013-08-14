@@ -17,6 +17,7 @@ namespace STrackerServer.Controllers.Api.AboutEpisodes_Controllers
     using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.Comments;
 
     /// <summary>
     /// The episodes comments controller.
@@ -67,7 +68,7 @@ namespace STrackerServer.Controllers.Api.AboutEpisodes_Controllers
         [Caching]
         public HttpResponseMessage Get(string tvshowId, int seasonNumber, int number)
         {
-            return this.BaseGetForEntities(this.operations.Read(new Episode.EpisodeId { TvShowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = number }));
+            return this.BaseGetForEntities<CommentsEpisode, Episode.EpisodeId>(this.operations.Read(new Episode.EpisodeId { TvShowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = number }));
         }
 
         /// <summary>

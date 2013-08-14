@@ -13,7 +13,9 @@ namespace STrackerServer.Controllers.Api.AboutTvShows_Controllers
     using System.Web.Http;
 
     using STrackerServer.Attributes;
+    using STrackerServer.BusinessLayer.Core;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
+    using STrackerServer.DataAccessLayer.DomainEntities;
 
     /// <summary>
     /// The genres controller.
@@ -49,7 +51,7 @@ namespace STrackerServer.Controllers.Api.AboutTvShows_Controllers
         [Caching]
         public HttpResponseMessage Get(string id)
         {
-            return this.BaseGetForEntities(this.operations.Read(id));
+            return this.BaseGetForEntities<Genre, string>(this.operations.Read(id));
         }
 
         /// <summary>

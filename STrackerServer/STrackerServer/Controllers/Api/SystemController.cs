@@ -11,7 +11,6 @@ namespace STrackerServer.Controllers.Api
 {
     using System;
     using System.Web.Http;
-    using System.Web.Mvc;
 
     using STrackerServer.Controllers.Api.AuxiliaryObjects;
 
@@ -26,7 +25,7 @@ namespace STrackerServer.Controllers.Api
         /// <returns>
         /// The <see cref="DateTime"/>.
         /// </returns>
-        [System.Web.Http.HttpGet]
+        [HttpGet]
         public TimeUtc GetTime()
         {
             return new TimeUtc { Time = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss") };

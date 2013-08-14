@@ -24,8 +24,8 @@ namespace STrackerServer.Controllers.Api
         /// <summary>
         /// Auxiliary method for Get operations.
         /// </summary>
-        /// <typeparam name="TT">
-        /// Type of the object.
+        /// <typeparam name="T">
+        /// Type of the object to return.
         /// </typeparam>
         /// <param name="obj">
         /// The object.
@@ -33,9 +33,9 @@ namespace STrackerServer.Controllers.Api
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
-        protected HttpResponseMessage BaseGet<TT>(TT obj)
+        protected HttpResponseMessage BaseGet<T>(T obj)
         {
-            if (Equals(obj, default(TT)))
+            if (Equals(obj, default(T)))
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
@@ -53,10 +53,13 @@ namespace STrackerServer.Controllers.Api
         /// <typeparam name="T">
         /// The type of the entity id.
         /// </typeparam>
+        /// <typeparam name="TK">
+        /// Type of entity id.
+        /// </typeparam>
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
-        protected HttpResponseMessage BaseGetForEntities<T>(IEntity<T> entity)
+        protected HttpResponseMessage BaseGetForEntities<T, TK>(T entity) where T : IEntity<TK>
         {
             if (Equals(entity, default(IEntity<T>)))
             {

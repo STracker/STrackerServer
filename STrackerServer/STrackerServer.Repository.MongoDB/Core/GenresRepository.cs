@@ -34,6 +34,11 @@ namespace STrackerServer.Repository.MongoDB.Core
         private readonly MongoCollection collection;
 
         /// <summary>
+        /// The collection of all genres synopsis.
+        /// </summary>
+        private readonly MongoCollection collectionOfSynopsis;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GenresRepository"/> class.
         /// </summary>
         /// <param name="client">
@@ -49,6 +54,18 @@ namespace STrackerServer.Repository.MongoDB.Core
             : base(client, url, logger)
         {
             this.collection = this.Database.GetCollection(ConfigurationManager.AppSettings["GenresCollection"]);
+            this.collectionOfSynopsis = this.Database.GetCollection(ConfigurationManager.AppSettings["GenresSynopsisCollection"]);
+        }
+
+        /// <summary>
+        /// Return a collection with all synopsis of all genres available in STracker.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ICollection{T}"/>.
+        /// </returns>
+        public ICollection<Genre.GenreSynopsis> ReadAllSynopsis()
+        {
+            return this.collectionOfSynopsis.FindAllAs<Genre.GenreSynopsis>().ToList();
         }
 
         /// <summary>
@@ -109,6 +126,10 @@ namespace STrackerServer.Repository.MongoDB.Core
         protected override void HookCreate(Genre entity)
         {
             entity.Id = entity.Id.ToLower();
+
+            // Create document in synopsis collection.
+            this.collectionOfSynopsis.Insert(entity.GetSynopsis());
+
             this.collection.Insert(entity);
         }
 
@@ -156,7 +177,7 @@ namespace STrackerServer.Repository.MongoDB.Core
         /// </returns>
         protected override ICollection<Genre> HookReadAll()
         {
-            return this.collection.FindAllAs<Genre>().ToList();
+            throw new NotSupportedException("this method currently is not supported.");
         }
     }
 }

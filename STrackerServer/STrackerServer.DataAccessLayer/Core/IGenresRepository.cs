@@ -19,6 +19,14 @@ namespace STrackerServer.DataAccessLayer.Core
     public interface IGenresRepository : IRepository<Genre, string>
     {
         /// <summary>
+        /// Return a collection with all synopsis of all genres available in STracker.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ICollection"/>.
+        /// </returns>
+        ICollection<Genre.GenreSynopsis> ReadAllSynopsis();
+ 
+        /// <summary>
         /// Add one television show to genre.
         /// </summary>
         /// <param name="genre">
