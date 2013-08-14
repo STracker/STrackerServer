@@ -126,6 +126,20 @@ namespace STrackerServer.Controllers
         }
 
         /// <summary>
+        /// The authenticated user's friend requests.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpGet]
+        [Authorize]
+        public JsonResult FriendRequestsCount()
+        {
+            var user = this.usersOperations.Read(User.Identity.Name);
+            return this.Json(new { value = user.FriendRequests.Count }, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
         /// The authenticated user's friend request response.
         /// </summary>
         /// <param name="values">
