@@ -1,19 +1,19 @@
 ﻿(function () {
-    window.addEventListener("DOMContentLoaded", function () {
-        setupInvitesUpdater();
+    window.addEventListener('DOMContentLoaded', function () {
+        setup();
     });
 
     var invitesValueNode;
 
-    var setupInvitesUpdater = function () {
+    var setup = function () {
         invitesValueNode = document.getElementById('invites-value');
         var invitesNode = document.getElementById('invites');
         var invitesDividerNode = document.getElementById('invites-divider');
         invitesNode.className = '';
         invitesDividerNode.className = 'divider-vertical';
+        
         updater();
         setInterval(updater, 2000);
-
     };
 
     var updater = function() {

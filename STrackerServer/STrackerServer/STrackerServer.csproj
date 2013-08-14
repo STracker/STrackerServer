@@ -261,7 +261,7 @@
     <Content Include="Scripts\jquery-2.0.2.js" />
     <Content Include="Scripts\jquery-2.0.2.min.js" />
     <Content Include="Scripts\STracker\InvitesUpdater.js" />
-    <Content Include="Scripts\STracker\OtherSimilarTvShows.js" />
+    <Content Include="Scripts\STracker\SimilarTvShows.js" />
     <Content Include="Scripts\STracker\SuggestResponse.js" />
     <Content Include="Scripts\STracker\Typeahead.js" />
     <Content Include="Web.config">

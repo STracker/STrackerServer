@@ -72,7 +72,7 @@
                     @foreach(var genre in Model.Genres)
                     {
                         <li>
-                            <a href="@Url.Action("Index","Genres", new { id = genre.Id })">@genre.Id</a>
+                            <a class="genre" href="@Url.Action("Index","Genres", new { id = genre.Id })">@genre.Id</a>
                         </li>            
                     }
                 </ul>
@@ -143,6 +143,9 @@
                     }
                 </div>
             }
+            <div id="similar-tvshows">
+                <span id="tvshowId" class="hidden">@Model.TvShowId</span>
+            </div>
         </div>
     </div>
 </div>

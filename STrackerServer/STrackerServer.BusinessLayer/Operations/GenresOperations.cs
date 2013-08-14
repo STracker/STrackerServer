@@ -104,6 +104,7 @@ namespace STrackerServer.BusinessLayer.Operations
             return results
                     .OrderByDescending(pair => pair.Value.Percentage)
                     .Select(pair => pair.Value.TvShow)
+                    .Where(tvshow => !tvshow.Id.Equals(excludeTvShow))
                     .Take(maxtvShows)
                     .ToList();
         }

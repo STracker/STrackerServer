@@ -1,9 +1,9 @@
 ﻿(function () {
-    window.addEventListener("DOMContentLoaded", function () {
-        setupTypeahead();
+    window.addEventListener('DOMContentLoaded', function () {
+        setup();
     });
     
-    var setupTypeahead = function () {
+    var setup = function () {
         $('#TvShowSearch').typeahead({
             items: 5,
             source: function (query, process) {

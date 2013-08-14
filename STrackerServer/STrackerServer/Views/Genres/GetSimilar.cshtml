@@ -5,8 +5,8 @@
     <div class="row-fluid">
         @for (var index = 2 * i; (index < (2 * (i + 1))) && index < Model.TvShows.Count; index++)
         {
-            <div class="span2" style="text-align: center">
-                <div class="box-whiter blue-border">
+            <div class="span6" style="text-align: center">
+                <div class="box-whiter">
                     <div class="row-fluid">
                         <a href="@Url.Action("Index", "TvShows", new { id = @Model.TvShows.ElementAt(index).Id })">
                             <img src="@Model.TvShows.ElementAt(index).Poster" alt="No Image"/>

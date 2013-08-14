@@ -23,7 +23,7 @@ namespace STrackerServer.Controllers
         /// <summary>
         /// The max television shows returned.
         /// </summary>
-        public const int MaxTvShows = 4; 
+        public const int MaxTvShows = 6; 
 
         /// <summary>
         /// The genre operations.
@@ -70,13 +70,24 @@ namespace STrackerServer.Controllers
         /// <param name="genres">
         /// The genres.
         /// </param>
+        /// <param name="excludeTvShow">
+        /// The exclude television show.
+        /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpGet]
-        public ActionResult GetSimilar(string[] genres)
+        public ActionResult GetSimilar(string[] genres, string excludeTvShow)
         {
-            return this.View(new SimilarTvShowsView { TvShows = this.genreOperations.GetTvShows(genres, null, MaxTvShows) });
+            var tvshows = this.genreOperations.GetTvShows(genres, excludeTvShow, MaxTvShows);
+
+            if (tvshows.Count == 0)
+            {
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return null;
+            }
+
+            return this.View(new SimilarTvShowsView { TvShows = tvshows });
         }
     }
 }
