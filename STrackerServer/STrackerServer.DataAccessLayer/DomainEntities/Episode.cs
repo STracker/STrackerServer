@@ -101,7 +101,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// <summary>
         /// CommentsEpisode synopsis object.
         /// </summary>
-        public class EpisodeSynopsis : ISynopsis
+        public class EpisodeSynopsis : ISynopsis<EpisodeId>
         {
             /// <summary>
             /// Gets or sets the id.

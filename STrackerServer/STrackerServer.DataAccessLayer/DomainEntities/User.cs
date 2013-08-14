@@ -111,7 +111,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// <summary>
         /// The user synopsis.
         /// </summary>
-        public class UserSynopsis : ISynopsis
+        public class UserSynopsis : ISynopsis<string>
         {
             /// <summary>
             /// Gets or sets the id.

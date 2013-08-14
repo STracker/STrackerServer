@@ -65,14 +65,15 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
             return new SeasonSynopsis
                 {
                     Id = this.Id,
-                    Uri = uri
+                    Uri = uri,
+                    Name = string.Format("Season {0}", this.Id.SeasonNumber)
                 };
         }
 
         /// <summary>
         /// Season synopsis object.
         /// </summary>
-        public class SeasonSynopsis : ISynopsis
+        public class SeasonSynopsis : ISynopsis<SeasonId>
         {
             /// <summary>
             /// Gets or sets the id.
@@ -83,6 +84,11 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
             /// Gets or sets the uri.
             /// </summary>
             public string Uri { get; set; }
+
+            /// <summary>
+            /// Gets or sets the name.
+            /// </summary>
+            public string Name { get; set; }
         }
 
         /// <summary>

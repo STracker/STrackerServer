@@ -61,13 +61,13 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         public GenreSynopsis GetSynopsis()
         {
             var uri = string.Format("genres/{0}", this.Id);
-            return new GenreSynopsis { Id = this.Id, Uri = uri };
+            return new GenreSynopsis { Id = this.Id, Uri = uri, Name = this.Id };
         }
 
         /// <summary>
         /// The genre synopsis.
         /// </summary>
-        public class GenreSynopsis : ISynopsis
+        public class GenreSynopsis : ISynopsis<string>
         {
             /// <summary>
             /// Gets or sets the genre type.
@@ -78,6 +78,11 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
             /// Gets or sets the uri.
             /// </summary>
             public string Uri { get; set; }
+
+            /// <summary>
+            /// Gets or sets the name.
+            /// </summary>
+            public string Name { get; set; }
         }
     }
 }

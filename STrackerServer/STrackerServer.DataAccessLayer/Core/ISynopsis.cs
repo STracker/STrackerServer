@@ -12,11 +12,24 @@ namespace STrackerServer.DataAccessLayer.Core
     /// <summary>
     /// EntitySynopsis interface.
     /// </summary>
-    public interface ISynopsis
+    /// <typeparam name="T">
+    /// The Id type
+    /// </typeparam>
+    public interface ISynopsis<T>
     {
+        /// <summary>
+        /// Gets or sets the id.
+        /// </summary>
+        T Id { get; set; }
+
         /// <summary>
         /// Gets or sets the uri.
         /// </summary>
         string Uri { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        string Name { get; set; }
     }
 }

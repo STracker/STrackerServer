@@ -116,7 +116,7 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
         /// <summary>
         /// Television show synopsis object.
         /// </summary>
-        public class TvShowSynopsis : ISynopsis
+        public class TvShowSynopsis : ISynopsis<string>
         {
             /// <summary>
             /// Gets or sets the television show id.
