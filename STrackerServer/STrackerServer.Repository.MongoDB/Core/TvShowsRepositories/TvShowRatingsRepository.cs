@@ -114,7 +114,7 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         /// </returns>
         public ICollection<TvShow.TvShowSynopsis> ReadTopRated(int max)
         {
-            return this.collectionAll.FindAllAs<TvShow.TvShowSynopsis>().OrderByDescending(tvshow => this.Read(tvshow.Id).Average).ToList();
+            return this.collectionAll.FindAllAs<TvShow.TvShowSynopsis>().OrderByDescending(tvshow => this.Read(tvshow.Id).Average).Take(max).ToList();
         }
 
         /// <summary>
