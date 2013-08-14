@@ -32,12 +32,15 @@ namespace STrackerServer.BusinessLayer.Core
         /// <param name="genres">
         /// The genres.
         /// </param>
+        /// <param name="excludeTvShow">
+        /// The exclude television show.
+        /// </param>
         /// <param name="maxtvShows">
         /// The max television shows.
         /// </param>
         /// <returns>
         /// The <see cref="ICollection"/>.
         /// </returns>
-        ICollection<TvShow.TvShowSynopsis> GetTvShows(ICollection<string> genres, int maxtvShows);
+        ICollection<TvShow.TvShowSynopsis> GetTvShows(ICollection<string> genres, string excludeTvShow, int maxtvShows);
     }
 }

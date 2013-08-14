@@ -76,7 +76,7 @@ namespace STrackerServer.Controllers
         [HttpGet]
         public ActionResult GetSimilar(string[] genres)
         {
-            return this.View(new SimilarTvShowsView { TvShows = this.genreOperations.GetTvShows(genres, MaxTvShows) });
+            return this.View(new SimilarTvShowsView { TvShows = this.genreOperations.GetTvShows(genres, null, MaxTvShows) });
         }
     }
 }
