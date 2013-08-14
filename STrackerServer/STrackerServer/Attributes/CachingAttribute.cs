@@ -44,7 +44,7 @@ namespace STrackerServer.Attributes
             }
 
             // Else, return the status code 304 - Not modified.
-            actionExecutedContext.Response.StatusCode = HttpStatusCode.MovedPermanently;
+            actionExecutedContext.Response.StatusCode = HttpStatusCode.NotModified;
             actionExecutedContext.Response.Content = null;
         }
     }
