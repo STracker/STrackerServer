@@ -199,6 +199,7 @@
     <Compile Include="Models\Episode\EpisodeView.cs" />
     <Compile Include="Models\Episode\EpisodeWatched.cs" />
     <Compile Include="Models\Genre\GenreView.cs" />
+    <Compile Include="Models\Genre\SimilarTvShowsView.cs" />
     <Compile Include="Models\Home\HomeView.cs" />
     <Compile Include="Models\Home\NewestEpisodesView.cs" />
     <Compile Include="Models\Season\SeasonView.cs" />
@@ -304,6 +305,7 @@
     <Content Include="Views\User\Suggestions.cshtml" />
     <Content Include="Views\User\WatchedEpisodes.cshtml" />
     <Content Include="Views\Shared\User\Nav.cshtml" />
+    <Content Include="Views\Genres\GetSimilar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -24,32 +24,22 @@ namespace STrackerServer.App_Start
         {
             // Episode Routes
             routes.MapRoute(
-                "EpisodeWeb_Show",
+                "Episode_Show",
                 "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}",
                 new { controller = "Episodes", action = "Index" });
 
             routes.MapRoute(
-                "EpisodeWeb_Comments",
-                "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}/Comments",
-                new { controller = "Episodes", action = "Comments" });
-
-            routes.MapRoute(
-                "EpisodeWeb_Rate",
-                "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}/Rate",
-                new { controller = "Episodes", action = "Rate" });
-
-            routes.MapRoute(
-                "EpisodeWeb_Create_Comment",
+                "Episode_Create_Comment",
                 "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}/Comments/Create",
                 new { controller = "Episodes", action = "CreateComment" });
 
             routes.MapRoute(
-                "EpisodeWeb_Comment",
+                "Episode_Comment",
                 "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}/Comments/{id}",
                 new { controller = "Episodes", action = "Comment" });
 
             routes.MapRoute(
-                "EpisodeWeb_Comment_Remove",
+                "Episode_Comment_Remove",
                 "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}/Comments/{id}/Remove",
                 new { controller = "Episodes", action = "RemoveComment" });
 

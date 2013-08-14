@@ -117,6 +117,6 @@ namespace STrackerServer.Models.TvShow
         /// <summary>
         /// Gets or sets the new episodes.
         /// </summary>
-        public IEnumerable<Episode.EpisodeSynopsis> NewEpisodes { get; set; }
+        public ICollection<Episode.EpisodeSynopsis> NewEpisodes { get; set; }
     }
 }

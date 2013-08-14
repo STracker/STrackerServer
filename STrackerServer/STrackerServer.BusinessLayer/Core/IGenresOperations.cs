@@ -25,5 +25,19 @@ namespace STrackerServer.BusinessLayer.Core
         /// The <see cref="ICollection"/>.
         /// </returns>
         ICollection<Genre.GenreSynopsis> ReadAllSynopsis();
+
+        /// <summary>
+        /// The get television shows with the most percentage of genres.
+        /// </summary>
+        /// <param name="genres">
+        /// The genres.
+        /// </param>
+        /// <param name="maxtvShows">
+        /// The max television shows.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ICollection"/>.
+        /// </returns>
+        ICollection<TvShow.TvShowSynopsis> GetTvShows(ICollection<string> genres, int maxtvShows);
     }
 }

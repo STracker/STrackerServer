@@ -13,7 +13,6 @@ namespace STrackerServer.Controllers
     using System.Web.Mvc;
 
     using STrackerServer.BusinessLayer.Core;
-    using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.Models.Genre;
 
     /// <summary>
@@ -21,6 +20,11 @@ namespace STrackerServer.Controllers
     /// </summary>
     public class GenresController : Controller
     {
+        /// <summary>
+        /// The max television shows returned.
+        /// </summary>
+        public const int MaxTvShows = 4; 
+
         /// <summary>
         /// The genre operations.
         /// </summary>
@@ -58,6 +62,21 @@ namespace STrackerServer.Controllers
             }
 
             return this.View(new GenreView { GenreName = genre.Id, TvShows = genre.Tvshows });
+        }
+
+        /// <summary>
+        /// The get television shows with the most percentage of genres.
+        /// </summary>
+        /// <param name="genres">
+        /// The genres.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpGet]
+        public ActionResult GetSimilar(string[] genres)
+        {
+            return this.View(new SimilarTvShowsView { TvShows = this.genreOperations.GetTvShows(genres, MaxTvShows) });
         }
     }
 }
