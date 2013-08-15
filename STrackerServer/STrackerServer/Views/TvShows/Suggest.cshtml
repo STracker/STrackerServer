@@ -42,10 +42,10 @@
                                     <div style="text-align: right">Already Subscribed</div>
                                 }else
                                 {
-                                    using(Html.BeginForm("Suggest","TvShows",FormMethod.Post))
+                                    using(Html.BeginForm("Suggest","TvShows"))
                                     {
                                         @Html.Hidden("FriendId",friend.Id)
-                                        @Html.Hidden("id",Model.TvShowId)
+                                        @Html.HiddenFor(view => view.TvShowId)
                                         <input class="btn btn-block btn-mini btn-primary" type="submit" value="Suggest"/>
                                     }
                                 }

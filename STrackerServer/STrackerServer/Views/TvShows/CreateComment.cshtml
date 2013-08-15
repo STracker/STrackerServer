@@ -22,12 +22,10 @@
             </div>
             
             <div class="box">
-                
-                <div class="alert-error">
-                    @Html.ValidationSummary()  
-                </div>     
+                @Html.ValidationSummary()     
                 @using (Html.BeginForm("CreateComment", "TvShows"))
                 {
+                    @Html.HiddenFor(comment => comment.Poster)
                     @Html.HiddenFor(comment => comment.TvShowId)
                     <textarea class="btn-block comments-textarea" id="Body" name="Body"></textarea>
                     <input class="btn btn-primary" type="submit" value="Add Comment"/>

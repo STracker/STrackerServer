@@ -126,7 +126,7 @@ namespace STrackerServer.Controllers
         }
 
         /// <summary>
-        /// The authenticated user's friend requests.
+        /// The authenticated user's friend requests count.
         /// </summary>
         /// <returns>
         /// The <see cref="ActionResult"/>.

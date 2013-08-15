@@ -215,7 +215,6 @@
     <Compile Include="Models\User\SuggestView.cs" />
     <Compile Include="Models\TvShow\TvShowCreateComment.cs" />
     <Compile Include="Models\TvShow\SubscriptionView.cs" />
-    <Compile Include="Models\TvShow\TvShowRemoveComment.cs" />
     <Compile Include="Models\TvShow\TvShowComments.cs" />
     <Compile Include="Models\TvShow\TvShowComment.cs" />
     <Compile Include="Models\TvShow\TvShowView.cs" />

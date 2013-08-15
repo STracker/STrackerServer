@@ -121,7 +121,7 @@ namespace STrackerServer.Controllers.Api.AboutUsers_Controllers
                 Photo = register.Photo
             });
 
-            return this.BaseGet(this.operations.Read(this.User.Identity.Name));
+            return this.BasePostDelete(true);
         }
     }
 }

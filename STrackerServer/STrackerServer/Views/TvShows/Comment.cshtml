@@ -21,10 +21,14 @@
                 <div class="box-whiter">
                      @Model.Body
                 </div>
-                @using (Html.BeginForm("RemoveComment", "TvShows"))
+                @using (Html.BeginForm("Comment", "TvShows"))
                 {
-                    @Html.Hidden("tvshowId", Model.TvShowId)
-                    @Html.Hidden("Id", Model.Id)
+                    @Html.HiddenFor(comment => comment.Body)
+                    @Html.HiddenFor(comment => comment.Id)
+                    @Html.HiddenFor(comment => comment.Poster)
+                    @Html.HiddenFor(comment => comment.TvShowId)
+                    @Html.HiddenFor(comment => comment.UserId)
+
                     <input class="btn btn-danger" type="submit" value="Remove"/>
                 }  
             </div>  

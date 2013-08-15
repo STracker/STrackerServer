@@ -36,17 +36,17 @@ namespace STrackerServer.Models.TvShow
 
         /// <summary>
         /// Gets or sets the poster.
-        /// </summary>
+        /// </summary> 
         public string Poster { get; set; }
 
         /// <summary>
         /// Gets or sets the rating.
-        /// </summary>
+        /// </summary> 
         public int Rating { get; set; }
 
         /// <summary>
         /// Gets or sets the ratings count.
-        /// </summary>
-        public int RatingsCount { get; set; }
+        /// </summary> 
+        public int Count { get; set; }
     }
 }

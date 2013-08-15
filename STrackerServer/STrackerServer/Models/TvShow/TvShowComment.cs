@@ -9,6 +9,8 @@
 
 namespace STrackerServer.Models.TvShow
 {
+    using System.ComponentModel.DataAnnotations;
+
     /// <summary>
     /// The television show comment view.
     /// </summary>
@@ -17,17 +19,13 @@ namespace STrackerServer.Models.TvShow
         /// <summary>
         /// Gets or sets the television show id.
         /// </summary>
+        [Required]
         public string TvShowId { get; set; }
 
         /// <summary>
         /// Gets or sets the user id.
         /// </summary>
         public string UserId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the username.
-        /// </summary>
-        public string Username { get; set; }
 
         /// <summary>
         /// Gets or sets the body.
@@ -42,6 +40,7 @@ namespace STrackerServer.Models.TvShow
         /// <summary>
         /// Gets or sets the id.
         /// </summary>
+        [Required]
         public string Id { get; set; }
     }
 }

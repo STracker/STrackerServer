@@ -10,6 +10,7 @@
 namespace STrackerServer.Models.User
 {
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     /// The suggestion view.
@@ -24,6 +25,7 @@ namespace STrackerServer.Models.User
         /// <summary>
         /// Gets or sets the television show id.
         /// </summary>
+        [Required]
         public string TvShowId { get; set; }
 
         /// <summary>
@@ -35,5 +37,11 @@ namespace STrackerServer.Models.User
         /// Gets or sets the television show name.
         /// </summary>
         public object TvShowName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the friend id.
+        /// /// </summary>
+        [Required]
+        public string FriendId { get; set; }
     }
 }

@@ -9,6 +9,8 @@
 
 namespace STrackerServer.Models.Episode
 {
+    using System.ComponentModel.DataAnnotations;
+
     /// <summary>
     /// The episode comment.
     /// </summary>
@@ -17,16 +19,19 @@ namespace STrackerServer.Models.Episode
         /// <summary>
         /// Gets or sets the television show id.
         /// </summary>
+        [Required]
         public string TvShowId { get; set; }
 
         /// <summary>
         /// Gets or sets the season number.
         /// </summary>
+        [Required]
         public int SeasonNumber { get; set; }
 
         /// <summary>
         /// Gets or sets the episode number.
         /// </summary>
+        [Required]
         public int EpisodeNumber { get; set; }
 
         /// <summary>
@@ -52,6 +57,7 @@ namespace STrackerServer.Models.Episode
         /// <summary>
         /// Gets or sets the id.
         /// </summary>
+        [Required]
         public string Id { get; set; }
     }
 }

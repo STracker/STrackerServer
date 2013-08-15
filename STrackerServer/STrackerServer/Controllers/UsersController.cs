@@ -218,31 +218,18 @@ namespace STrackerServer.Controllers
         [STrackerAuthorize(Permission = Permissions.Admin)]
         public ActionResult Permission(SetPermissionView values)
         {
-            var user = this.usersOperations.Read(values.Id);
-
-            if (user != null)
-            {
-                values.Name = user.Name;
-                values.PermissionName = Enum.GetName(typeof(Permissions), user.Permission);
-                values.PictureUrl = user.Photo;
-                values.Permissions = this.permissionManager.GetPermissions();
-            }
-            else
-            {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return this.View("Error", this.Response.StatusCode);
-            }
-
             if (!ModelState.IsValid)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View(values);
             }
 
+            var user = this.usersOperations.Read(values.Id);
+
             if (!this.usersOperations.SetUserPermission(values.Id, values.Permission))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return this.View(values);
+                return this.View("Error", this.Response.StatusCode);
             }
 
             if ((User.Identity.Name.Equals(values.Id) && values.Permission < (int)Permissions.Admin) || (!User.Identity.Name.Equals(values.Id) && values.Permission == (int)Permissions.Admin))

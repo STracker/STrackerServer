@@ -11,6 +11,7 @@ namespace STrackerServer.Models.Episode
 {
     using System.Collections.Generic;
 
+    using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
 
     /// <summary>
@@ -18,6 +19,25 @@ namespace STrackerServer.Models.Episode
     /// </summary>
     public class EpisodeView
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EpisodeView"/> class.
+        /// </summary>
+        /// <param name="episode">
+        /// The episode.
+        /// </param>
+        public EpisodeView(Episode episode)
+        {
+            this.TvShowId = episode.Id.TvShowId;
+            this.SeasonNumber = episode.Id.SeasonNumber;
+            this.EpisodeNumber = episode.Id.EpisodeNumber;
+            this.Description = episode.Description;
+            this.Name = episode.Name;
+            this.GuestActors = episode.GuestActors;
+            this.Directors = episode.Directors;
+            this.Poster = episode.Poster;
+            this.Date = episode.Date;
+        }
+
         /// <summary>
         /// Gets or sets the television show id.
         /// </summary>

@@ -152,6 +152,7 @@ namespace STrackerServer.Controllers
 
             if (tvshows.Count == 0)
             {
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
                 return this.View("NotFound");
             }
 
@@ -163,13 +164,11 @@ namespace STrackerServer.Controllers
                 }
             }
 
-            var result = new TvShowSearchResult
+            return this.View(new TvShowSearchResult
             {
                 Result = tvshows,
                 SearchValue = name
-            };
-
-            return this.View(result);
+            });
         }
 
         /// <summary>
@@ -248,29 +247,18 @@ namespace STrackerServer.Controllers
         [Authorize]
         public ActionResult CreateComment(TvShowCreateComment create)
         {
-            var tvshow = this.tvshowOperations.Read(create.TvShowId);
+            if (!ModelState.IsValid)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return this.View(create);
+            }
 
-            if (tvshow == null)
+            if (!this.commentsOperations.AddComment(create.TvShowId, new Comment { Body = create.Body, User = this.usersOperations.Read(User.Identity.Name).GetSynopsis() }))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View("Error", Response.StatusCode);
             }
-
-            if (!ModelState.IsValid)
-            {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                create.Poster = tvshow.Poster;
-                return this.View(create);
-            }
-
-            this.commentsOperations.AddComment(
-                create.TvShowId,
-                new Comment
-                {
-                    Body = create.Body,
-                    User = this.usersOperations.Read(User.Identity.Name).GetSynopsis()
-                });
-
+            
             return new SeeOtherResult { Url = Url.Action("Comments", "TvShows", new { id = create.TvShowId }) };
         }
 
@@ -315,10 +303,10 @@ namespace STrackerServer.Controllers
         }
 
         /// <summary>
-        /// The remove comment.
+        /// Remove comment from television show.
         /// </summary>
-        /// <param name="removeView">
-        /// The remove view.
+        /// <param name="viewModel">
+        /// The view.
         /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
@@ -326,15 +314,21 @@ namespace STrackerServer.Controllers
         [HttpPost]
         [Authorize]
         [TvShowCommentPermissionValidation(Permissions = Permissions.Moderator, Owner = true)]
-        public ActionResult RemoveComment(TvShowRemoveComment removeView)
+        public ActionResult Comment(TvShowComment viewModel)
         {
-            if (!ModelState.IsValid || !this.commentsOperations.RemoveComment(removeView.TvShowId, User.Identity.Name, removeView.Id))
+            if (!ModelState.IsValid)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return this.View(viewModel);
+            }
+
+            if (!this.commentsOperations.RemoveComment(viewModel.TvShowId, User.Identity.Name, viewModel.Id))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View("Error", Response.StatusCode);
             }
 
-            return new SeeOtherResult { Url = Url.Action("Comments", "TvShows", new { id = removeView.TvShowId }) };
+            return new SeeOtherResult { Url = Url.Action("Comments", "TvShows", new { id = viewModel.TvShowId }) };
         }
 
         /// <summary>
@@ -377,7 +371,7 @@ namespace STrackerServer.Controllers
         /// <summary>
         /// The suggestion.
         /// </summary>
-        /// <param name="values">
+        /// <param name="viewModel">
         /// The values.
         /// </param>
         /// <returns>
@@ -385,15 +379,15 @@ namespace STrackerServer.Controllers
         /// </returns>
         [HttpPost]
         [Authorize]
-        public ActionResult Suggest(SuggestFormValues values)
+        public ActionResult Suggest(SuggestView viewModel)
         {
-            if (!ModelState.IsValid || !this.usersOperations.SendSuggestion(User.Identity.Name, values.FriendId, values.Id))
+            if (!ModelState.IsValid || !this.usersOperations.SendSuggestion(User.Identity.Name, viewModel.FriendId, viewModel.TvShowId))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View("Error", Response.StatusCode);
             }
 
-            return new SeeOtherResult { Url = Url.Action("Suggest", new { id = values.Id }) };
+            return new SeeOtherResult { Url = Url.Action("Suggest", new { id = viewModel.TvShowId }) };
         }
 
         /// <summary>
@@ -434,14 +428,14 @@ namespace STrackerServer.Controllers
                 Poster = tvshow.Poster,
                 Value = userRatingValue != -1 ? userRatingValue : 1,
                 Rating = (int)ratings.Average,
-                RatingsCount = ratings.Ratings.Count
+                Count = ratings.Ratings.Count
             });
         }
 
         /// <summary>
         /// The rating.
         /// </summary>
-        /// <param name="rating">
+        /// <param name="viewModel">
         /// The form values.
         /// </param>
         /// <returns>
@@ -449,32 +443,21 @@ namespace STrackerServer.Controllers
         /// </returns>
         [HttpPost]
         [Authorize]
-        public ActionResult Rate(TvShowRating rating)
+        public ActionResult Rate(TvShowRating viewModel)
         {
-            var tvshow = this.tvshowOperations.Read(rating.Id);
-
             if (!ModelState.IsValid)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-
-                if (tvshow == null)
-                {
-                    return this.View("Error", Response.StatusCode);
-                }
-
-                rating.TvShowName = tvshow.Name;
-                rating.Poster = tvshow.Poster;
-
-                return this.View(rating);
+                return this.View(viewModel);
             }
 
-            if (tvshow == null || !this.ratingsOperations.AddRating(tvshow.Id, new Rating { User = this.usersOperations.Read(User.Identity.Name).GetSynopsis(), UserRating = rating.Value }))
+            if (!this.ratingsOperations.AddRating(viewModel.Id, new Rating { User = this.usersOperations.Read(User.Identity.Name).GetSynopsis(), UserRating = viewModel.Value }))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View("Error", Response.StatusCode);
             }
 
-            return new SeeOtherResult { Url = Url.Action("Index", new { id = rating.Id }) };
+            return new SeeOtherResult { Url = Url.Action("Index", new { id = viewModel.Id }) };
         }
 
         /// <summary>

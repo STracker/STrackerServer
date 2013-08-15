@@ -20,11 +20,17 @@
             <div class="box">
                 <h2>@Model.TvShowName</h2> 
                 <br/>
-                <p><b>Rating: </b> @Model.Rating/5 (from @Model.RatingsCount Users)</p>               
+                <p><b>Rating: </b> @Model.Rating/5 (from @Model.Count Users)</p>               
 
                 @Html.ValidationSummary()
                 @using (Html.BeginForm("Rate", "TvShows"))
                 {
+                    @Html.HiddenFor(rating => rating.Rating)
+                    @Html.HiddenFor(rating => rating.Count)
+                    
+                    @Html.HiddenFor(rating => rating.TvShowName)
+                    @Html.HiddenFor(rating => rating.Poster)
+  
                     @Html.HiddenFor(rating => rating.Id)
                     <div class="form-inline" style="display: inline">
                         <div style="display: inline-block">

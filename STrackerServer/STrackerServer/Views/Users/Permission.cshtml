@@ -35,7 +35,9 @@
                 @using(Html.BeginForm())
                 {
                     @Html.HiddenFor(view => view.Id)
-
+                    @Html.HiddenFor(view => view.Name)
+                    @Html.HiddenFor(view => view.PictureUrl)
+                    
                     foreach(var permission in Model.Permissions.Keys)
                     {
                         <label class="radio">

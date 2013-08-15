@@ -40,10 +40,6 @@ namespace STrackerServer.App_Start
                 "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}/Comments/{id}",
                 new { controller = "Episodes", action = "Comment" });
 
-            routes.MapRoute(
-                "Episode_Comment_Remove",
-                "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}/Comments/{id}/Remove",
-                new { controller = "Episodes", action = "RemoveComment" });
 
             routes.MapRoute(
                 "Episodes_Default",
@@ -57,7 +53,6 @@ namespace STrackerServer.App_Start
             routes.MapRoute("TvShows_Names", "TvShows/Names", new { controller = "TvShows", action = "GetNames" });
             routes.MapRoute("TvShows_Create_Comments", "TvShows/{tvshowId}/Comments/Create", new { controller = "TvShows", action = "CreateComment" });
             routes.MapRoute("TvShows_Comment", "TvShows/{tvshowId}/Comments/{id}", new { controller = "TvShows", action = "Comment" });
-            routes.MapRoute("TvShows_Comment_Remove", "TvShows/{tvshowId}/Comments/{id}/Remove", new { controller = "TvShows", action = "RemoveComment" });
             routes.MapRoute("TvShows_GetByName", "TvShows", new { controller = "TvShows", action = "GetByName" });
 
             routes.MapRoute("Home_Main", string.Empty, new { action = "Index", controller = "Home" });

@@ -33,12 +33,12 @@ namespace STrackerServer.Controllers
         /// <summary>
         /// The episodes operations.
         /// </summary>
-        private readonly IEpisodesOperations episodesOps;
+        private readonly IEpisodesOperations episodesOperations;
 
         /// <summary>
         /// The television shows ops.
         /// </summary>
-        private readonly ITvShowsOperations tvshowsOps;
+        private readonly ITvShowsOperations tvshowsOperations;
 
         /// <summary>
         /// The comments operations.
@@ -63,11 +63,11 @@ namespace STrackerServer.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="EpisodesController"/> class.
         /// </summary>
-        /// <param name="episodesOps">
-        /// The episodes ops.
+        /// <param name="episodesOperations">
+        /// The episodes operations.
         /// </param>
-        /// <param name="tvshowsOps">
-        /// The television shows ops.
+        /// <param name="tvshowsOperations">
+        /// The television shows operations.
         /// </param>
         /// <param name="commentsOperations">
         /// The comments operations.
@@ -81,10 +81,10 @@ namespace STrackerServer.Controllers
         /// <param name="permissionManager">
         /// The permission manager.
         /// </param>
-        public EpisodesController(IEpisodesOperations episodesOps, ITvShowsOperations tvshowsOps, IEpisodesCommentsOperations commentsOperations, IEpisodesRatingsOperations ratingsOperations, IUsersOperations usersOperations, IPermissionManager<Permissions, int> permissionManager)
+        public EpisodesController(IEpisodesOperations episodesOperations, ITvShowsOperations tvshowsOperations, IEpisodesCommentsOperations commentsOperations, IEpisodesRatingsOperations ratingsOperations, IUsersOperations usersOperations, IPermissionManager<Permissions, int> permissionManager)
         {
-            this.episodesOps = episodesOps;
-            this.tvshowsOps = tvshowsOps;
+            this.episodesOperations = episodesOperations;
+            this.tvshowsOperations = tvshowsOperations;
             this.commentsOperations = commentsOperations;
             this.ratingsOperations = ratingsOperations;
             this.usersOperations = usersOperations;
@@ -111,7 +111,7 @@ namespace STrackerServer.Controllers
         {
             var key = new Episode.EpisodeId { TvShowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = episodeNumber };
 
-            var episode = this.episodesOps.Read(key);
+            var episode = this.episodesOperations.Read(key);
 
             if (episode == null)
             {
@@ -119,7 +119,7 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            var tvshow = this.tvshowsOps.Read(tvshowId);
+            var tvshow = this.tvshowsOperations.Read(tvshowId);
             var episodeRating = this.ratingsOperations.Read(key);
 
             var isSubscribed = false;
@@ -152,18 +152,9 @@ namespace STrackerServer.Controllers
                 }
             }
 
-            return this.View(new EpisodeView
+            return this.View(new EpisodeView(episode)
             {
-                TvShowId = episode.Id.TvShowId,
-                SeasonNumber = episode.Id.SeasonNumber,
-                EpisodeNumber = episode.Id.EpisodeNumber,
-                Description = episode.Description,
-                Name = episode.Name,
-                GuestActors = episode.GuestActors,
-                Directors = episode.Directors,
-                Poster = episode.Poster,
                 TvShowName = tvshow.Name,
-                Date = episode.Date,
                 Rating = (int)episodeRating.Average,
                 IsSubscribed = isSubscribed,
                 Watched = watched,
@@ -200,7 +191,7 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            var episode = this.episodesOps.Read(key);
+            var episode = this.episodesOperations.Read(key);
 
             var isModerator = false;
 
@@ -243,7 +234,7 @@ namespace STrackerServer.Controllers
         public ActionResult CreateComment(string tvshowId, int seasonNumber, int episodeNumber)
         {
             var key = new Episode.EpisodeId { TvShowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = episodeNumber };
-            var episode = this.episodesOps.Read(key);
+            var episode = this.episodesOperations.Read(key);
 
             if (episode == null)
             {
@@ -275,27 +266,20 @@ namespace STrackerServer.Controllers
         [Authorize]
         public ActionResult CreateComment(EpisodeCreateComment create)
         {
+            if (!ModelState.IsValid)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return this.View(create);
+            }
+
             var key = new Episode.EpisodeId { TvShowId = create.TvShowId, SeasonNumber = create.SeasonNumber, EpisodeNumber = create.EpisodeNumber };
-
-            var episode = this.episodesOps.Read(key);
-
-            if (episode == null)
+            var comment = new Comment { Body = create.Body, User = this.usersOperations.Read(User.Identity.Name).GetSynopsis() };
+            
+            if (!this.commentsOperations.AddComment(key, comment))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View("Error", Response.StatusCode);
             }
-
-            if (!ModelState.IsValid)
-            {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                create.Poster = episode.Poster;
-                return this.View(create);
-            }
-
-            var comment = new Comment { Body = create.Body, User = this.usersOperations.Read(User.Identity.Name).GetSynopsis() };
-            
-            // TODO Problemas
-            this.commentsOperations.AddComment(key, comment);
        
             return new SeeOtherResult { Url = Url.Action("Comments", "Episodes", new { tvshowId = create.TvShowId, seasonNumber = create.SeasonNumber, episodeNumber = create.EpisodeNumber }) };
         }
@@ -341,7 +325,7 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            var episode = this.episodesOps.Read(key);
+            var episode = this.episodesOperations.Read(key);
 
             var commentView = new EpisodeComment
             {
@@ -369,7 +353,7 @@ namespace STrackerServer.Controllers
         [HttpPost]
         [Authorize]
         [EpisodeCommentPermissionValidation(Permissions = Permissions.Moderator, Owner = true)]
-        public ActionResult RemoveComment(EpisodeRemoveComment remove)
+        public ActionResult Comment(EpisodeComment remove)
         {
             var key = new Episode.EpisodeId { TvShowId = remove.TvShowId, SeasonNumber = remove.SeasonNumber, EpisodeNumber = remove.EpisodeNumber };
             if (!ModelState.IsValid || !this.commentsOperations.RemoveComment(key, User.Identity.Name, remove.Id))
@@ -402,7 +386,7 @@ namespace STrackerServer.Controllers
         {
             var key = new Episode.EpisodeId { TvShowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = episodeNumber };
 
-            var episode = this.episodesOps.Read(key);
+            var episode = this.episodesOperations.Read(key);
 
             if (episode == null)
             {
@@ -437,7 +421,7 @@ namespace STrackerServer.Controllers
         {
             var key = new Episode.EpisodeId { TvShowId = rating.TvShowId, SeasonNumber = rating.SeasonNumber, EpisodeNumber = rating.EpisodeNumber };
 
-            var episode = this.episodesOps.Read(key);
+            var episode = this.episodesOperations.Read(key);
 
             if (episode == null)
             {
