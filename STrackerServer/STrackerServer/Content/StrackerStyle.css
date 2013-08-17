@@ -98,12 +98,22 @@
     border: 1px solid whitesmoke;
 }
 
-.sucess_box {
+.success_box {
     min-height: 20px;
     padding: 19px;
     margin-bottom: 20px;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
-    background-color: rgba(0,255,0,0.4);
+    background-color: rgba(0,255,0,0.2);
+}
+
+.error_box {
+    min-height: 20px;
+    padding: 19px;
+    margin-bottom: 20px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    background-color: rgba(255,0,0,0.2);
 }

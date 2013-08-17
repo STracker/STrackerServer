@@ -80,7 +80,6 @@ namespace STrackerServer.Controllers
             this.usersOperations = usersOperations;
         }
 
-        
         /// <summary>
         /// Gets the callback uri.
         /// </summary>
@@ -99,7 +98,6 @@ namespace STrackerServer.Controllers
             }
         }
         */
-
         /// <summary>
         /// The login.
         /// </summary>
