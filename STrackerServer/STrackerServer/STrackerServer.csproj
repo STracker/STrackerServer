@@ -260,6 +260,7 @@
     <Content Include="Scripts\jquery-2.0.2.js" />
     <Content Include="Scripts\jquery-2.0.2.min.js" />
     <Content Include="Scripts\STracker\InvitesUpdater.js" />
+    <Content Include="Scripts\STracker\FormValidation.js" />
     <Content Include="Scripts\STracker\SimilarTvShows.js" />
     <Content Include="Scripts\STracker\SuggestionHandler.js" />
     <Content Include="Scripts\STracker\Typeahead.js" />

@@ -12,7 +12,7 @@
                 @using (Html.BeginForm("Search", "Users", FormMethod.Get))
                 {
                     <div class="form-inline">
-                        <input id="UserSearch" type="text" name="name" value="@Model.SearchValue" placeholder="Name" class="input-large"/>
+                        <input data-val="true" data-val-required="The field is required." id="UserSearch" type="text" name="name" value="@Model.SearchValue" placeholder="Name" class="input-large"/>
                         <button type="submit" class="btn btn-primary"><b class="icon-search"></b></button>
                     </div>                 
                 }

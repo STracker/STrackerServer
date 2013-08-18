@@ -37,6 +37,7 @@ namespace STrackerServer.Models.TvShow
             this.Runtime = tvshow.Runtime;
             this.AirDay = tvshow.AirDay;
             this.SeasonSynopses = tvshow.Seasons;
+            this.FirstAired = tvshow.FirstAired;
         }
 
         /// <summary>
@@ -118,5 +119,10 @@ namespace STrackerServer.Models.TvShow
         /// Gets or sets the new episodes.
         /// </summary>
         public ICollection<Episode.EpisodeSynopsis> NewEpisodes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the first aired.
+        /// </summary>
+        public string FirstAired { get; set; }
     }
 }

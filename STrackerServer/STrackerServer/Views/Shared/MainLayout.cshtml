@@ -16,6 +16,7 @@
     <script src="@Url.Content("~/Scripts/STracker/InvitesUpdater.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/STracker/SimilarTvShows.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/STracker/SuggestionHandler.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/STracker/FormValidation.js")" type="text/javascript"></script>
 </head>
     <body>
         <div class="navbar navbar-inverse navbar-fixed-top">
@@ -29,7 +30,7 @@
                         <li class="divider-vertical"></li>
                         <li>
                             <form action="@Url.Action("GetByName","TvShows")" method="GET" class="navbar-form pull-left">
-                                <input id="TvShowSearch" type="text" name="name" placeholder="Tv Show" autocomplete="off" class="typeahead"/>
+                                <input data-val="true" data-val-required="The field is required." id="TvShowSearch" type="text" name="name" placeholder="Tv Show" autocomplete="off" class="typeahead"/>
                                 <button type="submit" class="btn btn-primary"><b class="icon-search"></b></button>
                             </form>
                         </li>
