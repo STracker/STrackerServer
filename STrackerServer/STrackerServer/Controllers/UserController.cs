@@ -9,9 +9,11 @@
 
 namespace STrackerServer.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
+    using System.Text;
     using System.Web.Mvc;
 
     using STrackerServer.Action_Results;
@@ -79,7 +81,7 @@ namespace STrackerServer.Controllers
                 PictureUrl = user.Photo,
                 SubscriptionList = user.Subscriptions,
                 IsAdmin = this.permissionManager.HasPermission(Permissions.Admin, user.Permission),
-                NewEpisodes = this.usersOperations.GetUserNewEpisodes(User.Identity.Name, null).OrderBy(calendar => calendar.Date).ToList()
+                NewEpisodes = this.usersOperations.GetUserNewEpisodes(User.Identity.Name, DateTime.Now.AddDays(7).ToString("yyyy-MM-dd")).OrderBy(calendar => calendar.Date).ToList()
             });
         }
 
@@ -305,6 +307,19 @@ namespace STrackerServer.Controllers
             }
 
             return this.View(viewModel);
+        }
+
+        /// <summary>
+        /// The authenticated user's calendar (iCal).
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpGet]
+        [Authorize]
+        public ActionResult Calendar()
+        {
+            return this.File(Encoding.UTF8.GetBytes("This is a Test"), "text/calendar", "calendar.ics");
         }
     }
 }

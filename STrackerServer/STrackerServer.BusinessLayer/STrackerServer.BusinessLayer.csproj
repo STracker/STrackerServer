@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DDay.iCal">
+      <HintPath>..\packages\DDay.iCal.1.0.2.575\lib\DDay.iCal.dll</HintPath>
+    </Reference>
     <Reference Include="RabbitMQ.Client, Version=3.1.1.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\RabbitMQ.Client.3.1.1\lib\net30\RabbitMQ.Client.dll</HintPath>
@@ -50,6 +53,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Calendar\BaseCalendar.cs" />
+    <Compile Include="Calendar\Calendar.cs" />
+    <Compile Include="Calendar\ICalendar.cs" />
     <Compile Include="Core\EpisodesOperations\ITvShowNewEpisodesOperations.cs" />
     <Compile Include="Core\ICommentsOperations.cs" />
     <Compile Include="Core\ICrudOperations.cs" />

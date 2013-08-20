@@ -14,6 +14,8 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
     using System.Globalization;
     using System.Linq;
 
+    using DDay.iCal;
+
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
@@ -535,6 +537,10 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
 
             user.Permission = permission;
             return this.Update(user);
+        }
+
+        public void Getcalendar(string userId)
+        {
         }
     }
 }

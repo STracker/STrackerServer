@@ -10,6 +10,7 @@
 namespace STrackerServer.BusinessLayer.Core.UsersOperations
 {
     using System.Collections.Generic;
+    using System.IO;
 
     using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
@@ -214,5 +215,13 @@ namespace STrackerServer.BusinessLayer.Core.UsersOperations
         /// The <see cref="bool"/>.
         /// </returns>
         bool SetUserPermission(string userId, int permission);
+
+        /// <summary>
+        /// Get the user's calendar.
+        /// </summary>
+        /// <param name="userId">
+        /// The user id.
+        /// </param>
+        void Getcalendar(string userId);
     }
 }
