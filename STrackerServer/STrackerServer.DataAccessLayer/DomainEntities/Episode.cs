@@ -135,8 +135,8 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
             public bool Equals(EpisodeSynopsis episode)
             {
                 return this.Id.TvShowId.Equals(episode.Id.TvShowId) &&
-                       this.Id.SeasonNumber.Equals(episode.Id.SeasonNumber) &&
-                       this.Id.EpisodeNumber.Equals(episode.Id.EpisodeNumber);
+                       this.Id.SeasonNumber == episode.Id.SeasonNumber &&
+                       this.Id.EpisodeNumber == episode.Id.EpisodeNumber;
             }
         }
 
@@ -159,6 +159,12 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
             /// Gets or sets the episode number.
             /// </summary>
             public int EpisodeNumber { get; set; }
+
+            public bool Equals(EpisodeId id)
+            {
+                return this.TvShowId.Equals(id.TvShowId) && this.SeasonNumber == id.SeasonNumber
+                       && this.EpisodeNumber == id.EpisodeNumber;
+            }
         }
     }
 }
