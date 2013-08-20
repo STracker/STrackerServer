@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="UserWatechedEpisodesController.cs" company="STracker">
+// <copyright file="UserWatchedEpisodesController.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
@@ -19,7 +19,7 @@ namespace STrackerServer.Controllers.Api.AboutUsers_Controllers
     /// <summary>
     /// The episodes watched controller.
     /// </summary>
-    public class UserWatechedEpisodesController : BaseController
+    public class UserWatchedEpisodesController : BaseController
     {
         /// <summary>
         /// The users operations.
@@ -27,12 +27,12 @@ namespace STrackerServer.Controllers.Api.AboutUsers_Controllers
         private readonly IUsersOperations usersOperations;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserWatechedEpisodesController"/> class.
+        /// Initializes a new instance of the <see cref="UserWatchedEpisodesController"/> class.
         /// </summary>
         /// <param name="usersOperations">
         /// The users operations.
         /// </param>
-        public UserWatechedEpisodesController(IUsersOperations usersOperations)
+        public UserWatchedEpisodesController(IUsersOperations usersOperations)
         {
             this.usersOperations = usersOperations;
         }
