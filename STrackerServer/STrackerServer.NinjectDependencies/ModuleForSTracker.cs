@@ -19,6 +19,7 @@ namespace STrackerServer.NinjectDependencies
 
     using STrackerBackgroundWorker.RabbitMQ;
 
+    using STrackerServer.BusinessLayer.Calendar;
     using STrackerServer.BusinessLayer.Core;
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.BusinessLayer.Core.SeasonsOperations;
@@ -96,8 +97,11 @@ namespace STrackerServer.NinjectDependencies
             // PermissionProvider dependencies
             this.Bind<IPermissionManager<Permissions, int>>().To<PermissionManager>();
 
-            // Logger dependecies
+            // Logger dependencies
             this.Bind<ILogger>().To<SendGridLogger>();
+
+            // Calendar dependencies
+            this.Bind<ICalendar>().To<Calendar>();
         }
     }
 }

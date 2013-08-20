@@ -10,7 +10,6 @@
 namespace STrackerServer.BusinessLayer.Core.UsersOperations
 {
     using System.Collections.Generic;
-    using System.IO;
 
     using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
@@ -38,7 +37,7 @@ namespace STrackerServer.BusinessLayer.Core.UsersOperations
         /// The range.
         /// </param>
         /// <returns>
-        /// The <see cref="ICollection"/>.
+        /// The <see cref="ICollection{T}"/>.
         /// </returns>
         ICollection<User.UserSynopsis> ReadByName(string name, Range range = null);
 
@@ -198,7 +197,7 @@ namespace STrackerServer.BusinessLayer.Core.UsersOperations
         /// The date.
         /// </param>
         /// <returns>
-        /// The <see cref="ICollection"/>.
+        /// The <see cref="ICollection{T}"/>.
         /// </returns>
         ICollection<TvShowCalendar> GetUserNewEpisodes(string userId, string date);
 
@@ -222,6 +221,9 @@ namespace STrackerServer.BusinessLayer.Core.UsersOperations
         /// <param name="userId">
         /// The user id.
         /// </param>
-        void Getcalendar(string userId);
+        /// <returns>
+        /// The <see cref="byte[]"/>.
+        /// </returns>
+        byte[] GetCalendar(string userId);
     }
 }

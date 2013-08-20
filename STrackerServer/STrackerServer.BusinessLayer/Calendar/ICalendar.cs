@@ -19,7 +19,7 @@ namespace STrackerServer.BusinessLayer.Calendar
     public interface ICalendar
     {
         /// <summary>
-        /// Get calendar.
+        /// Creates the calendar.
         /// </summary>
         /// <param name="calendars">
         /// The television show's episode calendars.
@@ -27,6 +27,6 @@ namespace STrackerServer.BusinessLayer.Calendar
         /// <returns>
         /// The calendar file in bytes
         /// </returns>
-        byte[] GetCalendar(ICollection<TvShowCalendar> calendars);
+        byte[] Create(ICollection<TvShowCalendar> calendars);
     }
 }

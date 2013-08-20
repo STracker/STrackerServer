@@ -14,8 +14,7 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
     using System.Globalization;
     using System.Linq;
 
-    using DDay.iCal;
-
+    using STrackerServer.BusinessLayer.Calendar;
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
@@ -50,6 +49,11 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         private readonly IPermissionManager<Permissions, int> permissionManager;
 
         /// <summary>
+        /// The calendar builder.
+        /// </summary>
+        private readonly ICalendar calendarBuilder;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="UsersOperations"/> class.
         /// </summary>
         /// <param name="repository">
@@ -62,23 +66,28 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         /// The episodes operations.
         /// </param>
         /// <param name="newEpisodesOperations">
-        /// The new Episodes Operations.
+        /// The new Episodes operations.
         /// </param>
         /// <param name="permissionManager">
-        /// The permission Manager.
+        /// The permission manager.
+        /// </param>
+        /// <param name="calendarBuilder">
+        /// The calendar builder
         /// </param>
         public UsersOperations(
             IUsersRepository repository,
             ITvShowsOperations tvshowsRepository,
             IEpisodesOperations episodesOperations,
             ITvShowNewEpisodesOperations newEpisodesOperations,
-            IPermissionManager<Permissions, int> permissionManager)
+            IPermissionManager<Permissions, int> permissionManager,
+            ICalendar calendarBuilder)
             : base(repository)
         {
             this.tvshowsRepository = tvshowsRepository;
             this.episodesOperations = episodesOperations;
             this.newEpisodesOperations = newEpisodesOperations;
             this.permissionManager = permissionManager;
+            this.calendarBuilder = calendarBuilder;
         }
 
         /// <summary>
@@ -539,8 +548,18 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
             return this.Update(user);
         }
 
-        public void Getcalendar(string userId)
+        /// <summary>
+        /// Get the user's new episodes calendar.
+        /// </summary>
+        /// <param name="userId">
+        /// The user id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="byte[]"/>.
+        /// </returns>
+        public byte[] GetCalendar(string userId)
         {
+            return this.Read(userId) == null ? null : this.calendarBuilder.Create(this.GetUserNewEpisodes(userId, null));
         }
     }
 }

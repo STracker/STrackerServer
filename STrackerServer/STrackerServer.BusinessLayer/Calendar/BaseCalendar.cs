@@ -20,7 +20,7 @@ namespace STrackerServer.BusinessLayer.Calendar
     public abstract class BaseCalendar : ICalendar
     {
         /// <summary>
-        /// Get calendar.
+        /// Creates the calendar.
         /// </summary>
         /// <param name="calendars">
         /// The television show's episode calendars.
@@ -28,7 +28,7 @@ namespace STrackerServer.BusinessLayer.Calendar
         /// <returns>
         /// The calendar file in bytes
         /// </returns>
-        public byte[] GetCalendar(ICollection<TvShowCalendar> calendars)
+        public byte[] Create(ICollection<TvShowCalendar> calendars)
         {
             return Encoding.UTF32.GetBytes(this.GenerateCalendar(calendars));
         }

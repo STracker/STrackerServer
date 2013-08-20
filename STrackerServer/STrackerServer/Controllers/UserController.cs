@@ -13,7 +13,6 @@ namespace STrackerServer.Controllers
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
-    using System.Text;
     using System.Web.Mvc;
 
     using STrackerServer.Action_Results;
@@ -319,7 +318,7 @@ namespace STrackerServer.Controllers
         [Authorize]
         public ActionResult Calendar()
         {
-            return this.File(Encoding.UTF8.GetBytes("This is a Test"), "text/calendar", "calendar.ics");
+            return this.File(this.usersOperations.GetCalendar(User.Identity.Name), "text/calendar", "calendar.ics");
         }
     }
 }
