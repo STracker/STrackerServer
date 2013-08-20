@@ -161,7 +161,7 @@
     <Compile Include="Controllers\Api\AuxiliaryObjects\ApiSuggestionRequest.cs" />
     <Compile Include="Controllers\Api\AuxiliaryObjects\TimeUtc.cs" />
     <Compile Include="Controllers\Api\AboutEpisodes_Controllers\EpisodesRatingsController.cs" />
-    <Compile Include="Controllers\Api\AboutUsers_Controllers\UserWatechedEpisodesController.cs" />
+    <Compile Include="Controllers\Api\AboutUsers_Controllers\UserWatchedEpisodesController.cs" />
     <Compile Include="Controllers\Api\AboutEpisodes_Controllers\NewEpisodesController.cs" />
     <Compile Include="Controllers\Api\SystemController.cs" />
     <Compile Include="Controllers\Api\AboutTvShows_Controllers\TvShowsCommentsController.cs" />
