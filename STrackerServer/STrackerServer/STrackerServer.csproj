@@ -158,7 +158,6 @@
     <Compile Include="Controllers\Api\AboutUsers_Controllers\UserCalendarController.cs" />
     <Compile Include="Controllers\Api\AuxiliaryObjects\ApiRegister.cs" />
     <Compile Include="Controllers\Api\AuxiliaryObjects\ApiRequestResponse.cs" />
-    <Compile Include="Controllers\Api\AuxiliaryObjects\ApiSuggestionRequest.cs" />
     <Compile Include="Controllers\Api\AuxiliaryObjects\TimeUtc.cs" />
     <Compile Include="Controllers\Api\AboutEpisodes_Controllers\EpisodesRatingsController.cs" />
     <Compile Include="Controllers\Api\AboutUsers_Controllers\UserWatchedEpisodesController.cs" />

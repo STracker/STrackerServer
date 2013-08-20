@@ -14,7 +14,6 @@ namespace STrackerServer.Controllers.Api.AboutUsers_Controllers
 
     using STrackerServer.Attributes;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
-    using STrackerServer.Controllers.Api.AuxiliaryObjects;
 
     /// <summary>
     /// The user suggestions controller.
@@ -53,22 +52,25 @@ namespace STrackerServer.Controllers.Api.AboutUsers_Controllers
         /// <summary>
         /// Send an suggestion to one user.
         /// </summary>
-        /// <param name="request">
-        /// The request object that encapsulates the information for send an suggestion.
+        /// <param name="tvshowId">
+        /// The television show Id.
+        /// </param>
+        /// <param name="userId">
+        /// The user Id.
         /// </param>
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
         [HttpPost]
         [HawkAuthorize]
-        public HttpResponseMessage Post([FromBody] ApiSuggestionRequest request)
+        public HttpResponseMessage Post(string tvshowId, [FromBody] string userId)
         {
-            if (request == null || !this.ModelState.IsValid)
+            if (userId == null)
             { 
                 return this.BasePostDelete(false);
             }
 
-            return this.BasePostDelete(this.usersOperations.SendSuggestion(this.User.Identity.Name, request.UserId, request.TvShowId));
+            return this.BasePostDelete(this.usersOperations.SendSuggestion(this.User.Identity.Name, userId, tvshowId));
         }
 
         /// <summary>
