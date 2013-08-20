@@ -273,8 +273,8 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         public bool RemoveWatchedEpisode(string id, Episode.EpisodeSynopsis episode)
         {
             var user = this.Read(id);
-            user.Subscriptions.Find(subscription => subscription.TvShow.Id.Equals(episode.Id.TvShowId)).EpisodesWatched.Remove(episode);
-            return this.Update(user);
+            var sub = user.Subscriptions.Find(subscription => subscription.TvShow.Id.Equals(episode.Id.TvShowId));
+            return sub.EpisodesWatched.Remove(episode) && this.Update(user);
         }
 
         /// <summary>

@@ -9,6 +9,7 @@
 
 namespace STrackerServer.DataAccessLayer.DomainEntities
 {
+    using System;
     using System.Collections.Generic;
 
     using STrackerServer.DataAccessLayer.Core;
@@ -122,6 +123,27 @@ namespace STrackerServer.DataAccessLayer.DomainEntities
             /// Gets or sets the uri.
             /// </summary>
             public string Uri { get; set; }
+
+            /// <summary>
+            /// The equals.
+            /// </summary>
+            /// <param name="obj">
+            /// The object.
+            /// </param>
+            /// <returns>
+            /// The <see cref="bool"/>.
+            /// </returns>
+            public override bool Equals(object obj)
+            {
+                var episode = obj as EpisodeSynopsis;
+
+                if (obj == null || episode == null)
+                {
+                    return false;
+                }
+
+                return this.Equals(episode);
+            }
 
             /// <summary>
             /// The equals.
