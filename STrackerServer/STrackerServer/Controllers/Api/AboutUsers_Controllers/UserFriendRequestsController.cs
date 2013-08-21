@@ -9,13 +9,11 @@
 
 namespace STrackerServer.Controllers.Api.AboutUsers_Controllers
 {
-    using System.Net;
     using System.Net.Http;
     using System.Web.Http;
 
     using STrackerServer.Attributes;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
-    using STrackerServer.Controllers.Api.AuxiliaryObjects;
 
     /// <summary>
     /// The user friend requests controller.
@@ -57,27 +55,29 @@ namespace STrackerServer.Controllers.Api.AboutUsers_Controllers
         /// <param name="userId">
         /// The user Id that send the request.
         /// </param>
-        /// <param name="accept">
-        /// The value, reject or accept the request.
+        /// <returns>
+        /// The <see cref="HttpResponseMessage"/>.
+        /// </returns>
+        [HttpPost]
+        [HawkAuthorize]
+        public HttpResponseMessage Post(string userId)
+        {
+            return this.BasePostDelete(this.usersOperations.AcceptInvite(userId, this.User.Identity.Name));
+        }
+
+        /// <summary>
+        /// Reject one user friend request.
+        /// </summary>
+        /// <param name="userId">
+        /// The user Id that send the request.
         /// </param>
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
         [HttpPost]
         [HawkAuthorize]
-        public HttpResponseMessage Post(string userId, [FromBody] ApiRequestResponse accept)
+        public HttpResponseMessage Delete(string userId)
         {
-            // Test if null instead of the use model state, because the Accept field is primitive type.
-            if (accept == null)
-            {
-                return this.Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid Body, Missing required fields.");
-            }
-
-            if (accept.Accept)
-            {
-                return this.BasePostDelete(this.usersOperations.AcceptInvite(userId, this.User.Identity.Name));
-            }
-            
             return this.BasePostDelete(this.usersOperations.RejectInvite(userId, this.User.Identity.Name));
         }
     }
