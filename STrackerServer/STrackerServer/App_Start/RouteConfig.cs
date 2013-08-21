@@ -40,7 +40,6 @@ namespace STrackerServer.App_Start
                 "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}/Comments/{id}",
                 new { controller = "Episodes", action = "Comment" });
 
-
             routes.MapRoute(
                 "Episodes_Default",
                 "TvShows/{tvshowId}/Seasons/{seasonNumber}/Episodes/{episodeNumber}/{action}",

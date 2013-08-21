@@ -518,5 +518,18 @@ namespace STrackerServer.Controllers
 
             return new SeeOtherResult { Url = values.RedirectUrl };
         }
+
+        /// <summary>
+        /// Create a television show.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpGet]
+        [STrackerAuthorize(Permission = Permissions.Admin)]
+        public ActionResult Create()
+        {
+            return null;
+        }
     }
 }
