@@ -60,8 +60,13 @@ namespace STrackerServer.Controllers.Api.AboutUsers_Controllers
         /// </returns>
         [HttpPost]
         [HawkAuthorize]
-        public HttpResponseMessage Post(string userId)
+        public HttpResponseMessage Post([FromBody] string userId)
         {
+            if (userId == null)
+            {
+                return this.BasePostDelete(false);
+            }
+
             return this.BasePostDelete(this.usersOperations.AcceptInvite(userId, this.User.Identity.Name));
         }
 
@@ -76,8 +81,13 @@ namespace STrackerServer.Controllers.Api.AboutUsers_Controllers
         /// </returns>
         [HttpDelete]
         [HawkAuthorize]
-        public HttpResponseMessage Delete(string userId)
+        public HttpResponseMessage Delete([FromBody] string userId)
         {
+            if (userId == null)
+            {
+                return this.BasePostDelete(false);
+            }
+
             return this.BasePostDelete(this.usersOperations.RejectInvite(userId, this.User.Identity.Name));
         }
     }
