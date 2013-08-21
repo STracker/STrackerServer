@@ -81,7 +81,7 @@ namespace STrackerServer.Controllers.Api.AboutUsers_Controllers
         /// </returns>
         [HttpDelete]
         [HawkAuthorize]
-        public HttpResponseMessage Delete([FromBody] string userId)
+        public HttpResponseMessage Delete(string userId)
         {
             if (userId == null)
             {
