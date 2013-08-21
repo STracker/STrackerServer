@@ -74,7 +74,7 @@ namespace STrackerServer.Controllers.Api.AboutUsers_Controllers
         /// <returns>
         /// The <see cref="HttpResponseMessage"/>.
         /// </returns>
-        [HttpPost]
+        [HttpDelete]
         [HawkAuthorize]
         public HttpResponseMessage Delete(string userId)
         {
