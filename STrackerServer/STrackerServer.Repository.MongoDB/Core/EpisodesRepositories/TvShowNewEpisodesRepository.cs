@@ -72,7 +72,7 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
                 return false;
             }
 
-            if (DateTime.Parse(episode.Date) < DateTime.Parse(DateTime.UtcNow.ToString("yyyy-MM-dd")))
+            if (DateTime.Parse(episode.Date) < DateTime.UtcNow.Date)
             {
                 return false;
             }
@@ -109,7 +109,7 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
             var all = this.HookReadAll();
             foreach (var episodes in all)
             {
-                var oldOnes = episodes.Episodes.Where(e => DateTime.Parse(e.Date) < DateTime.Parse(DateTime.UtcNow.ToString("yyyy-MM-dd")));
+                var oldOnes = episodes.Episodes.Where(e => DateTime.Parse(e.Date) < DateTime.UtcNow.Date);
                 foreach (var oldOne in oldOnes)
                 {
                     var query = Query<NewTvShowEpisodes>.EQ(e => e.Id, episodes.Id);

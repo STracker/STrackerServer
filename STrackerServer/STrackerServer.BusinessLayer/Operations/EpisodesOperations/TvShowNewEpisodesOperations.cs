@@ -74,7 +74,7 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
                 return ne;
             }
 
-            ne.Episodes.RemoveAll(e => DateTime.Parse(e.Date) > DateTime.Parse(date) || DateTime.Parse(e.Date) < DateTime.UtcNow);
+            ne.Episodes.RemoveAll(e => DateTime.Parse(e.Date) > DateTime.Parse(date) || DateTime.Parse(e.Date) < DateTime.UtcNow.Date);
             return ne;
         }
 
@@ -107,7 +107,7 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
             foreach (var entry in all)
             {
                 var ne = entry;
-                ne.Episodes.RemoveAll(e => DateTime.Parse(e.Date) > DateTime.Parse(date) || DateTime.Parse(e.Date) < DateTime.UtcNow);
+                ne.Episodes.RemoveAll(e => DateTime.Parse(e.Date) > DateTime.Parse(date) || DateTime.Parse(e.Date) < DateTime.UtcNow.Date);
                 if (ne.Episodes.Count > 0)
                 {
                     allEpis.Add(ne);
