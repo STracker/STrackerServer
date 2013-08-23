@@ -78,4 +78,28 @@
     validationFunctions['data-val-required'] = function (input) {
         return input.value.trim();
     };
+    
+    validationFunctions['data-val-range'] = function (input) {
+
+        var min = input.getAttribute('data-val-range-min');
+        var max = input.getAttribute('data-val-range-max');
+
+        if (isNaN(input.value)) {
+            return false;
+        }
+
+        if (min && input.value < min) {
+            return false;
+        }
+
+        if (max && input.value > max) {
+            return false;
+        }
+
+        return true;
+    };
+    
+    validationFunctions['data-val-number'] = function (input) {
+        return !isNaN(input.value);
+    };
 })()
