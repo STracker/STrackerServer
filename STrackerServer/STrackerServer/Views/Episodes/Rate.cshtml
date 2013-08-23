@@ -24,21 +24,19 @@
                     @Html.HiddenFor(rating => rating.TvShowId)
                     @Html.HiddenFor(rating => rating.SeasonNumber)
                     @Html.HiddenFor(rating => rating.EpisodeNumber)
-
-                    for (int value = 1; value < 6; value++)
-                    {
-                        <label class="radio">
-                            @if(Model.Value == value)
-                            {
-                                <input type="radio" checked="checked" name="Value" value="@value" /><span>@value</span>
-                            }else
-                            {
-                                <input type="radio" name="Value" value="@value" /><span>@value</span>
-                            }
-                        </label>
-                    }
-                    <br/>
-                    <input class="btn btn-primary" type="submit" value="Rate"/>
+                    @Html.HiddenFor(rating => rating.Poster)
+  
+                    <div class="form-inline" style="display: inline">
+                        <div style="display: inline-block">
+                            <b>Your Rating: </b>
+                        </div>
+                        <div style="display: inline-block">
+                            @Html.EditorFor(rating => rating.Value)
+                        </div>
+                        <div style="display: inline-block">
+                            <input class="btn btn-danger" type="submit" value="Rate"/>
+                        </div>
+                    </div>
                 }  
             </div>
         </div>
