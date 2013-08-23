@@ -77,8 +77,7 @@
 .stracker-breadcrumb > li {
   display: inline-block;
   *display: inline;
-  *zoom: 1;
-  
+  *zoom: 1; 
 }
 
 .stracker-breadcrumb > li > .divider {
@@ -116,4 +115,11 @@
     -moz-border-radius: 4px;
     border-radius: 4px;
     background-color: rgba(255,0,0,0.2);
+}
+
+.user-photo {
+    max-height: 90px;
+    max-width: 90px;
+    min-height: 90px;
+    min-width: 90px;
 }
