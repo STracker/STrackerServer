@@ -42,36 +42,38 @@
         }
      */
 }
-    <div class="row-fluid">
-        <div class="span3"></div>
-        <div class="span6">
-            <div class="box">
-                <h3>Users</h3>
-                <br/>              
-                <table id="cast-table" class="table table-condensed">
-                    <tr>
-                        <th>Photo</th>
-                        <th>Name</th>
-                    </tr>
-        
-                    @foreach(var user in Model.Result)
-                    {
+    @if(Model.Result.Count != 0){
+        <div class="row-fluid">
+            <div class="span3"></div>
+            <div class="span6">
+                <div class="box">
+                    <h3>Users</h3>
+                    <br/>              
+                    <table id="cast-table" class="table table-condensed">
                         <tr>
-                            <td>
-                                <a href="@Url.Action("Index","Users", new { id = user.Id})">
-                                    <img class="icon-actor" src="@user.Photo" alt="No Artwork"/>
-                                </a>
-                            </td>
-                            <td>
-                                <a href="@Url.Action("Index","Users", new { id = user.Id})">
-                                    @user.Name
-                                </a>
-                            </td>
-                        </tr>  
-                    }
-                </table>
-            </div>  
+                            <th>Photo</th>
+                            <th>Name</th>
+                        </tr>
+        
+                        @foreach(var user in Model.Result)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("Index","Users", new { id = user.Id})">
+                                        <img src="@user.Photo" alt="No Artwork"/>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Index","Users", new { id = user.Id})">
+                                        @user.Name
+                                    </a>
+                                </td>
+                            </tr>  
+                        }
+                    </table>
+                </div>  
+            </div>
+            <div class="span3"></div>
         </div>
-        <div class="span3"></div>
-    </div>
+    }
 </div>
