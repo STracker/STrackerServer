@@ -10,7 +10,6 @@
 namespace STrackerServer.Controllers
 {
     using System;
-    using System.ComponentModel.DataAnnotations;
     using System.Globalization;
     using System.Linq;
     using System.Net;
@@ -395,7 +394,9 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            var userRating = this.ratingsOperations.Read(key).Ratings.Find(rating => rating.User.Id.Equals(User.Identity.Name));
+            var ratingContainer = this.ratingsOperations.Read(key);
+
+            var userRating = ratingContainer.Ratings.Find(rating => rating.User.Id.Equals(User.Identity.Name));
 
             return this.View(new EpisodeRating
             {
@@ -403,47 +404,41 @@ namespace STrackerServer.Controllers
                 SeasonNumber = seasonNumber,
                 EpisodeNumber = episodeNumber,
                 Poster = episode.Poster,
-                Value = userRating != null ? userRating.UserRating : 0
+                Value = userRating != null ? userRating.UserRating : 0,
+                Name = episode.Name,
+                Rating = (int)ratingContainer.Average,
+                Count = ratingContainer.Ratings.Count
             });
         }
 
         /// <summary>
         /// The rate.
         /// </summary>
-        /// <param name="rating">
-        /// The rating.
+        /// <param name="viewModel">
+        /// The rating values.
         /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpPost]
         [Authorize]
-        public ActionResult Rate(EpisodeRating rating)
+        public ActionResult Rate(EpisodeRating viewModel)
         {
-            var key = new Episode.EpisodeId { TvShowId = rating.TvShowId, SeasonNumber = rating.SeasonNumber, EpisodeNumber = rating.EpisodeNumber };
-
-            var episode = this.episodesOperations.Read(key);
-
-            if (episode == null)
-            {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return this.View("Error", Response.StatusCode);
-            }
+            var key = new Episode.EpisodeId { TvShowId = viewModel.TvShowId, SeasonNumber = viewModel.SeasonNumber, EpisodeNumber = viewModel.EpisodeNumber };
 
             if (!ModelState.IsValid)
             {
-                rating.Poster = episode.Poster;
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return this.View(rating);
+                return this.View(viewModel);
             }
 
-            if (!this.ratingsOperations.AddRating(key, new Rating { User = this.usersOperations.Read(User.Identity.Name).GetSynopsis(), UserRating = rating.Value }))
+            if (!this.ratingsOperations.AddRating(key, new Rating { User = this.usersOperations.Read(User.Identity.Name).GetSynopsis(), UserRating = viewModel.Value }))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return this.View("Error", Response.StatusCode);
             }
 
-            return new SeeOtherResult { Url = Url.Action("Index", "Episodes", new { tvshowId = rating.TvShowId, seasonNumber = rating.SeasonNumber, episodeNumber = rating.EpisodeNumber }) };
+            return new SeeOtherResult { Url = Url.Action("Index", "Episodes", new { tvshowId = key.TvShowId, seasonNumber = key.SeasonNumber, episodeNumber = key.EpisodeNumber }) };
         }
 
         /// <summary>

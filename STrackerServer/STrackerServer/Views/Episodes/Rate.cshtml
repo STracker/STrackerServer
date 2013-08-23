@@ -18,14 +18,23 @@
         </div> 
         <div class="span6">
             <div class="box">
-                <div class="alert-error">@Html.ValidationSummary()</div>
+                <h2>@Model.Name</h2> 
+                <br/>
+                <p><b>Rating: </b> @Model.Rating/5 (from @Model.Count Users)</p> 
+
+                @Html.ValidationSummary()
                 @using (Html.BeginForm("Rate", "Episodes"))
                 {
                     @Html.HiddenFor(rating => rating.TvShowId)
                     @Html.HiddenFor(rating => rating.SeasonNumber)
                     @Html.HiddenFor(rating => rating.EpisodeNumber)
+
                     @Html.HiddenFor(rating => rating.Poster)
-  
+                    @Html.HiddenFor(rating => rating.Name)
+                    @Html.HiddenFor(rating => rating.Rating)
+                    @Html.HiddenFor(rating => rating.Count)
+                    
+                    
                     <div class="form-inline" style="display: inline">
                         <div style="display: inline-block">
                             <b>Your Rating: </b>

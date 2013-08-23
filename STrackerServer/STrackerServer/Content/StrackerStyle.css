@@ -118,8 +118,8 @@
 }
 
 .user-photo {
-    max-height: 50px;
-    max-width: 50px;
-    min-height: 50px;
-    min-width: 50px;
+    max-height: 120px;
+    max-width: 120px;
+    min-height: 120px;
+    min-width: 120px;
 }
