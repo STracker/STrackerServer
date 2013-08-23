@@ -134,10 +134,10 @@ namespace STrackerServer.Controllers
         /// </returns>
         [HttpGet]
         [Authorize]
-        public JsonResult FriendRequestsCount()
+        public JsonResult Updater()
         {
             var user = this.usersOperations.Read(User.Identity.Name);
-            return this.Json(new { value = user.FriendRequests.Count }, JsonRequestBehavior.AllowGet);
+            return this.Json(new { FriendRequests = user.FriendRequests.Count, Suggestions = user.Suggestions.Count }, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>

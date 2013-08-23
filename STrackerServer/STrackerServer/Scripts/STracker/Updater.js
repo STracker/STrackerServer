@@ -4,7 +4,8 @@
     });
 
     var invitesValueNode;
-
+    var suggestionsValueNode;
+    
     var setup = function () {
         invitesValueNode = document.getElementById('invites-value');
         var invitesNode = document.getElementById('invites');
@@ -12,12 +13,18 @@
         invitesNode.className = '';
         invitesDividerNode.className = 'divider-vertical';
         
+        suggestionsValueNode = document.getElementById('suggestions-value');
+        var suggestionsNode = document.getElementById('suggestions');
+        var suggestionsDividerNode = document.getElementById('suggestions-divider');
+        suggestionsNode.className = '';
+        suggestionsDividerNode.className = 'divider-vertical';
+
         updater();
         setInterval(updater, 2000);
     };
 
     var updater = function() {
-        var link = '/User/FriendRequestsCount';
+        var link = '/User/Updater';
         var xhr = new XMLHttpRequest();
 
         xhr.open('GET', link, true);
@@ -25,7 +32,8 @@
         xhr.onreadystatechange = function() {
             if (xhr.status === 200 && xhr.readyState === XMLHttpRequest.DONE) {
                 var response = jQuery.parseJSON(xhr.responseText);
-                invitesValueNode.innerHTML = response.value;
+                invitesValueNode.innerHTML = response.FriendRequests;
+                suggestionsValueNode.innerHTML = response.Suggestions;
             }
         };
         xhr.send();
