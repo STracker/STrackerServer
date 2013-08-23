@@ -19,7 +19,8 @@
             </div>
         </div>
     </div>
-    @{
+@{
+    /*
         for (var i = 0; i < Math.Ceiling(Model.Result.Count / (double)6); i++)
         {
             <div class="row-fluid">
@@ -39,5 +40,33 @@
                 }     
             </div>
         }
-    }
+     */
+}
+    
+    <div class="box">
+                <h3>Users</h3>
+                <br/>              
+                <table id="cast-table" class="table table-condensed">
+                    <tr>
+                        <th>Photo</th>
+                        <th>Name</th>
+                    </tr>
+        
+                    @foreach(var user in Model.Result)
+                    {
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("Index","Users", new { id = user.Id})">
+                                    <img class="icon-actor" src="@user.Photo" alt="No Artwork"/>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Index","Users", new { id = user.Id})">
+                                    @user.Name
+                                </a>
+                            </td>
+                        </tr>  
+                    }
+                </table>
+            </div>  
 </div>
