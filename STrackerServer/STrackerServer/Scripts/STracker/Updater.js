@@ -20,7 +20,7 @@
         suggestionsDividerNode.className = 'divider-vertical';
 
         updater();
-        setInterval(updater, 2000);
+        setInterval(updater, 30000);
     };
 
     var updater = function() {

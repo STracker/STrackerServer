@@ -19,9 +19,11 @@
             if (!validateInput(inputs[i])) {
                 event.preventDefault();
                 $(inputs[i]).tooltip('show');
-                setTimeout(function() {
-                    $(inputs[i]).tooltip('destroy');
-                }, 1000);
+                setTimeout(function(input) {
+                    return function() {
+                        $(input).tooltip('destroy');
+                    };
+                }(inputs[i]), 1000);
             }
         }
 
