@@ -16,7 +16,6 @@
         var textareas = event.target.getElementsByTagName('textarea');
 
         for (var i = 0; i < inputs.length; i++) {
-
             if (!validateInput(inputs[i])) {
                 event.preventDefault();
                 $(inputs[i]).tooltip('show');
@@ -24,7 +23,6 @@
         }
         
         for (var j = 0; j < textareas.length; j++) {
-
             if (!validateInput(textareas[j])) {
                 event.preventDefault();
                 $(textareas[j]).tooltip('show');
@@ -41,9 +39,7 @@
         if (!input.getAttribute('data-val')) {
             return true;
         }
-
-        var isValid = true;
-        var messages = [];
+        
         var attributes = input.attributes;
 
         for (var i = 0; i < attributes.length; i++) {
@@ -51,26 +47,19 @@
             var validationFunction = validationFunctions[attributes[i].name];
 
             if (validationFunction && !validationFunction(input)) {
-                isValid = false;
-                messages[messages.length] = input.getAttribute(attributes[i].name);
+                input.setAttribute('title', input.getAttribute(attributes[i].name));
+                
+                $(input).tooltip({
+                    placement: 'bottom',
+                    trigger: 'manual',
+                    container: 'input',
+                });
+
+                return false;
             }
         }
 
-        var titleText = '';
-        
-        for (var idx = 0; idx < messages.length; idx++) {
-            titleText = titleText + '\n' + messages[idx];
-        }
-
-        $(input).tooltip({
-            placement: 'bottom',
-            trigger: 'manual',
-            container: 'body',
-            title: titleText
-        });
-
-
-        return isValid;
+        return true;
     };
 
     var validationFunctions = {};
