@@ -100,7 +100,7 @@ namespace STrackerServer.Controllers
             if (!ModelState.IsValid || !this.usersOperations.InviteFriend(User.Identity.Name, values.UserId))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return this.View("Error", Response.StatusCode);
+                return this.View("BadRequest");
             }
 
             return new SeeOtherResult { Url = Url.Action("Index", "Users", new { id = values.UserId }) };
@@ -156,7 +156,7 @@ namespace STrackerServer.Controllers
             if (!ModelState.IsValid)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return this.View("Error", Response.StatusCode);
+                return this.View("BadRequest");
             }
 
             if (values.Accept)
@@ -164,7 +164,7 @@ namespace STrackerServer.Controllers
                 if (!this.usersOperations.AcceptInvite(values.UserId, User.Identity.Name))
                 {
                     Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    return this.View("Error", Response.StatusCode);
+                    return this.View("BadRequest");
                 }
             }
             else
@@ -172,7 +172,7 @@ namespace STrackerServer.Controllers
                 if (!this.usersOperations.RejectInvite(values.UserId, User.Identity.Name))
                 {
                     Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    return this.View("Error", Response.StatusCode);
+                    return this.View("BadRequest");
                 }
             }
 
@@ -209,7 +209,7 @@ namespace STrackerServer.Controllers
             if (!this.usersOperations.RemoveFriend(User.Identity.Name, id))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return this.View("Error", Response.StatusCode);
+                return this.View("BadRequest");
             }
 
             return new SeeOtherResult { Url = Url.Action("Friends") };
@@ -261,7 +261,7 @@ namespace STrackerServer.Controllers
             if (!this.usersOperations.RemoveTvShowSuggestions(User.Identity.Name, tvshowId))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return this.View("Error", Response.StatusCode);
+                return this.View("BadRequest");
             }
 
             return new SeeOtherResult { Url = Url.Action("Suggestions") };

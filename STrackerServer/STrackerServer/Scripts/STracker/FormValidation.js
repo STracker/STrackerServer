@@ -3,7 +3,7 @@
         setup();
     });
 
-    var setup = function() {
+    var setup = function () {
         var forms = document.getElementsByTagName('form');
         for (var i = 0; i < forms.length; i++) {
             forms[i].addEventListener('submit', validationHandler);
@@ -21,14 +21,14 @@
                 $(inputs[i]).tooltip('show');
             }
         }
-        
+
         for (var j = 0; j < textareas.length; j++) {
             if (!validateInput(textareas[j])) {
                 event.preventDefault();
                 $(textareas[j]).tooltip('show');
             }
         }
-        
+
         setTimeout(function () {
             $('[data-val]').tooltip('destroy');
         }, 1000);
@@ -39,7 +39,7 @@
         if (!input.getAttribute('data-val')) {
             return true;
         }
-        
+
         var attributes = input.attributes;
 
         for (var i = 0; i < attributes.length; i++) {
@@ -50,7 +50,7 @@
                 $(input).tooltip({
                     placement: 'bottom',
                     trigger: 'manual',
-                    container: 'input',
+                    container: 'form',
                     title: input.getAttribute(attributes[i].name)
                 });
 
@@ -66,7 +66,7 @@
     validationFunctions['data-val-required'] = function (input) {
         return input.value.trim();
     };
-    
+
     validationFunctions['data-val-range'] = function (input) {
 
         var min = input.getAttribute('data-val-range-min');
@@ -86,7 +86,7 @@
 
         return true;
     };
-    
+
     validationFunctions['data-val-number'] = function (input) {
         return !isNaN(input.value);
     };

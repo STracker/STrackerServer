@@ -11,6 +11,7 @@ namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
 {
     using System.Collections.Generic;
     using System.Configuration;
+    using System.Linq;
 
     using STrackerBackgroundWorker.RabbitMQ;
     using STrackerBackgroundWorker.RabbitMQ.Core;
@@ -87,7 +88,7 @@ namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
 
             var tvshows = this.Repository.ReadByName(name);
 
-            if (tvshows.Count == 0)
+            if (!tvshows.Any(synopsis => synopsis.Name.Equals(name)))
             {
                 this.queueM.Push(new Message { CommandName = ConfigurationManager.AppSettings["TvShowAddByNameCmd"], Arg = name });
             }

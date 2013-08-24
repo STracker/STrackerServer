@@ -58,7 +58,7 @@ namespace STrackerServer.Controllers
             if (genre == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return this.View("Error", Response.StatusCode);
+                return this.View("NotFound");
             }
 
             return this.View(new GenreView { GenreName = genre.Id, TvShows = genre.Tvshows });

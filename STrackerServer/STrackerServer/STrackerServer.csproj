@@ -237,6 +237,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\images\blackorchid.png" />
+    <Content Include="Content\images\tv-badrequest.png" />
     <Content Include="Content\images\dark_geometric.png" />
     <Content Include="Content\images\debut_dark.png" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
@@ -305,6 +306,9 @@
     <Content Include="Views\User\WatchedEpisodes.cshtml" />
     <Content Include="Views\Shared\User\Nav.cshtml" />
     <Content Include="Views\Genres\GetSimilar.cshtml" />
+    <Content Include="Views\Shared\TvShowLayout.cshtml" />
+    <Content Include="Views\Shared\SuggestLayout.cshtml" />
+    <Content Include="Views\Shared\BadRequest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

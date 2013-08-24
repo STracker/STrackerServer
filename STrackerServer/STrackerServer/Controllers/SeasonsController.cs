@@ -70,7 +70,7 @@ namespace STrackerServer.Controllers
             if (season == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return this.View("Error", Response.StatusCode);
+                return this.View("NotFound");
             }
 
             var tvshow = this.tvshowsOperations.Read(tvshowId);

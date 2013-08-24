@@ -1,4 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+﻿ // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="AccountController.cs" company="STracker">
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
@@ -205,7 +205,7 @@ namespace STrackerServer.Controllers
             catch (FacebookOAuthException)
             {
                 this.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return this.View("Error", (int)HttpStatusCode.BadRequest);
+                return this.View("BadRequest");
             }
 
             this.usersOperations.VerifyAndSave(user);

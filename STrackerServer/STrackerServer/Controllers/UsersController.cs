@@ -77,7 +77,7 @@ namespace STrackerServer.Controllers
             if (user == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return this.View("Error", Response.StatusCode);
+                return this.View("NotFound");
             }
 
             var currentUser = this.usersOperations.Read(User.Identity.Name);
@@ -155,7 +155,7 @@ namespace STrackerServer.Controllers
             if (user == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return this.View("Error", Response.StatusCode);
+                return this.View("NotFound");
             }
 
             return this.View(new PublicFriendsView
@@ -185,7 +185,7 @@ namespace STrackerServer.Controllers
             if (user == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return this.View("Error", Response.StatusCode);
+                return this.View("NotFound");
             }
 
             if (!id.Equals(User.Identity.Name) && (Permissions)user.Permission == Permissions.Admin)
@@ -229,7 +229,7 @@ namespace STrackerServer.Controllers
             if (!this.usersOperations.SetUserPermission(values.Id, values.Permission))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return this.View("Error", this.Response.StatusCode);
+                return this.View("BadRequest");
             }
 
             if ((User.Identity.Name.Equals(values.Id) && values.Permission < (int)Permissions.Admin) || (!User.Identity.Name.Equals(values.Id) && values.Permission == (int)Permissions.Admin))

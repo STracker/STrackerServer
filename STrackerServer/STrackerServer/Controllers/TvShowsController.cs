@@ -106,7 +106,7 @@ namespace STrackerServer.Controllers
             if (tvshow == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return this.View("Error", Response.StatusCode);
+                return this.View("NotFound");
             }
 
             var isSubscribed = false;
@@ -150,12 +150,6 @@ namespace STrackerServer.Controllers
 
             var tvshows = this.tvshowOperations.ReadByName(nameNormalized);
 
-            if (tvshows.Count == 0)
-            {
-                Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return this.View("NotFound");
-            }
-
             foreach (var tvshow in tvshows)
             {
                 if (tvshow.Name.ToLower().Equals(nameNormalized))
@@ -188,7 +182,7 @@ namespace STrackerServer.Controllers
             if (tvshowComments == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return this.View("Error", Response.StatusCode);
+                return this.View("NotFound");
             }
 
             var tvshow = this.tvshowOperations.Read(id);
@@ -228,7 +222,7 @@ namespace STrackerServer.Controllers
             if (tvshow == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return this.View("Error", Response.StatusCode);
+                return this.View("NotFound");
             }
 
             return this.View(new TvShowCreateComment { TvShowId = tvshowId, Poster = tvshow.Poster });
@@ -256,7 +250,7 @@ namespace STrackerServer.Controllers
             if (!this.commentsOperations.AddComment(create.TvShowId, new Comment { Body = create.Body, User = this.usersOperations.Read(User.Identity.Name).GetSynopsis() }))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return this.View("Error", Response.StatusCode);
+                return this.View("BadRequest");
             }
             
             return new SeeOtherResult { Url = Url.Action("Comments", "TvShows", new { id = create.TvShowId }) };
@@ -285,7 +279,7 @@ namespace STrackerServer.Controllers
             if (comment == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return this.View("Error", Response.StatusCode);
+                return this.View("NotFound");
             }
 
             var tvshow = this.tvshowOperations.Read(tvshowId);
@@ -325,7 +319,7 @@ namespace STrackerServer.Controllers
             if (!this.commentsOperations.RemoveComment(viewModel.TvShowId, User.Identity.Name, viewModel.Id))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return this.View("Error", Response.StatusCode);
+                return this.View("BadRequest");
             }
 
             return new SeeOtherResult { Url = Url.Action("Comments", "TvShows", new { id = viewModel.TvShowId }) };
@@ -349,7 +343,7 @@ namespace STrackerServer.Controllers
             if (tvshow == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return this.View("Error", Response.StatusCode);
+                return this.View("NotFound");
             }
 
             var user = this.usersOperations.Read(User.Identity.Name);
@@ -384,7 +378,7 @@ namespace STrackerServer.Controllers
             if (!ModelState.IsValid || !this.usersOperations.SendSuggestion(User.Identity.Name, viewModel.FriendId, viewModel.TvShowId))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return this.View("Error", Response.StatusCode);
+                return this.View("BadRequest");
             }
 
             return new SeeOtherResult { Url = Url.Action("Suggest", new { id = viewModel.TvShowId }) };
@@ -408,7 +402,7 @@ namespace STrackerServer.Controllers
             if (tvshow == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return this.View("Error", Response.StatusCode);
+                return this.View("NotFound");
             }
 
             var user = this.usersOperations.Read(User.Identity.Name);
@@ -454,7 +448,7 @@ namespace STrackerServer.Controllers
             if (!this.ratingsOperations.AddRating(viewModel.Id, new Rating { User = this.usersOperations.Read(User.Identity.Name).GetSynopsis(), UserRating = viewModel.Value }))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return this.View("Error", Response.StatusCode);
+                return this.View("BadRequest");
             }
 
             return new SeeOtherResult { Url = Url.Action("Index", new { id = viewModel.Id }) };
@@ -491,7 +485,7 @@ namespace STrackerServer.Controllers
             if (!ModelState.IsValid)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return this.View("Error", Response.StatusCode);
+                return this.View("BadRequest");
             }
 
             bool success;
@@ -513,7 +507,7 @@ namespace STrackerServer.Controllers
             if (!success)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return this.View("Error", Response.StatusCode);
+                return this.View("BadRequest");
             }
 
             return new SeeOtherResult { Url = values.RedirectUrl };

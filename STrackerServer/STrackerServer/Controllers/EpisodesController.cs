@@ -116,7 +116,7 @@ namespace STrackerServer.Controllers
             if (episode == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return this.View("Error", Response.StatusCode);
+                return this.View("NotFound");
             }
 
             var tvshow = this.tvshowsOperations.Read(tvshowId);
@@ -188,7 +188,7 @@ namespace STrackerServer.Controllers
             if (episodeComments == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return this.View("Error", Response.StatusCode);
+                return this.View("NotFound");
             }
 
             var episode = this.episodesOperations.Read(key);
@@ -239,7 +239,7 @@ namespace STrackerServer.Controllers
             if (episode == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return this.View("Error", Response.StatusCode);
+                return this.View("NotFound");
             }
 
             var view = new EpisodeCreateComment
@@ -278,7 +278,7 @@ namespace STrackerServer.Controllers
             if (!this.commentsOperations.AddComment(key, comment))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return this.View("Error", Response.StatusCode);
+                return this.View("BadRequest");
             }
        
             return new SeeOtherResult { Url = Url.Action("Comments", "Episodes", new { tvshowId = create.TvShowId, seasonNumber = create.SeasonNumber, episodeNumber = create.EpisodeNumber }) };
@@ -314,7 +314,7 @@ namespace STrackerServer.Controllers
             if (comments == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return this.View("Error", Response.StatusCode);
+                return this.View("NotFound");
             }
 
             var comment = comments.Comments.FirstOrDefault(comment1 => comment1.Id.Equals(id));
@@ -322,7 +322,7 @@ namespace STrackerServer.Controllers
             if (comment == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return this.View("Error", Response.StatusCode);
+                return this.View("NotFound");
             }
 
             var episode = this.episodesOperations.Read(key);
@@ -359,7 +359,7 @@ namespace STrackerServer.Controllers
             if (!ModelState.IsValid || !this.commentsOperations.RemoveComment(key, User.Identity.Name, remove.Id))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return this.View("Error", Response.StatusCode);
+                return this.View("BadRequest");
             }
 
             return new SeeOtherResult { Url = Url.Action("Comments", "Episodes", new { tvshowId = remove.TvShowId, seasonNumber = remove.SeasonNumber, episodeNumber = remove.EpisodeNumber }) };
@@ -391,7 +391,7 @@ namespace STrackerServer.Controllers
             if (episode == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return this.View("Error", Response.StatusCode);
+                return this.View("NotFound");
             }
 
             var ratingContainer = this.ratingsOperations.Read(key);
@@ -435,7 +435,7 @@ namespace STrackerServer.Controllers
             if (!this.ratingsOperations.AddRating(key, new Rating { User = this.usersOperations.Read(User.Identity.Name).GetSynopsis(), UserRating = viewModel.Value }))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return this.View("Error", Response.StatusCode);
+                return this.View("BadRequest");
             }
 
             return new SeeOtherResult { Url = Url.Action("Index", "Episodes", new { tvshowId = key.TvShowId, seasonNumber = key.SeasonNumber, episodeNumber = key.EpisodeNumber }) };
@@ -469,7 +469,7 @@ namespace STrackerServer.Controllers
             if (!success)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return this.View("Error", Response.StatusCode);
+                return this.View("BadRequest");
             }
 
             return new SeeOtherResult { Url = Url.Action("Index", "Episodes", new { tvshowId = values.TvShowId, seasonNumber = values.SeasonNumber, episodeNumber = values.EpisodeNumber }) };
