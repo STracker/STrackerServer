@@ -32,7 +32,7 @@
         }
         
         setTimeout(function () {
-            $('[data-val]').tooltip('hide');
+            $('[data-val]').tooltip('destroy');
         }, 1000);
     };
 
