@@ -19,6 +19,9 @@
             if (!validateInput(inputs[i])) {
                 event.preventDefault();
                 $(inputs[i]).tooltip('show');
+                setTimeout(function() {
+                    $(inputs[i]).tooltip('destroy');
+                }, 1000);
             }
         }
 
@@ -26,12 +29,13 @@
             if (!validateInput(textareas[j])) {
                 event.preventDefault();
                 $(textareas[j]).tooltip('show');
+                setTimeout(function () {
+                    $(textareas[j]).tooltip('destroy');
+                }, 1000);
             }
         }
 
-        setTimeout(function () {
-            $('[data-val]').tooltip('destroy');
-        }, 1000);
+        ;
     };
 
     var validateInput = function (input) {
