@@ -47,12 +47,11 @@
             var validationFunction = validationFunctions[attributes[i].name];
 
             if (validationFunction && !validationFunction(input)) {
-                input.setAttribute('title', input.getAttribute(attributes[i].name));
-                
                 $(input).tooltip({
                     placement: 'bottom',
                     trigger: 'manual',
                     container: 'input',
+                    title: input.getAttribute(attributes[i].name)
                 });
 
                 return false;
