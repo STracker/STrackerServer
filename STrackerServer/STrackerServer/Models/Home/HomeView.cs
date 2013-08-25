@@ -21,7 +21,7 @@ namespace STrackerServer.Models.Home
         /// <summary>
         /// Gets or sets the genres.
         /// </summary>
-        public IEnumerable<Genre.GenreSynopsis> Genres { get; set; }
+        public ICollection<Genre.GenreSynopsis> Genres { get; set; }
 
         /// <summary>
         /// Gets or sets the top rated.
