@@ -117,8 +117,8 @@ namespace STrackerServer.Controllers.Api.AboutUsers_Controllers
             this.operations.VerifyAndSave(new User(this.User.Identity.Name)
             {
                 Name = register.Name, 
-                Email = register.Email, 
-                Photo = register.Photo
+                Email = register.Email,
+                Photo = string.Format("http://graph.facebook.com/{0}/picture?type=large", this.User.Identity.Name)
             });
 
             return this.BasePostDelete(true);

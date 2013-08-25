@@ -237,6 +237,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\images\blackorchid.png" />
+    <Content Include="Content\images\star_red.png" />
+    <Content Include="Content\images\star_white.png" />
     <Content Include="Content\images\tv-badrequest.png" />
     <Content Include="Content\images\dark_geometric.png" />
     <Content Include="Content\images\debut_dark.png" />
@@ -248,6 +250,7 @@
     <Content Include="Content\images\tv-notfound.png" />
     <Content Include="Content\images\tv.png" />
     <Content Include="Content\images\wild_oliva.png" />
+    <Content Include="Content\images\star.png" />
     <Content Include="Content\StrackerStyle.css" />
     <Content Include="Global.asax" />
     <Content Include="Content\images\tv-base.psd" />
@@ -259,6 +262,7 @@
     <None Include="Scripts\jquery-2.0.2.intellisense.js" />
     <Content Include="Scripts\jquery-2.0.2.js" />
     <Content Include="Scripts\jquery-2.0.2.min.js" />
+    <Content Include="Scripts\STracker\Rating.js" />
     <Content Include="Scripts\STracker\Updater.js" />
     <Content Include="Scripts\STracker\FormValidation.js" />
     <Content Include="Scripts\STracker\SimilarTvShows.js" />

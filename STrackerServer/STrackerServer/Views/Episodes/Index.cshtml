@@ -60,33 +60,31 @@
         </div>
         <div class="span6">
             <div class="box">
-                
-                <h3>@Model.Name</h3> 
+                <h3>
+                    @Model.Name
+                    @for (int i = 1; i < @Model.Rating + 1; i++)
+                    {
+                        <img data-star-value="@i" class="star" src="@Url.Content("~/Content/images/star.png")" alt="star"/>
+                    }
+                    @for (int i = Model.Rating + 1; i < 6; i++)
+                    {
+                        <img data-star-value="@i" class="star" src="@Url.Content("~/Content/images/star_white.png")" alt="star"/>
+                    }
+                    <a style="font-size: 17px" href="@Url.Action("Rate","Episodes", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber })">
+                        Rate
+                    </a>
+                </h3> 
                 <ul class="stracker-breadcrumb">
                     <li><a href="@Url.Action("Index","TvShows", new { id = Model.TvShowId })">@Model.TvShowName</a> <span class="divider">/</span></li>
                     <li><a href="@Url.Action("Index","Seasons", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber })">Season @Model.SeasonNumber</a> <span class="divider">/</span></li>
                     <li class="active">Episode @Model.EpisodeNumber</li>
                 </ul>
-                <br/>
                 <p>@Model.Description</p>
-                <br/>
-                <p><b>Date: </b>@Model.Date</p>
-                <p>
-                    <b>Rating: </b> 
-                    @if (Model.Rating != 0)
-                    {
-                        <span>@Model.Rating/5 (from @Model.RatingsCount Users)</span>
-                    }else
-                    {
-                        <span>Not Rated</span>
-                    }
-                    - <a href="@Url.Action("Rate","Episodes", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber })">Rate</a>
-                </p>
                 @if (User.Identity.IsAuthenticated && Model.UserRating != -1)
                 {
                     <p><b>Your Rating: </b> @Model.UserRating/5</p>
                 }            
-
+                <p><b>Date: </b>@Model.Date</p>
                 @if (Model.Directors.Count != 0)
                 {
                     <p><b>Directors:</b></p>

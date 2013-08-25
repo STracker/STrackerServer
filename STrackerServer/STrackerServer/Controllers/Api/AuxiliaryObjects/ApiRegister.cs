@@ -27,11 +27,5 @@ namespace STrackerServer.Controllers.Api.AuxiliaryObjects
         /// </summary>
         [Required]
         public string Email { get; set; }
-
-        /// <summary>
-        /// Gets or sets the photo.
-        /// </summary>
-        [Required]
-        public string Photo { get; set; }
     }
 }
