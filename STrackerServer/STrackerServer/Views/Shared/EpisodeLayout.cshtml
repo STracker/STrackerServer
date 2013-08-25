@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+
+    <link href="@Url.Content("~/Content/bootstrap.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap-responsive.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/StrackerStyle.css")" rel="stylesheet" type="text/css" />
+    <link rel="icon" type="image/png" href="~/Content/images/tv.png">
+
+</head>
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <ul class="nav">
+                        <li class="divider-vertical"></li>  
+                        <li><a href="@Url.Action("Index","Home")"> Home </a></li>
+                        <li class="divider-vertical"></li>    
+                        <li><a href="@Url.Action("Api","Home")"> API </a></li>
+                        <li class="divider-vertical"></li>
+                        <li>
+                            <form action="@Url.Action("GetByName","TvShows")" method="GET" class="navbar-form pull-left">
+                                <input data-val="true" data-val-required="The field is required." id="TvShowSearch" type="text" name="name" placeholder="Tv Show" autocomplete="off" class="typeahead"/>
+                                <button type="submit" class="btn btn-primary"><b class="icon-search"></b></button>
+                            </form>
+                        </li>
+                    </ul>
+                    <ul class="nav pull-right">
+                        @if (HttpContext.Current.User.Identity.IsAuthenticated)
+                        {   
+                            <li class="divider-vertical"></li>
+                            <li>@Html.ActionLink("Find Buddy","Search","Users")</li>
+                            <li class="divider-vertical"></li> 
+                            <li>@Html.ActionLink("Profile","Index","User")</li>
+                            <li class="divider-vertical"></li>
+                            <li id="invites" class="hidden">
+                                <a style="color: dodgerblue" href="@Url.Action("FriendRequests","User")"><span id="invites-value">0</span><span> </span><i class="icon-envelope icon-white"></i></a>
+                            </li>
+                            <li id="invites-divider" class="hidden"></li>
+                            <li id="suggestions" class="hidden">
+                                <a style="color: firebrick" href="@Url.Action("Suggestions","User")"><span id="suggestions-value">0</span><span> </span><i class="icon-eye-open icon-white"></i></a>
+                            </li>
+                            <li id="suggestions-divider" class="hidden"></li>
+                            <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
+                            <li class="divider-vertical"></li>
+                        }
+                        else
+                        {
+                            <li class="divider-vertical"></li>
+                            @* ReSharper disable PossibleNullReferenceException *@
+                            <li>@Html.ActionLink("Login", "Login", "Account", new { returnUrl = Request.Url.PathAndQuery }, null)</li>
+                            @* ReSharper restore PossibleNullReferenceException *@
+                            <li class="divider-vertical"></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div>
+            @RenderBody()
+        </div>
+    </body>
+    
+    <script src="@Url.Content("~/Scripts/jquery-2.0.0.js")" type="text/javascript"></script> 
+    <script src="@Url.Content("~/Scripts/bootstrap.js")" type="text/javascript"></script> 
+    
+    <script src="@Url.Content("~/Scripts/STracker/Typeahead.js")" type="text/javascript"></script> 
+    <script src="@Url.Content("~/Scripts/STracker/Updater.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/STracker/FormValidation.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/STracker/Rating.js")" type="text/javascript"></script>
+</html>

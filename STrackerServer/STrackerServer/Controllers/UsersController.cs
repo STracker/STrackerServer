@@ -22,6 +22,7 @@ namespace STrackerServer.Controllers
     using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.Models.Admin;
     using STrackerServer.Models.User;
+    using STrackerServer.Models.Users;
 
     /// <summary>
     /// The users web controller.
@@ -92,7 +93,8 @@ namespace STrackerServer.Controllers
                 SubscriptionList = user.Subscriptions,
                 IsFriend = isFriend,
                 IsAdmin = this.permissionManager.HasPermission(Permissions.Admin, user.Permission),
-                AdminMode = adminMode
+                AdminMode = adminMode,
+                NewEpisodes = this.usersOperations.GetUserNewEpisodes(id, DateTime.Now.AddDays(7).ToString("yyyy-MM-dd"))
             });
         }
 

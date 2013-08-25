@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Models.User
+namespace STrackerServer.Models.Users
 {
     using System.Collections.Generic;
 
@@ -52,5 +52,10 @@ namespace STrackerServer.Models.User
         /// Gets or sets a value indicating whether admin mode.
         /// </summary>
         public bool AdminMode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the new episodes.
+        /// </summary>
+        public ICollection<TvShowCalendar> NewEpisodes { get; set; }
     }
 }

@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Models.User
+namespace STrackerServer.Models.Users
 {
     using System.Collections.Generic;
 

@@ -1,4 +1,4 @@
-﻿@model STrackerServer.Models.User.UserPublicView
+﻿@model STrackerServer.Models.Users.UserPublicView
 
 @{
     ViewBag.Title = Model.Name;
@@ -63,6 +63,52 @@
                     </div>
                 }
             }
+        </div>
+        
+        <div class="span3">
+            <div class="box blue-border">
+                <h2 style="text-align: center">Next Episodes</h2>
+            </div>
+            
+            @if(Model.NewEpisodes.Count != 0)
+            {
+                <div class="box blue-border">
+                    <div class="accordion" id="accordion">
+                        @foreach(var obj in Model.NewEpisodes)
+                        {
+                        <div class="accordion-group">
+                            <div class="accordion-heading">
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#@obj.Date">
+                                    @obj.Date
+                                </a>
+                            </div>
+                            <div id="@obj.Date" class="accordion-body collapse">
+                                <div class="accordion-inner">
+                                    
+                                    @foreach(var entrie in obj.Entries)
+                                    {
+                                        <dl>
+                                            <dt>@entrie.TvShow.Name</dt>
+                                            @foreach (var episode in entrie.Episodes)
+                                            {
+                                                
+                                                <dd>
+                                                    <span>S</span>@episode.Id.SeasonNumber
+                                                    <span>E</span>@episode.Id.EpisodeNumber
+                                                    <span> - </span>
+                                                    <a href="@episode.Uri">@episode.Name</a>
+                                                </dd>
+                                            } 
+                                        </dl>
+                                    }  
+                                </div>
+                            </div>     
+                        </div>        
+                        }
+                    </div>
+                </div>
+            }
+            
         </div>
     </div>
 </div>

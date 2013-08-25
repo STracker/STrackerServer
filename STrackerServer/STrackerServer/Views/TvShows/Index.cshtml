@@ -41,6 +41,7 @@
             </p>
         </div> 
         <div class="span6">
+            <div id="rating-result"></div>
             <div class="box">
                 <h2>
                     @Model.Name
@@ -52,6 +53,7 @@
                     {
                         <img data-star-value="@i" class="star" src="@Url.Content("~/Content/images/star_white.png")" alt="star"/>
                     }
+                    <span style="font-size: 13px">from @Model.RatingsCount User(s)</span>
                     <a id="rating-link" style="font-size: 17px" href="@Url.Action("Rate","TvShows", new { id = Model.TvShowId })">
                         Rate
                     </a>

@@ -206,7 +206,7 @@
     <Compile Include="Models\TvShow\TvShowSearchResult.cs" />
     <Compile Include="Models\User\EpisodesWatchedView.cs" />
     <Compile Include="Models\User\FriendsView.cs" />
-    <Compile Include="Models\User\PublicFriendsView.cs" />
+    <Compile Include="Models\Users\PublicFriendsView.cs" />
     <Compile Include="Models\User\SuggestFormValues.cs" />
     <Compile Include="Models\User\SuggestFriendView.cs" />
     <Compile Include="Models\User\SuggestionsView.cs" />
@@ -224,7 +224,7 @@
     <Compile Include="Models\User\SubscribeFormValues.cs" />
     <Compile Include="Models\User\UnsubscribeFormValues.cs" />
     <Compile Include="Models\User\UserPrivateView.cs" />
-    <Compile Include="Models\User\UserPublicView.cs" />
+    <Compile Include="Models\Users\UserPublicView.cs" />
     <Compile Include="Models\User\UserSearchResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -313,6 +313,7 @@
     <Content Include="Views\Shared\TvShowLayout.cshtml" />
     <Content Include="Views\Shared\SuggestLayout.cshtml" />
     <Content Include="Views\Shared\BadRequest.cshtml" />
+    <Content Include="Views\Shared\EpisodeLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
