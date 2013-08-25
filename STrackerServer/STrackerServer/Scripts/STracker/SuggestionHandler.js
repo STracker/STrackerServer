@@ -37,14 +37,7 @@
     var changeSubmitEvent = function (form, resultNode) {
         form.addEventListener('submit', function (event) {
             event.preventDefault();
-
-            var childNodes = resultNode.childNodes;
-            var childNodesLength = resultNode.childNodes.length;
-
-            for (var i = 0; i < childNodesLength; i++) {
-                resultNode.removeChild(childNodes[0]);
-            }
-
+            
             var tvshowId = resultNode.getAttribute('data-tvshow');
 
             var link = '/TvShows/' + tvshowId + '/Suggest';

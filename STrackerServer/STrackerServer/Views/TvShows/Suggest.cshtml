@@ -16,8 +16,6 @@
         </div> 
 
         <div class="span6">
-            
-            <div id="suggestion-result" data-tvshow="@Model.TvShowId"></div>
             <div class="box">
                 <h3>Friends</h3>
                 <br/>
@@ -33,7 +31,7 @@
                             <td>
                                 <a href="@Url.Action("Index","Users", new { id = friend.Id })">@friend.Name</a>
                             </td>
-                            <td>
+                            <td style="text-align: right">
                                 @if(friend.IsSubscribed)
                                 {
                                     <div style="text-align: right">Already Subscribed</div>
@@ -43,7 +41,7 @@
                                     {
                                         @Html.Hidden("FriendId",friend.Id)
                                         @Html.HiddenFor(view => view.TvShowId)
-                                        <input class="btn btn-small btn-primary" type="submit" value="Suggest"/>
+                                        <input class="btn btn-primary" type="submit" value="Suggest"/>
                                     }
                                 }
                             </td>
@@ -51,6 +49,9 @@
                     }
                 </table>
             </div>
-        </div>      
+        </div> 
+        <div class="span3">
+            <div id="suggestion-result" data-tvshow="@Model.TvShowId"></div>
+        </div>     
     </div>
 </div>

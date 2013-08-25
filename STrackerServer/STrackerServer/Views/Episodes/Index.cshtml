@@ -55,9 +55,6 @@
             }
 
             <p>
-                <a class="btn btn-block btn-primary" href="@Url.Action("Rate","Episodes", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber })">Rate</a>
-            </p> 
-            <p>
                 <a class="btn btn-block btn-primary" href="@Url.Action("Comments","Episodes", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber })">Comments</a>
             </p> 
         </div>
@@ -83,6 +80,7 @@
                     {
                         <span>Not Rated</span>
                     }
+                    - <a href="@Url.Action("Rate","Episodes", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber, episodeNumber = Model.EpisodeNumber })">Rate</a>
                 </p>
                 @if (User.Identity.IsAuthenticated && Model.UserRating != -1)
                 {

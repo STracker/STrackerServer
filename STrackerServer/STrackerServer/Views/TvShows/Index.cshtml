@@ -34,9 +34,6 @@
             }
             
             <p>
-                <a class="btn btn-block btn-primary" href="@Url.Action("Rate","TvShows", new { id = Model.TvShowId })">Rate</a>
-            </p> 
-            <p>
                 <a class="btn btn-block btn-primary" href="@Url.Action("Suggest","TvShows", new { id = Model.TvShowId })">Suggest</a>
             </p>  
             <p>
@@ -57,6 +54,7 @@
                     {
                         <span>Not Rated</span>
                     }
+                    - <a href="@Url.Action("Rate","TvShows", new { id = Model.TvShowId })">Rate</a>
                 </p>
                 @if (User.Identity.IsAuthenticated && Model.UserRating != -1)
                 {

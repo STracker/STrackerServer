@@ -19,11 +19,7 @@
             if (!validateInput(inputs[i])) {
                 event.preventDefault();
                 $(inputs[i]).tooltip('show');
-                setTimeout(function(input) {
-                    return function() {
-                        $(input).tooltip('destroy');
-                    };
-                }(inputs[i]), 1000);
+                setTimeout(removeTooltip(inputs[i]), 1000);
             }
         }
 
@@ -31,13 +27,16 @@
             if (!validateInput(textareas[j])) {
                 event.preventDefault();
                 $(textareas[j]).tooltip('show');
-                setTimeout(function () {
-                    $(textareas[j]).tooltip('destroy');
-                }, 1000);
+                setTimeout(removeTooltip(textareas[j]), 1000);
             }
         }
+    };
 
-        ;
+    var removeTooltip = function(node) {
+        return function () {
+            $(node).tooltip('destroy');
+            $('.tooltip').remove();
+        };
     };
 
     var validateInput = function (input) {
@@ -56,7 +55,7 @@
                 $(input).tooltip({
                     placement: 'bottom',
                     trigger: 'manual',
-                    container: 'form',
+                    container: 'li',
                     title: input.getAttribute(attributes[i].name)
                 });
 

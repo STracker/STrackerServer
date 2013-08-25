@@ -36,11 +36,11 @@
                             <li>@Html.ActionLink("Profile","Index","User")</li>
                             <li class="divider-vertical"></li>
                             <li id="invites" class="hidden">
-                                <a id="invites-value" style="color: dodgerblue" href="@Url.Action("FriendRequests","User")">0</a>
+                                <a style="color: dodgerblue" href="@Url.Action("FriendRequests","User")"><span id="invites-value">0</span><span> </span><i class="icon-envelope icon-white"></i></a>
                             </li>
                             <li id="invites-divider" class="hidden"></li>
                             <li id="suggestions" class="hidden">
-                                <a id="suggestions-value" style="color: firebrick" href="@Url.Action("Suggestions","User")">0</a>
+                                <a style="color: firebrick" href="@Url.Action("Suggestions","User")"><span id="suggestions-value">0</span><span> </span><i class="icon-eye-open icon-white"></i></a>
                             </li>
                             <li id="suggestions-divider" class="hidden"></li>
                             <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
