@@ -25,6 +25,7 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
     using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.Comments;
     using STrackerServer.DataAccessLayer.DomainEntities.Ratings;
+    using STrackerServer.ImageConverter.Core;
     using STrackerServer.Logger.Core;
 
     /// <summary>
@@ -32,6 +33,16 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
     /// </summary>
     public class TvShowsRepository : BaseRepository<TvShow, string>, ITvShowsRepository
     {
+        /// <summary>
+        /// The default actor photo.
+        /// </summary>
+        private const string DefaultActorPhoto = "https://dl.dropboxusercontent.com/u/2696848/default-profile-pic.jpg";
+
+        /// <summary>
+        /// The default poster.
+        /// </summary>
+        private const string DefaultPoster = "https://dl.dropboxusercontent.com/u/2696848/image-not-found.gif";
+
         /// <summary>
         /// The collection of all television shows synopsis. In this case the 
         /// collection is always the same.
@@ -59,6 +70,11 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         private readonly ITvShowNewEpisodesRepository newEpisodesRepository;
 
         /// <summary>
+        /// The image converter.
+        /// </summary>
+        private readonly IImageConverter imageConverter;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TvShowsRepository"/> class.
         /// </summary>
         /// <param name="client">
@@ -82,13 +98,17 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         /// <param name="logger">
         /// The logger.
         /// </param>
-        public TvShowsRepository(MongoClient client, MongoUrl url, IGenresRepository genresRepository, ITvShowCommentsRepository commentsRepository, ITvShowRatingsRepository ratingsRepository, ITvShowNewEpisodesRepository newEpisodesRepository, ILogger logger)
+        /// <param name="imageConverter">
+        /// The image Converter.
+        /// </param>
+        public TvShowsRepository(MongoClient client, MongoUrl url, IGenresRepository genresRepository, ITvShowCommentsRepository commentsRepository, ITvShowRatingsRepository ratingsRepository, ITvShowNewEpisodesRepository newEpisodesRepository, ILogger logger, IImageConverter imageConverter)
             : base(client, url, logger)
         {
             this.genresRepository = genresRepository;
             this.commentsRepository = commentsRepository;
             this.ratingsRepository = ratingsRepository;
             this.newEpisodesRepository = newEpisodesRepository;
+            this.imageConverter = imageConverter;
 
             this.collectionAll = this.Database.GetCollection(ConfigurationManager.AppSettings["AllTvShowsCollection"]);
         }
@@ -156,6 +176,14 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         /// </param>
         protected override void HookCreate(TvShow entity)
         {
+            // Convert images.
+            entity.Poster = this.imageConverter.Convert(entity.Poster, DefaultPoster);
+
+            foreach (var actor in entity.Actors)
+            {
+                actor.Photo = this.imageConverter.Convert(actor.Photo, DefaultActorPhoto);
+            }
+
             var collection = this.Database.GetCollection(entity.Id);
 
             // Setup the index in collection with all television shows synopsis.

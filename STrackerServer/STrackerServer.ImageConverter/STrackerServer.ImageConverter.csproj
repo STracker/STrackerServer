@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A43347C5-0AA1-4712-8451-8B9B91666B76}</ProjectGuid>
+    <ProjectGuid>{E30CE766-047D-4D77-80D8-E84FCD94E637}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>STrackerServer.Repository.MongoDB</RootNamespace>
-    <AssemblyName>STrackerServer.Repository.MongoDB</AssemblyName>
+    <RootNamespace>STrackerServer.ImageConverter</RootNamespace>
+    <AssemblyName>STrackerServer.ImageConverter</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -32,14 +32,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MongoDB.Bson">
-      <HintPath>..\packages\mongocsharpdriver.1.8.1\lib\net35\MongoDB.Bson.dll</HintPath>
+    <Reference Include="CloudinaryDotNet">
+      <HintPath>..\packages\CloudinaryDotNet.1.0.9\lib\net40\CloudinaryDotNet.dll</HintPath>
     </Reference>
-    <Reference Include="MongoDB.Driver">
-      <HintPath>..\packages\mongocsharpdriver.1.8.1\lib\net35\MongoDB.Driver.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -48,37 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\BaseCommentsRepository.cs" />
-    <Compile Include="Core\BaseRatingsRepository.cs" />
-    <Compile Include="Core\BaseRepository.cs" />
-    <Compile Include="Core\EpisodesRepositories\EpisodeCommentsRepository.cs" />
-    <Compile Include="Core\EpisodesRepositories\EpisodeRatingsRepository.cs" />
-    <Compile Include="Core\EpisodesRepositories\EpisodesRepository.cs" />
-    <Compile Include="Core\EpisodesRepositories\TvShowNewEpisodesRepository.cs" />
-    <Compile Include="Core\SeasonsRepositories\SeasonsRepository.cs" />
-    <Compile Include="Core\TvShowsRepositories\TvShowCommentsRepository.cs" />
-    <Compile Include="Core\TvShowsRepositories\TvShowRatingsRepository.cs" />
-    <Compile Include="Core\GenresRepository.cs" />
-    <Compile Include="Core\TvShowsRepositories\TvShowsRepository.cs" />
-    <Compile Include="Core\UsersRepositories\UsersRepository.cs" />
+    <Compile Include="Cloudinary\CloudinaryConverter.cs" />
+    <Compile Include="Core\IImageConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\STrackerServer.DataAccessLayer\STrackerServer.DataAccessLayer.csproj">
-      <Project>{F7946D64-169E-437B-9D4C-69D56F4C32F4}</Project>
-      <Name>STrackerServer.DataAccessLayer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\STrackerServer.ImageConverter\STrackerServer.ImageConverter.csproj">
-      <Project>{E30CE766-047D-4D77-80D8-E84FCD94E637}</Project>
-      <Name>STrackerServer.ImageConverter</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\STrackerServer.Logger\STrackerServer.Logger.csproj">
-      <Project>{ED626762-744B-429E-A087-DC819DB24E0E}</Project>
-      <Name>STrackerServer.Logger</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

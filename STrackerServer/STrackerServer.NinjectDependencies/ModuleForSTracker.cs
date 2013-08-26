@@ -11,6 +11,8 @@ namespace STrackerServer.NinjectDependencies
 {
     using System.Configuration;
 
+    using CloudinaryDotNet;
+
     using MongoDB.Driver;
 
     using Ninject.Modules;
@@ -36,6 +38,8 @@ namespace STrackerServer.NinjectDependencies
     using STrackerServer.DataAccessLayer.Core.SeasonsRepositories;
     using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
     using STrackerServer.DataAccessLayer.Core.UsersRepositories;
+    using STrackerServer.ImageConverter.Cloudinary;
+    using STrackerServer.ImageConverter.Core;
     using STrackerServer.Logger.Core;
     using STrackerServer.Logger.SendGrid;
     using STrackerServer.Repository.MongoDB.Core;
@@ -102,6 +106,17 @@ namespace STrackerServer.NinjectDependencies
 
             // Calendar dependencies
             this.Bind<ICalendar>().To<Calendar>();
+
+            // IImagRepository dependencies
+            this.Bind<IImageConverter>().To<CloudinaryConverter>();
+
+            // Cloudinary dependencies
+            this.Bind<Account>().ToSelf()
+                .WithConstructorArgument("cloud", ConfigurationManager.AppSettings["Cloudinary:Cloud"])
+                .WithConstructorArgument("apiKey", ConfigurationManager.AppSettings["Cloudinary:ApiKey"])
+                .WithConstructorArgument("apiSecret", ConfigurationManager.AppSettings["Cloudinary:ApiSecret"]);
+
+            this.Bind<Cloudinary>().ToSelf();
         }
     }
 }

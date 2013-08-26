@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CloudinaryDotNet">
+      <HintPath>..\packages\CloudinaryDotNet.1.0.9\lib\net40\CloudinaryDotNet.dll</HintPath>
+    </Reference>
     <Reference Include="MongoDB.Bson">
       <HintPath>..\packages\mongocsharpdriver.1.8.1\lib\net35\MongoDB.Bson.dll</HintPath>
     </Reference>
@@ -71,6 +74,10 @@
     <ProjectReference Include="..\STrackerServer.DataAccessLayer\STrackerServer.DataAccessLayer.csproj">
       <Project>{f7946d64-169e-437b-9d4c-69d56f4c32f4}</Project>
       <Name>STrackerServer.DataAccessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\STrackerServer.ImageConverter\STrackerServer.ImageConverter.csproj">
+      <Project>{E30CE766-047D-4D77-80D8-E84FCD94E637}</Project>
+      <Name>STrackerServer.ImageConverter</Name>
     </ProjectReference>
     <ProjectReference Include="..\STrackerServer.Logger\STrackerServer.Logger.csproj">
       <Project>{ED626762-744B-429E-A087-DC819DB24E0E}</Project>

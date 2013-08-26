@@ -3,12 +3,8 @@
         setup();
     });
 
-    var mainInfoNode;
-
     var setup = function () {
 
-        mainInfoNode = document.getElementById('main-info');
-        
         var stars = document.getElementsByClassName('star');
 
         var rateLink = document.getElementById('rating-link');
@@ -84,7 +80,8 @@
         return node;
     };
 
-    var responseNodes = {  
+    var responseNodes = {
+        0: createResultNode('error_box', 'Unauthorized '),
         200: createResultNode('success_box', 'Success'),
         400: createResultNode('error_box','Bad Request'),
         401: createResultNode('error_box', 'Unauthorized '),

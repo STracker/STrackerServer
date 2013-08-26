@@ -120,6 +120,7 @@ namespace STrackerServer.Controllers
             }
 
             var tvshow = this.tvshowsOperations.Read(tvshowId);
+            
             var episodeRating = this.ratingsOperations.Read(key);
 
             var isSubscribed = false;
@@ -142,15 +143,15 @@ namespace STrackerServer.Controllers
 
             var asAired = false;
 
-            if (!episode.Date.Equals(NotAvailable))
-            {
+            //if (!episode.Date.Equals(NotAvailable))
+            //{
                 DateTime date;
 
                 if (DateTime.TryParseExact(episode.Date, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
                 {
                     asAired = !(DateTime.Compare(date, DateTime.Now) > 0);
                 }
-            }
+            //}
 
             return this.View(new EpisodeView(episode)
             {
@@ -160,7 +161,9 @@ namespace STrackerServer.Controllers
                 Watched = watched,
                 AsAired = asAired,
                 RatingsCount = episodeRating.Ratings.Count,
-                UserRating = userRating != null ? userRating.UserRating : -1
+                UserRating = userRating != null ? userRating.UserRating : -1,
+                PreviousEpisode = this.episodesOperations.Read(new Episode.EpisodeId { TvShowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = episodeNumber - 1 }),
+                NextEpisode = this.episodesOperations.Read(new Episode.EpisodeId { TvShowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = episodeNumber + 1 })
             });
         }
 

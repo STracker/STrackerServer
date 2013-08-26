@@ -117,5 +117,15 @@ namespace STrackerServer.Models.Episode
         /// Gets or sets the user rating.
         /// </summary>
         public int UserRating { get; set; }
+
+        /// <summary>
+        /// Gets or sets the previous episode.
+        /// </summary>
+        public Episode PreviousEpisode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the next episode.
+        /// </summary>
+        public Episode NextEpisode { get; set; }
     }
 }

@@ -24,6 +24,7 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
     using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.Comments;
     using STrackerServer.DataAccessLayer.DomainEntities.Ratings;
+    using STrackerServer.ImageConverter.Core;
     using STrackerServer.Logger.Core;
 
     /// <summary>
@@ -31,6 +32,16 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
     /// </summary>
     public class EpisodesRepository : BaseRepository<Episode, Episode.EpisodeId>, IEpisodesRepository
     {
+        /// <summary>
+        /// The default actor photo.
+        /// </summary>
+        private const string DefaultActorPhoto = "https://dl.dropboxusercontent.com/u/2696848/default-profile-pic.jpg";
+
+        /// <summary>
+        /// The default poster.
+        /// </summary>
+        private const string DefaultPoster = "https://dl.dropboxusercontent.com/u/2696848/image-not-found.gif";
+        
         /// <summary>
         /// Seasons repository.
         /// </summary>
@@ -50,6 +61,11 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         /// The new episodes repository.
         /// </summary>
         private readonly ITvShowNewEpisodesRepository newEpisodesRepository;
+
+        /// <summary>
+        /// The image converter.
+        /// </summary>
+        private readonly IImageConverter imageConverter;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EpisodesRepository"/> class.
@@ -75,13 +91,17 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         /// <param name="logger">
         /// The logger.
         /// </param>
-        public EpisodesRepository(ISeasonsRepository seasonsRepository, IEpisodeCommentsRepository commentsRepository, IEpisodeRatingsRepository ratingsRepository, ITvShowNewEpisodesRepository newEpisodesRepository, MongoClient client, MongoUrl url, ILogger logger) 
+        /// <param name="imageConverter">
+        /// The image Converter.
+        /// </param>
+        public EpisodesRepository(ISeasonsRepository seasonsRepository, IEpisodeCommentsRepository commentsRepository, IEpisodeRatingsRepository ratingsRepository, ITvShowNewEpisodesRepository newEpisodesRepository, MongoClient client, MongoUrl url, ILogger logger, IImageConverter imageConverter) 
             : base(client, url, logger)
         {
             this.seasonsRepository = seasonsRepository;
             this.commentsRepository = commentsRepository;
             this.ratingsRepository = ratingsRepository;
             this.newEpisodesRepository = newEpisodesRepository;
+            this.imageConverter = imageConverter;
         }
 
         /// <summary>
@@ -106,6 +126,19 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         /// </param>
         protected override void HookCreate(Episode entity)
         {
+            // Convert Images
+            entity.Poster = this.imageConverter.Convert(entity.Poster, DefaultPoster);
+
+            foreach (var guestActor in entity.GuestActors)
+            {
+                guestActor.Photo = this.imageConverter.Convert(guestActor.Photo, DefaultActorPhoto);
+            }
+
+            foreach (var director in entity.Directors)
+            {
+                director.Photo = this.imageConverter.Convert(director.Photo, DefaultActorPhoto);
+            }
+
             var collection = this.Database.GetCollection(entity.Id.TvShowId);
             collection.Insert(entity);
 
