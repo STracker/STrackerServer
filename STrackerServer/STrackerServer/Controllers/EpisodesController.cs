@@ -10,7 +10,6 @@
 namespace STrackerServer.Controllers
 {
     using System;
-    using System.Globalization;
     using System.Linq;
     using System.Net;
     using System.Web.Mvc;
@@ -143,15 +142,12 @@ namespace STrackerServer.Controllers
 
             var asAired = false;
 
-            //if (!episode.Date.Equals(NotAvailable))
-            //{
-                DateTime date;
+            DateTime date;
 
-                if (DateTime.TryParseExact(episode.Date, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
-                {
-                    asAired = !(DateTime.Compare(date, DateTime.Now) > 0);
-                }
-            //}
+            if (DateTime.TryParse(episode.Date, out date))
+            {
+                asAired = !(DateTime.Compare(date, DateTime.Now) > 0);
+            }
 
             return this.View(new EpisodeView(episode)
             {

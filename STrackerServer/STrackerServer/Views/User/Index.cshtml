@@ -75,6 +75,10 @@
                                         <a href="@Url.Action("Index","Episodes", new { tvshowId = episode.Id.TvShowId, seasonNumber = episode.Id.SeasonNumber, episodeNumber = episode.Id.EpisodeNumber })">@episode.Name</a>
                                     </dd> 
                                 }
+                                if (calendar.Entries.Count > 1)
+                                {
+                                    <dd><br/></dd>
+                                }
                             }
                         </dl>       
                     }

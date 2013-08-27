@@ -77,7 +77,6 @@
                     {
                         <dl>
                             <dt>@calendar.Date</dt>
-
                             @foreach (var entry in calendar.Entries)
                             {
                                 <dd><a href="@Url.Action("Index", "TvShows", new { id = entry.TvShow.Id })">@entry.TvShow.Name</a></dd>
@@ -91,8 +90,11 @@
                                         <a href="@Url.Action("Index","Episodes", new { tvshowId = episode.Id.TvShowId, seasonNumber = episode.Id.SeasonNumber, episodeNumber = episode.Id.EpisodeNumber })">@episode.Name</a>
                                     </dd> 
                                 }
+                                if (calendar.Entries.Count > 1)
+                                {
+                                    <dd><br/></dd>
+                                }
                             }
-       
                         </dl>       
                     }
                 </div>
