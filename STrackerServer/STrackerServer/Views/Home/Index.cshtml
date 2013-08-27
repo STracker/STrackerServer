@@ -1,4 +1,5 @@
-﻿@model STrackerServer.Models.Home.HomeView
+﻿@using System.Activities
+@model STrackerServer.Models.Home.HomeView
 
 @{
     ViewBag.Title = "Home";
@@ -28,36 +29,30 @@
                     </div>   
                 }
             }   
+            <div class="box">
+                <div class="row-fluid">
+                    @if(Model.Genres.Count != 0)
+                    {
+                        for (var i = 0; i < Math.Ceiling(Model.Genres.Count / (double)6); i++)
+                        {
+                            <div class="row-fluid">
+                                @for (var index = 6 * i; (index < (6 * (i + 1))) && index < Model.Genres.Count; index++)
+                                {
+                                    <div class="span2">
+                                        <div class="row-fluid">
+                                            <a href="@Url.Action("Index", "Genres", new { id = @Model.Genres.ElementAt(index).Id })">
+                                                <span >@Model.Genres.ElementAt(index).Name.ToUpper()</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                }     
+                            </div>   
+                        }
+                    }  
+                </div>                
+            </div>
         </div>
         <div class="span3">
-            <div class="box">
-                <div class="accordion" id="accordion">
-                    <div class="accordion-group">
-                        <div class="accordion-heading">
-                            <h4>
-                                <a class="accordion-toggle center" data-toggle="collapse" data-parent="#accordion" href="#Genres">
-                                    Genres
-                                </a> 
-                            </h4>
-                        </div>
-                        <div id="Genres" class="accordion-body collapse">
-                            <div class="accordion-inner">    
-                                @foreach(var genre in Model.Genres)
-                                {                          
-                                    <dl>
-                                        <dd>
-                                            <a href="@Url.Action("Index","Genres", new { id = genre.Id })">
-                                                @genre.Name.ToUpper()
-                                            </a>
-                                        </dd>
-                                    </dl>
-                                }
-                            </div>
-                        </div>     
-                    </div>        
-                </div>
-            </div>
-            
             @if(Model.NewEpisodes.Count != 0)
             {
                 <div class="box blue-border">
@@ -72,7 +67,6 @@
                             @foreach (var episode in entry.Episodes)
                             {
                                 <dd>
-                                    
                                     <span>S</span>@episode.Id.SeasonNumber
                                     <span>E</span>@episode.Id.EpisodeNumber
                                     <span> - <a href="@Url.Action("Index","Episodes", new { tvshowId = episode.Id.TvShowId, seasonNumber = episode.Id.SeasonNumber, episodeNumber = episode.Id.EpisodeNumber })">@episode.Name</a> - @episode.Date</span>
