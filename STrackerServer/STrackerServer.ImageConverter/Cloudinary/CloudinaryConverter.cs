@@ -55,7 +55,7 @@ namespace STrackerServer.ImageConverter.Cloudinary
             }
 
             var fileDescription = new FileDescription(imageUrl);
-            var result = this.provider.Upload(new ImageUploadParams { File = fileDescription });
+            var result = this.provider.Upload(new ImageUploadParams { File = fileDescription, });
             return result.Uri != null ? result.Uri.AbsoluteUri : defaultImage;
         }
     }

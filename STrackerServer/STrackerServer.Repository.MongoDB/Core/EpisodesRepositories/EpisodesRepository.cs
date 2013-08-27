@@ -176,12 +176,28 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         /// </param>
         protected override void HookUpdate(Episode entity)
         {
-            // Update the synopsis in new episodes.
-            this.newEpisodesRepository.RemoveEpisode(entity.Id.TvShowId, entity.GetSynopsis());
-            this.newEpisodesRepository.AddEpisode(entity.Id.TvShowId, entity.GetSynopsis());
+            /* Removing first the episodes from documents before
+             * changing its posters to avoid failing on pull of the object.
+             */
 
-            // Update the synopsis in season.
+            // Removing synopsis from other documents.
+            this.newEpisodesRepository.RemoveEpisode(entity.Id.TvShowId, entity.GetSynopsis());
             this.seasonsRepository.RemoveEpisode(new Season.SeasonId { TvShowId = entity.Id.TvShowId, SeasonNumber = entity.Id.SeasonNumber }, entity.GetSynopsis());
+
+            // Change the old image if its the default.  
+            var oldEpisode = this.Read(entity.Id);
+
+            if (oldEpisode.Poster.Equals(DefaultPoster))
+            {
+                entity.Poster = this.imageConverter.Convert(entity.Poster, DefaultPoster);
+            }
+            else
+            {
+                entity.Poster = oldEpisode.Poster;
+            }
+
+            // Adding synopsis from other documents.
+            this.newEpisodesRepository.AddEpisode(entity.Id.TvShowId, entity.GetSynopsis());
             this.seasonsRepository.AddEpisode(new Season.SeasonId { TvShowId = entity.Id.TvShowId, SeasonNumber = entity.Id.SeasonNumber }, entity.GetSynopsis());
 
             // Update the document of the episode.
