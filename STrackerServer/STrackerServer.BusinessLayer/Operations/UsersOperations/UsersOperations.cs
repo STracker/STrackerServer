@@ -461,15 +461,8 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         /// <returns>
         /// The <see cref="ICollection{T}"/>.
         /// </returns>
-        public ICollection<TvShowCalendar> GetUserNewEpisodes(string userId, string date)
+        public ICollection<TvShowCalendar> GetUserNewEpisodes(string userId, DateTime? date)
         {
-            // Verify date format.
-            DateTime temp;
-            if (date != null && !DateTime.TryParse(date, out temp) && DateTime.Parse(date) < DateTime.Parse(DateTime.UtcNow.ToString("yyyy-MM-dd")))
-            {
-                return null;
-            }
-
             User user;
             if ((user = this.Read(userId)) == null)
             {

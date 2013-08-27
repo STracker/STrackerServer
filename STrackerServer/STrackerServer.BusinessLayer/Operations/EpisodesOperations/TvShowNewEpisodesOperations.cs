@@ -59,22 +59,15 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
         /// <returns>
         /// The <see cref="NewTvShowEpisodes"/>.
         /// </returns>
-        public NewTvShowEpisodes GetNewEpisodes(string tvshowId, string date)
+        public NewTvShowEpisodes GetNewEpisodes(string tvshowId, DateTime? date)
         {
-            // Verify date format.
-            DateTime temp;
-            if (date != null && !DateTime.TryParse(date, out temp) && (DateTime.Parse(date) < DateTime.Parse(DateTime.UtcNow.ToString("yyyy-MM-dd"))))
-            {
-                return null;
-            }
-
             var ne = this.Repository.Read(tvshowId);
             if (date == null)
             {
                 return ne;
             }
 
-            ne.Episodes.RemoveAll(e => DateTime.Parse(e.Date) > DateTime.Parse(date) || DateTime.Parse(e.Date) < DateTime.UtcNow.Date);
+            ne.Episodes.RemoveAll(e => DateTime.Parse(e.Date) > date || DateTime.Parse(e.Date) < DateTime.UtcNow.Date);
             return ne;
         }
 
@@ -88,16 +81,10 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
         /// <returns>
         /// The <see cref="ICollection{T}"/>.
         /// </returns>
-        public ICollection<NewTvShowEpisodes> GetNewEpisodes(string date)
+        public ICollection<NewTvShowEpisodes> GetNewEpisodes(DateTime? date)
         {
-            // Verify date format.
-            DateTime temp;
-            if (date != null && !DateTime.TryParse(date, out temp) && (DateTime.Parse(date) < DateTime.Parse(DateTime.UtcNow.ToString("yyyy-MM-dd"))))
-            {
-                return null;
-            }
-
             var all = this.Repository.ReadAll();
+
             if (date == null)
             {
                 return all;
@@ -107,7 +94,7 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
             foreach (var entry in all)
             {
                 var ne = entry;
-                ne.Episodes.RemoveAll(e => DateTime.Parse(e.Date) > DateTime.Parse(date) || DateTime.Parse(e.Date) < DateTime.UtcNow.Date);
+                ne.Episodes.RemoveAll(e => DateTime.Parse(e.Date) > date || DateTime.Parse(e.Date) < DateTime.UtcNow.Date);
                 if (ne.Episodes.Count > 0)
                 {
                     allEpis.Add(ne);

@@ -58,41 +58,28 @@
                 </div>
             </div>
             
-            <div class="box blue-border">
-                <h2 style="text-align: center">Next Episodes</h2>
-            </div>    
-            
-            @if (Model.NewEpisodes.Count != 0)
+            @if(Model.NewEpisodes.Count != 0)
             {
                 <div class="box blue-border">
-                    <div class="accordion" id="accordion">
-                        @foreach(var obj in Model.NewEpisodes)
-                        {
-                            <div class="accordion-group">
-                                <div class="accordion-heading">
-                                    <a class="accordion-toggle center" data-toggle="collapse" data-parent="#accordion" href="#@obj.TvShow.Id">
-                                        @obj.TvShow.Name
-                                    </a>
-                                </div>
-                                <div id="@obj.TvShow.Id" class="accordion-body collapse">
-                                    <div class="accordion-inner">                                   
-                                        <dl>
-                                            @foreach(var episode in obj.Episodes)
-                                            {
-                                                <dt>@episode.Date</dt>
-                                                <dd>
-                                                    <span>S</span>@episode.Id.SeasonNumber
-                                                    <span>E</span>@episode.Id.EpisodeNumber
-                                                    <span> - </span>
-                                                    <a href="@episode.Uri">@episode.Name</a>
-                                                </dd>
-                                            } 
-                                        </dl>
-                                    </div>
-                                </div>     
-                            </div>        
-                        }
-                    </div>
+                    <h2 style="text-align: center">Next Episodes</h2>
+                </div>
+ 
+                <div class="box blue-border">                        
+                    @foreach(var entry in Model.NewEpisodes)
+                    {
+                        <dl>
+                            <dt><a href="@Url.Action("Index", "TvShows", new { id = entry.TvShow.Id })">@entry.TvShow.Name</a></dt>
+                            @foreach (var episode in entry.Episodes)
+                            {
+                                <dd>
+                                    
+                                    <span>S</span>@episode.Id.SeasonNumber
+                                    <span>E</span>@episode.Id.EpisodeNumber
+                                    <span> - <a href="@Url.Action("Index","Episodes", new { tvshowId = episode.Id.TvShowId, seasonNumber = episode.Id.SeasonNumber, episodeNumber = episode.Id.EpisodeNumber })">@episode.Name</a> - @episode.Date</span>
+                                </dd> 
+                            }
+                        </dl>       
+                    }
                 </div>
             }
         </div>

@@ -9,6 +9,7 @@
 
 namespace STrackerServer.BusinessLayer.Core.UsersOperations
 {
+    using System;
     using System.Collections.Generic;
 
     using STrackerServer.DataAccessLayer.DomainEntities;
@@ -199,7 +200,7 @@ namespace STrackerServer.BusinessLayer.Core.UsersOperations
         /// <returns>
         /// The <see cref="ICollection{T}"/>.
         /// </returns>
-        ICollection<TvShowCalendar> GetUserNewEpisodes(string userId, string date);
+        ICollection<TvShowCalendar> GetUserNewEpisodes(string userId, DateTime? date);
 
         /// <summary>
         /// Change user permission.

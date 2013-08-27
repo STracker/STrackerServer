@@ -9,6 +9,7 @@
 
 namespace STrackerServer.BusinessLayer.Core.EpisodesOperations
 {
+    using System;
     using System.Collections.Generic;
 
     using STrackerServer.DataAccessLayer.DomainEntities;
@@ -31,7 +32,7 @@ namespace STrackerServer.BusinessLayer.Core.EpisodesOperations
         /// <returns>
         /// The <see cref="NewTvShowEpisodes"/>.
         /// </returns>
-        NewTvShowEpisodes GetNewEpisodes(string tvshowId, string date);
+        NewTvShowEpisodes GetNewEpisodes(string tvshowId, DateTime? date);
 
         /// <summary>
         /// Get new episodes from all television shows.
@@ -43,6 +44,6 @@ namespace STrackerServer.BusinessLayer.Core.EpisodesOperations
         /// <returns>
         /// The <see cref="ICollection"/>.
         /// </returns>
-        ICollection<NewTvShowEpisodes> GetNewEpisodes(string date);
+        ICollection<NewTvShowEpisodes> GetNewEpisodes(DateTime? date);
     }
 }

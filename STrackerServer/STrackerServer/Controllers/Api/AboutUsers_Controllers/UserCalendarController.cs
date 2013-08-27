@@ -47,7 +47,7 @@ namespace STrackerServer.Controllers.Api.AboutUsers_Controllers
         [HawkAuthorize]
         public HttpResponseMessage Get()
         {
-            return this.BaseGet(this.operations.GetUserNewEpisodes(this.User.Identity.Name, DateTime.UtcNow.AddDays(7).ToString("yyyy-MM-dd")));
+            return this.BaseGet(this.operations.GetUserNewEpisodes(this.User.Identity.Name, DateTime.UtcNow.AddDays(7)));
         }
     }
 }

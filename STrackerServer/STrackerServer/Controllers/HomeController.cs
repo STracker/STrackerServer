@@ -75,7 +75,7 @@ namespace STrackerServer.Controllers
             {
                 Genres = this.genresOperations.ReadAllSynopsis().OrderBy(synopsis => synopsis.Name).ToList(),
                 TopRated = this.tvshowsRatingsOperations.GetTopRated(MaxTopRated),
-                NewEpisodes = this.tvshowNewEpisodesOperations.GetNewEpisodes(DateTime.Now.AddDays(7).ToString("yyyy-MM-dd"))
+                NewEpisodes = this.tvshowNewEpisodesOperations.GetNewEpisodes(DateTime.Now.AddDays(7))
             };
 
             return this.View(view);

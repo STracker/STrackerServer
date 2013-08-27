@@ -94,7 +94,7 @@ namespace STrackerServer.Controllers
                 IsFriend = isFriend,
                 IsAdmin = this.permissionManager.HasPermission(Permissions.Admin, user.Permission),
                 AdminMode = adminMode,
-                NewEpisodes = this.usersOperations.GetUserNewEpisodes(id, DateTime.Now.AddDays(7).ToString("yyyy-MM-dd"))
+                NewEpisodes = this.usersOperations.GetUserNewEpisodes(id, DateTime.Now.AddDays(7))
             });
         }
 

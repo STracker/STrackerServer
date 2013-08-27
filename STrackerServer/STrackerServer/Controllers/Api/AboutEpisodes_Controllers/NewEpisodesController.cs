@@ -9,6 +9,7 @@
 
 namespace STrackerServer.Controllers.Api.AboutEpisodes_Controllers
 {
+    using System;
     using System.Net.Http;
     using System.Web.Http;
 
@@ -54,7 +55,8 @@ namespace STrackerServer.Controllers.Api.AboutEpisodes_Controllers
         [Caching]
         public HttpResponseMessage Get(string tvshowId, string date)
         {
-            return this.BaseGetForEntities<NewTvShowEpisodes, string>(this.operations.GetNewEpisodes(tvshowId, date));
+            DateTime dateTime;
+            return this.BaseGetForEntities<NewTvShowEpisodes, string>(this.operations.GetNewEpisodes(tvshowId, DateTime.TryParse(date, out dateTime) ? dateTime : (DateTime?)null));
         }
     }
 }
