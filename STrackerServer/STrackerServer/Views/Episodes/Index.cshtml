@@ -107,7 +107,7 @@
                 }  
             </div>
             <div class="row-fluid">
-                <div class="span3">
+                <div class="span6">
                     @if (Model.PreviousEpisode != null)
                     {
                         <a href="@Url.Action("Index","Episodes", new { tvshowId = Model.PreviousEpisode.Id.TvShowId, seasonNumber = Model.PreviousEpisode.Id.SeasonNumber, episodeNumber = Model.PreviousEpisode.Id.EpisodeNumber })">
@@ -115,8 +115,7 @@
                         </a>
                     }
                 </div>
-                <div class="span7"></div>
-                <div class="span2">
+                <div class="span6" style="text-align: right">
                     @if (Model.NextEpisode != null)
                     {
                         <a href="@Url.Action("Index","Episodes", new { tvshowId = Model.NextEpisode.Id.TvShowId, seasonNumber = Model.NextEpisode.Id.SeasonNumber, episodeNumber = Model.NextEpisode.Id.EpisodeNumber })">

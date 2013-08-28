@@ -67,8 +67,8 @@
                             @foreach (var episode in entry.Episodes)
                             {
                                 <dd>
-                                    <span>S</span>@episode.Id.SeasonNumber
-                                    <span>E</span>@episode.Id.EpisodeNumber
+                                    <span>S</span>@if(episode.Id.SeasonNumber < 10){<span>0</span>}@episode.Id.SeasonNumber
+                                    <span>E</span>@if(episode.Id.EpisodeNumber < 10){<span>0</span>}@episode.Id.EpisodeNumber
                                     <span> - <a href="@Url.Action("Index","Episodes", new { tvshowId = episode.Id.TvShowId, seasonNumber = episode.Id.SeasonNumber, episodeNumber = episode.Id.EpisodeNumber })">@episode.Name</a> - @episode.Date</span>
                                 </dd> 
                             }

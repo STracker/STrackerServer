@@ -13,7 +13,7 @@
                 @for (var index = 6 * i; (index < (6 * (i + 1))) && index < Model.TvShows.Count; index++)
                 {
                     <div class="span2" style="text-align: center">
-                        <div class="box-whiter blue-border">
+                        <div class="box-whiter">
                             <div class="row-fluid">
                                 <a href="@Url.Action("Index", "TvShows", new { id = @Model.TvShows[index].Id })">
                                     <img src="@Model.TvShows[index].Poster" alt="No Image"/>

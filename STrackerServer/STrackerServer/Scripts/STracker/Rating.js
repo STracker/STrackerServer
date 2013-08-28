@@ -59,7 +59,7 @@
         xhr.send('value=' + value);
     };
 
-    var showResponse = function (status, value) {
+    var showResponse = function (status) {
 
         var resultNode = document.getElementById('rating-result');
 
@@ -69,7 +69,7 @@
         for (var i = 0; i < childNodesLength; i++) {
             resultNode.removeChild(childNodes[0]);
         }
-
+        
         resultNode.appendChild(responseNodes[status]);
     };
 
@@ -81,10 +81,10 @@
     };
 
     var responseNodes = {
-        0: createResultNode('error_box', 'Unauthorized '),
+        0: createResultNode('error_box', 'You need to be logged in.'),
         200: createResultNode('success_box', 'Success'),
-        400: createResultNode('error_box','Bad Request'),
-        401: createResultNode('error_box', 'Unauthorized '),
-        500: createResultNode('error_box', 'Internal Error')
+        400: createResultNode('error_box','You have made a bad request.'),
+        401: createResultNode('error_box', 'Unauthorized'),
+        500: createResultNode('error_box', 'An internal error has occurred.')
     };
 })()
