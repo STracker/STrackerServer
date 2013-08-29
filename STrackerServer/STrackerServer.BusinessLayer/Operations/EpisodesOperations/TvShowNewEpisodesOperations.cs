@@ -11,6 +11,7 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.DataAccessLayer.Core.EpisodesRepositories;
@@ -68,6 +69,7 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
             }
 
             ne.Episodes.RemoveAll(e => DateTime.Parse(e.Date) > date || DateTime.Parse(e.Date) < DateTime.UtcNow.Date);
+            ne.Episodes = ne.Episodes.OrderBy(synopsis => synopsis.Date).ToList();
             return ne;
         }
 
@@ -97,6 +99,7 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
                 ne.Episodes.RemoveAll(e => DateTime.Parse(e.Date) > date || DateTime.Parse(e.Date) < DateTime.UtcNow.Date);
                 if (ne.Episodes.Count > 0)
                 {
+                    ne.Episodes = ne.Episodes.OrderBy(synopsis => synopsis.Date).ToList();
                     allEpis.Add(ne);
                 }
             }
