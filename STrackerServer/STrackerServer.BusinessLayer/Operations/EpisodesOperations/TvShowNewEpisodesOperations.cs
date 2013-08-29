@@ -88,6 +88,11 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
         {
             var all = this.Repository.ReadAll();
 
+            foreach (var ne in all)
+            {
+                ne.Episodes = ne.Episodes.OrderBy(synopsis => synopsis.Date).ToList();
+            }
+
             if (date == null)
             {
                 return all;
@@ -100,7 +105,6 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
                 ne.Episodes.RemoveAll(e => DateTime.Parse(e.Date) > date || DateTime.Parse(e.Date) < DateTime.UtcNow.Date);
                 if (ne.Episodes.Count > 0)
                 {
-                    ne.Episodes = ne.Episodes.OrderBy(synopsis => synopsis.Date).ToList();
                     allEpis.Add(ne);
                 }
             }
