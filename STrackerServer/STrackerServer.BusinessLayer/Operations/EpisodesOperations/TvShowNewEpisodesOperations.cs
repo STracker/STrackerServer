@@ -63,13 +63,14 @@ namespace STrackerServer.BusinessLayer.Operations.EpisodesOperations
         public NewTvShowEpisodes GetNewEpisodes(string tvshowId, DateTime? date)
         {
             var ne = this.Repository.Read(tvshowId);
+            ne.Episodes = ne.Episodes.OrderBy(synopsis => synopsis.Date).ToList();
+
             if (date == null)
             {
                 return ne;
             }
 
             ne.Episodes.RemoveAll(e => DateTime.Parse(e.Date) > date || DateTime.Parse(e.Date) < DateTime.UtcNow.Date);
-            ne.Episodes = ne.Episodes.OrderBy(synopsis => synopsis.Date).ToList();
             return ne;
         }
 
