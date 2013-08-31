@@ -169,6 +169,8 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
                 return false;
             }
 
+            this.Repository.RemoveTvShowSuggestions(id, tvshowId);
+
             return this.Repository.AddSubscription(id, new Subscription { TvShow = tvshow.GetSynopsis() });
         }
 

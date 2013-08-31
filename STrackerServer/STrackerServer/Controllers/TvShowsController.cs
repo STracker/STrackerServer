@@ -488,21 +488,9 @@ namespace STrackerServer.Controllers
                 return this.View("BadRequest");
             }
 
-            bool success;
-
-            if (values.IsSubscribing)
-            {
-                success = this.usersOperations.AddSubscription(User.Identity.Name, values.Id);
-
-                if (success)
-                {
-                    this.usersOperations.RemoveTvShowSuggestions(User.Identity.Name, values.Id);
-                }
-            }
-            else
-            {
-                success = this.usersOperations.RemoveSubscription(User.Identity.Name, values.Id);
-            }
+            var success = values.IsSubscribing ? 
+                this.usersOperations.AddSubscription(this.User.Identity.Name, values.Id) : 
+                this.usersOperations.RemoveSubscription(this.User.Identity.Name, values.Id);
 
             if (!success)
             {

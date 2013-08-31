@@ -12,6 +12,7 @@ namespace STrackerServer.Repository.MongoDB.Core.SeasonsRepositories
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using global::MongoDB.Bson;
 
@@ -136,7 +137,11 @@ namespace STrackerServer.Repository.MongoDB.Core.SeasonsRepositories
         protected override Season HookRead(Season.SeasonId id)
         {
             var collection = this.Database.GetCollection(id.TvShowId);
-            return collection.FindOneByIdAs<Season>(id.ToBsonDocument());
+
+            var season = collection.FindOneByIdAs<Season>(id.ToBsonDocument());
+            season.Episodes = season.Episodes.OrderBy(synopsis => synopsis.Id.EpisodeNumber).ToList();
+
+            return season;
         }
 
         /// <summary>
