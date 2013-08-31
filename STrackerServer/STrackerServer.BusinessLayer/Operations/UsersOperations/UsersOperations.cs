@@ -225,13 +225,14 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
                 return false;
             }
 
-            User user;
-            if (this.Read(userFromId) == null || (user = this.Read(userToId)) == null)
+            var userTo = this.Read(userToId);
+
+            if (this.Read(userFromId) == null || userTo == null)
             {
                 return false;
             }
 
-            if (user.FriendRequests.Exists(fr => fr.Id.Equals(userFromId)))
+            if (userTo.FriendRequests.Exists(fr => fr.Id.Equals(userFromId)) || userTo.Friends.Exists(friend => friend.Id.Equals(userFromId)))
             {
                 return false;
             }
