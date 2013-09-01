@@ -137,13 +137,7 @@
                         <dl>              
                             <dt>@episode.Date</dt>
                             <dd>
-                                S
-                                @if(episode.Id.SeasonNumber < 10){<span>0</span>}
-                                @episode.Id.SeasonNumber
-                                E
-                                @if(episode.Id.EpisodeNumber < 10){<span>0</span>}@episode.Id.EpisodeNumber
-                                <span> </span>
-                                <a href="@Url.Action("Index","Episodes", new { tvshowId = episode.Id.TvShowId, seasonNumber = episode.Id.SeasonNumber, episodeNumber = episode.Id.EpisodeNumber })">@episode.Name</a>
+                                <span>S</span>@if(episode.Id.SeasonNumber < 10){<span>0</span>}@episode.Id.SeasonNumber<span>E</span>@if(episode.Id.EpisodeNumber < 10){<span>0</span>}@episode.Id.EpisodeNumber<span> <a href="@Url.Action("Index","Episodes", new { tvshowId = episode.Id.TvShowId, seasonNumber = episode.Id.SeasonNumber, episodeNumber = episode.Id.EpisodeNumber })">@episode.Name</a></span>  
                             </dd>           
                         </dl>       
                     }
