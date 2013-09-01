@@ -27,7 +27,7 @@ namespace STrackerServer.Controllers
     /// <summary>
     /// The episodes web controller.
     /// </summary>
-    public class EpisodesController : ControllerExtensions
+    public class EpisodesController : Controller
     {
         /// <summary>
         /// The episodes operations.

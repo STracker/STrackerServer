@@ -173,7 +173,6 @@
     <Compile Include="Controllers\Api\AboutUsers_Controllers\UserSubscriptionsController.cs" />
     <Compile Include="Controllers\Api\AboutEpisodes_Controllers\EpisodesCommentsController.cs" />
     <Compile Include="Controllers\Api\AboutUsers_Controllers\UserSuggestionsController.cs" />
-    <Compile Include="Controllers\ControllerExtensions.cs" />
     <Compile Include="Controllers\EpisodesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Api\AboutSeasons_Controllers\SeasonsController.cs" />
