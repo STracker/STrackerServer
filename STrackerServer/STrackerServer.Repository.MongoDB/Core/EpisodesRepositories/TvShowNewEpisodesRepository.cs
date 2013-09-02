@@ -163,7 +163,8 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         /// </param>
         protected override void HookDelete(string id)
         {
-            throw new NotSupportedException("this method currently is not supported.");
+            var query = Query<NewTvShowEpisodes>.EQ(nte => nte.Id, id);
+            this.collection.FindAndRemove(query, SortBy.Null);
         }
 
         /// <summary>

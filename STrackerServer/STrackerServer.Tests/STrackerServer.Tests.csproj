@@ -35,6 +35,10 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CloudinaryDotNet, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CloudinaryDotNet.1.0.9\lib\net40\CloudinaryDotNet.dll</HintPath>
+    </Reference>
     <Reference Include="MongoDB.Bson, Version=1.8.1.20, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\mongocsharpdriver.1.8.1\lib\net35\MongoDB.Bson.dll</HintPath>
@@ -42,6 +46,10 @@
     <Reference Include="MongoDB.Driver, Version=1.8.1.20, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\mongocsharpdriver.1.8.1\lib\net35\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Ninject, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -72,12 +80,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dummies\ImageConverterDummy.cs" />
+    <Compile Include="Dummies\LoggerDummy.cs" />
     <Compile Include="ModuleForUnitTests.cs" />
-    <Compile Include="Operations.Tests\EpisodesOperationsTests.cs" />
-    <Compile Include="Operations.Tests\SeasonsOperations.cs" />
-    <Compile Include="Operations.Tests\TvShowsOperations.cs" />
-    <Compile Include="Operations.Tests\UsersOperationsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\Tests\TvShowsRepositoryTests.cs" />
+    <Compile Include="Repositories\RepositoriesSetup.cs" />
+    <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -91,6 +100,14 @@
     <ProjectReference Include="..\STrackerServer.DataAccessLayer\STrackerServer.DataAccessLayer.csproj">
       <Project>{f7946d64-169e-437b-9d4c-69d56f4c32f4}</Project>
       <Name>STrackerServer.DataAccessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\STrackerServer.ImageConverter\STrackerServer.ImageConverter.csproj">
+      <Project>{E30CE766-047D-4D77-80D8-E84FCD94E637}</Project>
+      <Name>STrackerServer.ImageConverter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\STrackerServer.Logger\STrackerServer.Logger.csproj">
+      <Project>{ED626762-744B-429E-A087-DC819DB24E0E}</Project>
+      <Name>STrackerServer.Logger</Name>
     </ProjectReference>
     <ProjectReference Include="..\STrackerServer.Repository.MongoDB\STrackerServer.Repository.MongoDB.csproj">
       <Project>{a43347c5-0aa1-4712-8451-8b9b91666b76}</Project>

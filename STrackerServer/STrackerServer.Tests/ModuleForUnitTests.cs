@@ -11,10 +11,17 @@ namespace STrackerServer.Tests
 {
     using System.Configuration;
 
+    using CloudinaryDotNet;
+
     using MongoDB.Driver;
 
     using Ninject.Modules;
 
+    using RabbitMQ.Client;
+
+    using STrackerBackgroundWorker.RabbitMQ;
+
+    using STrackerServer.BusinessLayer.Calendar;
     using STrackerServer.BusinessLayer.Core;
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
     using STrackerServer.BusinessLayer.Core.SeasonsOperations;
@@ -25,16 +32,20 @@ namespace STrackerServer.Tests
     using STrackerServer.BusinessLayer.Operations.SeasonsOperations;
     using STrackerServer.BusinessLayer.Operations.TvShowsOperations;
     using STrackerServer.BusinessLayer.Operations.UsersOperations;
+    using STrackerServer.BusinessLayer.Permissions;
     using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.Core.EpisodesRepositories;
     using STrackerServer.DataAccessLayer.Core.SeasonsRepositories;
     using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
     using STrackerServer.DataAccessLayer.Core.UsersRepositories;
+    using STrackerServer.ImageConverter.Core;
+    using STrackerServer.Logger.Core;
     using STrackerServer.Repository.MongoDB.Core;
     using STrackerServer.Repository.MongoDB.Core.EpisodesRepositories;
     using STrackerServer.Repository.MongoDB.Core.SeasonsRepositories;
     using STrackerServer.Repository.MongoDB.Core.TvShowsRepositories;
     using STrackerServer.Repository.MongoDB.Core.UsersRepositories;
+    using STrackerServer.Tests.Dummies;
 
     /// <summary>
     /// The module for unit tests.
@@ -74,9 +85,37 @@ namespace STrackerServer.Tests
             this.Bind<IEpisodeCommentsRepository>().To<EpisodeCommentsRepository>();
             this.Bind<IEpisodeRatingsRepository>().To<EpisodeRatingsRepository>();
 
+            // New Episodes dependencies
+            this.Bind<ITvShowNewEpisodesRepository>().To<TvShowNewEpisodesRepository>();
+            this.Bind<ITvShowNewEpisodesOperations>().To<TvShowNewEpisodesOperations>();
+
             // Users stuff dependencies...
             this.Bind<IUsersOperations>().To<UsersOperations>();
             this.Bind<IUsersRepository>().To<UsersRepository>();
+
+            // Queue dependencies...
+            this.Bind<ConnectionFactory>().ToSelf().InSingletonScope().WithPropertyValue("Uri", ConfigurationManager.AppSettings["RabbitMQUri"]);
+            this.Bind<QueueManager>().ToSelf().InSingletonScope();
+
+            // PermissionProvider dependencies
+            this.Bind<IPermissionManager<Permissions, int>>().To<PermissionManager>();
+
+            // Logger dependencies
+            this.Bind<ILogger>().To<LoggerDummy>();
+
+            // Calendar dependencies
+            this.Bind<ICalendar>().To<Calendar>();
+
+            // IImagRepository dependencies
+            this.Bind<IImageConverter>().To<ImageConverterDummy>();
+
+            // Cloudinary dependencies
+            this.Bind<Account>().ToSelf()
+                .WithConstructorArgument("cloud", ConfigurationManager.AppSettings["Cloudinary:Cloud"])
+                .WithConstructorArgument("apiKey", ConfigurationManager.AppSettings["Cloudinary:ApiKey"])
+                .WithConstructorArgument("apiSecret", ConfigurationManager.AppSettings["Cloudinary:ApiSecret"]);
+
+            this.Bind<Cloudinary>().ToSelf();
         }
     }
 }
