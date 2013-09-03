@@ -84,8 +84,8 @@ namespace STrackerServer.Tests.Repositories
         [Test]
         public void CreateFail()
         {
-            Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow("1")));
-            Assert.False(this.tvshowsRepository.Create(Utils.CreateTvShow("1")));
+            Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow("2")));
+            Assert.False(this.tvshowsRepository.Create(Utils.CreateTvShow("2")));
         }
 
         /// <summary>
@@ -94,8 +94,8 @@ namespace STrackerServer.Tests.Repositories
         [Test]
         public void Read()
         {
-            Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow("1")));
-            Assert.NotNull(this.tvshowsRepository.Read("1"));
+            Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow("3")));
+            Assert.NotNull(this.tvshowsRepository.Read("3"));
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace STrackerServer.Tests.Repositories
         [Test]
         public void ReadFail()
         {
-            Assert.Null(this.tvshowsRepository.Read("1"));
+            Assert.Null(this.tvshowsRepository.Read("4"));
         }
 
         /// <summary>
@@ -113,18 +113,18 @@ namespace STrackerServer.Tests.Repositories
         [Test]
         public void Update()
         {
-            Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow("1")));
+            Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow("5")));
 
-            var tvshow = this.tvshowsRepository.Read("1");
+            var tvshow = this.tvshowsRepository.Read("5");
             Assert.NotNull(tvshow);
 
             tvshow.Name = "Name2";
 
             Assert.True(this.tvshowsRepository.Update(tvshow));
 
-            Assert.True(this.genresRepository.Read("Genre2").Tvshows.Any(synopsis => synopsis.Id.Equals("1") && synopsis.Name.Equals("Name2")));
+            Assert.True(this.genresRepository.Read("Genre2").Tvshows.Any(synopsis => synopsis.Id.Equals("5") && synopsis.Name.Equals("Name2")));
 
-            Assert.AreEqual(this.tvshowNewEpisodesRepository.Read("1").TvShow.Name, "Name2");
+            Assert.AreEqual(this.tvshowNewEpisodesRepository.Read("5").TvShow.Name, "Name2");
         }
 
         /// <summary>
@@ -133,9 +133,9 @@ namespace STrackerServer.Tests.Repositories
         [Test]
         public void Delete()
         {
-            Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow("1")));
-            Assert.True(this.tvshowsRepository.Delete("1"));
-            Assert.Null(this.tvshowsRepository.Read("1"));
+            Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow("6")));
+            Assert.True(this.tvshowsRepository.Delete("6"));
+            Assert.Null(this.tvshowsRepository.Read("6"));
         }
 
         /// <summary>
@@ -144,11 +144,11 @@ namespace STrackerServer.Tests.Repositories
         [Test]
         public void ReadByName()
         {
-            Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow("1")));
-            Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow("2")));
+            Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow("7")));
+            Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow("8")));
 
             var tvshows = this.tvshowsRepository.ReadByName("Name");
-            Assert.AreEqual(tvshows.Count, 2);
+            Assert.True(tvshows.Count >= 2);
         }
 
         /// <summary>
@@ -166,9 +166,9 @@ namespace STrackerServer.Tests.Repositories
         [Test]
         public void AddSeason()
         {
-            Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow("1")));
-            Assert.True(this.tvshowsRepository.AddSeason("1", Utils.CreateSeason("1", 3).GetSynopsis()));
-            Assert.True(this.tvshowsRepository.Read("1").Seasons.Any(synopsis => synopsis.Id.SeasonNumber == 3));
+            Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow("9")));
+            Assert.True(this.tvshowsRepository.AddSeason("9", Utils.CreateSeason("9", 3).GetSynopsis()));
+            Assert.True(this.tvshowsRepository.Read("9").Seasons.Any(synopsis => synopsis.Id.SeasonNumber == 3));
         }
 
         /// <summary>
@@ -177,27 +177,9 @@ namespace STrackerServer.Tests.Repositories
         [Test]
         public void RemoveSeason()
         {
-            Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow("1")));
-            Assert.True(this.tvshowsRepository.RemoveSeason("1", Utils.CreateSeason("1", 2).GetSynopsis()));
-            Assert.False(this.tvshowsRepository.Read("1").Seasons.Any(synopsis => synopsis.Id.SeasonNumber == 2));
-        }
-
-        /// <summary>
-        /// The setup.
-        /// </summary>
-        [SetUp]
-        public void Setup()
-        {
-            Utils.CleanDatabase();
-        }
-
-        /// <summary>
-        /// The tear down.
-        /// </summary>
-        [TearDown]
-        public void TearDown()
-        {
-            Utils.CleanDatabase();
+            Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow("10")));
+            Assert.True(this.tvshowsRepository.RemoveSeason("10", Utils.CreateSeason("10", 2).GetSynopsis()));
+            Assert.False(this.tvshowsRepository.Read("10").Seasons.Any(synopsis => synopsis.Id.SeasonNumber == 2));
         }
     }
 }
