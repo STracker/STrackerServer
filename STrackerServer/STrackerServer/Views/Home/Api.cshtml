@@ -20,7 +20,7 @@
 	        		<dl>
 						<dt>
 							<span class="label label-info">GET</span>
-		        			<span><code>/api/tvshows?name={tvshowName}</code></span>
+		        			<span><code>/api/tvshows?name={tvshowName}&start={startNumber}&end={endNumber}</code></span>
 		        		</dt>
 						<dd>
 							Returns a list of television show synopses based on the argument passed on query string.
@@ -68,14 +68,6 @@
 						<br/>
 						<dt>
 							<span class="label label-info">GET</span>
-		        			<span><code>/api/tvshows/toprated</code></span>
-		        		</dt>
-						<dd>
-							Returns a list of synopses based on the top rated television show.
-						</dd>
-						<br/>
-						<dt>
-							<span class="label label-info">GET</span>
 		        			<span><code>/api/genres</code></span>
 		        		</dt>
                         <dd>
@@ -92,7 +84,7 @@
                         <br/>
 						<dt>
 							<span class="label label-info">GET</span>
-		        			<span><code>/api/tvshows/{tvshowId}/newestepisodes?date={date}</code></span>
+		        			<span><code>/api/tvshows/{tvshowId}/newepisodes?date=date</code></span>
 		        		</dt>
 						<dd>
 							Returns a list of episodes synopses of the newest episodes from one television show.
