@@ -73,8 +73,8 @@ namespace STrackerServer.Tests.Repositories.Tests
             Assert.Null(this.tvshowsRepository.Read("1"));
 
             var tvshow = Utils.CreateTvShow("1");
-            Assert.True(this.tvshowsRepository.Create(tvshow));
 
+            Assert.True(this.tvshowsRepository.Create(tvshow));
             Assert.True(this.genresRepository.Read("Genre1").Tvshows.Any(synopsis => synopsis.Id.Equals("1")));
             Assert.True(this.genresRepository.Read("Genre2").Tvshows.Any(synopsis => synopsis.Id.Equals("1")));
 
