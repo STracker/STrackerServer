@@ -39,7 +39,6 @@ namespace STrackerServer.Tests.Repositories.Tests
         public SeasonsRepositoryTests()
         {
             var kernel = new StandardKernel(new ModuleForUnitTests());
-
             this.tvshowsRepository = kernel.Get<ITvShowsRepository>();
             this.seasonsRepository = kernel.Get<ISeasonsRepository>();
         }
