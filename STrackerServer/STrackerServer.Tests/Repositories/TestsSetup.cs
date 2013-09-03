@@ -25,5 +25,14 @@ namespace STrackerServer.Tests.Repositories
         {
             Utils.CleanDatabase();
         }
+
+        /// <summary>
+        /// The tear down.
+        /// </summary>
+        [TearDown]
+        public void TearDown()
+        {
+            Utils.CleanDatabase();
+        }
     }
 }
