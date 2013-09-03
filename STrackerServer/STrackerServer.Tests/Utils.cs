@@ -10,6 +10,11 @@
 namespace STrackerServer.Tests
 {
     using System.Configuration;
+    using System.Linq;
+
+    using MongoDB.Driver;
+
+    using Ninject;
 
     using STrackerServer.DataAccessLayer.DomainEntities;
 
@@ -21,7 +26,32 @@ namespace STrackerServer.Tests
         /// <summary>
         /// The test database name.
         /// </summary>
-        public static string DatabaseName = ConfigurationManager.AppSettings["DatabaseName"];
+        private static readonly string DatabaseName = ConfigurationManager.AppSettings["DatabaseName"];
+
+        /// <summary>
+        /// The database.
+        /// </summary>
+        private static readonly MongoDatabase Database;
+
+        /// <summary>
+        /// Initializes static members of the <see cref="Utils"/> class.
+        /// </summary>
+        static Utils()
+        {
+            var kernel = new StandardKernel(new ModuleForUnitTests());
+            Database = kernel.Get<MongoClient>().GetServer().GetDatabase(DatabaseName);
+        }
+
+        /// <summary>
+        /// Clean database.
+        /// </summary>
+        public static void CleanDatabase()
+        {
+            foreach (var collectionName in Database.GetCollectionNames().Where(name => !name.Equals("system.indexes") && !name.Equals("system.users")))
+            {
+                Database.DropCollection(collectionName);
+            }
+        }
 
         /// <summary>
         /// The get dummy television show modal.
@@ -32,7 +62,7 @@ namespace STrackerServer.Tests
         /// <returns>
         /// The <see cref="TvShow"/>.
         /// </returns>
-        public static TvShow CreateTvShowDummy(string id)
+        public static TvShow CreateTvShow(string id)
         {
             var tvshow = new TvShow(id)
             {
@@ -43,14 +73,46 @@ namespace STrackerServer.Tests
                 AirTime = "AirTime",
                 FirstAired = "FirstAired"
             };
-            tvshow.Genres.Add(new Genre.GenreSynopsis
-            {
-                Id = "Test",
-                Name = "Test",
-                Uri = "Uri"
-            });
+            tvshow.Seasons.Add(CreateSeason(id, 1).GetSynopsis());
+            tvshow.Seasons.Add(CreateSeason(id, 2).GetSynopsis());
+
+            tvshow.Genres.Add(CreateGenre("Genre1").GetSynopsis());
+            tvshow.Genres.Add(CreateGenre("Genre2").GetSynopsis());
 
             return tvshow;
+        }
+
+        /// <summary>
+        /// The create season dummy.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// The season number.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Season"/>.
+        /// </returns>
+        public static Season CreateSeason(string tvshowId, int seasonNumber)
+        {
+            var season = new Season(new Season.SeasonId { TvShowId = tvshowId, SeasonNumber = seasonNumber });
+            return season;
+        }
+
+        /// <summary>
+        /// The create genre.
+        /// </summary>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Genre"/>.
+        /// </returns>
+        public static Genre CreateGenre(string name)
+        {
+            var genre = new Genre(name);
+            return genre;
         }
     }
 }

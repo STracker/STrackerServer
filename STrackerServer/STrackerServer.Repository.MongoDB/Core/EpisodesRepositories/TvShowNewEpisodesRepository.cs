@@ -152,7 +152,9 @@ namespace STrackerServer.Repository.MongoDB.Core.EpisodesRepositories
         /// </param>
         protected override void HookUpdate(NewTvShowEpisodes entity)
         {
-            throw new NotSupportedException("this method currently is not supported.");
+            var query = Query<NewTvShowEpisodes>.EQ(tv => tv.Id, entity.Id);
+            var update = Update<NewTvShowEpisodes>.Replace(entity);
+            this.collection.FindAndModify(query, SortBy.Null, update);
         }
 
         /// <summary>

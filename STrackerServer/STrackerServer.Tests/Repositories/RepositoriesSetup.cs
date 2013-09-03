@@ -9,14 +9,11 @@
 
 namespace STrackerServer.Tests.Repositories
 {
-    using System.Linq;
-
-    using MongoDB.Driver;
-
     using Ninject;
 
     using NUnit.Framework;
 
+    using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
 
     /// <summary>
@@ -26,14 +23,14 @@ namespace STrackerServer.Tests.Repositories
     public class RepositoriesSetup
     {
         /// <summary>
-        /// The database.
-        /// </summary>
-        private readonly MongoDatabase database;
-
-        /// <summary>
         /// The television shows repository.
         /// </summary>
         private readonly ITvShowsRepository tvshowsRepository;
+
+        /// <summary>
+        /// The genres repository.
+        /// </summary>
+        private readonly IGenresRepository genresRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RepositoriesSetup"/> class.
@@ -41,9 +38,8 @@ namespace STrackerServer.Tests.Repositories
         public RepositoriesSetup()
         {
             var kernel = new StandardKernel(new ModuleForUnitTests());
-            this.database = kernel.Get<MongoClient>().GetServer().GetDatabase(Utils.DatabaseName);
-
             this.tvshowsRepository = kernel.Get<ITvShowsRepository>();
+            this.genresRepository = kernel.Get<IGenresRepository>();
         }
 
         /// <summary>
@@ -52,19 +48,12 @@ namespace STrackerServer.Tests.Repositories
         [SetUp]
         public void Setup()
         {
-            this.CleanDatabase();
+            Utils.CleanDatabase();
 
-            // CreateFail
-            this.tvshowsRepository.Create(Utils.CreateTvShowDummy("2"));
+            this.genresRepository.Create(Utils.CreateGenre("Genre1"));
+            this.genresRepository.Create(Utils.CreateGenre("Genre2"));
 
-            // Read
-            this.tvshowsRepository.Create(Utils.CreateTvShowDummy("3"));
-
-            // Update
-            this.tvshowsRepository.Create(Utils.CreateTvShowDummy("4"));
-
-            // Delete
-            this.tvshowsRepository.Create(Utils.CreateTvShowDummy("5"));
+            this.TvShowRepositorySetup();
         }
 
         /// <summary>
@@ -73,18 +62,32 @@ namespace STrackerServer.Tests.Repositories
         [TearDown]
         public void TearDown()
         {
-            this.CleanDatabase();
+            Utils.CleanDatabase();
         }
 
         /// <summary>
-        /// Clean database.
+        /// The television show repository setup.
         /// </summary>
-        public void CleanDatabase()
+        private void TvShowRepositorySetup()
         {
-            foreach (var collectionName in this.database.GetCollectionNames().Where(name => !name.Equals("system.indexes") && !name.Equals("system.users")))
-            {
-                this.database.DropCollection(collectionName);
-            }
+            // Create fail
+            this.tvshowsRepository.Create(Utils.CreateTvShow("2"));
+
+            // Read
+            this.tvshowsRepository.Create(Utils.CreateTvShow("3"));
+
+            // Update
+            this.tvshowsRepository.Create(Utils.CreateTvShow("8"));
+
+            // Delete
+            this.tvshowsRepository.Create(Utils.CreateTvShow("4"));
+
+            // ReadByName
+            this.tvshowsRepository.Create(Utils.CreateTvShow("5"));
+            this.tvshowsRepository.Create(Utils.CreateTvShow("6"));
+
+            // Add and remove season
+            this.tvshowsRepository.Create(Utils.CreateTvShow("7"));
         }
     }
 }
