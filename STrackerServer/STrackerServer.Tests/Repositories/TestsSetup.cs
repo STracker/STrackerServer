@@ -10,7 +10,7 @@
 namespace STrackerServer.Tests.Repositories
 {
     using NUnit.Framework;
-    /*
+    
     /// <summary>
     /// The tests setup.
     /// </summary>
@@ -25,15 +25,5 @@ namespace STrackerServer.Tests.Repositories
         {
             Utils.CleanDatabase();
         }
-
-        /// <summary>
-        /// The tear down.
-        /// </summary>
-        [TearDown]
-        public void TearDown()
-        {
-            Utils.CleanDatabase();
-        }
     }
-     * */
 }
