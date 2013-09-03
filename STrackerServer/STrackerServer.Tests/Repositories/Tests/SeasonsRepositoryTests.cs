@@ -85,5 +85,23 @@ namespace STrackerServer.Tests.Repositories.Tests
             Assert.Null(this.seasonsRepository.Read(new Season.SeasonId { TvShowId = "13", SeasonNumber = 3 }));
             Assert.Null(this.seasonsRepository.Read(new Season.SeasonId { TvShowId = "123", SeasonNumber = 3 }));
         }
+
+        /// <summary>
+        /// The setup.
+        /// </summary>
+        [SetUp]
+        public void Setup()
+        {
+            Utils.CleanDatabase();
+        }
+
+        /// <summary>
+        /// The tear down.
+        /// </summary>
+        [TearDown]
+        public void TearDown()
+        {
+            Utils.CleanDatabase();
+        }
     }
 }

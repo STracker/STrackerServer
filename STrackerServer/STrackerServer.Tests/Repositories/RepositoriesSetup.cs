@@ -14,7 +14,7 @@ namespace STrackerServer.Tests.Repositories
     /// <summary>
     /// The test setup.
     /// </summary>
-    [SetUpFixture]
+    // [SetUpFixture]
     public class RepositoriesSetup
     {
         /// <summary>

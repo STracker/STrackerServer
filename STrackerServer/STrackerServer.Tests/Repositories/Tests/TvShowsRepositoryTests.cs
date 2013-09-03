@@ -177,8 +177,27 @@ namespace STrackerServer.Tests.Repositories.Tests
         [Test]
         public void RemoveSeason()
         {
+            Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow("7")));
             Assert.True(this.tvshowsRepository.RemoveSeason("7", Utils.CreateSeason("7", 2).GetSynopsis()));
             Assert.False(this.tvshowsRepository.Read("7").Seasons.Any(synopsis => synopsis.Id.SeasonNumber == 2));
+        }
+
+        /// <summary>
+        /// The setup.
+        /// </summary>
+        [SetUp]
+        public void Setup()
+        {
+            Utils.CleanDatabase();
+        }
+
+        /// <summary>
+        /// The tear down.
+        /// </summary>
+        [TearDown]
+        public void TearDown()
+        {
+            Utils.CleanDatabase();
         }
     }
 }
