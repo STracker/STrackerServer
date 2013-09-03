@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Tests.Repositories.Tests
+namespace STrackerServer.Tests.Repositories
 {
     using Ninject;
 
@@ -49,8 +49,8 @@ namespace STrackerServer.Tests.Repositories.Tests
         [Test]
         public void Create()
         {
-            Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow("10")));
-            Assert.True(this.seasonsRepository.Create(Utils.CreateSeason("10", 3)));
+            Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow("1")));
+            Assert.True(this.seasonsRepository.Create(Utils.CreateSeason("1", 3)));
         }
 
         /// <summary>
@@ -59,9 +59,9 @@ namespace STrackerServer.Tests.Repositories.Tests
         [Test]
         public void CreateFail()
         {
-            Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow("11")));
-            Assert.True(this.seasonsRepository.Create(Utils.CreateSeason("11", 3)));
-            Assert.False(this.seasonsRepository.Create(Utils.CreateSeason("11", 3)));
+            Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow("1")));
+            Assert.True(this.seasonsRepository.Create(Utils.CreateSeason("1", 3)));
+            Assert.False(this.seasonsRepository.Create(Utils.CreateSeason("1", 3)));
         }
 
         /// <summary>
@@ -70,9 +70,9 @@ namespace STrackerServer.Tests.Repositories.Tests
         [Test]
         public void Read()
         {
-            Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow("12")));
-            Assert.True(this.seasonsRepository.Create(Utils.CreateSeason("12", 3)));
-            Assert.NotNull(this.seasonsRepository.Read(new Season.SeasonId { TvShowId = "12", SeasonNumber = 3 }));
+            Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow("1")));
+            Assert.True(this.seasonsRepository.Create(Utils.CreateSeason("1", 3)));
+            Assert.NotNull(this.seasonsRepository.Read(new Season.SeasonId { TvShowId = "1", SeasonNumber = 3 }));
         }
 
         /// <summary>
@@ -81,9 +81,9 @@ namespace STrackerServer.Tests.Repositories.Tests
         [Test]
         public void ReadFail()
         {
-            Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow("13")));
-            Assert.Null(this.seasonsRepository.Read(new Season.SeasonId { TvShowId = "13", SeasonNumber = 3 }));
-            Assert.Null(this.seasonsRepository.Read(new Season.SeasonId { TvShowId = "123", SeasonNumber = 3 }));
+            Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow("1")));
+            Assert.Null(this.seasonsRepository.Read(new Season.SeasonId { TvShowId = "1", SeasonNumber = 3 }));
+            Assert.Null(this.seasonsRepository.Read(new Season.SeasonId { TvShowId = "2", SeasonNumber = 3 }));
         }
 
         /// <summary>
