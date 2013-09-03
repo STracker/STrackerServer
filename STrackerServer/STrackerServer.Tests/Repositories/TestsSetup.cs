@@ -10,7 +10,7 @@
 namespace STrackerServer.Tests.Repositories
 {
     using NUnit.Framework;
-
+    /*
     /// <summary>
     /// The tests setup.
     /// </summary>
@@ -35,4 +35,5 @@ namespace STrackerServer.Tests.Repositories
             Utils.CleanDatabase();
         }
     }
+     * */
 }
