@@ -137,11 +137,7 @@ namespace STrackerServer.Repository.MongoDB.Core.SeasonsRepositories
         protected override Season HookRead(Season.SeasonId id)
         {
             var collection = this.Database.GetCollection(id.TvShowId);
-
-            var season = collection.FindOneByIdAs<Season>(id.ToBsonDocument());
-            season.Episodes = season.Episodes.OrderBy(synopsis => synopsis.Id.EpisodeNumber).ToList();
-
-            return season;
+            return collection.FindOneByIdAs<Season>(id.ToBsonDocument());
         }
 
         /// <summary>

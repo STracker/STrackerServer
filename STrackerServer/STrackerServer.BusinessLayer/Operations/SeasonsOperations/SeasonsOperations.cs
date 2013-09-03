@@ -10,6 +10,7 @@
 namespace STrackerServer.BusinessLayer.Operations.SeasonsOperations
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     using STrackerServer.BusinessLayer.Core.SeasonsOperations;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
@@ -53,7 +54,22 @@ namespace STrackerServer.BusinessLayer.Operations.SeasonsOperations
         public override Season Read(Season.SeasonId id)
         {
             var tvshow = this.tvshowsOperations.Read(id.TvShowId);
-            return (tvshow == null) ? null : this.Repository.Read(id);
+
+            if (tvshow == null)
+            {
+                return null;
+            }
+
+            var season = this.Repository.Read(id);
+
+            if (season == null)
+            {
+                return null;
+            }
+
+            season.Episodes = season.Episodes.OrderBy(synopsis => synopsis.Id.EpisodeNumber).ToList();
+
+            return season;
         }
 
         /// <summary>
