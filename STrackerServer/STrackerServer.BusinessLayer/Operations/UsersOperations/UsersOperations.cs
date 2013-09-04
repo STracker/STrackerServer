@@ -509,6 +509,8 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
                 }
             }
 
+            calendar = calendar.OrderBy(tvshowCalendar => tvshowCalendar.Date).ToList();
+
             return calendar;
         }
 
