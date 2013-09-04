@@ -25,7 +25,7 @@ namespace STrackerServer.Tests.Repositories
     /// </summary>
     [TestFixture]
     public class TvShowsRepositoryTests
-    {
+    {/*
         /// <summary>
         /// The television shows repository.
         /// </summary>
@@ -180,6 +180,6 @@ namespace STrackerServer.Tests.Repositories
             Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow("10")));
             Assert.True(this.tvshowsRepository.RemoveSeason("10", Utils.CreateSeason("10", 2).GetSynopsis()));
             Assert.False(this.tvshowsRepository.Read("10").Seasons.Any(synopsis => synopsis.Id.SeasonNumber == 2));
-        }
+        }*/
     }
 }

@@ -22,7 +22,7 @@ namespace STrackerServer.Tests.Repositories
     /// </summary>
     [TestFixture]
     public class SeasonsRepositoryTests
-    {
+    {/*
         /// <summary>
         /// The seasons repository.
         /// </summary>
@@ -84,6 +84,6 @@ namespace STrackerServer.Tests.Repositories
             Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow("14")));
             Assert.Null(this.seasonsRepository.Read(new Season.SeasonId { TvShowId = "14", SeasonNumber = 3 }));
             Assert.Null(this.seasonsRepository.Read(new Season.SeasonId { TvShowId = "15", SeasonNumber = 3 }));
-        }
+        }*/
     }
 }
