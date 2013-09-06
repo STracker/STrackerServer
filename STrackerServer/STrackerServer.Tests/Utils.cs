@@ -9,6 +9,7 @@
 
 namespace STrackerServer.Tests
 {
+    using System;
     using System.Configuration;
     using System.Linq;
 
@@ -51,6 +52,17 @@ namespace STrackerServer.Tests
             {
                 Database.DropCollection(collectionName);
             }
+        }
+
+        /// <summary>
+        /// The create id.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        public static string CreateId()
+        {
+            return Guid.NewGuid().ToString();
         }
 
         /// <summary>
