@@ -3,7 +3,7 @@
 //  Copyright (c) STracker Developers. All rights reserved.
 // </copyright>
 // <summary>
-//   The utils.
+//   The tests utils.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -166,6 +166,21 @@ namespace STrackerServer.Tests
         {
             var genre = new Genre(name);
             return genre;
+        }
+
+        /// <summary>
+        /// The create user.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="User"/>.
+        /// </returns>
+        public static User CreateUser(string id)
+        {
+            var user = new User(id) { Name = "Name", Photo = "Photo", Email = "Email", };
+            return user;
         }
     }
 }

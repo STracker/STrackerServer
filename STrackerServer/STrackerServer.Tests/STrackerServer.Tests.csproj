@@ -85,7 +85,9 @@
     <Compile Include="ModuleForUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\EpisodesRepositoryTests.cs" />
+    <Compile Include="Repositories\GenresRepositoryTests.cs" />
     <Compile Include="Repositories\SeasonsRepositoryTests.cs" />
+    <Compile Include="Repositories\UsersRepositoryTests.cs" />
     <Compile Include="TestsSetup.cs" />
     <Compile Include="Repositories\TvShowsRepositoryTests.cs" />
     <Compile Include="Utils.cs" />
