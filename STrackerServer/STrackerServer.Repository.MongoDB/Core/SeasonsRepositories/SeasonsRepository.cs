@@ -12,7 +12,6 @@ namespace STrackerServer.Repository.MongoDB.Core.SeasonsRepositories
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     using global::MongoDB.Bson;
 

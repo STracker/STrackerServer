@@ -25,6 +25,11 @@ namespace STrackerServer.Tests
     public static class Utils
     {
         /// <summary>
+        /// The default poster.
+        /// </summary>
+        private const string DefaultPoster = "https://dl.dropboxusercontent.com/u/2696848/image-not-found.gif";
+
+        /// <summary>
         /// The test database name.
         /// </summary>
         private static readonly string DatabaseName = ConfigurationManager.AppSettings["DatabaseName"];
@@ -79,7 +84,7 @@ namespace STrackerServer.Tests
             var tvshow = new TvShow(id)
             {
                 Name = "Name",
-                Poster = "Poster",
+                Poster = DefaultPoster,
                 Description = "Description",
                 AirDay = "AirDay",
                 AirTime = "AirTime",
@@ -109,7 +114,43 @@ namespace STrackerServer.Tests
         public static Season CreateSeason(string tvshowId, int seasonNumber)
         {
             var season = new Season(new Season.SeasonId { TvShowId = tvshowId, SeasonNumber = seasonNumber });
+            season.Episodes.Add(new Episode.EpisodeSynopsis
+            {
+                Id = new Episode.EpisodeId { TvShowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = seasonNumber },
+                Name = "Name",
+                Date = "2020-01-01",
+                Uri = string.Format("tvshows/{0}/seasons/{1}/episodes/{2}", tvshowId, seasonNumber, 1)
+            });
+            
             return season;
+        }
+
+        /// <summary>
+        /// The create episode dummy.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// The television show id.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// The season number.
+        /// </param>
+        /// <param name="episodeNumber">
+        /// The episode number.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Episode"/>.
+        /// </returns>
+        public static Episode CreateEpisode(string tvshowId, int seasonNumber, int episodeNumber)
+        {
+            var episode = new Episode(new Episode.EpisodeId { TvShowId = tvshowId, SeasonNumber = seasonNumber, EpisodeNumber = episodeNumber })
+            {
+                Name = "Name",
+                Description = "Description",
+                Poster = DefaultPoster,
+                Date = "2020-01-01"
+            };
+
+            return episode;
         }
 
         /// <summary>

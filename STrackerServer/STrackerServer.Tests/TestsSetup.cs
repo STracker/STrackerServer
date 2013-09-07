@@ -7,10 +7,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace STrackerServer.Tests.Repositories
+namespace STrackerServer.Tests
 {
     using NUnit.Framework;
-    
+
     /// <summary>
     /// The tests setup.
     /// </summary>
