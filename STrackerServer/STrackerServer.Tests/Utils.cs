@@ -67,7 +67,7 @@ namespace STrackerServer.Tests
         /// </returns>
         public static string CreateId()
         {
-            return Guid.NewGuid().ToString();
+            return string.Format("{0}{1}", Guid.NewGuid(), Guid.NewGuid());
         }
 
         /// <summary>

@@ -82,7 +82,6 @@ namespace STrackerServer.Tests.Repositories
             var season = Utils.CreateSeason(tvshow.Id, 1);
             var episode = Utils.CreateEpisode(tvshow.Id, 1, 1);
 
-
             Assert.True(this.tvshowsRepository.Create(tvshow));
             Assert.True(this.seasonsRepository.Create(season));
             Assert.True(this.episodesRepository.Create(episode));
