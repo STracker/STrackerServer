@@ -6,6 +6,16 @@
 }
 
 <div class="container-fluid center">
+    
+    @if (Model.Result.Count == 0)
+    {
+        <div class="row-fluid">
+            <div class="center">
+                <h2>Couldn't find tv serie(s) with the same or similar name you search for.</h2>
+            </div>
+        </div>
+    }
+
     @{
         for (var i = 0; i < Math.Ceiling(Model.Result.Count / (double)6); i++)
         {

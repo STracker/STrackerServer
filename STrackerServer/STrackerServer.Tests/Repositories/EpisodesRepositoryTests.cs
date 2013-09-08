@@ -49,6 +49,16 @@ namespace STrackerServer.Tests.Repositories
         private readonly ITvShowNewEpisodesRepository tvshowNewEpisodesRepository;
 
         /// <summary>
+        /// The episode comments repository.
+        /// </summary>
+        private readonly IEpisodeCommentsRepository episodeCommentsRepository;
+
+        /// <summary>
+        /// The episode ratings repository.
+        /// </summary>
+        private readonly IEpisodeRatingsRepository episodeRatingsRepository;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="EpisodesRepositoryTests"/> class.
         /// </summary>
         public EpisodesRepositoryTests()
@@ -58,6 +68,8 @@ namespace STrackerServer.Tests.Repositories
             this.seasonsRepository = kernel.Get<ISeasonsRepository>();
             this.episodesRepository = kernel.Get<IEpisodesRepository>();
             this.tvshowNewEpisodesRepository = kernel.Get<ITvShowNewEpisodesRepository>();
+            this.episodeCommentsRepository = kernel.Get<IEpisodeCommentsRepository>();
+            this.episodeRatingsRepository = kernel.Get<IEpisodeRatingsRepository>();
         }
 
         /// <summary>
@@ -66,11 +78,17 @@ namespace STrackerServer.Tests.Repositories
         [Test]
         public void Create()
         {
-            var id = Utils.CreateId();
+            var tvshow = Utils.CreateTvShow(Utils.CreateId());
+            var season = Utils.CreateSeason(tvshow.Id, 1);
+            var episode = Utils.CreateEpisode(tvshow.Id, 1, 1);
 
-            Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow(id)));
-            Assert.True(this.seasonsRepository.Create(Utils.CreateSeason(id, 1)));
-            Assert.True(this.episodesRepository.Create(Utils.CreateEpisode(id, 1, 1)));
+
+            Assert.True(this.tvshowsRepository.Create(tvshow));
+            Assert.True(this.seasonsRepository.Create(season));
+            Assert.True(this.episodesRepository.Create(episode));
+
+            Assert.NotNull(this.episodeCommentsRepository.Read(episode.Id));
+            Assert.NotNull(this.episodeRatingsRepository.Read(episode.Id));
         }
 
         /// <summary>

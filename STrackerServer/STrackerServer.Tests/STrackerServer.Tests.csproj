@@ -87,6 +87,7 @@
     <Compile Include="Repositories\EpisodesRepositoryTests.cs" />
     <Compile Include="Repositories\GenresRepositoryTests.cs" />
     <Compile Include="Repositories\SeasonsRepositoryTests.cs" />
+    <Compile Include="Repositories\TvShowRatingsRepositoryTests.cs" />
     <Compile Include="Repositories\UsersRepositoryTests.cs" />
     <Compile Include="TestsSetup.cs" />
     <Compile Include="Repositories\TvShowsRepositoryTests.cs" />

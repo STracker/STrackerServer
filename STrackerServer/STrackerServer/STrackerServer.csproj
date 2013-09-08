@@ -238,7 +238,6 @@
     <Content Include="Content\images\blackorchid.png" />
     <Content Include="Content\images\star_red.png" />
     <Content Include="Content\images\star_white.png" />
-    <Content Include="Content\images\tv-notfound.png" />
     <Content Include="Content\images\dark_geometric.png" />
     <Content Include="Content\images\debut_dark.png" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
@@ -247,6 +246,7 @@
     <Content Include="Content\images\pinstriped_suit.png" />
     <Content Include="Content\images\subtle_grunge.png" />
     <Content Include="Content\images\tv-badrequest.png" />
+    <Content Include="Content\images\tv-notfound.png" />
     <Content Include="Content\images\tv.png" />
     <Content Include="Content\images\wild_oliva.png" />
     <Content Include="Content\images\star.png" />
