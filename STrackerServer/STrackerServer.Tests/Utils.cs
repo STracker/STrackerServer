@@ -43,7 +43,7 @@ namespace STrackerServer.Tests
         /// <summary>
         /// The id counter.
         /// </summary>
-        private static volatile int idCounter;
+        private static int idCounter;
 
         /// <summary>
         /// Initializes static members of the <see cref="Utils"/> class.
@@ -73,7 +73,8 @@ namespace STrackerServer.Tests
         /// </returns>
         public static string CreateId()
         {
-            return Interlocked.Increment(ref idCounter).ToString(CultureInfo.InvariantCulture);
+            var ret = Interlocked.Increment(ref idCounter);
+            return ret.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
