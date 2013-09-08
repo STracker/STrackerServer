@@ -11,7 +11,9 @@ namespace STrackerServer.Tests
 {
     using System;
     using System.Configuration;
+    using System.Globalization;
     using System.Linq;
+    using System.Threading;
 
     using MongoDB.Driver;
 
@@ -59,6 +61,8 @@ namespace STrackerServer.Tests
             }
         }
 
+        private static int idCounter;
+
         /// <summary>
         /// The create id.
         /// </summary>
@@ -67,7 +71,7 @@ namespace STrackerServer.Tests
         /// </returns>
         public static string CreateId()
         {
-            return string.Format("{0}{1}", Guid.NewGuid(), Guid.NewGuid());
+            return Interlocked.Increment(ref idCounter).ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
