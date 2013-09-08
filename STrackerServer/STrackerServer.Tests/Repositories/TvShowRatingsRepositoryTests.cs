@@ -10,7 +10,6 @@
 namespace STrackerServer.Tests.Repositories
 {
     using System;
-    using System.Linq;
 
     using Ninject;
 
@@ -27,11 +26,6 @@ namespace STrackerServer.Tests.Repositories
     public class TvShowRatingsRepositoryTests
     {
         /// <summary>
-        /// The television shows repository.
-        /// </summary>
-        private readonly ITvShowsRepository tvshowsRepository;
-
-        /// <summary>
         /// The television show ratings repository.
         /// </summary>
         private readonly ITvShowRatingsRepository tvshowRatingsRepository;
@@ -42,7 +36,6 @@ namespace STrackerServer.Tests.Repositories
         public TvShowRatingsRepositoryTests()
         {
             var kernel = new StandardKernel(new ModuleForUnitTests());
-            this.tvshowsRepository = kernel.Get<ITvShowsRepository>();
             this.tvshowRatingsRepository = kernel.Get<ITvShowRatingsRepository>();
         }
 
@@ -123,36 +116,6 @@ namespace STrackerServer.Tests.Repositories
         public void Delete()
         {
             Assert.Throws<NotSupportedException>(() => this.tvshowRatingsRepository.Delete("fake_id"));
-        }
-
-        /// <summary>
-        /// Test read top rated.
-        /// </summary>
-        [Test]
-        public void ReadTopRated()
-        {
-            /*
-            var user = Utils.CreateUser("fake_id");
-
-            var id1 = Utils.CreateId();
-            var id2 = Utils.CreateId();
-            var id3 = Utils.CreateId();
-
-            Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow(id1)));
-            Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow(id2)));
-            Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow(id3)));
-
-            Assert.True(this.tvshowRatingsRepository.AddRating(id1, new Rating { User = user.GetSynopsis(), UserRating = 5 }));
-            Assert.True(this.tvshowRatingsRepository.AddRating(id2, new Rating { User = user.GetSynopsis(), UserRating = 4 }));
-            Assert.True(this.tvshowRatingsRepository.AddRating(id3, new Rating { User = user.GetSynopsis(), UserRating = 3 }));
-
-            var toprated = this.tvshowRatingsRepository.ReadTopRated(2);
-
-            Assert.AreEqual(2, toprated.Count);
-
-            Assert.AreEqual(id1, toprated.ElementAt(0).Id);
-            Assert.AreEqual(id2, toprated.ElementAt(1).Id);
-            */
         }
     }
 }
