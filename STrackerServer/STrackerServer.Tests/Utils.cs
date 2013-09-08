@@ -9,6 +9,7 @@
 
 namespace STrackerServer.Tests
 {
+    using System;
     using System.Configuration;
     using System.Globalization;
     using System.Linq;
@@ -73,8 +74,7 @@ namespace STrackerServer.Tests
         /// </returns>
         public static string CreateId()
         {
-            var ret = Interlocked.Increment(ref idCounter);
-            return ret.ToString(CultureInfo.InvariantCulture);
+            return Guid.NewGuid().ToString();
         }
 
         /// <summary>
