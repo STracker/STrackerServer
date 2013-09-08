@@ -76,7 +76,6 @@
     <Compile Include="Operations\EpisodesOperations\EpisodesOperations.cs" />
     <Compile Include="Operations\EpisodesOperations\EpisodesRatingsOperations.cs" />
     <Compile Include="Operations\EpisodesOperations\TvShowNewEpisodesOperations.cs" />
-    <Compile Include="Operations\Extensions.cs" />
     <Compile Include="Operations\SeasonsOperations\SeasonsOperations.cs" />
     <Compile Include="Operations\GenresOperations.cs" />
     <Compile Include="Operations\TvShowsOperations\TvShowsCommentsOperations.cs" />

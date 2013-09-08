@@ -139,7 +139,24 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         /// </returns>
         public ICollection<User.UserSynopsis> ReadByName(string name, Range range = null)
         {
-            return this.Repository.ReadByName(name).ApplyRange(range);
+            if (name == null || string.Empty.Equals(name))
+            {
+                return new List<User.UserSynopsis>();
+            }
+
+            if (range == null)
+            {
+                range = new Range { Start = 0, End = int.MaxValue };
+            }
+            else
+            {
+                if (range.Start > range.End)
+                {
+                    return new List<User.UserSynopsis>();
+                }
+            }
+
+            return this.Repository.ReadByName(name, range);
         }
 
         /// <summary>

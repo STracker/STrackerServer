@@ -17,7 +17,6 @@ namespace STrackerServer.Tests.Repositories
     using NUnit.Framework;
 
     using STrackerServer.DataAccessLayer.Core.UsersRepositories;
-    using STrackerServer.DataAccessLayer.DomainEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
 
     /// <summary>
@@ -100,7 +99,7 @@ namespace STrackerServer.Tests.Repositories
             Assert.True(this.usersRepository.Create(Utils.CreateUser(Utils.CreateId())));
             Assert.True(this.usersRepository.Create(Utils.CreateUser(Utils.CreateId())));
 
-            Assert.True(this.usersRepository.ReadByName("Name").Count >= 2);
+            Assert.True(this.usersRepository.ReadByName("Name", new Range { Start = 0, End = int.MaxValue }).Count >= 2);
         }
 
         /// <summary>
@@ -329,7 +328,7 @@ namespace STrackerServer.Tests.Repositories
             var user2 = Utils.CreateUser(Utils.CreateId());
             var tvshow = Utils.CreateTvShow(Utils.CreateId());
 
-            user1.Suggestions.Add(new Suggestion{TvShow = tvshow.GetSynopsis(), User = user2.GetSynopsis()});
+            user1.Suggestions.Add(new Suggestion { TvShow = tvshow.GetSynopsis(), User = user2.GetSynopsis() });
 
             Assert.True(this.usersRepository.Create(user1));
             Assert.True(this.usersRepository.RemoveTvShowSuggestions(user1.Id, tvshow.Id));

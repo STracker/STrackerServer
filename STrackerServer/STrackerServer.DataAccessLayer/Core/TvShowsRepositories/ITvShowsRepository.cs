@@ -12,6 +12,7 @@ namespace STrackerServer.DataAccessLayer.Core.TvShowsRepositories
     using System.Collections.Generic;
 
     using STrackerServer.DataAccessLayer.DomainEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
 
     /// <summary>
     /// Television shows repository interface.
@@ -24,10 +25,13 @@ namespace STrackerServer.DataAccessLayer.Core.TvShowsRepositories
         /// <param name="name">
         /// The name of the television show.
         /// </param>
+        /// <param name="range">
+        /// The range.
+        /// </param>
         /// <returns>
-        /// The <see cref="ICollection"/>.
+        /// The <see cref="ICollection{T}"/>.
         /// </returns>
-        ICollection<TvShow.TvShowSynopsis> ReadByName(string name);
+        ICollection<TvShow.TvShowSynopsis> ReadByName(string name, Range range);
 
         /// <summary>
         /// Add one season to television show's seasons synopsis.

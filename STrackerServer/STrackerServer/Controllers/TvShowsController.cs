@@ -9,6 +9,7 @@
 
 namespace STrackerServer.Controllers
 {
+    using System.Configuration;
     using System.Linq;
     using System.Net;
     using System.Web.Mvc;
@@ -28,6 +29,11 @@ namespace STrackerServer.Controllers
     /// </summary>
     public class TvShowsController : Controller
     {
+        /// <summary>
+        /// The search max values.
+        /// </summary>
+        private readonly int searchMaxValues = int.Parse(ConfigurationManager.AppSettings["FE:Search:Max"]); 
+
         /// <summary>
         /// The operations television show controller.
         /// </summary>
@@ -140,19 +146,31 @@ namespace STrackerServer.Controllers
         /// <param name="name">
         /// The name.
         /// </param>
+        /// <param name="page">
+        /// The page.
+        /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpGet]
-        public ActionResult GetByName(string name)
+        public ActionResult GetByName(string name, int? page)
         {
-            var nameNormalized = name != null ? name.Trim().ToLower() : null;
+            if (!page.HasValue || page.Value < 0)
+            {
+                page = 0;
+            }
 
-            var tvshows = this.tvshowOperations.ReadByName(nameNormalized);
+            var range = new Range { Start = page.Value * this.searchMaxValues, End = ((page.Value + 1) * this.searchMaxValues) + 1 };
+
+            var tvshows = this.tvshowOperations.ReadByName(name, range);
+
+            var hasMoreTvShows = tvshows.Count > this.searchMaxValues;
+
+            tvshows = tvshows.Take(this.searchMaxValues).ToList();
 
             foreach (var tvshow in tvshows)
             {
-                if (tvshow.Name.ToLower().Equals(nameNormalized))
+                if (tvshow.Name.ToLower().Equals(name))
                 {
                     return new SeeOtherResult { Url = Url.Action("Index", "TvShows", new { id = tvshow.Id }) };
                 }
@@ -161,7 +179,9 @@ namespace STrackerServer.Controllers
             return this.View(new TvShowSearchResult
             {
                 Result = tvshows,
-                SearchValue = name
+                SearchValue = name,
+                CurrentPage = page.Value,
+                HasMoreTvShows = hasMoreTvShows
             });
         }
 

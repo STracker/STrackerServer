@@ -64,13 +64,19 @@ namespace STrackerServer.Repository.MongoDB.Core.UsersRepositories
         /// <param name="name">
         /// The name for search.
         /// </param>
+        /// <param name="range">
+        /// The range.
+        /// </param>
         /// <returns>
         /// The <see cref="ICollection{T}"/>.
         /// </returns>
-        public ICollection<User.UserSynopsis> ReadByName(string name)
+        public ICollection<User.UserSynopsis> ReadByName(string name, Range range)
         {
             var query = Query<User>.Where(user => user.Name.ToLower().Contains(name.ToLower()));
-            return this.collectionOfSynopsis.FindAs<User.UserSynopsis>(query).ToList();
+            return this.collectionOfSynopsis.FindAs<User.UserSynopsis>(query)
+                .SetSkip(range.Start)
+                .SetLimit(range.End)
+                .ToList();                
         }
 
         /// <summary>

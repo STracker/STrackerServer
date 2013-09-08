@@ -25,5 +25,15 @@ namespace STrackerServer.Models.User
         /// Gets or sets the result.
         /// </summary>
         public ICollection<DataAccessLayer.DomainEntities.User.UserSynopsis> Result { get; set; }
+
+        /// <summary>
+        /// Gets or sets the current page.
+        /// </summary>
+        public int CurrentPage { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether has more tv shows.
+        /// </summary>
+        public bool HasMoreTvShows { get; set; }
     }
 }

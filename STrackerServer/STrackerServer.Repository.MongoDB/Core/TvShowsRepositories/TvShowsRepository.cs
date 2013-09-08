@@ -23,6 +23,7 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
     using STrackerServer.DataAccessLayer.Core.EpisodesRepositories;
     using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
     using STrackerServer.DataAccessLayer.DomainEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
     using STrackerServer.DataAccessLayer.DomainEntities.Comments;
     using STrackerServer.DataAccessLayer.DomainEntities.Ratings;
     using STrackerServer.ImageConverter.Core;
@@ -119,13 +120,19 @@ namespace STrackerServer.Repository.MongoDB.Core.TvShowsRepositories
         /// <param name="name">
         /// The name of the television show.
         /// </param>
+        /// <param name="range">
+        /// The range.
+        /// </param>
         /// <returns>
         /// The <see cref="ICollection{T}"/>.
         /// </returns>
-        public ICollection<TvShow.TvShowSynopsis> ReadByName(string name)
+        public ICollection<TvShow.TvShowSynopsis> ReadByName(string name, Range range)
         {
             var query = Query<TvShow.TvShowSynopsis>.Where(e => e.Name.ToLower().Contains(name.ToLower()));
-            return this.collectionAll.FindAs<TvShow.TvShowSynopsis>(query).ToList();
+            return this.collectionAll.FindAs<TvShow.TvShowSynopsis>(query)
+                                    .SetSkip(range.Start)    
+                                    .SetLimit(range.End)
+                                    .ToList();
         }
 
         /// <summary>

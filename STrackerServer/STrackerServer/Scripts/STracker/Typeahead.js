@@ -5,7 +5,6 @@
     
     var setup = function () {
         $('#TvShowSearch').typeahead({
-            items: 5,
             source: function (query, process) {
 
                 var link = '/TvShows/Names?query=' + query;

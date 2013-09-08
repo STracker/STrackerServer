@@ -15,8 +15,8 @@
             </div>
         </div>
     }
-
-    @{
+    else
+    {
         for (var i = 0; i < Math.Ceiling(Model.Result.Count / (double)6); i++)
         {
             <div class="row-fluid">
@@ -34,5 +34,31 @@
                 }     
             </div>
         }
+        
+        <div class="row-fluid">
+            <div class="span4"></div>
+            <div class="span2">
+                @if (Model.CurrentPage != 0)
+                {
+                    <a class="btn btn-block btn-primary" href="@string.Format("TvShows?name={0}&page={1}", Model.SearchValue, Model.CurrentPage - 1)">Previous</a>
+                }
+                else
+                {
+                    <a class="btn btn-block btn-primary disabled" href="#">Previous</a>
+                }
+             </div>
+            <div class="span2">
+                @if (Model.HasMoreTvShows)
+                {
+                    <a class="btn btn-block btn-primary" href="@string.Format("TvShows?name={0}&page={1}", Model.SearchValue, Model.CurrentPage + 1)">Next</a>
+                }
+                else
+                {
+                    <a class="btn btn-block btn-primary disabled" href="#">Next</a>
+                }
+                
+            </div>
+             <div class="span4"></div>
+        </div>
     }
 </div>

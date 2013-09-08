@@ -11,6 +11,7 @@ namespace STrackerServer.Controllers
 {
     using System;
     using System.Collections.Generic;
+    using System.Configuration;
     using System.Linq;
     using System.Net;
     using System.Web.Mvc;
@@ -20,6 +21,7 @@ namespace STrackerServer.Controllers
     using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.BusinessLayer.Permissions;
     using STrackerServer.DataAccessLayer.DomainEntities;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
     using STrackerServer.Models.Admin;
     using STrackerServer.Models.User;
     using STrackerServer.Models.Users;
@@ -30,6 +32,11 @@ namespace STrackerServer.Controllers
     [Authorize]
     public class UsersController : Controller
     {
+        /// <summary>
+        /// The search max values.
+        /// </summary>
+        private readonly int searchMaxValues = int.Parse(ConfigurationManager.AppSettings["FE:Search:Max"]); 
+
         /// <summary>
         /// The users operations.
         /// </summary>
@@ -99,38 +106,40 @@ namespace STrackerServer.Controllers
         }
 
         /// <summary>
-        /// The get by name.
+        /// The search.
         /// </summary>
         /// <param name="name">
         /// The name.
+        /// </param>
+        /// <param name="page">
+        /// The page.
         /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpGet]
         [Authorize]
-        public ActionResult Search(string name)
+        public ActionResult Search(string name, int? page)
         {
-            if (name == null || string.Empty.Equals(name.Trim()))
+            if (!page.HasValue || page.Value < 0)
             {
-                return this.View(new UserSearchResult { Result = new List<User.UserSynopsis>(), SearchValue = string.Empty });
+                page = 0;
             }
 
-            var users = this.usersOperations.ReadByName(name).ToList();
+            var range = new Range { Start = page.Value * this.searchMaxValues, End = ((page.Value + 1) * this.searchMaxValues) + 1 };
 
-            if (users.Count != 0)
-            {
-                var index = users.FindIndex(user => user.Id.Equals(User.Identity.Name));
-                if (index != -1)
-                {
-                    users.RemoveAt(index);
-                }
-            }
+            var users = this.usersOperations.ReadByName(name, range);
+
+            var hasMoreTvShows = users.Count > this.searchMaxValues;
+
+            users = users.Take(this.searchMaxValues).ToList();
 
             return this.View(new UserSearchResult
             {
                 Result = users,
-                SearchValue = name
+                SearchValue = name,
+                CurrentPage = page.Value,
+                HasMoreTvShows = hasMoreTvShows
             });
         }
 

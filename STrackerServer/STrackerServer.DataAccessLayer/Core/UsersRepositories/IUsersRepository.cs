@@ -25,10 +25,13 @@ namespace STrackerServer.DataAccessLayer.Core.UsersRepositories
         /// <param name="name">
         /// The name for search.
         /// </param>
+        /// <param name="range">
+        /// The range.
+        /// </param>
         /// <returns>
-        /// The <see cref="ICollection"/>.
+        /// The <see cref="ICollection{T}"/>.
         /// </returns>
-        ICollection<User.UserSynopsis> ReadByName(string name);
+        ICollection<User.UserSynopsis> ReadByName(string name, Range range);
 
         /// <summary>
         /// Add one subscription to user's subscription list.

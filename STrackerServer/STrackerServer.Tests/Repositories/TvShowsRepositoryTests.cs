@@ -19,6 +19,7 @@ namespace STrackerServer.Tests.Repositories
     using STrackerServer.DataAccessLayer.Core;
     using STrackerServer.DataAccessLayer.Core.EpisodesRepositories;
     using STrackerServer.DataAccessLayer.Core.TvShowsRepositories;
+    using STrackerServer.DataAccessLayer.DomainEntities.AuxiliaryEntities;
 
     /// <summary>
     /// The television shows repository tests.
@@ -157,7 +158,7 @@ namespace STrackerServer.Tests.Repositories
             Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow(Utils.CreateId())));
             Assert.True(this.tvshowsRepository.Create(Utils.CreateTvShow(Utils.CreateId())));
 
-            var tvshows = this.tvshowsRepository.ReadByName("Name");
+            var tvshows = this.tvshowsRepository.ReadByName("Name", new Range { Start = 0, End = int.MaxValue });
             Assert.True(tvshows.Count >= 2);
         }
 

@@ -11,9 +11,7 @@ namespace STrackerServer.Tests
 {
     using System;
     using System.Configuration;
-    using System.Globalization;
     using System.Linq;
-    using System.Threading;
 
     using MongoDB.Driver;
 
@@ -40,11 +38,6 @@ namespace STrackerServer.Tests
         /// The database.
         /// </summary>
         private static readonly MongoDatabase Database;
-
-        /// <summary>
-        /// The id counter.
-        /// </summary>
-        private static int idCounter;
 
         /// <summary>
         /// Initializes static members of the <see cref="Utils"/> class.

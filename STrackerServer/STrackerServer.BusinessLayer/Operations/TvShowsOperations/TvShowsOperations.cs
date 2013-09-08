@@ -86,14 +86,26 @@ namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
                 return new List<TvShow.TvShowSynopsis>();
             }
 
-            var tvshows = this.Repository.ReadByName(name);
+            if (range == null)
+            {
+                range = new Range { Start = 0, End = int.MaxValue };
+            }
+            else
+            {
+                if (range.Start > range.End)
+                {
+                    return new List<TvShow.TvShowSynopsis>();
+                }
+            }
+
+            var tvshows = this.Repository.ReadByName(name, range);
 
             if (!tvshows.Any(synopsis => synopsis.Name.Equals(name)))
             {
                 this.queueM.Push(new Message { CommandName = ConfigurationManager.AppSettings["TvShowAddByNameCmd"], Arg = name });
             }
 
-            return tvshows.ApplyRange(range);
+            return tvshows;
         }
 
         /// <summary>
@@ -113,7 +125,7 @@ namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
                 return new List<TvShow.TvShowSynopsis>();
             }
 
-            return this.Repository.ReadByName(name);
+            return this.Repository.ReadByName(name, new Range { Start = 0, End = int.Parse(ConfigurationManager.AppSettings["Typeahead:Max"]) });
         }
     }
 }
