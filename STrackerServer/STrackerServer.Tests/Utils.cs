@@ -43,7 +43,7 @@ namespace STrackerServer.Tests
         /// <summary>
         /// The id counter.
         /// </summary>
-        private static int idCounter;
+        private static volatile int idCounter;
 
         /// <summary>
         /// Initializes static members of the <see cref="Utils"/> class.
