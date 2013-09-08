@@ -10,6 +10,7 @@
 namespace STrackerServer.Tests.Repositories
 {
     using System;
+    using System.Linq;
 
     using Ninject;
 
@@ -116,6 +117,44 @@ namespace STrackerServer.Tests.Repositories
         public void Delete()
         {
             Assert.Throws<NotSupportedException>(() => this.tvshowRatingsRepository.Delete("fake_id"));
+        }
+
+        /// <summary>
+        /// Test add rating.
+        /// </summary>
+        [Test]
+        public void AddRating()
+        {
+            var tvshowRatings = new RatingsTvShow(Utils.CreateId());
+            var user = Utils.CreateUser(Utils.CreateId());
+
+            Assert.True(this.tvshowRatingsRepository.Create(tvshowRatings));
+
+            Assert.True(this.tvshowRatingsRepository.AddRating(tvshowRatings.Id, new Rating { User = user.GetSynopsis(), UserRating = 5 }));
+
+            tvshowRatings = this.tvshowRatingsRepository.Read(tvshowRatings.Id);
+
+            Assert.True(tvshowRatings.Ratings.Any(rating => rating.User.Id.Equals(user.Id) && rating.UserRating == 5));
+        }
+
+        /// <summary>
+        /// Test add rating.
+        /// </summary>
+        [Test]
+        public void RemoveRating()
+        {
+            var tvshowRatings = new RatingsTvShow(Utils.CreateId());
+            var user = Utils.CreateUser(Utils.CreateId());
+            var rating = new Rating { User = user.GetSynopsis(), UserRating = 5 };
+            tvshowRatings.Ratings.Add(rating);
+
+            Assert.True(this.tvshowRatingsRepository.Create(tvshowRatings));
+
+            Assert.True(this.tvshowRatingsRepository.RemoveRating(tvshowRatings.Id, rating));
+
+            tvshowRatings = this.tvshowRatingsRepository.Read(tvshowRatings.Id);
+
+            Assert.False(tvshowRatings.Ratings.Any(r => r.User.Id.Equals(user.Id) && r.UserRating == 5));
         }
     }
 }

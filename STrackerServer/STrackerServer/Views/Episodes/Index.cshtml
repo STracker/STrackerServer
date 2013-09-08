@@ -34,14 +34,14 @@
                     }else
                     {
                         <p>
-                            <button disabled="disabled" class="btn btn-block btn-success">Not aired</button>
+                            <button disabled="disabled" class="btn btn-block btn-success">Check(Not aired)</button>
                         </p> 
                     }  
                 }
                 else
                 {
                     <p>
-                        <a class="btn btn-block btn-success" href="@Url.Action("Index","TvShows", new { id = Model.TvShowId })">Need to be subscribed</a>
+                        <a class="btn btn-block btn-success disabled" href="@Url.Action("Index","TvShows", new { id = Model.TvShowId })">Check(Need to be subscribed)</a>
                     </p> 
                 } 
             }
