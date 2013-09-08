@@ -63,7 +63,7 @@ namespace STrackerServer.Tests
         /// The create id.
         /// </summary>
         /// <returns>
-        /// The <see cref="string"/>.
+        /// The <see cref="string"/>
         /// </returns>
         public static string CreateId()
         {
