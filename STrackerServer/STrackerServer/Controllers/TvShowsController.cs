@@ -162,7 +162,9 @@ namespace STrackerServer.Controllers
 
             var range = new Range { Start = page.Value * this.searchMaxValues, End = ((page.Value + 1) * this.searchMaxValues) + 1 };
 
-            var tvshows = this.tvshowOperations.ReadByName(name, range);
+            var nameNormalized = name != null ? name.Trim().ToLower() : null;
+
+            var tvshows = this.tvshowOperations.ReadByName(nameNormalized, range);
 
             var hasMoreTvShows = tvshows.Count > this.searchMaxValues;
 
@@ -170,7 +172,7 @@ namespace STrackerServer.Controllers
 
             foreach (var tvshow in tvshows)
             {
-                if (tvshow.Name.ToLower().Equals(name))
+                if (tvshow.Name.ToLower().Equals(nameNormalized))
                 {
                     return new SeeOtherResult { Url = Url.Action("Index", "TvShows", new { id = tvshow.Id }) };
                 }
