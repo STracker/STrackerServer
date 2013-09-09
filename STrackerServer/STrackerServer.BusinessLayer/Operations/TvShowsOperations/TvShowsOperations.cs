@@ -100,7 +100,7 @@ namespace STrackerServer.BusinessLayer.Operations.TvShowsOperations
 
             var tvshows = this.Repository.ReadByName(name, range);
 
-            if (!tvshows.Any(synopsis => synopsis.Name.Equals(name)))
+            if (!tvshows.Any(synopsis => synopsis.Name.ToLower().Equals(name)))
             {
                 this.queueM.Push(new Message { CommandName = ConfigurationManager.AppSettings["TvShowAddByNameCmd"], Arg = name });
             }
