@@ -27,7 +27,7 @@ namespace STrackerServer.Tests.Repositories
     public class TvShowCommentsRepositoryTests
     {
         /// <summary>
-        /// The television show ratings repository.
+        /// The television show comments repository.
         /// </summary>
         private readonly ITvShowCommentsRepository tvshowCommentsRepository;
 

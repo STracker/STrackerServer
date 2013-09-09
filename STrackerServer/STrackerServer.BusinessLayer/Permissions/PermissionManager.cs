@@ -17,9 +17,9 @@ namespace STrackerServer.BusinessLayer.Permissions
     public class PermissionManager : IPermissionManager<Permissions, int>
     {
         /// <summary>
-        /// The has permission.
+        /// Has permission.
         /// </summary>
-        /// <param name="permissions">
+        /// <param name="permission">
         /// The permission.
         /// </param>
         /// <param name="currentPermission">
@@ -34,7 +34,7 @@ namespace STrackerServer.BusinessLayer.Permissions
         }
 
         /// <summary>
-        /// The has permission.
+        /// Get permission.
         /// </summary>
         /// <param name="permission">
         /// The permission.
@@ -48,7 +48,7 @@ namespace STrackerServer.BusinessLayer.Permissions
         }
 
         /// <summary>
-        /// The get permissions.
+        /// Get permissions.
         /// </summary>
         /// <returns>
         /// The <see>
