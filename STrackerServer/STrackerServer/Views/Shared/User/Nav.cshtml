@@ -1,4 +1,13 @@
-﻿<p><a class="btn btn-block btn-primary" href="@Url.Action("Friends","User")">Friends</a></p>
+﻿
+<ul class="nav nav-pills nav-stacked">
+    <li><a href="@Url.Action("Friends","User")">Friends</a></li>
+    <li><a href="@Url.Action("Suggestions","User")">Sugestions</a></li>
+    <li><a href="@Url.Action("Calendar","User")">Download .ics</a></li>
+    <li><a href="@Url.Action("FriendRequests","User")">Friend Requests</a></li>
+    <li><a href="@Url.Action("WatchedEpisodes","User")">Episodes Watched</a></li>
+</ul>
+
+<p><a class="btn btn-block btn-primary" href="@Url.Action("Friends","User")">Friends</a></p>
 <p><a class="btn btn-block btn-primary" href="@Url.Action("Suggestions","User")">Sugestions</a></p>
 <p><a class="btn btn-block btn-primary" href="@Url.Action("Calendar","User")">Download .ics</a></p>  
 <p><a class="btn btn-block btn-primary" href="@Url.Action("FriendRequests","User")">Friend Requests</a></p> 
