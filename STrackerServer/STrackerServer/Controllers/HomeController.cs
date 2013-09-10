@@ -10,6 +10,8 @@
 namespace STrackerServer.Controllers
 {
     using System;
+    using System.Configuration;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Web.Mvc;
 
@@ -26,7 +28,7 @@ namespace STrackerServer.Controllers
         /// <summary>
         /// The max top rated.
         /// </summary>
-        private const int MaxTopRated = 8;
+        private readonly int maxTopRated;
 
         /// <summary>
         /// The genres operations.
@@ -60,6 +62,8 @@ namespace STrackerServer.Controllers
             this.genresOperations = genresOperations;
             this.tvshowNewEpisodesOperations = tvshowNewEpisodesOperations;
             this.tvshowsRatingsOperations = tvshowsRatingsOperations;
+
+            this.maxTopRated = int.Parse(ConfigurationManager.AppSettings["MaxTopRatedTvShows"]);
         }
 
         /// <summary>
@@ -68,13 +72,14 @@ namespace STrackerServer.Controllers
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
-        [HttpGet]
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly",
+            Justification = "Reviewed. Suppression is OK here.")][HttpGet]
         public ActionResult Index()
         {
             var view = new HomeView
             {
                 Genres = this.genresOperations.ReadAllSynopsis().OrderBy(synopsis => synopsis.Name).ToList(),
-                TopRated = this.tvshowsRatingsOperations.GetTopRated(MaxTopRated),
+                TopRated = this.tvshowsRatingsOperations.GetTopRated(maxTopRated),
                 NewEpisodes = this.tvshowNewEpisodesOperations.GetNewEpisodes(DateTime.Now.AddDays(3))
             };
 

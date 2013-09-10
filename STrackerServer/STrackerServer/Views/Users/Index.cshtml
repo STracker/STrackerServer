@@ -68,11 +68,8 @@
         <div class="span3">
             @if(Model.NewEpisodes.Count != 0)
             {
-                <div class="box blue-border">
-                    <h2 style="text-align: center">Next Episodes</h2>
-                </div>
- 
-                <div class="box blue-border">                        
+                <div class="box grey-border">
+                    <h2 class="grey-text" style="text-align: center">Next Episodes</h2>                        
                     @foreach(var calendar in Model.NewEpisodes)
                     {
                         <dl>

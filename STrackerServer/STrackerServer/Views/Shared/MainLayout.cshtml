@@ -1,14 +1,14 @@
 ﻿<!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8" />
-    <title>@ViewBag.Title</title>
+    <head>
+        <meta charset="utf-8" />
+        <title>@ViewBag.Title</title>
 
-    <link href="@Url.Content("~/Content/bootstrap.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/bootstrap-responsive.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/StrackerStyle.css")" rel="stylesheet" type="text/css" />
-    <link rel="icon" type="image/png" href="~/Content/images/tv.png">
-</head>
+        <link href="@Url.Content("~/Content/bootstrap.css")" rel="stylesheet" type="text/css" />
+        <link href="@Url.Content("~/Content/bootstrap-responsive.css")" rel="stylesheet" type="text/css" />
+        <link href="@Url.Content("~/Content/StrackerStyle.css")" rel="stylesheet" type="text/css" />
+        <link rel="icon" type="image/png" href="~/Content/images/tv.png">
+    </head>
     <body>
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner">
@@ -16,8 +16,6 @@
                     <ul class="nav">
                         <li class="divider-vertical"></li>  
                         <li><a href="@Url.Action("Index","Home")"> Home </a></li>
-                        <li class="divider-vertical"></li>    
-                        <li><a href="@Url.Action("Api","Home")"> API </a></li>
                         <li class="divider-vertical"></li>
                         <li>
                             <form action="@Url.Action("GetByName","TvShows")" method="GET" class="navbar-form pull-left">
@@ -60,6 +58,18 @@
         <div>
             @RenderBody()
         </div>
+        <br/>
+        <br/>
+        <footer>
+            <div class="container">      
+                <br/>
+                <br/>
+                <p><a href="@Url.Action("Api","Home")"> API </a></p>
+                <p>Available soon in the Apple App Store and Google Play...</p>
+                <p class="copyright">Copyright © 2013 - <a href="http://stracker.apphb.com/">STracker.</a> Uses <a href="http://twitter.github.com/bootstrap/" rel="external">Twitter Bootstrap</a>.</p>
+            </div>
+        </footer>
+        
     </body>
 
     <script src="@Url.Content("~/Scripts/jquery-2.0.0.js")" type="text/javascript"></script> 
@@ -77,11 +87,11 @@
         UserVoice = window.UserVoice || [];
         UserVoice.push(['showTab', 'classic_widget', {
             mode: 'feedback',
-            primary_color: '#424247',
-            link_color: '#007dbf',
+            primary_color: '#0070cc',
+            link_color: '#3c4347',
             forum_id: 221991,
             tab_label: 'Feedback',
-            tab_color: '#47cc00',
+            tab_color: '#06bd0f',
             tab_position: 'middle-right',
             tab_inverted: false
         }]);
