@@ -305,10 +305,7 @@
     <Content Include="Views\User\WatchedEpisodes.cshtml" />
     <Content Include="Views\Shared\User\Nav.cshtml" />
     <Content Include="Views\Genres\GetSimilar.cshtml" />
-    <Content Include="Views\Shared\TvShowLayout.cshtml" />
-    <Content Include="Views\Shared\SuggestLayout.cshtml" />
     <Content Include="Views\Shared\BadRequest.cshtml" />
-    <Content Include="Views\Shared\EpisodeLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

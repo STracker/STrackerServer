@@ -2,7 +2,13 @@
 
 @{
     ViewBag.Title = @Model.Name;
-    Layout = "~/Views/Shared/TvShowLayout.cshtml";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+@section JavaScript
+{
+    <script src="@Url.Content("~/Scripts/STracker/SimilarTvShows.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/STracker/Rating.js")" type="text/javascript"></script>
 }
 
 <div class="container-fluid">

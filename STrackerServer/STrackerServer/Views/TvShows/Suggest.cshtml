@@ -2,7 +2,12 @@
 
 @{
     ViewBag.Title = "Suggest";
-    Layout = "~/Views/Shared/SuggestLayout.cshtml";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+@section JavaScript
+{
+    <script src="@Url.Content("~/Scripts/STracker/SuggestionHandler.js")" type="text/javascript"></script>
 }
 
 <div class="container-fluid">
