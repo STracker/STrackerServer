@@ -70,7 +70,7 @@ namespace STrackerServer.BusinessLayer.Operations
         /// The max television shows.
         /// </param>
         /// <returns>
-        /// The <see cref="ICollection"/>.
+        /// The <see cref="ICollection{T}"/>.
         /// </returns>
         public ICollection<TvShow.TvShowSynopsis> GetTvShows(ICollection<string> genres, string excludeTvShow, int maxtvShows)
         {
