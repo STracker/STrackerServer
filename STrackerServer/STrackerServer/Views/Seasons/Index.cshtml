@@ -10,6 +10,7 @@
         <div class="span3"> 
             <img class="img-rounded" src="@Model.Poster" alt="No Artwork"/>  
             <div class="extra-padding"></div>
+            
                 @if (User.Identity.IsAuthenticated)
                 {
                     if (Model.IsSubscribed)
@@ -19,6 +20,9 @@
                             <input class="btn btn-block btn-success" type="submit" value="Check Season"/>
                         }
                     }
+                }else
+                {
+                    <a class="btn btn-block btn-success" href="@Url.Action("Login","Account", new { returnUrl =  Url.Action("Index","Seasons", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber })})">Check Season</a>
                 }
         </div>
         <div class="span6">
