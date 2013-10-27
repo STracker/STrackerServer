@@ -75,7 +75,7 @@ namespace STrackerServer.Controllers
         public ActionResult Index(string tvshowId, int seasonNumber)
         {
             var key = new Season.SeasonId { TvShowId = tvshowId, SeasonNumber = seasonNumber };
-
+            var isSubscribed = false;
             var season = this.seasonsOperations.Read(key);
 
             if (season == null)
@@ -83,7 +83,16 @@ namespace STrackerServer.Controllers
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
                 return this.View("NotFound");
             }
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = this.usersOperations.Read(User.Identity.Name);
+                var subscription = user.Subscriptions.Find(subscription1 => subscription1.TvShow.Id.Equals(tvshowId));
 
+                if (subscription != null)
+                {
+                    isSubscribed = true;
+                }
+            }
             var tvshow = this.tvshowsOperations.Read(tvshowId);
 
             return this.View(new SeasonView
@@ -92,7 +101,8 @@ namespace STrackerServer.Controllers
                 EpisodeList = season.Episodes.OrderBy(ep => ep.Id.EpisodeNumber),
                 SeasonNumber = season.Id.SeasonNumber,
                 Poster = tvshow.Poster,
-                TvShowName = tvshow.Name
+                TvShowName = tvshow.Name,
+                IsSubscribed = isSubscribed
             });
         }
 

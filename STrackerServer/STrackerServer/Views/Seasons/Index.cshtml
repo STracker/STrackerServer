@@ -9,6 +9,16 @@
     <div class="row-fluid">
         <div class="span3"> 
             <img class="img-rounded" src="@Model.Poster" alt="No Artwork"/>  
+            <div class="extra-padding"></div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (Model.IsSubscribed)
+                    {
+                        <p>
+                            <a class="btn btn-block btn-primary" href="@Url.Action("Watched","Seasons", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber })">Watch Season</a>
+                        </p> 
+                    }
+                }
         </div>
         <div class="span6">
             <div class="box">

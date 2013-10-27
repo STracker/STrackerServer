@@ -47,5 +47,10 @@ namespace STrackerServer.Models.Season
         /// Gets or sets the television show name.
         /// </summary>
         public string TvShowName { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether is subscribed.
+        /// </summary>
+        public bool IsSubscribed { get; set; }
     }
 }
