@@ -115,7 +115,7 @@ namespace STrackerServer.Controllers
                 return this.View("Error", Response.StatusCode);
             }
 
-            var key = new SeasonWatched { SeasonNumber = values.SeasonNumber, TvShowId = values.TvShowId };
+            var key = new Season.SeasonId { SeasonNumber = values.SeasonNumber, TvShowId = values.TvShowId };
             this.usersOperations.AddSeasonWatched(this.User.Identity.Name, key);
 
             return new SeeOtherResult{ Url = Url.Action("Index","Seasons", new { tvshowId = values.TvShowId, seasonNumber = values.SeasonNumber })};
