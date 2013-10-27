@@ -60,6 +60,25 @@ namespace STrackerServer.Controllers.Api.AboutUsers_Controllers
         }
 
         /// <summary>
+        /// Sets all episodes of season as watched.
+        /// </summary>
+        /// <param name="tvshowId">
+        /// Television show id.
+        /// </param>
+        /// <param name="seasonNumber">
+        /// Season number.
+        ///  </param>
+        /// <returns>
+        /// The <see cref="HttpResponseMessage"/>.
+        /// </returns>
+        [HttpPost]
+        [HawkAuthorize]
+        public HttpResponseMessage WatchedSeason(string tvshowId, int seasonNumber)
+        {
+            return this.BasePostDelete(this.usersOperations.AddSeasonWatched(this.User.Identity.Name, new Season.SeasonId{ TvShowId = tvshowId, SeasonNumber = seasonNumber}));
+        }
+
+        /// <summary>
         /// Add one episode from user's watched episodes list in user's subscription.
         /// </summary>
         /// <param name="tvshowId">
