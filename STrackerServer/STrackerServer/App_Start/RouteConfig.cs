@@ -48,6 +48,7 @@ namespace STrackerServer.App_Start
             routes.MapRoute("Genre_Search_Similar", "Genres/Search", new { controller = "Genres", action = "GetSimilar" });
 
             routes.MapRoute("Season_Index", "TvShows/{tvshowId}/Seasons/{seasonNumber}", new { controller = "Seasons", action = "Index" });
+            routes.MapRoute("Season_Watched", "TvShows/{tvshowId}/Seasons/{seasonNumber}/Watched", new { controller = "Seasons", action = "Watched" });
 
             routes.MapRoute("TvShows_Names", "TvShows/Names", new { controller = "TvShows", action = "GetNames" });
             routes.MapRoute("TvShows_Create_Comments", "TvShows/{tvshowId}/Comments/Create", new { controller = "TvShows", action = "CreateComment" });

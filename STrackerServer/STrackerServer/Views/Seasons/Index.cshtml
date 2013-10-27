@@ -14,9 +14,10 @@
                 {
                     if (Model.IsSubscribed)
                     {
-                        <p>
-                            <a class="btn btn-block btn-primary" href="@Url.Action("Watched","Seasons", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber })">Watch Season</a>
-                        </p> 
+                        using (Html.BeginForm("Watched", "Seasons", new { tvshowId = Model.TvShowId, seasonNumber = Model.SeasonNumber }))
+                        {
+                            <input class="btn btn-block btn-success" type="submit" value="Check Season"/>
+                        }
                     }
                 }
         </div>
