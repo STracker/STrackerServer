@@ -14,9 +14,11 @@ namespace STrackerServer.Controllers
     using System.Web.Mvc;
     using Models.Season;
 
+    using STrackerServer.Action_Results;
     using STrackerServer.BusinessLayer.Core.SeasonsOperations;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.DataAccessLayer.DomainEntities;
+    using STrackerServer.BusinessLayer.Core.UsersOperations;
 
     /// <summary>
     /// The season web controller.
@@ -34,6 +36,11 @@ namespace STrackerServer.Controllers
         private readonly ITvShowsOperations tvshowsOperations;
 
         /// <summary>
+        /// The user operations.
+        /// </summary>
+        private readonly IUsersOperations usersOperations;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="STrackerServer.Controllers.SeasonsController"/> class.
         /// </summary>
         /// <param name="seasonsOperations">
@@ -42,10 +49,14 @@ namespace STrackerServer.Controllers
         /// <param name="tvshowsOperations">
         /// The television shows ops.
         /// </param>
-        public SeasonsController(ISeasonsOperations seasonsOperations, ITvShowsOperations tvshowsOperations)
+        /// /// <param name="usersOperations">
+        /// The user ops.
+        /// </param>
+        public SeasonsController(ISeasonsOperations seasonsOperations, ITvShowsOperations tvshowsOperations, IUsersOperations usersOperations)
         {
             this.seasonsOperations = seasonsOperations;
             this.tvshowsOperations = tvshowsOperations;
+            this.usersOperations = usersOperations;
         }
 
         /// <summary>
@@ -83,6 +94,31 @@ namespace STrackerServer.Controllers
                 Poster = tvshow.Poster,
                 TvShowName = tvshow.Name
             });
+        }
+
+        /// <summary>
+        /// Watch all episodes from a season.
+        /// </summary>
+        /// <param name="values">
+        /// Season information.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpPost]
+        [Authorize]
+        public ActionResult Watched(SeasonWatched values)
+        {
+            if (!ModelState.IsValid)
+            {
+                Response.StatusCode = (int) HttpStatusCode.BadRequest;
+                return this.View("Error", Response.StatusCode);
+            }
+
+            var key = new SeasonWatched { SeasonNumber = values.SeasonNumber, TvShowId = values.TvShowId };
+            this.usersOperations.AddSeasonWatched(this.User.Identity.Name, key);
+
+            return new SeeOtherResult{ Url = Url.Action("Index","Seasons", new { tvshowId = values.TvShowId, seasonNumber = values.SeasonNumber })};
         }
     }
 }

@@ -16,6 +16,7 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
 
     using STrackerServer.BusinessLayer.Calendar;
     using STrackerServer.BusinessLayer.Core.EpisodesOperations;
+    using STrackerServer.BusinessLayer.Core.SeasonsOperations;
     using STrackerServer.BusinessLayer.Core.TvShowsOperations;
     using STrackerServer.BusinessLayer.Core.UsersOperations;
     using STrackerServer.BusinessLayer.Permissions;
@@ -32,6 +33,11 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         /// The television shows operations.
         /// </summary>
         private readonly ITvShowsOperations tvshowsRepository;
+
+        /// <summary>
+        /// The seasons operations.
+        /// </summary>
+        private readonly ISeasonsOperations seasonsOperations;
 
         /// <summary>
         /// The episodes operations.
@@ -62,6 +68,9 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         /// <param name="tvshowsRepository">
         /// The television shows repository.
         /// </param>
+        /// <param name="seasonsOperations">
+        /// The seasons operations.
+        /// </param>
         /// <param name="episodesOperations">
         /// The episodes operations.
         /// </param>
@@ -77,6 +86,7 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         public UsersOperations(
             IUsersRepository repository,
             ITvShowsOperations tvshowsRepository,
+            ISeasonsOperations seasonsOperations,
             IEpisodesOperations episodesOperations,
             ITvShowNewEpisodesOperations newEpisodesOperations,
             IPermissionManager<Permissions, int> permissionManager,
@@ -84,6 +94,7 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
             : base(repository)
         {
             this.tvshowsRepository = tvshowsRepository;
+            this.seasonsOperations = seasonsOperations;
             this.episodesOperations = episodesOperations;
             this.newEpisodesOperations = newEpisodesOperations;
             this.permissionManager = permissionManager;
@@ -570,11 +581,36 @@ namespace STrackerServer.BusinessLayer.Operations.UsersOperations
         /// The user id.
         /// </param>
         /// <returns>
-        /// The <see cref="byte[]"/>.
+        /// The <see>
+        ///       <cref>byte[]</cref>
+        ///     </see> .
         /// </returns>
         public byte[] GetCalendar(string userId)
         {
             return this.Read(userId) == null ? null : this.calendarBuilder.Create(this.GetUserNewEpisodes(userId, null));
+        }
+
+        /// <summary>
+        /// Mark all episodes from one season has watched.
+        /// </summary>
+        /// <param name="id">
+        /// The user id.
+        /// </param>
+        /// <param name="seasonId">
+        /// The season id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool AddSeasonWatched(string id, Season.SeasonId seasonId)
+        {
+            var season = this.seasonsOperations.Read(seasonId);
+            foreach (var episode in season.Episodes)
+            {
+                this.AddWatchedEpisode(id, episode.Id);
+            }
+
+            return true;
         }
     }
 }

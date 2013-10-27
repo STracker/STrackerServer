@@ -226,5 +226,19 @@ namespace STrackerServer.BusinessLayer.Core.UsersOperations
         /// The <see cref="byte[]"/>.
         /// </returns>
         byte[] GetCalendar(string userId);
+
+        /// <summary>
+        /// Mark all episodes from one season has watched.
+        /// </summary>
+        /// <param name="id">
+        /// The user id.
+        /// </param>
+        /// <param name="seasonId">
+        /// The season id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        bool AddSeasonWatched(string id, Season.SeasonId seasonId);
     }
 }
