@@ -19,6 +19,9 @@
                         {
                             <input class="btn btn-block btn-success" type="submit" value="Check Season"/>
                         }
+                    }else
+                    {
+                        <a class="btn btn-block btn-success" href="@Url.Action("Index","TvShows", new { id = Model.TvShowId })">Check Season (Need to be subscribed)</a>
                     }
                 }else
                 {
