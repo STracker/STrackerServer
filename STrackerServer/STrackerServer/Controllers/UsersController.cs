@@ -130,7 +130,7 @@ namespace STrackerServer.Controllers
 
             var users = this.usersOperations.ReadByName(name, range);
 
-            var hasMoreTvShows = users.Count > this.searchMaxValues;
+            var hasMoreUsers = users.Count > this.searchMaxValues;
 
             users = users.Take(this.searchMaxValues).ToList();
 
@@ -139,7 +139,7 @@ namespace STrackerServer.Controllers
                 Result = users,
                 SearchValue = name,
                 CurrentPage = page.Value,
-                HasMoreTvShows = hasMoreTvShows
+                HasMoreUsers = hasMoreUsers
             });
         }
 

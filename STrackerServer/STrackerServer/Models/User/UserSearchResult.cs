@@ -32,8 +32,8 @@ namespace STrackerServer.Models.User
         public int CurrentPage { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether has more tv shows.
+        /// Gets or sets a value indicating whether has more users.
         /// </summary>
-        public bool HasMoreTvShows { get; set; }
+        public bool HasMoreUsers { get; set; }
     }
 }

@@ -46,7 +46,7 @@
             <div class="span2">
                 @if (Model.CurrentPage != 0)
                 {
-                    <a class="btn btn-block btn-primary" href="@string.Format("TvShows?name={0}&page={1}", Model.SearchValue, Model.CurrentPage - 1)">Previous</a>
+                    <a class="btn btn-block btn-primary" href="@string.Format("?name={0}&page={1}", Model.SearchValue, Model.CurrentPage - 1)">Previous</a>
                 }
                 else
                 {
@@ -54,9 +54,9 @@
                 }
             </div>
             <div class="span2">
-                @if (Model.HasMoreTvShows)
+                @if (Model.HasMoreUsers)
                 {
-                    <a class="btn btn-block btn-primary" href="@string.Format("TvShows?name={0}&page={1}", Model.SearchValue, Model.CurrentPage + 1)">Next</a>
+                    <a class="btn btn-block btn-primary" href="@string.Format("?name={0}&page={1}", Model.SearchValue, Model.CurrentPage + 1)">Next</a>
                 }
                 else
                 {
